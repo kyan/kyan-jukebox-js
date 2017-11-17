@@ -1,30 +1,17 @@
 import * as actions from '../../actions'
-
-// const PayloadParser = (payload, dispatch) => {
-//   let result = JSON.parse(payload)
-//   let { key, data } = result
-//   let value
-
-//   if (key === 'playback.getCurrentTrack' || key === 'event:trackPlaybackStarted') {
-//     dispatch(addTrack(data.track));
-//     //this.getImage(data.track.album.uri);
-//   }
-
-  // if (key === 'library.getImages') {
-  //   const images = data[this.currentTrackLoading]
-
-  //   if (images) {
-  //     key = 'currentTrackImage'
-  //     value = images[1].uri
-  //   }
-  // }
-// }
+import findImage from '../../utils/find-image-in-cache'
 
 const JukeboxMiddleware = (() => {
   let socket = null
 
-  const onOpen = (ws, store, token) => evt => {
+  const refreshInitialState = (store) => {
     store.dispatch(actions.getCurrentTrack())
+    store.dispatch(actions.getTimePosition())
+    store.dispatch(actions.getTrackList())
+  }
+
+  const onOpen = (ws, store, token) => evt => {
+    refreshInitialState(store)
   }
 
   const onClose = (ws, store) => evt => {
@@ -40,7 +27,16 @@ const JukeboxMiddleware = (() => {
       case 'playback.getCurrentTrack':
       case 'event:trackPlaybackStarted':
         store.dispatch(actions.addTrack(data.track))
-        store.dispatch(actions.getImage(data.track.album.uri, 'currentTrack'))
+        store.dispatch(actions.getImage(data.track.album.uri))
+        break
+      case 'event:tracklistChanged':
+        store.dispatch(actions.getTrackList())
+        break
+      case 'tracklist.getTracks':
+        store.dispatch(actions.addTrackList(data))
+        data.forEach(item => {
+          store.dispatch(actions.getImage(item.track.album.uri))
+        })
         break
       case 'library.getImages':
         store.dispatch(actions.resolveImage(data))
@@ -48,12 +44,6 @@ const JukeboxMiddleware = (() => {
       default:
         console.log(`Unknown message: ${key} body: ${data}`)
         break
-    }
-  }
-
-  const onAsset = (asset, store) => {
-    if (asset) {
-      store.dispatch(actions.newImage(asset))
     }
   }
 
@@ -74,7 +64,12 @@ const JukeboxMiddleware = (() => {
         store.dispatch(actions.wsDisconnected())
         break
       case 'SEND':
-        onAsset(action.asset, store)
+        if (action.key === 'library.getImages') {
+          if (findImage(action.uri, store.getState().assets)) {
+            break
+          }
+          store.dispatch(actions.newImage(action.uri))
+        }
 
         socket.send(JSON.stringify({
           key: action.key,

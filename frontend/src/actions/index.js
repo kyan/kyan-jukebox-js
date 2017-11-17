@@ -12,6 +12,13 @@ export const addTrack = track => {
   }
 }
 
+export const addTrackList = list => {
+  return {
+    type: 'ADD_TRACKS',
+    list
+  }
+}
+
 export const wsConnect = () => {
   return {
     type: 'CONNECT',
@@ -50,24 +57,26 @@ export const getCurrentTrack = () => {
   }
 }
 
+export const getTimePosition = () => {
+  return {
+    type: 'SEND',
+    key: 'playback.getTimePosition'
+  }
+}
+
 export const getImage = (uri, key) => {
   return {
     type: 'SEND',
     key: 'library.getImages',
     params: [[uri]],
-    asset: {
-      uri: uri,
-      key: key
-    }
+    uri: uri
   }
 }
 
-export const newImage = (asset) => {
-  const { uri, key } = asset
+export const newImage = (uri) => {
   return {
     type: 'NEW_IMAGE',
-    uri,
-    key
+    uri
   }
 }
 

@@ -1,20 +1,13 @@
-const assets = (state = {}, action) => {
+const assets = (state = [], action) => {
   switch (action.type) {
     case 'NEW_IMAGE':
-      return { ...state, [action.key]: { ref: action.uri } }
+      return [ ...state, { ref: action.uri } ]
     case 'RESOLVE_IMAGE':
-      let key, img;
-
-      Object.keys(state).forEach(k => {
-        const ref = action.data[state[k].ref]
-
-        if (ref) {
-          img = ref[1]
-          key = k
-        }
-      })
-
-      return img ? { ...state, [key]: img } : state
+      return state.map(asset =>
+        (action.data[asset.ref])
+          ? { ...asset, uri: action.data[asset.ref][1].uri }
+          : asset
+      ).slice(0, 50)
     default:
       return state
   }

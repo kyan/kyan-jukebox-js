@@ -24,7 +24,7 @@ class Broadcaster {
       'event:trackPlaybackStarted',
       'event:trackPlaybackEnded',
       'event:playbackStateChanged',
-      'event:playlistChanged',
+      'event:tracklistChanged',
       'event:volumeChanged'
     ];
 
