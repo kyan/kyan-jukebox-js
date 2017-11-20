@@ -4,7 +4,6 @@ import { Divider, Grid, Button, Header } from 'semantic-ui-react'
 import * as actions from '../../actions'
 import CurrentTrack from '../../components/current-track'
 import TrackList from '../../components/tracklist'
-import PayloadLogger from '../../components/payload-logger'
 import { findImageInCache, findTracklistImagesInCache } from '../../utils/images'
 import { timerToPercentage } from '../../utils/track'
 
@@ -78,7 +77,6 @@ class Dashboard extends Component {
             />
           </Grid.Column>
         </Grid>
-        <PayloadLogger payload={this.props.payload}/>
       </div>
     )
   }
@@ -93,8 +91,7 @@ const mapStateToProps = state => {
     currentTrackImage: currentTrackImg,
     tracklist: state.tracklist,
     tracklistImages: currentTrackImgs,
-    currentPosition: timerToPercentage(state.timer),
-    payload: state.payload
+    currentPosition: timerToPercentage(state.timer)
   }
 }
 
