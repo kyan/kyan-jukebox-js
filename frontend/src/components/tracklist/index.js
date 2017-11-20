@@ -5,10 +5,10 @@ import classnames from 'classnames'
 import './index.css';
 
 const listItems = (tracks, images, currentTrack) => {
-  return tracks.map(track => {
+  return tracks.map((track, index) => {
     return(
       <List.Item
-        key={track.uri}
+        key={ `${index}-${track.uri}` }
         className={classnames({'track-selected': (currentTrack.uri === track.uri)})}
       >
         <Image avatar src={ images[track.album.uri] } />

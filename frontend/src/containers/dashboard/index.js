@@ -5,7 +5,8 @@ import * as actions from '../../actions'
 import CurrentTrack from '../../components/current-track'
 import TrackList from '../../components/tracklist'
 import PayloadLogger from '../../components/payload-logger'
-import findImage from '../../utils/find-image-in-cache'
+import { findImageInCache, findTracklistImagesInCache } from '../../utils/images'
+import { timerToPercentage } from '../../utils/track'
 
 class Dashboard extends Component {
   constructor(props) {
@@ -65,6 +66,7 @@ class Dashboard extends Component {
             <CurrentTrack
               image={this.props.currentTrackImage}
               track={this.props.currentTrack}
+              progress={this.props.currentPosition}
             />
           </Grid.Column>
           <Grid.Column>
@@ -82,23 +84,16 @@ class Dashboard extends Component {
   }
 }
 
-const findTracklistImages = (state) => {
-  const images = {}
-  state.tracklist.forEach(track => {
-    return images[track.album.uri] = findImage(track.album.uri, state.assets)
-  })
-  return images
-}
-
 const mapStateToProps = state => {
-  const currentTrackImg = state.track ? findImage(state.track.album.uri, state.assets) : null;
-  const currentTrackImgs = findTracklistImages(state)
+  const currentTrackImg = state.track ? findImageInCache(state.track.album.uri, state.assets) : null;
+  const currentTrackImgs = findTracklistImagesInCache(state)
 
   return {
     currentTrack: state.track,
     currentTrackImage: currentTrackImg,
     tracklist: state.tracklist,
     tracklistImages: currentTrackImgs,
+    currentPosition: timerToPercentage(state.timer),
     payload: state.payload
   }
 }

@@ -22,8 +22,8 @@ class Broadcaster {
   get eventList() {
     return [
       'event:trackPlaybackStarted',
-      'event:trackPlaybackEnded',
       'event:playbackStateChanged',
+      'event:trackPlaybackResumed',
       'event:tracklistChanged',
       'event:volumeChanged'
     ];

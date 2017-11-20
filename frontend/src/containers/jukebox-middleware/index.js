@@ -1,21 +1,31 @@
 import * as actions from '../../actions'
 import findImage from '../../utils/find-image-in-cache'
+import ProgressTimer from 'media-progress-timer'
 
 const JukeboxMiddleware = (() => {
   let socket = null
+  let progressTimer = null
 
   const refreshInitialState = (store) => {
-    store.dispatch(actions.getCurrentTrack())
-    store.dispatch(actions.getTimePosition())
-    store.dispatch(actions.getTrackList())
+    ['getCurrentTrack', 'getTimePosition', 'getTrackList'].forEach(action => {
+      store.dispatch(actions[action]())
+    })
   }
 
   const onOpen = (ws, store, token) => evt => {
+    progressTimer = ProgressTimer({
+      callback: (position, duration) => {
+        store.dispatch(actions.updateProgressTimer(position, duration))
+      },
+      fallbackTargetFrameRate: 1,
+      disableRequestAnimationFrame: true
+    })
     refreshInitialState(store)
   }
 
   const onClose = (ws, store) => evt => {
     store.dispatch(actions.wsDisconnected())
+    progressTimer.reset()
   }
 
   const onMessage = (ws, store) => evt => {
@@ -25,9 +35,27 @@ const JukeboxMiddleware = (() => {
 
     switch (key) {
       case 'playback.getCurrentTrack':
+        store.dispatch(actions.addTrack(data.track))
+        progressTimer.set(0, data.track.length).start()
+        store.dispatch(actions.getImage(data.track.album.uri))
+        break
       case 'event:trackPlaybackStarted':
         store.dispatch(actions.addTrack(data.track))
+        progressTimer.set(0, data.track.length).start()
         store.dispatch(actions.getImage(data.track.album.uri))
+        break
+      case 'event:playbackStateChanged':
+        switch (data.new_state) {
+          case 'paused':
+          case 'stopped':
+            progressTimer.stop()
+            break
+          case 'playing':
+            progressTimer.start()
+            break
+          default:
+            break
+        }
         break
       case 'event:tracklistChanged':
         store.dispatch(actions.getTrackList())
@@ -40,6 +68,9 @@ const JukeboxMiddleware = (() => {
         break
       case 'library.getImages':
         store.dispatch(actions.resolveImage(data))
+        break
+      case 'playback.getTimePosition':
+        progressTimer.set(data)
         break
       default:
         console.log(`Unknown message: ${key} body: ${data}`)

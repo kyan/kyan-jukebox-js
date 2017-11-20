@@ -19,6 +19,18 @@ export const addTrackList = list => {
   }
 }
 
+export const updateProgressTimer = (position, duration) => {
+  if (duration === Infinity) {
+    duration = 0
+  }
+
+  return {
+    type: 'UPDATE_PROGRESS_TIMER',
+    position,
+    duration
+  }
+}
+
 export const wsConnect = () => {
   return {
     type: 'CONNECT',
