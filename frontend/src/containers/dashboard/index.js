@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Divider, Grid, Button, Header } from 'semantic-ui-react'
+import { Divider, Grid, Button, Header, Icon } from 'semantic-ui-react'
 import * as actions from '../../actions'
 import CurrentTrack from '../../components/current-track'
 import TrackList from '../../components/tracklist'
-import { findImageInCache, findTracklistImagesInCache } from '../../utils/images'
+import { getCurrentTrackImageInCache, getTracklistImagesInCache } from '../../selectors/images'
 import { timerToPercentage } from '../../utils/track'
 
 class Dashboard extends Component {
@@ -29,6 +29,10 @@ class Dashboard extends Component {
     this.dispatch(actions.pausePlaying())
   }
 
+  skipPlaying = () => {
+    this.dispatch(actions.skipPlaying())
+  }
+
   playButton() {
     return (
       <Button
@@ -51,13 +55,24 @@ class Dashboard extends Component {
     )
   }
 
+  skipButton() {
+    return (
+      <Button
+        content='Skip'
+        icon='right arrow'
+        labelPosition='right'
+        onClick={this.skipPlaying}
+      />
+    )
+  }
+
   render() {
     return (
       <div>
-        <Button.Group>
-          {this.playButton()}
-          {this.pauseButton()}
-        </Button.Group>
+        {this.playButton()}
+        {this.pauseButton()}
+        {this.skipButton()}
+        <Icon size='small' name='circle' color='orange' />
         <Divider />
         <Grid columns={2}>
           <Grid.Column>
@@ -82,15 +97,13 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const currentTrackImg = state.track ? findImageInCache(state.track.album.uri, state.assets) : null;
-  const currentTrackImgs = findTracklistImagesInCache(state)
 
+const mapStateToProps = state => {
   return {
     currentTrack: state.track,
-    currentTrackImage: currentTrackImg,
+    currentTrackImage: getCurrentTrackImageInCache(state),
     tracklist: state.tracklist,
-    tracklistImages: currentTrackImgs,
+    tracklistImages: getTracklistImagesInCache(state),
     currentPosition: timerToPercentage(state.timer)
   }
 }

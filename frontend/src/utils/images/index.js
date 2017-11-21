@@ -3,15 +3,6 @@ const findImageInCache = (uri, cache) => {
   if (cache[index]) { return cache[index].uri }
 }
 
-const findTracklistImagesInCache = (state) => {
-  const images = {}
-  state.tracklist.forEach(track => {
-    return images[track.album.uri] = findImageInCache(track.album.uri, state.assets)
-  })
-  return images
-}
-
 module.exports = {
-  findImageInCache,
-  findTracklistImagesInCache
+  findImageInCache
 }

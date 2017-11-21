@@ -122,3 +122,10 @@ export const pausePlaying = () => {
   }
 }
 
+export const skipPlaying = () => {
+  return {
+    type: 'SEND',
+    key: 'playback.next'
+  }
+}
+

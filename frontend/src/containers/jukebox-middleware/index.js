@@ -1,5 +1,5 @@
 import * as actions from '../../actions'
-import findImage from '../../utils/find-image-in-cache'
+import { findImageInCache } from '../../utils/images'
 import ProgressTimer from 'media-progress-timer'
 
 const JukeboxMiddleware = (() => {
@@ -96,7 +96,7 @@ const JukeboxMiddleware = (() => {
         break
       case 'SEND':
         if (action.key === 'library.getImages') {
-          if (findImage(action.uri, store.getState().assets)) {
+          if (findImageInCache(action.uri, store.getState().assets)) {
             break
           }
           store.dispatch(actions.newImage(action.uri))
