@@ -1,9 +1,4 @@
-export const storePayload = payload => {
-  return {
-    type: 'STORE_PAYLOAD',
-    payload
-  }
-}
+import Constants from '../constants'
 
 export const addTrack = track => {
   return {
@@ -20,9 +15,7 @@ export const addTrackList = list => {
 }
 
 export const updateProgressTimer = (position, duration) => {
-  if (duration === Infinity) {
-    duration = 0
-  }
+  if (duration === Infinity) { duration = 0 }
 
   return {
     type: 'UPDATE_PROGRESS_TIMER',
@@ -33,8 +26,7 @@ export const updateProgressTimer = (position, duration) => {
 
 export const wsConnect = () => {
   return {
-    type: 'CONNECT',
-    url: 'ws://localhost:8000'
+    type: 'CONNECT'
   }
 }
 
@@ -65,21 +57,21 @@ export const wsDisconnected = () => {
 export const getCurrentTrack = () => {
   return {
     type: 'SEND',
-    key: 'playback.getCurrentTrack'
+    key: Constants.PLAYBACK_GET_CURRENT_TRACK
   }
 }
 
 export const getTimePosition = () => {
   return {
     type: 'SEND',
-    key: 'playback.getTimePosition'
+    key: Constants.PLAYBACK_GET_TIME_POSITION
   }
 }
 
 export const getImage = (uri, key) => {
   return {
     type: 'SEND',
-    key: 'library.getImages',
+    key: Constants.LIBRARY_GET_IMAGES,
     params: [[uri]],
     uri: uri
   }
@@ -102,14 +94,14 @@ export const resolveImage = (data) => {
 export const getTrackList = () => {
   return {
     type: 'SEND',
-    key: 'tracklist.getTracks'
+    key: Constants.TRACKLIST_GET_TRACKS
   }
 }
 
 export const startPlaying = () => {
   return {
     type: 'SEND',
-    key: 'playback.set_state',
+    key: Constants.PLAYBACK_SET_STATE,
     params: 'PLAYING'
   }
 }
@@ -117,7 +109,7 @@ export const startPlaying = () => {
 export const pausePlaying = () => {
   return {
     type: 'SEND',
-    key: 'playback.set_state',
+    key: Constants.PLAYBACK_SET_STATE,
     params: 'PAUSED'
   }
 }
@@ -125,7 +117,7 @@ export const pausePlaying = () => {
 export const skipPlaying = () => {
   return {
     type: 'SEND',
-    key: 'playback.next'
+    key: Constants.PLAYBACK_NEXT
   }
 }
 

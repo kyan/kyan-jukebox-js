@@ -1,18 +1,28 @@
 import * as actions from '../../actions'
+import Constants from '../../constants'
 import { findImageInCache } from '../../utils/images'
 import ProgressTimer from 'media-progress-timer'
+import onMessageHandler from '../../utils/on-message-handler'
 
 const JukeboxMiddleware = (() => {
+  let wsurl = 'ws://localhost:8000'
+  let reconnectTimeout = 5000
   let socket = null
   let progressTimer = null
+  let reconnectTimer = null
 
   const refreshInitialState = (store) => {
-    ['getCurrentTrack', 'getTimePosition', 'getTrackList'].forEach(action => {
+    [
+      'getCurrentTrack',
+      'getTimePosition',
+      'getTrackList'
+    ].forEach(action => {
       store.dispatch(actions[action]())
     })
   }
 
-  const onOpen = (ws, store, token) => evt => {
+  const onOpen = (store, token) => evt => {
+    clearTimeout(reconnectTimer)
     progressTimer = ProgressTimer({
       callback: (position, duration) => {
         store.dispatch(actions.updateProgressTimer(position, duration))
@@ -20,85 +30,50 @@ const JukeboxMiddleware = (() => {
       fallbackTargetFrameRate: 1,
       disableRequestAnimationFrame: true
     })
+    store.dispatch(actions.wsConnected())
     refreshInitialState(store)
   }
 
-  const onClose = (ws, store) => evt => {
-    store.dispatch(actions.wsDisconnected())
+  const onClose = (store) => evt => {
     progressTimer.reset()
+    store.dispatch(actions.wsDisconnect())
+    reconnectTimer = setTimeout(() => {
+      store.dispatch(actions.wsConnect())
+    }, reconnectTimeout)
   }
 
-  const onMessage = (ws, store) => evt => {
-    let result = JSON.parse(evt.data)
-    let { key, data } = result
-    store.dispatch(actions.storePayload(evt.data))
+  const onMessage = (store) => evt => {
+    onMessageHandler(store, evt.data, progressTimer)
+  }
 
-    switch (key) {
-      case 'playback.getCurrentTrack':
-        store.dispatch(actions.addTrack(data.track))
-        progressTimer.set(0, data.track.length).start()
-        store.dispatch(actions.getImage(data.track.album.uri))
-        break
-      case 'event:trackPlaybackStarted':
-        store.dispatch(actions.addTrack(data.track))
-        progressTimer.set(0, data.track.length).start()
-        store.dispatch(actions.getImage(data.track.album.uri))
-        break
-      case 'event:playbackStateChanged':
-        switch (data.new_state) {
-          case 'paused':
-          case 'stopped':
-            progressTimer.stop()
-            break
-          case 'playing':
-            progressTimer.start()
-            break
-          default:
-            break
-        }
-        break
-      case 'event:tracklistChanged':
-        store.dispatch(actions.getTrackList())
-        break
-      case 'tracklist.getTracks':
-        store.dispatch(actions.addTrackList(data))
-        data.forEach(item => {
-          store.dispatch(actions.getImage(item.track.album.uri))
-        })
-        break
-      case 'library.getImages':
-        store.dispatch(actions.resolveImage(data))
-        break
-      case 'playback.getTimePosition':
-        progressTimer.set(data)
-        break
-      default:
-        console.log(`Unknown message: ${key} body: ${data}`)
-        break
-    }
+  const onConnect = (store) => {
+    if (socket != null) { socket.close(); }
+    store.dispatch(actions.wsConnecting())
+
+    socket = new WebSocket(wsurl)
+    socket.onmessage = onMessage(store)
+    socket.onclose = onClose(store)
+    socket.onopen = onOpen(store)
+  }
+
+  const onDisconnect = (store) => {
+    if (socket != null) { socket.close(); }
+    socket = null
+    store.dispatch(actions.wsDisconnected())
   }
 
   return store => next => action => {
     switch (action.type) {
       case 'CONNECT':
-        if (socket != null) { socket.close(); }
-        store.dispatch(actions.wsConnecting())
-
-        socket = new WebSocket(action.url)
-        socket.onmessage = onMessage(socket, store)
-        socket.onclose = onClose(socket, store)
-        socket.onopen = onOpen(socket, store)
+        onConnect(store)
         break
       case 'DISCONNECT':
-        if (socket != null) { socket.close(); }
-        socket = null
-        store.dispatch(actions.wsDisconnected())
+        onDisconnect(store)
         break
       case 'SEND':
-        if (action.key === 'library.getImages') {
-          if (findImageInCache(action.uri, store.getState().assets)) {
-            break
-          }
+        if (action.key === Constants.LIBRARY_GET_IMAGES) {
+          const cache = store.getState().assets
+          if (findImageInCache(action.uri, cache)) { break }
           store.dispatch(actions.newImage(action.uri))
         }
 

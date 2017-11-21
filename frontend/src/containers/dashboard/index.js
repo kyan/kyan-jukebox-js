@@ -5,7 +5,7 @@ import * as actions from '../../actions'
 import CurrentTrack from '../../components/current-track'
 import TrackList from '../../components/tracklist'
 import { getCurrentTrackImageInCache, getTracklistImagesInCache } from '../../selectors/images'
-import { timerToPercentage } from '../../utils/track'
+import { timerToPercentage } from '../../utils/time'
 
 class Dashboard extends Component {
   constructor(props) {
@@ -66,13 +66,20 @@ class Dashboard extends Component {
     )
   }
 
+  onlineIcon(online) {
+    const color = online ? 'green' : 'orange'
+    return (
+      <Icon size='small' name='circle' color={color} />
+    )
+  }
+
   render() {
     return (
       <div>
         {this.playButton()}
         {this.pauseButton()}
         {this.skipButton()}
-        <Icon size='small' name='circle' color='orange' />
+        {this.onlineIcon(this.props.jukebox.online)}
         <Divider />
         <Grid columns={2}>
           <Grid.Column>
@@ -100,6 +107,7 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => {
   return {
+    jukebox: state.jukebox,
     currentTrack: state.track,
     currentTrackImage: getCurrentTrackImageInCache(state),
     tracklist: state.tracklist,

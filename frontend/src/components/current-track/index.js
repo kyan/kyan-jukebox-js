@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, Image, Progress } from 'semantic-ui-react';
-import { millisToMinutesAndSeconds } from '../../utils/track';
+import { millisToMinutesAndSeconds } from '../../utils/time';
 
 const albumDate = album => {
   return album.date ? `(${album.date})` : null
