@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { findImageInCache } from '../../utils/images'
+import { findImageInCache } from '../utils/images'
 
 const getCurrentTrack = (state) => state.track
 const getTrackList = (state) => state.tracklist

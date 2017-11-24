@@ -27,5 +27,9 @@ export default function(key, data) {
     return data;
   }
 
+  if (key === 'tracklist.add') {
+    return data;
+  }
+
   return `NOT IMPLIMENTED: ${key}`;
 };

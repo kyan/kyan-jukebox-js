@@ -1,8 +1,19 @@
 import Constants from '../constants'
+import { transformUrl } from '../utils/spotify'
 
-export const addTrack = track => {
+export const addNewTrack = url => {
+  let uri = transformUrl(url)
+
   return {
-    type: 'ADD_TRACK',
+    type: 'SEND',
+    key: Constants.TRACKLIST_ADD_TRACK,
+    params: { "uri": uri }
+  }
+}
+
+export const addCurrentTrack = track => {
+  return {
+    type: 'ADD_CURRENT_TRACK',
     track
   }
 }

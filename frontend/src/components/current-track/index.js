@@ -6,6 +6,7 @@ import { millisToMinutesAndSeconds } from '../../utils/time';
 const albumDate = album => {
   return album.date ? `(${album.date})` : null
 }
+
 const CurrentTrack = ({ track, image, progress }) => {
   if (!track) { return null; }
 
@@ -28,4 +29,5 @@ CurrentTrack.propTypes = {
   progress: PropTypes.number
 }
 
-export default CurrentTrack;
+
+export default CurrentTrack

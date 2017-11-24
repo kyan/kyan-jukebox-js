@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { DragDropContext, DragDropContextProvider } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 import { Divider, Grid, Button, Header, Icon } from 'semantic-ui-react'
+import Constants from '../../constants'
+import UrlDropArea from '../../components/url-drop-area'
 import * as actions from '../../actions'
-import CurrentTrack from '../../components/current-track'
+import CurrentTrackContainer from '../current-track-container'
 import TrackList from '../../components/tracklist'
-import { getCurrentTrackImageInCache, getTracklistImagesInCache } from '../../selectors/images'
-import { timerToPercentage } from '../../utils/time'
+import { getTracklistImagesInCache } from '../../selectors'
 
 class Dashboard extends Component {
   constructor(props) {
@@ -31,6 +34,10 @@ class Dashboard extends Component {
 
   skipPlaying = () => {
     this.dispatch(actions.skipPlaying())
+  }
+
+  addNewTrack = (uri) => {
+    this.dispatch(actions.addNewTrack(uri))
   }
 
   playButton() {
@@ -73,6 +80,12 @@ class Dashboard extends Component {
     )
   }
 
+  handleURLDrop = (item, monitor) => {
+    if (monitor) {
+      this.addNewTrack(monitor.getItem().urls[0])
+    }
+  }
+
   render() {
     return (
       <div>
@@ -81,16 +94,16 @@ class Dashboard extends Component {
         {this.skipButton()}
         {this.onlineIcon(this.props.jukebox.online)}
         <Divider />
-        <Grid columns={2}>
-          <Grid.Column>
-            <Header size='small'>Currently Playing</Header>
-            <CurrentTrack
-              image={this.props.currentTrackImage}
-              track={this.props.currentTrack}
-              progress={this.props.currentPosition}
-            />
+        <Grid>
+          <Grid.Column width={6}>
+            <DragDropContextProvider backend={HTML5Backend}>
+              <UrlDropArea accepts={Constants.DROP_TYPES} onDrop={this.handleURLDrop}>
+                <Header size='small'>Currently Playing</Header>
+                <CurrentTrackContainer/>
+              </UrlDropArea>
+            </DragDropContextProvider>
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column width={10}>
             <Header size='small'>Tracklist</Header>
             <TrackList
               images={this.props.tracklistImages}
@@ -104,18 +117,15 @@ class Dashboard extends Component {
   }
 }
 
-
 const mapStateToProps = state => {
   return {
     jukebox: state.jukebox,
     currentTrack: state.track,
-    currentTrackImage: getCurrentTrackImageInCache(state),
     tracklist: state.tracklist,
-    tracklistImages: getTracklistImagesInCache(state),
-    currentPosition: timerToPercentage(state.timer)
+    tracklistImages: getTracklistImagesInCache(state)
   }
 }
 
 export default connect(
   mapStateToProps
-)(Dashboard)
+)(DragDropContext(HTML5Backend)(Dashboard))

@@ -16,7 +16,7 @@ const playBackChanged = (state, progress) => {
 }
 
 const addCurrentTrack = (track, store, progress) => {
-  store.dispatch(actions.addTrack(track))
+  store.dispatch(actions.addCurrentTrack(track))
   progress.set(0, track.length).start()
   store.dispatch(actions.getImage(track.album.uri))
 }
