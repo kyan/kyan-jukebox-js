@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CurrentTrack render renders the as expected 1`] = `
+<Card>
+  <Image
+    as="img"
+    src="path/to/image"
+    ui={true}
+  />
+  <CardContent>
+    <Progress
+      percent={25}
+      size="tiny"
+    />
+    <CardHeader>
+      My Track Title
+    </CardHeader>
+    <CardMeta>
+      (
+      0:13
+      ) 
+      Artist Name
+    </CardMeta>
+    <CardDescription>
+      Album Name
+       
+    </CardDescription>
+  </CardContent>
+</Card>
+`;
