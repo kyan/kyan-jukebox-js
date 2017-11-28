@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tracklist render renders the as expected 1`] = `
+<List
+  size="large"
+>
+  <ListItem
+    className="track-selected"
+    key="0-track1"
+  >
+    <Image
+      as="img"
+      avatar={true}
+      src="path/to/image"
+      ui={true}
+    />
+    <ListContent>
+      <ListHeader
+        as="a"
+      >
+        Track Title 1
+         
+        <small>
+          (
+          0:13
+          )
+        </small>
+      </ListHeader>
+      <ListDescription>
+        Artist Name 1
+      </ListDescription>
+    </ListContent>
+  </ListItem>
+  <ListItem
+    className=""
+    key="1-track2"
+  >
+    <Image
+      as="img"
+      avatar={true}
+      ui={true}
+    />
+    <ListContent>
+      <ListHeader
+        as="a"
+      >
+        Track Title 2
+         
+        <small>
+          (
+          0:23
+          )
+        </small>
+      </ListHeader>
+      <ListDescription>
+        Artist Name 2
+      </ListDescription>
+    </ListContent>
+  </ListItem>
+</List>
+`;
