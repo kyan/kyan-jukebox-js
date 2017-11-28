@@ -29,5 +29,4 @@ CurrentTrack.propTypes = {
   progress: PropTypes.number
 }
 
-
 export default CurrentTrack
