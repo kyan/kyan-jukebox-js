@@ -1,35 +1,24 @@
 import TransformTrack from '../transform-track';
 
 export default function(key, data) {
-  if (key === 'playback.getCurrentTrack') {
-    return TransformTrack(data);
+  switch (key) {
+    case 'playback.getCurrentTrack':
+      return TransformTrack(data);
+    case 'playback.getTimePosition':
+      return data;
+    case 'tracklist.getTracks':
+      return data.map(track => {
+        return TransformTrack(track)
+      });
+    case 'event:trackPlaybackStarted':
+      return TransformTrack(data.tl_track.track);
+    case 'event:tracklistChanged':
+      return data;
+    case 'library.getImages':
+      return data;
+    case 'tracklist.add':
+      return data;
+    default:
+      return `NOT IMPLIMENTED: ${key}`;
   }
-
-  if (key === 'playback.getTimePosition') {
-    return data;
-  }
-
-  if (key === 'tracklist.getTracks') {
-    return data.map(track => {
-      return TransformTrack(track)
-    });
-  }
-
-  if (key === 'event:trackPlaybackStarted') {
-    return TransformTrack(data.tl_track.track);
-  }
-
-  if (key === 'event:tracklistChanged') {
-    return data;
-  }
-
-  if (key === 'library.getImages') {
-    return data;
-  }
-
-  if (key === 'tracklist.add') {
-    return data;
-  }
-
-  return `NOT IMPLIMENTED: ${key}`;
 };
