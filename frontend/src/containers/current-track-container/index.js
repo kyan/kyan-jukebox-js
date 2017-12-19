@@ -4,7 +4,7 @@ import { timerToPercentage } from '../../utils/time';
 import { getCurrentTrackImageInCache } from '../../selectors'
 import CurrentTrack from '../../components/current-track'
 
-const CurrentTrackContainer = ({ track, image, progress }) => (
+export const CurrentTrackContainer = ({ track, image, progress }) => (
   <CurrentTrack
     track={track}
     image={image}

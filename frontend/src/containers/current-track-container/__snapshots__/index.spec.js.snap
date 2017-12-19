@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CurrentTrackContainer render just the app without redux renders as expected 1`] = `
+<CurrentTrack
+  image="image"
+  progress={50}
+  track={
+    Object {
+      "track": "track",
+    }
+  }
+/>
+`;
+
+exports[`CurrentTrackContainer render the connected app renders as expected 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(Component)>
+    <Component
+      dispatch={[Function]}
+      image={null}
+      progress={0}
+    >
+      <CurrentTrack
+        image={null}
+        progress={0}
+      />
+    </Component>
+  </Connect(Component)>
+</Provider>
+`;

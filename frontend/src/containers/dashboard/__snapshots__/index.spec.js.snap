@@ -1,0 +1,298 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard render just the dashboard without redux renders as expected 1`] = `
+<div>
+  <Button
+    as="button"
+    content="Play"
+    icon="play"
+    labelPosition="left"
+    onClick={[Function]}
+  />
+  <Button
+    as="button"
+    content="Pause"
+    icon="pause"
+    labelPosition="left"
+    onClick={[Function]}
+  />
+  <Button
+    as="button"
+    content="Skip"
+    icon="right arrow"
+    labelPosition="right"
+    onClick={[Function]}
+  />
+  <Icon
+    as="i"
+    className="jukebox-status-icon"
+    color="green"
+    name="circle"
+    size="small"
+  />
+  <Divider />
+  <Grid>
+    <GridColumn
+      width={6}
+    >
+      <DragDropContextProvider
+        backend={[Function]}
+      >
+        <DropTarget(UrlDropArea)
+          accepts={
+            Array [
+              "__NATIVE_URL__",
+            ]
+          }
+          onDrop={[Function]}
+        >
+          <Header
+            size="small"
+          >
+            Currently Playing
+          </Header>
+          <Connect(Component) />
+        </DropTarget(UrlDropArea)>
+      </DragDropContextProvider>
+    </GridColumn>
+    <GridColumn
+      width={10}
+    >
+      <Header
+        size="small"
+      >
+        Tracklist
+      </Header>
+      <Tracklist
+        currentTrack={Object {}}
+        images={Object {}}
+        tracks={Array []}
+      />
+    </GridColumn>
+  </Grid>
+</div>
+`;
+
+exports[`Dashboard render the connected app renders as expected 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(DragDropContext(Dashboard))>
+    <DragDropContext(Dashboard)
+      dispatch={[Function]}
+      jukebox={
+        Object {
+          "online": true,
+        }
+      }
+      tracklist={Array []}
+      tracklistImages={Object {}}
+    >
+      <Dashboard
+        dispatch={[Function]}
+        jukebox={
+          Object {
+            "online": true,
+          }
+        }
+        tracklist={Array []}
+        tracklistImages={Object {}}
+      >
+        <div>
+          <Button
+            as="button"
+            content="Play"
+            icon="play"
+            labelPosition="left"
+            onClick={[Function]}
+          >
+            <button
+              className="ui icon left labeled button"
+              onClick={[Function]}
+              role="button"
+            >
+              <Icon
+                as="i"
+                key="play"
+                name="play"
+              >
+                <i
+                  aria-hidden="true"
+                  className="play icon"
+                />
+              </Icon>
+              Play
+            </button>
+          </Button>
+          <Button
+            as="button"
+            content="Pause"
+            icon="pause"
+            labelPosition="left"
+            onClick={[Function]}
+          >
+            <button
+              className="ui icon left labeled button"
+              onClick={[Function]}
+              role="button"
+            >
+              <Icon
+                as="i"
+                key="pause"
+                name="pause"
+              >
+                <i
+                  aria-hidden="true"
+                  className="pause icon"
+                />
+              </Icon>
+              Pause
+            </button>
+          </Button>
+          <Button
+            as="button"
+            content="Skip"
+            icon="right arrow"
+            labelPosition="right"
+            onClick={[Function]}
+          >
+            <button
+              className="ui icon right labeled button"
+              onClick={[Function]}
+              role="button"
+            >
+              <Icon
+                as="i"
+                key="right arrow"
+                name="right arrow"
+              >
+                <i
+                  aria-hidden="true"
+                  className="right arrow icon"
+                />
+              </Icon>
+              Skip
+            </button>
+          </Button>
+          <Icon
+            as="i"
+            className="jukebox-status-icon"
+            color="green"
+            name="circle"
+            size="small"
+          >
+            <i
+              aria-hidden="true"
+              className="green circle small icon jukebox-status-icon"
+            />
+          </Icon>
+          <Divider>
+            <div
+              className="ui divider"
+            />
+          </Divider>
+          <Grid>
+            <div
+              className="ui grid"
+            >
+              <GridColumn
+                width={6}
+              >
+                <div
+                  className="six wide column"
+                >
+                  <DragDropContextProvider
+                    backend={[Function]}
+                  >
+                    <DropTarget(UrlDropArea)
+                      accepts={
+                        Array [
+                          "__NATIVE_URL__",
+                        ]
+                      }
+                      onDrop={[Function]}
+                    >
+                      <UrlDropArea
+                        accepts={
+                          Array [
+                            "__NATIVE_URL__",
+                          ]
+                        }
+                        connectDropTarget={[Function]}
+                        onDrop={[Function]}
+                      >
+                        <div>
+                          <Header
+                            size="small"
+                          >
+                            <div
+                              className="ui small header"
+                            >
+                              Currently Playing
+                            </div>
+                          </Header>
+                          <Connect(Component)>
+                            <Component
+                              dispatch={[Function]}
+                              image={null}
+                              progress={NaN}
+                            >
+                              <CurrentTrack
+                                image={null}
+                                progress={NaN}
+                              />
+                            </Component>
+                          </Connect(Component)>
+                        </div>
+                      </UrlDropArea>
+                    </DropTarget(UrlDropArea)>
+                  </DragDropContextProvider>
+                </div>
+              </GridColumn>
+              <GridColumn
+                width={10}
+              >
+                <div
+                  className="ten wide column"
+                >
+                  <Header
+                    size="small"
+                  >
+                    <div
+                      className="ui small header"
+                    >
+                      Tracklist
+                    </div>
+                  </Header>
+                  <Tracklist
+                    images={Object {}}
+                    tracks={Array []}
+                  >
+                    <List
+                      size="large"
+                    >
+                      <div
+                        className="ui large list"
+                        role="list"
+                      />
+                    </List>
+                  </Tracklist>
+                </div>
+              </GridColumn>
+            </div>
+          </Grid>
+        </div>
+      </Dashboard>
+    </DragDropContext(Dashboard)>
+  </Connect(DragDropContext(Dashboard))>
+</Provider>
+`;

@@ -1,26 +1,27 @@
-import Constants from '../constants'
+import MopidyApi from '../constants/mopidy-api'
+import Types from '../constants'
 import { transformUrl } from '../utils/spotify'
 
 export const addNewTrack = url => {
   let uri = transformUrl(url)
 
   return {
-    type: 'SEND',
-    key: Constants.TRACKLIST_ADD_TRACK,
+    type: Types.SEND,
+    key: MopidyApi.TRACKLIST_ADD_TRACK,
     params: { "uri": uri }
   }
 }
 
 export const addCurrentTrack = track => {
   return {
-    type: 'ADD_CURRENT_TRACK',
+    type: Types.ADD_CURRENT_TRACK,
     track
   }
 }
 
 export const addTrackList = list => {
   return {
-    type: 'ADD_TRACKS',
+    type: Types.ADD_TRACKS,
     list
   }
 }
@@ -29,7 +30,7 @@ export const updateProgressTimer = (position, duration) => {
   if (duration === Infinity) { duration = 0 }
 
   return {
-    type: 'UPDATE_PROGRESS_TIMER',
+    type: Types.UPDATE_PROGRESS_TIMER,
     position,
     duration
   }
@@ -37,52 +38,52 @@ export const updateProgressTimer = (position, duration) => {
 
 export const wsConnect = () => {
   return {
-    type: 'CONNECT'
+    type: Types.CONNECT,
   }
 }
 
 export const wsConnecting = () => {
   return {
-    type: 'CONNECTING'
+    type: Types.CONNECTING
   }
 }
 
 export const wsConnected = () => {
   return {
-    type: 'CONNECTED'
+    type: Types.CONNECTED
   }
 }
 
 export const wsDisconnect = () => {
   return {
-    type: 'DISCONNECT'
+    type: Types.DISCONNECT
   }
 }
 
 export const wsDisconnected = () => {
   return {
-    type: 'DISCONNECTED'
+    type: Types.DISCONNECTED
   }
 }
 
 export const getCurrentTrack = () => {
   return {
-    type: 'SEND',
-    key: Constants.PLAYBACK_GET_CURRENT_TRACK
+    type: Types.SEND,
+    key: MopidyApi.PLAYBACK_GET_CURRENT_TRACK
   }
 }
 
 export const getTimePosition = () => {
   return {
-    type: 'SEND',
-    key: Constants.PLAYBACK_GET_TIME_POSITION
+    type: Types.SEND,
+    key: MopidyApi.PLAYBACK_GET_TIME_POSITION
   }
 }
 
-export const getImage = (uri, key) => {
+export const getImage = (uri) => {
   return {
-    type: 'SEND',
-    key: Constants.LIBRARY_GET_IMAGES,
+    type: Types.SEND,
+    key: MopidyApi.LIBRARY_GET_IMAGES,
     params: [[uri]],
     uri: uri
   }
@@ -90,45 +91,44 @@ export const getImage = (uri, key) => {
 
 export const newImage = (uri) => {
   return {
-    type: 'NEW_IMAGE',
+    type: Types.NEW_IMAGE,
     uri
   }
 }
 
 export const resolveImage = (data) => {
   return {
-    type: 'RESOLVE_IMAGE',
+    type: Types.RESOLVE_IMAGE,
     data
   }
 }
 
 export const getTrackList = () => {
   return {
-    type: 'SEND',
-    key: Constants.TRACKLIST_GET_TRACKS
+    type: Types.SEND,
+    key: MopidyApi.TRACKLIST_GET_TRACKS
   }
 }
 
 export const startPlaying = () => {
   return {
-    type: 'SEND',
-    key: Constants.PLAYBACK_SET_STATE,
-    params: 'PLAYING'
+    type: Types.SEND,
+    key: MopidyApi.PLAYBACK_SET_STATE,
+    params: MopidyApi.PLAYING
   }
 }
 
 export const pausePlaying = () => {
   return {
-    type: 'SEND',
-    key: Constants.PLAYBACK_SET_STATE,
-    params: 'PAUSED'
+    type: Types.SEND,
+    key: MopidyApi.PLAYBACK_SET_STATE,
+    params: MopidyApi.PAUSED
   }
 }
 
 export const skipPlaying = () => {
   return {
-    type: 'SEND',
-    key: Constants.PLAYBACK_NEXT
+    type: Types.SEND,
+    key: MopidyApi.PLAYBACK_NEXT
   }
 }
-

@@ -10,7 +10,7 @@ import CurrentTrackContainer from '../current-track-container'
 import TrackList from '../../components/tracklist'
 import { getTracklistImagesInCache } from '../../selectors'
 
-class Dashboard extends Component {
+export class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.dispatch = this.props.dispatch
@@ -76,11 +76,16 @@ class Dashboard extends Component {
   onlineIcon(online) {
     const color = online ? 'green' : 'orange'
     return (
-      <Icon size='small' name='circle' color={color} />
+      <Icon
+        size='small'
+        name='circle'
+        color={color}
+        className='jukebox-status-icon'
+      />
     )
   }
 
-  handleURLDrop = (item, monitor) => {
+  handleURLDrop = (_item, monitor) => {
     if (monitor) {
       this.addNewTrack(monitor.getItem().urls[0])
     }

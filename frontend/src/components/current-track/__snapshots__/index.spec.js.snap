@@ -24,6 +24,7 @@ exports[`CurrentTrack render renders the as expected 1`] = `
     <CardDescription>
       Album Name
        
+      (2007)
     </CardDescription>
   </CardContent>
 </Card>
