@@ -1,15 +1,16 @@
 import * as actions from '../../actions'
+import MopidyApi from '../../constants/mopidy-api'
 import Constants from '../../constants'
 import { findImageInCache } from '../../utils/images'
-import ProgressTimer from 'media-progress-timer'
+import { trackProgressTimer } from '../../utils/time'
 import onMessageHandler from '../../utils/on-message-handler'
 
 const JukeboxMiddleware = (() => {
   let wsurl = 'ws://localhost:8000'
-  let reconnectTimeout = 5000
+  let reconnectTimeout = 1000
   let socket = null
   let progressTimer = null
-  let reconnectTimer = null
+  let connectionAttempts = 0
 
   const refreshInitialState = (store) => {
     [
@@ -22,24 +23,19 @@ const JukeboxMiddleware = (() => {
   }
 
   const onOpen = (store, token) => evt => {
-    clearTimeout(reconnectTimer)
-    progressTimer = ProgressTimer({
-      callback: (position, duration) => {
-        store.dispatch(actions.updateProgressTimer(position, duration))
-      },
-      fallbackTargetFrameRate: 1,
-      disableRequestAnimationFrame: true
-    })
+    progressTimer = trackProgressTimer(store, actions)
     store.dispatch(actions.wsConnected())
     refreshInitialState(store)
   }
 
   const onClose = (store) => evt => {
-    progressTimer.reset()
     store.dispatch(actions.wsDisconnect())
-    reconnectTimer = setTimeout(() => {
+    progressTimer = undefined
+
+    setTimeout(() => {
       store.dispatch(actions.wsConnect())
-    }, reconnectTimeout)
+    }, connectionAttempts * reconnectTimeout)
+    connectionAttempts++
   }
 
   const onMessage = (store) => evt => {
@@ -47,7 +43,7 @@ const JukeboxMiddleware = (() => {
   }
 
   const onConnect = (store) => {
-    if (socket != null) { socket.close(); }
+    if (socket != null) { socket.close() }
     store.dispatch(actions.wsConnecting())
 
     socket = new WebSocket(wsurl)
@@ -57,21 +53,21 @@ const JukeboxMiddleware = (() => {
   }
 
   const onDisconnect = (store) => {
-    if (socket != null) { socket.close(); }
+    if (socket != null) { socket.close() }
     socket = null
     store.dispatch(actions.wsDisconnected())
   }
 
   return store => next => action => {
     switch (action.type) {
-      case 'CONNECT':
+      case Constants.CONNECT:
         onConnect(store)
         break
-      case 'DISCONNECT':
+      case Constants.DISCONNECT:
         onDisconnect(store)
         break
-      case 'SEND':
-        if (action.key === Constants.LIBRARY_GET_IMAGES) {
+      case Constants.SEND:
+        if (action.key === MopidyApi.LIBRARY_GET_IMAGES) {
           const cache = store.getState().assets
           if (findImageInCache(action.uri, cache)) { break }
           store.dispatch(actions.newImage(action.uri))

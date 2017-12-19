@@ -1,5 +1,5 @@
 import * as actions from '../../actions'
-import Constants from '../../constants'
+import MopidyApi from '../../constants/mopidy-api'
 
 const playBackChanged = (state, progress) => {
   switch (state) {
@@ -32,25 +32,28 @@ const onMessageHandler = (store, payload, progressTimer) => {
   let { key, data } = JSON.parse(payload)
 
   switch (key) {
-    case Constants.PLAYBACK_GET_CURRENT_TRACK:
+    case MopidyApi.PLAYBACK_GET_CURRENT_TRACK:
       addCurrentTrack(data.track, store, progressTimer)
       break
-    case Constants.EVENT_TRACK_PLAYBACK_STARTED:
+    case MopidyApi.EVENT_TRACK_PLAYBACK_STARTED:
       addCurrentTrack(data.track, store, progressTimer)
       break
-    case Constants.EVENT_PLAYBACK_STATE_CHANGED:
+    case MopidyApi.EVENT_PLAYBACK_STATE_CHANGED:
       playBackChanged(data.new_state, progressTimer)
       break
-    case Constants.EVENT_TRACKLIST_CHANGED:
+    case MopidyApi.EVENT_TRACKLIST_CHANGED:
       store.dispatch(actions.getTrackList())
       break
-    case Constants.TRACKLIST_GET_TRACKS:
+    case MopidyApi.TRACKLIST_GET_TRACKS:
       addTrackList(data, store)
       break
-    case Constants.LIBRARY_GET_IMAGES:
+    //case MopidyApi.TRACKLIST_ADD_TRACK:
+      // showSuccessFlashMessage()
+      //break
+    case MopidyApi.LIBRARY_GET_IMAGES:
       store.dispatch(actions.resolveImage(data))
       break
-    case Constants.PLAYBACK_GET_TIME_POSITION:
+    case MopidyApi.PLAYBACK_GET_TIME_POSITION:
       progressTimer.set(data)
       break
     default:
