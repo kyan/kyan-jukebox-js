@@ -1,13 +1,16 @@
+import Types from '../../constants'
+
 const initalState = {
   online: false
 }
+
 const jukebox = (state = initalState, action) => {
   switch (action.type) {
-    case 'CONNECTED':
+    case Types.CONNECTED:
       return Object.assign({}, state, {
         online: true
       })
-    case 'DISCONNECTED':
+    case Types.DISCONNECTED:
       return Object.assign({}, state, {
         online: false
       })

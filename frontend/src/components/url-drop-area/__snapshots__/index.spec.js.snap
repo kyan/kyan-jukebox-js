@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UrlDropArea render renders as expected 1`] = `
+<TestContextContainer
+  accepts={
+    Array [
+      "__URL__",
+    ]
+  }
+  connectDropTarget={[Function]}
+  onDrop={[Function]}
+/>
+`;
