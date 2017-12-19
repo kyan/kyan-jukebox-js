@@ -1,22 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import jukeboxMiddleware from './containers/jukebox-middleware';
-import jukeboxApp from './reducers'
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-
-let store = createStore(
-  jukeboxApp,
-  applyMiddleware(jukeboxMiddleware)
-)
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App.js'
+import './index.css'
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <App/>,
   document.getElementById('root')
-);
-registerServiceWorker();
+)

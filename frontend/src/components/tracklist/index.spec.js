@@ -1,6 +1,5 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { shallowToJson } from 'enzyme-to-json'
 import Tracklist from './index'
 
 describe('Tracklist', () => {
@@ -45,7 +44,17 @@ describe('Tracklist', () => {
     )
 
     it('renders the as expected', () => {
-      expect(shallowToJson(wrapper)).toMatchSnapshot()
+      expect(wrapper).toMatchSnapshot()
+    })
+  })
+
+  describe('when no track', () => {
+    it('renders nothing', () => {
+      wrapper = shallow(
+        <Tracklist />
+      )
+
+      expect(wrapper.instance()).toBeNull()
     })
   })
 })
