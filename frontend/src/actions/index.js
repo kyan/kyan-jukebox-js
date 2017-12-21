@@ -124,10 +124,17 @@ export const pausePlaying = () => {
   }
 }
 
-export const skipPlaying = () => {
+export const nextPlaying = () => {
   return {
     type: Types.SEND,
     key: MopidyApi.PLAYBACK_NEXT
+  }
+}
+
+export const previousPlaying = () => {
+  return {
+    type: Types.SEND,
+    key: MopidyApi.PLAYBACK_BACK
   }
 }
 

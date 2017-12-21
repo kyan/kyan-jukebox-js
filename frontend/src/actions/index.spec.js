@@ -161,12 +161,20 @@ describe('actions', () => {
     expect(actions.pausePlaying()).toEqual(expectedAction)
   })
 
-  it('should handle skipPlaying', () => {
+  it('should handle nextPlaying', () => {
     const expectedAction = {
       type: Types.SEND,
       key: MopidyApi.PLAYBACK_NEXT
     }
-    expect(actions.skipPlaying()).toEqual(expectedAction)
+    expect(actions.nextPlaying()).toEqual(expectedAction)
+  })
+
+  it('should handle previousPlaying', () => {
+    const expectedAction = {
+      type: Types.SEND,
+      key: MopidyApi.PLAYBACK_BACK
+    }
+    expect(actions.previousPlaying()).toEqual(expectedAction)
   })
 
   it('should handle getVolume', () => {
