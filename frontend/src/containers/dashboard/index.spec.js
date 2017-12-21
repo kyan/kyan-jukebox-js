@@ -10,7 +10,7 @@ describe('Dashboard', () => {
   let wrapper
 
   describe('render just the dashboard without redux', () => {
-    const jukebox = { online: true }
+    const jukebox = { currentVolume: 25, online: true }
     const currentTrack = {}
     const tracklist = []
     const tracklistImages = {}
@@ -66,6 +66,12 @@ describe('Dashboard', () => {
       expect(actions.addNewTrack).toHaveBeenCalledWith('track')
     })
 
+    it('onVolumeChange', () => {
+      spyOn(actions, 'setVolume')
+      wrapper.instance().onVolumeChange(32)
+      expect(actions.setVolume).toHaveBeenCalledWith(32)
+    })
+
     describe('handleURLDrop', () => {
       it('handles a monitor passed in', () => {
         spyOn(wrapper.instance(), 'addNewTrack')
@@ -96,6 +102,7 @@ describe('Dashboard', () => {
     const store = configureMockStore()({
       tracklist: [],
       jukebox: {
+        currentVolume: 25,
         online: true
       },
       timer: {
