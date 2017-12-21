@@ -14,9 +14,13 @@ export default function(key, data) {
       return TransformTrack(data.tl_track.track);
     case 'event:tracklistChanged':
       return data;
+    case 'event:volumeChanged':
+      return data.volume;
     case 'library.getImages':
       return data;
     case 'tracklist.add':
+      return data;
+    case 'mixer.getVolume':
       return data;
     default:
       return `NOT IMPLIMENTED: ${key}`;

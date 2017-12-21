@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VolumeButtons render renders the as expected 1`] = `
+<ButtonGroup
+  floated="right"
+>
+  <Button
+    as="button"
+    className="jb-volume-down"
+    onClick={[Function]}
+  >
+    <Icon
+      as="i"
+      name="volume down"
+    />
+  </Button>
+  <ButtonOr
+    text={44}
+  />
+  <Button
+    as="button"
+    className="jb-volume-up"
+    onClick={[Function]}
+  >
+    <Icon
+      as="i"
+      name="volume up"
+    />
+  </Button>
+</ButtonGroup>
+`;

@@ -10,5 +10,8 @@ export default {
   PLAYBACK_SET_STATE: 'playback.set_state',
   PLAYBACK_NEXT: 'playback.next',
   PLAYING: 'playback_params_playing',
-  PAUSED: 'playback_params_paused'
+  PAUSED: 'playback_params_paused',
+  SET_VOLUME: 'mixer.setVolume',
+  GET_VOLUME: 'mixer.getVolume',
+  EVENT_VOLUME_CHANGED: 'event:volumeChanged'
 }
