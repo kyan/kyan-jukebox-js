@@ -113,16 +113,14 @@ export const getTrackList = () => {
 export const startPlaying = () => {
   return {
     type: Types.SEND,
-    key: MopidyApi.PLAYBACK_SET_STATE,
-    params: MopidyApi.PLAYING
+    key: MopidyApi.PLAYBACK_PLAY
   }
 }
 
 export const pausePlaying = () => {
   return {
     type: Types.SEND,
-    key: MopidyApi.PLAYBACK_SET_STATE,
-    params: MopidyApi.PAUSED
+    key: MopidyApi.PLAYBACK_PAUSE
   }
 }
 
