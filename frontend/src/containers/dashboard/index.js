@@ -37,8 +37,12 @@ export class Dashboard extends Component {
     this.dispatch(actions.pausePlaying())
   }
 
-  skipPlaying = () => {
-    this.dispatch(actions.skipPlaying())
+  nextPlaying = () => {
+    this.dispatch(actions.nextPlaying())
+  }
+
+  previousPlaying = () => {
+    this.dispatch(actions.previousPlaying())
   }
 
   addNewTrack = (uri) => {
@@ -48,33 +52,56 @@ export class Dashboard extends Component {
   playButton() {
     return (
       <Button
-        content='Play'
-        icon='play'
-        labelPosition='left'
         onClick={this.startPlaying}
-      />
+        animated='vertical'
+      >
+        <Button.Content hidden>Play</Button.Content>
+        <Button.Content visible>
+          <Icon name='play' />
+        </Button.Content>
+      </Button>
     )
   }
 
   pauseButton() {
     return (
       <Button
-        content='Pause'
-        icon='pause'
-        labelPosition='left'
         onClick={this.pausePlaying}
-      />
+        animated='vertical'
+      >
+        <Button.Content hidden>Pause</Button.Content>
+        <Button.Content visible>
+          <Icon name='pause' />
+        </Button.Content>
+      </Button>
     )
   }
 
-  skipButton() {
+  previousButton() {
     return (
       <Button
-        content='Skip'
-        icon='right arrow'
-        labelPosition='right'
-        onClick={this.skipPlaying}
-      />
+        onClick={this.previousPlaying}
+        animated='vertical'
+      >
+        <Button.Content hidden>Prev</Button.Content>
+        <Button.Content visible>
+          <Icon name='step backward' />
+        </Button.Content>
+      </Button>
+    )
+  }
+
+  nextButton() {
+    return (
+      <Button
+        onClick={this.nextPlaying}
+        animated='vertical'
+      >
+        <Button.Content hidden>Next</Button.Content>
+        <Button.Content visible>
+          <Icon name='step forward' />
+        </Button.Content>
+      </Button>
     )
   }
 
@@ -82,8 +109,8 @@ export class Dashboard extends Component {
     const color = online ? 'green' : 'orange'
     return (
       <Icon
-        size='small'
-        name='circle'
+        size='large'
+        name='power'
         color={color}
         className='jukebox-status-icon'
       />
@@ -103,9 +130,10 @@ export class Dashboard extends Component {
           volume={this.props.jukebox.currentVolume}
           onVolumeChange={this.onVolumeChange}
          />
+        {this.previousButton()}
+        {this.nextButton()}
         {this.playButton()}
         {this.pauseButton()}
-        {this.skipButton()}
         {this.onlineIcon(this.props.jukebox.online)}
         <Divider />
         <Grid>

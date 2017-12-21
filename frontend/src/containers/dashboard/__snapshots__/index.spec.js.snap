@@ -7,32 +7,87 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
     volume={25}
   />
   <Button
+    animated="vertical"
     as="button"
-    content="Play"
-    icon="play"
-    labelPosition="left"
     onClick={[Function]}
-  />
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Prev
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="step backward"
+      />
+    </ButtonContent>
+  </Button>
   <Button
+    animated="vertical"
     as="button"
-    content="Pause"
-    icon="pause"
-    labelPosition="left"
     onClick={[Function]}
-  />
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Next
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="step forward"
+      />
+    </ButtonContent>
+  </Button>
   <Button
+    animated="vertical"
     as="button"
-    content="Skip"
-    icon="right arrow"
-    labelPosition="right"
     onClick={[Function]}
-  />
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Play
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="play"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
+    animated="vertical"
+    as="button"
+    onClick={[Function]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Pause
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="pause"
+      />
+    </ButtonContent>
+  </Button>
   <Icon
     as="i"
     className="jukebox-status-icon"
     color="green"
-    name="circle"
-    size="small"
+    name="power"
+    size="large"
   />
   <Divider />
   <Grid>
@@ -178,90 +233,167 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
             </ButtonGroup>
           </VolumeButtons>
           <Button
+            animated="vertical"
             as="button"
-            content="Play"
-            icon="play"
-            labelPosition="left"
             onClick={[Function]}
           >
             <button
-              className="ui icon left labeled button"
+              className="ui vertical animated button"
               onClick={[Function]}
               role="button"
             >
-              <Icon
-                as="i"
-                key="play"
-                name="play"
+              <ButtonContent
+                hidden={true}
               >
-                <i
-                  aria-hidden="true"
-                  className="play icon"
-                />
-              </Icon>
-              Play
+                <div
+                  className="hidden content"
+                >
+                  Prev
+                </div>
+              </ButtonContent>
+              <ButtonContent
+                visible={true}
+              >
+                <div
+                  className="visible content"
+                >
+                  <Icon
+                    as="i"
+                    name="step backward"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="step backward icon"
+                    />
+                  </Icon>
+                </div>
+              </ButtonContent>
             </button>
           </Button>
           <Button
+            animated="vertical"
             as="button"
-            content="Pause"
-            icon="pause"
-            labelPosition="left"
             onClick={[Function]}
           >
             <button
-              className="ui icon left labeled button"
+              className="ui vertical animated button"
               onClick={[Function]}
               role="button"
             >
-              <Icon
-                as="i"
-                key="pause"
-                name="pause"
+              <ButtonContent
+                hidden={true}
               >
-                <i
-                  aria-hidden="true"
-                  className="pause icon"
-                />
-              </Icon>
-              Pause
+                <div
+                  className="hidden content"
+                >
+                  Next
+                </div>
+              </ButtonContent>
+              <ButtonContent
+                visible={true}
+              >
+                <div
+                  className="visible content"
+                >
+                  <Icon
+                    as="i"
+                    name="step forward"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="step forward icon"
+                    />
+                  </Icon>
+                </div>
+              </ButtonContent>
             </button>
           </Button>
           <Button
+            animated="vertical"
             as="button"
-            content="Skip"
-            icon="right arrow"
-            labelPosition="right"
             onClick={[Function]}
           >
             <button
-              className="ui icon right labeled button"
+              className="ui vertical animated button"
               onClick={[Function]}
               role="button"
             >
-              <Icon
-                as="i"
-                key="right arrow"
-                name="right arrow"
+              <ButtonContent
+                hidden={true}
               >
-                <i
-                  aria-hidden="true"
-                  className="right arrow icon"
-                />
-              </Icon>
-              Skip
+                <div
+                  className="hidden content"
+                >
+                  Play
+                </div>
+              </ButtonContent>
+              <ButtonContent
+                visible={true}
+              >
+                <div
+                  className="visible content"
+                >
+                  <Icon
+                    as="i"
+                    name="play"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="play icon"
+                    />
+                  </Icon>
+                </div>
+              </ButtonContent>
+            </button>
+          </Button>
+          <Button
+            animated="vertical"
+            as="button"
+            onClick={[Function]}
+          >
+            <button
+              className="ui vertical animated button"
+              onClick={[Function]}
+              role="button"
+            >
+              <ButtonContent
+                hidden={true}
+              >
+                <div
+                  className="hidden content"
+                >
+                  Pause
+                </div>
+              </ButtonContent>
+              <ButtonContent
+                visible={true}
+              >
+                <div
+                  className="visible content"
+                >
+                  <Icon
+                    as="i"
+                    name="pause"
+                  >
+                    <i
+                      aria-hidden="true"
+                      className="pause icon"
+                    />
+                  </Icon>
+                </div>
+              </ButtonContent>
             </button>
           </Button>
           <Icon
             as="i"
             className="jukebox-status-icon"
             color="green"
-            name="circle"
-            size="small"
+            name="power"
+            size="large"
           >
             <i
               aria-hidden="true"
-              className="green circle small icon jukebox-status-icon"
+              className="green power large icon jukebox-status-icon"
             />
           </Icon>
           <Divider>
