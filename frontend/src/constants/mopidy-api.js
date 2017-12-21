@@ -10,6 +10,7 @@ export default {
   PLAYBACK_PLAY: 'playback.play',
   PLAYBACK_PAUSE: 'playback.pause',
   PLAYBACK_NEXT: 'playback.next',
+  PLAYBACK_BACK: 'playback.previous',
   PLAYING: 'playing',
   PAUSED: 'paused',
   SET_VOLUME: 'mixer.setVolume',

@@ -54,10 +54,16 @@ describe('Dashboard', () => {
       expect(actions.pausePlaying).toHaveBeenCalled()
     })
 
-    it('skipPlaying', () => {
-      spyOn(actions, 'skipPlaying')
-      wrapper.instance().skipPlaying()
-      expect(actions.skipPlaying).toHaveBeenCalled()
+    it('nextPlaying', () => {
+      spyOn(actions, 'nextPlaying')
+      wrapper.instance().nextPlaying()
+      expect(actions.nextPlaying).toHaveBeenCalled()
+    })
+
+    it('previousPlaying', () => {
+      spyOn(actions, 'previousPlaying')
+      wrapper.instance().previousPlaying()
+      expect(actions.previousPlaying).toHaveBeenCalled()
     })
 
     it('addNewTrack', () => {
