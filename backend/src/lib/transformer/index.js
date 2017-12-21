@@ -22,7 +22,11 @@ export default function(key, data) {
       return data;
     case 'mixer.getVolume':
       return data;
+    case 'mixer.setVolume':
+      return data;
+    case 'playback.next':
+      return data;
     default:
-      return `NOT IMPLIMENTED: ${key}`;
+      return `BACKEND RESPONSE NOT HANDLED: ${key}`;
   }
 };
