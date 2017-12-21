@@ -148,8 +148,7 @@ describe('actions', () => {
   it('should handle startPlaying', () => {
     const expectedAction = {
       type: Types.SEND,
-      key: MopidyApi.PLAYBACK_SET_STATE,
-      params: MopidyApi.PLAYING
+      key: MopidyApi.PLAYBACK_PLAY
     }
     expect(actions.startPlaying()).toEqual(expectedAction)
   })
@@ -157,8 +156,7 @@ describe('actions', () => {
   it('should handle pausePlaying', () => {
     const expectedAction = {
       type: Types.SEND,
-      key: MopidyApi.PLAYBACK_SET_STATE,
-      params: MopidyApi.PAUSED
+      key: MopidyApi.PLAYBACK_PAUSE
     }
     expect(actions.pausePlaying()).toEqual(expectedAction)
   })
