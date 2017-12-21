@@ -9,6 +9,7 @@ export default {
   RESOLVE_IMAGE: 'actionResolveImage',
   ADD_CURRENT_TRACK: 'actionAddCurrentTrack',
   ADD_TRACKS: 'actionAddTracks',
+  UPDATE_VOLUME: 'actionUpdateVolume',
   UPDATE_PROGRESS_TIMER: 'actionUpdateProgressTimer',
   DROP_TYPES: ['__NATIVE_URL__']
 };

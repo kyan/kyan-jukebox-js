@@ -61,16 +61,20 @@ describe('JukeboxMiddleware', () => {
         type: 'actionSend',
         key: 'tracklist.getTracks'
       })
-      expect(dispatchSpy.mock.calls[7][0]).toEqual({ type: 'actionConnected' })
-      expect(dispatchSpy.mock.calls[8][0]).toEqual({
+      expect(dispatchSpy.mock.calls[7][0]).toEqual({
+        type: 'actionSend',
+        key: 'mixer.getVolume'
+      })
+      expect(dispatchSpy.mock.calls[8][0]).toEqual({ type: 'actionConnected' })
+      expect(dispatchSpy.mock.calls[9][0]).toEqual({
         type: 'actionSend',
         key: 'playback.getCurrentTrack'
       })
-      expect(dispatchSpy.mock.calls[9][0]).toEqual({
+      expect(dispatchSpy.mock.calls[10][0]).toEqual({
         type: 'actionSend',
         key: 'playback.getTimePosition'
       })
-      expect(dispatchSpy.mock.calls[10][0]).toEqual({
+      expect(dispatchSpy.mock.calls[11][0]).toEqual({
         type: 'actionSend',
         key: 'tracklist.getTracks'
       })

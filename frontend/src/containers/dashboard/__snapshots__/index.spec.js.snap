@@ -2,6 +2,10 @@
 
 exports[`Dashboard render just the dashboard without redux renders as expected 1`] = `
 <div>
+  <VolumeButtons
+    onVolumeChange={[Function]}
+    volume={25}
+  />
   <Button
     as="button"
     content="Play"
@@ -91,6 +95,7 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
       dispatch={[Function]}
       jukebox={
         Object {
+          "currentVolume": 25,
           "online": true,
         }
       }
@@ -101,6 +106,7 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
         dispatch={[Function]}
         jukebox={
           Object {
+            "currentVolume": 25,
             "online": true,
           }
         }
@@ -108,6 +114,69 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
         tracklistImages={Object {}}
       >
         <div>
+          <VolumeButtons
+            onVolumeChange={[Function]}
+            volume={25}
+          >
+            <ButtonGroup
+              floated="right"
+            >
+              <div
+                className="ui right floated buttons"
+              >
+                <Button
+                  as="button"
+                  className="jb-volume-down"
+                  onClick={[Function]}
+                >
+                  <button
+                    className="ui button jb-volume-down"
+                    onClick={[Function]}
+                    role="button"
+                  >
+                    <Icon
+                      as="i"
+                      name="volume down"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="volume down icon"
+                      />
+                    </Icon>
+                  </button>
+                </Button>
+                <ButtonOr
+                  text={25}
+                >
+                  <div
+                    className="or"
+                    data-text={25}
+                  />
+                </ButtonOr>
+                <Button
+                  as="button"
+                  className="jb-volume-up"
+                  onClick={[Function]}
+                >
+                  <button
+                    className="ui button jb-volume-up"
+                    onClick={[Function]}
+                    role="button"
+                  >
+                    <Icon
+                      as="i"
+                      name="volume up"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="volume up icon"
+                      />
+                    </Icon>
+                  </button>
+                </Button>
+              </div>
+            </ButtonGroup>
+          </VolumeButtons>
           <Button
             as="button"
             content="Play"

@@ -132,3 +132,25 @@ export const skipPlaying = () => {
     key: MopidyApi.PLAYBACK_NEXT
   }
 }
+
+export const getVolume = () => {
+  return {
+    type: Types.SEND,
+    key: MopidyApi.GET_VOLUME
+  }
+}
+
+export const updateVolume = (volume) => {
+  return {
+    type: Types.UPDATE_VOLUME,
+    volume
+  }
+}
+
+export const setVolume = (volume) => {
+  return {
+    type: Types.SEND,
+    key: MopidyApi.SET_VOLUME,
+    params: [Number(volume)]
+  }
+}
