@@ -170,4 +170,29 @@ describe('actions', () => {
     }
     expect(actions.skipPlaying()).toEqual(expectedAction)
   })
+
+  it('should handle getVolume', () => {
+    const expectedAction = {
+      type: Types.SEND,
+      key: MopidyApi.GET_VOLUME
+    }
+    expect(actions.getVolume()).toEqual(expectedAction)
+  })
+
+  it('should handle updateVolume', () => {
+    const expectedAction = {
+      type: Types.UPDATE_VOLUME,
+      volume: 32
+    }
+    expect(actions.updateVolume(32)).toEqual(expectedAction)
+  })
+
+  it('should handle setVolume', () => {
+    const expectedAction = {
+      type: Types.SEND,
+      key: MopidyApi.SET_VOLUME,
+      params: [32]
+    }
+    expect(actions.setVolume(32)).toEqual(expectedAction)
+  })
 })

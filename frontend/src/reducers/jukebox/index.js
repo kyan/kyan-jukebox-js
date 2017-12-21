@@ -1,7 +1,8 @@
 import Types from '../../constants'
 
 const initalState = {
-  online: false
+  online: false,
+  currentVolume: 0
 }
 
 const jukebox = (state = initalState, action) => {
@@ -13,6 +14,10 @@ const jukebox = (state = initalState, action) => {
     case Types.DISCONNECTED:
       return Object.assign({}, state, {
         online: false
+      })
+    case Types.UPDATE_VOLUME:
+      return Object.assign({}, state, {
+        currentVolume: action.volume
       })
     default:
       return state

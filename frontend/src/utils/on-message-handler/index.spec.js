@@ -157,4 +157,28 @@ describe('onMessageHandler', () => {
       expect(progMock.mock.calls[0][0]).toEqual(new_payload.data)
     })
   })
+
+  describe('GET_VOLUME', () => {
+    it('handles resolving', () => {
+      const new_payload = {
+        data: 32,
+        key: MopidyApi.GET_VOLUME
+      }
+      spyOn(actions, 'updateVolume')
+      onMessageHandler(store, JSON.stringify(new_payload), progress)
+      expect(actions.updateVolume).toHaveBeenCalledWith(32)
+    })
+  })
+
+  describe('GET_VOLUME', () => {
+    it('handles resolving', () => {
+      const new_payload = {
+        data: 32,
+        key: MopidyApi.EVENT_VOLUME_CHANGED
+      }
+      spyOn(actions, 'updateVolume')
+      onMessageHandler(store, JSON.stringify(new_payload), progress)
+      expect(actions.updateVolume).toHaveBeenCalledWith(32)
+    })
+  })
 })

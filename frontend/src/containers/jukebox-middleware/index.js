@@ -16,7 +16,8 @@ const JukeboxMiddleware = (() => {
     [
       'getCurrentTrack',
       'getTimePosition',
-      'getTrackList'
+      'getTrackList',
+      'getVolume'
     ].forEach(action => {
       store.dispatch(actions[action]())
     })

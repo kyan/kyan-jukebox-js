@@ -5,6 +5,7 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import { Divider, Grid, Button, Header, Icon } from 'semantic-ui-react'
 import Constants from '../../constants'
 import UrlDropArea from '../../components/url-drop-area'
+import VolumeButtons from '../../components/volume-buttons'
 import * as actions from '../../actions'
 import CurrentTrackContainer from '../current-track-container'
 import TrackList from '../../components/tracklist'
@@ -22,6 +23,10 @@ export class Dashboard extends Component {
 
   componentWillUnmount = () => {
     this.dispatch(actions.wsDisconnect())
+  }
+
+  onVolumeChange = (volume) => {
+    this.dispatch(actions.setVolume(volume))
   }
 
   startPlaying = () => {
@@ -94,6 +99,10 @@ export class Dashboard extends Component {
   render() {
     return (
       <div>
+        <VolumeButtons
+          volume={this.props.jukebox.currentVolume}
+          onVolumeChange={this.onVolumeChange}
+         />
         {this.playButton()}
         {this.pauseButton()}
         {this.skipButton()}

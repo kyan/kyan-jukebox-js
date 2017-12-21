@@ -33,8 +33,6 @@ const onMessageHandler = (store, payload, progressTimer) => {
 
   switch (key) {
     case MopidyApi.PLAYBACK_GET_CURRENT_TRACK:
-      addCurrentTrack(data.track, store, progressTimer)
-      break
     case MopidyApi.EVENT_TRACK_PLAYBACK_STARTED:
       addCurrentTrack(data.track, store, progressTimer)
       break
@@ -47,9 +45,10 @@ const onMessageHandler = (store, payload, progressTimer) => {
     case MopidyApi.TRACKLIST_GET_TRACKS:
       addTrackList(data, store)
       break
-    //case MopidyApi.TRACKLIST_ADD_TRACK:
-      // showSuccessFlashMessage()
-      //break
+    case MopidyApi.GET_VOLUME:
+    case MopidyApi.EVENT_VOLUME_CHANGED:
+      store.dispatch(actions.updateVolume(data))
+      break
     case MopidyApi.LIBRARY_GET_IMAGES:
       store.dispatch(actions.resolveImage(data))
       break
