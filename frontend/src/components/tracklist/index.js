@@ -26,7 +26,7 @@ const Tracklist = ({ tracks, images, currentTrack }) => {
   if (!tracks) { return null; }
 
   return (
-    <List size='large'>
+    <List size='huge' ordered divided>
       {listItems(tracks, images, currentTrack)}
     </List>
   )
