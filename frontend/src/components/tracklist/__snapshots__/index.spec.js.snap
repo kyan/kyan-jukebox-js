@@ -2,7 +2,9 @@
 
 exports[`Tracklist render renders the as expected 1`] = `
 <List
-  size="large"
+  divided={true}
+  ordered={true}
+  size="huge"
 >
   <ListItem
     className="track-selected"

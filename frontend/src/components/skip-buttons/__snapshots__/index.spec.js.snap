@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SkipButtons render renders the as expected 1`] = `
+<span>
+  <Button
+    animated="vertical"
+    as="button"
+    className="jb-previous-button"
+    onClick={[Function]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Prev
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="step backward"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
+    animated="vertical"
+    as="button"
+    className="jb-next-button"
+    onClick={[Function]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Next
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="step forward"
+      />
+    </ButtonContent>
+  </Button>
+</span>
+`;

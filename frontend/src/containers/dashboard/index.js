@@ -6,6 +6,7 @@ import { Divider, Grid, Button, Header, Icon } from 'semantic-ui-react'
 import Constants from '../../constants'
 import UrlDropArea from '../../components/url-drop-area'
 import VolumeButtons from '../../components/volume-buttons'
+import SkipButtons from '../../components/skip-buttons'
 import * as actions from '../../actions'
 import CurrentTrackContainer from '../current-track-container'
 import TrackList from '../../components/tracklist'
@@ -77,34 +78,6 @@ export class Dashboard extends Component {
     )
   }
 
-  previousButton() {
-    return (
-      <Button
-        onClick={this.previousPlaying}
-        animated='vertical'
-      >
-        <Button.Content hidden>Prev</Button.Content>
-        <Button.Content visible>
-          <Icon name='step backward' />
-        </Button.Content>
-      </Button>
-    )
-  }
-
-  nextButton() {
-    return (
-      <Button
-        onClick={this.nextPlaying}
-        animated='vertical'
-      >
-        <Button.Content hidden>Next</Button.Content>
-        <Button.Content visible>
-          <Icon name='step forward' />
-        </Button.Content>
-      </Button>
-    )
-  }
-
   onlineIcon(online) {
     const color = online ? 'green' : 'orange'
     return (
@@ -130,8 +103,10 @@ export class Dashboard extends Component {
           volume={this.props.jukebox.currentVolume}
           onVolumeChange={this.onVolumeChange}
          />
-        {this.previousButton()}
-        {this.nextButton()}
+         <SkipButtons
+          onPreviousPlayingClick={this.previousPlaying}
+          onNextPlayingClick={this.nextPlaying}
+         />
         {this.playButton()}
         {this.pauseButton()}
         {this.onlineIcon(this.props.jukebox.online)}
@@ -145,8 +120,8 @@ export class Dashboard extends Component {
               </UrlDropArea>
             </DragDropContextProvider>
           </Grid.Column>
-          <Grid.Column width={10}>
-            <Header size='small'>Tracklist</Header>
+          <Grid.Column width={6}>
+            <Header size='small'>Playlist</Header>
             <TrackList
               images={this.props.tracklistImages}
               tracks={this.props.tracklist}

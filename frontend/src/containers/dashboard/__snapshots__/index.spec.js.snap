@@ -6,44 +6,10 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
     onVolumeChange={[Function]}
     volume={25}
   />
-  <Button
-    animated="vertical"
-    as="button"
-    onClick={[Function]}
-  >
-    <ButtonContent
-      hidden={true}
-    >
-      Prev
-    </ButtonContent>
-    <ButtonContent
-      visible={true}
-    >
-      <Icon
-        as="i"
-        name="step backward"
-      />
-    </ButtonContent>
-  </Button>
-  <Button
-    animated="vertical"
-    as="button"
-    onClick={[Function]}
-  >
-    <ButtonContent
-      hidden={true}
-    >
-      Next
-    </ButtonContent>
-    <ButtonContent
-      visible={true}
-    >
-      <Icon
-        as="i"
-        name="step forward"
-      />
-    </ButtonContent>
-  </Button>
+  <SkipButtons
+    onNextPlayingClick={[Function]}
+    onPreviousPlayingClick={[Function]}
+  />
   <Button
     animated="vertical"
     as="button"
@@ -115,12 +81,12 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
       </DragDropContextProvider>
     </GridColumn>
     <GridColumn
-      width={10}
+      width={6}
     >
       <Header
         size="small"
       >
-        Tracklist
+        Playlist
       </Header>
       <Tracklist
         currentTrack={Object {}}
@@ -232,82 +198,91 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
               </div>
             </ButtonGroup>
           </VolumeButtons>
-          <Button
-            animated="vertical"
-            as="button"
-            onClick={[Function]}
+          <SkipButtons
+            onNextPlayingClick={[Function]}
+            onPreviousPlayingClick={[Function]}
           >
-            <button
-              className="ui vertical animated button"
-              onClick={[Function]}
-              role="button"
-            >
-              <ButtonContent
-                hidden={true}
+            <span>
+              <Button
+                animated="vertical"
+                as="button"
+                className="jb-previous-button"
+                onClick={[Function]}
               >
-                <div
-                  className="hidden content"
+                <button
+                  className="ui vertical animated button jb-previous-button"
+                  onClick={[Function]}
+                  role="button"
                 >
-                  Prev
-                </div>
-              </ButtonContent>
-              <ButtonContent
-                visible={true}
-              >
-                <div
-                  className="visible content"
-                >
-                  <Icon
-                    as="i"
-                    name="step backward"
+                  <ButtonContent
+                    hidden={true}
                   >
-                    <i
-                      aria-hidden="true"
-                      className="step backward icon"
-                    />
-                  </Icon>
-                </div>
-              </ButtonContent>
-            </button>
-          </Button>
-          <Button
-            animated="vertical"
-            as="button"
-            onClick={[Function]}
-          >
-            <button
-              className="ui vertical animated button"
-              onClick={[Function]}
-              role="button"
-            >
-              <ButtonContent
-                hidden={true}
-              >
-                <div
-                  className="hidden content"
-                >
-                  Next
-                </div>
-              </ButtonContent>
-              <ButtonContent
-                visible={true}
-              >
-                <div
-                  className="visible content"
-                >
-                  <Icon
-                    as="i"
-                    name="step forward"
+                    <div
+                      className="hidden content"
+                    >
+                      Prev
+                    </div>
+                  </ButtonContent>
+                  <ButtonContent
+                    visible={true}
                   >
-                    <i
-                      aria-hidden="true"
-                      className="step forward icon"
-                    />
-                  </Icon>
-                </div>
-              </ButtonContent>
-            </button>
-          </Button>
+                    <div
+                      className="visible content"
+                    >
+                      <Icon
+                        as="i"
+                        name="step backward"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="step backward icon"
+                        />
+                      </Icon>
+                    </div>
+                  </ButtonContent>
+                </button>
+              </Button>
+              <Button
+                animated="vertical"
+                as="button"
+                className="jb-next-button"
+                onClick={[Function]}
+              >
+                <button
+                  className="ui vertical animated button jb-next-button"
+                  onClick={[Function]}
+                  role="button"
+                >
+                  <ButtonContent
+                    hidden={true}
+                  >
+                    <div
+                      className="hidden content"
+                    >
+                      Next
+                    </div>
+                  </ButtonContent>
+                  <ButtonContent
+                    visible={true}
+                  >
+                    <div
+                      className="visible content"
+                    >
+                      <Icon
+                        as="i"
+                        name="step forward"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="step forward icon"
+                        />
+                      </Icon>
+                    </div>
+                  </ButtonContent>
+                </button>
+              </Button>
+            </span>
+          </SkipButtons>
           <Button
             animated="vertical"
             as="button"
@@ -460,10 +435,10 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                 </div>
               </GridColumn>
               <GridColumn
-                width={10}
+                width={6}
               >
                 <div
-                  className="ten wide column"
+                  className="six wide column"
                 >
                   <Header
                     size="small"
@@ -471,7 +446,7 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                     <div
                       className="ui small header"
                     >
-                      Tracklist
+                      Playlist
                     </div>
                   </Header>
                   <Tracklist
@@ -479,10 +454,12 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                     tracks={Array []}
                   >
                     <List
-                      size="large"
+                      divided={true}
+                      ordered={true}
+                      size="huge"
                     >
                       <div
-                        className="ui large list"
+                        className="ui huge divided ordered list"
                         role="list"
                       />
                     </List>
