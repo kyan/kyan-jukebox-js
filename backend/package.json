@@ -9,8 +9,9 @@
     "dev": "nodemon src/index.js --exec \"node -r dotenv/config -r babel-register\"",
     "clean": "rimraf dist",
     "build": "npm run clean && mkdir -p dist && babel src -s -D -d dist",
-    "test": "jest --watch",
-    "lint": "esw -w src test"
+    "test": "jest",
+    "test-watch": "jest --watch",
+    "lint": "esw -w src"
   },
   "dependencies": {
     "babel-cli": "^6.24.1",
@@ -33,9 +34,7 @@
     "eslint-plugin-jest": "^21.0.2",
     "eslint-watch": "^3.1.0",
     "jest": "^21.0.2",
-    "mock-socket": "^7.1.0",
-    "nodemon": "^1.11.0",
-    "supertest": "^3.0.0"
+    "nodemon": "^1.11.0"
   },
   "babel": {
     "presets": [
@@ -75,6 +74,12 @@
     }
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!<rootDir>/dist/",
+      "!src/index.js",
+      "!src/app.js"
+    ]
   }
 }

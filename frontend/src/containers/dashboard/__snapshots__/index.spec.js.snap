@@ -456,10 +456,9 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                     <List
                       divided={true}
                       ordered={true}
-                      size="huge"
                     >
                       <div
-                        className="ui huge divided ordered list"
+                        className="ui divided ordered list"
                         role="list"
                       />
                     </List>
