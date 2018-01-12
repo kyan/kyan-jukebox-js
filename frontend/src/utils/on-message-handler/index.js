@@ -30,6 +30,7 @@ const addTrackList = (tracklist, store) => {
 
 const onMessageHandler = (store, payload, progressTimer) => {
   let { key, data } = JSON.parse(payload)
+  console.log(`Message: ${key}`)
 
   switch (key) {
     case MopidyApi.PLAYBACK_GET_CURRENT_TRACK:
