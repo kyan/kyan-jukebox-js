@@ -13,16 +13,16 @@ import TrackList from '../../components/tracklist'
 import { getTracklistImagesInCache } from '../../selectors'
 
 export class Dashboard extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.dispatch = this.props.dispatch
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.dispatch(actions.wsConnect())
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount () {
     this.dispatch(actions.wsDisconnect())
   }
 
@@ -50,7 +50,7 @@ export class Dashboard extends Component {
     this.dispatch(actions.addNewTrack(uri))
   }
 
-  playButton() {
+  playButton () {
     return (
       <Button
         onClick={this.startPlaying}
@@ -64,7 +64,7 @@ export class Dashboard extends Component {
     )
   }
 
-  pauseButton() {
+  pauseButton () {
     return (
       <Button
         onClick={this.pausePlaying}
@@ -78,7 +78,7 @@ export class Dashboard extends Component {
     )
   }
 
-  onlineIcon(online) {
+  onlineIcon (online) {
     const color = online ? 'green' : 'orange'
     return (
       <Icon
@@ -96,17 +96,17 @@ export class Dashboard extends Component {
     }
   }
 
-  render() {
+  render () {
     return (
       <div>
         <VolumeButtons
           volume={this.props.jukebox.currentVolume}
           onVolumeChange={this.onVolumeChange}
-         />
-         <SkipButtons
+        />
+        <SkipButtons
           onPreviousPlayingClick={this.previousPlaying}
           onNextPlayingClick={this.nextPlaying}
-         />
+        />
         {this.playButton()}
         {this.pauseButton()}
         {this.onlineIcon(this.props.jukebox.online)}
@@ -116,7 +116,7 @@ export class Dashboard extends Component {
             <DragDropContextProvider backend={HTML5Backend}>
               <UrlDropArea accepts={Constants.DROP_TYPES} onDrop={this.handleURLDrop}>
                 <Header size='small'>Currently Playing</Header>
-                <CurrentTrackContainer/>
+                <CurrentTrackContainer />
               </UrlDropArea>
             </DragDropContextProvider>
           </Grid.Column>

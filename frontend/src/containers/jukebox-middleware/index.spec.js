@@ -1,13 +1,12 @@
-import React from 'react'
 import { Server } from 'mock-socket'
 import Constants from '../../constants'
 import MopidyApi from '../../constants/mopidy-api'
 import onMessageHandler from '../../utils/on-message-handler'
-jest.mock('../../utils/on-message-handler')
 import { trackProgressTimer } from '../../utils/time'
-jest.mock('../../utils/time')
 import JukeboxMiddleware from './index'
 
+jest.mock('../../utils/on-message-handler')
+jest.mock('../../utils/time')
 jest.useFakeTimers()
 
 describe('JukeboxMiddleware', () => {
@@ -83,7 +82,7 @@ describe('JukeboxMiddleware', () => {
 
     it('should dispatch disconnect message', () => {
       JukeboxMiddleware(store)(next)({ type: Constants.CONNECT })
-      JukeboxMiddleware(store)(next)({ type: Constants.DISCONNECT });
+      JukeboxMiddleware(store)(next)({ type: Constants.DISCONNECT })
       expect(dispatchSpy.mock.calls[0][0]).toEqual({ type: 'actionDisconnect' })
       expect(dispatchSpy.mock.calls[1][0]).toEqual({ type: 'actionConnecting' })
       expect(dispatchSpy.mock.calls[2][0]).toEqual({ type: 'actionDisconnected' })
@@ -100,9 +99,11 @@ describe('JukeboxMiddleware', () => {
       })
       let storeWithCache = {
         dispatch: dispatchSpy,
-        getState: jest.fn(() => { return { assets: [
-          { ref: '12345678', uri: 'image123' }
-        ] } })
+        getState: jest.fn(() => {
+          return {
+            assets: [{ ref: '12345678', uri: 'image123' }]
+          }
+        })
       }
       JukeboxMiddleware(storeWithCache)(next)({
         type: Constants.SEND,

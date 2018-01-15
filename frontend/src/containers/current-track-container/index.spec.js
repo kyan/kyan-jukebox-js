@@ -11,9 +11,9 @@ describe('CurrentTrackContainer', () => {
     it('renders as expected', () => {
       wrapper = shallow(
         <CurrentTrackContainer
-          track={ { track: 'track' } }
-          image={ 'image' }
-          progress={ 50 }
+          track={{ track: 'track' }}
+          image={'image'}
+          progress={50}
         />
       )
 

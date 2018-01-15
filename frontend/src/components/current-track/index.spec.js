@@ -24,9 +24,9 @@ describe('CurrentTrack', () => {
     it('renders the as expected', () => {
       wrapper = shallow(
         <CurrentTrack
-          track={ track }
-          image={ image }
-          progress={ 25 }
+          track={track}
+          image={image}
+          progress={25}
         />
       )
 
@@ -38,8 +38,8 @@ describe('CurrentTrack', () => {
     it('renders nothing', () => {
       wrapper = shallow(
         <CurrentTrack
-          image={ image }
-          progress={ 25 }
+          image={image}
+          progress={25}
         />
       )
 
@@ -53,9 +53,9 @@ describe('CurrentTrack', () => {
 
       wrapper = shallow(
         <CurrentTrack
-          track={ track }
-          image={ image }
-          progress={ 25 }
+          track={track}
+          image={image}
+          progress={25}
         />
       )
 

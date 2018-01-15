@@ -40,4 +40,4 @@ SkipButtons.propTypes = {
   onNextPlayingClick: PropTypes.func.isRequired
 }
 
-export default SkipButtons;
+export default SkipButtons

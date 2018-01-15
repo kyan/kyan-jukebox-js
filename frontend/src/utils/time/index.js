@@ -3,7 +3,7 @@ import ProgressTimer from 'media-progress-timer'
 export const millisToMinutesAndSeconds = (millis) => {
   var minutes = Math.floor(millis / 60000)
   var seconds = ((millis % 60000) / 1000).toFixed(0)
-  return minutes + ":" + (seconds < 10 ? '0' : '') + seconds
+  return minutes + ':' + (seconds < 10 ? '0' : '') + seconds
 }
 
 export const millisToSeconds = (millis) => {
@@ -15,7 +15,7 @@ export const timerToPercentage = timer => {
   const position = millisToSeconds(timer.position)
   const duration = millisToSeconds(timer.duration)
 
-  return Math.round((position/duration) * 100)
+  return Math.round((position / duration) * 100)
 }
 
 export const trackProgressTimer = (store, actions) => {
