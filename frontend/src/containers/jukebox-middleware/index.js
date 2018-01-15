@@ -78,7 +78,7 @@ const JukeboxMiddleware = (() => {
           key: action.key,
           params: action.params
         }))
-        break;
+        break
       default:
         return next(action)
     }

@@ -1,7 +1,6 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Provider } from 'react-redux'
-import { Icon } from 'semantic-ui-react'
 import configureMockStore from 'redux-mock-store'
 import * as actions from '../../actions'
 import DashboardContainer, { Dashboard } from './index'
@@ -19,11 +18,11 @@ describe('Dashboard', () => {
     it('renders as expected', () => {
       wrapper = shallow(
         <Dashboard
-          jukebox={ jukebox }
-          currentTrack={ currentTrack }
-          tracklist={ tracklist }
-          tracklistImages={ tracklistImages }
-          dispatch={ dispatchMock }
+          jukebox={jukebox}
+          currentTrack={currentTrack}
+          tracklist={tracklist}
+          tracklistImages={tracklistImages}
+          dispatch={dispatchMock}
         />
       )
 
