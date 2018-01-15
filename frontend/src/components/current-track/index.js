@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Image, Progress } from 'semantic-ui-react';
-import { millisToMinutesAndSeconds } from '../../utils/time';
+import { Card, Image, Progress } from 'semantic-ui-react'
+import { millisToMinutesAndSeconds } from '../../utils/time'
 
 const albumDate = album => {
   return album.date ? `(${album.date})` : null
 }
 
 const CurrentTrack = ({ track, image, progress }) => {
-  if (!track) { return null; }
+  if (!track) { return null }
 
   return (
     <Card>

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { DropTarget } from 'react-dnd'
 
 const boxTarget = {
-  drop(props, monitor) {
+  drop (props, monitor) {
     if (props.onDrop) {
       props.onDrop(props, monitor)
     }
-  },
+  }
 }
 
 const boxHandler = (connect, monitor) => {
@@ -17,7 +17,7 @@ const boxHandler = (connect, monitor) => {
 }
 
 class UrlDropArea extends Component {
-  render() {
+  render () {
     const { connectDropTarget } = this.props
 
     return connectDropTarget(

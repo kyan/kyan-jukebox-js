@@ -8,7 +8,7 @@ export const addNewTrack = url => {
   return {
     type: Types.SEND,
     key: MopidyApi.TRACKLIST_ADD_TRACK,
-    params: { "uri": uri }
+    params: { 'uri': uri }
   }
 }
 
@@ -38,7 +38,7 @@ export const updateProgressTimer = (position, duration) => {
 
 export const wsConnect = () => {
   return {
-    type: Types.CONNECT,
+    type: Types.CONNECT
   }
 }
 

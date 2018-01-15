@@ -14,7 +14,7 @@ const store = createStore(
 const App = () => (
   <Provider store={store}>
     <Container fluid>
-      <Dashboard/>
+      <Dashboard />
     </Container>
   </Provider>
 )
