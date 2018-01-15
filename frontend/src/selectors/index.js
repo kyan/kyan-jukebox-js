@@ -18,7 +18,7 @@ export const getTracklistImagesInCache = createSelector(
   (tracklist, cache) => {
     const images = {}
     tracklist.forEach(track => {
-      return images[track.album.uri] = findImageInCache(track.album.uri, cache)
+      images[track.album.uri] = findImageInCache(track.album.uri, cache)
     })
     return images
   }

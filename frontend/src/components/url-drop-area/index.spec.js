@@ -9,22 +9,22 @@ describe('UrlDropArea', () => {
   const target = jest.fn()
   const onDrop = jest.fn()
 
-  function wrapInTestContext(DecoratedComponent) {
+  function wrapInTestContext (DecoratedComponent) {
     return DragDropContext(TestBackend)(
       class TestContextContainer extends Component {
-        render() {
-          return <DecoratedComponent {...this.props} />;
+        render () {
+          return <DecoratedComponent {...this.props} />
         }
       }
-    );
+    )
   }
 
   describe('render', () => {
-    const DropArea = wrapInTestContext(UrlDropArea);
+    const DropArea = wrapInTestContext(UrlDropArea)
     wrapper = shallow(
       <DropArea
         connectDropTarget={target}
-        accepts={ ['__URL__'] }
+        accepts={['__URL__']}
         onDrop={onDrop}
       />
     )

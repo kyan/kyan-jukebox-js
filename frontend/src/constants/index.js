@@ -12,4 +12,4 @@ export default {
   UPDATE_VOLUME: 'actionUpdateVolume',
   UPDATE_PROGRESS_TIMER: 'actionUpdateProgressTimer',
   DROP_TYPES: ['__NATIVE_URL__']
-};
+}
