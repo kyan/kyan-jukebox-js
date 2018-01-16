@@ -1,4 +1,4 @@
-export default function(json) {
+export default function (json) {
   let payload = {
     uri: json.uri,
     name: json.name,
@@ -8,15 +8,15 @@ export default function(json) {
       uri: json.album.uri,
       name: json.album.name
     }
-  };
+  }
 
   if (json.artists.length > 0) {
     let artist = {
       uri: json.artists[0].uri,
       name: json.artists[0].name
-    };
-    payload.artist = artist;
+    }
+    payload.artist = artist
   }
 
-  return { track: payload };
+  return { track: payload }
 }
