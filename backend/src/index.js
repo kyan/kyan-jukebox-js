@@ -1,6 +1,6 @@
-import server from './app';
+import server from './app'
 
-const { PORT = 8000 } = process.env;
+const { PORT = 8000 } = process.env
 server.listen(PORT, () => {
-  console.log(`Listening on ${PORT}`); // eslint-disable-line no-console
-});
+  console.log(`Listening on ${PORT}`) // eslint-disable-line no-console
+})

@@ -1,4 +1,4 @@
-import TransformerTrack from './index';
+import TransformerTrack from './index'
 
 describe('TransformerTrack', () => {
   let payload = {
@@ -14,7 +14,7 @@ describe('TransformerTrack', () => {
       { uri: 'uri', name: 'name' },
       { uri: 'uri1', name: 'name1' }
     ]
-  };
+  }
 
   describe('when passed the full track', () => {
     it('transforms the track', () => {
@@ -33,14 +33,14 @@ describe('TransformerTrack', () => {
             name: 'name'
           }
         }
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('when passed the partial track', () => {
     beforeEach(() => {
-      payload.artists = [];
-    });
+      payload.artists = []
+    })
 
     it('transforms the track', () => {
       expect(TransformerTrack(payload)).toEqual({
@@ -54,7 +54,7 @@ describe('TransformerTrack', () => {
             name: 'name'
           }
         }
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})
