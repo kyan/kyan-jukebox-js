@@ -9,7 +9,7 @@
     "dev": "nodemon src/index.js --exec \"node -r dotenv/config -r babel-register\"",
     "clean": "rimraf dist",
     "build": "npm run clean && mkdir -p dist && babel src -s -D -d dist",
-    "test": "jest",
+    "test": "standard && jest",
     "test-watch": "jest --watch",
     "lint": "esw -w src"
   },
@@ -34,7 +34,8 @@
     "eslint-plugin-jest": "^21.0.2",
     "eslint-watch": "^3.1.0",
     "jest": "^21.0.2",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "standard": "^11.0.0-beta.0"
   },
   "babel": {
     "presets": [
@@ -80,6 +81,23 @@
       "!<rootDir>/dist/",
       "!src/index.js",
       "!src/app.js"
+    ]
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "globals": [
+      "describe",
+      "context",
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach",
+      "it",
+      "expect",
+      "jest",
+      "spyOn",
+      "jasmine",
+      "WebSocket"
     ]
   }
 }
