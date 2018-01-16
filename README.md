@@ -1,5 +1,7 @@
 # Jukebox 2.0
 
+[![Codeship Status for kyan/jukebox-js](https://app.codeship.com/projects/586a0390-c700-0135-502a-06e1aecc9cf3/status?branch=master)](https://app.codeship.com/projects/261300)
+
 An WebSocket/[Mopidy](https://github.com/mopidy) event powered JukeBox client and API
 
 ## Background
