@@ -1,11 +1,12 @@
-import StrToFunction from './../str-to-function'
+import StrToFunction from '../str-to-function'
+import Payload from '../payload'
 
 const MessageHandler = (payload, ws, broadcaster, mopidy) => {
-  const { key, params } = JSON.parse(payload)
-  const apiCall = StrToFunction(mopidy, key);
+  const { key, data } = Payload.decode(payload)
+  const apiCall = StrToFunction(mopidy, key)
 
-  (params ? apiCall(params) : apiCall())
-    .then(data => broadcaster.to(ws, key, data))
+  ;(data ? apiCall(data) : apiCall())
+    .then(response => broadcaster.to(ws, key, response))
     .catch(console.error.bind(console))
     .done()
 }

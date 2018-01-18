@@ -13,7 +13,7 @@ $ yarn install
 
 To start the API for local development you need to run:
 
-`$ yarn dev`
+`$ yarn start`
 
 This should start the app  `ws://localhost:8000`. It will also restart the app if you make any file changes.
 
