@@ -4,9 +4,10 @@ import Constants from '../../constants'
 import { findImageInCache } from '../../utils/images'
 import { trackProgressTimer } from '../../utils/time'
 import onMessageHandler from '../../utils/on-message-handler'
+import Payload from '../../utils/payload'
 
 const JukeboxMiddleware = (() => {
-  let wsurl = 'ws://localhost:8000'
+  let wsurl = `ws://${MopidyApi.WS_URL}`
   let reconnectTimeout = 1000
   let socket = null
   let progressTimer = null
@@ -74,10 +75,7 @@ const JukeboxMiddleware = (() => {
           store.dispatch(actions.newImage(action.uri))
         }
 
-        socket.send(JSON.stringify({
-          key: action.key,
-          params: action.params
-        }))
+        socket.send(Payload.encodeToJson(action.key, action.params))
         break
       default:
         return next(action)
