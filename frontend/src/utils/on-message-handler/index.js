@@ -1,5 +1,6 @@
 import * as actions from '../../actions'
 import MopidyApi from '../../constants/mopidy-api'
+import Payload from '../../utils/payload'
 
 const playBackChanged = (state, progress) => {
   switch (state) {
@@ -29,7 +30,7 @@ const addTrackList = (tracklist, store) => {
 }
 
 const onMessageHandler = (store, payload, progressTimer) => {
-  let { key, data } = JSON.parse(payload)
+  const { key, data } = Payload.decode(payload)
   console.log(`Message: ${key}`)
 
   switch (key) {
