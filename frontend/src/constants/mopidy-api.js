@@ -1,4 +1,5 @@
 export default {
+  WS_URL: 'localhost:8080',
   PLAYBACK_GET_CURRENT_TRACK: 'playback.getCurrentTrack',
   EVENT_TRACK_PLAYBACK_STARTED: 'event:trackPlaybackStarted',
   EVENT_PLAYBACK_STATE_CHANGED: 'event:playbackStateChanged',

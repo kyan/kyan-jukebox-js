@@ -3,7 +3,7 @@ import MessageHandler from './index'
 describe('MessageHandler', () => {
   let payload = {
     key: 'playback.stop',
-    params: [['12345zsdf23456']]
+    data: [['12345zsdf23456']]
   }
   const ws = 'websocket'
   const stopMock = params => {
@@ -32,14 +32,14 @@ describe('MessageHandler', () => {
       expect(broadcastMock.mock.calls.length).toEqual(1)
       expect(broadcastMock.mock.calls[0][0]).toEqual('websocket')
       expect(broadcastMock.mock.calls[0][1]).toEqual(payload.key)
-      expect(broadcastMock.mock.calls[0][2]).toEqual(payload.params)
+      expect(broadcastMock.mock.calls[0][2]).toEqual(payload.data)
       broadcastMock.mockClear()
     })
   })
 
   describe('when passed no params', () => {
     it('calls the api successfully', () => {
-      delete (payload.params)
+      delete (payload.data)
       MessageHandler(JSON.stringify(payload), ws, broadcasterMock, mopidy)
       expect(broadcastMock.mock.calls.length).toEqual(1)
       expect(broadcastMock.mock.calls[0][0]).toEqual('websocket')

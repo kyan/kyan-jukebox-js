@@ -37,8 +37,8 @@ mopidy.on('state:online', () => {
   })
 
   broadcaster.eventList.forEach(key => {
-    mopidy.on(key, event => {
-      broadcaster.everyone(key, event)
+    mopidy.on(key, data => {
+      broadcaster.everyone(key, data)
     })
   })
 })

@@ -1,4 +1,4 @@
-export default function (obj, methodStr) {
+const StringToFunction = (obj, methodStr) => {
   let context = obj
 
   methodStr.split('.').forEach(function (mthd) {
@@ -6,4 +6,6 @@ export default function (obj, methodStr) {
   })
 
   return context
-};
+}
+
+export default StringToFunction
