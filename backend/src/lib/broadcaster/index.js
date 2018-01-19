@@ -1,11 +1,5 @@
 import Transformer from '../transformer'
-
-const payloadToJson = (key, data) => {
-  return JSON.stringify({
-    key: key,
-    data: data
-  })
-}
+import Payload from '../payload'
 
 class Broadcaster {
   constructor (wssBroadcast) {
@@ -16,7 +10,7 @@ class Broadcaster {
     const unifiedMessage = Transformer(key, message)
     console.log('[client] Key: %s', key)
 
-    const payload = payloadToJson(key, unifiedMessage)
+    const payload = Payload.encodeToJson(key, unifiedMessage)
     client.send(payload)
   }
 
@@ -24,7 +18,7 @@ class Broadcaster {
     const unifiedMessage = Transformer(key, message)
     console.log('[all] Key: %s', key)
 
-    const payload = payloadToJson(key, unifiedMessage)
+    const payload = Payload.encodeToJson(key, unifiedMessage)
     this.wssBroadcast(payload)
   }
 
