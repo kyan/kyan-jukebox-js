@@ -1,8 +1,8 @@
-import MessageHandler from './index'
+import MopidyHandler from './index'
 
-describe('MessageHandler', () => {
+describe('MopidyHandler', () => {
   let payload = {
-    key: 'playback.stop',
+    key: 'mopidy::playback.stop',
     data: [['12345zsdf23456']]
   }
   const ws = 'websocket'
@@ -28,10 +28,10 @@ describe('MessageHandler', () => {
 
   describe('when passed params', () => {
     it('calls the api successfully', () => {
-      MessageHandler(JSON.stringify(payload), ws, broadcasterMock, mopidy)
+      MopidyHandler(JSON.stringify(payload), ws, broadcasterMock, mopidy)
       expect(broadcastMock.mock.calls.length).toEqual(1)
       expect(broadcastMock.mock.calls[0][0]).toEqual('websocket')
-      expect(broadcastMock.mock.calls[0][1]).toEqual(payload.key)
+      expect(broadcastMock.mock.calls[0][1]).toEqual('mopidy::playback.stop')
       expect(broadcastMock.mock.calls[0][2]).toEqual(payload.data)
       broadcastMock.mockClear()
     })
@@ -40,10 +40,10 @@ describe('MessageHandler', () => {
   describe('when passed no params', () => {
     it('calls the api successfully', () => {
       delete (payload.data)
-      MessageHandler(JSON.stringify(payload), ws, broadcasterMock, mopidy)
+      MopidyHandler(JSON.stringify(payload), ws, broadcasterMock, mopidy)
       expect(broadcastMock.mock.calls.length).toEqual(1)
       expect(broadcastMock.mock.calls[0][0]).toEqual('websocket')
-      expect(broadcastMock.mock.calls[0][1]).toEqual(payload.key)
+      expect(broadcastMock.mock.calls[0][1]).toEqual('mopidy::playback.stop')
       expect(broadcastMock.mock.calls[0][2]).toBeUndefined()
     })
   })

@@ -1,30 +1,30 @@
-import TransformTrack from '../transform-track'
+import TransformTrack from '../transformers/mopidy/track'
 
 export default function (key, data) {
   switch (key) {
-    case 'playback.getCurrentTrack':
+    case 'mopidy::playback.getCurrentTrack':
       return TransformTrack(data)
-    case 'playback.getTimePosition':
+    case 'mopidy::playback.getTimePosition':
       return data
-    case 'tracklist.getTracks':
+    case 'mopidy::tracklist.getTracks':
       return data.map(track => {
         return TransformTrack(track)
       })
-    case 'event:trackPlaybackStarted':
+    case 'mopidy::event:trackPlaybackStarted':
       return TransformTrack(data.tl_track.track)
-    case 'event:tracklistChanged':
+    case 'mopidy::event:tracklistChanged':
       return data
-    case 'event:volumeChanged':
+    case 'mopidy::event:volumeChanged':
       return data.volume
-    case 'library.getImages':
+    case 'mopidy::library.getImages':
       return data
-    case 'tracklist.add':
+    case 'mopidy::tracklist.add':
       return data
-    case 'mixer.getVolume':
+    case 'mopidy::mixer.getVolume':
       return data
-    case 'mixer.setVolume':
+    case 'mopidy::mixer.setVolume':
       return data
-    case 'playback.next':
+    case 'mopidy::playback.next':
       return data
     default:
       return `BACKEND RESPONSE NOT HANDLED: ${key}`
