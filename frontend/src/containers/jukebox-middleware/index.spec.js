@@ -50,32 +50,32 @@ describe('JukeboxMiddleware', () => {
       expect(dispatchSpy.mock.calls[3][0]).toEqual({ type: 'actionConnected' })
       expect(dispatchSpy.mock.calls[4][0]).toEqual({
         type: 'actionSend',
-        key: 'playback.getCurrentTrack'
+        key: 'mopidy::playback.getCurrentTrack'
       })
       expect(dispatchSpy.mock.calls[5][0]).toEqual({
         type: 'actionSend',
-        key: 'playback.getTimePosition'
+        key: 'mopidy::playback.getTimePosition'
       })
       expect(dispatchSpy.mock.calls[6][0]).toEqual({
         type: 'actionSend',
-        key: 'tracklist.getTracks'
+        key: 'mopidy::tracklist.getTracks'
       })
       expect(dispatchSpy.mock.calls[7][0]).toEqual({
         type: 'actionSend',
-        key: 'mixer.getVolume'
+        key: 'mopidy::mixer.getVolume'
       })
       expect(dispatchSpy.mock.calls[8][0]).toEqual({ type: 'actionConnected' })
       expect(dispatchSpy.mock.calls[9][0]).toEqual({
         type: 'actionSend',
-        key: 'playback.getCurrentTrack'
+        key: 'mopidy::playback.getCurrentTrack'
       })
       expect(dispatchSpy.mock.calls[10][0]).toEqual({
         type: 'actionSend',
-        key: 'playback.getTimePosition'
+        key: 'mopidy::playback.getTimePosition'
       })
       expect(dispatchSpy.mock.calls[11][0]).toEqual({
         type: 'actionSend',
-        key: 'tracklist.getTracks'
+        key: 'mopidy::tracklist.getTracks'
       })
       dispatchSpy.mockClear()
     })
@@ -126,15 +126,15 @@ describe('JukeboxMiddleware', () => {
       expect(dispatchSpy.mock.calls[3][0]).toEqual({ type: 'actionConnected' })
       expect(dispatchSpy.mock.calls[4][0]).toEqual({
         type: 'actionSend',
-        key: 'playback.getCurrentTrack'
+        key: 'mopidy::playback.getCurrentTrack'
       })
       expect(dispatchSpy.mock.calls[5][0]).toEqual({
         type: 'actionSend',
-        key: 'playback.getTimePosition'
+        key: 'mopidy::playback.getTimePosition'
       })
       expect(dispatchSpy.mock.calls[6][0]).toEqual({
         type: 'actionSend',
-        key: 'tracklist.getTracks'
+        key: 'mopidy::tracklist.getTracks'
       })
       dispatchSpy.mockClear()
     })

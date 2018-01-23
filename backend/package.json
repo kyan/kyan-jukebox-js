@@ -49,7 +49,8 @@
       "src/**/*.js",
       "!<rootDir>/dist/",
       "!src/index.js",
-      "!src/app.js"
+      "!src/app.js",
+      "!src/**/constants/*.js"
     ]
   },
   "standard": {
