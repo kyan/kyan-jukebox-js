@@ -21,17 +21,6 @@ class Broadcaster {
     const payload = Payload.encodeToJson(key, unifiedMessage)
     this.wssBroadcast(payload)
   }
-
-  // Mopidy Core Events we're interested in
-  get eventList () {
-    return [
-      'event:trackPlaybackStarted',
-      'event:playbackStateChanged',
-      'event:trackPlaybackResumed',
-      'event:tracklistChanged',
-      'event:volumeChanged'
-    ]
-  }
 }
 
 export default Broadcaster

@@ -1,13 +1,13 @@
 import Transformer from './index'
-import TransformTrack from '../transform-track'
-jest.mock('../transform-track')
+import TransformTrack from '../transformers/mopidy/track'
+jest.mock('../transformers/mopidy/track')
 
 describe('Transformer', () => {
   describe('playback.getCurrentTrack', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      Transformer('playback.getCurrentTrack', data)
+      Transformer('mopidy::playback.getCurrentTrack', data)
       expect(TransformTrack).toHaveBeenCalledWith(data)
     })
   })
@@ -16,7 +16,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('playback.getTimePosition', data)).toEqual(data)
+      expect(Transformer('mopidy::playback.getTimePosition', data)).toEqual(data)
     })
   })
 
@@ -24,7 +24,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      Transformer('tracklist.getTracks', [data])
+      Transformer('mopidy::tracklist.getTracks', [data])
       expect(TransformTrack).toHaveBeenCalledWith(data)
     })
   })
@@ -33,7 +33,7 @@ describe('Transformer', () => {
     const data = { tl_track: { track: 'data' } }
 
     it('does the right thing', () => {
-      Transformer('event:trackPlaybackStarted', data)
+      Transformer('mopidy::event:trackPlaybackStarted', data)
       expect(TransformTrack).toHaveBeenCalledWith(data.tl_track.track)
     })
   })
@@ -42,7 +42,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('event:tracklistChanged', data)).toEqual(data)
+      expect(Transformer('mopidy::event:tracklistChanged', data)).toEqual(data)
     })
   })
 
@@ -50,7 +50,7 @@ describe('Transformer', () => {
     const data = { volume: 99 }
 
     it('does the right thing', () => {
-      expect(Transformer('event:volumeChanged', data)).toEqual(data.volume)
+      expect(Transformer('mopidy::event:volumeChanged', data)).toEqual(data.volume)
     })
   })
 
@@ -58,7 +58,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('library.getImages', data)).toEqual(data)
+      expect(Transformer('mopidy::library.getImages', data)).toEqual(data)
     })
   })
 
@@ -66,7 +66,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('tracklist.add', data)).toEqual(data)
+      expect(Transformer('mopidy::tracklist.add', data)).toEqual(data)
     })
   })
 
@@ -74,7 +74,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('mixer.getVolume', data)).toEqual(data)
+      expect(Transformer('mopidy::mixer.getVolume', data)).toEqual(data)
     })
   })
 
@@ -82,7 +82,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('mixer.setVolume', data)).toEqual(data)
+      expect(Transformer('mopidy::mixer.setVolume', data)).toEqual(data)
     })
   })
 
@@ -90,7 +90,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('playback.next', data)).toEqual(data)
+      expect(Transformer('mopidy::playback.next', data)).toEqual(data)
     })
   })
 
