@@ -20,7 +20,7 @@ module.exports = function (shipit) {
       key: '~/.ssh/kyan-deploy',
       shallowClone: true
     },
-    production: {
+    pi: {
       servers: 'pi@jb-pi'
     }
   })

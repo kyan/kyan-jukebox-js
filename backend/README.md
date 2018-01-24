@@ -31,6 +31,12 @@ This applications has 100% coverage and also uses [StandardJS](https://standardj
 
 `$ yarn test --coverage`
 
+#### Deploy
+
+Currently you can only deploy to a host `pi@jb-pi` as it's still WIP and has no proper destination yet.
+
+`$ $(yarn bin)/shipit pi deploy`
+
 ### API
 
 The API is a proxy between the various services and the JukeBox Client. The Client connects to the API via a websocket and can send and recieve messages that get send up and down the open connection. Primarily the API connects to `Mopidy` and relays messages to and from it and passes them down to the connected clients. This allows us to intercept these messages and do things like adding extra meta data or reformatting those messages completely.
