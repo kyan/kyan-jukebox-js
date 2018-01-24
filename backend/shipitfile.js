@@ -2,6 +2,10 @@ module.exports = function (shipit) {
   require('shipit-deploy')(shipit)
   require('shipit-yarn')(shipit)
 
+  shipit.on('yarn:installed', function () {
+    shipit.start('yarn:cmd')
+  });
+
   shipit.initConfig({
     default: {
       yarn: {
