@@ -4,7 +4,7 @@ module.exports = function (shipit) {
 
   shipit.on('yarn:installed', function () {
     shipit.start('yarn:cmd')
-  });
+  })
 
   shipit.initConfig({
     default: {
