@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "nodemon src/index.js --exec \"node -r dotenv/config -r babel-register\"",
-    "build": "npm run clean && mkdir -p dist && babel src -s -D -d dist",
+    "build": "rm -rf dist && mkdir -p dist && babel src -s -D -d dist",
     "test": "standard && jest",
     "test-watch": "jest --watch"
   },
@@ -26,6 +26,9 @@
     "dotenv": "^4.0.0",
     "jest": "^21.0.2",
     "nodemon": "^1.11.0",
+    "shipit-cli": "^3.0.0",
+    "shipit-deploy": "^2.5.1",
+    "shipit-yarn": "^0.2.0",
     "standard": "^11.0.0-beta.0"
   },
   "babel": {
