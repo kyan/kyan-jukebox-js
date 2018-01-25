@@ -1,0 +1,21 @@
+[Unit]
+Description=Kyan Jukebox API
+Requires=After=mopidy.service # Requires the mopidy service to run first
+
+[Service]
+ExecStart=/usr/bin/node /home/jukebox/app/current/dist/index.js
+# Required on some systems
+#WorkingDirectory=/opt/nodeserver
+Restart=always
+# Restart service after 10 seconds if node service crashes
+RestartSec=10
+# Output to syslog
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=kyan-jukebox-api
+User=jukebox
+Group=jukebox
+Environment=NODE_ENV=production PORT=8080 WS_MOPIDY=jukebox.local:6680
+
+[Install]
+WantedBy=multi-user.target
