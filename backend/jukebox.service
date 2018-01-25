@@ -1,6 +1,5 @@
 [Unit]
 Description=Kyan Jukebox API
-Requires=After=mopidy.service # Requires the mopidy service to run first
 
 [Service]
 ExecStart=/usr/bin/node /home/jukebox/app/current/dist/index.js
