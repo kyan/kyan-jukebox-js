@@ -1,31 +1,38 @@
+const path = require('path')
+
 module.exports = function (shipit) {
   require('shipit-deploy')(shipit)
-  require('shipit-yarn')(shipit)
 
-  shipit.on('yarn:installed', function () {
-    shipit.start('yarn:cmd')
-  })
-
-  shipit.initConfig({
+  const config = {
     default: {
-      yarn: {
-        remote: true,
-        cmd: 'build',
-        installFlags: ['--production']
-      },
       branch: 'master',
       workspace: '/tmp/kyan-jukebox-backend',
       dirToCopy: 'backend',
-      deployTo: 'jukebox',
+      deployTo: 'app',
       repositoryUrl: 'https://github.com/kyan/jukebox-js.git',
-      ignores: ['.git', 'node_modules', 'README.md'],
+      ignores: ['.git', 'node_modules', 'README.md', 'shipitfile.js'],
       keepReleases: 5,
       deleteOnRollback: true,
       key: '~/.ssh/kyan-deploy',
       shallowClone: true
     },
     pi: {
-      servers: 'pi@jb-pi'
+      servers: 'jukebox@jb-pi'
     }
+  }
+  shipit.initConfig(config)
+
+  shipit.on('updated', function () {
+    shipit.start(['yarn_install', 'yarn_build'])
+  })
+
+  shipit.blTask('yarn_install', function () {
+    const cwd = path.join(shipit.releasesPath, shipit.releaseDirname)
+    return shipit.remote('yarn install --production', { cwd })
+  })
+
+  shipit.blTask('yarn_build', function () {
+    const cwd = path.join(shipit.releasesPath, shipit.releaseDirname)
+    return shipit.remote('yarn build', { cwd })
   })
 }
