@@ -1,3 +1,4 @@
+import dotenv from 'dotenv/config'
 import server from './app'
 
 const { PORT = 8000 } = process.env
