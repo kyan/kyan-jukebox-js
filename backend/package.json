@@ -16,6 +16,7 @@
     "body-parser": "^1.17.1",
     "dotenv": "^4.0.0",
     "express": "^4.15.2",
+    "memory-cache": "^0.2.0",
     "mopidy": "^0.5.0",
     "morgan": "^1.7.0",
     "ws": "^3.2.0"
