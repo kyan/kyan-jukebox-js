@@ -22,6 +22,10 @@ module.exports = function (shipit) {
   }
   shipit.initConfig(config)
 
+  shipit.on('published', function () {
+    shipit.start('restart_api_service')
+  })
+
   shipit.on('updated', function () {
     shipit.start(['yarn_install', 'yarn_build'])
   })
@@ -34,5 +38,9 @@ module.exports = function (shipit) {
   shipit.blTask('yarn_build', function () {
     const cwd = path.join(shipit.releasesPath, shipit.releaseDirname)
     return shipit.remote('yarn build', { cwd })
+  })
+
+  shipit.blTask('restart_api_service', function () {
+    return shipit.remote('sudo /bin/systemctl restart jukebox.service')
   })
 }
