@@ -1,0 +1,20 @@
+[Unit]
+Description=Kyan Jukebox Client
+
+[Service]
+ExecStart=/usr/bin/node /home/jukebox/client/current/dist/index.js
+# Required on some systems
+#WorkingDirectory=/opt/nodeserver
+Restart=always
+# Restart service after 10 seconds if node service crashes
+RestartSec=10
+# Output to syslog
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=kyan-jukebox-client
+User=jukebox
+Group=jukebox
+#Environment=
+
+[Install]
+WantedBy=multi-user.target
