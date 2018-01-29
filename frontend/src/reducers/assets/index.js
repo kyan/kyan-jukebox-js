@@ -1,5 +1,7 @@
 import Types from '../../constants'
 
+const MAX_IMAGES_IN_CACHE = 200
+
 const assets = (state = [], action) => {
   switch (action.type) {
     case Types.NEW_IMAGE:
@@ -11,7 +13,7 @@ const assets = (state = [], action) => {
         (action.data[asset.ref] && action.data[asset.ref][1])
           ? { ...asset, uri: action.data[asset.ref][1].uri }
           : asset
-      ).slice(0, 50)
+      ).slice(0, MAX_IMAGES_IN_CACHE)
     default:
       return state
   }
