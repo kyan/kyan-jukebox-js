@@ -6,9 +6,9 @@ module.exports = function (shipit) {
   const config = {
     default: {
       branch: 'master',
-      workspace: '/tmp/kyan-jukebox-backend',
-      dirToCopy: 'backend',
-      deployTo: 'app',
+      workspace: '/tmp/kyan-jukebox-frontend',
+      dirToCopy: 'frontend',
+      deployTo: 'client',
       repositoryUrl: 'https://github.com/kyan/jukebox-js.git',
       ignores: ['.git', 'node_modules', 'README.md', 'shipitfile.js'],
       keepReleases: 5,
@@ -23,7 +23,7 @@ module.exports = function (shipit) {
   shipit.initConfig(config)
 
   // shipit.on('published', function () {
-  //   shipit.start('restart_api_service')
+  //   shipit.start('restart_client_service')
   // })
 
   shipit.on('updated', function () {
@@ -40,7 +40,7 @@ module.exports = function (shipit) {
     return shipit.remote('yarn build', { cwd })
   })
 
-  shipit.blTask('restart_api_service', function () {
-    return shipit.remote('sudo /bin/systemctl restart jukebox-api.service')
+  shipit.blTask('restart_client_service', function () {
+    return shipit.remote('sudo /bin/systemctl restart jukebox-client.service')
   })
 }
