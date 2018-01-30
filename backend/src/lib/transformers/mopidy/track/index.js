@@ -11,11 +11,7 @@ export default function (json) {
   }
 
   if (json.artists.length > 0) {
-    let artist = {
-      uri: json.artists[0].uri,
-      name: json.artists[0].name
-    }
-    payload.artist = artist
+    payload.artist = json.artists[0]
   }
 
   return { track: payload }
