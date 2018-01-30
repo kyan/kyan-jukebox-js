@@ -24,7 +24,7 @@ const broadcaster = new Broadcaster(data => {
 
 MopidyService(broadcaster, mopidy => {
   wss.on('connection', ws => {
-    ErrorsHandler(ws, wss)
+    ErrorsHandler(ws)
 
     ws.on('message', payload => {
       MessageTriage(payload, mopidy, handler => {
