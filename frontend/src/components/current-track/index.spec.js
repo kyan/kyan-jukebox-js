@@ -14,7 +14,7 @@ describe('CurrentTrack', () => {
   describe('render', () => {
     describe('album', () => {
       it('renders track', () => {
-        track = MockTrackListJson()[0]
+        track = MockTrackListJson()[0].track
         wrapper = shallow(
           <CurrentTrack
             track={track}
@@ -27,7 +27,7 @@ describe('CurrentTrack', () => {
       })
 
       it('renders no album date if not available', () => {
-        track = MockTrackListJson()[0]
+        track = MockTrackListJson()[0].track
         delete track.album.year
         wrapper = shallow(
           <CurrentTrack
@@ -38,13 +38,13 @@ describe('CurrentTrack', () => {
         )
 
         expect(wrapper.find(Card.Description).html())
-          .not.toContain(MockTrackListJson()[0].album.year)
+          .not.toContain(MockTrackListJson()[0].track.album.year)
       })
     })
 
     describe('composer', () => {
       it('renders track', () => {
-        track = MockTrackListJson()[1]
+        track = MockTrackListJson()[1].track
         wrapper = shallow(
           <CurrentTrack
             track={track}

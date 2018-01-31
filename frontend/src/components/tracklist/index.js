@@ -5,6 +5,14 @@ import classnames from 'classnames'
 import { millisToMinutesAndSeconds } from '../../utils/time'
 import './index.css'
 
+const imageChooser = (track, images) => {
+  let image
+  if (track.album) image = images[track.album.uri]
+  if (track.composer) image = images[track.composer.uri]
+  if (!image) image = 'default-image.jpg'
+  return <Image avatar src={image} />
+}
+
 const listItems = (tracks, images, currentTrack) => {
   return tracks.map((track, index) => {
     return (
@@ -12,7 +20,7 @@ const listItems = (tracks, images, currentTrack) => {
         key={`${index}-${track.uri}`}
         className={classnames({'track-selected': (currentTrack.uri === track.uri)})}
       >
-        <Image avatar src={images[track.album.uri]} />
+        { imageChooser(track, images) }
         <List.Content>
           <List.Header as='a'>{track.name} <small>({millisToMinutesAndSeconds(track.length)})</small></List.Header>
           <List.Description>{track.artist.name}</List.Description>
