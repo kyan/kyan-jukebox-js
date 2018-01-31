@@ -1,36 +1,60 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import CurrentTrack from './index'
+import { Card } from 'semantic-ui-react'
+import MockTrackListJson from '../../__mockData__/api'
 
 describe('CurrentTrack', () => {
   let wrapper, track, image
 
   beforeEach(() => {
-    track = {
-      name: 'My Track Title',
-      length: 12999,
-      artist: {
-        name: 'Artist Name'
-      },
-      album: {
-        name: 'Album Name',
-        date: 2007
-      }
-    }
     image = 'path/to/image'
   })
 
   describe('render', () => {
-    it('renders the as expected', () => {
-      wrapper = shallow(
-        <CurrentTrack
-          track={track}
-          image={image}
-          progress={25}
-        />
-      )
+    describe('album', () => {
+      it('renders track', () => {
+        track = MockTrackListJson()[0]
+        wrapper = shallow(
+          <CurrentTrack
+            track={track}
+            image={image}
+            progress={25}
+          />
+        )
 
-      expect(wrapper).toMatchSnapshot()
+        expect(wrapper).toMatchSnapshot()
+      })
+
+      it('renders no album date if not available', () => {
+        track = MockTrackListJson()[0]
+        delete track.album.year
+        wrapper = shallow(
+          <CurrentTrack
+            track={track}
+            image={image}
+            progress={25}
+          />
+        )
+
+        expect(wrapper.find(Card.Description).html())
+          .not.toContain(MockTrackListJson()[0].album.year)
+      })
+    })
+
+    describe('composer', () => {
+      it('renders track', () => {
+        track = MockTrackListJson()[1]
+        wrapper = shallow(
+          <CurrentTrack
+            track={track}
+            image={image}
+            progress={25}
+          />
+        )
+
+        expect(wrapper).toMatchSnapshot()
+      })
     })
   })
 
@@ -44,22 +68,6 @@ describe('CurrentTrack', () => {
       )
 
       expect(wrapper.instance()).toBeNull()
-    })
-  })
-
-  describe('when there is no album date', () => {
-    it('does not render the date or the brackets', () => {
-      track.album.date = null
-
-      wrapper = shallow(
-        <CurrentTrack
-          track={track}
-          image={image}
-          progress={25}
-        />
-      )
-
-      expect(wrapper.html()).not.toContain('(2007)')
     })
   })
 })

@@ -1,57 +1,50 @@
 import TransformerTrack from './index'
+import fs from 'fs'
 
 describe('TransformerTrack', () => {
-  let payload = {
-    uri: 'uri',
-    name: 'name',
-    date: 'date',
-    length: 'length',
-    album: {
-      uri: 'uri',
-      name: 'name'
-    },
-    artists: [
-      { uri: 'uri', name: 'name' },
-      { uri: 'uri1', name: 'name1' }
-    ]
-  }
+  const payload = JSON.parse(fs.readFileSync('./src/__mockData__/tracklist.json', 'utf8'))
 
-  describe('when passed the full track', () => {
+  describe('when passed the full album track', () => {
     it('transforms the track', () => {
-      expect(TransformerTrack(payload)).toEqual({
+      const albumTrack = payload[0]
+
+      expect(TransformerTrack(albumTrack)).toEqual({
         track: {
-          uri: 'uri',
-          name: 'name',
-          year: 'date',
-          length: 'length',
+          uri: 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3',
+          name: 'No Time for Caution',
+          year: '2014',
+          length: 246000,
           album: {
-            uri: 'uri',
-            name: 'name'
+            uri: 'spotify:album:5OVGwMCexoHavOar6v4al5',
+            name: 'Interstellar: Original Motion Picture Soundtrack (Deluxe Digital Version)',
+            year: '2014'
           },
           artist: {
-            uri: 'uri',
-            name: 'name'
+            uri: 'spotify:artist:0YC192cP3KPCRWx8zr8MfZ',
+            name: 'Hans Zimmer'
           }
         }
       })
     })
   })
 
-  describe('when passed the partial track', () => {
-    beforeEach(() => {
-      payload.artists = []
-    })
-
+  describe('when passed the full composer track', () => {
     it('transforms the track', () => {
-      expect(TransformerTrack(payload)).toEqual({
+      const composerTrack = payload[1]
+
+      expect(TransformerTrack(composerTrack)).toEqual({
         track: {
-          uri: 'uri',
-          name: 'name',
-          year: 'date',
-          length: 'length',
-          album: {
-            uri: 'uri',
-            name: 'name'
+          uri: 'local:track:Soundtracks/Silent%20Running%20OST/Silent%20Running%20',
+          name: 'Silent Running',
+          length: 123973,
+          genre: 'Soundtrack',
+          composer: {
+            uri: 'local:artist:md5:af20b04e7ff55f56afec2be1f36afe94',
+            name: 'Peter Schickele'
+          },
+          artist: {
+            uri: 'local:artist:md5:23327ccea5c999183cc88701751f8c73',
+            name: 'Joan Baez'
           }
         }
       })
