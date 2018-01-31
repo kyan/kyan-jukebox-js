@@ -9,6 +9,14 @@ $ cd jukebox-js/frontend
 $ yarn install
 ```
 
+### Deployment
+
+The client can be deployed to Github pages via:
+
+`$ yarn deploy`
+
+This will current deploy the branch you have checked out, and make it availble at: http://jukebox.kyan.com
+
 ### Development
 
 To start the client for local developmemt, you'll need to start the API that lives in this repo, and then run:
