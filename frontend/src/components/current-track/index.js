@@ -3,8 +3,15 @@ import PropTypes from 'prop-types'
 import { Card, Image, Progress } from 'semantic-ui-react'
 import { millisToMinutesAndSeconds } from '../../utils/time'
 
-const albumDate = album => {
-  return album.date ? `(${album.date})` : null
+const albumDescription = album => {
+  if (!album) return null
+  const year = album.year ? ` (${album.year})` : null
+  return <Card.Description>{album.name}{year}</Card.Description>
+}
+
+const composerDescription = composer => {
+  if (!composer) return null
+  return <Card.Description>{composer.name}</Card.Description>
 }
 
 const CurrentTrack = ({ track, image, progress }) => {
@@ -17,7 +24,8 @@ const CurrentTrack = ({ track, image, progress }) => {
         <Progress percent={progress} size='tiny' />
         <Card.Header>{track.name}</Card.Header>
         <Card.Meta>({millisToMinutesAndSeconds(track.length)}) {track.artist.name}</Card.Meta>
-        <Card.Description>{track.album.name} {albumDate(track.album)}</Card.Description>
+        { albumDescription(track.album) }
+        { composerDescription(track.composer) }
       </Card.Content>
     </Card>
   )
