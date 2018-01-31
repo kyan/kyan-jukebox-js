@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CurrentTrack render renders the as expected 1`] = `
+exports[`CurrentTrack render album renders track 1`] = `
 <Card>
   <Image
     as="img"
@@ -13,18 +13,45 @@ exports[`CurrentTrack render renders the as expected 1`] = `
       size="tiny"
     />
     <CardHeader>
-      My Track Title
+      No Time for Caution
     </CardHeader>
     <CardMeta>
       (
-      0:13
+      4:06
       ) 
-      Artist Name
+      Hans Zimmer
     </CardMeta>
     <CardDescription>
-      Album Name
-       
-      (2007)
+      Interstellar: Original Motion Picture Soundtrack (Deluxe Digital Version)
+       (2014)
+    </CardDescription>
+  </CardContent>
+</Card>
+`;
+
+exports[`CurrentTrack render composer renders track 1`] = `
+<Card>
+  <Image
+    as="img"
+    src="path/to/image"
+    ui={true}
+  />
+  <CardContent>
+    <Progress
+      percent={25}
+      size="tiny"
+    />
+    <CardHeader>
+      Silent Running
+    </CardHeader>
+    <CardMeta>
+      (
+      2:04
+      ) 
+      Joan Baez
+    </CardMeta>
+    <CardDescription>
+      Peter Schickele
     </CardDescription>
   </CardContent>
 </Card>

@@ -1,0 +1,56 @@
+[
+  {
+    "album": {
+      "date": "2014",
+      "__model__": "Album",
+      "artists": [
+        {
+          "__model__": "Artist",
+          "name": "Hans Zimmer",
+          "uri": "spotify:artist:0YC192cP3KPCRWx8zr8MfZ"
+        }
+      ],
+      "name": "Interstellar: Original Motion Picture Soundtrack (Deluxe Digital Version)",
+      "uri": "spotify:album:5OVGwMCexoHavOar6v4al5"
+    },
+    "__model__": "Track",
+    "name": "No Time for Caution",
+    "disc_no": 0,
+    "uri": "spotify:track:1yzSSn5Sj1azuo7RgwvDb3",
+    "length": 246000,
+    "track_no": 22,
+    "artists": [
+      {
+        "__model__": "Artist",
+        "name": "Hans Zimmer",
+        "uri": "spotify:artist:0YC192cP3KPCRWx8zr8MfZ"
+      }
+    ],
+    "date": "2014",
+    "bitrate": 160
+  },
+  {
+    "composers": [
+      {
+        "__model__": "Artist",
+        "name": "Peter Schickele",
+        "uri": "local:artist:md5:af20b04e7ff55f56afec2be1f36afe94"
+      }
+    ],
+    "comment": "Silent Running",
+    "__model__": "Track",
+    "name": "Silent Running",
+    "uri": "local:track:Soundtracks/Silent%20Running%20OST/Silent%20Running%20",
+    "length": 123973,
+    "last_modified": 1440004676445,
+    "track_no": 7,
+    "artists": [
+      {
+        "__model__": "Artist",
+        "name": "Joan Baez",
+        "uri": "local:artist:md5:23327ccea5c999183cc88701751f8c73"
+      }
+    ],
+    "genre": "Soundtrack"
+  }
+]

@@ -42,6 +42,7 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "!<rootDir>/build/",
+      "!src/__mockData__/",
       "!src/index.js",
       "!src/**/url-drop-area/index.js"
     ],
