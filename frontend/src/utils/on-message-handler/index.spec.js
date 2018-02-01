@@ -1,6 +1,7 @@
 import * as actions from '../../actions'
 import MopidyApi from '../../constants/mopidy-api'
 import onMessageHandler from './index'
+import MockTrackListJson from '../../__mockData__/api'
 
 describe('onMessageHandler', () => {
   const myDispatchMock = jest.fn()
@@ -16,12 +17,7 @@ describe('onMessageHandler', () => {
   }
   let payload = {
     data: {
-      track: {
-        length: 999,
-        album: {
-          uri: '112345asdfg'
-        }
-      }
+      track: MockTrackListJson()[0].track
     }
   }
 
@@ -125,13 +121,14 @@ describe('onMessageHandler', () => {
     it('handles change', () => {
       const newPayload = {
         key: MopidyApi.TRACKLIST_GET_TRACKS,
-        data: [payload.data]
+        data: MockTrackListJson()
       }
       spyOn(actions, 'addTrackList')
       spyOn(actions, 'getImage')
       onMessageHandler(store, JSON.stringify(newPayload), progress)
       expect(actions.addTrackList).toHaveBeenCalledWith(newPayload.data)
       expect(actions.getImage).toHaveBeenCalledWith(newPayload.data[0].track.album.uri)
+      expect(actions.getImage).toHaveBeenCalledWith(newPayload.data[1].track.composer.uri)
     })
   })
 

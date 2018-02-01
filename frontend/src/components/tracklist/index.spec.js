@@ -1,45 +1,21 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import Tracklist from './index'
+import MockTrackListJson from '../../__mockData__/api'
 
 describe('Tracklist', () => {
   let wrapper
-  let tracks = [
-    {
-      uri: 'track1',
-      name: 'Track Title 1',
-      length: 12999,
-      artist: {
-        name: 'Artist Name 1'
-      },
-      album: {
-        uri: 'album1',
-        name: 'Album Name 1'
-      }
-    },
-    {
-      uri: 'track2',
-      name: 'Track Title 2',
-      length: 22999,
-      artist: {
-        name: 'Artist Name 2'
-      },
-      album: {
-        uri: 'album2',
-        name: 'Album Name 2'
-      }
-    }
-  ]
+  let tracks = MockTrackListJson()
   const images = {
-    'album1': 'path/to/image'
+    'spotify:album:5OVGwMCexoHavOar6v4al5': 'album-image.jpg'
   }
 
   describe('render', () => {
     wrapper = shallow(
       <Tracklist
-        tracks={tracks}
+        tracks={tracks.map(item => item.track)}
         images={images}
-        currentTrack={tracks[0]}
+        currentTrack={tracks[0].track}
       />
     )
 

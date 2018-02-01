@@ -26,6 +26,7 @@
     "babel-jest": "^21.0.2",
     "babel-register": "^6.24.1",
     "jest": "^21.0.2",
+    "lolex": "^2.3.2",
     "nodemon": "^1.11.0",
     "shipit-cli": "^3.0.0",
     "shipit-deploy": "^2.5.1",
