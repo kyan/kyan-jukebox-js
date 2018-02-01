@@ -2,60 +2,71 @@
 
 exports[`Tracklist render renders the as expected 1`] = `
 <List
-  divided={true}
-  ordered={true}
+  relaxed={true}
 >
   <ListItem
-    className="track-selected"
     key="0-spotify:track:1yzSSn5Sj1azuo7RgwvDb3"
   >
     <Image
       as="img"
       avatar={true}
+      bordered={true}
+      size="mini"
       src="album-image.jpg"
       ui={true}
     />
     <ListContent>
       <ListHeader
-        as="a"
+        as="h5"
+      >
+        12:27
+      </ListHeader>
+      <ListHeader
+        as="h3"
       >
         No Time for Caution
+      </ListHeader>
+      <ListDescription>
+        Hans Zimmer
          
         <small>
           (
           4:06
           )
         </small>
-      </ListHeader>
-      <ListDescription>
-        Hans Zimmer
       </ListDescription>
     </ListContent>
   </ListItem>
   <ListItem
-    className=""
     key="1-local:track:Soundtracks/Silent%20Running%20OST/Silent%20Running%20"
   >
     <Image
       as="img"
       avatar={true}
+      bordered={false}
+      size="mini"
       src="default-image.jpg"
       ui={true}
     />
     <ListContent>
       <ListHeader
-        as="a"
+        as="h5"
+      >
+        12:37
+      </ListHeader>
+      <ListHeader
+        as="h3"
       >
         Silent Running
+      </ListHeader>
+      <ListDescription>
+        Joan Baez
          
         <small>
           (
           2:04
           )
         </small>
-      </ListHeader>
-      <ListDescription>
-        Joan Baez
       </ListDescription>
     </ListContent>
   </ListItem>

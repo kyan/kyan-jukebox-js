@@ -1,6 +1,8 @@
 import Transformer from './index'
 import TransformTrack from '../transformers/mopidy/track'
+import TransformTracklist from '../transformers/mopidy/tracklist'
 jest.mock('../transformers/mopidy/track')
+jest.mock('../transformers/mopidy/tracklist')
 
 describe('Transformer', () => {
   describe('playback.getCurrentTrack', () => {
@@ -24,8 +26,8 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      Transformer('mopidy::tracklist.getTracks', [data])
-      expect(TransformTrack).toHaveBeenCalledWith(data)
+      Transformer('mopidy::tracklist.getTracks', data)
+      expect(TransformTracklist).toHaveBeenCalledWith(data)
     })
   })
 

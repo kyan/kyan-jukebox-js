@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.5",
+    "dateformat": "^3.0.2",
     "media-progress-timer": "^3.0.0",
     "react": "^16.2.0",
     "react-dnd": "^2.5.4",

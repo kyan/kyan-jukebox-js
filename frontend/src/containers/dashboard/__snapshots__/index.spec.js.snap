@@ -81,7 +81,7 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
       </DragDropContextProvider>
     </GridColumn>
     <GridColumn
-      width={6}
+      width={10}
     >
       <Header
         size="small"
@@ -435,10 +435,10 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                 </div>
               </GridColumn>
               <GridColumn
-                width={6}
+                width={10}
               >
                 <div
-                  className="six wide column"
+                  className="ten wide column"
                 >
                   <Header
                     size="small"
@@ -454,11 +454,10 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                     tracks={Array []}
                   >
                     <List
-                      divided={true}
-                      ordered={true}
+                      relaxed={true}
                     >
                       <div
-                        className="ui divided ordered list"
+                        className="ui relaxed list"
                         role="list"
                       />
                     </List>

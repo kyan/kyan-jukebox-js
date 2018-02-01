@@ -120,7 +120,7 @@ export class Dashboard extends Component {
               </UrlDropArea>
             </DragDropContextProvider>
           </Grid.Column>
-          <Grid.Column width={6}>
+          <Grid.Column width={10}>
             <Header size='small'>Playlist</Header>
             <TrackList
               images={this.props.tracklistImages}
