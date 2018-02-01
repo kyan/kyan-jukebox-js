@@ -16,16 +16,21 @@ const playBackChanged = (state, progress) => {
   }
 }
 
+const imageUriChooser = (track) => {
+  if (track.composer) return track.composer.uri
+  return track.album.uri
+}
+
 const addCurrentTrack = (track, store, progress) => {
   store.dispatch(actions.addCurrentTrack(track))
   progress.set(0, track.length).start()
-  store.dispatch(actions.getImage(track.album.uri))
+  store.dispatch(actions.getImage(imageUriChooser(track)))
 }
 
 const addTrackList = (tracklist, store) => {
   store.dispatch(actions.addTrackList(tracklist))
   tracklist.forEach(item => {
-    store.dispatch(actions.getImage(item.track.album.uri))
+    store.dispatch(actions.getImage(imageUriChooser(item.track)))
   })
 }
 
