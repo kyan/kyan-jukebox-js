@@ -1,4 +1,5 @@
 import TransformTrack from '../transformers/mopidy/track'
+import TransformTracklist from '../transformers/mopidy/tracklist'
 
 export default function (key, data) {
   switch (key) {
@@ -7,9 +8,7 @@ export default function (key, data) {
     case 'mopidy::playback.getTimePosition':
       return data
     case 'mopidy::tracklist.getTracks':
-      return data.map(track => {
-        return TransformTrack(track)
-      })
+      return TransformTracklist(data)
     case 'mopidy::event:trackPlaybackStarted':
       return TransformTrack(data.tl_track.track)
     case 'mopidy::event:tracklistChanged':
