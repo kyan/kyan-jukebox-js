@@ -11,6 +11,8 @@ describe('Tracklist', () => {
   }
 
   describe('render', () => {
+    Date.now = jest.fn(() => { return 8208000 })
+
     wrapper = shallow(
       <Tracklist
         tracks={tracks.map(item => item.track)}
