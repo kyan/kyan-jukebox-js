@@ -47,7 +47,7 @@ exports[`Tracklist render renders the as expected 1`] = `
       <ListHeader
         as="h5"
       >
-        11:58
+        2:18
       </ListHeader>
       <ListHeader
         as="h3"
