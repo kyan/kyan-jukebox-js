@@ -25,19 +25,26 @@ const imageChooser = (track, images, isCurrent) => {
   )
 }
 
-const trackStartTime = (time) => {
+const trackStartTime = (time, isCurrent) => {
+  if (!time || isCurrent) return null
   return <List.Header as='h5'>{dateformat(new Date(time), 'h:MM')}</List.Header>
 }
 
 const listItems = (tracks, images, currentTrack) => {
+  let time
+
   return tracks.map((track, index) => {
+    const isCurrent = isCurrentTrack(currentTrack, track)
+    if (time) time += track.length
+    if (isCurrent) time = Date.now()
+
     return (
       <List.Item
         key={`${index}-${track.uri}`}
       >
-        {imageChooser(track, images, isCurrentTrack(currentTrack, track))}
+        {imageChooser(track, images, isCurrent)}
         <List.Content>
-          {trackStartTime(track.start_time)}
+          {trackStartTime(time, isCurrent)}
           <List.Header as='h3'>{track.name}</List.Header>
           <List.Description>{track.artist.name} <small>({millisToMinutesAndSeconds(track.length)})</small></List.Description>
         </List.Content>

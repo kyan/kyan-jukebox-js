@@ -29,7 +29,6 @@ describe('TransformerTracklist', () => {
               uri: 'spotify:artist:0YC192cP3KPCRWx8zr8MfZ'
             },
             length: 246000,
-            start_time: 246000,
             name: 'No Time for Caution',
             uri: 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3',
             year: '2014'
@@ -47,7 +46,6 @@ describe('TransformerTracklist', () => {
             },
             genre: 'Soundtrack',
             length: 123973,
-            start_time: 369973,
             name: 'Silent Running',
             uri: 'local:track:Soundtracks/Silent%20Running%20OST/Silent%20Running%20'
           }
