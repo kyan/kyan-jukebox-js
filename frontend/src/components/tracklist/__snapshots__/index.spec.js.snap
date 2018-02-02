@@ -17,11 +17,6 @@ exports[`Tracklist render renders the as expected 1`] = `
     />
     <ListContent>
       <ListHeader
-        as="h5"
-      >
-        12:27
-      </ListHeader>
-      <ListHeader
         as="h3"
       >
         No Time for Caution
@@ -52,7 +47,7 @@ exports[`Tracklist render renders the as expected 1`] = `
       <ListHeader
         as="h5"
       >
-        12:37
+        11:58
       </ListHeader>
       <ListHeader
         as="h3"
