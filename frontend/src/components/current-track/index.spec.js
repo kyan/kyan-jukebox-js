@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import CurrentTrack from './index'
-import { Card } from 'semantic-ui-react'
+import { Card, Image } from 'semantic-ui-react'
 import MockTrackListJson from '../../__mockData__/api'
 
 describe('CurrentTrack', () => {
@@ -68,6 +68,20 @@ describe('CurrentTrack', () => {
       )
 
       expect(wrapper.instance()).toBeNull()
+    })
+  })
+
+  describe('when no image', () => {
+    it('renders default image', () => {
+      track = MockTrackListJson()[1].track
+      wrapper = shallow(
+        <CurrentTrack
+          track={track}
+          progress={25}
+        />
+      )
+
+      expect(wrapper.find(Image).html()).toContain('default-artwork.png')
     })
   })
 })
