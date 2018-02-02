@@ -40,7 +40,7 @@ exports[`Tracklist render renders the as expected 1`] = `
       avatar={true}
       bordered={false}
       size="mini"
-      src="default-image.jpg"
+      src="default-artwork.png"
       ui={true}
     />
     <ListContent>
