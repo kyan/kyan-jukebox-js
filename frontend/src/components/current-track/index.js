@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, Image, Progress } from 'semantic-ui-react'
+import defaultImage from './default-artwork.png'
 import { millisToMinutesAndSeconds } from '../../utils/time'
 
 const albumDescription = album => {
@@ -14,12 +15,17 @@ const composerDescription = composer => {
   return <Card.Description>{composer.name}</Card.Description>
 }
 
+const albumArt = (image) => {
+  if (!image) image = defaultImage
+  return <Image src={image} />
+}
+
 const CurrentTrack = ({ track, image, progress }) => {
   if (!track) { return null }
 
   return (
     <Card>
-      <Image src={image} />
+      { albumArt(image) }
       <Card.Content>
         <Progress percent={progress} size='tiny' />
         <Card.Header>{track.name}</Card.Header>

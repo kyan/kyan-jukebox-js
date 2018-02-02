@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { List, Image } from 'semantic-ui-react'
 import dateformat from 'dateformat'
 import { millisToMinutesAndSeconds } from '../../utils/time'
+import defaultImage from './../current-track/default-artwork.png'
 import './index.css'
 
 const isCurrentTrack = (currentTrack, track) => {
@@ -13,7 +14,7 @@ const imageChooser = (track, images, isCurrent) => {
   let image
   if (track.album) image = images[track.album.uri]
   if (track.composer) image = images[track.composer.uri]
-  if (!image) image = 'default-image.jpg'
+  if (!image) image = defaultImage
 
   return (
     <Image
