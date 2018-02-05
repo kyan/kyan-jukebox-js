@@ -6,6 +6,7 @@ export default {
   EVENT_TRACKLIST_CHANGED: 'mopidy::event:tracklistChanged',
   TRACKLIST_GET_TRACKS: 'mopidy::tracklist.getTracks',
   TRACKLIST_ADD_TRACK: 'mopidy::tracklist.add',
+  TRACKLIST_CLEAR: 'mopidy::tracklist.clear',
   LIBRARY_GET_IMAGES: 'mopidy::library.getImages',
   PLAYBACK_GET_TIME_POSITION: 'mopidy::playback.getTimePosition',
   PLAYBACK_PLAY: 'mopidy::playback.play',
