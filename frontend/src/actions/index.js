@@ -110,6 +110,13 @@ export const getTrackList = () => {
   }
 }
 
+export const clearTrackList = () => {
+  return {
+    type: Types.SEND,
+    key: Types.TRACKLIST_CLEAR
+  }
+}
+
 export const startPlaying = () => {
   return {
     type: Types.SEND,

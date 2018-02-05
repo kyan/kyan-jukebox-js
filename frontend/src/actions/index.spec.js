@@ -145,6 +145,14 @@ describe('actions', () => {
     expect(actions.getTrackList()).toEqual(expectedAction)
   })
 
+  it('should handle clearTrackList', () => {
+    const expectedAction = {
+      type: Types.SEND,
+      key: MopidyApi.TTRACKLIST_CLEAR
+    }
+    expect(actions.clearTrackList()).toEqual(expectedAction)
+  })
+
   it('should handle startPlaying', () => {
     const expectedAction = {
       type: Types.SEND,

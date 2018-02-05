@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClearPlaylist render renders the as expected 1`] = `
+<span>
+  <Button
+    animated="vertical"
+    as="button"
+    className="jb-clear-button"
+    onClick={[Function]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Clear
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="ban"
+      />
+    </ButtonContent>
+  </Button>
+  <Confirm
+    cancelButton="No thanks"
+    confirmButton="Do it!"
+    content="Are you sure you want to nuke the playlist?"
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    open={false}
+  />
+</span>
+`;

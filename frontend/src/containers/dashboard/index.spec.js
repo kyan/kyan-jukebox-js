@@ -65,6 +65,12 @@ describe('Dashboard', () => {
       expect(actions.previousPlaying).toHaveBeenCalled()
     })
 
+    it('clearTrackList', () => {
+      spyOn(actions, 'clearTrackList')
+      wrapper.instance().onClearChange()
+      expect(actions.clearTrackList).toHaveBeenCalled()
+    })
+
     it('addNewTrack', () => {
       spyOn(actions, 'addNewTrack')
       wrapper.instance().addNewTrack('track')
