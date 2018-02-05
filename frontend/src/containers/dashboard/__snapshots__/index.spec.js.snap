@@ -2,6 +2,9 @@
 
 exports[`Dashboard render just the dashboard without redux renders as expected 1`] = `
 <div>
+  <ClearPlaylist
+    onClear={[Function]}
+  />
   <VolumeButtons
     onVolumeChange={[Function]}
     volume={25}
@@ -135,6 +138,84 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
         tracklistImages={Object {}}
       >
         <div>
+          <ClearPlaylist
+            onClear={[Function]}
+          >
+            <span>
+              <Button
+                animated="vertical"
+                as="button"
+                className="jb-clear-button"
+                onClick={[Function]}
+              >
+                <button
+                  className="ui vertical animated button jb-clear-button"
+                  onClick={[Function]}
+                  role="button"
+                >
+                  <ButtonContent
+                    hidden={true}
+                  >
+                    <div
+                      className="hidden content"
+                    >
+                      Clear
+                    </div>
+                  </ButtonContent>
+                  <ButtonContent
+                    visible={true}
+                  >
+                    <div
+                      className="visible content"
+                    >
+                      <Icon
+                        as="i"
+                        name="ban"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="ban icon"
+                        />
+                      </Icon>
+                    </div>
+                  </ButtonContent>
+                </button>
+              </Button>
+              <Confirm
+                cancelButton="No thanks"
+                confirmButton="Do it!"
+                content="Are you sure you want to nuke the playlist?"
+                onCancel={[Function]}
+                onConfirm={[Function]}
+                open={false}
+              >
+                <Modal
+                  closeOnDimmerClick={true}
+                  closeOnDocumentClick={false}
+                  dimmer={true}
+                  eventPool="Modal"
+                  onClose={[Function]}
+                  open={false}
+                  size="small"
+                >
+                  <Portal
+                    className="ui page modals dimmer transition visible active"
+                    closeOnDocumentClick={false}
+                    closeOnEscape={true}
+                    closeOnRootNodeClick={true}
+                    eventPool="Modal"
+                    mountNode={<body />}
+                    onClose={[Function]}
+                    onMount={[Function]}
+                    onOpen={[Function]}
+                    onUnmount={[Function]}
+                    open={false}
+                    openOnTriggerClick={true}
+                  />
+                </Modal>
+              </Confirm>
+            </span>
+          </ClearPlaylist>
           <VolumeButtons
             onVolumeChange={[Function]}
             volume={25}

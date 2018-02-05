@@ -7,6 +7,7 @@ import Constants from '../../constants'
 import UrlDropArea from '../../components/url-drop-area'
 import VolumeButtons from '../../components/volume-buttons'
 import SkipButtons from '../../components/skip-buttons'
+import ClearPlaylist from '../../components/clear-playlist'
 import * as actions from '../../actions'
 import CurrentTrackContainer from '../current-track-container'
 import TrackList from '../../components/tracklist'
@@ -24,6 +25,10 @@ export class Dashboard extends Component {
 
   componentWillUnmount () {
     this.dispatch(actions.wsDisconnect())
+  }
+
+  onClearChange = () => {
+    this.dispatch(actions.clearTrackList())
   }
 
   onVolumeChange = (volume) => {
@@ -99,6 +104,9 @@ export class Dashboard extends Component {
   render () {
     return (
       <div>
+        <ClearPlaylist
+          onClear={this.onClearChange}
+        />
         <VolumeButtons
           volume={this.props.jukebox.currentVolume}
           onVolumeChange={this.onVolumeChange}
