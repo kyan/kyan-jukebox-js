@@ -94,6 +94,7 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
       <Tracklist
         currentTrack={Object {}}
         images={Object {}}
+        onRemoveTrack={[Function]}
         tracks={Array []}
       />
     </GridColumn>
@@ -532,6 +533,7 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                   </Header>
                   <Tracklist
                     images={Object {}}
+                    onRemoveTrack={[Function]}
                     tracks={Array []}
                   >
                     <List
