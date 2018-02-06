@@ -19,6 +19,7 @@ export default function (key, data) {
     case 'mopidy::mixer.getVolume':
     case 'mopidy::mixer.setVolume':
     case 'mopidy::playback.next':
+    case 'mopidy::tracklist.remove':
       return data
     default:
       return `BACKEND RESPONSE NOT HANDLED: ${key}`

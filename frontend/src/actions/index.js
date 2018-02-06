@@ -26,6 +26,14 @@ export const addTrackList = list => {
   }
 }
 
+export const removeFromTracklist = uri => {
+  return {
+    type: Types.SEND,
+    key: MopidyApi.TRACKLIST_REMOVE_TRACK,
+    params: { 'uri': [uri] }
+  }
+}
+
 export const updateProgressTimer = (position, duration) => {
   if (duration === Infinity) { duration = 0 }
 
