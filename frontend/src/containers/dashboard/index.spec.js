@@ -77,6 +77,12 @@ describe('Dashboard', () => {
       expect(actions.addNewTrack).toHaveBeenCalledWith('track')
     })
 
+    it('onRemoveTrack', () => {
+      spyOn(actions, 'removeFromTracklist')
+      wrapper.instance().onRemoveTrack('track')
+      expect(actions.removeFromTracklist).toHaveBeenCalledWith('track')
+    })
+
     it('onVolumeChange', () => {
       spyOn(actions, 'setVolume')
       wrapper.instance().onVolumeChange(32)

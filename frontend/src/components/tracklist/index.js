@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { List, Image } from 'semantic-ui-react'
+import classnames from 'classnames'
+import { List, Image, Reveal, Icon } from 'semantic-ui-react'
 import dateformat from 'dateformat'
 import { millisToMinutesAndSeconds } from '../../utils/time'
 import defaultImage from './../current-track/default-artwork.png'
@@ -10,20 +11,56 @@ const isCurrentTrack = (currentTrack, track) => {
   return currentTrack.uri === track.uri
 }
 
-const imageChooser = (track, images, isCurrent) => {
+const currentImage = (image) => (
+  <span className={trackClasses(true)}>
+    <Image
+      src={image}
+      avatar
+    />
+  </span>
+)
+
+const revealImage = (image, uri, onRemoveTrack) => (
+  <a
+    className={trackClasses(false)}
+    onClick={removeTrack(uri, onRemoveTrack)}
+  >
+    <Reveal animated='fade'>
+      <Reveal.Content visible>
+        <Image src={image} avatar />
+      </Reveal.Content>
+      <Reveal.Content hidden>
+        <Icon
+          name='close'
+          color='red'
+          bordered
+          circular
+        />
+      </Reveal.Content>
+    </Reveal>
+  </a>
+)
+
+const trackClasses = (isCurrent) => {
+  return classnames({
+    'image': true,
+    'current-track': isCurrent
+  })
+}
+
+const removeTrack = (uri, cb) => {
+  return () => {
+    cb(uri)
+  }
+}
+
+const imageChooser = (track, images, isCurrent, onRemoveTrack) => {
   let image
   if (track.album) image = images[track.album.uri]
   if (track.composer) image = images[track.composer.uri]
   if (!image) image = defaultImage
 
-  return (
-    <Image
-      bordered={isCurrent}
-      src={image}
-      size='mini'
-      avatar
-    />
-  )
+  return isCurrent ? currentImage(image) : revealImage(image, track.uri, onRemoveTrack)
 }
 
 const trackStartTime = (time, isCurrent) => {
@@ -31,7 +68,7 @@ const trackStartTime = (time, isCurrent) => {
   return <List.Header as='h5'>{dateformat(new Date(time), 'h:MM')}</List.Header>
 }
 
-const listItems = (tracks, images, currentTrack) => {
+const listItems = (tracks, images, currentTrack, onRemoveTrack) => {
   let time
 
   return tracks.map((track, index) => {
@@ -43,7 +80,7 @@ const listItems = (tracks, images, currentTrack) => {
       <List.Item
         key={`${index}-${track.uri}`}
       >
-        {imageChooser(track, images, isCurrent)}
+        {imageChooser(track, images, isCurrent, onRemoveTrack)}
         <List.Content>
           {trackStartTime(time, isCurrent)}
           <List.Header as='h3'>{track.name}</List.Header>
@@ -54,12 +91,12 @@ const listItems = (tracks, images, currentTrack) => {
   })
 }
 
-const Tracklist = ({ tracks, images, currentTrack }) => {
+const Tracklist = ({ tracks, images, currentTrack, onRemoveTrack }) => {
   if (!tracks) { return null }
 
   return (
     <List relaxed>
-      {listItems(tracks, images, currentTrack)}
+      {listItems(tracks, images, currentTrack, onRemoveTrack)}
     </List>
   )
 }
@@ -67,7 +104,8 @@ const Tracklist = ({ tracks, images, currentTrack }) => {
 Tracklist.propTypes = {
   tracks: PropTypes.array,
   images: PropTypes.object,
-  currentTrack: PropTypes.object
+  currentTrack: PropTypes.object,
+  onRemoveTrack: PropTypes.func.isRequired
 }
 
 export default Tracklist

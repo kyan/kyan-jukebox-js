@@ -31,6 +31,10 @@ export class Dashboard extends Component {
     this.dispatch(actions.clearTrackList())
   }
 
+  onRemoveTrack = (uri) => {
+    this.dispatch(actions.removeFromTracklist(uri))
+  }
+
   onVolumeChange = (volume) => {
     this.dispatch(actions.setVolume(volume))
   }
@@ -134,6 +138,7 @@ export class Dashboard extends Component {
               images={this.props.tracklistImages}
               tracks={this.props.tracklist}
               currentTrack={this.props.currentTrack}
+              onRemoveTrack={this.onRemoveTrack}
             />
           </Grid.Column>
         </Grid>
