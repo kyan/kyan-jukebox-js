@@ -31,6 +31,16 @@ describe('actions', () => {
     expect(actions.addTrackList(list)).toEqual(expectedAction)
   })
 
+  it('should handle removeFromTracklist', () => {
+    const uri = 'spotify:track:0c41pMosF5Kqwwegcps8ES'
+    const expectedAction = {
+      type: Types.SEND,
+      key: MopidyApi.TRACKLIST_REMOVE_TRACK,
+      params: { uri: ['spotify:track:0c41pMosF5Kqwwegcps8ES'] }
+    }
+    expect(actions.removeFromTracklist(uri)).toEqual(expectedAction)
+  })
+
   describe('updateProgressTimer', () => {
     it('should handle when Infinity is set', () => {
       const position = 1230
