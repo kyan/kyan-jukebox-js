@@ -17,7 +17,9 @@ exports[`Tracklist render renders the as expected 1`] = `
         ui={true}
       />
     </span>
-    <ListContent>
+    <ListContent
+      className=""
+    >
       <ListHeader
         as="h3"
       >
@@ -67,7 +69,9 @@ exports[`Tracklist render renders the as expected 1`] = `
         </RevealContent>
       </Reveal>
     </a>
-    <ListContent>
+    <ListContent
+      className=""
+    >
       <ListHeader
         as="h5"
       >
