@@ -68,6 +68,16 @@ const trackStartTime = (time, isCurrent) => {
   return <List.Header as='h5'>{dateformat(new Date(time), 'h:MM')}</List.Header>
 }
 
+const trackHeading = (track) => (
+  <List.Header as='h3'>{track.name}</List.Header>
+)
+
+const trackDescription = (track) => (
+  <List.Description>
+    {track.artist.name} <small>({millisToMinutesAndSeconds(track.length)})</small>
+  </List.Description>
+)
+
 const listItems = (tracks, images, currentTrack, onRemoveTrack) => {
   let time
 
@@ -81,10 +91,12 @@ const listItems = (tracks, images, currentTrack, onRemoveTrack) => {
         key={`${index}-${track.uri}`}
       >
         {imageChooser(track, images, isCurrent, onRemoveTrack)}
-        <List.Content>
+        <List.Content
+          className={classnames({'track-info': !time})}
+        >
           {trackStartTime(time, isCurrent)}
-          <List.Header as='h3'>{track.name}</List.Header>
-          <List.Description>{track.artist.name} <small>({millisToMinutesAndSeconds(track.length)})</small></List.Description>
+          {trackHeading(track)}
+          {trackDescription(track)}
         </List.Content>
       </List.Item>
     )
