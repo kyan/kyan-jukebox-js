@@ -1,4 +1,12 @@
 .current-track {
-  border-left: 4px solid #21ba45;
-  padding-left: 3px;
+  padding-left: 5px;
+}
+
+.track-info {
+  font-size: 80%;
+}
+
+.ui.list>.item .track-info .header {
+  font-size: 1.2em;
+  margin-bottom: 0.2em;
 }
