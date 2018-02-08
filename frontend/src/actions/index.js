@@ -2,6 +2,13 @@ import MopidyApi from '../constants/mopidy-api'
 import Types from '../constants'
 import { transformUrl } from '../utils/spotify'
 
+export const addUser = uid => {
+  return {
+    type: Types.STORE_UID,
+    uid
+  }
+}
+
 export const addNewTrack = url => {
   let uri = transformUrl(url)
 
