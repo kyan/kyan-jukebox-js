@@ -12,10 +12,27 @@ exports[`App renders without crashing 1`] = `
     }
   }
 >
-  <Container
-    fluid={true}
+  <PersistGate
+    loading={null}
+    persistor={
+      Object {
+        "dispatch": [Function],
+        "flush": [Function],
+        "getState": [Function],
+        "pause": [Function],
+        "persist": [Function],
+        "purge": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+        Symbol(observable): [Function],
+      }
+    }
   >
-    <Connect(DragDropContext(Dashboard)) />
-  </Container>
+    <Container
+      fluid={true}
+    >
+      <Connect(DragDropContext(Dashboard)) />
+    </Container>
+  </PersistGate>
 </Provider>
 `;
