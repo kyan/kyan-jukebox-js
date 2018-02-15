@@ -2,16 +2,17 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { DragDropContext, DragDropContextProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import { Divider, Grid, Button, Header, Icon } from 'semantic-ui-react'
+import { Dimmer, Divider, Grid, Header } from 'semantic-ui-react'
 import Constants from '../../constants'
 import UrlDropArea from '../../components/url-drop-area'
 import VolumeButtons from '../../components/volume-buttons'
-import SkipButtons from '../../components/skip-buttons'
 import ClearPlaylist from '../../components/clear-playlist'
 import * as actions from '../../actions'
 import CurrentTrackContainer from '../current-track-container'
+import Settings from '../settings'
 import TrackList from '../../components/tracklist'
 import { getTracklistImagesInCache } from '../../selectors'
+import Controls from '../../components/controls'
 
 export class Dashboard extends Component {
   constructor (props) {
@@ -20,108 +21,39 @@ export class Dashboard extends Component {
   }
 
   componentDidMount () {
-    this.dispatch(actions.wsConnect())
+    this.fireDispatch('wsConnect')()
   }
 
   componentWillUnmount () {
-    this.dispatch(actions.wsDisconnect())
+    this.fireDispatch('wsDisconnect')()
   }
 
-  onClearChange = () => {
-    this.dispatch(actions.clearTrackList())
-  }
-
-  onRemoveTrack = (uri) => {
-    this.dispatch(actions.removeFromTracklist(uri))
-  }
-
-  onVolumeChange = (volume) => {
-    this.dispatch(actions.setVolume(volume))
-  }
-
-  startPlaying = () => {
-    this.dispatch(actions.startPlaying())
-  }
-
-  pausePlaying = () => {
-    this.dispatch(actions.pausePlaying())
-  }
-
-  nextPlaying = () => {
-    this.dispatch(actions.nextPlaying())
-  }
-
-  previousPlaying = () => {
-    this.dispatch(actions.previousPlaying())
-  }
-
-  addNewTrack = (uri) => {
-    this.dispatch(actions.addNewTrack(uri))
-  }
-
-  playButton () {
-    return (
-      <Button
-        onClick={this.startPlaying}
-        animated='vertical'
-      >
-        <Button.Content hidden>Play</Button.Content>
-        <Button.Content visible>
-          <Icon name='play' />
-        </Button.Content>
-      </Button>
-    )
-  }
-
-  pauseButton () {
-    return (
-      <Button
-        onClick={this.pausePlaying}
-        animated='vertical'
-      >
-        <Button.Content hidden>Pause</Button.Content>
-        <Button.Content visible>
-          <Icon name='pause' />
-        </Button.Content>
-      </Button>
-    )
-  }
-
-  onlineIcon (online) {
-    const color = online ? 'green' : 'orange'
-    return (
-      <Icon
-        size='large'
-        name='power'
-        color={color}
-        className='jukebox-status-icon'
-      />
-    )
+  fireDispatch (key) {
+    return (evt) => {
+      this.dispatch(actions[key](evt))
+    }
   }
 
   handleURLDrop = (_item, monitor) => {
     if (monitor) {
-      this.addNewTrack(monitor.getItem().urls[0])
+      this.fireDispatch('addNewTrack')(monitor.getItem().urls[0])
     }
   }
 
   render () {
     return (
-      <div>
-        <ClearPlaylist
-          onClear={this.onClearChange}
-        />
+      <Dimmer.Dimmable blurring dimmed={!this.props.jukebox.online}>
+        <Settings />
         <VolumeButtons
           volume={this.props.jukebox.currentVolume}
-          onVolumeChange={this.onVolumeChange}
+          onVolumeChange={this.fireDispatch('setVolume')}
         />
-        <SkipButtons
-          onPreviousPlayingClick={this.previousPlaying}
-          onNextPlayingClick={this.nextPlaying}
+        <Controls
+          onPlay={this.fireDispatch('startPlaying')}
+          onPause={this.fireDispatch('pausePlaying')}
+          onNext={this.fireDispatch('nextPlaying')}
+          onPrevious={this.fireDispatch('previousPlaying')}
         />
-        {this.playButton()}
-        {this.pauseButton()}
-        {this.onlineIcon(this.props.jukebox.online)}
         <Divider />
         <Grid>
           <Grid.Column width={6}>
@@ -133,16 +65,20 @@ export class Dashboard extends Component {
             </DragDropContextProvider>
           </Grid.Column>
           <Grid.Column width={10}>
-            <Header size='small'>Playlist</Header>
+            <Header size='small'>
+              Playlist <ClearPlaylist
+                onClear={this.fireDispatch('clearTrackList')}
+              />
+            </Header>
             <TrackList
               images={this.props.tracklistImages}
               tracks={this.props.tracklist}
               currentTrack={this.props.currentTrack}
-              onRemoveTrack={this.onRemoveTrack}
+              onRemoveTrack={this.fireDispatch('removeFromTracklist')}
             />
           </Grid.Column>
         </Grid>
-      </div>
+      </Dimmer.Dimmable>
     )
   }
 }

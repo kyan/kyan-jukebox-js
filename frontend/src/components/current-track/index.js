@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Image, Progress } from 'semantic-ui-react'
+import { Card, Icon, Image, Progress } from 'semantic-ui-react'
 import defaultImage from './default-artwork.png'
 import { millisToMinutesAndSeconds } from '../../utils/time'
 
@@ -20,6 +20,12 @@ const albumArt = (image) => {
   return <Image src={image} />
 }
 
+const serviceIcon = (uri) => {
+  const key = uri.split(':')[0]
+  if (key === 'local') return null
+  return <Icon name={key} color='green' />
+}
+
 const CurrentTrack = ({ track, image, progress }) => {
   if (!track) { return null }
 
@@ -32,6 +38,9 @@ const CurrentTrack = ({ track, image, progress }) => {
         <Card.Meta>({millisToMinutesAndSeconds(track.length)}) {track.artist.name}</Card.Meta>
         { albumDescription(track.album) }
         { composerDescription(track.composer) }
+      </Card.Content>
+      <Card.Content extra>
+        {serviceIcon(track.uri)}
       </Card.Content>
     </Card>
   )

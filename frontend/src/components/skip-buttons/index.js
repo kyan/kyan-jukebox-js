@@ -28,16 +28,16 @@ const nextButton = (cb) => (
   </Button>
 )
 
-const SkipButtons = ({ onPreviousPlayingClick, onNextPlayingClick }) => (
+const SkipButtons = ({ onPrevious, onNext }) => (
   <span>
-    {previousButton(onPreviousPlayingClick)}
-    {nextButton(onNextPlayingClick)}
+    {previousButton(onPrevious)}
+    {nextButton(onNext)}
   </span>
 )
 
 SkipButtons.propTypes = {
-  onPreviousPlayingClick: PropTypes.func.isRequired,
-  onNextPlayingClick: PropTypes.func.isRequired
+  onPrevious: PropTypes.func.isRequired,
+  onNext: PropTypes.func.isRequired
 }
 
 export default SkipButtons

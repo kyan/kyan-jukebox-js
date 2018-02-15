@@ -2,26 +2,16 @@
 
 exports[`ClearPlaylist render renders the as expected 1`] = `
 <span>
-  <Button
-    animated="vertical"
-    as="button"
+  <Label
+    as="a"
     className="jb-clear-button"
+    color="red"
+    horizontal={true}
     onClick={[Function]}
+    size="mini"
   >
-    <ButtonContent
-      hidden={true}
-    >
-      Clear
-    </ButtonContent>
-    <ButtonContent
-      visible={true}
-    >
-      <Icon
-        as="i"
-        name="ban"
-      />
-    </ButtonContent>
-  </Button>
+    CLEAR
+  </Label>
   <Confirm
     cancelButton="No thanks"
     confirmButton="Do it!"

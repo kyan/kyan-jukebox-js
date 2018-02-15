@@ -3,6 +3,14 @@ import MopidyApi from '../constants/mopidy-api'
 import Types from '../constants'
 
 describe('actions', () => {
+  it('should handle addUser', () => {
+    const expectedAction = {
+      type: Types.STORE_UID,
+      uid: 123
+    }
+    expect(actions.addUser(123)).toEqual(expectedAction)
+  })
+
   it('should handle addNewTrack', () => {
     const url = 'https://open.spotify.com/track/0c41pMosF5Kqwwegcps8ES'
     const expectedAction = {
@@ -158,7 +166,7 @@ describe('actions', () => {
   it('should handle clearTrackList', () => {
     const expectedAction = {
       type: Types.SEND,
-      key: MopidyApi.TTRACKLIST_CLEAR
+      key: MopidyApi.TRACKLIST_CLEAR
     }
     expect(actions.clearTrackList()).toEqual(expectedAction)
   })
@@ -218,5 +226,12 @@ describe('actions', () => {
       params: [32]
     }
     expect(actions.setVolume(32)).toEqual(expectedAction)
+  })
+
+  it('should handle toggleSettings', () => {
+    const expectedAction = {
+      type: Types.TOGGLE_SETTINGS
+    }
+    expect(actions.toggleSettings()).toEqual(expectedAction)
   })
 })

@@ -41,82 +41,95 @@ describe('Dashboard', () => {
       expect(actions.wsDisconnect).toHaveBeenCalled()
     })
 
-    it('startPlaying', () => {
-      spyOn(actions, 'startPlaying')
-      wrapper.instance().startPlaying()
-      expect(actions.startPlaying).toHaveBeenCalled()
-    })
+    describe('fireDispatch', () => {
+      it('handles startPlaying', () => {
+        spyOn(wrapper.instance(), 'dispatch')
+        wrapper.instance().fireDispatch('startPlaying')()
+        expect(wrapper.instance().dispatch).toHaveBeenCalledWith({
+          key: 'mopidy::playback.play',
+          type: 'actionSend'
+        })
+      })
 
-    it('pausePlaying', () => {
-      spyOn(actions, 'pausePlaying')
-      wrapper.instance().pausePlaying()
-      expect(actions.pausePlaying).toHaveBeenCalled()
-    })
+      it('handles pausePlaying', () => {
+        spyOn(wrapper.instance(), 'dispatch')
+        wrapper.instance().fireDispatch('pausePlaying')()
+        expect(wrapper.instance().dispatch).toHaveBeenCalledWith({
+          key: 'mopidy::playback.pause',
+          type: 'actionSend'
+        })
+      })
 
-    it('nextPlaying', () => {
-      spyOn(actions, 'nextPlaying')
-      wrapper.instance().nextPlaying()
-      expect(actions.nextPlaying).toHaveBeenCalled()
-    })
+      it('handles nextPlaying', () => {
+        spyOn(wrapper.instance(), 'dispatch')
+        wrapper.instance().fireDispatch('nextPlaying')()
+        expect(wrapper.instance().dispatch).toHaveBeenCalledWith({
+          key: 'mopidy::playback.next',
+          type: 'actionSend'
+        })
+      })
 
-    it('previousPlaying', () => {
-      spyOn(actions, 'previousPlaying')
-      wrapper.instance().previousPlaying()
-      expect(actions.previousPlaying).toHaveBeenCalled()
-    })
+      it('handles previousPlaying', () => {
+        spyOn(wrapper.instance(), 'dispatch')
+        wrapper.instance().fireDispatch('previousPlaying')()
+        expect(wrapper.instance().dispatch).toHaveBeenCalledWith({
+          key: 'mopidy::playback.previous',
+          type: 'actionSend'
+        })
+      })
 
-    it('clearTrackList', () => {
-      spyOn(actions, 'clearTrackList')
-      wrapper.instance().onClearChange()
-      expect(actions.clearTrackList).toHaveBeenCalled()
-    })
+      it('handles clearTrackList', () => {
+        spyOn(wrapper.instance(), 'dispatch')
+        wrapper.instance().fireDispatch('clearTrackList')()
+        expect(wrapper.instance().dispatch).toHaveBeenCalledWith({
+          key: 'mopidy::tracklist.clear',
+          type: 'actionSend'
+        })
+      })
 
-    it('addNewTrack', () => {
-      spyOn(actions, 'addNewTrack')
-      wrapper.instance().addNewTrack('track')
-      expect(actions.addNewTrack).toHaveBeenCalledWith('track')
-    })
-
-    it('onRemoveTrack', () => {
-      spyOn(actions, 'removeFromTracklist')
-      wrapper.instance().onRemoveTrack('track')
-      expect(actions.removeFromTracklist).toHaveBeenCalledWith('track')
-    })
-
-    it('onVolumeChange', () => {
-      spyOn(actions, 'setVolume')
-      wrapper.instance().onVolumeChange(32)
-      expect(actions.setVolume).toHaveBeenCalledWith(32)
+      it('handles removeFromTracklist', () => {
+        const uri = 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3'
+        spyOn(wrapper.instance(), 'dispatch')
+        wrapper.instance().fireDispatch('removeFromTracklist')(uri)
+        expect(wrapper.instance().dispatch).toHaveBeenCalledWith({
+          key: 'mopidy::tracklist.remove',
+          params: { uri: [uri] },
+          type: 'actionSend'
+        })
+      })
     })
 
     describe('handleURLDrop', () => {
+      const url = 'https://open.spotify.com/track/0c41pMosF5Kqwwegcps8ES'
+
       it('handles a monitor passed in', () => {
-        spyOn(wrapper.instance(), 'addNewTrack')
+        spyOn(wrapper.instance(), 'dispatch')
         const monitor = {
           getItem: () => {
-            return { urls: ['url123'] }
+            return { urls: [url] }
           }
         }
         wrapper.instance().handleURLDrop(null, monitor)
-        expect(wrapper.instance().addNewTrack).toHaveBeenCalledWith('url123')
+        expect(wrapper.instance().dispatch).toHaveBeenCalledWith({
+          key: 'mopidy::tracklist.add',
+          params: { 'uri': 'spotify:track:0c41pMosF5Kqwwegcps8ES' },
+          type: 'actionSend'
+        })
       })
 
       it('handles a monitor not passed in', () => {
-        spyOn(wrapper.instance(), 'addNewTrack')
+        spyOn(wrapper.instance(), 'dispatch')
         wrapper.instance().handleURLDrop(null, null)
-        expect(wrapper.instance().addNewTrack).not.toHaveBeenCalled()
-      })
-    })
-
-    describe('onlineIcon', () => {
-      it('handles offline', () => {
-        expect(wrapper.instance().onlineIcon(false).props.color).toEqual('orange')
+        expect(wrapper.instance().dispatch).not.toHaveBeenCalled()
       })
     })
   })
 
   describe('render the connected app', () => {
     const store = configureMockStore()({
+      settings: {
+        open: false
+      },
       tracklist: [],
       jukebox: {
         currentVolume: 25,

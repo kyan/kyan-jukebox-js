@@ -1,22 +1,20 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Confirm, Button, Icon } from 'semantic-ui-react'
+import { Confirm, Label } from 'semantic-ui-react'
 
 class ClearPlaylist extends Component {
   state = { open: false }
 
   clearButton = () => {
     return (
-      <Button
+      <Label
+        horizontal
+        size='mini'
+        as='a'
+        color='red'
         onClick={this.show}
-        animated='vertical'
         className='jb-clear-button'
-      >
-        <Button.Content hidden>Clear</Button.Content>
-        <Button.Content visible>
-          <Icon name='ban' />
-        </Button.Content>
-      </Button>
+      >CLEAR</Label>
     )
   }
 

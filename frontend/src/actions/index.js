@@ -2,6 +2,13 @@ import MopidyApi from '../constants/mopidy-api'
 import Types from '../constants'
 import { transformUrl } from '../utils/spotify'
 
+export const addUser = uid => {
+  return {
+    type: Types.STORE_UID,
+    uid
+  }
+}
+
 export const addNewTrack = url => {
   let uri = transformUrl(url)
 
@@ -121,7 +128,7 @@ export const getTrackList = () => {
 export const clearTrackList = () => {
   return {
     type: Types.SEND,
-    key: Types.TRACKLIST_CLEAR
+    key: MopidyApi.TRACKLIST_CLEAR
   }
 }
 
@@ -172,5 +179,11 @@ export const setVolume = (volume) => {
     type: Types.SEND,
     key: MopidyApi.SET_VOLUME,
     params: [Number(volume)]
+  }
+}
+
+export const toggleSettings = () => {
+  return {
+    type: Types.TOGGLE_SETTINGS
   }
 }
