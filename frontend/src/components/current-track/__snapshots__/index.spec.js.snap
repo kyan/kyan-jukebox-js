@@ -26,6 +26,15 @@ exports[`CurrentTrack render album renders track 1`] = `
        (2014)
     </CardDescription>
   </CardContent>
+  <CardContent
+    extra={true}
+  >
+    <Icon
+      as="i"
+      color="green"
+      name="spotify"
+    />
+  </CardContent>
 </Card>
 `;
 
@@ -54,5 +63,8 @@ exports[`CurrentTrack render composer renders track 1`] = `
       Peter Schickele
     </CardDescription>
   </CardContent>
+  <CardContent
+    extra={true}
+  />
 </Card>
 `;
