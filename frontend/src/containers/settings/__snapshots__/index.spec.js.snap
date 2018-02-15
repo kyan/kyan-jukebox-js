@@ -1,0 +1,237 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CurrentTrackContainer render just the app without redux renders as expected 1`] = `
+<React.Fragment>
+  <Button
+    as="button"
+    className="jb-settings-toggle"
+    floated="right"
+    icon="user"
+    onClick={[Function]}
+  />
+  <Modal
+    closeIcon={true}
+    closeOnDimmerClick={true}
+    closeOnDocumentClick={false}
+    dimmer="blurring"
+    eventPool="Modal"
+    onClose={[Function]}
+    open={false}
+    size="small"
+  >
+    <ModalHeader>
+      Settings
+    </ModalHeader>
+    <ModalContent>
+      <ModalDescription>
+        <Form
+          as="form"
+        >
+          <FormInput
+            as={[Function]}
+            control={[Function]}
+            icon="user"
+            iconPosition="left"
+            label="Enter your user ID below"
+            placeholder="example: 123"
+            size="massive"
+          />
+          <Button
+            as="button"
+            primary={true}
+            type="submit"
+          >
+            Save
+          </Button>
+        </Form>
+      </ModalDescription>
+    </ModalContent>
+  </Modal>
+</React.Fragment>
+`;
+
+exports[`CurrentTrackContainer render just the app without redux renders the modal 1`] = `
+<React.Fragment>
+  <Button
+    as="button"
+    className="jb-settings-toggle"
+    floated="right"
+    icon="user"
+    onClick={[Function]}
+  />
+  <Modal
+    closeIcon={true}
+    closeOnDimmerClick={true}
+    closeOnDocumentClick={false}
+    dimmer="blurring"
+    eventPool="Modal"
+    onClose={[Function]}
+    open={false}
+    size="small"
+  >
+    <ModalHeader>
+      Settings
+    </ModalHeader>
+    <ModalContent>
+      <ModalDescription>
+        <Form
+          as="form"
+        >
+          <FormInput
+            as={[Function]}
+            control={[Function]}
+            icon="user"
+            iconPosition="left"
+            label="Enter your user ID below"
+            placeholder="example: 123"
+            size="massive"
+          />
+          <Button
+            as="button"
+            primary={true}
+            type="submit"
+          >
+            Save
+          </Button>
+        </Form>
+      </ModalDescription>
+    </ModalContent>
+  </Modal>
+</React.Fragment>
+`;
+
+exports[`CurrentTrackContainer render the settings modal open renders as expected 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(Component)>
+    <Component
+      dispatch={[Function]}
+      settings={
+        Object {
+          "open": true,
+        }
+      }
+    >
+      <Button
+        as="button"
+        className="jb-settings-toggle"
+        floated="right"
+        icon="user"
+        onClick={[Function]}
+      >
+        <button
+          className="ui icon right floated button jb-settings-toggle"
+          onClick={[Function]}
+          role="button"
+        >
+          <Icon
+            as="i"
+            key="user"
+            name="user"
+          >
+            <i
+              aria-hidden="true"
+              className="user icon"
+            />
+          </Icon>
+        </button>
+      </Button>
+      <Modal
+        closeIcon={true}
+        closeOnDimmerClick={true}
+        closeOnDocumentClick={false}
+        dimmer="blurring"
+        eventPool="Modal"
+        onClose={[Function]}
+        open={true}
+        size="small"
+      >
+        <Portal
+          className="ui page modals dimmer transition visible active"
+          closeOnDocumentClick={false}
+          closeOnEscape={true}
+          closeOnRootNodeClick={true}
+          eventPool="Modal"
+          mountNode={
+            <body
+              class="dimmable dimmed blurring"
+            >
+              <div
+                class="ui page modals dimmer transition visible active"
+              >
+                <div
+                  class="ui small modal transition visible active"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="close icon"
+                  />
+                  <div
+                    class="header"
+                  >
+                    Settings
+                  </div>
+                  <div
+                    class="content"
+                  >
+                    <div
+                      class="description"
+                    >
+                      <form
+                        class="ui form"
+                      >
+                        <div
+                          class="field"
+                        >
+                          <label>
+                            Enter your user ID below
+                          </label>
+                          <div
+                            class="ui massive left icon input"
+                          >
+                            <i
+                              aria-hidden="true"
+                              class="user icon"
+                            />
+                            <input
+                              type="text"
+                              placeholder="example: 123"
+                            />
+                          </div>
+                        </div>
+                        <button
+                          type="submit"
+                          class="ui primary button"
+                          role="button"
+                        >
+                          Save
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </body>
+          }
+          onClose={[Function]}
+          onMount={[Function]}
+          onOpen={[Function]}
+          onUnmount={[Function]}
+          open={true}
+          openOnTriggerClick={true}
+        />
+      </Modal>
+    </Component>
+  </Connect(Component)>
+</Provider>
+`;

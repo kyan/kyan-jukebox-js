@@ -10,8 +10,8 @@ describe('SkipButtons', () => {
   describe('render', () => {
     wrapper = shallow(
       <SkipButtons
-        onPreviousPlayingClick={prevMock}
-        onNextPlayingClick={nextMock}
+        onPrevious={prevMock}
+        onNext={nextMock}
       />
     )
 

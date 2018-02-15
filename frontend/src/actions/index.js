@@ -128,7 +128,7 @@ export const getTrackList = () => {
 export const clearTrackList = () => {
   return {
     type: Types.SEND,
-    key: Types.TRACKLIST_CLEAR
+    key: MopidyApi.TRACKLIST_CLEAR
   }
 }
 
@@ -179,5 +179,11 @@ export const setVolume = (volume) => {
     type: Types.SEND,
     key: MopidyApi.SET_VOLUME,
     params: [Number(volume)]
+  }
+}
+
+export const toggleSettings = () => {
+  return {
+    type: Types.TOGGLE_SETTINGS
   }
 }
