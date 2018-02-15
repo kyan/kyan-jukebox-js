@@ -11,6 +11,7 @@ export default {
   RESOLVE_IMAGE: 'actionResolveImage',
   SEND: 'actionSend',
   STORE_UID: 'actionStoreUID',
+  TOGGLE_SETTINGS: 'actionToggleSettings',
   UPDATE_VOLUME: 'actionUpdateVolume',
   UPDATE_PROGRESS_TIMER: 'actionUpdateProgressTimer'
 }
