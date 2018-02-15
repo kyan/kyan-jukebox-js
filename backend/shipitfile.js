@@ -17,7 +17,7 @@ module.exports = function (shipit) {
       shallowClone: true
     },
     pi: {
-      servers: 'jukebox@jb-pi'
+      servers: 'jukebox@jukebox-api'
     }
   }
   shipit.initConfig(config)
