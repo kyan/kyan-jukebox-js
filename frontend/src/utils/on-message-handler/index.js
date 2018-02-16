@@ -52,6 +52,8 @@ const onMessageHandler = (store, payload, progressTimer) => {
       addTrackList(data, store)
       break
     case MopidyApi.GET_VOLUME:
+      store.dispatch(actions.updateVolume(data))
+      break
     case MopidyApi.EVENT_VOLUME_CHANGED:
       store.dispatch(actions.updateVolume(data))
       break
