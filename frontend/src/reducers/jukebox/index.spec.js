@@ -33,4 +33,32 @@ describe('jukebox', () => {
       online: false
     })
   })
+
+  it('handles a UPDATE_VOLUME increased', () => {
+    const state = {
+      currentVolume: 10,
+      online: false
+    }
+    expect(reducer(state, {
+      type: Types.UPDATE_VOLUME,
+      volume: 32
+    })).toEqual({
+      currentVolume: 32,
+      online: false
+    })
+  })
+
+  it('handles a UPDATE_VOLUME decreased', () => {
+    const state = {
+      currentVolume: 10,
+      online: false
+    }
+    expect(reducer(state, {
+      type: Types.UPDATE_VOLUME,
+      volume: 5
+    })).toEqual({
+      currentVolume: 5,
+      online: false
+    })
+  })
 })
