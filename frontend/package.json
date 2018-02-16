@@ -7,6 +7,7 @@
     "classnames": "^2.2.5",
     "dateformat": "^3.0.2",
     "media-progress-timer": "^3.0.0",
+    "push.js": "^1.0.5",
     "react": "^16.2.0",
     "react-dnd": "^2.5.4",
     "react-dnd-html5-backend": "^2.5.4",
