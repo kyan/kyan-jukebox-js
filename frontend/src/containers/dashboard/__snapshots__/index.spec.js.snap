@@ -60,6 +60,25 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
       />
     </GridColumn>
   </Grid>
+  <ToastContainer
+    autoClose={5000}
+    bodyClassName=""
+    className={null}
+    closeButton={
+      <DefaultCloseButton
+        ariaLabel="close"
+      />
+    }
+    closeOnClick={true}
+    hideProgressBar={false}
+    newestOnTop={false}
+    pauseOnHover={true}
+    position="top-right"
+    progressClassName=""
+    style={null}
+    toastClassName=""
+    transition={[Function]}
+  />
 </DimmerDimmable>
 `;
 
@@ -549,6 +568,27 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                 </GridColumn>
               </div>
             </Grid>
+            <ToastContainer
+              autoClose={5000}
+              bodyClassName=""
+              className={null}
+              closeButton={
+                <DefaultCloseButton
+                  ariaLabel="close"
+                />
+              }
+              closeOnClick={true}
+              hideProgressBar={false}
+              newestOnTop={false}
+              pauseOnHover={true}
+              position="top-right"
+              progressClassName=""
+              style={null}
+              toastClassName=""
+              transition={[Function]}
+            >
+              <div />
+            </ToastContainer>
           </div>
         </DimmerDimmable>
       </Dashboard>
