@@ -3,15 +3,3 @@ body {
   padding: 20px;
   font-family: sans-serif;
 }
-
-.toast-message {
-  background-color: #888888;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-weight: 100;
-  font-size: 12px;
-  line-height: 22px;
-}
-.toast-message .icon {
-  margin-right: 8px;
-}

@@ -22,7 +22,14 @@ const Notify = (message, options = {}) => {
     hideProgressBar: true,
     autoClose: 5000,
     closeButton: false,
-    className: 'toast-message'
+    className: {
+      'background-color': '#888888',
+      'border-radius': '8px',
+      'padding': '8px 12px',
+      'font-weight': '100',
+      'font-size': '12px',
+      'line-height': '22px'
+    }
   }
 
   toast(<Msg message={message} />, Object.assign(defaults, options))
