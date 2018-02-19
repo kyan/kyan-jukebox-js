@@ -40,10 +40,8 @@ describe('tracklist', () => {
       expect(reducer([track1], { type: Types.ADD_TRACKS, list: tracks }))
         .toEqual([track2, track3])
       expect(notify.mock.calls.length).toEqual(2)
-      expect(notify.mock.calls[0][0]).toEqual('Adding track2 by artist2')
-      expect(notify.mock.calls[0][1]).toEqual({body: 'album2'})
-      expect(notify.mock.calls[1][0]).toEqual('Adding track3 by artist3')
-      expect(notify.mock.calls[1][1]).toEqual({body: 'composer3'})
+      expect(notify.mock.calls[0][0]).toEqual('Added track2 by artist2')
+      expect(notify.mock.calls[1][0]).toEqual('Added track3 by artist3')
       notify.mockClear()
     })
 
