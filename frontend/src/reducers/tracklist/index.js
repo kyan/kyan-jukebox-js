@@ -13,11 +13,7 @@ const notification = (oldT, newT) => {
   if (difference.size === 0) return
 
   for (let track of difference) {
-    const title = `Adding ${track.name} by ${track.artist.name}`
-    let body = ''
-    if (track.composer) body = track.composer.name
-    if (track.album) body = track.album.name
-    notify(title, { body: body })
+    notify(`Added ${track.name} by ${track.artist.name}`)
   }
 }
 

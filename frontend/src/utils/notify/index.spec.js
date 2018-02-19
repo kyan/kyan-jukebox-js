@@ -1,23 +1,21 @@
-import Push from 'push.js'
+import { toast } from 'react-toastify'
+import { shallow } from 'enzyme'
 import notify from './index'
-jest.mock('push.js')
+jest.mock('react-toastify')
 
 describe('notify', () => {
-  it('calls the Push interface with opts', () => {
-    notify('Message Title', { body: 'message body' })
-    expect(Push.create.mock.calls.length).toEqual(1)
-    expect(Push.create.mock.calls[0][0]).toEqual('Message Title')
-    expect(Push.create.mock.calls[0][1]).toEqual({
-      body: 'message body',
-      icon: '/jukebox.png',
-      silent: true
+  it('calls the toast interface', () => {
+    notify('Added Foo by Bar')
+    expect(toast.mock.calls.length).toEqual(1)
+    expect(shallow(toast.mock.calls[0][0])).toMatchSnapshot()
+    expect(toast.mock.calls[0][1]).toEqual({
+      autoClose: 5000,
+      className: 'toast-message',
+      closeButton: false,
+      hideProgressBar: true,
+      newestOnTop: true,
+      position: 'bottom-right',
+      type: 'info'
     })
-    Push.create.mockClear()
-  })
-
-  it('calls the Push interface with no opts', () => {
-    notify('Message Title 1')
-    expect(Push.create.mock.calls.length).toEqual(1)
-    expect(Push.create.mock.calls[0][0]).toEqual('Message Title 1')
   })
 })
