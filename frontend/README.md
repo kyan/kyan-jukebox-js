@@ -15,7 +15,7 @@ The client can be deployed to Github pages via:
 
 `$ yarn deploy`
 
-This will current deploy the branch you have checked out, and make it availble at: https://kyan.github.io/jukebox-js
+This will current deploy the branch you have checked out, and make it availble at: http://jukebox.kyan.com
 
 ### Development
 
