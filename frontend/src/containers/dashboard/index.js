@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
 import { DragDropContext, DragDropContextProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { Dimmer, Divider, Grid, Header } from 'semantic-ui-react'
@@ -78,6 +79,7 @@ export class Dashboard extends Component {
             />
           </Grid.Column>
         </Grid>
+        <ToastContainer />
       </Dimmer.Dimmable>
     )
   }

@@ -1,12 +1,31 @@
-import Push from 'push.js'
+import React from 'react'
+import { toast } from 'react-toastify'
+import { Icon } from 'semantic-ui-react'
 
-const Notify = (title, options = {}) => {
+const Msg = ({ message }) => (
+  <span>
+    <Icon
+      inverted
+      name='music'
+      color='grey'
+      circular
+    />
+    {message}
+  </span>
+)
+
+const Notify = (message, options = {}) => {
   let defaults = {
-    silent: true,
-    icon: '/jukebox.png'
+    type: toast.TYPE.INFO,
+    position: toast.POSITION.BOTTOM_RIGHT,
+    newestOnTop: true,
+    hideProgressBar: true,
+    autoClose: 5000,
+    closeButton: false,
+    className: 'toast-message'
   }
 
-  Push.create(title, Object.assign(defaults, options))
+  toast(<Msg message={message} />, Object.assign(defaults, options))
 }
 
 export default Notify
