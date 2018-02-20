@@ -29,17 +29,17 @@ You can find more information on the client via it's README in the `frontend` fo
 
 You can find more information on the api via it's README in the `backend` folder.
 
-### Docker
+## Docker
 
-You can currently run everything Docker if you wish. From the root of the repo, you just need to run:
+You can currently run everything in `Docker` if you wish. From the root of the repo, you just need to run:
 
 ```
 $ docker-compose up
 ```
 
-This will give you a give you a working client and API. The client is available http://localhost:3000 running in dev mode, meaning any changes will cause the server to restart. By default the API will be talking to the live Mopidy instance in the office. You can change this by updating the `WS_MOPIDY` ENV in the `backend` app. You can also change the ENV `REACT_APP_WS_URL` in the `frontend` app to point to the deployed API `jukebox-api.local`
+This will give you a give you a working client and API. The client is available http://localhost:3000 running in dev mode, meaning any changes will cause the server to restart. By default the API will be talking to the live Mopidy instance in the office. Both `frontend` and `backend` have a `.env` files they use for ENVs. You can create your own `.env.development.local` in the root of each app and change any of the ENVs.
 
-#### Specs
+### Specs
 
 You can run the `frontend` specs with:
 
