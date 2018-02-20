@@ -3,6 +3,7 @@
 exports[`Dashboard render just the dashboard without redux renders as expected 1`] = `
 <DimmerDimmable
   blurring={true}
+  className="jukebox-dashboard"
   dimmed={false}
 >
   <Connect(Component) />
@@ -120,10 +121,11 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
       >
         <DimmerDimmable
           blurring={true}
+          className="jukebox-dashboard"
           dimmed={false}
         >
           <div
-            className="blurring dimmable"
+            className="blurring dimmable jukebox-dashboard"
           >
             <Connect(Component)>
               <Component
