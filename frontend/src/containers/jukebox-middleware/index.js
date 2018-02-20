@@ -7,7 +7,7 @@ import onMessageHandler from '../../utils/on-message-handler'
 import Payload from '../../utils/payload'
 
 const JukeboxMiddleware = (() => {
-  let wsurl = `ws://${MopidyApi.WS_URL}`
+  let wsurl = `ws://${process.env.REACT_APP_WS_URL}:${process.env.REACT_APP_WS_PORT}`
   let reconnectTimeout = 1000
   let socket = null
   let progressTimer = null

@@ -1,5 +1,4 @@
 export default {
-  WS_URL: 'jukebox-api.local:8080',
   PLAYBACK_GET_CURRENT_TRACK: 'mopidy::playback.getCurrentTrack',
   EVENT_TRACK_PLAYBACK_STARTED: 'mopidy::event:trackPlaybackStarted',
   EVENT_PLAYBACK_STATE_CHANGED: 'mopidy::event:playbackStateChanged',
