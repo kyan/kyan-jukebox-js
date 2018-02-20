@@ -43,7 +43,11 @@ export class Dashboard extends Component {
 
   render () {
     return (
-      <Dimmer.Dimmable blurring dimmed={!this.props.jukebox.online}>
+      <Dimmer.Dimmable
+        blurring
+        className='jukebox-dashboard'
+        dimmed={!this.props.jukebox.online}
+      >
         <Settings />
         <VolumeButtons
           volume={this.props.jukebox.currentVolume}
