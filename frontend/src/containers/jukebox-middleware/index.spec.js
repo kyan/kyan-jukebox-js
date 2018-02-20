@@ -10,7 +10,8 @@ jest.mock('../../utils/time')
 jest.useFakeTimers()
 
 describe('JukeboxMiddleware', () => {
-  const mockServer = new Server(`ws://${MopidyApi.WS_URL}`)
+  const wsurl = `ws://${process.env.REACT_APP_WS_URL}:${process.env.REACT_APP_WS_PORT}`
+  const mockServer = new Server(wsurl)
   const payload = JSON.stringify({ key: 'foo', data: 'bar' })
   const dispatchSpy = jest.fn()
   const store = {
