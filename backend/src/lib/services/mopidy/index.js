@@ -2,10 +2,11 @@ import Mopidy from 'mopidy'
 import MopidyConstants from './constants'
 import Payload from '../../payload'
 
-const { WS_MOPIDY = 'localhost:6680' } = process.env
+const mopidyUrl = process.env.WS_MOPIDY_URL
+const mopidyPort = process.env.WS_MOPIDY_PORT
 
 const mopidy = new Mopidy({
-  webSocketUrl: `ws://${WS_MOPIDY}/mopidy/ws/`,
+  webSocketUrl: `ws://${mopidyUrl}:${mopidyPort}/mopidy/ws/`,
   callingConvention: 'by-position-or-by-name'
 })
 
