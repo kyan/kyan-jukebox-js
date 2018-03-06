@@ -11,6 +11,11 @@ const mopidy = new Mopidy({
 })
 
 const MopidyService = (broadcaster, callback) => {
+  mopidy.on('websocket:error', (err) => {
+    const encodedKey = Payload.encodeKey('mopidy', 'connectionError')
+    broadcaster.everyone(encodedKey, err.message)
+  })
+
   mopidy.on('state:online', () => {
     MopidyConstants.EVENTS.forEach(key => {
       mopidy.on(key, data => {
