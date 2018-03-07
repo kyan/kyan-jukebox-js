@@ -1,17 +1,16 @@
 import MopidyHandler from '../handlers/mopidy'
 import Payload from '../payload'
 
-const MessageTriage = (payload, mopidy, callback) => {
+const MessageTriage = (payload, mopidy, fn) => {
   const { service } = Payload.decode(payload)
 
   switch (service) {
-    case 'votes':
-      throw new Error('Voting not implimented yet!')
-    default:
-      const handler = (ws, broadcaster) => {
+    case 'mopidy':
+      return fn((ws, broadcaster) => {
         return MopidyHandler(payload, ws, broadcaster, mopidy)
-      }
-      return callback(handler)
+      })
+    default:
+      console.log('UNKNOWN MESSAGE SERVICE: ', service)
   }
 }
 

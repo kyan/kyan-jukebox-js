@@ -20,6 +20,7 @@ export default function (key, data) {
     case 'mopidy::mixer.setVolume':
     case 'mopidy::playback.next':
     case 'mopidy::tracklist.remove':
+    case 'mopidy::connectionError':
       return data
     default:
       return `BACKEND RESPONSE NOT HANDLED: ${key}`
