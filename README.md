@@ -14,34 +14,26 @@ The Jukebox re-imagined still uses `Mopidy` but has been split into parts, Clien
 
 ## Requirements
 
-Genreral requirements are to have [NodeJS](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/en/) installed. I recommend using [n](https://github.com/tj/n) as a great node version manager.
-
 ```
 $ git clone https://github.com/kyan/jukebox-js
 $ cd jukebox-js
 ```
 
-### Client
+## Development
 
-You can find more information on the client via it's README in the `frontend` folder.
-
-### API
-
-You can find more information on the api via it's README in the `backend` folder.
-
-## Docker
-
-You can currently run everything in `Docker` if you wish. From the root of the repo, you just need to run:
+You can run everything in `Docker`. From the root of the repo, you just need to run:
 
 ```
 $ docker-compose up
 ```
 
-This will give you a give you a working client and API. The client is available http://localhost:3000 running in dev mode, meaning any changes will cause the server to restart. By default the API will be talking to the live Mopidy instance in the office. Both `frontend` and `backend` have `.env` files they use for ENVs. You can create your own `.env.development.local` in the root of each app and change any of the ENVs.
+This will give you a give you a working client and API. The client is available http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart. By default the API will be talking to the live Mopidy instance in the office.
+
+Both the frontend and backend use ENVs for their confirguration. You can make changes to the defaults by updating the `docker-compose.yml` file.
 
 ### Specs
 
-You can run the `frontend` specs with:
+There is currently 100% test coverage and linting plumbed in. You can run the `frontend` specs with:
 
 ```
 $ docker-compose run jukebox-client yarn test
@@ -52,5 +44,15 @@ You can run the `backend` specs with:
 ```
 $ docker-compose run jukebox-api yarn test
 ```
+
+You can add `--coverage` to the end of both to get a coverage report.
+
+### Client
+
+You can find more information on the client via it's README in the `frontend` folder.
+
+### API
+
+You can find more information on the api via it's README in the `backend` folder.
 
 

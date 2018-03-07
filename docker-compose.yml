@@ -9,7 +9,12 @@ services:
       - './frontend:/usr/src/app'
       - '/usr/src/app/node_modules'
     ports:
-      - '3000:3000'
+      - '3001:3001'
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - REACT_APP_WS_URL=localhost
+      - REACT_APP_WS_PORT=8080
   jukebox-api:
     container_name: jukebox-api
     build:
@@ -22,3 +27,8 @@ services:
       - '8080:8080'
     environment:
       - NODE_ENV=development
+      - PORT=8080
+      - IS_ALIVE_TIMEOUT=30000
+      - WS_MOPIDY_URL=jukebox.local
+      - WS_MOPIDY_PORT=6680
+
