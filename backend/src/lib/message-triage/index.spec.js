@@ -8,17 +8,11 @@ describe('MessageTriage', () => {
   const ws = jest.fn()
   const broadcaster = jest.fn()
 
-  describe('when votes', () => {
-    let payload = '{"key":"votes::playback.play","data":{}}'
-
-    it('it should currently error', () => {
-      expect(function () {
-        MessageTriage(payload, mopidy, cb)
-      }).toThrow()
-    })
+  beforeEach(() => {
+    spyOn(console, 'log')
   })
 
-  describe('when mopidy', () => {
+  describe('when mopidy service', () => {
     let payload = '{"key":"mopidy::playback.play","data":{}}'
 
     it('it should default to Mopidy', () => {
@@ -27,6 +21,15 @@ describe('MessageTriage', () => {
       expect(MopidyHandler).toHaveBeenCalledWith(
         payload, ws, broadcaster, mopidy
       )
+    })
+  })
+
+  describe('when unknown service', () => {
+    let payload = '{"key":"unknownfoo::playback.play","data":{}}'
+
+    it('it should currently error', () => {
+      MessageTriage(payload, mopidy, cb)
+      expect(console.log).toBeCalledWith('UNKNOWN MESSAGE SERVICE: ', 'unknownfoo')
     })
   })
 })

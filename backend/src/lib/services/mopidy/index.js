@@ -13,7 +13,7 @@ const mopidy = new Mopidy({
 const MopidyService = (broadcaster, callback) => {
   mopidy.on('websocket:error', (err) => {
     const encodedKey = Payload.encodeKey('mopidy', 'connectionError')
-    broadcaster.everyone(encodedKey, err.message)
+    broadcaster.everyone(encodedKey, String(err))
   })
 
   mopidy.on('state:online', () => {

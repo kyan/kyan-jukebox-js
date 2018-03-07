@@ -23,12 +23,12 @@ const Notify = (message, options = {}) => {
     autoClose: 5000,
     closeButton: false,
     className: {
-      'background-color': '#888888',
-      'border-radius': '8px',
+      'backgroundColor': '#888888',
+      'borderRadius': '8px',
       'padding': '8px 12px',
-      'font-weight': '100',
-      'font-size': '12px',
-      'line-height': '22px'
+      'fontWeight': '100',
+      'fontSize': '12px',
+      'lineHeight': '22px'
     }
   }
 
