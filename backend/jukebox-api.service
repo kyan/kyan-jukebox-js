@@ -14,7 +14,11 @@ StandardError=syslog
 SyslogIdentifier=kyan-jukebox-api
 User=jukebox
 Group=jukebox
-Environment=NODE_ENV=production PORT=8080 WS_MOPIDY_URL=jukebox.local WS_MOPIDY_PORT=6680
+Environment=NODE_ENV=production
+Environment=PORT=8080
+Environment=WS_MOPIDY_URL=jukebox.local
+Environment=WS_MOPIDY_PORT=6680
+Environment=IS_ALIVE_TIMEOUT=30000
 
 [Install]
 WantedBy=multi-user.target

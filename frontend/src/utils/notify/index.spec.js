@@ -11,11 +11,11 @@ describe('notify', () => {
     expect(toast.mock.calls[0][1]).toEqual({
       autoClose: 5000,
       className: {
-        'background-color': '#888888',
-        'border-radius': '8px',
-        'font-size': '12px',
-        'font-weight': '100',
-        'line-height': '22px',
+        'backgroundColor': '#888888',
+        'borderRadius': '8px',
+        'fontSize': '12px',
+        'fontWeight': '100',
+        'lineHeight': '22px',
         'padding': '8px 12px'
       },
       closeButton: false,
