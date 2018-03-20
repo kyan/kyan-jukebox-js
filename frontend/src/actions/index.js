@@ -95,6 +95,13 @@ export const getTimePosition = () => {
   }
 }
 
+export const getState = () => {
+  return {
+    type: Types.SEND,
+    key: MopidyApi.PLAYBACK_GET_PLAYBACK_STATE
+  }
+}
+
 export const getImage = (uri) => {
   return {
     type: Types.SEND,
@@ -171,6 +178,13 @@ export const updateVolume = (volume) => {
   return {
     type: Types.UPDATE_VOLUME,
     volume
+  }
+}
+
+export const updatePlaybackState = (state) => {
+  return {
+    type: Types.UPDATE_PLAYBACK_STATE,
+    state
   }
 }
 

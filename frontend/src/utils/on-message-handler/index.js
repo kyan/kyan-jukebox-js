@@ -2,13 +2,19 @@ import * as actions from '../../actions'
 import MopidyApi from '../../constants/mopidy-api'
 import Payload from '../../utils/payload'
 
-const playBackChanged = (state, progress) => {
+const updatePlaybackState = (store, state) => {
+  store.dispatch(actions.updatePlaybackState(state))
+}
+
+const playBackChanged = (store, state, progress) => {
   switch (state) {
-    case 'paused':
-    case 'stopped':
+    case MopidyApi.PAUSED:
+    case MopidyApi.STOPPED:
+      updatePlaybackState(store, state)
       progress.stop()
       break
-    case 'playing':
+    case MopidyApi.PLAYING:
+      updatePlaybackState(store, state)
       progress.start()
       break
     default:
@@ -22,6 +28,7 @@ const imageUriChooser = (track) => {
 }
 
 const addCurrentTrack = (track, store, progress) => {
+  if (!track) return
   store.dispatch(actions.addCurrentTrack(track))
   progress.set(0, track.length).start()
   store.dispatch(actions.getImage(imageUriChooser(track)))
@@ -43,7 +50,8 @@ const onMessageHandler = (store, payload, progressTimer) => {
       addCurrentTrack(data.track, store, progressTimer)
       break
     case MopidyApi.EVENT_PLAYBACK_STATE_CHANGED:
-      playBackChanged(data.new_state, progressTimer)
+    case MopidyApi.PLAYBACK_GET_PLAYBACK_STATE:
+      playBackChanged(store, data, progressTimer)
       break
     case MopidyApi.EVENT_TRACKLIST_CHANGED:
       store.dispatch(actions.getTrackList())

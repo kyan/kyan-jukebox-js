@@ -6,7 +6,7 @@ exports[`CurrentTrackContainer render just the app without redux renders as expe
   progress={50}
   track={
     Object {
-      "track": "track",
+      "track": null,
     }
   }
 />
@@ -34,7 +34,45 @@ exports[`CurrentTrackContainer render the connected app renders as expected 1`] 
       <CurrentTrack
         image={null}
         progress={0}
-      />
+      >
+        <Card>
+          <div
+            className="ui card"
+            onClick={[Function]}
+          >
+            <Image
+              as="img"
+              src="default-artwork.png"
+              ui={true}
+            >
+              <img
+                className="ui image"
+                src="default-artwork.png"
+              />
+            </Image>
+            <CardContent>
+              <div
+                className="content"
+              >
+                <CardHeader>
+                  <div
+                    className="header"
+                  >
+                    Nothing playing
+                  </div>
+                </CardHeader>
+                <CardDescription>
+                  <div
+                    className="description"
+                  >
+                    Drag some music here or press play.
+                  </div>
+                </CardDescription>
+              </div>
+            </CardContent>
+          </div>
+        </Card>
+      </CurrentTrack>
     </Component>
   </Connect(Component)>
 </Provider>

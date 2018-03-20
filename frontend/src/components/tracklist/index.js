@@ -8,6 +8,7 @@ import defaultImage from './../current-track/default-artwork.png'
 import './index.css'
 
 const isCurrentTrack = (currentTrack, track) => {
+  if (!currentTrack) return false
   return currentTrack.uri === track.uri
 }
 
@@ -56,8 +57,8 @@ const removeTrack = (uri, cb) => {
 
 const imageChooser = (track, images, isCurrent, onRemoveTrack) => {
   let image
-  if (track.album) image = images[track.album.uri]
-  if (track.composer) image = images[track.composer.uri]
+  if (images && track.album) image = images[track.album.uri]
+  if (images && track.composer) image = images[track.composer.uri]
   if (!image) image = defaultImage
 
   return isCurrent ? currentImage(image) : revealImage(image, track.uri, onRemoveTrack)

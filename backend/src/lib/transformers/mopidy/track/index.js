@@ -1,4 +1,6 @@
 export default function (json) {
+  if (!json) return { track: null }
+
   let payload = {
     uri: json.uri,
     name: json.name,

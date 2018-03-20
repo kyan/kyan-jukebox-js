@@ -11,7 +11,10 @@ export default function (key, data) {
       return TransformTrack(data.tl_track.track)
     case 'mopidy::event:volumeChanged':
       return data.volume
+    case 'mopidy::event:playbackStateChanged':
+      return data.new_state
     case 'mopidy::playback.getTimePosition':
+    case 'mopidy::playback.getState':
     case 'mopidy::event:tracklistChanged':
     case 'mopidy::library.getImages':
     case 'mopidy::tracklist.add':

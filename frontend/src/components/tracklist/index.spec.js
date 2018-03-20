@@ -54,4 +54,16 @@ describe('Tracklist', () => {
       expect(wrapper.instance()).toBeNull()
     })
   })
+
+  describe('tracklist but nothing cued up', () => {
+    it('does not mark anything as current', () => {
+      wrapper = shallow(
+        <Tracklist
+          tracks={tracks.map(item => item.track)}
+          onRemoveTrack={onRemoveMock}
+        />
+      )
+      expect(wrapper).toMatchSnapshot()
+    })
+  })
 })

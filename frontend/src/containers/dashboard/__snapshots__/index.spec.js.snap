@@ -16,6 +16,7 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
     onPause={[Function]}
     onPlay={[Function]}
     onPrevious={[Function]}
+    state="playing"
   />
   <Divider />
   <Grid>
@@ -36,7 +37,7 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
           <Header
             size="small"
           >
-            Currently Playing
+            Current Track
           </Header>
           <Connect(Component) />
         </DropTarget(UrlDropArea)>
@@ -101,8 +102,9 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
       dispatch={[Function]}
       jukebox={
         Object {
-          "currentVolume": 25,
           "online": true,
+          "playbackState": "playing",
+          "volume": 25,
         }
       }
       tracklist={Array []}
@@ -112,8 +114,9 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
         dispatch={[Function]}
         jukebox={
           Object {
-            "currentVolume": 25,
             "online": true,
+            "playbackState": "playing",
+            "volume": 25,
           }
         }
         tracklist={Array []}
@@ -255,6 +258,7 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
               onPause={[Function]}
               onPlay={[Function]}
               onPrevious={[Function]}
+              state="playing"
             >
               <span>
                 <SkipButtons
@@ -345,12 +349,15 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                 <Button
                   animated="vertical"
                   as="button"
+                  disabled={true}
                   onClick={[Function]}
                 >
                   <button
-                    className="ui vertical animated button"
+                    className="ui vertical animated disabled button"
+                    disabled={true}
                     onClick={[Function]}
                     role="button"
+                    tabIndex={-1}
                   >
                     <ButtonContent
                       hidden={true}
@@ -383,6 +390,7 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                 <Button
                   animated="vertical"
                   as="button"
+                  disabled={false}
                   onClick={[Function]}
                 >
                   <button
@@ -462,7 +470,7 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                               <div
                                 className="ui small header"
                               >
-                                Currently Playing
+                                Current Track
                               </div>
                             </Header>
                             <Connect(Component)>
@@ -474,7 +482,45 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                                 <CurrentTrack
                                   image={null}
                                   progress={NaN}
-                                />
+                                >
+                                  <Card>
+                                    <div
+                                      className="ui card"
+                                      onClick={[Function]}
+                                    >
+                                      <Image
+                                        as="img"
+                                        src="default-artwork.png"
+                                        ui={true}
+                                      >
+                                        <img
+                                          className="ui image"
+                                          src="default-artwork.png"
+                                        />
+                                      </Image>
+                                      <CardContent>
+                                        <div
+                                          className="content"
+                                        >
+                                          <CardHeader>
+                                            <div
+                                              className="header"
+                                            >
+                                              Nothing playing
+                                            </div>
+                                          </CardHeader>
+                                          <CardDescription>
+                                            <div
+                                              className="description"
+                                            >
+                                              Drag some music here or press play.
+                                            </div>
+                                          </CardDescription>
+                                        </div>
+                                      </CardContent>
+                                    </div>
+                                  </Card>
+                                </CurrentTrack>
                               </Component>
                             </Connect(Component)>
                           </div>

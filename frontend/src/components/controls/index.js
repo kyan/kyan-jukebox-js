@@ -1,12 +1,14 @@
 import React from 'react'
 import SkipButtons from '../../components/skip-buttons'
+import MopidyApi from '../../constants/mopidy-api'
 import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 
-const playButton = (cb) => (
+const playButton = (cb, state) => (
   <Button
     onClick={cb}
     animated='vertical'
+    disabled={(state === MopidyApi.PLAYING)}
   >
     <Button.Content hidden>Play</Button.Content>
     <Button.Content visible>
@@ -15,10 +17,11 @@ const playButton = (cb) => (
   </Button>
 )
 
-const pauseButton = (cb) => (
+const pauseButton = (cb, state) => (
   <Button
     onClick={cb}
     animated='vertical'
+    disabled={(state === MopidyApi.PAUSED)}
   >
     <Button.Content hidden>Pause</Button.Content>
     <Button.Content visible>
@@ -27,18 +30,19 @@ const pauseButton = (cb) => (
   </Button>
 )
 
-const Controls = ({ onPlay, onPause, onPrevious, onNext }) => (
+const Controls = ({ state, onPlay, onPause, onPrevious, onNext }) => (
   <span>
     <SkipButtons
       onPrevious={onPrevious}
       onNext={onNext}
     />
-    {playButton(onPlay)}
-    {pauseButton(onPause)}
+    {playButton(onPlay, state)}
+    {pauseButton(onPause, state)}
   </span>
 )
 
 Controls.propTypes = {
+  state: PropTypes.string.isRequired,
   onPlay: PropTypes.func.isRequired,
   onPause: PropTypes.func.isRequired,
   onPrevious: PropTypes.func.isRequired,
