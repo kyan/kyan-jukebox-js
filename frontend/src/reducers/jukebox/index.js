@@ -1,8 +1,17 @@
+import MopidyApi from '../../constants/mopidy-api'
+import notify from '../../utils/notify'
 import Types from '../../constants'
 
 const initalState = {
   online: false,
-  currentVolume: 0
+  volume: 0,
+  playbackState: MopidyApi.PAUSED
+}
+
+const notification = (oldState, newState) => {
+  if (oldState !== newState) {
+    notify(`Jukebox ${newState}`)
+  }
 }
 
 const jukebox = (state = initalState, action) => {
@@ -17,7 +26,12 @@ const jukebox = (state = initalState, action) => {
       })
     case Types.UPDATE_VOLUME:
       return Object.assign({}, state, {
-        currentVolume: action.volume
+        volume: action.volume
+      })
+    case Types.UPDATE_PLAYBACK_STATE:
+      notification(state.playbackState, action.state)
+      return Object.assign({}, state, {
+        playbackState: action.state
       })
     default:
       return state

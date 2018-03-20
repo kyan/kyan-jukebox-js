@@ -21,13 +21,26 @@ const albumArt = (image) => {
 }
 
 const serviceIcon = (uri) => {
+  const lookup = {
+    spotify: 'green'
+  }
   const key = uri.split(':')[0]
-  if (key === 'local') return null
-  return <Icon name={key} color='green' />
+  if (!lookup[key]) return null
+  return <Icon name={key} color={lookup[key]} />
 }
 
+const noTrack = () => (
+  <Card>
+    { albumArt(null) }
+    <Card.Content>
+      <Card.Header>Nothing playing</Card.Header>
+      <Card.Description>Drag some music here or press play.</Card.Description>
+    </Card.Content>
+  </Card>
+)
+
 const CurrentTrack = ({ track, image, progress }) => {
-  if (!track) { return null }
+  if (!track) { return noTrack() }
 
   return (
     <Card>

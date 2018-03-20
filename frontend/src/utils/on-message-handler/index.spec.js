@@ -50,6 +50,20 @@ describe('onMessageHandler', () => {
       expect(progressStartMock.mock.calls.length).toEqual(1)
       progressStartMock.mockClear()
     })
+
+    it('handles when no track is actually playing', () => {
+      const newPayload = {
+        data: { track: undefined },
+        key: MopidyApi.PLAYBACK_GET_CURRENT_TRACK
+      }
+      spyOn(actions, 'addCurrentTrack')
+      spyOn(actions, 'getImage')
+      onMessageHandler(store, JSON.stringify(newPayload), progress)
+      expect(actions.addCurrentTrack).not.toHaveBeenCalled()
+      expect(actions.getImage).not.toHaveBeenCalled()
+      expect(progressStartMock.mock.calls.length).toEqual(0)
+      progressStartMock.mockClear()
+    })
   })
 
   describe('EVENT_TRACK_PLAYBACK_STARTED', () => {
@@ -71,7 +85,7 @@ describe('onMessageHandler', () => {
   describe('EVENT_PLAYBACK_STATE_CHANGED', () => {
     const newPayload = {
       key: MopidyApi.EVENT_PLAYBACK_STATE_CHANGED,
-      data: {}
+      data: undefined
     }
 
     afterEach(() => {
@@ -80,26 +94,34 @@ describe('onMessageHandler', () => {
     })
 
     it('handles playing', () => {
-      newPayload.data.new_state = 'playing'
+      spyOn(actions, 'updatePlaybackState')
+      newPayload.data = 'playing'
       onMessageHandler(store, JSON.stringify(newPayload), progress)
+      expect(actions.updatePlaybackState).toHaveBeenCalledWith('playing')
       expect(progressStartMock.mock.calls.length).toEqual(1)
     })
 
     it('handles stopping', () => {
-      newPayload.data.new_state = 'stopped'
+      spyOn(actions, 'updatePlaybackState')
+      newPayload.data = 'stopped'
       onMessageHandler(store, JSON.stringify(newPayload), progress)
+      expect(actions.updatePlaybackState).toHaveBeenCalledWith('stopped')
       expect(progressStopMock.mock.calls.length).toEqual(1)
     })
 
     it('handles pausing', () => {
-      newPayload.data.new_state = 'paused'
+      spyOn(actions, 'updatePlaybackState')
+      newPayload.data = 'paused'
       onMessageHandler(store, JSON.stringify(newPayload), progress)
+      expect(actions.updatePlaybackState).toHaveBeenCalledWith('paused')
       expect(progressStopMock.mock.calls.length).toEqual(1)
     })
 
     it('handles state not known', () => {
-      newPayload.data.new_state = 'spinningaround'
+      spyOn(actions, 'updatePlaybackState')
+      newPayload.data = 'spinningaround'
       onMessageHandler(store, JSON.stringify(newPayload), progress)
+      expect(actions.updatePlaybackState).not.toHaveBeenCalled()
       expect(progressStartMock.mock.calls.length).toEqual(0)
       expect(progressStopMock.mock.calls.length).toEqual(0)
     })

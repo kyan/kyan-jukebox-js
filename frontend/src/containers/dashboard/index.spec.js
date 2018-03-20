@@ -9,7 +9,7 @@ describe('Dashboard', () => {
   let wrapper
 
   describe('render just the dashboard without redux', () => {
-    const jukebox = { currentVolume: 25, online: true }
+    const jukebox = { volume: 25, online: true, playbackState: 'playing' }
     const currentTrack = {}
     const tracklist = []
     const tracklistImages = {}
@@ -132,8 +132,9 @@ describe('Dashboard', () => {
       },
       tracklist: [],
       jukebox: {
-        currentVolume: 25,
-        online: true
+        volume: 25,
+        online: true,
+        playbackState: 'playing'
       },
       timer: {
         duration: 100,
