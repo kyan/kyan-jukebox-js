@@ -13,5 +13,6 @@ export default {
   STORE_UID: 'actionStoreUID',
   TOGGLE_SETTINGS: 'actionToggleSettings',
   UPDATE_VOLUME: 'actionUpdateVolume',
+  UPDATE_PLAYBACK_STATE: 'actionPlaybackState',
   UPDATE_PROGRESS_TIMER: 'actionUpdateProgressTimer'
 }

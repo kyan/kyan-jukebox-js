@@ -50,4 +50,12 @@ describe('TransformerTrack', () => {
       })
     })
   })
+
+  describe('when passed no track', () => {
+    it('returns an empty track', () => {
+      expect(TransformerTrack(null)).toEqual({
+        track: null
+      })
+    })
+  })
 })

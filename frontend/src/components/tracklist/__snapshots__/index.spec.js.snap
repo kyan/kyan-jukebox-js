@@ -95,3 +95,114 @@ exports[`Tracklist render renders the as expected 1`] = `
   </ListItem>
 </List>
 `;
+
+exports[`Tracklist tracklist but nothing cued up does not mark anything as current 1`] = `
+<List
+  relaxed={true}
+>
+  <ListItem
+    key="0-spotify:track:1yzSSn5Sj1azuo7RgwvDb3"
+  >
+    <a
+      className="image"
+      onClick={[Function]}
+    >
+      <Reveal
+        animated="fade"
+      >
+        <RevealContent
+          visible={true}
+        >
+          <Image
+            as="img"
+            avatar={true}
+            src="default-artwork.png"
+            ui={true}
+          />
+        </RevealContent>
+        <RevealContent
+          hidden={true}
+        >
+          <Icon
+            as="i"
+            bordered={true}
+            circular={true}
+            color="red"
+            name="close"
+          />
+        </RevealContent>
+      </Reveal>
+    </a>
+    <ListContent
+      className="track-info"
+    >
+      <ListHeader
+        as="h3"
+      >
+        No Time for Caution
+      </ListHeader>
+      <ListDescription>
+        Hans Zimmer
+         
+        <small>
+          (
+          4:06
+          )
+        </small>
+      </ListDescription>
+    </ListContent>
+  </ListItem>
+  <ListItem
+    key="1-local:track:Soundtracks/Silent%20Running%20OST/Silent%20Running%20"
+  >
+    <a
+      className="image"
+      onClick={[Function]}
+    >
+      <Reveal
+        animated="fade"
+      >
+        <RevealContent
+          visible={true}
+        >
+          <Image
+            as="img"
+            avatar={true}
+            src="default-artwork.png"
+            ui={true}
+          />
+        </RevealContent>
+        <RevealContent
+          hidden={true}
+        >
+          <Icon
+            as="i"
+            bordered={true}
+            circular={true}
+            color="red"
+            name="close"
+          />
+        </RevealContent>
+      </Reveal>
+    </a>
+    <ListContent
+      className="track-info"
+    >
+      <ListHeader
+        as="h3"
+      >
+        Silent Running
+      </ListHeader>
+      <ListDescription>
+        Joan Baez
+         
+        <small>
+          (
+          2:04
+          )
+        </small>
+      </ListDescription>
+    </ListContent>
+  </ListItem>
+</List>
+`;
