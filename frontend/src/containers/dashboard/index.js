@@ -50,10 +50,11 @@ export class Dashboard extends Component {
       >
         <Settings />
         <VolumeButtons
-          volume={this.props.jukebox.currentVolume}
+          volume={this.props.jukebox.volume}
           onVolumeChange={this.fireDispatch('setVolume')}
         />
         <Controls
+          state={this.props.jukebox.playbackState}
           onPlay={this.fireDispatch('startPlaying')}
           onPause={this.fireDispatch('pausePlaying')}
           onNext={this.fireDispatch('nextPlaying')}
@@ -64,7 +65,7 @@ export class Dashboard extends Component {
           <Grid.Column width={6}>
             <DragDropContextProvider backend={HTML5Backend}>
               <UrlDropArea accepts={Constants.DROP_TYPES} onDrop={this.handleURLDrop}>
-                <Header size='small'>Currently Playing</Header>
+                <Header size='small'>Current Track</Header>
                 <CurrentTrackContainer />
               </UrlDropArea>
             </DragDropContextProvider>

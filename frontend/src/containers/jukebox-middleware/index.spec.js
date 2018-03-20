@@ -59,22 +59,30 @@ describe('JukeboxMiddleware', () => {
       })
       expect(dispatchSpy.mock.calls[6][0]).toEqual({
         type: 'actionSend',
-        key: 'mopidy::tracklist.getTracks'
+        key: 'mopidy::playback.getState'
       })
       expect(dispatchSpy.mock.calls[7][0]).toEqual({
         type: 'actionSend',
+        key: 'mopidy::tracklist.getTracks'
+      })
+      expect(dispatchSpy.mock.calls[8][0]).toEqual({
+        type: 'actionSend',
         key: 'mopidy::mixer.getVolume'
       })
-      expect(dispatchSpy.mock.calls[8][0]).toEqual({ type: 'actionConnected' })
-      expect(dispatchSpy.mock.calls[9][0]).toEqual({
+      expect(dispatchSpy.mock.calls[9][0]).toEqual({ type: 'actionConnected' })
+      expect(dispatchSpy.mock.calls[10][0]).toEqual({
         type: 'actionSend',
         key: 'mopidy::playback.getCurrentTrack'
       })
-      expect(dispatchSpy.mock.calls[10][0]).toEqual({
+      expect(dispatchSpy.mock.calls[11][0]).toEqual({
         type: 'actionSend',
         key: 'mopidy::playback.getTimePosition'
       })
-      expect(dispatchSpy.mock.calls[11][0]).toEqual({
+      expect(dispatchSpy.mock.calls[12][0]).toEqual({
+        type: 'actionSend',
+        key: 'mopidy::playback.getState'
+      })
+      expect(dispatchSpy.mock.calls[13][0]).toEqual({
         type: 'actionSend',
         key: 'mopidy::tracklist.getTracks'
       })
@@ -116,6 +124,12 @@ describe('JukeboxMiddleware', () => {
         type: Constants.SEND,
         params: 'params'
       })
+      JukeboxMiddleware(store)(next)({
+        type: Constants.SEND,
+        key: MopidyApi.LIBRARY_GET_IMAGES,
+        params: 'params',
+        uri: null
+      })
       jest.runAllTimers()
 
       expect(dispatchSpy.mock.calls[0][0]).toEqual({ type: 'actionConnecting' })
@@ -135,7 +149,15 @@ describe('JukeboxMiddleware', () => {
       })
       expect(dispatchSpy.mock.calls[6][0]).toEqual({
         type: 'actionSend',
+        key: 'mopidy::playback.getState'
+      })
+      expect(dispatchSpy.mock.calls[7][0]).toEqual({
+        type: 'actionSend',
         key: 'mopidy::tracklist.getTracks'
+      })
+      expect(dispatchSpy.mock.calls[8][0]).toEqual({
+        type: 'actionSend',
+        key: 'mopidy::mixer.getVolume'
       })
       dispatchSpy.mockClear()
     })

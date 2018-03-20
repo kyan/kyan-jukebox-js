@@ -17,6 +17,7 @@ const JukeboxMiddleware = (() => {
     [
       'getCurrentTrack',
       'getTimePosition',
+      'getState',
       'getTrackList',
       'getVolume'
     ].forEach(action => {
@@ -70,8 +71,8 @@ const JukeboxMiddleware = (() => {
         break
       case Constants.SEND:
         if (action.key === MopidyApi.LIBRARY_GET_IMAGES) {
-          const cache = store.getState().assets
-          if (findImageInCache(action.uri, cache)) { break }
+          if (!action.uri) { break }
+          if (findImageInCache(action.uri, store.getState().assets)) { break }
           store.dispatch(actions.newImage(action.uri))
         }
 

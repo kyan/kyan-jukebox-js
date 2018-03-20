@@ -219,6 +219,14 @@ describe('actions', () => {
     expect(actions.updateVolume(32)).toEqual(expectedAction)
   })
 
+  it('should handle updatePlaybackState', () => {
+    const expectedAction = {
+      type: Types.UPDATE_PLAYBACK_STATE,
+      state: 'playing'
+    }
+    expect(actions.updatePlaybackState('playing')).toEqual(expectedAction)
+  })
+
   it('should handle setVolume', () => {
     const expectedAction = {
       type: Types.SEND,

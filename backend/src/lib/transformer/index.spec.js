@@ -56,6 +56,15 @@ describe('Transformer', () => {
     })
   })
 
+  describe('event:playbackStateChanged', () => {
+    const data = { new_state: 'playing' }
+
+    it('does the right thing', () => {
+      expect(Transformer('mopidy::event:playbackStateChanged', data))
+        .toEqual(data.new_state)
+    })
+  })
+
   describe('library.getImages', () => {
     const data = 'data'
 
