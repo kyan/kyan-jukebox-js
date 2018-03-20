@@ -31,6 +31,10 @@ This will give you a give you a working client and API. The client is available 
 
 Both the frontend and backend use ENVs for their confirguration. You can make changes to the defaults by updating the `docker-compose.yml` file.
 
+### Mopidy
+
+If you want to run your own copy of Mopidy, you can buy yourself a Raspberry Pi and follow [these instructions](docs/mopidy_install.md).
+
 ### Specs
 
 There is currently 100% test coverage and linting plumbed in. You can run the `frontend` specs with:
