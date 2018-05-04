@@ -4,6 +4,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { PersistGate } from 'redux-persist/integration/react'
+import ErrorBoundary from './components/error-boundary'
 import jukeboxMiddleware from './containers/jukebox-middleware'
 import jukeboxApp from './reducers'
 import { Container } from 'semantic-ui-react'
@@ -22,7 +23,9 @@ const App = () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <Container fluid>
-        <Dashboard />
+        <ErrorBoundary>
+          <Dashboard />
+        </ErrorBoundary>
       </Container>
     </PersistGate>
   </Provider>

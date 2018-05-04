@@ -5,6 +5,7 @@ import { findImageInCache } from '../../utils/images'
 import { trackProgressTimer } from '../../utils/time'
 import onMessageHandler from '../../utils/on-message-handler'
 import Payload from '../../utils/payload'
+import State from '../../utils/state'
 
 const JukeboxMiddleware = (() => {
   let wsurl = `ws://${process.env.REACT_APP_WS_URL}:${process.env.REACT_APP_WS_PORT}`
@@ -13,22 +14,10 @@ const JukeboxMiddleware = (() => {
   let progressTimer = null
   let connectionAttempts = 0
 
-  const refreshInitialState = (store) => {
-    [
-      'getCurrentTrack',
-      'getTimePosition',
-      'getState',
-      'getTrackList',
-      'getVolume'
-    ].forEach(action => {
-      store.dispatch(actions[action]())
-    })
-  }
-
   const onOpen = (store, token) => evt => {
     progressTimer = trackProgressTimer(store, actions)
     store.dispatch(actions.wsConnected())
-    refreshInitialState(store)
+    State.loadInitial(store)
   }
 
   const onClose = (store) => evt => {
@@ -61,6 +50,10 @@ const JukeboxMiddleware = (() => {
     store.dispatch(actions.wsDisconnected())
   }
 
+  const getJWT = (store) => {
+    return store.getState().settings.token
+  }
+
   return store => next => action => {
     switch (action.type) {
       case Constants.CONNECT:
@@ -76,7 +69,7 @@ const JukeboxMiddleware = (() => {
           store.dispatch(actions.newImage(action.uri))
         }
 
-        socket.send(Payload.encodeToJson(action.key, action.params))
+        socket.send(Payload.encodeToJson(getJWT(store), action.key, action.params))
         break
       default:
         return next(action)

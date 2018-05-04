@@ -1,16 +1,23 @@
 import MopidyHandler from '../handlers/mopidy'
-import Payload from '../payload'
+import HandshakeHandler from '../handlers/handshake'
+import AuthenticateHandler from '../handlers/authenticate'
 
 const MessageTriage = (payload, mopidy, fn) => {
-  const { service } = Payload.decode(payload)
+  const { service } = payload
 
   switch (service) {
     case 'mopidy':
-      return fn((ws, broadcaster) => {
-        return MopidyHandler(payload, ws, broadcaster, mopidy)
+      return fn((ws, bcast) => {
+        AuthenticateHandler(payload, ws, bcast, (updatedPayload) => {
+          MopidyHandler(updatedPayload, ws, bcast, mopidy)
+        })
+      })
+    case 'auth':
+      return fn((ws, bcast) => {
+        HandshakeHandler(payload, ws, bcast)
       })
     default:
-      console.log('UNKNOWN MESSAGE SERVICE: ', service)
+      console.log(`[Warning] Can't find handler for: ${service}`)
   }
 }
 

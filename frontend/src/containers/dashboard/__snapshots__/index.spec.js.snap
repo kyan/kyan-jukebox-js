@@ -8,10 +8,12 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
 >
   <Connect(Component) />
   <VolumeButtons
+    disabled={false}
     onVolumeChange={[Function]}
     volume={25}
   />
   <Controls
+    disabled={false}
     onNext={[Function]}
     onPause={[Function]}
     onPlay={[Function]}
@@ -23,25 +25,17 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
     <GridColumn
       width={6}
     >
-      <DragDropContextProvider
-        backend={[Function]}
+      <DragInTrack
+        disabled={false}
+        onDrop={[Function]}
       >
-        <DropTarget(UrlDropArea)
-          accepts={
-            Array [
-              "__NATIVE_URL__",
-            ]
-          }
-          onDrop={[Function]}
+        <Header
+          size="small"
         >
-          <Header
-            size="small"
-          >
-            Current Track
-          </Header>
-          <Connect(Component) />
-        </DropTarget(UrlDropArea)>
-      </DragDropContextProvider>
+          Current Track
+        </Header>
+        <Connect(Component) />
+      </DragInTrack>
     </GridColumn>
     <GridColumn
       width={10}
@@ -51,11 +45,13 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
       >
         Playlist 
         <ClearPlaylist
+          disabled={false}
           onClear={[Function]}
         />
       </Header>
       <Tracklist
         currentTrack={Object {}}
+        disabled={false}
         images={Object {}}
         onRemoveTrack={[Function]}
         tracks={Array []}
@@ -64,7 +60,7 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
   </Grid>
   <ToastContainer
     autoClose={5000}
-    bodyClassName=""
+    bodyClassName={null}
     className={null}
     closeButton={
       <DefaultCloseButton
@@ -76,9 +72,10 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
     newestOnTop={false}
     pauseOnHover={true}
     position="top-right"
-    progressClassName=""
+    progressClassName={null}
+    rtl={false}
     style={null}
-    toastClassName=""
+    toastClassName={null}
     transition={[Function]}
   />
 </DimmerDimmable>
@@ -107,6 +104,11 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
           "volume": 25,
         }
       }
+      settings={
+        Object {
+          "open": false,
+        }
+      }
       tracklist={Array []}
       tracklistImages={Object {}}
     >
@@ -117,6 +119,11 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
             "online": true,
             "playbackState": "playing",
             "volume": 25,
+          }
+        }
+        settings={
+          Object {
+            "open": false,
           }
         }
         tracklist={Array []}
@@ -191,6 +198,7 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
               </Component>
             </Connect(Component)>
             <VolumeButtons
+              disabled={true}
               onVolumeChange={[Function]}
               volume={25}
             >
@@ -203,12 +211,15 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                   <Button
                     as="button"
                     className="jb-volume-down"
+                    disabled={true}
                     onClick={[Function]}
                   >
                     <button
-                      className="ui button jb-volume-down"
+                      className="ui disabled button jb-volume-down"
+                      disabled={true}
                       onClick={[Function]}
                       role="button"
+                      tabIndex={-1}
                     >
                       <Icon
                         as="i"
@@ -232,12 +243,15 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                   <Button
                     as="button"
                     className="jb-volume-up"
+                    disabled={true}
                     onClick={[Function]}
                   >
                     <button
-                      className="ui button jb-volume-up"
+                      className="ui disabled button jb-volume-up"
+                      disabled={true}
                       onClick={[Function]}
                       role="button"
+                      tabIndex={-1}
                     >
                       <Icon
                         as="i"
@@ -254,6 +268,7 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
               </ButtonGroup>
             </VolumeButtons>
             <Controls
+              disabled={true}
               onNext={[Function]}
               onPause={[Function]}
               onPlay={[Function]}
@@ -262,6 +277,7 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
             >
               <span>
                 <SkipButtons
+                  disabled={true}
                   onNext={[Function]}
                   onPrevious={[Function]}
                 >
@@ -270,12 +286,15 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                       animated="vertical"
                       as="button"
                       className="jb-previous-button"
+                      disabled={true}
                       onClick={[Function]}
                     >
                       <button
-                        className="ui vertical animated button jb-previous-button"
+                        className="ui vertical animated disabled button jb-previous-button"
+                        disabled={true}
                         onClick={[Function]}
                         role="button"
+                        tabIndex={-1}
                       >
                         <ButtonContent
                           hidden={true}
@@ -309,12 +328,15 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                       animated="vertical"
                       as="button"
                       className="jb-next-button"
+                      disabled={true}
                       onClick={[Function]}
                     >
                       <button
-                        className="ui vertical animated button jb-next-button"
+                        className="ui vertical animated disabled button jb-next-button"
+                        disabled={true}
                         onClick={[Function]}
                         role="button"
+                        tabIndex={-1}
                       >
                         <ButtonContent
                           hidden={true}
@@ -347,13 +369,15 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                   </span>
                 </SkipButtons>
                 <Button
+                  active={true}
                   animated="vertical"
                   as="button"
+                  className="jb-play-button"
                   disabled={true}
                   onClick={[Function]}
                 >
                   <button
-                    className="ui vertical animated disabled button"
+                    className="ui active vertical animated disabled button jb-play-button"
                     disabled={true}
                     onClick={[Function]}
                     role="button"
@@ -388,15 +412,19 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                   </button>
                 </Button>
                 <Button
+                  active={false}
                   animated="vertical"
                   as="button"
-                  disabled={false}
+                  className="jb-pause-button"
+                  disabled={true}
                   onClick={[Function]}
                 >
                   <button
-                    className="ui vertical animated button"
+                    className="ui vertical animated disabled button jb-pause-button"
+                    disabled={true}
                     onClick={[Function]}
                     role="button"
+                    tabIndex={-1}
                   >
                     <ButtonContent
                       hidden={true}
@@ -443,90 +471,70 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                   <div
                     className="six wide column"
                   >
-                    <DragDropContextProvider
-                      backend={[Function]}
+                    <DragInTrack
+                      disabled={true}
+                      onDrop={[Function]}
                     >
-                      <DropTarget(UrlDropArea)
-                        accepts={
-                          Array [
-                            "__NATIVE_URL__",
-                          ]
-                        }
-                        onDrop={[Function]}
+                      <Header
+                        size="small"
                       >
-                        <UrlDropArea
-                          accepts={
-                            Array [
-                              "__NATIVE_URL__",
-                            ]
-                          }
-                          connectDropTarget={[Function]}
-                          onDrop={[Function]}
+                        <div
+                          className="ui small header"
                         >
-                          <div>
-                            <Header
-                              size="small"
-                            >
+                          Current Track
+                        </div>
+                      </Header>
+                      <Connect(Component)>
+                        <Component
+                          dispatch={[Function]}
+                          image={null}
+                          progress={NaN}
+                        >
+                          <CurrentTrack
+                            image={null}
+                            progress={NaN}
+                          >
+                            <Card>
                               <div
-                                className="ui small header"
+                                className="ui card"
+                                onClick={[Function]}
                               >
-                                Current Track
-                              </div>
-                            </Header>
-                            <Connect(Component)>
-                              <Component
-                                dispatch={[Function]}
-                                image={null}
-                                progress={NaN}
-                              >
-                                <CurrentTrack
-                                  image={null}
-                                  progress={NaN}
+                                <Image
+                                  as="img"
+                                  src="default-artwork.png"
+                                  ui={true}
                                 >
-                                  <Card>
-                                    <div
-                                      className="ui card"
-                                      onClick={[Function]}
-                                    >
-                                      <Image
-                                        as="img"
-                                        src="default-artwork.png"
-                                        ui={true}
+                                  <img
+                                    className="ui image"
+                                    src="default-artwork.png"
+                                  />
+                                </Image>
+                                <CardContent>
+                                  <div
+                                    className="content"
+                                  >
+                                    <CardHeader>
+                                      <div
+                                        className="header"
                                       >
-                                        <img
-                                          className="ui image"
-                                          src="default-artwork.png"
-                                        />
-                                      </Image>
-                                      <CardContent>
-                                        <div
-                                          className="content"
-                                        >
-                                          <CardHeader>
-                                            <div
-                                              className="header"
-                                            >
-                                              Nothing playing
-                                            </div>
-                                          </CardHeader>
-                                          <CardDescription>
-                                            <div
-                                              className="description"
-                                            >
-                                              Drag some music here or press play.
-                                            </div>
-                                          </CardDescription>
-                                        </div>
-                                      </CardContent>
-                                    </div>
-                                  </Card>
-                                </CurrentTrack>
-                              </Component>
-                            </Connect(Component)>
-                          </div>
-                        </UrlDropArea>
-                      </DropTarget(UrlDropArea)>
-                    </DragDropContextProvider>
+                                        Nothing playing
+                                      </div>
+                                    </CardHeader>
+                                    <CardDescription>
+                                      <div
+                                        className="description"
+                                      >
+                                        Drag some music here or press play.
+                                      </div>
+                                    </CardDescription>
+                                  </div>
+                                </CardContent>
+                              </div>
+                            </Card>
+                          </CurrentTrack>
+                        </Component>
+                      </Connect(Component)>
+                    </DragInTrack>
                   </div>
                 </GridColumn>
                 <GridColumn
@@ -543,62 +551,13 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                       >
                         Playlist 
                         <ClearPlaylist
+                          disabled={true}
                           onClear={[Function]}
-                        >
-                          <span>
-                            <Label
-                              as="a"
-                              className="jb-clear-button"
-                              color="red"
-                              horizontal={true}
-                              onClick={[Function]}
-                              size="mini"
-                            >
-                              <a
-                                className="ui red mini horizontal label jb-clear-button"
-                                onClick={[Function]}
-                              >
-                                CLEAR
-                              </a>
-                            </Label>
-                            <Confirm
-                              cancelButton="No thanks"
-                              confirmButton="Do it!"
-                              content="Are you sure you want to nuke the playlist?"
-                              onCancel={[Function]}
-                              onConfirm={[Function]}
-                              open={false}
-                            >
-                              <Modal
-                                closeOnDimmerClick={true}
-                                closeOnDocumentClick={false}
-                                dimmer={true}
-                                eventPool="Modal"
-                                onClose={[Function]}
-                                open={false}
-                                size="small"
-                              >
-                                <Portal
-                                  className="ui page modals dimmer transition visible active"
-                                  closeOnDocumentClick={false}
-                                  closeOnEscape={true}
-                                  closeOnRootNodeClick={true}
-                                  eventPool="Modal"
-                                  mountNode={<body />}
-                                  onClose={[Function]}
-                                  onMount={[Function]}
-                                  onOpen={[Function]}
-                                  onUnmount={[Function]}
-                                  open={false}
-                                  openOnTriggerClick={true}
-                                />
-                              </Modal>
-                            </Confirm>
-                          </span>
-                        </ClearPlaylist>
+                        />
                       </div>
                     </Header>
                     <Tracklist
+                      disabled={true}
                       images={Object {}}
                       onRemoveTrack={[Function]}
                       tracks={Array []}
@@ -618,7 +577,7 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
             </Grid>
             <ToastContainer
               autoClose={5000}
-              bodyClassName=""
+              bodyClassName={null}
               className={null}
               closeButton={
                 <DefaultCloseButton
@@ -630,9 +589,10 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
               newestOnTop={false}
               pauseOnHover={true}
               position="top-right"
-              progressClassName=""
+              progressClassName={null}
+              rtl={false}
               style={null}
-              toastClassName=""
+              toastClassName={null}
               transition={[Function]}
             >
               <div />

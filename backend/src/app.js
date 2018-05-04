@@ -2,9 +2,11 @@ import express from 'express'
 import logger from 'morgan'
 import http from 'http'
 import WebSocket from 'ws'
+import Payload from './lib/payload'
 import Broadcaster from './lib/broadcaster'
 import MopidyService from './lib/services/mopidy'
-import ErrorsHandler from './lib/errors-handler'
+import MongodbService from './lib/services/mongodb'
+import ErrorsHandler from './lib/handlers/error'
 import MessageTriage from './lib/message-triage'
 
 const app = express()
@@ -21,12 +23,15 @@ const broadcaster = new Broadcaster(data => {
     }
   })
 })
+MongodbService()
 
 MopidyService(broadcaster, mopidy => {
   wss.on('connection', ws => {
     ErrorsHandler(ws)
 
-    ws.on('message', payload => {
+    ws.on('message', data => {
+      const payload = Payload.decode(data)
+
       MessageTriage(payload, mopidy, handler => {
         handler(ws, broadcaster)
       })

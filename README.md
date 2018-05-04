@@ -27,7 +27,7 @@ You can run everything in `Docker`. From the root of the repo, you just need to 
 $ docker-compose up
 ```
 
-This will give you a give you a working client and API. The client is available http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart. By default the API will be talking to the live Mopidy instance in the office.
+This will give you a give you a working client and API plus the perisistence layer. The client is available http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart. By default the API will be talking to the live Mopidy instance in the office.
 
 Both the frontend and backend use ENVs for their confirguration. You can make changes to the defaults by updating the `docker-compose.yml` file.
 
@@ -40,16 +40,19 @@ If you want to run your own copy of Mopidy, you can buy yourself a Raspberry Pi 
 There is currently 100% test coverage and linting plumbed in. You can run the `frontend` specs with:
 
 ```
-$ docker-compose run jukebox-client yarn test
+$ docker-compose run --rm jukebox-client npm test
 ```
 
 You can run the `backend` specs with:
 
 ```
-$ docker-compose run jukebox-api yarn test
+$ docker-compose run --rm jukebox-api npm test
 ```
 
-You can add `--coverage` to the end of both to get a coverage report.
+You can add `--coverage` or/and `--watchAll` to the end for other options. e.g
+```
+$ docker-compose run --rm jukebox-api npm test -- --watchAll --coverage
+```
 
 ### Client
 
@@ -58,5 +61,17 @@ You can find more information on the client via it's README in the `frontend` fo
 ### API
 
 You can find more information on the api via it's README in the `backend` folder.
+
+### MongoDB
+
+The API used `Mongodb` for it's perisistence layer. In development it will fire up a docker container running `Mongodb` and will point the API at it.
+
+#### Seed data
+
+You add seed Mongodb with some dummy data by running:
+```
+$ docker-compose run mongodb-seed /bin/seed.sh
+```
+*NOTE* This is reset Mongodb, deleting any data currently in there.
 
 

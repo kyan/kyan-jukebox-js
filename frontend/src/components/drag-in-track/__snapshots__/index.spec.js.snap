@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DragInTrack render when controls disabled renders as expected 1`] = `
+<span>
+  Hello World
+</span>
+`;
+
+exports[`DragInTrack render when controls enabled renders as expected 1`] = `
+<DragDropContextProvider
+  backend={[Function]}
+>
+  <DropTarget(UrlDropArea)
+    accepts={
+      Array [
+        "__NATIVE_URL__",
+      ]
+    }
+    onDrop={[Function]}
+  >
+    <span>
+      Hello World
+    </span>
+  </DropTarget(UrlDropArea)>
+</DragDropContextProvider>
+`;

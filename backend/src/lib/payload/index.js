@@ -10,14 +10,24 @@ const Payload = {
     return [service, key].join('::')
   },
 
+  decodeKey: (key) => {
+    return key.split('::')
+  },
+
   decode: payload => {
-    const { key, data } = JSON.parse(payload)
+    const { jwt, key, data } = JSON.parse(payload)
     const [service, passedKey] = key.split('::')
     if (!passedKey) {
       throw new Error(`No service key provided! ${payload}`)
     }
 
-    return { service, key: passedKey, data }
+    return {
+      jwt_token: jwt,
+      encoded_key: key,
+      key: passedKey,
+      service,
+      data
+    }
   },
 
   encodeToJson: (key, data) => {

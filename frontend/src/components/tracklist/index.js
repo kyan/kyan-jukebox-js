@@ -55,11 +55,12 @@ const removeTrack = (uri, cb) => {
   }
 }
 
-const imageChooser = (track, images, isCurrent, onRemoveTrack) => {
+const imageChooser = (disabled, track, images, isCurrent, onRemoveTrack) => {
   let image
   if (images && track.album) image = images[track.album.uri]
   if (images && track.composer) image = images[track.composer.uri]
   if (!image) image = defaultImage
+  if (disabled) { return currentImage(image) }
 
   return isCurrent ? currentImage(image) : revealImage(image, track.uri, onRemoveTrack)
 }
@@ -79,7 +80,7 @@ const trackDescription = (track) => (
   </List.Description>
 )
 
-const listItems = (tracks, images, currentTrack, onRemoveTrack) => {
+const listItems = (disabled, tracks, images, currentTrack, onRemoveTrack) => {
   let time
 
   return tracks.map((track, index) => {
@@ -91,7 +92,7 @@ const listItems = (tracks, images, currentTrack, onRemoveTrack) => {
       <List.Item
         key={`${index}-${track.uri}`}
       >
-        {imageChooser(track, images, isCurrent, onRemoveTrack)}
+        {imageChooser(disabled, track, images, isCurrent, onRemoveTrack)}
         <List.Content
           className={classnames({'track-info': !time})}
         >
@@ -104,17 +105,18 @@ const listItems = (tracks, images, currentTrack, onRemoveTrack) => {
   })
 }
 
-const Tracklist = ({ tracks, images, currentTrack, onRemoveTrack }) => {
+const Tracklist = ({ disabled, tracks, images, currentTrack, onRemoveTrack }) => {
   if (!tracks) { return null }
 
   return (
     <List relaxed>
-      {listItems(tracks, images, currentTrack, onRemoveTrack)}
+      {listItems(disabled, tracks, images, currentTrack, onRemoveTrack)}
     </List>
   )
 }
 
 Tracklist.propTypes = {
+  disabled: PropTypes.bool,
   tracks: PropTypes.array,
   images: PropTypes.object,
   currentTrack: PropTypes.object,

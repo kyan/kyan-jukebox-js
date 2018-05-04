@@ -32,6 +32,8 @@ class ClearPlaylist extends Component {
   }
 
   render () {
+    if (this.props.disabled) { return null }
+
     return (
       <span>
         {this.clearButton()}
@@ -49,6 +51,7 @@ class ClearPlaylist extends Component {
 }
 
 ClearPlaylist.propTypes = {
+  disabled: PropTypes.bool,
   onClear: PropTypes.func.isRequired
 }
 

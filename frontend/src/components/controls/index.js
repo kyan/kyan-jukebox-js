@@ -4,11 +4,13 @@ import MopidyApi from '../../constants/mopidy-api'
 import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 
-const playButton = (cb, state) => (
+const playButton = (cb, state, disabled) => (
   <Button
     onClick={cb}
     animated='vertical'
-    disabled={(state === MopidyApi.PLAYING)}
+    disabled={(state === MopidyApi.PLAYING || disabled)}
+    active={(state === MopidyApi.PLAYING)}
+    className='jb-play-button'
   >
     <Button.Content hidden>Play</Button.Content>
     <Button.Content visible>
@@ -17,11 +19,13 @@ const playButton = (cb, state) => (
   </Button>
 )
 
-const pauseButton = (cb, state) => (
+const pauseButton = (cb, state, disabled) => (
   <Button
     onClick={cb}
     animated='vertical'
-    disabled={(state === MopidyApi.PAUSED)}
+    disabled={(state === MopidyApi.PAUSED || disabled)}
+    active={(state === MopidyApi.PAUSED)}
+    className='jb-pause-button'
   >
     <Button.Content hidden>Pause</Button.Content>
     <Button.Content visible>
@@ -30,18 +34,22 @@ const pauseButton = (cb, state) => (
   </Button>
 )
 
-const Controls = ({ state, onPlay, onPause, onPrevious, onNext }) => (
-  <span>
-    <SkipButtons
-      onPrevious={onPrevious}
-      onNext={onNext}
-    />
-    {playButton(onPlay, state)}
-    {pauseButton(onPause, state)}
-  </span>
-)
+const Controls = ({ disabled, state, onPlay, onPause, onPrevious, onNext }) => {
+  return (
+    <span>
+      <SkipButtons
+        disabled={disabled}
+        onPrevious={onPrevious}
+        onNext={onNext}
+      />
+      {playButton(onPlay, state, disabled)}
+      {pauseButton(onPause, state, disabled)}
+    </span>
+  )
+}
 
 Controls.propTypes = {
+  disabled: PropTypes.bool,
   state: PropTypes.string.isRequired,
   onPlay: PropTypes.func.isRequired,
   onPause: PropTypes.func.isRequired,

@@ -1,14 +1,44 @@
 import * as actions from './index'
 import MopidyApi from '../constants/mopidy-api'
+import AuthAPI from '../constants/auth-api'
 import Types from '../constants'
 
 describe('actions', () => {
-  it('should handle addUser', () => {
+  it('should handle authenticate', () => {
+    const username = 'user123'
     const expectedAction = {
-      type: Types.STORE_UID,
-      uid: 123
+      type: Types.SEND,
+      key: AuthAPI.AUTHENTICATE_USER,
+      params: { 'username': username }
     }
-    expect(actions.addUser(123)).toEqual(expectedAction)
+    expect(actions.authenticate(username)).toEqual(expectedAction)
+  })
+
+  it('should handle updateToken', () => {
+    const token = 'token'
+    const expectedAction = {
+      type: Types.STORE_TOKEN,
+      token
+    }
+    expect(actions.updateToken(token)).toEqual(expectedAction)
+  })
+
+  it('should handle updateToken', () => {
+    const username = 'user123'
+    const expectedAction = {
+      type: Types.STORE_USERNAME,
+      username
+    }
+    expect(actions.updateUsername(username)).toEqual(expectedAction)
+  })
+
+  it('should handle storeUser', () => {
+    const user = {}
+    const expectedAction = {
+      type: Types.STORE_USER,
+      user
+    }
+    expect(actions.storeUser(user)).toEqual(expectedAction)
   })
 
   it('should handle addNewTrack', () => {
