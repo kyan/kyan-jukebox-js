@@ -1,40 +1,54 @@
-import MemoryCache from 'memory-cache'
+import Image from '../../../services/mongodb/models/image'
+import MopidyConsts from '../../../constants/mopidy'
 
-const cache = new MemoryCache.Cache()
 const isImageKey = (key) => {
-  return (key === 'mopidy::library.getImages')
+  return (key === MopidyConsts.LIBRARY_GET_IMAGES)
 }
 
-const pruneCache = () => {
-  const { MAX_IMG_CACHE_SIZE = 200 } = process.env
-  if (cache.size() > MAX_IMG_CACHE_SIZE) cache.clear()
+const expiresDate = (imgs) => {
+  const hour = 3600 * 1000
+  const day = 12 * 3600 * 1000
+  const today = new Date()
+  if (imgs.length < 1) { return new Date(today.getTime() + hour) }
+  return new Date(today.getTime() + day)
 }
 
-const addToCacheHandler = (key) => {
-  pruneCache()
+const addToCacheHandler = (encodedKey) => {
+  const handler = (data) => {
+    const uri = encodedKey.split('#')[1]
 
-  const handler = (value) => {
-    return cache.put(key, value)
+    Image
+      .create({
+        expireAt: expiresDate(data[uri]),
+        uri: encodedKey,
+        data
+      })
+      .catch(console.error.bind(console))
+
+    return uri
   }
   return handler
 }
 
-const fetchFromCache = (key) => {
-  return cache.get(key)
+const fetchFromCache = (key, responseHandler) => {
+  return Image.findOne({ 'uri': key })
+    .then(resp => responseHandler(resp))
+    .catch(console.error.bind(console))
 }
 
 const ImageCache = {
-  check: (key, data, callback) => {
-    if (!isImageKey(key)) return callback(null, { image: false })
-    const encodedKey = key + data[0][0]
-    const image = fetchFromCache(encodedKey)
+  check: (key, data, fn) => {
+    if (!isImageKey(key)) return fn(null, { image: false })
+    const encodedKey = `${key}#${data[0][0]}`
 
-    if (image) {
-      console.log('Using cached: ', encodedKey)
-      return callback(null, { image })
-    } else {
-      return callback(null, { addToCache: addToCacheHandler(encodedKey) })
-    }
+    fetchFromCache(encodedKey, (respo) => {
+      if (respo) {
+        console.log(`Using cache: ${encodedKey}`)
+        return fn(null, { image: respo.data })
+      } else {
+        return fn(null, { addToCache: addToCacheHandler(encodedKey) })
+      }
+    })
   }
 }
 

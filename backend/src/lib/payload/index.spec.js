@@ -21,7 +21,9 @@ describe('Payload', () => {
       .toEqual({
         service: 'mopidy',
         data: { wotcha: 'son' },
-        key: 'letsdothis'
+        key: 'letsdothis',
+        encoded_key: 'mopidy::letsdothis',
+        jwt_token: undefined
       })
   })
 

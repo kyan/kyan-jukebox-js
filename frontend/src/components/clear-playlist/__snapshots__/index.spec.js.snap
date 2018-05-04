@@ -19,6 +19,7 @@ exports[`ClearPlaylist render renders the as expected 1`] = `
     onCancel={[Function]}
     onConfirm={[Function]}
     open={false}
+    size="small"
   />
 </span>
 `;

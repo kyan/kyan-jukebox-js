@@ -4,32 +4,33 @@
   "private": true,
   "main": "dist/index.js",
   "scripts": {
-    "start": "nodemon src/index.js --exec \"node -r babel-register\"",
+    "start": "nodemon src/index.js --exec \"node -r babel-register\" --inspect=0.0.0.0:9229",
     "build": "rm -rf dist && mkdir -p dist && babel src -s -D -d dist",
-    "test": "standard && jest",
-    "test-watch": "jest --watch"
+    "test": "standard && jest"
   },
   "dependencies": {
-    "babel-cli": "^6.24.1",
+    "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.4.0",
-    "body-parser": "^1.17.1",
-    "express": "^4.15.2",
-    "memory-cache": "^0.2.0",
+    "babel-preset-env": "^1.6.0",
+    "body-parser": "^1.18.1",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.1",
+    "mongoose": "^5.0.15",
     "mopidy": "^0.5.0",
-    "morgan": "^1.7.0",
-    "ws": "^3.2.0"
+    "morgan": "^1.9.0",
+    "ws": "^5.1.1"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.1",
-    "babel-jest": "^21.0.2",
-    "babel-register": "^6.24.1",
-    "jest": "^21.0.2",
+    "babel-eslint": "^8.2.3",
+    "babel-jest": "^22.4.3",
+    "babel-register": "^6.26.0",
+    "jest": "^22.4.3",
     "lolex": "^2.3.2",
-    "nodemon": "^1.11.0",
-    "shipit-cli": "^3.0.0",
-    "shipit-deploy": "^2.5.1",
-    "standard": "^11.0.0-beta.0"
+    "mockingoose": "2.4.0",
+    "nodemon": "^1.17.3",
+    "shipit-cli": "^4.0.2",
+    "shipit-deploy": "^4.0.2",
+    "standard": "^11.0.1"
   },
   "babel": {
     "presets": [

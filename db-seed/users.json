@@ -1,0 +1,20 @@
+[
+  {
+    "fullname": "Duncan Robertson",
+    "username": "whomwah",
+    "email": "duncan@whomwah.com",
+    "active": true
+  },
+  {
+    "fullname": "John Doe",
+    "username": "johndoe",
+    "email": "john@doe.com",
+    "active": true
+  },
+  {
+    "fullname": "Derick Inactive",
+    "username": "derickinactive",
+    "email": null,
+    "active": false
+  }
+]

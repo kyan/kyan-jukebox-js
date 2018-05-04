@@ -24,19 +24,28 @@ const volumeDown = (volume, cb) => {
   }
 }
 
-const VolumeButtons = ({ volume, onVolumeChange }) => (
+const VolumeButtons = ({ disabled, volume, onVolumeChange }) => (
   <Button.Group floated='right'>
-    <Button className='jb-volume-down' onClick={volumeDown(volume, onVolumeChange)}>
+    <Button
+      className='jb-volume-down'
+      onClick={volumeDown(volume, onVolumeChange)}
+      disabled={disabled}
+    >
       <Icon name='volume down' />
     </Button>
     <Button.Or text={volume} />
-    <Button className='jb-volume-up' onClick={volumeUp(volume, onVolumeChange)}>
+    <Button
+      className='jb-volume-up'
+      onClick={volumeUp(volume, onVolumeChange)}
+      disabled={disabled}
+    >
       <Icon name='volume up' />
     </Button>
   </Button.Group>
 )
 
 VolumeButtons.propTypes = {
+  disabled: PropTypes.bool,
   volume: PropTypes.number,
   onVolumeChange: PropTypes.func.isRequired
 }
