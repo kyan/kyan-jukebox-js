@@ -1,8 +1,8 @@
 import Transformer from './index'
-import TransformTrack from '../transformers/mopidy/track'
-import TransformTracklist from '../transformers/mopidy/tracklist'
-jest.mock('../transformers/mopidy/track')
-jest.mock('../transformers/mopidy/tracklist')
+import TransformTrack from './transformers/mopidy/track'
+import TransformTracklist from './transformers/mopidy/tracklist'
+jest.mock('./transformers/mopidy/track')
+jest.mock('./transformers/mopidy/tracklist')
 
 describe('Transformer', () => {
   describe('playback.getCurrentTrack', () => {
@@ -110,6 +110,22 @@ describe('Transformer', () => {
 
     it('does the right thing', () => {
       expect(Transformer('mopidy::playback.next', data)).toEqual(data)
+    })
+  })
+
+  describe('authenticateUser', () => {
+    const data = 'data'
+
+    it('does the right thing', () => {
+      expect(Transformer('auth::authenticateUser', data)).toEqual(data)
+    })
+  })
+
+  describe('authenticationError', () => {
+    const data = 'data'
+
+    it('does the right thing', () => {
+      expect(Transformer('auth::authenticationError', data)).toEqual(data)
     })
   })
 

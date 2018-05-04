@@ -1,11 +1,34 @@
 import MopidyApi from '../constants/mopidy-api'
+import AuthAPI from '../constants/auth-api'
 import Types from '../constants'
 import { transformUrl } from '../utils/spotify'
 
-export const addUser = uid => {
+export const authenticate = username => {
   return {
-    type: Types.STORE_UID,
-    uid
+    type: Types.SEND,
+    key: AuthAPI.AUTHENTICATE_USER,
+    params: { 'username': username }
+  }
+}
+
+export const updateToken = token => {
+  return {
+    type: Types.STORE_TOKEN,
+    token
+  }
+}
+
+export const updateUsername = username => {
+  return {
+    type: Types.STORE_USERNAME,
+    username
+  }
+}
+
+export const storeUser = user => {
+  return {
+    type: Types.STORE_USER,
+    user
   }
 }
 

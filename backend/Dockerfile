@@ -1,12 +1,26 @@
 # base image
 FROM node:8.9-slim
 
-# set working directory
-WORKDIR /usr/src/app
+# create app dir
+RUN mkdir -p /opt/app
 
-# Install app dependencies
-COPY package*.json yarn.lock ./
-RUN yarn
+# set our node environment, overide in compose
+ARG NODE_ENV=production
+ENV NODE_ENV $NODE_ENV
 
-# start app
-CMD ["yarn", "start"]
+# default to port 8080 for node, and 5858 or 9229 for debug
+ARG PORT=8080
+ENV PORT $PORT
+EXPOSE $PORT 5858 9229
+
+# install dependencies first, in a different location for easier app bind mounting for local development
+WORKDIR /opt
+COPY package.json package-lock.json* ./
+RUN npm install && npm cache clean --force
+ENV PATH /opt/node_modules/.bin:$PATH
+
+# copy in our source code last, as it changes the most
+WORKDIR /opt/app
+COPY . /opt/app
+
+CMD [ "node", "index.js" ]

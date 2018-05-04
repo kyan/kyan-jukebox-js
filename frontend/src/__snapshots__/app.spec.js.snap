@@ -31,7 +31,9 @@ exports[`App renders without crashing 1`] = `
     <Container
       fluid={true}
     >
-      <Connect(DragDropContext(Dashboard)) />
+      <ErrorBoundary>
+        <Connect(DragDropContext(Dashboard)) />
+      </ErrorBoundary>
     </Container>
   </PersistGate>
 </Provider>

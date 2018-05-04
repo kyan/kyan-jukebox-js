@@ -1,27 +1,25 @@
 import StrToFunction from '../../str-to-function'
-import Payload from '../../payload'
 import ImageCache from './image-cache'
 
-const sendToClient = (bcast, ws, key, data) => {
-  bcast.to(ws, key, data)
+const sendToClient = (bcast, ws, payload, data) => {
+  bcast.to(ws, payload, data)
 }
 
 const MopidyHandler = (payload, ws, bcast, mopidy) => {
-  const { service, key, data } = Payload.decode(payload)
-  const encodedKey = Payload.encodeKey(service, key)
+  const { key, data } = payload
 
-  ImageCache.check(encodedKey, data, (err, obj) => {
+  ImageCache.check(payload.encoded_key, data, (err, obj) => {
     if (err) { throw err }
 
     if (obj.image) {
-      sendToClient(bcast, ws, encodedKey, obj.image)
+      sendToClient(bcast, ws, payload, obj.image)
     } else {
       const apiCall = StrToFunction(mopidy, key)
 
       ;(data ? apiCall(data) : apiCall())
         .then(resp => {
           if (obj.addToCache) obj.addToCache(resp)
-          sendToClient(bcast, ws, encodedKey, resp)
+          sendToClient(bcast, ws, payload, resp)
         })
         .catch(console.error.bind(console))
         .done()

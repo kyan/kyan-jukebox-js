@@ -6,20 +6,20 @@ class Broadcaster {
     this.wssBroadcast = wssBroadcast
   }
 
-  to (client, key, message) {
-    const unifiedMessage = Transformer(key, message)
-    console.log('[client] Key: %s', key)
+  to (client, payload, message) {
+    const encodedKey = payload.encoded_key
+    const unifiedMessage = Transformer(encodedKey, message)
+    const uid = payload.user_id ? payload.user_id : 'public'
+    console.log(`[c][${uid}]: ${encodedKey}`)
 
-    const payload = Payload.encodeToJson(key, unifiedMessage)
-    client.send(payload)
+    client.send(Payload.encodeToJson(encodedKey, unifiedMessage))
   }
 
   everyone (key, message) {
     const unifiedMessage = Transformer(key, message)
-    console.log('[all] Key: %s', key)
+    console.log(`[a]: ${key}`)
 
-    const payload = Payload.encodeToJson(key, unifiedMessage)
-    this.wssBroadcast(payload)
+    this.wssBroadcast(Payload.encodeToJson(key, unifiedMessage))
   }
 }
 

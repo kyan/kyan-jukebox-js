@@ -1,13 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CurrentTrackContainer render just the app without redux renders as expected 1`] = `
+exports[`CurrentTrackContainer just the app without redux when authorised user renders as expected 1`] = `
 <React.Fragment>
-  <Button
-    as="button"
+  <Image
+    as="img"
     className="jb-settings-toggle"
     floated="right"
-    icon="user"
     onClick={[Function]}
+    rounded={true}
+    size="mini"
+    src="https://www.gravatar.com/avatar/hash123"
+    title="John Doe"
+    ui={true}
   />
   <Modal
     closeIcon={true}
@@ -28,21 +32,31 @@ exports[`CurrentTrackContainer render just the app without redux renders as expe
           as="form"
         >
           <FormInput
+            action={
+              Object {
+                "className": "jb-authenticate-button",
+                "content": "Authenticated",
+                "icon": "checkmark",
+                "labelPosition": "right",
+                "onClick": [Function],
+              }
+            }
             as={[Function]}
             control={[Function]}
             icon="user"
             iconPosition="left"
-            label="Enter your user ID below"
-            placeholder="example: 123"
+            label="Enter your USERNAME below"
+            onChange={[Function]}
+            placeholder="example: user123"
             size="massive"
+            value="user123"
           />
-          <Button
-            as="button"
-            primary={true}
-            type="submit"
+          <Progress
+            percent={100}
+            success={true}
           >
-            Save
-          </Button>
+            user123 is now logged in
+          </Progress>
         </Form>
       </ModalDescription>
     </ModalContent>
@@ -50,7 +64,71 @@ exports[`CurrentTrackContainer render just the app without redux renders as expe
 </React.Fragment>
 `;
 
-exports[`CurrentTrackContainer render just the app without redux renders the modal 1`] = `
+exports[`CurrentTrackContainer just the app without redux when authorised user renders the modal 1`] = `
+<React.Fragment>
+  <Image
+    as="img"
+    className="jb-settings-toggle"
+    floated="right"
+    onClick={[Function]}
+    rounded={true}
+    size="mini"
+    src="https://www.gravatar.com/avatar/hash123"
+    title="John Doe"
+    ui={true}
+  />
+  <Modal
+    closeIcon={true}
+    closeOnDimmerClick={true}
+    closeOnDocumentClick={false}
+    dimmer="blurring"
+    eventPool="Modal"
+    onClose={[Function]}
+    open={false}
+    size="small"
+  >
+    <ModalHeader>
+      Settings
+    </ModalHeader>
+    <ModalContent>
+      <ModalDescription>
+        <Form
+          as="form"
+        >
+          <FormInput
+            action={
+              Object {
+                "className": "jb-authenticate-button",
+                "content": "Authenticated",
+                "icon": "checkmark",
+                "labelPosition": "right",
+                "onClick": [Function],
+              }
+            }
+            as={[Function]}
+            control={[Function]}
+            icon="user"
+            iconPosition="left"
+            label="Enter your USERNAME below"
+            onChange={[Function]}
+            placeholder="example: user123"
+            size="massive"
+            value="user123"
+          />
+          <Progress
+            percent={100}
+            success={true}
+          >
+            user123 is now logged in
+          </Progress>
+        </Form>
+      </ModalDescription>
+    </ModalContent>
+  </Modal>
+</React.Fragment>
+`;
+
+exports[`CurrentTrackContainer just the app without redux when nonauthorised user renders as expected 1`] = `
 <React.Fragment>
   <Button
     as="button"
@@ -78,21 +156,31 @@ exports[`CurrentTrackContainer render just the app without redux renders the mod
           as="form"
         >
           <FormInput
+            action={
+              Object {
+                "className": "jb-authenticate-button",
+                "content": "Click to validate",
+                "icon": "checkmark",
+                "labelPosition": "right",
+                "onClick": [Function],
+              }
+            }
             as={[Function]}
             control={[Function]}
             icon="user"
             iconPosition="left"
-            label="Enter your user ID below"
-            placeholder="example: 123"
+            label="Enter your USERNAME below"
+            onChange={[Function]}
+            placeholder="example: user123"
             size="massive"
+            value=""
           />
-          <Button
-            as="button"
-            primary={true}
-            type="submit"
+          <Progress
+            error={true}
+            percent={100}
           >
-            Save
-          </Button>
+            Unknown User!
+          </Progress>
         </Form>
       </ModalDescription>
     </ModalContent>
@@ -194,28 +282,46 @@ exports[`CurrentTrackContainer render the settings modal open renders as expecte
                           class="field"
                         >
                           <label>
-                            Enter your user ID below
+                            Enter your USERNAME below
                           </label>
                           <div
-                            class="ui massive left icon input"
+                            class="ui massive action left icon input"
                           >
+                            <input
+                              placeholder="example: user123"
+                              type="text"
+                              value=""
+                            />
+                            <button
+                              class="ui icon right labeled button jb-authenticate-button"
+                              role="button"
+                            >
+                              <i
+                                aria-hidden="true"
+                                class="checkmark icon"
+                              />
+                              Click to validate
+                            </button>
                             <i
                               aria-hidden="true"
                               class="user icon"
                             />
-                            <input
-                              type="text"
-                              placeholder="example: 123"
-                            />
                           </div>
                         </div>
-                        <button
-                          type="submit"
-                          class="ui primary button"
-                          role="button"
+                        <div
+                          class="ui error progress"
+                          data-percent="100"
                         >
-                          Save
-                        </button>
+                          <div
+                            class="bar"
+                            style="width: 100%;"
+                          />
+                          <div
+                            class="label"
+                          >
+                            Unknown User!
+                          </div>
+                        </div>
                       </form>
                     </div>
                   </div>
