@@ -1,5 +1,5 @@
 import Mopidy from 'mopidy'
-import MopidyConstants from './constants'
+import MopidyConstants from '../../constants/mopidy'
 import Payload from '../../payload'
 
 const mopidyUrl = process.env.WS_MOPIDY_URL
@@ -12,12 +12,18 @@ const mopidy = new Mopidy({
 
 const MopidyService = (broadcaster, callback) => {
   mopidy.on('websocket:error', (err) => {
+    console.log(`Mopidy [${mopidyUrl}:${mopidyPort}]: Error: ${err}`)
+
     const encodedKey = Payload.encodeKey('mopidy', 'connectionError')
     broadcaster.everyone(encodedKey, String(err))
   })
 
   mopidy.on('state:online', () => {
-    MopidyConstants.EVENTS.forEach(key => {
+    console.log(`Mopidy [${mopidyUrl}:${mopidyPort}]: Online!`)
+
+    Object.values(MopidyConstants.EVENTS).forEach(raw => {
+      const key = Payload.decodeKey(raw).pop()
+
       mopidy.on(key, data => {
         const encodedKey = Payload.encodeKey('mopidy', key)
         broadcaster.everyone(encodedKey, data)

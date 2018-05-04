@@ -3,8 +3,8 @@ import Mopidy from 'mopidy'
 jest.mock('mopidy', () => {
   return function () {
     return {
-      on: jest.fn((key, callback) => {
-        callback()
+      on: jest.fn((key, fn) => {
+        fn('bang!')
       })
     }
   }
@@ -16,6 +16,7 @@ describe('MopidyService', () => {
     everyone: broadcastMock
   }
   const cb = jest.fn()
+  const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
   it('it should handle going online', () => {
     MopidyService(broadcaster, cb)
@@ -27,5 +28,7 @@ describe('MopidyService', () => {
     expect(broadcastMock.mock.calls[4][0]).toEqual('mopidy::event:tracklistChanged')
     expect(broadcastMock.mock.calls[5][0]).toEqual('mopidy::event:volumeChanged')
     expect(Mopidy).toEqual(expect.any(Function)) // to stop standardjs crying
+    expect(consoleSpy.mock.calls[0][0]).toEqual('Mopidy [jukebox.local:6680]: Error: bang!')
+    expect(consoleSpy.mock.calls[1][0]).toEqual('Mopidy [jukebox.local:6680]: Online!')
   })
 })

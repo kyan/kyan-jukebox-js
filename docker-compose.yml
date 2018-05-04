@@ -4,10 +4,12 @@ services:
     container_name: jukebox-client
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=development
+    command: npm start
     volumes:
-      - './frontend:/usr/src/app:cached'
-      - '/usr/src/app/node_modules'
+      - ./frontend:/opt/app:delegated
+      - notused:/opt/app/node_modules
     ports:
       - '3001:3001'
     environment:
@@ -19,16 +21,39 @@ services:
     container_name: jukebox-api
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=development
     volumes:
-      - './backend:/usr/src/app:cached'
-      - '/usr/src/app/node_modules'
+      - ./backend:/opt/app:delegated
+      - notused:/opt/app/node_modules
+    command: npm start
     ports:
-      - '8080:8080'
+      - "8080:8080"
+      - "5858:5858"
+      - "9229:9229"
+    depends_on:
+      - mongodb
     environment:
       - NODE_ENV=development
       - PORT=8080
       - IS_ALIVE_TIMEOUT=30000
       - WS_MOPIDY_URL=jukebox.local
       - WS_MOPIDY_PORT=6680
-
+      - MONGODB_URL=mongodb://mongodb/jb-dev
+      - JWT_SECRET=secretshh
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - 27017:27017
+  mongodb-seed:
+    build: ./db-seed
+    links:
+      - mongodb
+volumes:
+    notused:

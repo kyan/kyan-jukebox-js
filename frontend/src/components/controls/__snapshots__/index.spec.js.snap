@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Controls render when controls disabled renders as expected 1`] = `
+<span>
+  <SkipButtons
+    disabled={true}
+    onNext={[Function]}
+    onPrevious={[Function]}
+  />
+  <Button
+    active={false}
+    animated="vertical"
+    as="button"
+    className="jb-play-button"
+    disabled={true}
+    onClick={[Function]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Play
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="play"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
+    active={true}
+    animated="vertical"
+    as="button"
+    className="jb-pause-button"
+    disabled={true}
+    onClick={[Function]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Pause
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="pause"
+      />
+    </ButtonContent>
+  </Button>
+</span>
+`;
+
+exports[`Controls render when controls enabled renders as expected 1`] = `
+<span>
+  <SkipButtons
+    disabled={false}
+    onNext={[Function]}
+    onPrevious={[Function]}
+  />
+  <Button
+    active={false}
+    animated="vertical"
+    as="button"
+    className="jb-play-button"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Play
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="play"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
+    active={true}
+    animated="vertical"
+    as="button"
+    className="jb-pause-button"
+    disabled={true}
+    onClick={[Function]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Pause
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="pause"
+      />
+    </ButtonContent>
+  </Button>
+</span>
+`;

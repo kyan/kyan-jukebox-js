@@ -16,7 +16,7 @@ describe('JukeboxMiddleware', () => {
   const dispatchSpy = jest.fn()
   const store = {
     dispatch: dispatchSpy,
-    getState: jest.fn(() => { return { assets: [] } })
+    getState: jest.fn(() => { return { assets: [], settings: { token: 'token' } } })
   }
   const next = jest.fn()
   const reset = jest.fn()

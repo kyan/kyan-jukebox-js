@@ -9,6 +9,7 @@ describe('Dashboard', () => {
   let wrapper
 
   describe('render just the dashboard without redux', () => {
+    const settings = { token: 'token' }
     const jukebox = { volume: 25, online: true, playbackState: 'playing' }
     const currentTrack = {}
     const tracklist = []
@@ -18,6 +19,7 @@ describe('Dashboard', () => {
     it('renders as expected', () => {
       wrapper = shallow(
         <Dashboard
+          settings={settings}
           jukebox={jukebox}
           currentTrack={currentTrack}
           tracklist={tracklist}

@@ -4,31 +4,53 @@ import Tracklist from './index'
 import MockTrackListJson from '../../__mockData__/api'
 
 describe('Tracklist', () => {
-  let wrapper
   let tracks = MockTrackListJson()
   const images = {
     'spotify:album:5OVGwMCexoHavOar6v4al5': 'album-image.jpg'
   }
   const onRemoveMock = jest.fn()
 
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('render', () => {
     Date.now = jest.fn(() => { return 8208000 })
 
-    wrapper = shallow(
-      <Tracklist
-        tracks={tracks.map(item => item.track)}
-        images={images}
-        currentTrack={tracks[0].track}
-        onRemoveTrack={onRemoveMock}
-      />
-    )
+    describe('when disabled', () => {
+      const wrapper = shallow(
+        <Tracklist
+          disabled
+          tracks={tracks.map(item => item.track)}
+          images={images}
+          currentTrack={tracks[0].track}
+          onRemoveTrack={onRemoveMock}
+        />
+      )
 
-    it('renders the as expected', () => {
-      expect(wrapper).toMatchSnapshot()
+      it('renders the as expected', () => {
+        expect(wrapper).toMatchSnapshot()
+      })
+    })
+
+    describe('when enabled', () => {
+      const wrapper = shallow(
+        <Tracklist
+          disabled={false}
+          tracks={tracks.map(item => item.track)}
+          images={images}
+          currentTrack={tracks[0].track}
+          onRemoveTrack={onRemoveMock}
+        />
+      )
+
+      it('renders the as expected', () => {
+        expect(wrapper).toMatchSnapshot()
+      })
     })
 
     it('removes a track', () => {
-      wrapper = mount(
+      const wrapper = mount(
         <Tracklist
           tracks={tracks.map(item => item.track)}
           images={images}
@@ -45,7 +67,7 @@ describe('Tracklist', () => {
 
   describe('when no track', () => {
     it('renders nothing', () => {
-      wrapper = shallow(
+      const wrapper = shallow(
         <Tracklist
           onRemoveTrack={onRemoveMock}
         />
@@ -57,7 +79,7 @@ describe('Tracklist', () => {
 
   describe('tracklist but nothing cued up', () => {
     it('does not mark anything as current', () => {
-      wrapper = shallow(
+      const wrapper = shallow(
         <Tracklist
           tracks={tracks.map(item => item.track)}
           onRemoveTrack={onRemoveMock}

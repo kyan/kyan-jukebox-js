@@ -1,6 +1,7 @@
 const Payload = {
-  encode: (key, data) => {
+  encode: (jwt, key, data) => {
     return {
+      jwt,
       key,
       data
     }
@@ -10,8 +11,8 @@ const Payload = {
     return JSON.parse(payload)
   },
 
-  encodeToJson: (key, data) => {
-    return JSON.stringify(Payload.encode(key, data))
+  encodeToJson: (jwt, key, data) => {
+    return JSON.stringify(Payload.encode(jwt, key, data))
   }
 }
 
