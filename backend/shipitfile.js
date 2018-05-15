@@ -27,17 +27,17 @@ module.exports = function (shipit) {
   })
 
   shipit.on('updated', function () {
-    shipit.start(['yarn_install', 'yarn_build'])
+    shipit.start(['npm_install', 'npm_build'])
   })
 
-  shipit.blTask('yarn_install', function () {
+  shipit.blTask('npm_install', function () {
     const cwd = path.join(shipit.releasesPath, shipit.releaseDirname)
-    return shipit.remote('yarn install --production', { cwd })
+    return shipit.remote('npm install --only=prod', { cwd })
   })
 
-  shipit.blTask('yarn_build', function () {
+  shipit.blTask('npm_build', function () {
     const cwd = path.join(shipit.releasesPath, shipit.releaseDirname)
-    return shipit.remote('yarn build', { cwd })
+    return shipit.remote('npm run build', { cwd })
   })
 
   shipit.blTask('restart_daemon', function () {
