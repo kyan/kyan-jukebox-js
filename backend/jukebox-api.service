@@ -11,10 +11,10 @@ RestartSec=10
 # Output to syslog
 StandardOutput=syslog
 StandardError=syslog
-SyslogIdentifier=kyan-jukebox-api
+SyslogIdentifier=kyan-jukebox-prod
 User=jukebox
 Group=jukebox
-EnvironmentFile=/run/jukebox-api/envs
+EnvironmentFile=/run/jukebox-prod/envs
 
 [Install]
 WantedBy=multi-user.target
