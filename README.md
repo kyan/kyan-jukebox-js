@@ -74,4 +74,32 @@ $ docker-compose run mongodb-seed /bin/seed.sh
 ```
 *NOTE* This is reset Mongodb, deleting any data currently in there.
 
+## Deployment
 
+### client
+
+To push out a new release of the [client](frontend/) you first need to build it. You can do this with:
+```
+$ docker-compose run jukebox-client npm run build
+```
+This will create a `build` directory in your local `frontend` folder. The frontend lives on github, so to push your new build you change into the `frontend` directory and run:
+```
+$ npm run deploy
+```
+You may have to wait a min for things to propergate, but you should now have pushed a new release. You can check at https://github.com/kyan/jukebox-js/tree/gh-pages.
+
+### api
+
+To push out a new release of the [api](backend/) you first need to build it. You can do this with:
+```
+$ docker-compose run jukebox-api npm run build
+```
+This will create a `dist` directory in your local `backend` folder. To push your new build you change into the `backend` directory and run:
+```
+$ export NODE_PATH=$(npm root -g)
+$ shipit pi deploy
+```
+
+### mongodb
+
+In production the api uses a EC2 server running mongodb and lives at `mongo.kyanmedia.net`.
