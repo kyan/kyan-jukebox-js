@@ -88,7 +88,6 @@ $ npm run deploy
 ```
 You may have to wait a min for things to propergate, but you should now have pushed a new release. You can check at https://github.com/kyan/jukebox-js/tree/gh-pages.
 
-
 ### api
 
 To push out a new release of the [api](backend/) you first need to build it. You can do this with:
@@ -100,3 +99,7 @@ This will create a `dist` directory in your local `backend` folder. To push your
 $ export NODE_PATH=$(npm root -g)
 $ shipit pi deploy
 ```
+
+### mongodb
+
+In production the api uses a EC2 server running mongodb and lives at `mongo.kyanmedia.net`.
