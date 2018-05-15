@@ -97,5 +97,6 @@ $ docker-compose run jukebox-api npm run build
 ```
 This will create a `dist` directory in your local `backend` folder. To push your new build you change into the `backend` directory and run:
 ```
+$ export NODE_PATH=$(npm root -g)
 $ shipit pi deploy
 ```
