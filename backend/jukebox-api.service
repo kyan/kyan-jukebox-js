@@ -14,14 +14,7 @@ StandardError=syslog
 SyslogIdentifier=kyan-jukebox-api
 User=jukebox
 Group=jukebox
-Environment=NODE_ENV=production
-Environment=PORT=8080
-Environment=WS_MOPIDY_URL=jukebox.local
-Environment=WS_MOPIDY_PORT=6680
-Environment=IS_ALIVE_TIMEOUT=30000
-Environment=JWT_SECRET=brhrulesok
-Environment=IMAGE_CACHE_EXPIRES=86400
-Environment=MONGODB_URL=mongo.kyanmedia.net://mongodb/jb-prod
+EnvironmentFile=/run/jukebox-api/envs
 
 [Install]
 WantedBy=multi-user.target
