@@ -87,7 +87,7 @@ $ npm install -g shipit-deploy
 
 To push out a new release of the [client](frontend/) you first need to build it. You can do this with:
 ```
-$ docker-compose run -e NODE_ENV=production -e REACT_APP_WS_URL=jukebox-api.local -e REACT_APP_WS_PORT=8080 jukebox-client npm run build
+$ docker-compose run -e NODE_ENV=production -e REACT_APP_WS_URL=jukebox-prod.local -e REACT_APP_WS_PORT=8080 jukebox-client npm run build
 ```
 This will create a `build` directory in your local `frontend` folder. The frontend lives on github, so to push your new build you change into the `frontend` directory and run:
 ```
