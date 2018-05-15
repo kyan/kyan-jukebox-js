@@ -76,11 +76,18 @@ $ docker-compose run mongodb-seed /bin/seed.sh
 
 ## Deployment
 
+Deployment requires a couple of npm's to be installed on your local machine.
+```
+$ npm install -g gh-pages
+$ npm install -g shipit-cli
+$ npm install -g shipit-deploy
+```
+
 ### client
 
 To push out a new release of the [client](frontend/) you first need to build it. You can do this with:
 ```
-$ docker-compose run jukebox-client npm run build
+$ docker-compose run -e NODE_ENV=production -e REACT_APP_WS_URL=jukebox-api.local -e REACT_APP_WS_PORT=8080 jukebox-client npm run build
 ```
 This will create a `build` directory in your local `frontend` folder. The frontend lives on github, so to push your new build you change into the `frontend` directory and run:
 ```
