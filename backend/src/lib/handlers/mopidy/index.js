@@ -1,4 +1,5 @@
 import StrToFunction from '../../str-to-function'
+import EventLogger from '../../event_logger'
 import ImageCache from './image-cache'
 
 const sendToClient = (bcast, ws, payload, data) => {
@@ -19,6 +20,7 @@ const MopidyHandler = (payload, ws, bcast, mopidy) => {
       ;(data ? apiCall(data) : apiCall())
         .then(resp => {
           if (obj.addToCache) obj.addToCache(resp)
+          EventLogger(payload.user_id, payload.encoded_key, data)
           sendToClient(bcast, ws, payload, resp)
         })
         .catch(console.error.bind(console))
