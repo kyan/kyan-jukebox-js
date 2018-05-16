@@ -1,26 +1,13 @@
-import Event from '../services/mongodb/models/event'
 import MopidyConsts from '../constants/mopidy'
 import AuthConsts from '../constants/auth'
 import TransformTrack from './transformers/mopidy/track'
 import TransformTracklist from './transformers/mopidy/tracklist'
-
-const logEvent = (key, payload) => {
-  const [service, passedKey] = key.split('::')
-  const event = new Event({
-    service,
-    key: passedKey,
-    payload
-  })
-
-  event.save()
-}
 
 export default function (key, data) {
   switch (key) {
     case MopidyConsts.EVENTS.PLAYBACK_STARTED:
       return TransformTrack(data.tl_track.track)
     case MopidyConsts.EVENTS.VOLUME_CHANGED:
-      logEvent(key, data)
       return data.volume
     case MopidyConsts.EVENTS.PLAYBACK_STATE_CHANGED:
       return data.new_state
@@ -29,7 +16,6 @@ export default function (key, data) {
     case MopidyConsts.GET_TRACKS:
       return TransformTracklist(data)
     case MopidyConsts.TRACKLIST_ADD:
-      logEvent(key, data)
       return data
     case AuthConsts.AUTHENTICATE_USER:
     case AuthConsts.AUTHENTICATION_ERROR:

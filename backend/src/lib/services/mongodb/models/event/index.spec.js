@@ -9,8 +9,7 @@ describe('test mongoose Event model', () => {
   it('should return the event with findById', () => {
     const _doc = {
       _id: '507f191e810c19729de860ea',
-      service: 'mopidy',
-      key: 'getTracks',
+      key: 'mopidy::library.getTracks',
       payload: { 'spotifyuri123456789': [] }
     }
 
