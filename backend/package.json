@@ -18,7 +18,8 @@
     "mongoose": "^5.0.15",
     "mopidy": "^0.5.0",
     "morgan": "^1.9.0",
-    "ws": "^5.1.1"
+    "ws": "^5.1.1",
+    "uuid": "^3.3.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
