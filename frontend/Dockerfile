@@ -13,6 +13,9 @@ ARG PORT=3001
 ENV PORT $PORT
 EXPOSE $PORT
 
+# install latest npm
+RUN npm install -g npm
+
 # install dependencies first, in a different location for easier app bind mounting for local development
 WORKDIR /opt
 COPY package.json package-lock.json* ./
