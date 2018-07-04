@@ -1,25 +1,39 @@
+import WebSocket from 'ws'
+import logger from '../../config/winston'
 import Transformer from '../transformer'
 import Payload from '../payload'
 
 class Broadcaster {
-  constructor (wssBroadcast) {
-    this.wssBroadcast = wssBroadcast
+  constructor (clients) {
+    this.clients = clients
   }
 
   to (client, payload, message) {
     const encodedKey = payload.encoded_key
     const unifiedMessage = Transformer(encodedKey, message)
     const uid = payload.user_id ? payload.user_id : 'public'
-    console.log(`[c][${uid}]: ${encodedKey}`)
+    logger.info('Client', { client: client.id, uid, encodedKey })
 
-    client.send(Payload.encodeToJson(encodedKey, unifiedMessage))
+    try {
+      client.send(Payload.encodeToJson(encodedKey, unifiedMessage))
+    } catch (e) {
+      logger.error('Broadcast_to#', { message: e.message })
+    }
   }
 
   everyone (key, message) {
     const unifiedMessage = Transformer(key, message)
-    console.log(`[a]: ${key}`)
+    logger.info('Everyone', { clients: this.clients.size, key })
 
-    this.wssBroadcast(Payload.encodeToJson(key, unifiedMessage))
+    this.clients.forEach(client => {
+      if (client.readyState === WebSocket.OPEN) {
+        try {
+          client.send(Payload.encodeToJson(key, unifiedMessage))
+        } catch (e) {
+          logger.error('Broadcast_everyone#', { message: e.message })
+        }
+      }
+    })
   }
 }
 

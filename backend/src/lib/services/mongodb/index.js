@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import logger from '../../../config/winston'
 
 const mongodbUrl = process.env.MONGODB_URL
 const options = {
@@ -11,9 +12,9 @@ const options = {
 
 const MongodbService = () => {
   mongoose.connect(mongodbUrl, options).then(() => {
-    console.log(`Mongodb [${process.env.MONGODB_URL}]: Connected!`)
+    logger.info(`Mongodb Connected`, { url: process.env.MONGODB_URL })
   }).catch(err => {
-    console.log(`Mongodb [${process.env.MONGODB_URL}]: Error: ${err}`)
+    logger.error(`Mongodb: ${err}`, { url: process.env.MONGODB_URL })
   })
 
   return mongoose

@@ -1,3 +1,4 @@
+import logger from '../../config/winston'
 import MessageTriage from './index'
 import AuthenticateHandler from '../handlers/authenticate'
 import HandshakeHandler from '../handlers/handshake'
@@ -5,20 +6,13 @@ import MopidyHandler from '../handlers/mopidy'
 jest.mock('../handlers/authenticate')
 jest.mock('../handlers/handshake')
 jest.mock('../handlers/mopidy')
+jest.mock('../../config/winston')
 
 describe('MessageTriage', () => {
   const mopidy = jest.fn()
   const cb = jest.fn()
   const ws = jest.fn()
   const broadcaster = jest.fn()
-
-  beforeEach(() => {
-    spyOn(console, 'log')
-  })
-
-  afterEach(() => {
-    cb.mockClear()
-  })
 
   describe('when mopidy service', () => {
     const payload = { service: 'mopidy' }
@@ -54,8 +48,8 @@ describe('MessageTriage', () => {
 
     it('it should just log the fact', () => {
       MessageTriage(payload, mopidy, cb)
-      expect(console.log)
-        .toBeCalledWith("[Warning] Can't find handler for: unknownfoo")
+      expect(logger.warn.mock.calls[0][0])
+        .toEqual("Can't find handler for: unknownfoo")
     })
   })
 })

@@ -1,3 +1,4 @@
+import logger from '../../config/winston'
 import MopidyHandler from '../handlers/mopidy'
 import HandshakeHandler from '../handlers/handshake'
 import AuthenticateHandler from '../handlers/authenticate'
@@ -17,7 +18,7 @@ const MessageTriage = (payload, mopidy, fn) => {
         HandshakeHandler(payload, ws, bcast)
       })
     default:
-      console.log(`[Warning] Can't find handler for: ${service}`)
+      logger.warn(`Can't find handler for: ${service}`)
   }
 }
 
