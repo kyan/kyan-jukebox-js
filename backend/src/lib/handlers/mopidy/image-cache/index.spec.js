@@ -1,12 +1,13 @@
 import mockingoose from 'mockingoose'
+import logger from '../../../../config/winston'
 import ImageCache from './index'
+jest.mock('../../../../config/winston')
 
 describe('ImageCache', () => {
   const cb = jest.fn()
 
   beforeEach(() => {
     mockingoose.resetAll()
-    jest.clearAllMocks()
   })
 
   it('passes through a non getImages request', async () => {
@@ -41,13 +42,13 @@ describe('ImageCache', () => {
   })
 
   it('handles finding an image in the cache', async () => {
-    spyOn(console, 'log')
     mockingoose.Image.toReturn({ data: 'xxxx' }, 'findOne')
 
     await ImageCache.check('mopidy::library.getImages', [['uri123']], cb)
     expect(cb.mock.calls.length).toEqual(1)
-    expect(console.log).toHaveBeenCalledWith(
-      'Using cache: mopidy::library.getImages#uri123'
-    )
+    expect(logger.info.mock.calls[0][0]).toEqual('Using cache')
+    expect(logger.info.mock.calls[0][1]).toEqual({
+      key: 'mopidy::library.getImages#uri123'
+    })
   })
 })

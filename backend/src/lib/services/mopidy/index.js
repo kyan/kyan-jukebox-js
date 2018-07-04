@@ -1,4 +1,5 @@
 import Mopidy from 'mopidy'
+import logger from '../../../config/winston'
 import MopidyConstants from '../../constants/mopidy'
 import Payload from '../../payload'
 
@@ -12,14 +13,14 @@ const mopidy = new Mopidy({
 
 const MopidyService = (broadcaster, callback) => {
   mopidy.on('websocket:error', (err) => {
-    console.log(`Mopidy [${mopidyUrl}:${mopidyPort}]: Error: ${err}`)
+    logger.error(`Mopidy Error: ${err.message}`, { url: `${mopidyUrl}:${mopidyPort}` })
 
-    const encodedKey = Payload.encodeKey('mopidy', 'connectionError')
-    broadcaster.everyone(encodedKey, String(err))
+    // kill app, and let systemctl restart it.
+    process.exit()
   })
 
   mopidy.on('state:online', () => {
-    console.log(`Mopidy [${mopidyUrl}:${mopidyPort}]: Online!`)
+    logger.info('Mopidy Online', { url: `${mopidyUrl}:${mopidyPort}` })
 
     Object.values(MopidyConstants.EVENTS).forEach(raw => {
       const key = Payload.decodeKey(raw).pop()

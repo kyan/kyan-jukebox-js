@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Icon, Image, Progress } from 'semantic-ui-react'
+import { Card, Icon, Image } from 'semantic-ui-react'
+import { Line } from 'rc-progress'
 import defaultImage from './default-artwork.png'
 import { millisToMinutesAndSeconds } from '../../utils/time'
+import './index.css'
 
 const albumDescription = album => {
   if (!album) return null
@@ -46,7 +48,10 @@ const CurrentTrack = ({ track, image, progress }) => {
     <Card>
       { albumArt(image) }
       <Card.Content>
-        <Progress percent={progress} size='tiny' />
+        <div className='progress-container'>
+          <span className='progress-text'>{progress} &#37;</span>
+          <Line percent={progress} />
+        </div>
         <Card.Header>{track.name}</Card.Header>
         <Card.Meta>({millisToMinutesAndSeconds(track.length)}) {track.artist.name}</Card.Meta>
         { albumDescription(track.album) }

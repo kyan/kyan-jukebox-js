@@ -1,6 +1,8 @@
 import mockingoose from 'mockingoose'
 import HandshakeHandler from './index'
+import logger from '../../../config/winston'
 import AuthConstants from '../../constants/auth'
+jest.mock('../../../config/winston')
 
 describe('HandshakeHandler', () => {
   const ws = jest.fn()
@@ -11,7 +13,6 @@ describe('HandshakeHandler', () => {
 
   beforeEach(() => {
     mockingoose.resetAll()
-    jest.clearAllMocks()
   })
 
   it('only works with auth::authenticateUser event', () => {
@@ -52,6 +53,8 @@ describe('HandshakeHandler', () => {
       token: 'eyJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1MDdmMTkxZTgxMGMxOTcyOWRlODYwZWEiLCJ1c2VybmFtZSI6ImZvb2JhciJ9.pAR_AFyMMGGaQS3KUPET4klnLtDzbpL0dlOfXjoaYsg',
       user: { _id: '507f191e810c19729de860ea', fullname: 'name', username: 'foobar' }
     })
+    expect(logger.info.mock.calls[0][0]).toEqual('Authentication Success')
+    expect(logger.info.mock.calls[0][1]).toEqual({ user: 'name' })
   })
 
   it('does not authorize an invalid user', async () => {
@@ -76,5 +79,6 @@ describe('HandshakeHandler', () => {
       token: null,
       user: {}
     })
+    expect(logger.info.mock.calls[0][0]).toEqual('Authentication Fail')
   })
 })

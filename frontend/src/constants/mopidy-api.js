@@ -2,6 +2,7 @@ export default {
   PLAYBACK_GET_CURRENT_TRACK: 'mopidy::playback.getCurrentTrack',
   EVENT_TRACK_PLAYBACK_STARTED: 'mopidy::event:trackPlaybackStarted',
   EVENT_PLAYBACK_STATE_CHANGED: 'mopidy::event:playbackStateChanged',
+  EVENT_PLAYBACK_STATE_RESUMED: 'mopidy::event:trackPlaybackResumed',
   EVENT_TRACKLIST_CHANGED: 'mopidy::event:tracklistChanged',
   TRACKLIST_GET_TRACKS: 'mopidy::tracklist.getTracks',
   TRACKLIST_ADD_TRACK: 'mopidy::tracklist.add',

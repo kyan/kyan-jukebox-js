@@ -13,6 +13,16 @@ const JukeboxMiddleware = (() => {
   let socket = null
   let progressTimer = null
   let connectionAttempts = 0
+  let retryTimeout
+
+  const tryToReconnect = (store) => {
+    if (retryTimeout) { clearTimeout(retryTimeout) }
+
+    retryTimeout = setTimeout(() => {
+      store.dispatch(actions.wsConnect())
+    }, connectionAttempts * reconnectTimeout)
+    connectionAttempts++
+  }
 
   const onOpen = (store, token) => evt => {
     progressTimer = trackProgressTimer(store, actions)
@@ -22,12 +32,6 @@ const JukeboxMiddleware = (() => {
 
   const onClose = (store) => evt => {
     store.dispatch(actions.wsDisconnect())
-    progressTimer = undefined
-
-    setTimeout(() => {
-      store.dispatch(actions.wsConnect())
-    }, connectionAttempts * reconnectTimeout)
-    connectionAttempts++
   }
 
   const onMessage = (store) => evt => {
@@ -45,8 +49,10 @@ const JukeboxMiddleware = (() => {
   }
 
   const onDisconnect = (store) => {
+    if (progressTimer) { progressTimer.reset() }
     if (socket != null) { socket.close() }
     socket = null
+    tryToReconnect(store)
     store.dispatch(actions.wsDisconnected())
   }
 
