@@ -6,6 +6,10 @@ const sendToClient = (bcast, ws, payload, data) => {
   bcast.to(ws, payload, data)
 }
 
+const logEvent = (payload, data) => {
+  EventLogger(payload.user_id, payload.encoded_key, data)
+}
+
 const MopidyHandler = (payload, ws, bcast, mopidy) => {
   const { key, data } = payload
 
@@ -20,7 +24,7 @@ const MopidyHandler = (payload, ws, bcast, mopidy) => {
       ;(data ? apiCall(data) : apiCall())
         .then(resp => {
           if (obj.addToCache) obj.addToCache(resp)
-          EventLogger(payload.user_id, payload.encoded_key, data)
+          logEvent(payload, resp)
           sendToClient(bcast, ws, payload, resp)
         })
         .catch(console.error.bind(console))
