@@ -8,7 +8,7 @@ describe('MongodbService', () => {
     mongoose.connect = jest.fn(() => Promise.resolve())
     await MongodbService()
     expect(logger.info.mock.calls[0][0]).toEqual('Mongodb Connected')
-    expect(logger.info.mock.calls[0][1]).toEqual({ url: 'mongodb://mongodb/jb-dev' })
+    expect(logger.info.mock.calls[0][1]).toEqual({ url: 'mongodb://mongodb:27017/jb-dev' })
   })
 
   it('it should handle a connection failure', async () => {
@@ -16,7 +16,7 @@ describe('MongodbService', () => {
     await MongodbService()
     process.nextTick(() => {
       expect(logger.error.mock.calls[0][0]).toEqual('Mongodb: Error: bang!')
-      expect(logger.error.mock.calls[0][1]).toEqual({ url: 'mongodb://mongodb/jb-dev' })
+      expect(logger.error.mock.calls[0][1]).toEqual({ url: 'mongodb://mongodb:27017/jb-dev' })
     })
   })
 })

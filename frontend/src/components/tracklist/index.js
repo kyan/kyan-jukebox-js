@@ -15,8 +15,9 @@ const isCurrentTrack = (currentTrack, track) => {
 const currentImage = (image) => (
   <span className={trackClasses(true)}>
     <Image
+      size='tiny'
       src={image}
-      avatar
+      inline
     />
   </span>
 )
@@ -28,14 +29,16 @@ const revealImage = (image, uri, onRemoveTrack) => (
   >
     <Reveal animated='fade'>
       <Reveal.Content visible>
-        <Image src={image} avatar />
+        <Image
+          src={image}
+          inline
+        />
       </Reveal.Content>
       <Reveal.Content hidden>
         <Icon
           name='close'
           color='red'
           bordered
-          circular
         />
       </Reveal.Content>
     </Reveal>
@@ -71,7 +74,7 @@ const trackStartTime = (time, isCurrent) => {
 }
 
 const trackHeading = (track) => (
-  <List.Header as='h3'>{track.name}</List.Header>
+  <List.Header as='h4'>{track.name}</List.Header>
 )
 
 const trackDescription = (track) => (
