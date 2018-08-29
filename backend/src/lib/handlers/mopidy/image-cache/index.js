@@ -1,3 +1,4 @@
+import logger from '../../../../config/winston'
 import Image from '../../../services/mongodb/models/image'
 import MopidyConsts from '../../../constants/mopidy'
 
@@ -23,7 +24,6 @@ const addToCacheHandler = (encodedKey) => {
         uri: encodedKey,
         data
       })
-      .catch(console.error.bind(console))
 
     return uri
   }
@@ -33,7 +33,6 @@ const addToCacheHandler = (encodedKey) => {
 const fetchFromCache = (key, responseHandler) => {
   return Image.findOne({ 'uri': key })
     .then(resp => responseHandler(resp))
-    .catch(console.error.bind(console))
 }
 
 const ImageCache = {
@@ -43,7 +42,7 @@ const ImageCache = {
 
     fetchFromCache(encodedKey, (respo) => {
       if (respo) {
-        console.log(`Using cache: ${encodedKey}`)
+        logger.info('Using cache', { key: encodedKey })
         return fn(null, { image: respo.data })
       } else {
         return fn(null, { addToCache: addToCacheHandler(encodedKey) })

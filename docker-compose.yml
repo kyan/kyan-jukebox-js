@@ -37,9 +37,9 @@ services:
       - NODE_ENV=development
       - PORT=8080
       - IS_ALIVE_TIMEOUT=30000
-      - WS_MOPIDY_URL=jukebox.local
+      - WS_MOPIDY_URL=mopidy-prod.local
       - WS_MOPIDY_PORT=6680
-      - MONGODB_URL=mongodb://mongodb/jb-dev
+      - MONGODB_URL=mongodb://mongodb:27017/jb-dev
       - JWT_SECRET=secretshh
   mongodb:
     image: mongo:3.6.4

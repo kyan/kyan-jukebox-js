@@ -9,10 +9,6 @@ describe('AuthenticateHandler', () => {
     to: broadcastMock
   }
 
-  beforeEach(() => {
-    jest.clearAllMocks()
-  })
-
   it('handles a non authorised request ', () => {
     spyOn(jwt, 'verify')
     const payload = {
