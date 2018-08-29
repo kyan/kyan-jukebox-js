@@ -11,13 +11,15 @@
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
-    "body-parser": "^1.18.1",
+    "babel-preset-env": "^1.7.0",
+    "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.2.1",
     "mongoose": "^5.0.15",
     "mopidy": "^0.5.0",
     "morgan": "^1.9.0",
+    "uuid": "^3.3.0",
+    "winston": "^3.0.0",
     "ws": "^5.1.1"
   },
   "devDependencies": {
@@ -27,7 +29,7 @@
     "jest": "^22.4.3",
     "lolex": "^2.3.2",
     "mockingoose": "2.4.0",
-    "nodemon": "^1.17.3",
+    "nodemon": "^1.17.5",
     "standard": "^11.0.1"
   },
   "babel": {
@@ -46,13 +48,15 @@
     ]
   },
   "jest": {
+    "clearMocks": true,
     "testEnvironment": "node",
     "collectCoverageFrom": [
       "src/**/*.js",
       "!<rootDir>/dist/",
       "!src/index.js",
       "!src/app.js",
-      "!src/**/constants/*.js"
+      "!src/**/constants/*.js",
+      "!src/config/*.js"
     ]
   },
   "standard": {

@@ -74,6 +74,22 @@ $ docker-compose run mongodb-seed /bin/seed.sh
 ```
 *NOTE* This is reset Mongodb, deleting any data currently in there.
 
+### Adding a new package to `package.json`
+
+Because everthing runs in Docker, you need to actually install the new packages in Docker too otherwise you would need to download all the packages to your local machine in order to update the `package-lock.json` file. So for example, if you wanted to add the package `winston` to the `backend`, you would have the app running locally with `docker-compose up`, you then update your `package.json` file with your new package, and in another terminal open at the app root, you would run:
+
+```
+$ do exec -it jukebox-api npm install
+```
+
+This would install the new package as well as updating the `package-local.json` file on your machine. You'll then need to stop all the containers `CTR C` and rebuild the images, as they install the npms on the image.
+
+```
+$ doc build
+```
+
+You can then start all the containers again `doc up`
+
 ## Deployment
 
 Deployment requires a couple of npm's to be installed on your local machine.

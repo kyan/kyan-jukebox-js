@@ -1,0 +1,13 @@
+.progress-container {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.progress-text {
+  position: absolute;
+  top: 0;
+  right: 0;
+  line-height: 8px;
+  font-size: 11px;
+  color: #bdbdbd;
+}

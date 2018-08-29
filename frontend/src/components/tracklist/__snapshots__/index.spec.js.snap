@@ -12,7 +12,8 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
     >
       <Image
         as="img"
-        avatar={true}
+        inline={true}
+        size="tiny"
         src="album-image.jpg"
         ui={true}
       />
@@ -21,7 +22,7 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
       className=""
     >
       <ListHeader
-        as="h3"
+        as="h4"
       >
         No Time for Caution
       </ListHeader>
@@ -44,7 +45,8 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
     >
       <Image
         as="img"
-        avatar={true}
+        inline={true}
+        size="tiny"
         src="default-artwork.png"
         ui={true}
       />
@@ -58,7 +60,7 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
         2:18
       </ListHeader>
       <ListHeader
-        as="h3"
+        as="h4"
       >
         Silent Running
       </ListHeader>
@@ -88,7 +90,8 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
     >
       <Image
         as="img"
-        avatar={true}
+        inline={true}
+        size="tiny"
         src="album-image.jpg"
         ui={true}
       />
@@ -97,7 +100,7 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
       className=""
     >
       <ListHeader
-        as="h3"
+        as="h4"
       >
         No Time for Caution
       </ListHeader>
@@ -127,7 +130,7 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
         >
           <Image
             as="img"
-            avatar={true}
+            inline={true}
             src="default-artwork.png"
             ui={true}
           />
@@ -138,7 +141,6 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
           <Icon
             as="i"
             bordered={true}
-            circular={true}
             color="red"
             name="close"
           />
@@ -154,7 +156,7 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
         2:18
       </ListHeader>
       <ListHeader
-        as="h3"
+        as="h4"
       >
         Silent Running
       </ListHeader>
@@ -191,7 +193,7 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
         >
           <Image
             as="img"
-            avatar={true}
+            inline={true}
             src="default-artwork.png"
             ui={true}
           />
@@ -202,7 +204,6 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
           <Icon
             as="i"
             bordered={true}
-            circular={true}
             color="red"
             name="close"
           />
@@ -213,7 +214,7 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
       className="track-info"
     >
       <ListHeader
-        as="h3"
+        as="h4"
       >
         No Time for Caution
       </ListHeader>
@@ -243,7 +244,7 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
         >
           <Image
             as="img"
-            avatar={true}
+            inline={true}
             src="default-artwork.png"
             ui={true}
           />
@@ -254,7 +255,6 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
           <Icon
             as="i"
             bordered={true}
-            circular={true}
             color="red"
             name="close"
           />
@@ -265,7 +265,7 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
       className="track-info"
     >
       <ListHeader
-        as="h3"
+        as="h4"
       >
         Silent Running
       </ListHeader>

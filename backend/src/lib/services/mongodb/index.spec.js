@@ -1,27 +1,22 @@
-import MongodbService from './index'
 import mongoose from 'mongoose'
+import logger from '../../../config/winston'
+import MongodbService from './index'
+jest.mock('../../../config/winston')
 
 describe('MongodbService', () => {
-  jest.spyOn(console, 'log').mockImplementation(() => {})
-
-  it('it should handle connecting correctly', async () => {
-    jest.spyOn(mongoose, 'connect')
-      .mockResolvedValueOnce()
-      .mockRejectedValueOnce('bang!')
+  it('it should handle a connection success', async () => {
+    mongoose.connect = jest.fn(() => Promise.resolve())
     await MongodbService()
-    await MongodbService()
+    expect(logger.info.mock.calls[0][0]).toEqual('Mongodb Connected')
+    expect(logger.info.mock.calls[0][1]).toEqual({ url: 'mongodb://mongodb:27017/jb-dev' })
+  })
 
-    expect(mongoose.connect).toHaveBeenCalledWith(
-      'mongodb://mongodb/jb-dev',
-      {
-        bufferMaxEntries: 0,
-        keepAlive: 120,
-        poolSize: 10,
-        reconnectInterval: 500,
-        reconnectTries: expect.any(Number)
-      }
-    )
-    expect(console.log.mock.calls[0][0])
-      .toEqual('Mongodb [mongodb://mongodb/jb-dev]: Connected!')
+  it('it should handle a connection failure', async () => {
+    mongoose.connect = jest.fn(() => Promise.reject(new Error('bang!')))
+    await MongodbService()
+    process.nextTick(() => {
+      expect(logger.error.mock.calls[0][0]).toEqual('Mongodb: Error: bang!')
+      expect(logger.error.mock.calls[0][1]).toEqual({ url: 'mongodb://mongodb:27017/jb-dev' })
+    })
   })
 })
