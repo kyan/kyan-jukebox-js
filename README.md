@@ -101,23 +101,19 @@ $ npm install -g shipit-deploy
 
 ### client
 
-To push out a new release of the [client](frontend/) you first need to build it. You can do this with:
+To push out a new release of the [client](frontend/) you first need just need to run:
 ```
-$ docker-compose run -e NODE_ENV=production -e REACT_APP_WS_URL=jukebox-prod.local -e REACT_APP_WS_PORT=8080 jukebox-client npm run build
+$ ./scipts/deploy-frontend
 ```
-This will create a `build` directory in your local `frontend` folder. The frontend lives on github, so to push your new build you change into the `frontend` directory and run:
-```
-$ npm run deploy
-```
-You may have to wait a min for things to propergate, but you should now have pushed a new release. You can check at https://github.com/kyan/jukebox-js/tree/gh-pages.
+This will create a `build` directory in your local `frontend` folder and then push it to Github (where the frontend is hosted). You may have to wait a min for things to propergate, but you should now have pushed a new release. You can check at https://github.com/kyan/jukebox-js/tree/gh-pages. There are ENVs you can update in the deploy scripts if you need to customise.
 
 ### api
 
-To push out a new release of the [api](backend/) you need to change into the `backend` directory and do this. It will currently push up whatever is in `master`:
+To push out a new release of the [api](backend/) you need to run:
 ```
-$ export NODE_PATH=$(npm root -g)
-$ shipit pi deploy
+$ ./scipts/deploy-backend
 ```
+This will currently push up whatever is in `master`.
 
 ### mongodb
 
