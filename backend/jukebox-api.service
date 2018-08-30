@@ -14,7 +14,7 @@ StandardError=syslog
 SyslogIdentifier=kyan-jukebox-prod
 User=jukebox
 Group=jukebox
-EnvironmentFile=/run/jukebox-prod/envs
+EnvironmentFile=/srv/jukebox-prod/envs
 
 [Install]
 WantedBy=multi-user.target
