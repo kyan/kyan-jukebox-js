@@ -1,6 +1,5 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import MopidyApi from '../../constants/mopidy-api'
 import Controls from './index'
 
 describe('Controls', () => {
@@ -15,10 +14,14 @@ describe('Controls', () => {
     })
 
     describe('when controls disabled', () => {
+      const state = {
+        radioStreamPlaying: false,
+        playbackState: false
+      }
       const wrapper = shallow(
         <Controls
           disabled
-          state={MopidyApi.PAUSED}
+          state={state}
           onPlay={onPlayMock}
           onPause={onPauseMock}
           onPrevious={onPrevMock}
@@ -32,10 +35,40 @@ describe('Controls', () => {
     })
 
     describe('when controls enabled', () => {
+      const state = {
+        radioStreamPlaying: false,
+        playbackState: true
+      }
       const wrapper = shallow(
         <Controls
           disabled={false}
-          state={MopidyApi.PAUSED}
+          state={state}
+          onPlay={onPlayMock}
+          onPause={onPauseMock}
+          onPrevious={onPrevMock}
+          onNext={onNextMock}
+        />
+      )
+
+      it('renders as expected', () => {
+        expect(wrapper).toMatchSnapshot()
+      })
+
+      it('handles a play click', () => {
+        wrapper.find('.jb-play-button').simulate('click')
+        expect(onPlayMock.mock.calls.length).toEqual(1)
+      })
+    })
+
+    describe('when streaming radio', () => {
+      const state = {
+        radioStreamPlaying: true,
+        playbackState: true
+      }
+      const wrapper = shallow(
+        <Controls
+          disabled={false}
+          state={state}
           onPlay={onPlayMock}
           onPause={onPauseMock}
           onPrevious={onPrevMock}

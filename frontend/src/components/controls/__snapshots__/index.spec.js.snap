@@ -2,6 +2,19 @@
 
 exports[`Controls render when controls disabled renders as expected 1`] = `
 <span>
+  <Button
+    active={false}
+    as="button"
+    className="jb-radio-button"
+    color={null}
+    disabled={true}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      RADIO 
+    </ButtonContent>
+  </Button>
   <SkipButtons
     disabled={true}
     onNext={[Function]}
@@ -30,7 +43,7 @@ exports[`Controls render when controls disabled renders as expected 1`] = `
     </ButtonContent>
   </Button>
   <Button
-    active={true}
+    active={false}
     animated="vertical"
     as="button"
     className="jb-pause-button"
@@ -56,6 +69,19 @@ exports[`Controls render when controls disabled renders as expected 1`] = `
 
 exports[`Controls render when controls enabled renders as expected 1`] = `
 <span>
+  <Button
+    active={false}
+    as="button"
+    className="jb-radio-button"
+    color={null}
+    disabled={false}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      RADIO 
+    </ButtonContent>
+  </Button>
   <SkipButtons
     disabled={false}
     onNext={[Function]}
@@ -84,11 +110,83 @@ exports[`Controls render when controls enabled renders as expected 1`] = `
     </ButtonContent>
   </Button>
   <Button
-    active={true}
+    active={false}
     animated="vertical"
     as="button"
     className="jb-pause-button"
-    disabled={true}
+    disabled={false}
+    onClick={[Function]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Pause
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="pause"
+      />
+    </ButtonContent>
+  </Button>
+</span>
+`;
+
+exports[`Controls render when streaming radio renders as expected 1`] = `
+<span>
+  <Button
+    active={true}
+    as="button"
+    className="jb-radio-button"
+    color="green"
+    disabled={false}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      RADIO 
+      <Icon
+        as="i"
+        loading={true}
+        name="certificate"
+      />
+    </ButtonContent>
+  </Button>
+  <SkipButtons
+    disabled={false}
+    onNext={[Function]}
+    onPrevious={[Function]}
+  />
+  <Button
+    active={false}
+    animated="vertical"
+    as="button"
+    className="jb-play-button"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Play
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="play"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
+    active={false}
+    animated="vertical"
+    as="button"
+    className="jb-pause-button"
+    disabled={false}
     onClick={[Function]}
   >
     <ButtonContent

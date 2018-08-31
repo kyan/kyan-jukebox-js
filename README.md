@@ -40,19 +40,17 @@ If you want to run your own copy of Mopidy, you can buy yourself a Raspberry Pi 
 There is currently 100% test coverage and linting plumbed in. You can run the `frontend` specs with:
 
 ```
-$ docker-compose run --rm jukebox-client npm test
+$ ./scripts/specs-client.sh
 ```
+this will also start a watcher looking for code changes and re-running the specs.
 
 You can run the `backend` specs with:
 
 ```
-$ docker-compose run --rm jukebox-api npm test
+$ ./scripts/specs-api.sh
 ```
 
-You can add `--coverage` or/and `--watchAll` to the end for other options. e.g
-```
-$ docker-compose run --rm jukebox-api npm test -- --watchAll --coverage
-```
+You can add `--coverage` or/and `--watchAll` to the end for other options.
 
 ### Client
 
@@ -76,10 +74,11 @@ $ docker-compose run mongodb-seed /bin/seed.sh
 
 ### Adding a new package to `package.json`
 
-Because everthing runs in Docker, you need to actually install the new packages in Docker too otherwise you would need to download all the packages to your local machine in order to update the `package-lock.json` file. So for example, if you wanted to add the package `winston` to the `backend`, you would have the app running locally with `docker-compose up`, you then update your `package.json` file with your new package, and in another terminal open at the app root, you would run:
+Because everthing runs in Docker, you need to actually install the new packages in Docker too otherwise you would need to download all the packages to your local machine in order to update the `package-lock.json` file. So you would update your `package.json` file and run the command below, using the correct one depending on whether you are `frontend` or `backend`.
 
 ```
-$ do exec -it jukebox-api npm install
+$ docker-compose run --rm jukebox-api npm install
+$ docker-compose run --rm jukebox-client npm install
 ```
 
 This would install the new package as well as updating the `package-local.json` file on your machine. You'll then need to stop all the containers `CTR C` and rebuild the images, as they install the npms on the image.

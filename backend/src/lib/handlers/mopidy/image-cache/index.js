@@ -11,7 +11,7 @@ const expiresDate = (imgs) => {
   const day = 12 * 3600 * 1000
   const today = new Date()
   if (imgs.length < 1) { return new Date(today.getTime() + hour) }
-  return new Date(today.getTime() + day)
+  return new Date(today.getTime() + (day * 30))
 }
 
 const addToCacheHandler = (encodedKey) => {

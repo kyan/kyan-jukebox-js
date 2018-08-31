@@ -219,6 +219,12 @@ export const setVolume = (volume) => {
   }
 }
 
+export const toggleStreamingState = () => {
+  return {
+    type: Types.UPDATE_RADIO_STREAM_STATE
+  }
+}
+
 export const toggleSettings = () => {
   return {
     type: Types.TOGGLE_SETTINGS
