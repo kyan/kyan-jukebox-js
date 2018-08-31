@@ -1,6 +1,6 @@
 const path = require('path')
 
-module.exports = function (shipit) {
+module.exports = shipit => {
   require('shipit-deploy')(shipit)
 
   const config = {

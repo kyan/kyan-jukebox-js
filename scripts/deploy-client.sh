@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo Deploying jukebox frontend
+echo Deploying jukebox client
 
 docker-compose run \
   -e NODE_ENV=production \
