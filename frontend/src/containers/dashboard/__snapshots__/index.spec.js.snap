@@ -18,7 +18,14 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
     onPause={[Function]}
     onPlay={[Function]}
     onPrevious={[Function]}
-    state="playing"
+    onStreaming={[Function]}
+    state={
+      Object {
+        "online": true,
+        "playbackState": "playing",
+        "volume": 25,
+      }
+    }
   />
   <Divider />
   <Grid>
@@ -78,6 +85,7 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
     toastClassName={null}
     transition={[Function]}
   />
+  <RadioStream />
 </DimmerDimmable>
 `;
 
@@ -273,9 +281,41 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
               onPause={[Function]}
               onPlay={[Function]}
               onPrevious={[Function]}
-              state="playing"
+              onStreaming={[Function]}
+              state={
+                Object {
+                  "online": true,
+                  "playbackState": "playing",
+                  "volume": 25,
+                }
+              }
             >
               <span>
+                <Button
+                  as="button"
+                  className="jb-radio-button"
+                  color={null}
+                  disabled={true}
+                  onClick={[Function]}
+                >
+                  <button
+                    className="ui disabled button jb-radio-button"
+                    disabled={true}
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={-1}
+                  >
+                    <ButtonContent
+                      hidden={true}
+                    >
+                      <div
+                        className="hidden content"
+                      >
+                        RADIO 
+                      </div>
+                    </ButtonContent>
+                  </button>
+                </Button>
                 <SkipButtons
                   disabled={true}
                   onNext={[Function]}
@@ -597,6 +637,27 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
             >
               <div />
             </ToastContainer>
+            <RadioStream>
+              <ReactHowler
+                format={Array []}
+                html5={true}
+                loop={false}
+                mute={false}
+                onEnd={[Function]}
+                onLoad={[Function]}
+                onLoadError={[Function]}
+                onPause={[Function]}
+                onPlay={[Function]}
+                onStop={[Function]}
+                onVolume={[Function]}
+                playing={true}
+                preload={true}
+                src="http://icecast.local:8000/radio-kyan.mp3"
+                volume={1}
+              >
+                <div />
+              </ReactHowler>
+            </RadioStream>
           </div>
         </DimmerDimmable>
       </Dashboard>

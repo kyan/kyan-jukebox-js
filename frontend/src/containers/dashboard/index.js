@@ -13,6 +13,7 @@ import TrackList from '../../components/tracklist'
 import { getTracklistImagesInCache } from '../../selectors'
 import Controls from '../../components/controls'
 import DragInTrack from '../../components/drag-in-track'
+import RadioStream from '../../components/radio-stream'
 
 export class Dashboard extends Component {
   constructor (props) {
@@ -55,11 +56,12 @@ export class Dashboard extends Component {
         />
         <Controls
           disabled={!this.props.settings.token}
-          state={this.props.jukebox.playbackState}
+          state={this.props.jukebox}
           onPlay={this.fireDispatch('startPlaying')}
           onPause={this.fireDispatch('pausePlaying')}
           onNext={this.fireDispatch('nextPlaying')}
           onPrevious={this.fireDispatch('previousPlaying')}
+          onStreaming={this.fireDispatch('toggleStreamingState')}
         />
         <Divider />
         <Grid>
@@ -89,6 +91,7 @@ export class Dashboard extends Component {
           </Grid.Column>
         </Grid>
         <ToastContainer />
+        <RadioStream active={this.props.jukebox.radioStreamPlaying} />
       </Dimmer.Dimmable>
     )
   }
