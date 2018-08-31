@@ -272,4 +272,11 @@ describe('actions', () => {
     }
     expect(actions.toggleSettings()).toEqual(expectedAction)
   })
+
+  it('should handle toggleStreamingState', () => {
+    const expectedAction = {
+      type: Types.UPDATE_RADIO_STREAM_STATE
+    }
+    expect(actions.toggleStreamingState()).toEqual(expectedAction)
+  })
 })

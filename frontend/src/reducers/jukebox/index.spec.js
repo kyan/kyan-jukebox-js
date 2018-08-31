@@ -8,7 +8,8 @@ describe('jukebox', () => {
     expect(reducer(undefined, {})).toEqual({
       volume: 0,
       online: false,
-      playbackState: 'paused'
+      playbackState: 'paused',
+      radioStreamPlaying: false
     })
   })
 
@@ -18,7 +19,8 @@ describe('jukebox', () => {
     })).toEqual({
       volume: 0,
       online: true,
-      playbackState: 'paused'
+      playbackState: 'paused',
+      radioStreamPlaying: false
     })
   })
 
@@ -35,8 +37,15 @@ describe('jukebox', () => {
     })).toEqual({
       volume: 32,
       online: false,
-      playbackState: 'paused'
+      playbackState: 'paused',
+      radioStreamPlaying: false
     })
+  })
+
+  it('handles a UPDATE_RADIO_STREAM_STATE', () => {
+    expect(reducer({ radioStreamPlaying: false }, {
+      type: Types.UPDATE_RADIO_STREAM_STATE
+    })).toEqual({ radioStreamPlaying: true })
   })
 
   it('handles a UPDATE_VOLUME increased', () => {
@@ -74,7 +83,8 @@ describe('jukebox', () => {
     })).toEqual({
       playbackState: 'playing',
       volume: 0,
-      online: false
+      online: false,
+      radioStreamPlaying: false
     })
     expect(notify.mock.calls.length).toEqual(1)
     expect(notify.mock.calls[0][0]).toEqual('Jukebox playing')
