@@ -16,5 +16,6 @@ export default {
   TOGGLE_SETTINGS: 'actionToggleSettings',
   UPDATE_VOLUME: 'actionUpdateVolume',
   UPDATE_PLAYBACK_STATE: 'actionPlaybackState',
-  UPDATE_PROGRESS_TIMER: 'actionUpdateProgressTimer'
+  UPDATE_PROGRESS_TIMER: 'actionUpdateProgressTimer',
+  UPDATE_RADIO_STREAM_STATE: 'updateRadioStreamState'
 }
