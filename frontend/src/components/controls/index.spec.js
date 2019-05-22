@@ -1,5 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
+import MopidyApi from '../../constants/mopidy-api'
 import Controls from './index'
 
 describe('Controls', () => {
@@ -14,14 +15,30 @@ describe('Controls', () => {
     })
 
     describe('when controls disabled', () => {
-      const state = {
-        radioStreamPlaying: false,
-        playbackState: false
-      }
       const wrapper = shallow(
         <Controls
+          radioEnabled
+          radioPlaying={false}
+          playbackState={MopidyApi.PAUSED}
           disabled
-          state={state}
+          onPlay={onPlayMock}
+          onPause={onPauseMock}
+          onPrevious={onPrevMock}
+          onNext={onNextMock}
+        />
+      )
+
+      it('renders as expected', () => {
+        expect(wrapper).toMatchSnapshot()
+      })
+    })
+
+    describe('when no playstate', () => {
+      const wrapper = shallow(
+        <Controls
+          radioEnabled
+          radioPlaying={false}
+          disabled
           onPlay={onPlayMock}
           onPause={onPauseMock}
           onPrevious={onPrevMock}
@@ -35,14 +52,12 @@ describe('Controls', () => {
     })
 
     describe('when controls enabled', () => {
-      const state = {
-        radioStreamPlaying: false,
-        playbackState: true
-      }
       const wrapper = shallow(
         <Controls
+          radioEnabled={false}
+          radioPlaying={false}
+          playbackState={MopidyApi.PLAYING}
           disabled={false}
-          state={state}
           onPlay={onPlayMock}
           onPause={onPauseMock}
           onPrevious={onPrevMock}
@@ -61,14 +76,12 @@ describe('Controls', () => {
     })
 
     describe('when streaming radio', () => {
-      const state = {
-        radioStreamPlaying: true,
-        playbackState: true
-      }
       const wrapper = shallow(
         <Controls
+          radioEnabled
+          radioPlaying
+          playbackState={MopidyApi.PLAYING}
           disabled={false}
-          state={state}
           onPlay={onPlayMock}
           onPause={onPauseMock}
           onPrevious={onPrevMock}

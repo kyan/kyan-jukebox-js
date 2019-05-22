@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RadioStream hides when inactive 1`] = `""`;
+
+exports[`RadioStream plays when active 1`] = `
+<t
+  autoPlay={true}
+  className=""
+  controls={true}
+  controlsList=""
+  crossOrigin={null}
+  id=""
+  listenInterval={10000}
+  loop={false}
+  muted={false}
+  onAbort={[Function]}
+  onCanPlay={[Function]}
+  onCanPlayThrough={[Function]}
+  onEnded={[Function]}
+  onError={[Function]}
+  onListen={[Function]}
+  onLoadedMetadata={[Function]}
+  onPause={[Function]}
+  onPlay={[Function]}
+  onSeeked={[Function]}
+  onVolumeChanged={[Function]}
+  preload="metadata"
+  src="http://icecast.local:8000/radio-kyan.mp3"
+  style={Object {}}
+  title=""
+  volume={1}
+/>
+`;

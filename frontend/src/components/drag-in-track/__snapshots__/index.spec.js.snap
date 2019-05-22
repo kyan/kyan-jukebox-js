@@ -7,7 +7,7 @@ exports[`DragInTrack render when controls disabled renders as expected 1`] = `
 `;
 
 exports[`DragInTrack render when controls enabled renders as expected 1`] = `
-<DragDropContextProvider
+<Component
   backend={[Function]}
 >
   <DropTarget(UrlDropArea)
@@ -16,11 +16,11 @@ exports[`DragInTrack render when controls enabled renders as expected 1`] = `
         "__NATIVE_URL__",
       ]
     }
-    onDrop={[Function]}
+    onDrop={[MockFunction]}
   >
     <span>
       Hello World
     </span>
   </DropTarget(UrlDropArea)>
-</DragDropContextProvider>
+</Component>
 `;

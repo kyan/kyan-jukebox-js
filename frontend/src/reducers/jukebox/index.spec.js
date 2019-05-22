@@ -5,47 +5,32 @@ jest.mock('../../utils/notify')
 
 describe('jukebox', () => {
   it('handles default state', () => {
-    expect(reducer(undefined, {})).toEqual({
-      volume: 0,
-      online: false,
-      playbackState: 'paused',
-      radioStreamPlaying: false
-    })
+    expect(reducer(undefined, {})).toMatchSnapshot()
   })
 
   it('handles a CONNECTED', () => {
     expect(reducer(undefined, {
       type: Types.CONNECTED
-    })).toEqual({
-      volume: 0,
-      online: true,
-      playbackState: 'paused',
-      radioStreamPlaying: false
-    })
+    })).toMatchSnapshot()
   })
 
   it('handles a DISCONNECTED', () => {
     expect(reducer({ online: true }, {
       type: Types.DISCONNECTED
-    })).toEqual({ online: false })
+    })).toMatchSnapshot()
   })
 
   it('handles a UPDATE_VOLUME', () => {
     expect(reducer(undefined, {
       type: Types.UPDATE_VOLUME,
       volume: 32
-    })).toEqual({
-      volume: 32,
-      online: false,
-      playbackState: 'paused',
-      radioStreamPlaying: false
-    })
+    })).toMatchSnapshot()
   })
 
   it('handles a UPDATE_RADIO_STREAM_STATE', () => {
     expect(reducer({ radioStreamPlaying: false }, {
       type: Types.UPDATE_RADIO_STREAM_STATE
-    })).toEqual({ radioStreamPlaying: true })
+    })).toMatchSnapshot()
   })
 
   it('handles a UPDATE_VOLUME increased', () => {
@@ -56,10 +41,7 @@ describe('jukebox', () => {
     expect(reducer(state, {
       type: Types.UPDATE_VOLUME,
       volume: 32
-    })).toEqual({
-      volume: 32,
-      online: false
-    })
+    })).toMatchSnapshot()
   })
 
   it('handles a UPDATE_VOLUME decreased', () => {
@@ -70,22 +52,14 @@ describe('jukebox', () => {
     expect(reducer(state, {
       type: Types.UPDATE_VOLUME,
       volume: 5
-    })).toEqual({
-      volume: 5,
-      online: false
-    })
+    })).toMatchSnapshot()
   })
 
   it('handles a UPDATE_PLAYBACK_STATE playing', () => {
     expect(reducer(undefined, {
       type: Types.UPDATE_PLAYBACK_STATE,
       state: 'playing'
-    })).toEqual({
-      playbackState: 'playing',
-      volume: 0,
-      online: false,
-      radioStreamPlaying: false
-    })
+    })).toMatchSnapshot()
     expect(notify.mock.calls.length).toEqual(1)
     expect(notify.mock.calls[0][0]).toEqual('Jukebox playing')
     notify.mockClear()
@@ -100,11 +74,7 @@ describe('jukebox', () => {
     expect(reducer(state, {
       type: Types.UPDATE_PLAYBACK_STATE,
       state: 'playing'
-    })).toEqual({
-      playbackState: 'playing',
-      volume: 0,
-      online: false
-    })
+    })).toMatchSnapshot()
     expect(notify.mock.calls.length).toEqual(0)
     notify.mockClear()
   })

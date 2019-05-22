@@ -6,7 +6,7 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
   className="jukebox-dashboard"
   dimmed={false}
 >
-  <Connect(Component) />
+  <Connect(Settings) />
   <VolumeButtons
     disabled={false}
     onVolumeChange={[Function]}
@@ -19,13 +19,8 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
     onPlay={[Function]}
     onPrevious={[Function]}
     onStreaming={[Function]}
-    state={
-      Object {
-        "online": true,
-        "playbackState": "playing",
-        "volume": 25,
-      }
-    }
+    playbackState="playing"
+    radioEnabled={true}
   />
   <Divider />
   <Grid>
@@ -41,7 +36,7 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
         >
           Current Track
         </Header>
-        <Connect(Component) />
+        <Connect(CurrentTrackContainer) />
       </DragInTrack>
     </GridColumn>
     <GridColumn
@@ -65,26 +60,6 @@ exports[`Dashboard render just the dashboard without redux renders as expected 1
       />
     </GridColumn>
   </Grid>
-  <ToastContainer
-    autoClose={5000}
-    bodyClassName={null}
-    className={null}
-    closeButton={
-      <DefaultCloseButton
-        ariaLabel="close"
-      />
-    }
-    closeOnClick={true}
-    hideProgressBar={false}
-    newestOnTop={false}
-    pauseOnHover={true}
-    position="top-right"
-    progressClassName={null}
-    rtl={false}
-    style={null}
-    toastClassName={null}
-    transition={[Function]}
-  />
   <RadioStream />
 </DimmerDimmable>
 `;
@@ -145,8 +120,8 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
           <div
             className="blurring dimmable jukebox-dashboard"
           >
-            <Connect(Component)>
-              <Component
+            <Connect(Settings)>
+              <Settings
                 dispatch={[Function]}
                 settings={
                   Object {
@@ -164,11 +139,9 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                   <button
                     className="ui icon right floated button jb-settings-toggle"
                     onClick={[Function]}
-                    role="button"
                   >
                     <Icon
                       as="i"
-                      key="user"
                       name="user"
                     >
                       <i
@@ -179,6 +152,7 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                   </button>
                 </Button>
                 <Modal
+                  centered={true}
                   closeIcon={true}
                   closeOnDimmerClick={true}
                   closeOnDocumentClick={false}
@@ -189,10 +163,8 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                   size="small"
                 >
                   <Portal
-                    className="ui page modals dimmer transition visible active"
                     closeOnDocumentClick={false}
                     closeOnEscape={true}
-                    closeOnRootNodeClick={true}
                     eventPool="Modal"
                     mountNode={<body />}
                     onClose={[Function]}
@@ -203,8 +175,8 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                     openOnTriggerClick={true}
                   />
                 </Modal>
-              </Component>
-            </Connect(Component)>
+              </Settings>
+            </Connect(Settings)>
             <VolumeButtons
               disabled={true}
               onVolumeChange={[Function]}
@@ -226,7 +198,6 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                       className="ui disabled button jb-volume-down"
                       disabled={true}
                       onClick={[Function]}
-                      role="button"
                       tabIndex={-1}
                     >
                       <Icon
@@ -258,7 +229,6 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                       className="ui disabled button jb-volume-up"
                       disabled={true}
                       onClick={[Function]}
-                      role="button"
                       tabIndex={-1}
                     >
                       <Icon
@@ -282,40 +252,9 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
               onPlay={[Function]}
               onPrevious={[Function]}
               onStreaming={[Function]}
-              state={
-                Object {
-                  "online": true,
-                  "playbackState": "playing",
-                  "volume": 25,
-                }
-              }
+              playbackState="playing"
             >
               <span>
-                <Button
-                  as="button"
-                  className="jb-radio-button"
-                  color={null}
-                  disabled={true}
-                  onClick={[Function]}
-                >
-                  <button
-                    className="ui disabled button jb-radio-button"
-                    disabled={true}
-                    onClick={[Function]}
-                    role="button"
-                    tabIndex={-1}
-                  >
-                    <ButtonContent
-                      hidden={true}
-                    >
-                      <div
-                        className="hidden content"
-                      >
-                        RADIO 
-                      </div>
-                    </ButtonContent>
-                  </button>
-                </Button>
                 <SkipButtons
                   disabled={true}
                   onNext={[Function]}
@@ -333,7 +272,6 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                         className="ui vertical animated disabled button jb-previous-button"
                         disabled={true}
                         onClick={[Function]}
-                        role="button"
                         tabIndex={-1}
                       >
                         <ButtonContent
@@ -375,7 +313,6 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                         className="ui vertical animated disabled button jb-next-button"
                         disabled={true}
                         onClick={[Function]}
-                        role="button"
                         tabIndex={-1}
                       >
                         <ButtonContent
@@ -420,7 +357,6 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                     className="ui active vertical animated disabled button jb-play-button"
                     disabled={true}
                     onClick={[Function]}
-                    role="button"
                     tabIndex={-1}
                   >
                     <ButtonContent
@@ -463,7 +399,6 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                     className="ui vertical animated disabled button jb-pause-button"
                     disabled={true}
                     onClick={[Function]}
-                    role="button"
                     tabIndex={-1}
                   >
                     <ButtonContent
@@ -524,8 +459,8 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                           Current Track
                         </div>
                       </Header>
-                      <Connect(Component)>
-                        <Component
+                      <Connect(CurrentTrackContainer)>
+                        <CurrentTrackContainer
                           dispatch={[Function]}
                           image={null}
                           progress={NaN}
@@ -572,8 +507,8 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                               </div>
                             </Card>
                           </CurrentTrack>
-                        </Component>
-                      </Connect(Component)>
+                        </CurrentTrackContainer>
+                      </Connect(CurrentTrackContainer)>
                     </DragInTrack>
                   </div>
                 </GridColumn>
@@ -615,49 +550,6 @@ exports[`Dashboard render the connected app renders as expected 1`] = `
                 </GridColumn>
               </div>
             </Grid>
-            <ToastContainer
-              autoClose={5000}
-              bodyClassName={null}
-              className={null}
-              closeButton={
-                <DefaultCloseButton
-                  ariaLabel="close"
-                />
-              }
-              closeOnClick={true}
-              hideProgressBar={false}
-              newestOnTop={false}
-              pauseOnHover={true}
-              position="top-right"
-              progressClassName={null}
-              rtl={false}
-              style={null}
-              toastClassName={null}
-              transition={[Function]}
-            >
-              <div />
-            </ToastContainer>
-            <RadioStream>
-              <ReactHowler
-                format={Array []}
-                html5={true}
-                loop={false}
-                mute={false}
-                onEnd={[Function]}
-                onLoad={[Function]}
-                onLoadError={[Function]}
-                onPause={[Function]}
-                onPlay={[Function]}
-                onStop={[Function]}
-                onVolume={[Function]}
-                playing={true}
-                preload={true}
-                src="http://icecast.local:8000/radio-kyan.mp3"
-                volume={1}
-              >
-                <div />
-              </ReactHowler>
-            </RadioStream>
           </div>
         </DimmerDimmable>
       </Dashboard>
