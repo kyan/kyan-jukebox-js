@@ -73,7 +73,7 @@ describe('Broadcaster', () => {
 
       broadcaster.to(clientMock, payload, message)
       expect(logger.error.mock.calls[0][0]).toEqual('Broadcast_to#')
-      expect(logger.error.mock.calls[0][1]).toEqual({message: 'oops'})
+      expect(logger.error.mock.calls[0][1]).toEqual({ message: 'oops' })
     })
   })
 
@@ -100,7 +100,7 @@ describe('Broadcaster', () => {
 
       broadcaster.everyone(key, message)
       expect(logger.error.mock.calls[0][0]).toEqual('Broadcast_everyone#')
-      expect(logger.error.mock.calls[0][1]).toEqual({message: 'oops'})
+      expect(logger.error.mock.calls[0][1]).toEqual({ message: 'oops' })
     })
 
     it('handles websocket not open', () => {

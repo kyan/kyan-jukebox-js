@@ -3,25 +3,6 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "classnames": "^2.2.6",
-    "create-react-app": "^1.5.2",
-    "dateformat": "^3.0.0",
-    "media-progress-timer": "^3.0.0",
-    "rc-progress": "^2.2.5",
-    "react": "^16.4.1",
-    "react-dnd": "^2.6.0",
-    "react-dnd-html5-backend": "^2.6.0",
-    "react-dom": "^16.4.1",
-    "react-redux": "^5.0.0",
-    "react-scripts": "^1.1.0",
-    "react-toastify": "^3.3.4",
-    "redux": "^4.0.0",
-    "redux-persist": "^5.10.0",
-    "reselect": "^3.0.1",
-    "semantic-ui-react": "^0.79.0",
-    "react-howler": "^3.7.3"
-  },
   "scripts": {
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
@@ -29,17 +10,35 @@
     "test": "standard && react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "create-react-app": "^3.0.1",
+    "dateformat": "^3.0.3",
+    "media-progress-timer": "^3.0.0",
+    "rc-progress": "^2.3.0",
+    "react": "^16.8.6",
+    "react-audio-player": "^0.11.0",
+    "react-dnd": "^7.4.5",
+    "react-dnd-html5-backend": "^7.4.4",
+    "react-dom": "^16.8.6",
+    "react-notify-toast": "^0.5.0",
+    "react-redux": "^6.0.1",
+    "react-scripts": "^3.0.1",
+    "redux": "^4.0.1",
+    "redux-persist": "^5.10.0",
+    "reselect": "^4.0.0",
+    "semantic-ui-react": "^0.84.0"
+  },
   "devDependencies": {
-    "babel-eslint": "^8.2.5",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.0",
-    "enzyme-to-json": "^3.3.4",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.13.1",
+    "enzyme-to-json": "^3.3.5",
     "mock-socket": "^7.1.0",
-    "react-dnd-test-backend": "^2.6.0",
-    "react-test-renderer": "^16.4.1",
-    "redux-devtools": "^3.4.0",
+    "react-dnd-test-backend": "^7.4.4",
+    "react-test-renderer": "^16.8.6",
+    "redux-devtools": "^3.5.0",
     "redux-mock-store": "^1.5.3",
-    "standard": "^11.0.0"
+    "standard": "^12.0.1"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -70,5 +69,11 @@
       "jasmine",
       "WebSocket"
     ]
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

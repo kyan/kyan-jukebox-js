@@ -6,7 +6,7 @@ exports[`SkipButtons render renders the as expected 1`] = `
     animated="vertical"
     as="button"
     className="jb-previous-button"
-    onClick={[Function]}
+    onClick={[MockFunction]}
   >
     <ButtonContent
       hidden={true}
@@ -26,7 +26,7 @@ exports[`SkipButtons render renders the as expected 1`] = `
     animated="vertical"
     as="button"
     className="jb-next-button"
-    onClick={[Function]}
+    onClick={[MockFunction]}
   >
     <ButtonContent
       hidden={true}

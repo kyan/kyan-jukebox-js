@@ -6,7 +6,7 @@ jest.mock('mopidy', () => {
   return function () {
     return {
       on: jest.fn((key, fn) => {
-        fn({message: 'bang!'})
+        fn({ message: 'bang!' })
       })
     }
   }
