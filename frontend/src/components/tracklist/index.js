@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { List, Image, Reveal, Icon } from 'semantic-ui-react'
+import { List, Image } from 'semantic-ui-react'
 import dateformat from 'dateformat'
 import { millisToMinutesAndSeconds } from '../../utils/time'
 import defaultImage from './../current-track/default-artwork.png'
@@ -13,49 +13,26 @@ const isCurrentTrack = (currentTrack, track) => {
 }
 
 const currentImage = (image) => (
-  <span className={trackClasses(true)}>
-    <Image
-      size='tiny'
-      src={image}
-      inline
-    />
-  </span>
+  <Image
+    className='current-image'
+    size='tiny'
+    src={image}
+    inline
+  />
 )
 
 const revealImage = (image, uri, onRemoveTrack) => (
-  <a
-    className={trackClasses(false)}
+  <Image
+    className='remove-image'
+    size='mini'
+    src={image}
+    inline
     onClick={removeTrack(uri, onRemoveTrack)}
-  >
-    <Reveal animated='fade'>
-      <Reveal.Content visible>
-        <Image
-          src={image}
-          inline
-        />
-      </Reveal.Content>
-      <Reveal.Content hidden>
-        <Icon
-          name='close'
-          color='red'
-          bordered
-        />
-      </Reveal.Content>
-    </Reveal>
-  </a>
+  />
 )
 
-const trackClasses = (isCurrent) => {
-  return classnames({
-    'image': true,
-    'current-track': isCurrent
-  })
-}
-
 const removeTrack = (uri, cb) => {
-  return () => {
-    cb(uri)
-  }
+  return () => cb(uri)
 }
 
 const imageChooser = (disabled, track, images, isCurrent, onRemoveTrack) => {
@@ -93,11 +70,12 @@ const listItems = (disabled, tracks, images, currentTrack, onRemoveTrack) => {
 
     return (
       <List.Item
+        className={classnames({ 'current-track': isCurrent })}
         key={`${index}-${track.uri}`}
       >
-        {imageChooser(disabled, track, images, isCurrent, onRemoveTrack)}
+        { imageChooser(disabled, track, images, isCurrent, onRemoveTrack) }
         <List.Content
-          className={classnames({'track-info': !time})}
+          className={classnames({ 'track-info': !time })}
         >
           {trackStartTime(time, isCurrent)}
           {trackHeading(track)}

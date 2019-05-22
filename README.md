@@ -31,6 +31,8 @@ This will give you a give you a working client and API plus the perisistence lay
 
 Both the frontend and backend use ENVs for their confirguration. You can make changes to the defaults by updating the `docker-compose.yml` file.
 
+You'll want to load some seed data when working locally. You can follow the [seeding instruction below](#seed-data)
+
 ### Mopidy
 
 If you want to run your own copy of Mopidy, you can buy yourself a Raspberry Pi and follow [these instructions](docs/mopidy_install.md).

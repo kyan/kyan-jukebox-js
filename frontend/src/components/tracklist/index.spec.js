@@ -59,7 +59,7 @@ describe('Tracklist', () => {
         />
       )
 
-      wrapper.find('.item').at(1).find('a').simulate('click')
+      wrapper.find('.item').at(1).find('img').simulate('click')
       expect(onRemoveMock.mock.calls.length).toEqual(1)
       expect(onRemoveMock.mock.calls[0][0]).toEqual('local:track:Soundtracks/Silent%20Running%20OST/Silent%20Running%20')
     })

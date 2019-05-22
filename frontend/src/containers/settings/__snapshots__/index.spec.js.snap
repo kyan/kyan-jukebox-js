@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CurrentTrackContainer just the app without redux when authorised user renders as expected 1`] = `
-<React.Fragment>
+<Fragment>
   <Image
     as="img"
     className="jb-settings-toggle"
@@ -14,6 +14,7 @@ exports[`CurrentTrackContainer just the app without redux when authorised user r
     ui={true}
   />
   <Modal
+    centered={true}
     closeIcon={true}
     closeOnDimmerClick={true}
     closeOnDocumentClick={false}
@@ -61,11 +62,11 @@ exports[`CurrentTrackContainer just the app without redux when authorised user r
       </ModalDescription>
     </ModalContent>
   </Modal>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`CurrentTrackContainer just the app without redux when authorised user renders the modal 1`] = `
-<React.Fragment>
+<Fragment>
   <Image
     as="img"
     className="jb-settings-toggle"
@@ -78,6 +79,7 @@ exports[`CurrentTrackContainer just the app without redux when authorised user r
     ui={true}
   />
   <Modal
+    centered={true}
     closeIcon={true}
     closeOnDimmerClick={true}
     closeOnDocumentClick={false}
@@ -125,11 +127,11 @@ exports[`CurrentTrackContainer just the app without redux when authorised user r
       </ModalDescription>
     </ModalContent>
   </Modal>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`CurrentTrackContainer just the app without redux when nonauthorised user renders as expected 1`] = `
-<React.Fragment>
+<Fragment>
   <Button
     as="button"
     className="jb-settings-toggle"
@@ -138,6 +140,7 @@ exports[`CurrentTrackContainer just the app without redux when nonauthorised use
     onClick={[Function]}
   />
   <Modal
+    centered={true}
     closeIcon={true}
     closeOnDimmerClick={true}
     closeOnDocumentClick={false}
@@ -185,7 +188,7 @@ exports[`CurrentTrackContainer just the app without redux when nonauthorised use
       </ModalDescription>
     </ModalContent>
   </Modal>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`CurrentTrackContainer render the settings modal open renders as expected 1`] = `
@@ -201,8 +204,8 @@ exports[`CurrentTrackContainer render the settings modal open renders as expecte
     }
   }
 >
-  <Connect(Component)>
-    <Component
+  <Connect(Settings)>
+    <Settings
       dispatch={[Function]}
       settings={
         Object {
@@ -220,11 +223,9 @@ exports[`CurrentTrackContainer render the settings modal open renders as expecte
         <button
           className="ui icon right floated button jb-settings-toggle"
           onClick={[Function]}
-          role="button"
         >
           <Icon
             as="i"
-            key="user"
             name="user"
           >
             <i
@@ -235,6 +236,7 @@ exports[`CurrentTrackContainer render the settings modal open renders as expecte
         </button>
       </Button>
       <Modal
+        centered={true}
         closeIcon={true}
         closeOnDimmerClick={true}
         closeOnDocumentClick={false}
@@ -245,10 +247,8 @@ exports[`CurrentTrackContainer render the settings modal open renders as expecte
         size="small"
       >
         <Portal
-          className="ui page modals dimmer transition visible active"
           closeOnDocumentClick={false}
           closeOnEscape={true}
-          closeOnRootNodeClick={true}
           eventPool="Modal"
           mountNode={
             <body
@@ -256,6 +256,7 @@ exports[`CurrentTrackContainer render the settings modal open renders as expecte
             >
               <div
                 class="ui page modals dimmer transition visible active"
+                style="display: flex;"
               >
                 <div
                   class="ui small modal transition visible active"
@@ -292,9 +293,12 @@ exports[`CurrentTrackContainer render the settings modal open renders as expecte
                               type="text"
                               value=""
                             />
+                            <i
+                              aria-hidden="true"
+                              class="user icon"
+                            />
                             <button
                               class="ui icon right labeled button jb-authenticate-button"
-                              role="button"
                             >
                               <i
                                 aria-hidden="true"
@@ -302,10 +306,6 @@ exports[`CurrentTrackContainer render the settings modal open renders as expecte
                               />
                               Click to validate
                             </button>
-                            <i
-                              aria-hidden="true"
-                              class="user icon"
-                            />
                           </div>
                         </div>
                         <div
@@ -335,9 +335,373 @@ exports[`CurrentTrackContainer render the settings modal open renders as expecte
           onUnmount={[Function]}
           open={true}
           openOnTriggerClick={true}
-        />
+        >
+          <PortalInner
+            mountNode={
+              <body
+                class="dimmable dimmed blurring"
+              >
+                <div
+                  class="ui page modals dimmer transition visible active"
+                  style="display: flex;"
+                >
+                  <div
+                    class="ui small modal transition visible active"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="close icon"
+                    />
+                    <div
+                      class="header"
+                    >
+                      Settings
+                    </div>
+                    <div
+                      class="content"
+                    >
+                      <div
+                        class="description"
+                      >
+                        <form
+                          class="ui form"
+                        >
+                          <div
+                            class="field"
+                          >
+                            <label>
+                              Enter your USERNAME below
+                            </label>
+                            <div
+                              class="ui massive action left icon input"
+                            >
+                              <input
+                                placeholder="example: user123"
+                                type="text"
+                                value=""
+                              />
+                              <i
+                                aria-hidden="true"
+                                class="user icon"
+                              />
+                              <button
+                                class="ui icon right labeled button jb-authenticate-button"
+                              >
+                                <i
+                                  aria-hidden="true"
+                                  class="checkmark icon"
+                                />
+                                Click to validate
+                              </button>
+                            </div>
+                          </div>
+                          <div
+                            class="ui error progress"
+                            data-percent="100"
+                          >
+                            <div
+                              class="bar"
+                              style="width: 100%;"
+                            />
+                            <div
+                              class="label"
+                            >
+                              Unknown User!
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </body>
+            }
+            onMount={[Function]}
+            onUnmount={[Function]}
+          >
+            <Portal
+              containerInfo={
+                <body
+                  class="dimmable dimmed blurring"
+                >
+                  <div
+                    class="ui page modals dimmer transition visible active"
+                    style="display: flex;"
+                  >
+                    <div
+                      class="ui small modal transition visible active"
+                    >
+                      <i
+                        aria-hidden="true"
+                        class="close icon"
+                      />
+                      <div
+                        class="header"
+                      >
+                        Settings
+                      </div>
+                      <div
+                        class="content"
+                      >
+                        <div
+                          class="description"
+                        >
+                          <form
+                            class="ui form"
+                          >
+                            <div
+                              class="field"
+                            >
+                              <label>
+                                Enter your USERNAME below
+                              </label>
+                              <div
+                                class="ui massive action left icon input"
+                              >
+                                <input
+                                  placeholder="example: user123"
+                                  type="text"
+                                  value=""
+                                />
+                                <i
+                                  aria-hidden="true"
+                                  class="user icon"
+                                />
+                                <button
+                                  class="ui icon right labeled button jb-authenticate-button"
+                                >
+                                  <i
+                                    aria-hidden="true"
+                                    class="checkmark icon"
+                                  />
+                                  Click to validate
+                                </button>
+                              </div>
+                            </div>
+                            <div
+                              class="ui error progress"
+                              data-percent="100"
+                            >
+                              <div
+                                class="bar"
+                                style="width: 100%;"
+                              />
+                              <div
+                                class="label"
+                              >
+                                Unknown User!
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </body>
+              }
+            >
+              <Ref
+                innerRef={[Function]}
+              >
+                <div
+                  className="ui page modals dimmer transition visible active"
+                >
+                  <Ref
+                    innerRef={[Function]}
+                  >
+                    <div
+                      className="ui small modal transition visible active"
+                      style={
+                        Object {
+                          "marginTop": null,
+                        }
+                      }
+                    >
+                      <MountNode
+                        className="dimmable dimmed blurring"
+                      />
+                      <Icon
+                        as="i"
+                        key="close"
+                        name="close"
+                        onClick={[Function]}
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="close icon"
+                          onClick={[Function]}
+                        />
+                      </Icon>
+                      <ModalHeader>
+                        <div
+                          className="header"
+                        >
+                          Settings
+                        </div>
+                      </ModalHeader>
+                      <ModalContent>
+                        <div
+                          className="content"
+                        >
+                          <ModalDescription>
+                            <div
+                              className="description"
+                            >
+                              <Form
+                                as="form"
+                              >
+                                <form
+                                  className="ui form"
+                                  onSubmit={[Function]}
+                                >
+                                  <FormInput
+                                    action={
+                                      Object {
+                                        "className": "jb-authenticate-button",
+                                        "content": "Click to validate",
+                                        "icon": "checkmark",
+                                        "labelPosition": "right",
+                                        "onClick": [Function],
+                                      }
+                                    }
+                                    as={[Function]}
+                                    control={[Function]}
+                                    icon="user"
+                                    iconPosition="left"
+                                    label="Enter your USERNAME below"
+                                    onChange={[Function]}
+                                    placeholder="example: user123"
+                                    size="massive"
+                                    value=""
+                                  >
+                                    <FormField
+                                      action={
+                                        Object {
+                                          "className": "jb-authenticate-button",
+                                          "content": "Click to validate",
+                                          "icon": "checkmark",
+                                          "labelPosition": "right",
+                                          "onClick": [Function],
+                                        }
+                                      }
+                                      control={[Function]}
+                                      icon="user"
+                                      iconPosition="left"
+                                      label="Enter your USERNAME below"
+                                      onChange={[Function]}
+                                      placeholder="example: user123"
+                                      size="massive"
+                                      value=""
+                                    >
+                                      <div
+                                        className="field"
+                                      >
+                                        <label>
+                                          Enter your USERNAME below
+                                        </label>
+                                        <Input
+                                          action={
+                                            Object {
+                                              "className": "jb-authenticate-button",
+                                              "content": "Click to validate",
+                                              "icon": "checkmark",
+                                              "labelPosition": "right",
+                                              "onClick": [Function],
+                                            }
+                                          }
+                                          icon="user"
+                                          iconPosition="left"
+                                          onChange={[Function]}
+                                          placeholder="example: user123"
+                                          size="massive"
+                                          type="text"
+                                          value=""
+                                        >
+                                          <div
+                                            className="ui massive action left icon input"
+                                          >
+                                            <input
+                                              onChange={[Function]}
+                                              placeholder="example: user123"
+                                              type="text"
+                                              value=""
+                                            />
+                                            <Icon
+                                              as="i"
+                                              name="user"
+                                            >
+                                              <i
+                                                aria-hidden="true"
+                                                className="user icon"
+                                              />
+                                            </Icon>
+                                            <Button
+                                              as="button"
+                                              className="jb-authenticate-button"
+                                              content="Click to validate"
+                                              icon="checkmark"
+                                              labelPosition="right"
+                                              onClick={[Function]}
+                                            >
+                                              <button
+                                                className="ui icon right labeled button jb-authenticate-button"
+                                                onClick={[Function]}
+                                              >
+                                                <Icon
+                                                  as="i"
+                                                  name="checkmark"
+                                                >
+                                                  <i
+                                                    aria-hidden="true"
+                                                    className="checkmark icon"
+                                                  />
+                                                </Icon>
+                                                Click to validate
+                                              </button>
+                                            </Button>
+                                          </div>
+                                        </Input>
+                                      </div>
+                                    </FormField>
+                                  </FormInput>
+                                  <Progress
+                                    error={true}
+                                    percent={100}
+                                  >
+                                    <div
+                                      className="ui error progress"
+                                      data-percent={100}
+                                    >
+                                      <div
+                                        className="bar"
+                                        style={
+                                          Object {
+                                            "width": "100%",
+                                          }
+                                        }
+                                      />
+                                      <div
+                                        className="label"
+                                      >
+                                        Unknown User!
+                                      </div>
+                                    </div>
+                                  </Progress>
+                                </form>
+                              </Form>
+                            </div>
+                          </ModalDescription>
+                        </div>
+                      </ModalContent>
+                    </div>
+                  </Ref>
+                </div>
+              </Ref>
+            </Portal>
+          </PortalInner>
+        </Portal>
       </Modal>
-    </Component>
-  </Connect(Component)>
+    </Settings>
+  </Connect(Settings)>
 </Provider>
 `;

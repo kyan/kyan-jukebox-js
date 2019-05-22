@@ -1,13 +1,66 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UrlDropArea render renders as expected 1`] = `
-<TestContextContainer
-  accepts={
-    Array [
-      "__URL__",
-    ]
+<ContextProvider
+  value={
+    Object {
+      "dragDropManager": DragDropManagerImpl {
+        "backend": TestBackendImpl {
+          "actions": Object {
+            "beginDrag": [Function],
+            "drop": [Function],
+            "endDrag": [Function],
+            "hover": [Function],
+            "publishDragSource": [Function],
+          },
+          "didCallSetup": false,
+          "didCallTeardown": false,
+        },
+        "context": Object {},
+        "handleRefCountChange": [Function],
+        "isSetUp": false,
+        "monitor": DragDropMonitorImpl {
+          "registry": HandlerRegistryImpl {
+            "dragSources": Map {},
+            "dropTargets": Map {},
+            "pinnedSource": null,
+            "pinnedSourceId": null,
+            "store": Object {
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+              Symbol(observable): [Function],
+            },
+            "types": Map {},
+          },
+          "store": Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(observable): [Function],
+          },
+        },
+        "store": Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        },
+      },
+    }
   }
-  connectDropTarget={[Function]}
-  onDrop={[Function]}
-/>
+>
+  <TestContextContainer
+    accepts={
+      Array [
+        "__URL__",
+      ]
+    }
+    connectDropTarget={[MockFunction]}
+    onDrop={[MockFunction]}
+  />
+</ContextProvider>
 `;

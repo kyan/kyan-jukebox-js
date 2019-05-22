@@ -4,26 +4,30 @@ import MopidyApi from '../../constants/mopidy-api'
 import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 
-const radioButton = (cb, state, disabled) => (
-  <Button
-    disabled={disabled}
-    color={state ? 'green' : null}
-    onClick={cb}
-    active={state}
-    className='jb-radio-button'
-  >
-    <Button.Content hidden>
-      RADIO {state ? <Icon loading name='certificate' /> : null}
-    </Button.Content>
-  </Button>
-)
+const radioButton = (cb, disabled, playbackState, radioPlaying, radioEnabled) => {
+  if (!radioEnabled) { return null }
 
-const playButton = (cb, state, disabled) => (
+  return (
+    <Button
+      disabled={disabled || !radioPlaying}
+      color={playbackState ? 'green' : null}
+      onClick={cb}
+      active={playbackState === true}
+      className='jb-radio-button'
+    >
+      <Button.Content hidden>
+        RADIO {playbackState ? <Icon loading name='certificate' /> : null}
+      </Button.Content>
+    </Button>
+  )
+}
+
+const playButton = (cb, playbackState, disabled) => (
   <Button
     onClick={cb}
     animated='vertical'
-    disabled={(state === MopidyApi.PLAYING || disabled)}
-    active={(state === MopidyApi.PLAYING)}
+    disabled={(playbackState === MopidyApi.PLAYING || disabled)}
+    active={(playbackState === MopidyApi.PLAYING)}
     className='jb-play-button'
   >
     <Button.Content hidden>Play</Button.Content>
@@ -33,12 +37,12 @@ const playButton = (cb, state, disabled) => (
   </Button>
 )
 
-const pauseButton = (cb, state, disabled) => (
+const pauseButton = (cb, playbackState, disabled) => (
   <Button
     onClick={cb}
     animated='vertical'
-    disabled={(state === MopidyApi.PAUSED || disabled)}
-    active={(state === MopidyApi.PAUSED)}
+    disabled={(playbackState === MopidyApi.PAUSED || disabled)}
+    active={(playbackState === MopidyApi.PAUSED)}
     className='jb-pause-button'
   >
     <Button.Content hidden>Pause</Button.Content>
@@ -48,24 +52,26 @@ const pauseButton = (cb, state, disabled) => (
   </Button>
 )
 
-const Controls = ({ disabled, state, onPlay, onPause, onPrevious, onNext, onStreaming }) => {
+const Controls = ({ radioEnabled, radioPlaying, disabled, playbackState, onPlay, onPause, onPrevious, onNext, onStreaming }) => {
   return (
     <span>
-      {radioButton(onStreaming, state.radioStreamPlaying, disabled)}
+      {radioButton(onStreaming, disabled, playbackState, radioPlaying, radioEnabled)}
       <SkipButtons
         disabled={disabled}
         onPrevious={onPrevious}
         onNext={onNext}
       />
-      {playButton(onPlay, state.playbackState, disabled)}
-      {pauseButton(onPause, state.playbackState, disabled)}
+      {playButton(onPlay, playbackState, disabled)}
+      {pauseButton(onPause, playbackState, disabled)}
     </span>
   )
 }
 
 Controls.propTypes = {
+  radioEnabled: PropTypes.bool,
+  radioPlaying: PropTypes.bool,
   disabled: PropTypes.bool,
-  state: PropTypes.object.isRequired,
+  playbackState: PropTypes.string,
   onPlay: PropTypes.func.isRequired,
   onPause: PropTypes.func.isRequired,
   onPrevious: PropTypes.func.isRequired,
