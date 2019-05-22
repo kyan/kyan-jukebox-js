@@ -6,7 +6,8 @@ const initalState = {
   online: false,
   volume: 0,
   playbackState: MopidyApi.PAUSED,
-  radioStreamPlaying: false
+  radioStreamPlaying: false,
+  radioStreamEnabled: false
 }
 
 const notification = (oldState, newState) => {

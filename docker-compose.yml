@@ -9,7 +9,7 @@ services:
     command: npm start
     volumes:
       - ./frontend:/opt/app:delegated
-      - notused:/opt/app/node_modules
+      - /opt/app/node_modules
     ports:
       - '3001:3001'
     environment:
@@ -25,7 +25,7 @@ services:
         - NODE_ENV=development
     volumes:
       - ./backend:/opt/app:delegated
-      - notused:/opt/app/node_modules
+      - /opt/app/node_modules
     command: npm start
     ports:
       - "8080:8080"
@@ -55,5 +55,3 @@ services:
     build: ./db-seed
     links:
       - mongodb
-volumes:
-    notused:

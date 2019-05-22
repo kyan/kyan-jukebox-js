@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`jukebox handles a CONNECTED 1`] = `
+Object {
+  "online": true,
+  "playbackState": "paused",
+  "radioStreamEnabled": false,
+  "radioStreamPlaying": false,
+  "volume": 0,
+}
+`;
+
+exports[`jukebox handles a DISCONNECTED 1`] = `
+Object {
+  "online": false,
+}
+`;
+
+exports[`jukebox handles a UPDATE_PLAYBACK_STATE playing 1`] = `
+Object {
+  "online": false,
+  "playbackState": "playing",
+  "radioStreamEnabled": false,
+  "radioStreamPlaying": false,
+  "volume": 0,
+}
+`;
+
+exports[`jukebox handles a UPDATE_PLAYBACK_STATE playing when already playing 1`] = `
+Object {
+  "online": false,
+  "playbackState": "playing",
+  "volume": 0,
+}
+`;
+
+exports[`jukebox handles a UPDATE_RADIO_STREAM_STATE 1`] = `
+Object {
+  "radioStreamPlaying": true,
+}
+`;
+
+exports[`jukebox handles a UPDATE_VOLUME 1`] = `
+Object {
+  "online": false,
+  "playbackState": "paused",
+  "radioStreamEnabled": false,
+  "radioStreamPlaying": false,
+  "volume": 32,
+}
+`;
+
+exports[`jukebox handles a UPDATE_VOLUME decreased 1`] = `
+Object {
+  "online": false,
+  "volume": 5,
+}
+`;
+
+exports[`jukebox handles a UPDATE_VOLUME increased 1`] = `
+Object {
+  "online": false,
+  "volume": 32,
+}
+`;
+
+exports[`jukebox handles default state 1`] = `
+Object {
+  "online": false,
+  "playbackState": "paused",
+  "radioStreamEnabled": false,
+  "radioStreamPlaying": false,
+  "volume": 0,
+}
+`;

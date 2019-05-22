@@ -1,14 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`notify calls the toast interface 1`] = `
-<span>
-  <Icon
-    as="i"
-    circular={true}
-    color="grey"
-    inverted={true}
-    name="music"
-  />
-  Added Foo by Bar
-</span>
+Array [
+  "Added Foo by Bar",
+  "success",
+  3000,
+  Object {},
+]
 `;

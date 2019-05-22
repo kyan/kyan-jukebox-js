@@ -10,7 +10,12 @@ describe('Dashboard', () => {
 
   describe('render just the dashboard without redux', () => {
     const settings = { token: 'token' }
-    const jukebox = { volume: 25, online: true, playbackState: 'playing' }
+    const jukebox = {
+      volume: 25,
+      online: true,
+      playbackState: 'playing',
+      radioStreamEnabled: true
+    }
     const currentTrack = {}
     const tracklist = []
     const tracklistImages = {}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ToastContainer } from 'react-toastify'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { Dimmer, Divider, Grid, Header } from 'semantic-ui-react'
@@ -41,6 +40,11 @@ export class Dashboard extends Component {
     }
   }
 
+  radioStream = () => {
+    if (!this.props.jukebox.radioStreamEnabled) { return null }
+    return <RadioStream active={this.props.jukebox.radioStreamPlaying} />
+  }
+
   render () {
     return (
       <Dimmer.Dimmable
@@ -55,8 +59,10 @@ export class Dashboard extends Component {
           onVolumeChange={this.fireDispatch('setVolume')}
         />
         <Controls
+          radioEnabled={this.props.jukebox.radioStreamEnabled}
+          radioPlaying={this.props.jukebox.radioStreamPlaying}
           disabled={!this.props.settings.token}
-          state={this.props.jukebox}
+          playbackState={this.props.jukebox.playbackState}
           onPlay={this.fireDispatch('startPlaying')}
           onPause={this.fireDispatch('pausePlaying')}
           onNext={this.fireDispatch('nextPlaying')}
@@ -90,8 +96,7 @@ export class Dashboard extends Component {
             />
           </Grid.Column>
         </Grid>
-        <ToastContainer />
-        <RadioStream active={this.props.jukebox.radioStreamPlaying} />
+        {this.radioStream()}
       </Dimmer.Dimmable>
     )
   }

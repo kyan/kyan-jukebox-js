@@ -25,8 +25,8 @@ exports[`CurrentTrackContainer render the connected app renders as expected 1`] 
     }
   }
 >
-  <Connect(Component)>
-    <Component
+  <Connect(CurrentTrackContainer)>
+    <CurrentTrackContainer
       dispatch={[Function]}
       image={null}
       progress={0}
@@ -73,7 +73,7 @@ exports[`CurrentTrackContainer render the connected app renders as expected 1`] 
           </div>
         </Card>
       </CurrentTrack>
-    </Component>
-  </Connect(Component)>
+    </CurrentTrackContainer>
+  </Connect(CurrentTrackContainer)>
 </Provider>
 `;
