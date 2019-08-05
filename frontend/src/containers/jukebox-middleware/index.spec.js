@@ -1,17 +1,27 @@
-import { Server } from 'mock-socket'
 import Constants from '../../constants'
 import MopidyApi from '../../constants/mopidy-api'
 import onMessageHandler from '../../utils/on-message-handler'
 import { trackProgressTimer } from '../../utils/time'
 import JukeboxMiddleware from './index'
 
+jest.mock('socket.io-client', () => () => {
+  return {
+    on: (_event, callback) => {
+      if (_event === 'message') {
+        return callback(JSON.stringify({ key: 'foo', data: 'bar' }))
+      }
+
+      return callback()
+    },
+    emit: () => jest.fn(),
+    close: () => jest.fn()
+  }
+})
 jest.mock('../../utils/on-message-handler')
 jest.mock('../../utils/time')
 jest.useFakeTimers()
 
 describe('JukeboxMiddleware', () => {
-  const wsurl = `ws://${process.env.REACT_APP_WS_URL}:${process.env.REACT_APP_WS_PORT}`
-  const mockServer = new Server(wsurl)
   const payload = JSON.stringify({ key: 'foo', data: 'bar' })
   const dispatchSpy = jest.fn()
   const store = {
@@ -36,13 +46,10 @@ describe('JukeboxMiddleware', () => {
     })
 
     it('should handle connecting and getting new message', () => {
-      mockServer.on('connection', server => {
-        mockServer.send(payload)
-      })
       JukeboxMiddleware(store)(next)({ type: Constants.DISCONNECT })
       JukeboxMiddleware(store)(next)({ type: Constants.CONNECT })
       JukeboxMiddleware(store)(next)({ type: Constants.CONNECT })
-      jest.runAllTimers()
+      jest.runOnlyPendingTimers()
 
       expect(onMessageHandler).toHaveBeenCalledWith(
         store,
@@ -51,29 +58,29 @@ describe('JukeboxMiddleware', () => {
       )
       expect(dispatchSpy.mock.calls[0][0]).toEqual({ type: 'actionDisconnected' })
       expect(dispatchSpy.mock.calls[1][0]).toEqual({ type: 'actionConnecting' })
-      expect(dispatchSpy.mock.calls[2][0]).toEqual({ type: 'actionConnecting' })
-      expect(dispatchSpy.mock.calls[3][0]).toEqual({ type: 'actionConnect' })
-      expect(dispatchSpy.mock.calls[4][0]).toEqual({ type: 'actionConnected' })
-      expect(dispatchSpy.mock.calls[5][0]).toEqual({
+      expect(dispatchSpy.mock.calls[2][0]).toEqual({ type: 'actionConnected' })
+      expect(dispatchSpy.mock.calls[3][0]).toEqual({
         type: 'actionSend',
         key: 'mopidy::playback.getCurrentTrack'
       })
-      expect(dispatchSpy.mock.calls[6][0]).toEqual({
+      expect(dispatchSpy.mock.calls[4][0]).toEqual({
         type: 'actionSend',
         key: 'mopidy::playback.getTimePosition'
       })
-      expect(dispatchSpy.mock.calls[7][0]).toEqual({
+      expect(dispatchSpy.mock.calls[5][0]).toEqual({
         type: 'actionSend',
         key: 'mopidy::playback.getState'
       })
-      expect(dispatchSpy.mock.calls[8][0]).toEqual({
+      expect(dispatchSpy.mock.calls[6][0]).toEqual({
         type: 'actionSend',
         key: 'mopidy::tracklist.getTracks'
       })
-      expect(dispatchSpy.mock.calls[9][0]).toEqual({
+      expect(dispatchSpy.mock.calls[7][0]).toEqual({
         type: 'actionSend',
         key: 'mopidy::mixer.getVolume'
       })
+      expect(dispatchSpy.mock.calls[8][0]).toEqual({ type: 'actionDisconnect' })
+      expect(dispatchSpy.mock.calls[9][0]).toEqual({ type: 'actionConnecting' })
       expect(dispatchSpy.mock.calls[10][0]).toEqual({ type: 'actionConnected' })
       expect(dispatchSpy.mock.calls[11][0]).toEqual({
         type: 'actionSend',
@@ -96,9 +103,10 @@ describe('JukeboxMiddleware', () => {
     it('should dispatch disconnect message', () => {
       JukeboxMiddleware(store)(next)({ type: Constants.CONNECT })
       JukeboxMiddleware(store)(next)({ type: Constants.DISCONNECT })
-      expect(dispatchSpy.mock.calls[0][0]).toEqual({ type: 'actionDisconnect' })
-      expect(dispatchSpy.mock.calls[1][0]).toEqual({ type: 'actionConnecting' })
-      expect(dispatchSpy.mock.calls[2][0]).toEqual({ type: 'actionDisconnected' })
+      expect(dispatchSpy.mock.calls[0][0]).toEqual({ type: 'actionConnecting' })
+      expect(dispatchSpy.mock.calls[1][0]).toEqual({ type: 'actionConnected' })
+      expect(dispatchSpy.mock.calls[7][0]).toEqual({ type: 'actionDisconnect' })
+      expect(dispatchSpy.mock.calls[8][0]).toEqual({ type: 'actionDisconnected' })
     })
 
     it('should dispatch send message', () => {
@@ -136,30 +144,31 @@ describe('JukeboxMiddleware', () => {
       jest.runAllTimers()
 
       expect(dispatchSpy.mock.calls[0][0]).toEqual({ type: 'actionConnecting' })
-      expect(dispatchSpy.mock.calls[1][0]).toEqual({
-        type: 'actionNewImage',
-        uri: '12345678'
-      })
-      expect(dispatchSpy.mock.calls[2][0]).toEqual({ type: 'actionConnected' })
-      expect(dispatchSpy.mock.calls[3][0]).toEqual({
+      expect(dispatchSpy.mock.calls[1][0]).toEqual({ type: 'actionConnected' })
+      expect(dispatchSpy.mock.calls[2][0]).toEqual({
         type: 'actionSend',
         key: 'mopidy::playback.getCurrentTrack'
       })
-      expect(dispatchSpy.mock.calls[4][0]).toEqual({
+      expect(dispatchSpy.mock.calls[3][0]).toEqual({
         type: 'actionSend',
         key: 'mopidy::playback.getTimePosition'
       })
-      expect(dispatchSpy.mock.calls[5][0]).toEqual({
+      expect(dispatchSpy.mock.calls[4][0]).toEqual({
         type: 'actionSend',
         key: 'mopidy::playback.getState'
       })
-      expect(dispatchSpy.mock.calls[6][0]).toEqual({
+      expect(dispatchSpy.mock.calls[5][0]).toEqual({
         type: 'actionSend',
         key: 'mopidy::tracklist.getTracks'
       })
-      expect(dispatchSpy.mock.calls[7][0]).toEqual({
+      expect(dispatchSpy.mock.calls[6][0]).toEqual({
         type: 'actionSend',
         key: 'mopidy::mixer.getVolume'
+      })
+      expect(dispatchSpy.mock.calls[7][0]).toEqual({ type: 'actionDisconnect' })
+      expect(dispatchSpy.mock.calls[8][0]).toEqual({
+        type: 'actionNewImage',
+        uri: '12345678'
       })
     })
   })

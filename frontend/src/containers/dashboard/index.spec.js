@@ -2,8 +2,10 @@ import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
+import notify from '../../utils/notify'
 import * as actions from '../../actions'
 import DashboardContainer, { Dashboard } from './index'
+jest.mock('../../utils/notify')
 
 describe('Dashboard', () => {
   let wrapper
@@ -56,6 +58,8 @@ describe('Dashboard', () => {
           key: 'mopidy::playback.play',
           type: 'actionSend'
         })
+        expect(notify.mock.calls.length).toEqual(1)
+        notify.mockClear()
       })
 
       it('handles pausePlaying', () => {
@@ -65,6 +69,8 @@ describe('Dashboard', () => {
           key: 'mopidy::playback.pause',
           type: 'actionSend'
         })
+        expect(notify.mock.calls.length).toEqual(1)
+        notify.mockClear()
       })
 
       it('handles nextPlaying', () => {

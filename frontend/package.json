@@ -27,13 +27,14 @@
     "redux": "^4.0.1",
     "redux-persist": "^5.10.0",
     "reselect": "^4.0.0",
-    "semantic-ui-react": "^0.84.0"
+    "semantic-ui-react": "^0.84.0",
+    "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.13.1",
     "enzyme-to-json": "^3.3.5",
-    "mock-socket": "^7.1.0",
+    "socket.io-mock": "^1.2.3",
     "react-dnd-test-backend": "^7.4.4",
     "react-test-renderer": "^16.8.6",
     "redux-devtools": "^3.5.0",

@@ -83,6 +83,14 @@ $ docker-compose run --rm jukebox-api npm install
 $ docker-compose run --rm jukebox-client npm install
 ```
 
+You can alternatively use:
+
+```
+$ docker-compose run --rm jukebox-api npm install some-npm --save
+```
+
+which will install the npm and update the `package.json` and `package-lock.json` file at the same time.
+
 This would install the new package as well as updating the `package-local.json` file on your machine. You'll then need to stop all the containers `CTR C` and rebuild the images, as they install the npms on the image.
 
 ```
