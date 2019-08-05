@@ -1,3 +1,4 @@
+import io from 'socket.io-client'
 import * as actions from '../../actions'
 import MopidyApi from '../../constants/mopidy-api'
 import Constants from '../../constants'
@@ -8,51 +9,36 @@ import Payload from '../../utils/payload'
 import State from '../../utils/state'
 
 const JukeboxMiddleware = (() => {
-  let wsurl = `ws://${process.env.REACT_APP_WS_URL}:${process.env.REACT_APP_WS_PORT}`
-  let reconnectTimeout = 1000
+  let url = `http://${process.env.REACT_APP_WS_URL}:${process.env.REACT_APP_WS_PORT}`
   let socket = null
   let progressTimer = null
-  let connectionAttempts = 0
-  let retryTimeout
 
-  const tryToReconnect = (store) => {
-    if (retryTimeout) { clearTimeout(retryTimeout) }
-
-    retryTimeout = setTimeout(() => {
-      store.dispatch(actions.wsConnect())
-    }, connectionAttempts * reconnectTimeout)
-    connectionAttempts++
-  }
-
-  const onOpen = (store, token) => evt => {
+  const onOpen = (store, _token) => _evt => {
     progressTimer = trackProgressTimer(store, actions)
     store.dispatch(actions.wsConnected())
     State.loadInitial(store)
   }
 
-  const onClose = (store) => evt => {
+  const onClose = (store) => _evt => {
     store.dispatch(actions.wsDisconnect())
   }
 
-  const onMessage = (store) => evt => {
-    onMessageHandler(store, evt.data, progressTimer)
+  const onMessage = (store) => data => {
+    onMessageHandler(store, data, progressTimer)
   }
 
   const onConnect = (store) => {
     if (socket != null) { socket.close() }
     store.dispatch(actions.wsConnecting())
 
-    socket = new WebSocket(wsurl)
-    socket.onmessage = onMessage(store)
-    socket.onclose = onClose(store)
-    socket.onopen = onOpen(store)
+    socket = io(url)
+    socket.on('message', onMessage(store))
+    socket.on('connect', onOpen(store))
+    socket.on('disconnect', onClose(store))
   }
 
   const onDisconnect = (store) => {
     if (progressTimer) { progressTimer.reset() }
-    if (socket != null) { socket.close() }
-    socket = null
-    tryToReconnect(store)
     store.dispatch(actions.wsDisconnected())
   }
 
@@ -75,7 +61,7 @@ const JukeboxMiddleware = (() => {
           store.dispatch(actions.newImage(action.uri))
         }
 
-        socket.send(Payload.encodeToJson(getJWT(store), action.key, action.params))
+        socket.emit('message', Payload.encodeToJson(getJWT(store), action.key, action.params))
         break
       default:
         return next(action)
