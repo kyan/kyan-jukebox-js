@@ -1,6 +1,7 @@
 import MopidyApi from '../constants/mopidy-api'
 import AuthAPI from '../constants/auth-api'
 import Types from '../constants'
+import notify from '../utils/notify'
 import { transformUrl } from '../utils/spotify'
 
 export const authenticate = username => {
@@ -163,6 +164,8 @@ export const clearTrackList = () => {
 }
 
 export const startPlaying = () => {
+  notify(`Jukebox Playing`)
+
   return {
     type: Types.SEND,
     key: MopidyApi.PLAYBACK_PLAY
@@ -170,6 +173,8 @@ export const startPlaying = () => {
 }
 
 export const pausePlaying = () => {
+  notify(`Jukebox Paused`)
+
   return {
     type: Types.SEND,
     key: MopidyApi.PLAYBACK_PAUSE
