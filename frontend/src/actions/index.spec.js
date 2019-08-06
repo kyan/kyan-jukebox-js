@@ -2,6 +2,8 @@ import * as actions from './index'
 import MopidyApi from '../constants/mopidy-api'
 import AuthAPI from '../constants/auth-api'
 import Types from '../constants'
+import notify from '../utils/notify'
+jest.mock('../utils/notify')
 
 describe('actions', () => {
   it('should handle authenticate', () => {
@@ -207,6 +209,9 @@ describe('actions', () => {
       key: MopidyApi.PLAYBACK_PLAY
     }
     expect(actions.startPlaying()).toEqual(expectedAction)
+    expect(notify.mock.calls.length).toEqual(1)
+    expect(notify.mock.calls[0][0]).toEqual('Jukebox Playing')
+    notify.mockClear()
   })
 
   it('should handle pausePlaying', () => {
@@ -215,6 +220,9 @@ describe('actions', () => {
       key: MopidyApi.PLAYBACK_PAUSE
     }
     expect(actions.pausePlaying()).toEqual(expectedAction)
+    expect(notify.mock.calls.length).toEqual(1)
+    expect(notify.mock.calls[0][0]).toEqual('Jukebox Paused')
+    notify.mockClear()
   })
 
   it('should handle nextPlaying', () => {

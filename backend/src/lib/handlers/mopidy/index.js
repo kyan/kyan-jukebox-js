@@ -1,3 +1,4 @@
+import logger from '../../../config/winston'
 import StrToFunction from '../../str-to-function'
 import EventLogger from '../../event_logger'
 import ImageCache from './image-cache'
@@ -21,14 +22,20 @@ const MopidyHandler = (payload, ws, bcast, mopidy) => {
     } else {
       const apiCall = StrToFunction(mopidy, key)
 
-      ;(data ? apiCall(data) : apiCall())
-        .then(resp => {
+      const fetchData = resp => {
+        if (resp) {
           if (obj.addToCache) obj.addToCache(resp)
+
           logEvent(payload, resp)
           sendToClient(bcast, ws, payload, resp)
-        })
-        .catch(console.error.bind(console))
-        .done()
+        }
+      }
+
+      const failureHandler = () => {
+        logger.error('failureHandler: ', { key: key })
+      }
+
+      (data ? apiCall(data) : apiCall()).then(fetchData, failureHandler)
     }
   })
 }

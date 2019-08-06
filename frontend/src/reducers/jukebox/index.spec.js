@@ -1,7 +1,5 @@
 import reducer from './index'
 import Types from '../../constants'
-import notify from '../../utils/notify'
-jest.mock('../../utils/notify')
 
 describe('jukebox', () => {
   it('handles default state', () => {
@@ -60,9 +58,6 @@ describe('jukebox', () => {
       type: Types.UPDATE_PLAYBACK_STATE,
       state: 'playing'
     })).toMatchSnapshot()
-    expect(notify.mock.calls.length).toEqual(1)
-    expect(notify.mock.calls[0][0]).toEqual('Jukebox playing')
-    notify.mockClear()
   })
 
   it('handles a UPDATE_PLAYBACK_STATE playing when already playing', () => {
@@ -75,7 +70,5 @@ describe('jukebox', () => {
       type: Types.UPDATE_PLAYBACK_STATE,
       state: 'playing'
     })).toMatchSnapshot()
-    expect(notify.mock.calls.length).toEqual(0)
-    notify.mockClear()
   })
 })
