@@ -31,7 +31,9 @@ const JukeboxMiddleware = (() => {
     if (socket != null) { socket.close() }
     store.dispatch(actions.wsConnecting())
 
-    socket = io(url)
+    socket = io(url, {
+      transports: ['websocket']
+    })
     socket.on('message', onMessage(store))
     socket.on('connect', onOpen(store))
     socket.on('disconnect', onClose(store))
