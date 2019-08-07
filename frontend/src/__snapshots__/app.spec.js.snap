@@ -35,7 +35,7 @@ exports[`App renders without crashing 1`] = `
         <_class
           options={Object {}}
         />
-        <Connect(DragDropContext(Dashboard)) />
+        <DragDropContext(Dashboard) />
       </ErrorBoundary>
     </Container>
   </PersistGate>

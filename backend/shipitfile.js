@@ -32,7 +32,7 @@ module.exports = shipit => {
 
   shipit.blTask('npm_install', function () {
     const cwd = path.join(shipit.releasesPath, shipit.releaseDirname)
-    return shipit.remote('npm install --only=prod', { cwd })
+    return shipit.remote('npm install', { cwd })
   })
 
   shipit.blTask('npm_build', function () {
