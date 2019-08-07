@@ -26,22 +26,22 @@ const MopidyService = (io, callback) => {
 
   mopidy.on('state:online', () => {
     logger.info('Mopidy Online', { url: `${mopidyUrl}:${mopidyPort}` })
-
-    Object.values(MopidyConstants.EVENTS).forEach(raw => {
-      const key = Payload.decodeKey(raw).pop()
-
-      mopidy.on(key, data => {
-        const encodedKey = Payload.encodeKey('mopidy', key)
-        const unifiedMessage = Transformer(encodedKey, data)
-        const payload = Payload.encodeToJson(encodedKey, unifiedMessage)
-
-        logger.info(`Event: ${encodedKey}: ${payload}`)
-        io.send(payload)
-      })
-    })
-
-    callback(mopidy)
   })
+
+  Object.values(MopidyConstants.EVENTS).forEach(raw => {
+    const key = Payload.decodeKey(raw).pop()
+
+    mopidy.on(key, data => {
+      const encodedKey = Payload.encodeKey('mopidy', key)
+      const unifiedMessage = Transformer(encodedKey, data)
+      const payload = Payload.encodeToJson(encodedKey, unifiedMessage)
+
+      logger.info(`Event: ${encodedKey}: ${payload}`)
+      io.send(payload)
+    })
+  })
+
+  callback(mopidy)
 }
 
 export default MopidyService

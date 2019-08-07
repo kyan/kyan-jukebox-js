@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { Dimmer, Divider, Grid, Header } from 'semantic-ui-react'
@@ -14,104 +14,91 @@ import Controls from '../../components/controls'
 import DragInTrack from '../../components/drag-in-track'
 import RadioStream from '../../components/radio-stream'
 
-export class Dashboard extends Component {
-  constructor (props) {
-    super(props)
-    this.dispatch = this.props.dispatch
-  }
+const radioStream = (jukebox) => {
+  if (!jukebox.radioStreamEnabled) { return null }
+  return <RadioStream active={jukebox.radioStreamPlaying} />
+}
 
-  componentDidMount () {
-    this.fireDispatch('wsConnect')()
-  }
+export const Dashboard = () => {
+  const jukebox = useSelector(state => state.jukebox)
+  const settings = useSelector(state => state.settings)
+  const tracklist = useSelector(state => state.tracklist)
+  const currentTrack = useSelector(state => state.track)
+  const tracklistImages = useSelector(state => getTracklistImagesInCache(state))
+  const dispatch = useDispatch()
 
-  componentWillUnmount () {
-    this.fireDispatch('wsDisconnect')()
-  }
+  useEffect(() => {
+    dispatch(actions.wsConnect())
 
-  fireDispatch (key) {
-    return (evt) => {
-      this.dispatch(actions[key](evt))
+    /* istanbul ignore next */
+    return () => {
+      dispatch(actions.wsDisconnect())
     }
-  }
+  }, [dispatch])
 
-  handleURLDrop = (_item, monitor) => {
-    if (monitor) {
-      this.fireDispatch('addNewTrack')(monitor.getItem().urls[0])
-    }
-  }
-
-  radioStream = () => {
-    if (!this.props.jukebox.radioStreamEnabled) { return null }
-    return <RadioStream active={this.props.jukebox.radioStreamPlaying} />
-  }
-
-  render () {
-    return (
-      <Dimmer.Dimmable
-        blurring
-        className='jukebox-dashboard'
-        dimmed={!this.props.jukebox.online}
-      >
-        <Settings />
-        <VolumeButtons
-          disabled={!this.props.settings.token}
-          volume={this.props.jukebox.volume}
-          onVolumeChange={this.fireDispatch('setVolume')}
-        />
-        <Controls
-          radioEnabled={this.props.jukebox.radioStreamEnabled}
-          radioPlaying={this.props.jukebox.radioStreamPlaying}
-          disabled={!this.props.settings.token}
-          playbackState={this.props.jukebox.playbackState}
-          onPlay={this.fireDispatch('startPlaying')}
-          onPause={this.fireDispatch('pausePlaying')}
-          onNext={this.fireDispatch('nextPlaying')}
-          onPrevious={this.fireDispatch('previousPlaying')}
-          onStreaming={this.fireDispatch('toggleStreamingState')}
-        />
-        <Divider />
-        <Grid>
-          <Grid.Column width={6}>
-            <DragInTrack
-              disabled={!this.props.settings.token}
-              onDrop={this.handleURLDrop}
-            >
-              <Header size='small'>Current Track</Header>
-              <CurrentTrackContainer />
-            </DragInTrack>
-          </Grid.Column>
-          <Grid.Column width={10}>
-            <Header size='small'>
-              Playlist <ClearPlaylist
-                disabled={!this.props.settings.token}
-                onClear={this.fireDispatch('clearTrackList')}
-              />
-            </Header>
-            <TrackList
-              disabled={!this.props.settings.token}
-              images={this.props.tracklistImages}
-              tracks={this.props.tracklist}
-              currentTrack={this.props.currentTrack}
-              onRemoveTrack={this.fireDispatch('removeFromTracklist')}
+  return (
+    <Dimmer.Dimmable
+      blurring
+      className='jukebox-dashboard'
+      dimmed={!jukebox.online}
+    >
+      <Settings />
+      <VolumeButtons
+        disabled={!settings.token}
+        volume={jukebox.volume}
+        onVolumeChange={(evt) => dispatch(actions.setVolume(evt))}
+      />
+      <Controls
+        radioEnabled={jukebox.radioStreamEnabled}
+        radioPlaying={jukebox.radioStreamPlaying}
+        disabled={!settings.token}
+        playbackState={jukebox.playbackState}
+        onPlay={() => dispatch(actions.startPlaying())}
+        onPause={() => dispatch(actions.pausePlaying())}
+        onNext={() => dispatch(actions.nextPlaying())}
+        onPrevious={() => dispatch(actions.previousPlaying())}
+        onStreaming={() => dispatch(actions.toggleStreamingState())}
+      />
+      <Divider />
+      <Grid>
+        <Grid.Column width={6}>
+          <DragInTrack
+            disabled={!settings.token}
+            onDrop={
+              /* istanbul ignore next */
+              (_item, monitor) => {
+                if (monitor) {
+                  dispatch(actions.addNewTrack(monitor.getItem().urls[0]))
+                }
+              }
+            }
+          >
+            <Header size='small'>Current Track</Header>
+            <CurrentTrackContainer />
+          </DragInTrack>
+        </Grid.Column>
+        <Grid.Column width={10}>
+          <Header size='small'>
+            Playlist <ClearPlaylist
+              disabled={!settings.token}
+              onClear={() => dispatch(actions.clearTrackList())}
             />
-          </Grid.Column>
-        </Grid>
-        {this.radioStream()}
-      </Dimmer.Dimmable>
-    )
-  }
+          </Header>
+          <TrackList
+            disabled={!settings.token}
+            images={tracklistImages}
+            tracks={tracklist}
+            currentTrack={currentTrack}
+            onRemoveTrack={
+              /* istanbul ignore next */
+              (evt) => dispatch(actions.removeFromTracklist(evt))
+            }
+          />
+        </Grid.Column>
+      </Grid>
+      {radioStream(jukebox)}
+    </Dimmer.Dimmable>
+  )
 }
 
-const mapStateToProps = state => {
-  return {
-    settings: state.settings,
-    jukebox: state.jukebox,
-    currentTrack: state.track,
-    tracklist: state.tracklist,
-    tracklistImages: getTracklistImagesInCache(state)
-  }
-}
-
-export default connect(
-  mapStateToProps
-)(DragDropContext(HTML5Backend)(Dashboard))
+export default DragDropContext(HTML5Backend)(Dashboard)
