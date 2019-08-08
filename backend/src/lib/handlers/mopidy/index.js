@@ -1,6 +1,6 @@
 import logger from '../../../config/winston'
 import StrToFunction from '../../str-to-function'
-import EventLogger from '../../event_logger'
+import EventLogger from '../../event-logger'
 import ImageCache from './image-cache'
 
 const sendToClient = (bcast, ws, payload, data) => {
