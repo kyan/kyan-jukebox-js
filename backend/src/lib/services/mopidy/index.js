@@ -33,7 +33,7 @@ const MopidyService = (io, callback) => {
 
     mopidy.on(key, data => {
       const encodedKey = Payload.encodeKey('mopidy', key)
-      const unifiedMessage = Transformer(encodedKey, data)
+      const unifiedMessage = Transformer(encodedKey, data, mopidy)
       const payload = Payload.encodeToJson(encodedKey, unifiedMessage)
 
       logger.info(`Event: ${encodedKey}: ${payload}`)
