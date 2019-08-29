@@ -14,9 +14,11 @@ describe('SpotifyService', () => {
   const mockFn = jest.fn()
 
   describe('canRecommend', () => {
-    it('should handle both cases', () => {
-      SpotifyService.canRecommend(mopidy, mockFn)
-      SpotifyService.canRecommend(mopidy, mockFn)
+    it('should handle both cases', async () => {
+      await SpotifyService.canRecommend(mopidy, mockFn)
+      expect(mockFn.mock.calls.length).toEqual(0)
+      await SpotifyService.canRecommend(mopidy, mockFn)
+      expect(mockFn.mock.calls.length).toEqual(1)
     })
   })
 })

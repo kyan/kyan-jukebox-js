@@ -17,9 +17,7 @@ const Settings = {
     }
     ary.push(value)
 
-    if (limit) {
-      ary = ary.reverse().slice(0, Number(limit)).reverse()
-    }
+    if (limit) ary.splice(0, ary.length - Number(limit))
 
     const newData = [...new Set(ary)]
     storage.setItem(key, JSON.stringify(newData))
