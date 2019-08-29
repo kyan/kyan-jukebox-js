@@ -29,7 +29,7 @@ $ docker-compose up
 
 This will give you a give you a working client and API plus the perisistence layer. The client is available http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart. By default the API will be talking to the live Mopidy instance in the office.
 
-Both the frontend and backend use ENVs for their confirguration. You can make changes to the defaults by updating the `docker-compose.yml` file.
+Both the frontend and backend use ENVs for their confirguration. You can make changes to the defaults by updating the `docker-compose.yml` file. The backend also uses the Spotify API directly for some tasks. If you need this you will need to re-name the `.env.example` file to `.env` and update the creds to your own.
 
 You'll want to load some seed data when working locally. You can follow the [seeding instruction below](#seed-data)
 
