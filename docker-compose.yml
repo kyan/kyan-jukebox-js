@@ -43,6 +43,7 @@ services:
       - JWT_SECRET=secretshh
       - SPOTIFY_ID=${SPOTIFY_ID}
       - SPOTIFY_SECRET=${SPOTIFY_SECRET}
+      - LOCAL_STORAGE_PATH=./local-cache
   mongodb:
     image: mongo:3.6.4
     container_name: mongodb
