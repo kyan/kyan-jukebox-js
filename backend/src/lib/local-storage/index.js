@@ -1,6 +1,6 @@
 import { LocalStorage } from 'node-localstorage'
 
-const storage = new LocalStorage('./local-cache')
+const storage = new LocalStorage(process.env.LOCAL_STORAGE_PATH)
 
 const Settings = {
   getItem: (key) => {

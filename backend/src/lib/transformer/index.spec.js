@@ -12,6 +12,7 @@ jest.mock('./transformers/mopidy/track', () => {
   }))
 })
 jest.mock('../local-storage')
+jest.mock('../services/mopidy/tracklist-trimmer')
 jest.mock('../services/spotify', () => ({
   canRecommend: jest.fn((_, fn) => fn('function'))
 }))
@@ -40,6 +41,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
+      TransformTracklist.mockReturnValue([{ track: { uri: '123' } }])
       Transformer('mopidy::tracklist.getTracks', data)
       expect(TransformTracklist).toHaveBeenCalledWith(data)
     })
@@ -53,7 +55,7 @@ describe('Transformer', () => {
       Transformer('mopidy::event:trackPlaybackStarted', data, mopidyMock)
       expect(TransformTrack).toHaveBeenCalledWith(data.tl_track.track)
       expect(settings.addToUniqueArray.mock.calls[0])
-        .toEqual(['lastTracksPlayed', 'spotify:track:40riOy7x9W7GXjyGp4pjAv', 10])
+        .toEqual(['tracklist.last_played', 'spotify:track:40riOy7x9W7GXjyGp4pjAv', 10])
       expect(Spotify.canRecommend.mock.calls[0])
         .toEqual([mopidyMock, expect.any(Function)])
       expect(setTimeout.mock.calls[0])
