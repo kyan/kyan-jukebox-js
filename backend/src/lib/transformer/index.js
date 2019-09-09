@@ -7,9 +7,14 @@ import trackListTrimmer from '../services/mopidy/tracklist-trimmer'
 import settings from '../local-storage'
 import Spotify from '../services/spotify'
 
-export default function (key, data, mopidy) {
-  let recommendTimer
+const clearSetTimeout = (timeout) => {
+  clearTimeout(timeout)
+  timeout = null
+}
 
+let recommendTimer
+
+export default function (key, data, mopidy) {
   switch (key) {
     case Mopidy.EVENTS.PLAYBACK_STARTED:
       const payload = TransformTrack(data.tl_track.track)
@@ -21,6 +26,7 @@ export default function (key, data, mopidy) {
         const waitToRecommend = payload.track.length / 4 * 3
         const lastTracksPlayed = settings.getItem(Settings.TRACKLIST_LAST_PLAYED) || []
 
+        clearSetTimeout(recommendTimer)
         recommendTimer = setTimeout(recommend, waitToRecommend, lastTracksPlayed, mopidy)
       })
 
@@ -41,7 +47,8 @@ export default function (key, data, mopidy) {
     case Mopidy.PLAYBACK_NEXT:
     case Mopidy.TRACKLIST_CLEAR:
     case Mopidy.EVENTS.TRACKLIST_CHANGED:
-      clearTimeout(recommendTimer)
+      clearSetTimeout(recommendTimer)
+
       return data
     case Mopidy.TRACKLIST_REMOVE:
     case Auth.AUTHENTICATE_USER:
