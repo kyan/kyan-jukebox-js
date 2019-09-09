@@ -9,14 +9,19 @@ jest.mock('spotify-web-api-node', () => {
       getRecommendations: jest.fn()
         .mockImplementation(() => Promise.resolve({ body: {
           tracks: [
-            { uri: 'spotify:track:1yzSSn5Sj1azuo7Rgwv111' },
-            { uri: 'spotify:track:1yzSSn5Sj1azuo7Rgwv222' }
+            { uri: 'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt' },
+            { uri: 'spotify:track:03fT3OHB9KyMtGMt2zwqCT' },
+            { uri: 'spotify:track:7LzeKqmOtpKVKJ1dmalkC0' },
+            { uri: 'spotify:track:1Ut1A8UaNqGuwsHgWq75PW' }
           ]
         }})),
       setAccessToken: jest.fn()
     }
   }
 })
+jest.mock('../../local-storage', () => ({
+  getItem: () => ['spotify:track:03fT3OHB9KyMtGMt2zwqCT', 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3']
+}))
 
 describe('SpotifyService', () => {
   const mopidy = {

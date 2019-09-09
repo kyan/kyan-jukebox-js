@@ -8,13 +8,16 @@ jest.mock('node-localstorage', () => {
     .mockReturnValueOnce('"xxxxxxxxx"')
     .mockReturnValueOnce(null)
     .mockReturnValueOnce('["3oAWTk92mZBxKBOKf8mR5v","6PPhp1qpAjLUxQr75vSD4H"]')
+    .mockReturnValueOnce('["3oAWTk92mZBxKBOKf8mR5v","6PPhp1qpAjLUxQr75vSD4H"]')
 
   return {
     LocalStorage: jest.fn()
       .mockImplementation(() => {
         return {
           getItem: () => dataMock(),
-          setItem: () => jest.fn()
+          setItem: () => jest.fn(),
+          removeItem: () => 'allOK',
+          clear: () => 'cleared'
         }
       })
   }
@@ -45,6 +48,18 @@ describe('Settings', () => {
     })
   })
 
+  describe('removeItem', () => {
+    it('handles removeItem', () => {
+      expect(Settings.removeItem('myKey')).toEqual('allOK')
+    })
+  })
+
+  describe('clearAll', () => {
+    it('handles clearAll', () => {
+      expect(Settings.clearAll()).toEqual('cleared')
+    })
+  })
+
   describe('addToUniqueArray', () => {
     it('adds information correctly', () => {
       const data = Settings.addToUniqueArray('myKey', 'myValue')
@@ -65,6 +80,11 @@ describe('Settings', () => {
     it('correctly applies a limit', () => {
       const data = Settings.addToUniqueArray('myKey', 'myValue', 2)
       expect(data).toEqual(['6PPhp1qpAjLUxQr75vSD4H', 'myValue'])
+    })
+
+    it('does not re-add information', () => {
+      const data = Settings.addToUniqueArray('myKey', '6PPhp1qpAjLUxQr75vSD4H', 2)
+      expect(data).toEqual(['3oAWTk92mZBxKBOKf8mR5v', '6PPhp1qpAjLUxQr75vSD4H'])
     })
   })
 })

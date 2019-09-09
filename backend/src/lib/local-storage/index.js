@@ -10,13 +10,14 @@ const Settings = {
   setItem: (key, value) => {
     if (value) storage.setItem(key, JSON.stringify(value))
   },
+  removeItem: (key) => storage.removeItem(key),
+  clearAll: () => storage.clear(),
   addToUniqueArray: (key, value, limit) => {
     let ary = Settings.getItem(key) || []
     if (ary.constructor !== Array) {
       throw new Error(`addToUniqueArray: ${key} is currently NOT an Array`)
     }
-    ary.push(value)
-
+    if (!ary.includes(value)) ary.push(value)
     if (limit) ary.splice(0, ary.length - Number(limit))
 
     const newData = [...new Set(ary)]
