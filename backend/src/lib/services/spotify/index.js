@@ -6,13 +6,13 @@ import _ from 'lodash'
 
 const countryCode = 'GB'
 const newTracksAddedLimit = 2
+const spotifyApi = new SpotifyWebApi({
+  clientId: process.env.SPOTIFY_ID,
+  clientSecret: process.env.SPOTIFY_SECRET
+})
 
 /* istanbul ignore next */
 const setupSpotify = (callback) => {
-  const spotifyApi = new SpotifyWebApi({
-    clientId: process.env.SPOTIFY_ID,
-    clientSecret: process.env.SPOTIFY_SECRET
-  })
   spotifyApi.clientCredentialsGrant().then(function (data) {
     logger.info(`The access token expires in ${data.body['expires_in']}`)
     logger.info(`The access token is ${data.body['access_token']}`)
@@ -46,13 +46,13 @@ const stripServiceFromUris = (uris) => uris.map(uri => uri.split(':').slice(-1)[
 const getRecommendations = (uris, mopidy) => {
   if (uris.length < 1) return
 
-  const seedTracks = stripServiceFromUris(uris.slice(-5))
+  const seedTracks = stripServiceFromUris(uris.slice(-1))
   const options = {
     country: countryCode,
-    min_popularity: 70,
-    min_tempo: 140,
+    min_popularity: 50,
     seed_tracks: seedTracks,
-    valence: 0.8
+    valence: 0.7,
+    liveness: 0.0
   }
 
   setupSpotify((api) => {

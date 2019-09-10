@@ -20,7 +20,6 @@ export default function (key, data, mopidy) {
       const payload = TransformTrack(data.tl_track.track)
       settings.addToUniqueArray(Settings.TRACKLIST_LAST_PLAYED, payload.track.uri, 10)
       settings.setItem(Settings.TRACK_CURRENT, payload.track.uri)
-      trackListTrimmer(mopidy)
 
       Spotify.canRecommend(mopidy, (recommend) => {
         const waitToRecommend = payload.track.length / 4 * 3
@@ -43,13 +42,13 @@ export default function (key, data, mopidy) {
       const tracks = TransformTracklist(data)
       settings.setItem(Settings.TRACKLIST_CURRENT, tracks.map(data => data.track.uri))
       return tracks
+    case Mopidy.EVENTS.TRACKLIST_CHANGED:
+      clearSetTimeout(recommendTimer)
+      trackListTrimmer(mopidy)
+      return data
     case Mopidy.TRACKLIST_ADD:
     case Mopidy.PLAYBACK_NEXT:
     case Mopidy.TRACKLIST_CLEAR:
-    case Mopidy.EVENTS.TRACKLIST_CHANGED:
-      clearSetTimeout(recommendTimer)
-
-      return data
     case Mopidy.TRACKLIST_REMOVE:
     case Auth.AUTHENTICATE_USER:
     case Auth.AUTHENTICATION_ERROR:
