@@ -5,7 +5,7 @@ module.exports = shipit => {
 
   const config = {
     default: {
-      branch: 'master',
+      branch: 'release',
       workspace: '/tmp/kyan-jukebox-backend',
       dirToCopy: 'backend',
       deployTo: 'app',

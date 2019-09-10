@@ -122,7 +122,7 @@ To push out a new release of the [api](backend/) you need to run:
 ```
 $ ./scripts/deploy-api
 ```
-This will currently push up whatever is in `master`.
+This will currently deploy a local branch named `release` so make sure it contains what you expect.
 
 ### mongodb
 
