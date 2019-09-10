@@ -46,7 +46,7 @@ const stripServiceFromUris = (uris) => uris.map(uri => uri.split(':').slice(-1)[
 const getRecommendations = (uris, mopidy) => {
   if (uris.length < 1) return
 
-  const seedTracks = stripServiceFromUris(uris.slice(-1))
+  const seedTracks = stripServiceFromUris(uris.slice(-5))
   const options = {
     country: countryCode,
     min_popularity: 50,
