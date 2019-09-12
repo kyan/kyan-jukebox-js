@@ -20,7 +20,7 @@ const setupSpotify = (callback) => {
     // Save the access token so that it's used in future calls
     spotifyApi.setAccessToken(data.body['access_token'])
 
-    callback(spotifyApi)
+    return callback(spotifyApi)
   }, function (err) {
     logger.error(`Something went wrong when retrieving an access token: ${err.message}`)
   }).catch(function (error) {
@@ -44,30 +44,50 @@ const stripServiceFromUris = (uris) => uris.map(uri => uri.split(':').slice(-1)[
 
 /* istanbul ignore next */
 const getRecommendations = (uris, mopidy) => {
-  if (uris.length < 1) return
+  if (uris.length < 1) return Promise.resolve()
 
-  const seedTracks = stripServiceFromUris(uris.slice(-5))
-  const options = {
-    country: countryCode,
-    min_popularity: 50,
-    seed_tracks: seedTracks,
-    valence: 0.7,
-    liveness: 0.0
-  }
+  return new Promise((resolve, reject) => {
+    const seedTracks = stripServiceFromUris(uris.slice(-5))
+    const options = {
+      country: countryCode,
+      min_popularity: 20,
+      seed_tracks: seedTracks,
+      valence: 0.7,
+      liveness: 0.0
+    }
+
+    setupSpotify((api) => {
+      api.getRecommendations(options).then(
+        function (data) {
+          const tracks = data.body.tracks
+          const suitableTracks = filterSuitableTracksUris(tracks)
+
+          if (suitableTracks.length > 0) {
+            logger.info(`Adding recommended tracks: ${suitableTracks} based on ${seedTracks.join(',')}`)
+            mopidy.tracklist.add({ uris: suitableTracks })
+          }
+
+          resolve()
+        }
+      ).catch(function (error) {
+        logger.error(`getRecommendations: ${error.message}`)
+        reject(error)
+      })
+    })
+  })
+}
+
+/* istanbul ignore next */
+const getTrack = (uri, callback) => {
+  const trackUri = stripServiceFromUris([uri])[0]
 
   setupSpotify((api) => {
-    api.getRecommendations(options).then(
+    api.getTrack(trackUri).then(
       function (data) {
-        const tracks = data.body.tracks
-        const suitableTracks = filterSuitableTracksUris(tracks)
-
-        if (suitableTracks.length > 0) {
-          logger.info(`Adding recommended tracks: ${suitableTracks} based on ${seedTracks.join(',')}`)
-          mopidy.tracklist.add({ uris: suitableTracks })
-        }
+        callback(data.body)
       }
     ).catch(function (error) {
-      logger.error(`getRecommendations: ${error.message}`)
+      logger.error(`getTrack: ${error.message}`)
     })
   })
 }
@@ -76,6 +96,16 @@ const SpotifyService = {
   canRecommend: (mopidy, callback) => {
     mopidy.tracklist.nextTrack([null]).then((data) => {
       if (!data) callback(getRecommendations)
+    })
+  },
+
+  validateTrack: (uri, callback) => {
+    const tracklist = settings.getItem(SettingsConsts.TRACKLIST_CURRENT)
+    if (tracklist.includes(uri)) return
+
+    getTrack(uri, (track) => {
+      if (track.explicit) return
+      callback()
     })
   }
 }
