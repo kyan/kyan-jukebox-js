@@ -5,7 +5,7 @@ import SpotifyWebApi from 'spotify-web-api-node'
 import _ from 'lodash'
 
 const countryCode = 'GB'
-const newTracksAddedLimit = 2
+const newTracksAddedLimit = process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT || 2
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_ID,
   clientSecret: process.env.SPOTIFY_SECRET
