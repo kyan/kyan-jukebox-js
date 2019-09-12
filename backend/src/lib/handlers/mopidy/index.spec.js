@@ -1,8 +1,10 @@
 import logger from '../../../config/winston'
 import MopidyHandler from './index'
 import ImageCache from './image-cache'
+import Spotify from '../../services/spotify'
 jest.mock('./image-cache')
 jest.mock('../../../config/winston')
+jest.mock('../../services/spotify')
 
 describe('MopidyHandler', () => {
   let payload = {
@@ -117,6 +119,17 @@ describe('MopidyHandler', () => {
       MopidyHandler({ key: payload.key }, ws, broadcasterMock, mopidy)
       ImageCache.check.mock.calls[0][2](null, {})
       expect(broadcastMock.mock.calls.length).toEqual(0)
+    })
+
+    it('should handle add track call', () => {
+      const payload = {
+        encoded_key: 'mopidy::tracklist.add',
+        key: 'tracklist.add',
+        service: 'mopidy',
+        data: { uri: 'track123' }
+      }
+      MopidyHandler(payload, ws, broadcasterMock, {})
+      expect(Spotify.validateTrack.mock.calls[0][0]).toEqual('track123')
     })
   })
 })
