@@ -43,6 +43,7 @@ services:
       - JWT_SECRET=secretshh
       - SPOTIFY_ID=${SPOTIFY_ID}
       - SPOTIFY_SECRET=${SPOTIFY_SECRET}
+      - SPOTIFY_NEW_TRACKS_ADDED_LIMIT=3
       - LOCAL_STORAGE_PATH=./local-cache
   mongodb:
     image: mongo:3.6.4
