@@ -2,7 +2,7 @@
 
 These instructions help you install Mopidy onto a Raspberry Pi Model B. It is assumed the Pi will be running the latest version of Raspian.
 
-* Get Raspian OS https://downloads.raspberrypi.org/raspbian_lite_latest
+* Get Raspian OS https://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2019-04-09/2019-04-08-raspbian-stretch-lite.zip (we're using stetch because Buster seems to have issues currently where we can't get global events from Mopidy)
 * Stick image on SD card that will fit inside the PI
 * https://www.raspberrypi.org/documentation/installation/installing-images/mac.md
 * Stick the SD card into the PI and fire it up with a keyboard and monitor plugged in
