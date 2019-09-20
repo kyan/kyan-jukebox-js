@@ -4,9 +4,16 @@ These instructions help you install Mopidy onto a Raspberry Pi Model B. It is as
 
 * Get Raspian OS https://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2019-04-09/2019-04-08-raspbian-stretch-lite.zip (we're using stetch because Buster seems to have issues currently where we can't get global events from Mopidy)
 * Stick image on SD card that will fit inside the PI
-* https://www.raspberrypi.org/documentation/installation/installing-images/mac.md
+* https://www.raspberrypi.org/documentation/installation/installing-images/mac.md (I would use https://www.raspberrypi.org/documentation/installation/installing-images/README.md as it says, much easier)
 * Stick the SD card into the PI and fire it up with a keyboard and monitor plugged in
 * Login with ‘pi’ and password ‘raspberry’
+* Switch to `root` with `sudo -i`
+* Run `raspi-config`
+* Option 2. Set your hostname to something unique
+* Option 2. Enable interface names
+* Option 5. Enable SSH
+* Options7. Force Audio to 3.5 Jack Plug
+* Restart `shutdown -r now`
 
 ###  Mopidy
 
