@@ -32,4 +32,12 @@ jobs:
         npm test -- --coverage
       env:
         CI: true
+    - name: Build and test backend
+      run: |
+        cd backend
+        npm install
+        npm run build --if-present
+        npm test -- --coverage
+      env:
+        CI: true
         
