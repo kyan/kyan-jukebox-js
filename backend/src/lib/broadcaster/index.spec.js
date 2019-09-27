@@ -1,8 +1,14 @@
 import broadcaster from './index'
 import logger from '../../config/winston'
+import EventLogger from '../../lib/event-logger'
 jest.mock('../../config/winston')
+jest.mock('../../lib/event-logger')
 
 describe('Broadcaster', () => {
+  afterEach(() => {
+    EventLogger.mockClear()
+  })
+
   describe('#to', () => {
     it('handles unauthorised call', () => {
       const sendMock = jest.fn()
@@ -20,12 +26,10 @@ describe('Broadcaster', () => {
       expect(sendMock.mock.calls[0][0]).toEqual('message')
       expect(sendMock.mock.calls[0][1])
         .toEqual('{"key":"mopidy::playback.next","data":"hello mum"}')
-      expect(logger.info.mock.calls[0][0]).toEqual('Client')
-      expect(logger.info.mock.calls[0][1]).toEqual({
-        client: '12345',
-        encodedKey: 'mopidy::playback.next',
-        uid: 'public'
-      })
+      expect(EventLogger.mock.calls[0][0]).toEqual({ encoded_key: 'mopidy::playback.next' })
+      expect(EventLogger.mock.calls[0][1]).toBeNull()
+      expect(EventLogger.mock.calls[0][2]).toEqual('hello mum')
+      expect(EventLogger.mock.calls[0][3]).toEqual('PublicBroadcast')
     })
 
     it('handles authorised call', () => {
@@ -45,12 +49,13 @@ describe('Broadcaster', () => {
       expect(sendMock.mock.calls[0][0]).toEqual('message')
       expect(sendMock.mock.calls[0][1])
         .toEqual('{"key":"mopidy::playback.next","data":"hello mum"}')
-      expect(logger.info.mock.calls[0][0]).toEqual('Client')
-      expect(logger.info.mock.calls[0][1]).toEqual({
-        client: '12345',
-        encodedKey: 'mopidy::playback.next',
-        uid: '123456abcdefg'
+      expect(EventLogger.mock.calls[0][0]).toEqual({
+        encoded_key: 'mopidy::playback.next',
+        user_id: '123456abcdefg'
       })
+      expect(EventLogger.mock.calls[0][1]).toBeNull()
+      expect(EventLogger.mock.calls[0][2]).toEqual('hello mum')
+      expect(EventLogger.mock.calls[0][3]).toEqual('ClientBroadcast')
     })
 
     it('handles error', () => {

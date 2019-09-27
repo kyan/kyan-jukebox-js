@@ -1,4 +1,5 @@
 import logger from '../../config/winston'
+import EventLogger from '../event-logger'
 import Transformer from '../transformer'
 import Payload from '../payload'
 
@@ -6,8 +7,8 @@ const Broadcaster = {
   to: (client, payload, message) => {
     const encodedKey = payload.encoded_key
     const unifiedMessage = Transformer(encodedKey, message)
-    const uid = payload.user_id ? payload.user_id : 'public'
-    logger.info('Client', { client: client.id, uid, encodedKey })
+    const context = payload.user_id ? 'ClientBroadcast' : 'PublicBroadcast'
+    EventLogger(payload, null, unifiedMessage, context)
 
     try {
       client.emit('message', Payload.encodeToJson(encodedKey, unifiedMessage))
