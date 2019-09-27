@@ -43,4 +43,6 @@ jobs:
         LOCAL_STORAGE_PATH: /tmp/jukebox
         JWT_SECRET: testsecret
         MONGODB_URL: mongodb://mongodb:27017/jb-dev
+        WS_MOPIDY_URL: mopidy-prod.local
+        WS_MOPIDY_PORT: 6680
         
