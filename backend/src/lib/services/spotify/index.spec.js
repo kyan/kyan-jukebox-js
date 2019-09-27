@@ -39,7 +39,6 @@ describe('SpotifyService', () => {
         .mockImplementationOnce(() => Promise.resolve()),
       add: jest.fn()
         .mockImplementationOnce(() => Promise.resolve('track added OK'))
-        .mockImplementationOnce(() => Promise.reject('bang'))
     }
   }
   const mockCallback = jest.fn()
