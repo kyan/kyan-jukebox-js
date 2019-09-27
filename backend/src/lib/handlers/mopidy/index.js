@@ -4,6 +4,7 @@ import EventLogger from '../../event-logger'
 import ImageCache from './image-cache'
 import Mopidy from '../../constants/mopidy'
 import Spotify from '../../services/spotify'
+import trackListTrimmer from '../../services/mopidy/tracklist-trimmer'
 
 const isValidTrack = (key, data, callback) => {
   if (key !== Mopidy.TRACKLIST_ADD) return callback()
@@ -34,6 +35,10 @@ const MopidyHandler = (payload, ws, bcast, mopidy) => {
           if (response) {
             if (obj.addToCache) obj.addToCache(response)
             sendToClient(bcast, ws, payload, response)
+
+            if (payload.encoded_key === Mopidy.GET_TRACKS) {
+              trackListTrimmer(mopidy)
+            }
           }
 
           logEvent(payload, data, response)
