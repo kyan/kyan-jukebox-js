@@ -3,7 +3,6 @@ import Auth from '../constants/auth'
 import Settings from '../constants/settings'
 import TransformTrack from './transformers/mopidy/track'
 import TransformTracklist from './transformers/mopidy/tracklist'
-import trackListTrimmer from '../services/mopidy/tracklist-trimmer'
 import settings from '../local-storage'
 import Spotify from '../services/spotify'
 
@@ -44,9 +43,10 @@ export default function (key, data, mopidy) {
       return tracks
     case Mopidy.EVENTS.TRACKLIST_CHANGED:
       clearSetTimeout(recommendTimer)
-      trackListTrimmer(mopidy)
       return data
     case Mopidy.TRACKLIST_ADD:
+      clearSetTimeout(recommendTimer)
+      return data
     case Mopidy.PLAYBACK_NEXT:
     case Mopidy.TRACKLIST_CLEAR:
     case Mopidy.TRACKLIST_REMOVE:
