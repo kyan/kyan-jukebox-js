@@ -12,8 +12,10 @@ const tracklistTrimmer = function (mopidy) {
   if (currentTrackIndex > previousTracksCount) {
     const indexToDeleteTo = currentTrackIndex - previousTracksCount
     const tracksToTrim = currentTracklist.slice(0, indexToDeleteTo)
-    mopidy.tracklist.remove({ uri: tracksToTrim })
     logger.info(`Trimming tracklist ${tracksToTrim}`)
+
+    storage.setItem(Settings.TRACKLIST_CURRENT, currentTracklist.slice(indexToDeleteTo))
+    mopidy.tracklist.remove({ uri: tracksToTrim })
   }
 }
 
