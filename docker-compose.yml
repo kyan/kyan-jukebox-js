@@ -37,8 +37,8 @@ services:
       - NODE_ENV=development
       - PORT=8080
       - IS_ALIVE_TIMEOUT=30000
-      - WS_MOPIDY_URL=mopidy-prod.local
-      - WS_MOPIDY_PORT=6680
+      - WS_MOPIDY_URL=${WS_MOPIDY_URL}
+      - WS_MOPIDY_PORT=${WS_MOPIDY_PORT}
       - MONGODB_URL=mongodb://mongodb:27017/jb-dev
       - JWT_SECRET=secretshh
       - SPOTIFY_ID=${SPOTIFY_ID}
