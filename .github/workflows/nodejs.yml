@@ -40,4 +40,5 @@ jobs:
         npm test -- --coverage
       env:
         CI: true
+        LOCAL_STORAGE_PATH: /tmp/jukebox
         
