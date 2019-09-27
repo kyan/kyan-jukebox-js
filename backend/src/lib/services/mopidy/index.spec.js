@@ -1,7 +1,8 @@
 import MopidyService from './index'
 import Mopidy from 'mopidy'
 import logger from '../../../config/winston'
-
+import EventLogger from '../../../lib/event-logger'
+jest.mock('../../../lib/event-logger')
 jest.mock('../../../lib/transformer')
 jest.mock('../../../config/winston')
 jest.mock('mopidy', () => {
@@ -21,6 +22,10 @@ describe('MopidyService', () => {
   }
   const cb = jest.fn()
 
+  afterEach(() => {
+    EventLogger.mockClear()
+  })
+
   it('it should handle going online', () => {
     spyOn(process, 'exit')
     MopidyService(socketIO, cb)
@@ -31,9 +36,11 @@ describe('MopidyService', () => {
     expect(sendMock.mock.calls[3][0]).toEqual('{"key":"mopidy::event:tracklistChanged"}')
     expect(sendMock.mock.calls[4][0]).toEqual('{"key":"mopidy::event:volumeChanged"}')
     expect(Mopidy).toEqual(expect.any(Function)) // to stop standardjs crying
+    expect(EventLogger.mock.calls[0][0]).toEqual({ encoded_key: 'mopidy::event:trackPlaybackStarted' })
+    expect(EventLogger.mock.calls[0][1]).toBeNull()
+    expect(EventLogger.mock.calls[0][2]).toEqual({ message: 'bang!' })
+    expect(EventLogger.mock.calls[0][3]).toEqual('MopidyEvent')
     expect(logger.info.mock.calls[0][0]).toEqual('Mopidy Offline')
-    expect(logger.info.mock.calls[0][1]).toEqual({ url: 'mopidy-prod.local:6680' })
     expect(logger.error.mock.calls[0][0]).toEqual('Mopidy Error: bang!')
-    expect(logger.error.mock.calls[0][1]).toEqual({ url: 'mopidy-prod.local:6680' })
   })
 })

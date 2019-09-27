@@ -14,8 +14,8 @@ const sendToClient = (bcast, ws, payload, data) => {
   bcast.to(ws, payload, data)
 }
 
-const logEvent = (payload, data) => {
-  EventLogger(payload.user_id, payload.encoded_key, data)
+const logEvent = (headers, params, response) => {
+  EventLogger({ encoded_key: headers.encoded_key }, params, response, 'APIRequest')
 }
 
 const MopidyHandler = (payload, ws, bcast, mopidy) => {
@@ -30,20 +30,20 @@ const MopidyHandler = (payload, ws, bcast, mopidy) => {
       } else {
         const apiCall = StrToFunction(mopidy, key)
 
-        const fetchData = resp => {
-          if (resp) {
-            if (obj.addToCache) obj.addToCache(resp)
-
-            logEvent(payload, resp)
-            sendToClient(bcast, ws, payload, resp)
+        const successHandler = response => {
+          if (response) {
+            if (obj.addToCache) obj.addToCache(response)
+            sendToClient(bcast, ws, payload, response)
           }
+
+          logEvent(payload, data, response)
         }
 
         const failureHandler = () => {
           logger.error('failureHandler: ', { key: key })
         }
 
-        (data ? apiCall(data) : apiCall()).then(fetchData, failureHandler)
+        (data ? apiCall(data) : apiCall()).then(successHandler, failureHandler)
       }
     })
   })

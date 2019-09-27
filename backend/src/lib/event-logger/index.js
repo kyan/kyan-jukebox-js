@@ -1,19 +1,29 @@
 import Event from '../services/mongodb/models/event'
+import logger from '../../config/winston'
 import MopidyConsts from '../constants/mopidy'
 
 const invalidKey = (key) => {
-  return (key === MopidyConsts.LIBRARY_GET_IMAGES)
+  if (key === MopidyConsts.LIBRARY_GET_IMAGES) return true
+  if (key === MopidyConsts.PLAYBACK_GET_TIME_POSITION) return true
+  if (key === MopidyConsts.PLAYBACK_GET_STATE) return true
+  if (key === MopidyConsts.MIXER_GET_VOLUME) return true
+
+  return false
 }
 
-const EventLogger = (user, key, payload) => {
-  if (!user) return
-  if (invalidKey(key)) return
+const EventLogger = (headers, request, response, label) => {
+  if (invalidKey(headers.encoded_key)) return
+  delete (headers.jwt_token)
 
   Event.create({
-    user,
-    key,
-    payload
+    user: headers.user_id,
+    key: headers.encoded_key,
+    payload: {
+      request,
+      response
+    }
   })
+  logger.info(label || 'Event', { headers, request, response })
 }
 
 export default EventLogger

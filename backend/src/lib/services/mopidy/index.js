@@ -1,5 +1,6 @@
 import Mopidy from 'mopidy'
 import logger from '../../../config/winston'
+import EventLogger from '../../event-logger'
 import MopidyConstants from '../../constants/mopidy'
 import Transformer from '../../transformer'
 import Payload from '../../payload'
@@ -28,15 +29,14 @@ const MopidyService = (io, callback) => {
     logger.info('Mopidy Online', { url: `${mopidyUrl}:${mopidyPort}` })
   })
 
-  Object.values(MopidyConstants.EVENTS).forEach(raw => {
-    const key = Payload.decodeKey(raw).pop()
+  Object.values(MopidyConstants.EVENTS).forEach(encodedKey => {
+    const key = Payload.decodeKey(encodedKey).pop()
 
     mopidy.on(key, data => {
-      const encodedKey = Payload.encodeKey('mopidy', key)
       const unifiedMessage = Transformer(encodedKey, data, mopidy)
       const payload = Payload.encodeToJson(encodedKey, unifiedMessage)
 
-      logger.info(`Event: ${encodedKey}: ${payload}`)
+      EventLogger({ encoded_key: encodedKey }, null, data, 'MopidyEvent')
       io.send(payload)
     })
   })

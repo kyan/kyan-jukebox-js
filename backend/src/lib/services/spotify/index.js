@@ -1,11 +1,12 @@
 import settings from '../../local-storage'
 import SettingsConsts from '../../constants/settings'
+import EventLogger from '../../event-logger'
 import logger from '../../../config/winston'
 import SpotifyWebApi from 'spotify-web-api-node'
 import _ from 'lodash'
 
 const countryCode = 'GB'
-const newTracksAddedLimit = process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT || 2
+const newTracksAddedLimit = process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_ID,
   clientSecret: process.env.SPOTIFY_SECRET
@@ -63,8 +64,22 @@ const getRecommendations = (uris, mopidy) => {
           const suitableTracks = filterSuitableTracksUris(tracks)
 
           if (suitableTracks.length > 0) {
-            logger.info(`Adding recommended tracks: ${suitableTracks} based on ${seedTracks.join(',')}`)
-            mopidy.tracklist.add({ uris: suitableTracks })
+            const successHandler = response => {
+              if (response) {
+                EventLogger(
+                  { encoded_key: 'mopidy.tracklist.add' },
+                  { uris: suitableTracks },
+                  response,
+                  'APIRequest'
+                )
+              }
+            }
+
+            const failureHandler = (error) => {
+              logger.error('failureHandler: ', error.message)
+            }
+
+            mopidy.tracklist.add({ uris: suitableTracks }).then(successHandler, failureHandler)
           }
 
           resolve()
