@@ -25,12 +25,6 @@ describe('jukebox', () => {
     })).toMatchSnapshot()
   })
 
-  it('handles a UPDATE_RADIO_STREAM_STATE', () => {
-    expect(reducer({ radioStreamPlaying: false }, {
-      type: Types.UPDATE_RADIO_STREAM_STATE
-    })).toMatchSnapshot()
-  })
-
   it('handles a UPDATE_VOLUME increased', () => {
     const state = {
       volume: 10,

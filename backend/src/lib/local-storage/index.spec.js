@@ -87,4 +87,10 @@ describe('Settings', () => {
       expect(data).toEqual(['3oAWTk92mZBxKBOKf8mR5v', '6PPhp1qpAjLUxQr75vSD4H'])
     })
   })
+
+  describe('clearCurrent', () => {
+    it('handles clearAll', () => {
+      expect(Settings.clearCurrent()).toBeTruthy()
+    })
+  })
 })

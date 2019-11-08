@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const eventSchema = mongoose.Schema({
-  user: mongoose.Schema.Types.ObjectId,
+  user: String,
   key: String,
   payload: mongoose.Schema.Types.Mixed
 })

@@ -1,37 +1,36 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
 import Notifications from 'react-notify-toast'
-import { PersistGate } from 'redux-persist/integration/react'
+import { useGoogleLogin } from 'react-use-googlelogin'
 import ErrorBoundary from './components/error-boundary'
+import GoogleAuthContext from './contexts/google'
 import jukeboxMiddleware from './containers/jukebox-middleware'
 import jukeboxApp from './reducers'
 import { Container } from 'semantic-ui-react'
 import Dashboard from './containers/dashboard'
 
-const persistConfig = {
-  key: 'root',
-  storage: storage,
-  whitelist: ['settings']
-}
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const persistedReducer = persistReducer(persistConfig, jukeboxApp)
-const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(jukeboxMiddleware)))
-const persistor = persistStore(store)
+const store = createStore(jukeboxApp, composeEnhancers(applyMiddleware(jukeboxMiddleware)))
 
-const App = () => (
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
+const App = () => {
+  const googleAuth = useGoogleLogin({
+    clientId: process.env.REACT_APP_CLIENT_ID,
+    hostedDomain: 'kyanmedia.com'
+  })
+
+  return (
+    <Provider store={store}>
       <Container fluid>
-        <ErrorBoundary>
-          <Notifications />
-          <Dashboard />
-        </ErrorBoundary>
+        <GoogleAuthContext.Provider value={googleAuth}>
+          <ErrorBoundary>
+            <Notifications />
+            <Dashboard />
+          </ErrorBoundary>
+        </GoogleAuthContext.Provider>
       </Container>
-    </PersistGate>
-  </Provider>
-)
+    </Provider>
+  )
+}
 
 export default App

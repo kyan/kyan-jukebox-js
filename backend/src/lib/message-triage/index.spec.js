@@ -1,10 +1,8 @@
 import logger from '../../config/winston'
 import MessageTriage from './index'
 import AuthenticateHandler from '../handlers/authenticate'
-import HandshakeHandler from '../handlers/handshake'
 import MopidyHandler from '../handlers/mopidy'
 jest.mock('../handlers/authenticate')
-jest.mock('../handlers/handshake')
 jest.mock('../handlers/mopidy')
 jest.mock('../../config/winston')
 
@@ -28,18 +26,6 @@ describe('MessageTriage', () => {
       expect(MopidyHandler.mock.calls[0][1]).toEqual(ws)
       expect(MopidyHandler.mock.calls[0][2]).toEqual(broadcaster)
       expect(MopidyHandler.mock.calls[0][3]).toEqual(mopidy)
-    })
-  })
-
-  describe('when auth service', () => {
-    const payload = { service: 'auth' }
-
-    it('it should return auth handler', () => {
-      MessageTriage(payload, mopidy, cb)
-      cb.mock.calls[0][0](ws, broadcaster)
-      expect(HandshakeHandler).toHaveBeenCalledWith(
-        payload, ws, broadcaster
-      )
     })
   })
 

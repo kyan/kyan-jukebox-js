@@ -2,7 +2,6 @@ import * as actions from '../../actions'
 import AuthApi from '../../constants/auth-api'
 import MopidyApi from '../../constants/mopidy-api'
 import Payload from '../../utils/payload'
-import State from '../../utils/state'
 
 const updatePlaybackState = (store, state) => {
   store.dispatch(actions.updatePlaybackState(state))
@@ -47,13 +46,9 @@ const onMessageHandler = (store, payload, progressTimer) => {
   const { key, data } = Payload.decode(payload)
 
   switch (key) {
-    case AuthApi.AUTHENTICATE_USER:
-      store.dispatch(actions.updateToken(data.token))
-      store.dispatch(actions.storeUser(data.user))
-      if (data.token) State.loadInitial(store)
-      break
-    case AuthApi.AUTHENTICATION_ERROR:
-      console.log(`AUTHENTICATION_ERROR: ${data}`)
+    case AuthApi.AUTHENTICATION_TOKEN_INVALID:
+      console.log(`AUTHENTICATION_TOKEN_INVALID: ${data.error}`)
+      store.dispatch(actions.clearToken())
       break
     case MopidyApi.PLAYBACK_GET_CURRENT_TRACK:
     case MopidyApi.EVENT_TRACK_PLAYBACK_STARTED:

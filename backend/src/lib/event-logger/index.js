@@ -14,15 +14,19 @@ const invalidKey = (key) => {
 const EventLogger = (headers, request, response, label) => {
   if (invalidKey(headers.encoded_key)) return
   delete (headers.jwt_token)
+  delete (headers.token)
+  const user = headers.user
 
-  Event.create({
-    user: headers.user_id,
-    key: headers.encoded_key,
-    payload: {
-      request,
-      response
-    }
-  })
+  if (user && user._id) {
+    Event.create({
+      user: user._id,
+      key: headers.encoded_key,
+      payload: {
+        request,
+        response
+      }
+    })
+  }
   logger.info(label || 'Event', { headers, request, response })
 }
 

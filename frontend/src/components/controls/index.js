@@ -4,24 +4,6 @@ import MopidyApi from '../../constants/mopidy-api'
 import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 
-const radioButton = (cb, disabled, playbackState, radioPlaying, radioEnabled) => {
-  if (!radioEnabled) { return null }
-
-  return (
-    <Button
-      disabled={disabled || !radioPlaying}
-      color={playbackState ? 'green' : null}
-      onClick={cb}
-      active={playbackState === true}
-      className='jb-radio-button'
-    >
-      <Button.Content hidden>
-        RADIO {playbackState ? <Icon loading name='certificate' /> : null}
-      </Button.Content>
-    </Button>
-  )
-}
-
 const playButton = (cb, playbackState, disabled) => (
   <Button
     onClick={cb}
@@ -52,10 +34,9 @@ const pauseButton = (cb, playbackState, disabled) => (
   </Button>
 )
 
-const Controls = ({ radioEnabled, radioPlaying, disabled, playbackState, onPlay, onPause, onPrevious, onNext, onStreaming }) => {
+const Controls = ({ disabled, playbackState, onPlay, onPause, onPrevious, onNext }) => {
   return (
     <span>
-      {radioButton(onStreaming, disabled, playbackState, radioPlaying, radioEnabled)}
       <SkipButtons
         disabled={disabled}
         onPrevious={onPrevious}
@@ -68,8 +49,6 @@ const Controls = ({ radioEnabled, radioPlaying, disabled, playbackState, onPlay,
 }
 
 Controls.propTypes = {
-  radioEnabled: PropTypes.bool,
-  radioPlaying: PropTypes.bool,
   disabled: PropTypes.bool,
   playbackState: PropTypes.string,
   onPlay: PropTypes.func.isRequired,

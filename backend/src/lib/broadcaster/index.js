@@ -7,7 +7,7 @@ const Broadcaster = {
   to: (client, payload, message) => {
     const encodedKey = payload.encoded_key
     const unifiedMessage = Transformer(encodedKey, message)
-    const context = payload.user_id ? 'ClientBroadcast' : 'PublicBroadcast'
+    const context = payload.user ? 'ClientBroadcast' : 'PublicBroadcast'
     EventLogger(payload, null, unifiedMessage, context)
 
     try {
