@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Dashboard render the connected app render the connected app renders as expected 1`] = `
+exports[`Dashboard online logged in renders as expected 1`] = `
 <Provider
   store={
     Object {
@@ -23,63 +23,519 @@ exports[`Dashboard render the connected app render the connected app renders as 
         <div
           className="blurring dimmable jukebox-dashboard"
         >
-          <Connect(Settings)>
-            <Settings
-              dispatch={[Function]}
-              settings={
-                Object {
-                  "open": false,
-                }
-              }
+          <Settings>
+            <Image
+              as="img"
+              floated="right"
+              onClick={[Function]}
+              rounded={true}
+              size="mini"
+              src="myImage123"
+              title="Fred Spanner"
+              ui={true}
             >
+              <img
+                className="ui mini rounded right floated image"
+                onClick={[Function]}
+                src="myImage123"
+                title="Fred Spanner"
+              />
+            </Image>
+          </Settings>
+          <VolumeButtons
+            disabled={false}
+            onVolumeChange={[Function]}
+            volume={25}
+          >
+            <ButtonGroup
+              floated="right"
+            >
+              <div
+                className="ui right floated buttons"
+              >
+                <Button
+                  as="button"
+                  className="jb-volume-down"
+                  disabled={false}
+                  onClick={[Function]}
+                >
+                  <button
+                    className="ui button jb-volume-down"
+                    onClick={[Function]}
+                  >
+                    <Icon
+                      as="i"
+                      name="volume down"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="volume down icon"
+                      />
+                    </Icon>
+                  </button>
+                </Button>
+                <ButtonOr
+                  text={25}
+                >
+                  <div
+                    className="or"
+                    data-text={25}
+                  />
+                </ButtonOr>
+                <Button
+                  as="button"
+                  className="jb-volume-up"
+                  disabled={false}
+                  onClick={[Function]}
+                >
+                  <button
+                    className="ui button jb-volume-up"
+                    onClick={[Function]}
+                  >
+                    <Icon
+                      as="i"
+                      name="volume up"
+                    >
+                      <i
+                        aria-hidden="true"
+                        className="volume up icon"
+                      />
+                    </Icon>
+                  </button>
+                </Button>
+              </div>
+            </ButtonGroup>
+          </VolumeButtons>
+          <Controls
+            disabled={false}
+            onNext={[Function]}
+            onPause={[Function]}
+            onPlay={[Function]}
+            onPrevious={[Function]}
+            playbackState="playing"
+          >
+            <span>
+              <SkipButtons
+                disabled={false}
+                onNext={[Function]}
+                onPrevious={[Function]}
+              >
+                <span>
+                  <Button
+                    animated="vertical"
+                    as="button"
+                    className="jb-previous-button"
+                    disabled={false}
+                    onClick={[Function]}
+                  >
+                    <button
+                      className="ui vertical animated button jb-previous-button"
+                      onClick={[Function]}
+                    >
+                      <ButtonContent
+                        hidden={true}
+                      >
+                        <div
+                          className="hidden content"
+                        >
+                          Prev
+                        </div>
+                      </ButtonContent>
+                      <ButtonContent
+                        visible={true}
+                      >
+                        <div
+                          className="visible content"
+                        >
+                          <Icon
+                            as="i"
+                            name="step backward"
+                          >
+                            <i
+                              aria-hidden="true"
+                              className="step backward icon"
+                            />
+                          </Icon>
+                        </div>
+                      </ButtonContent>
+                    </button>
+                  </Button>
+                  <Button
+                    animated="vertical"
+                    as="button"
+                    className="jb-next-button"
+                    disabled={false}
+                    onClick={[Function]}
+                  >
+                    <button
+                      className="ui vertical animated button jb-next-button"
+                      onClick={[Function]}
+                    >
+                      <ButtonContent
+                        hidden={true}
+                      >
+                        <div
+                          className="hidden content"
+                        >
+                          Next
+                        </div>
+                      </ButtonContent>
+                      <ButtonContent
+                        visible={true}
+                      >
+                        <div
+                          className="visible content"
+                        >
+                          <Icon
+                            as="i"
+                            name="step forward"
+                          >
+                            <i
+                              aria-hidden="true"
+                              className="step forward icon"
+                            />
+                          </Icon>
+                        </div>
+                      </ButtonContent>
+                    </button>
+                  </Button>
+                </span>
+              </SkipButtons>
               <Button
+                active={true}
+                animated="vertical"
                 as="button"
-                className="jb-settings-toggle"
-                floated="right"
-                icon="user"
+                className="jb-play-button"
+                disabled={true}
                 onClick={[Function]}
               >
                 <button
-                  className="ui icon right floated button jb-settings-toggle"
+                  className="ui active vertical animated disabled button jb-play-button"
+                  disabled={true}
                   onClick={[Function]}
+                  tabIndex={-1}
                 >
-                  <Icon
-                    as="i"
-                    name="user"
+                  <ButtonContent
+                    hidden={true}
                   >
-                    <i
-                      aria-hidden="true"
-                      className="user icon"
-                    />
-                  </Icon>
+                    <div
+                      className="hidden content"
+                    >
+                      Play
+                    </div>
+                  </ButtonContent>
+                  <ButtonContent
+                    visible={true}
+                  >
+                    <div
+                      className="visible content"
+                    >
+                      <Icon
+                        as="i"
+                        name="play"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="play icon"
+                        />
+                      </Icon>
+                    </div>
+                  </ButtonContent>
                 </button>
               </Button>
-              <Modal
-                centered={true}
-                closeIcon={true}
-                closeOnDimmerClick={true}
-                closeOnDocumentClick={false}
-                dimmer="blurring"
-                eventPool="Modal"
-                onClose={[Function]}
-                open={false}
-                size="small"
+              <Button
+                active={false}
+                animated="vertical"
+                as="button"
+                className="jb-pause-button"
+                disabled={false}
+                onClick={[Function]}
               >
-                <Portal
-                  closeOnDocumentClick={false}
-                  closeOnEscape={true}
-                  eventPool="Modal"
-                  mountNode={<body />}
-                  onClose={[Function]}
-                  onMount={[Function]}
-                  onOpen={[Function]}
-                  onUnmount={[Function]}
-                  open={false}
-                  openOnTriggerClick={true}
-                />
-              </Modal>
-            </Settings>
-          </Connect(Settings)>
+                <button
+                  className="ui vertical animated button jb-pause-button"
+                  onClick={[Function]}
+                >
+                  <ButtonContent
+                    hidden={true}
+                  >
+                    <div
+                      className="hidden content"
+                    >
+                      Pause
+                    </div>
+                  </ButtonContent>
+                  <ButtonContent
+                    visible={true}
+                  >
+                    <div
+                      className="visible content"
+                    >
+                      <Icon
+                        as="i"
+                        name="pause"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="pause icon"
+                        />
+                      </Icon>
+                    </div>
+                  </ButtonContent>
+                </button>
+              </Button>
+            </span>
+          </Controls>
+          <Divider>
+            <div
+              className="ui divider"
+            />
+          </Divider>
+          <Grid>
+            <div
+              className="ui grid"
+            >
+              <GridColumn
+                width={6}
+              >
+                <div
+                  className="six wide column"
+                >
+                  <DragInTrack
+                    disabled={false}
+                    onDrop={[Function]}
+                  >
+                    <Component
+                      backend={[Function]}
+                    >
+                      <DropTarget(UrlDropArea)
+                        accepts={
+                          Array [
+                            "__NATIVE_URL__",
+                          ]
+                        }
+                        onDrop={[Function]}
+                      >
+                        <UrlDropArea
+                          accepts={
+                            Array [
+                              "__NATIVE_URL__",
+                            ]
+                          }
+                          connectDropTarget={[Function]}
+                          onDrop={[Function]}
+                        >
+                          <div>
+                            <Header
+                              size="small"
+                            >
+                              <div
+                                className="ui small header"
+                              >
+                                Current Track
+                              </div>
+                            </Header>
+                            <Connect(CurrentTrackContainer)>
+                              <CurrentTrackContainer
+                                dispatch={[Function]}
+                                image={null}
+                                progress={NaN}
+                              >
+                                <CurrentTrack
+                                  image={null}
+                                  progress={NaN}
+                                >
+                                  <Card>
+                                    <div
+                                      className="ui card"
+                                      onClick={[Function]}
+                                    >
+                                      <Image
+                                        as="img"
+                                        src="default-artwork.png"
+                                        ui={true}
+                                      >
+                                        <img
+                                          className="ui image"
+                                          src="default-artwork.png"
+                                        />
+                                      </Image>
+                                      <CardContent>
+                                        <div
+                                          className="content"
+                                        >
+                                          <CardHeader>
+                                            <div
+                                              className="header"
+                                            >
+                                              Nothing playing
+                                            </div>
+                                          </CardHeader>
+                                          <CardDescription>
+                                            <div
+                                              className="description"
+                                            >
+                                              Drag some music here or press play.
+                                            </div>
+                                          </CardDescription>
+                                        </div>
+                                      </CardContent>
+                                    </div>
+                                  </Card>
+                                </CurrentTrack>
+                              </CurrentTrackContainer>
+                            </Connect(CurrentTrackContainer)>
+                          </div>
+                        </UrlDropArea>
+                      </DropTarget(UrlDropArea)>
+                    </Component>
+                  </DragInTrack>
+                </div>
+              </GridColumn>
+              <GridColumn
+                width={10}
+              >
+                <div
+                  className="ten wide column"
+                >
+                  <Header
+                    size="small"
+                  >
+                    <div
+                      className="ui small header"
+                    >
+                      Playlist 
+                      <ClearPlaylist
+                        disabled={false}
+                        onClear={[Function]}
+                      >
+                        <span>
+                          <Label
+                            as="a"
+                            className="jb-clear-button"
+                            color="red"
+                            horizontal={true}
+                            onClick={[Function]}
+                            size="mini"
+                          >
+                            <a
+                              className="ui red mini horizontal label jb-clear-button"
+                              onClick={[Function]}
+                            >
+                              CLEAR
+                            </a>
+                          </Label>
+                          <Confirm
+                            cancelButton="No thanks"
+                            confirmButton="Do it!"
+                            content="Are you sure you want to nuke the playlist?"
+                            onCancel={[Function]}
+                            onConfirm={[Function]}
+                            open={false}
+                            size="small"
+                          >
+                            <Modal
+                              centered={true}
+                              closeOnDimmerClick={true}
+                              closeOnDocumentClick={false}
+                              dimmer={true}
+                              eventPool="Modal"
+                              onClose={[Function]}
+                              open={false}
+                              size="small"
+                            >
+                              <Portal
+                                closeOnDocumentClick={false}
+                                closeOnEscape={true}
+                                eventPool="Modal"
+                                mountNode={<body />}
+                                onClose={[Function]}
+                                onMount={[Function]}
+                                onOpen={[Function]}
+                                onUnmount={[Function]}
+                                open={false}
+                                openOnTriggerClick={true}
+                              />
+                            </Modal>
+                          </Confirm>
+                        </span>
+                      </ClearPlaylist>
+                    </div>
+                  </Header>
+                  <Tracklist
+                    disabled={false}
+                    images={Object {}}
+                    onRemoveTrack={[Function]}
+                    tracks={Array []}
+                  >
+                    <List
+                      relaxed={true}
+                    >
+                      <div
+                        className="ui relaxed list"
+                        role="list"
+                      />
+                    </List>
+                  </Tracklist>
+                </div>
+              </GridColumn>
+            </div>
+          </Grid>
+        </div>
+      </DimmerDimmable>
+    </Dashboard>
+  </DragDropContext(Dashboard)>
+</Provider>
+`;
+
+exports[`Dashboard online logged out renders as expected 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <DragDropContext(Dashboard)>
+    <Dashboard>
+      <DimmerDimmable
+        blurring={true}
+        className="jukebox-dashboard"
+        dimmed={false}
+      >
+        <div
+          className="blurring dimmable jukebox-dashboard"
+        >
+          <Settings>
+            <Button
+              as="button"
+              className="jb-settings-toggle"
+              floated="right"
+              icon="power off"
+              onClick={[Function]}
+              title="Login using Google"
+            >
+              <button
+                className="ui icon right floated button jb-settings-toggle"
+                onClick={[Function]}
+                title="Login using Google"
+              >
+                <Icon
+                  as="i"
+                  name="power off"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="power off icon"
+                  />
+                </Icon>
+              </button>
+            </Button>
+          </Settings>
           <VolumeButtons
             disabled={true}
             onVolumeChange={[Function]}
@@ -154,46 +610,9 @@ exports[`Dashboard render the connected app render the connected app renders as 
             onPause={[Function]}
             onPlay={[Function]}
             onPrevious={[Function]}
-            onStreaming={[Function]}
             playbackState="playing"
-            radioEnabled={true}
           >
             <span>
-              <Button
-                active={false}
-                as="button"
-                className="jb-radio-button"
-                color="green"
-                disabled={true}
-                onClick={[Function]}
-              >
-                <button
-                  className="ui green disabled button jb-radio-button"
-                  disabled={true}
-                  onClick={[Function]}
-                  tabIndex={-1}
-                >
-                  <ButtonContent
-                    hidden={true}
-                  >
-                    <div
-                      className="hidden content"
-                    >
-                      RADIO 
-                      <Icon
-                        as="i"
-                        loading={true}
-                        name="certificate"
-                      >
-                        <i
-                          aria-hidden="true"
-                          className="certificate loading icon"
-                        />
-                      </Icon>
-                    </div>
-                  </ButtonContent>
-                </button>
-              </Button>
               <SkipButtons
                 disabled={true}
                 onNext={[Function]}
@@ -489,12 +908,9 @@ exports[`Dashboard render the connected app render the connected app renders as 
               </GridColumn>
             </div>
           </Grid>
-          <RadioStream />
         </div>
       </DimmerDimmable>
     </Dashboard>
   </DragDropContext(Dashboard)>
 </Provider>
 `;
-
-exports[`Dashboard render the connected app when the radio is disabled shows the button 1`] = `null`;

@@ -50,8 +50,7 @@ export default function (key, data, mopidy) {
     case Mopidy.PLAYBACK_NEXT:
     case Mopidy.TRACKLIST_CLEAR:
     case Mopidy.TRACKLIST_REMOVE:
-    case Auth.AUTHENTICATE_USER:
-    case Auth.AUTHENTICATION_ERROR:
+    case Auth.AUTHENTICATION_TOKEN_INVALID:
     case Mopidy.CONNECTION_ERROR:
     case Mopidy.LIBRARY_GET_IMAGES:
     case Mopidy.MIXER_GET_VOLUME:

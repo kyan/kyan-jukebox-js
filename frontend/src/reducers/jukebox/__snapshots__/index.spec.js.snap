@@ -4,8 +4,6 @@ exports[`jukebox handles a CONNECTED 1`] = `
 Object {
   "online": true,
   "playbackState": "paused",
-  "radioStreamEnabled": false,
-  "radioStreamPlaying": false,
   "volume": 0,
 }
 `;
@@ -20,8 +18,6 @@ exports[`jukebox handles a UPDATE_PLAYBACK_STATE playing 1`] = `
 Object {
   "online": false,
   "playbackState": "playing",
-  "radioStreamEnabled": false,
-  "radioStreamPlaying": false,
   "volume": 0,
 }
 `;
@@ -34,18 +30,10 @@ Object {
 }
 `;
 
-exports[`jukebox handles a UPDATE_RADIO_STREAM_STATE 1`] = `
-Object {
-  "radioStreamPlaying": true,
-}
-`;
-
 exports[`jukebox handles a UPDATE_VOLUME 1`] = `
 Object {
   "online": false,
   "playbackState": "paused",
-  "radioStreamEnabled": false,
-  "radioStreamPlaying": false,
   "volume": 32,
 }
 `;
@@ -68,8 +56,6 @@ exports[`jukebox handles default state 1`] = `
 Object {
   "online": false,
   "playbackState": "paused",
-  "radioStreamEnabled": false,
-  "radioStreamPlaying": false,
   "volume": 0,
 }
 `;

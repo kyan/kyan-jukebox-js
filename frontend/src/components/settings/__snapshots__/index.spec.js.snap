@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Settinsg render when authorised user renders as expected 1`] = `
+<Settings>
+  <Image
+    as="img"
+    floated="right"
+    onClick={[Function]}
+    rounded={true}
+    size="mini"
+    src="myImage123"
+    title="Fred Spanner"
+    ui={true}
+  >
+    <img
+      className="ui mini rounded right floated image"
+      onClick={[Function]}
+      src="myImage123"
+      title="Fred Spanner"
+    />
+  </Image>
+</Settings>
+`;
+
+exports[`Settinsg render when nonauthorised user renders as expected 1`] = `
+<Settings>
+  <Button
+    as="button"
+    className="jb-settings-toggle"
+    floated="right"
+    icon="power off"
+    onClick={[Function]}
+    title="Login using Google"
+  >
+    <button
+      className="ui icon right floated button jb-settings-toggle"
+      onClick={[Function]}
+      title="Login using Google"
+    >
+      <Icon
+        as="i"
+        name="power off"
+      >
+        <i
+          aria-hidden="true"
+          className="power off icon"
+        />
+      </Icon>
+    </button>
+  </Button>
+</Settings>
+`;

@@ -31,8 +31,6 @@ This will give you a give you a working client and API plus the perisistence lay
 
 Both the frontend and backend use ENVs for their confirguration. You can make changes to the defaults by updating the `docker-compose.yml` file. The backend also uses the Spotify API directly for some tasks. If you need this you will need to re-name the `.env.example` file to `.env` and update the creds to your own.
 
-You'll want to load some seed data when working locally. You can follow the [seeding instruction below](#seed-data)
-
 ### Mopidy
 
 If you want to run your own copy of Mopidy, you can buy yourself a Raspberry Pi and follow [these instructions](docs/mopidy_install.md).
@@ -65,14 +63,6 @@ You can find more information on the api via it's README in the `backend` folder
 ### MongoDB
 
 The API used `Mongodb` for it's perisistence layer. In development it will fire up a docker container running `Mongodb` and will point the API at it.
-
-#### Seed data
-
-You add seed Mongodb with some dummy data by running:
-```
-$ docker-compose run mongodb-seed /bin/seed.sh
-```
-*NOTE* This is reset Mongodb, deleting any data currently in there.
 
 ### Adding a new package to `package.json`
 

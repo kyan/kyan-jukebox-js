@@ -4,9 +4,7 @@ import Types from '../../constants'
 const initalState = {
   online: false,
   volume: 0,
-  playbackState: MopidyApi.PAUSED,
-  radioStreamPlaying: false,
-  radioStreamEnabled: false
+  playbackState: MopidyApi.PAUSED
 }
 
 const jukebox = (state = initalState, action) => {
@@ -26,10 +24,6 @@ const jukebox = (state = initalState, action) => {
     case Types.UPDATE_PLAYBACK_STATE:
       return Object.assign({}, state, {
         playbackState: action.state
-      })
-    case Types.UPDATE_RADIO_STREAM_STATE:
-      return Object.assign({}, state, {
-        radioStreamPlaying: !state.radioStreamPlaying
       })
     default:
       return state

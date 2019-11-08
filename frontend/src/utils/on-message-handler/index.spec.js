@@ -1,7 +1,6 @@
 import * as actions from '../../actions'
 import MopidyApi from '../../constants/mopidy-api'
 import AuthApi from '../../constants/auth-api'
-import State from '../../utils/state'
 import onMessageHandler from './index'
 import MockTrackListJson from '../../__mockData__/api'
 
@@ -24,6 +23,7 @@ describe('onMessageHandler', () => {
   }
 
   beforeEach(() => {
+    jest.clearAllMocks()
     spyOn(console, 'log')
   })
 
@@ -35,54 +35,6 @@ describe('onMessageHandler', () => {
       )
       onMessageHandler(store, JSON.stringify(newPayload), progress)
       expect(console.log).toHaveBeenCalled()
-    })
-  })
-
-  describe('AUTHENTICATE_USER', () => {
-    describe('when we have a token', () => {
-      it('handles workflow', () => {
-        const newPayload = {
-          key: AuthApi.AUTHENTICATE_USER,
-          data: {
-            token: 'jwt_token',
-            user: { username: 'user123' }
-          }
-        }
-        spyOn(actions, 'updateToken')
-        spyOn(actions, 'storeUser')
-        spyOn(State, 'loadInitial')
-        onMessageHandler(store, JSON.stringify(newPayload), progress)
-        expect(actions.updateToken).toHaveBeenCalledWith(newPayload.data.token)
-        expect(actions.storeUser).toHaveBeenCalledWith(newPayload.data.user)
-        expect(State.loadInitial).toHaveBeenCalledWith(store)
-      })
-    })
-
-    describe('when we do not have a token', () => {
-      it('does not need to reload state', () => {
-        const newPayload = {
-          key: AuthApi.AUTHENTICATE_USER,
-          data: {
-            user: { username: 'user123' }
-          }
-        }
-        spyOn(actions, 'updateToken')
-        spyOn(actions, 'storeUser')
-        spyOn(State, 'loadInitial')
-        onMessageHandler(store, JSON.stringify(newPayload), progress)
-        expect(State.loadInitial).not.toHaveBeenCalled()
-      })
-    })
-  })
-
-  describe('AUTHENTICATION_ERROR', () => {
-    it('handles unknown message', () => {
-      const newPayload = {
-        key: AuthApi.AUTHENTICATION_ERROR,
-        data: 'data'
-      }
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
-      expect(console.log).toHaveBeenCalledWith('AUTHENTICATION_ERROR: data')
     })
   })
 
@@ -231,7 +183,7 @@ describe('onMessageHandler', () => {
   })
 
   describe('GET_VOLUME', () => {
-    it('handles resolving', () => {
+    it('works', () => {
       const newPayload = {
         data: 32,
         key: MopidyApi.GET_VOLUME
@@ -243,7 +195,7 @@ describe('onMessageHandler', () => {
   })
 
   describe('GET_VOLUME', () => {
-    it('handles resolving', () => {
+    it('works', () => {
       const newPayload = {
         data: 32,
         key: MopidyApi.EVENT_VOLUME_CHANGED
@@ -251,6 +203,19 @@ describe('onMessageHandler', () => {
       spyOn(actions, 'updateVolume')
       onMessageHandler(store, JSON.stringify(newPayload), progress)
       expect(actions.updateVolume).toHaveBeenCalledWith(32)
+    })
+  })
+
+  describe('AUTHENTICATION_TOKEN_INVALID', () => {
+    it('works', () => {
+      const newPayload = {
+        data: { error: 'boom' },
+        key: AuthApi.AUTHENTICATION_TOKEN_INVALID
+      }
+      spyOn(actions, 'clearToken')
+      onMessageHandler(store, JSON.stringify(newPayload), progress)
+      expect(actions.clearToken).toHaveBeenCalled()
+      expect(console.log).toHaveBeenCalledWith('AUTHENTICATION_TOKEN_INVALID: boom')
     })
   })
 })
