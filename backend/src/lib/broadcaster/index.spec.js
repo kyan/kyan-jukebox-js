@@ -39,7 +39,7 @@ describe('Broadcaster', () => {
         emit: sendMock
       }
       const payload = {
-        user_id: '123456abcdefg',
+        user: { _id: '123' },
         encoded_key: 'mopidy::playback.next'
       }
       const message = 'hello mum'
@@ -51,7 +51,7 @@ describe('Broadcaster', () => {
         .toEqual('{"key":"mopidy::playback.next","data":"hello mum"}')
       expect(EventLogger.mock.calls[0][0]).toEqual({
         encoded_key: 'mopidy::playback.next',
-        user_id: '123456abcdefg'
+        user: { _id: '123' }
       })
       expect(EventLogger.mock.calls[0][1]).toBeNull()
       expect(EventLogger.mock.calls[0][2]).toEqual('hello mum')
@@ -65,7 +65,7 @@ describe('Broadcaster', () => {
         emit: sendMock
       }
       const payload = {
-        user_id: '123456abcdefg',
+        user: { _id: '123' },
         encoded_key: 'mopidy::playback.next'
       }
       const message = 'hello mum'

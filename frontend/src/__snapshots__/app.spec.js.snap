@@ -12,32 +12,17 @@ exports[`App renders without crashing 1`] = `
     }
   }
 >
-  <PersistGate
-    loading={null}
-    persistor={
-      Object {
-        "dispatch": [Function],
-        "flush": [Function],
-        "getState": [Function],
-        "pause": [Function],
-        "persist": [Function],
-        "purge": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-        Symbol(observable): [Function],
-      }
-    }
+  <Container
+    fluid={true}
   >
-    <Container
-      fluid={true}
-    >
+    <ContextProvider>
       <ErrorBoundary>
         <_class
           options={Object {}}
         />
         <DragDropContext(Dashboard) />
       </ErrorBoundary>
-    </Container>
-  </PersistGate>
+    </ContextProvider>
+  </Container>
 </Provider>
 `;

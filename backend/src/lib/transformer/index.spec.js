@@ -136,22 +136,6 @@ describe('Transformer', () => {
     })
   })
 
-  describe('authenticateUser', () => {
-    const data = 'data'
-
-    it('does the right thing', () => {
-      expect(Transformer('auth::authenticateUser', data)).toEqual(data)
-    })
-  })
-
-  describe('authenticationError', () => {
-    const data = 'data'
-
-    it('does the right thing', () => {
-      expect(Transformer('auth::authenticationError', data)).toEqual(data)
-    })
-  })
-
   describe('unknown', () => {
     const data = 'data'
 

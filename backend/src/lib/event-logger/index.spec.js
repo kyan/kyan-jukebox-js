@@ -12,7 +12,7 @@ describe('EventLogger', () => {
   it('creates an event for a valid key', () => {
     spyOn(Event, 'create')
     EventLogger(
-      { encoded_key: 'mopidy::mixer.setVolume', jwt_token: '123', user_id: 321 },
+      { encoded_key: 'mopidy::mixer.setVolume', jwt_token: '123', user: { _id: 321 } },
       'request',
       'response'
     )
@@ -30,7 +30,7 @@ describe('EventLogger', () => {
   it('creates an event with a custom label', () => {
     spyOn(Event, 'create')
     EventLogger(
-      { encoded_key: 'mopidy::mixer.setVolume', jwt_token: '123', user_id: 321 },
+      { encoded_key: 'mopidy::mixer.setVolume', jwt_token: '123', user: { _id: 321 } },
       'request',
       'response',
       'MyLabel'

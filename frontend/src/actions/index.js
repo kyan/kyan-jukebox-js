@@ -1,16 +1,7 @@
 import MopidyApi from '../constants/mopidy-api'
-import AuthAPI from '../constants/auth-api'
 import Types from '../constants'
 import notify from '../utils/notify'
 import { transformUrl } from '../utils/spotify'
-
-export const authenticate = username => {
-  return {
-    type: Types.SEND,
-    key: AuthAPI.AUTHENTICATE_USER,
-    params: { 'username': username }
-  }
-}
 
 export const updateToken = token => {
   return {
@@ -19,17 +10,9 @@ export const updateToken = token => {
   }
 }
 
-export const updateUsername = username => {
+export const clearToken = () => {
   return {
-    type: Types.STORE_USERNAME,
-    username
-  }
-}
-
-export const storeUser = user => {
-  return {
-    type: Types.STORE_USER,
-    user
+    type: Types.CLEAR_STORE_TOKEN
   }
 }
 
@@ -221,17 +204,5 @@ export const setVolume = (volume) => {
     type: Types.SEND,
     key: MopidyApi.SET_VOLUME,
     params: [Number(volume)]
-  }
-}
-
-export const toggleStreamingState = () => {
-  return {
-    type: Types.UPDATE_RADIO_STREAM_STATE
-  }
-}
-
-export const toggleSettings = () => {
-  return {
-    type: Types.TOGGLE_SETTINGS
   }
 }

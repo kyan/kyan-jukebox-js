@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
 
 const userSchema = mongoose.Schema({
-  fullname: String,
-  username: String
-})
+  _id: String,
+  fullname: String
+}, { _id: false })
 const User = mongoose.model('User', userSchema)
 
 export default User
