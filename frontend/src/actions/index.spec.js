@@ -1,21 +1,10 @@
 import * as actions from './index'
 import MopidyApi from '../constants/mopidy-api'
-import AuthAPI from '../constants/auth-api'
 import Types from '../constants'
 import notify from '../utils/notify'
 jest.mock('../utils/notify')
 
 describe('actions', () => {
-  it('should handle authenticate', () => {
-    const username = 'user123'
-    const expectedAction = {
-      type: Types.SEND,
-      key: AuthAPI.AUTHENTICATE_USER,
-      params: { 'username': username }
-    }
-    expect(actions.authenticate(username)).toEqual(expectedAction)
-  })
-
   it('should handle updateToken', () => {
     const token = 'token'
     const expectedAction = {
@@ -23,24 +12,6 @@ describe('actions', () => {
       token
     }
     expect(actions.updateToken(token)).toEqual(expectedAction)
-  })
-
-  it('should handle updateToken', () => {
-    const username = 'user123'
-    const expectedAction = {
-      type: Types.STORE_USERNAME,
-      username
-    }
-    expect(actions.updateUsername(username)).toEqual(expectedAction)
-  })
-
-  it('should handle storeUser', () => {
-    const user = {}
-    const expectedAction = {
-      type: Types.STORE_USER,
-      user
-    }
-    expect(actions.storeUser(user)).toEqual(expectedAction)
   })
 
   it('should handle addNewTrack', () => {
@@ -272,19 +243,5 @@ describe('actions', () => {
       params: [32]
     }
     expect(actions.setVolume(32)).toEqual(expectedAction)
-  })
-
-  it('should handle toggleSettings', () => {
-    const expectedAction = {
-      type: Types.TOGGLE_SETTINGS
-    }
-    expect(actions.toggleSettings()).toEqual(expectedAction)
-  })
-
-  it('should handle toggleStreamingState', () => {
-    const expectedAction = {
-      type: Types.UPDATE_RADIO_STREAM_STATE
-    }
-    expect(actions.toggleStreamingState()).toEqual(expectedAction)
   })
 })

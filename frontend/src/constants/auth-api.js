@@ -1,4 +1,3 @@
 export default {
-  AUTHENTICATE_USER: 'auth::authenticateUser',
-  AUTHENTICATION_ERROR: 'auth::authenticationError'
+  AUTHENTICATION_TOKEN_INVALID: 'auth::authenticationTokenInvalid'
 }

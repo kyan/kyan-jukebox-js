@@ -9,8 +9,7 @@ describe('test mongoose User model', () => {
   it('should return the user with findById', () => {
     const _doc = {
       _id: '507f191e810c19729de860ea',
-      fullname: 'name',
-      username: 'username'
+      fullname: 'name'
     }
 
     mockingoose.User.toReturn(_doc, 'findOne')

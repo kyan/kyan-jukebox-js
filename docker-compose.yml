@@ -17,6 +17,7 @@ services:
       - PORT=3001
       - REACT_APP_WS_URL=localhost
       - REACT_APP_WS_PORT=8080
+      - REACT_APP_CLIENT_ID=${CLIENT_ID}
   jukebox-api:
     container_name: jukebox-api
     build:
@@ -40,11 +41,11 @@ services:
       - WS_MOPIDY_URL=${WS_MOPIDY_URL}
       - WS_MOPIDY_PORT=${WS_MOPIDY_PORT}
       - MONGODB_URL=mongodb://mongodb:27017/jb-dev
-      - JWT_SECRET=secretshh
       - SPOTIFY_ID=${SPOTIFY_ID}
       - SPOTIFY_SECRET=${SPOTIFY_SECRET}
       - SPOTIFY_NEW_TRACKS_ADDED_LIMIT=3
       - LOCAL_STORAGE_PATH=./local-cache
+      - CLIENT_ID=${CLIENT_ID}
   mongodb:
     image: mongo:3.6.4
     container_name: mongodb
@@ -55,7 +56,3 @@ services:
       - ./data/db:/data/db
     ports:
       - 27017:27017
-  mongodb-seed:
-    build: ./db-seed
-    links:
-      - mongodb

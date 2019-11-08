@@ -3,6 +3,7 @@ import logger from '../../../config/winston'
 
 const mongodbUrl = process.env.MONGODB_URL
 const options = {
+  useFindAndModify: false,
   reconnectTries: Number.MAX_VALUE,
   reconnectInterval: 500,
   poolSize: 10,

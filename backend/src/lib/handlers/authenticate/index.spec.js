@@ -1,60 +1,208 @@
-import jwt from 'jsonwebtoken'
+import { OAuth2Client } from 'google-auth-library'
+import User from '../../services/mongodb/models/user'
+import logger from '../../../config/winston'
 import AuthenticateHandler from './index'
+jest.mock('google-auth-library')
+jest.mock('../../../config/winston')
 
 describe('AuthenticateHandler', () => {
-  const ws = jest.fn()
-  const cb = jest.fn()
+  const wsMock = jest.fn()
+  const cbMock = jest.fn()
   const broadcastMock = jest.fn()
   const broadcasterMock = {
     to: broadcastMock
   }
 
-  it('handles a non authorised request ', () => {
-    spyOn(jwt, 'verify')
-    const payload = {
-      encoded_key: 'mopidy::anonauthevent'
-    }
-    AuthenticateHandler(payload, ws, broadcasterMock, cb)
-    expect(jwt.verify).not.toBeCalled()
-    expect(cb.mock.calls.length).toEqual(1)
-    expect(cb.mock.calls[0][0]).toEqual(payload)
-    expect(broadcastMock.mock.calls.length).toEqual(0)
+  beforeEach(() => {
+    jest.clearAllMocks()
   })
 
-  describe('With an authorised request', () => {
-    it('handles a invalid JWT_TOKEN', () => {
-      const payload = {
-        jwt_token: 'jwt_token',
-        encoded_key: 'mopidy::tracklist.add'
+  it('handles successfully request', done => {
+    expect.assertions(3)
+
+    const payload = {
+      encoded_key: 'mopidy::mixer.setVolume',
+      key: 'mixer.setVolume',
+      data: ['12'],
+      jwt_token: 'somevalidjwttoken'
+    }
+
+    OAuth2Client.mockImplementation(() => {
+      return {
+        verifyIdToken: jest.fn()
+          .mockResolvedValue({
+            getPayload: jest.fn().mockImplementationOnce(() => ({
+              sub: 'abcdefg123456',
+              name: 'Duncan Robotson',
+              hd: 'kyanmedia.com'
+            }))
+          })
       }
-      AuthenticateHandler(payload, ws, broadcasterMock, cb)
-      expect(broadcastMock.mock.calls.length).toEqual(1)
-      expect(broadcastMock.mock.calls[0][0]).toEqual(ws)
-      expect(broadcastMock.mock.calls[0][1]).toEqual(payload)
-      expect(broadcastMock.mock.calls[0][2]).toEqual(
-        { error: 'jwt malformed' }
-      )
-      expect(cb.mock.calls.length).toEqual(0)
     })
 
-    it('handles a valid JWT_TOKEN', () => {
-      const data = {
-        _id: 'user123',
-        encoded_key: 'mopidy::tracklist.add'
+    jest.spyOn(User, 'findOneAndUpdate')
+      .mockImplementation(() => Promise.resolve(true))
+
+    AuthenticateHandler(payload, wsMock, broadcasterMock, cbMock)
+
+    setTimeout(() => {
+      try {
+        expect(cbMock.mock.calls).toEqual([[{
+          data: ['12'],
+          encoded_key: 'mopidy::mixer.setVolume',
+          key: 'mixer.setVolume',
+          token: 'somevalidjwttoken',
+          user: {
+            _id: 'abcdefg123456',
+            fullname: 'Duncan Robotson'
+          }
+        }]])
+        expect(broadcastMock.mock.calls.length).toBe(0)
+        expect(User.findOneAndUpdate.mock.calls[0]).toEqual([
+          { _id: 'abcdefg123456' },
+          { _id: 'abcdefg123456', 'fullname': 'Duncan Robotson' },
+          { new: true, 'setDefaultsOnInsert': true, 'upsert': true }])
+        done()
+      } catch (err) {
+        done.fail(err)
       }
-      const token = jwt.sign(data, process.env.JWT_SECRET)
-      const payload = {
-        jwt_token: token,
-        encoded_key: 'mopidy::tracklist.add'
+    })
+  })
+
+  it('handles verify error', done => {
+    expect.assertions(5)
+
+    const payload = {
+      encoded_key: 'mopidy::mixer.setVolume',
+      key: 'mixer.setVolume',
+      data: ['12'],
+      jwt_token: 'somevalidjwttoken'
+    }
+
+    OAuth2Client.mockImplementation(() => {
+      return {
+        verifyIdToken: jest.fn()
+          .mockRejectedValue({ message: 'authError' })
       }
-      AuthenticateHandler(payload, ws, broadcasterMock, cb)
-      expect(broadcastMock.mock.calls.length).toEqual(0)
-      expect(cb.mock.calls.length).toEqual(1)
-      expect(cb.mock.calls[0][0]).toEqual({
-        jwt_token: token,
-        encoded_key: 'mopidy::tracklist.add',
-        user_id: data._id
-      })
+    })
+
+    AuthenticateHandler(payload, wsMock, broadcasterMock, cbMock)
+
+    setTimeout(() => {
+      try {
+        expect(cbMock.mock.calls.length).toBe(0)
+        expect(User.findOneAndUpdate).not.toHaveBeenCalled()
+        expect(broadcastMock.mock.calls[0][0]).toEqual(wsMock)
+        expect(broadcastMock.mock.calls[0][1]).toEqual(payload)
+        expect(broadcastMock.mock.calls[0][2]).toEqual({ error: 'authError' })
+        done()
+      } catch (err) {
+        done.fail(err)
+      }
+    })
+  })
+
+  it('handles incorrect domain', done => {
+    expect.assertions(5)
+
+    const payload = {
+      encoded_key: 'mopidy::mixer.setVolume',
+      key: 'mixer.setVolume',
+      data: ['12'],
+      jwt_token: 'somevalidjwttoken'
+    }
+
+    OAuth2Client.mockImplementation(() => {
+      return {
+        verifyIdToken: jest.fn()
+          .mockResolvedValue({
+            getPayload: jest.fn().mockImplementationOnce(() => ({
+              sub: 'abcdefg123456',
+              name: 'Fred Spanner',
+              hd: 'madeup.com'
+            }))
+          })
+      }
+    })
+
+    jest.spyOn(User, 'findOneAndUpdate')
+
+    AuthenticateHandler(payload, wsMock, broadcasterMock, cbMock)
+
+    setTimeout(() => {
+      try {
+        expect(cbMock.mock.calls.length).toBe(0)
+        expect(User.findOneAndUpdate).not.toHaveBeenCalled()
+        expect(broadcastMock.mock.calls[0][0]).toEqual(wsMock)
+        expect(broadcastMock.mock.calls[0][1]).toEqual(payload)
+        expect(broadcastMock.mock.calls[0][2]).toEqual({ error: 'Invalid domain: madeup.com' })
+        done()
+      } catch (err) {
+        done.fail(err)
+      }
+    })
+  })
+
+  it('handles non-autherised requests', () => {
+    expect.assertions(2)
+
+    const payload = {
+      encoded_key: 'mopidy::somenonauthtask',
+      key: 'somenonauthtask',
+      data: ['12']
+    }
+
+    AuthenticateHandler(payload, wsMock, broadcasterMock, cbMock)
+
+    expect(cbMock.mock.calls).toEqual([[{
+      data: ['12'],
+      encoded_key: 'mopidy::somenonauthtask',
+      key: 'somenonauthtask'
+    }]])
+    expect(broadcastMock.mock.calls.length).toBe(0)
+  })
+
+  it('handles User.findOneAndUpdate error', done => {
+    expect.assertions(4)
+
+    const payload = {
+      encoded_key: 'mopidy::mixer.setVolume',
+      key: 'mixer.setVolume',
+      data: ['12'],
+      jwt_token: 'somevalidjwttoken'
+    }
+
+    OAuth2Client.mockImplementation(() => {
+      return {
+        verifyIdToken: jest.fn()
+          .mockResolvedValue({
+            getPayload: jest.fn().mockImplementationOnce(() => ({
+              sub: 'abcdefg123456',
+              name: 'Fred Spanner',
+              hd: 'kyanmedia.com'
+            }))
+          })
+      }
+    })
+
+    jest.spyOn(User, 'findOneAndUpdate')
+      .mockImplementation(() => Promise.reject(new Error('bang')))
+
+    AuthenticateHandler(payload, wsMock, broadcasterMock, cbMock)
+
+    setTimeout(() => {
+      try {
+        expect(cbMock.mock.calls.length).toBe(0)
+        expect(User.findOneAndUpdate.mock.calls[0]).toEqual([
+          { _id: 'abcdefg123456' },
+          { _id: 'abcdefg123456', 'fullname': 'Fred Spanner' },
+          { new: true, 'setDefaultsOnInsert': true, 'upsert': true }])
+        expect(broadcastMock).not.toHaveBeenCalled()
+        expect(logger.error.mock.calls).toEqual([['Error checking user', { error: 'bang' }]])
+        done()
+      } catch (err) {
+        done.fail(err)
+      }
     })
   })
 })

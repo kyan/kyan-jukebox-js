@@ -1,4 +1,5 @@
 import { LocalStorage } from 'node-localstorage'
+import SettingsConstants from '../constants/settings'
 
 const storage = new LocalStorage(process.env.LOCAL_STORAGE_PATH)
 
@@ -12,6 +13,11 @@ const Settings = {
   },
   removeItem: (key) => storage.removeItem(key),
   clearAll: () => storage.clear(),
+  clearCurrent: () => {
+    return (
+      storage.removeItem(SettingsConstants.TRACK_CURRENT) && storage.removeItem(SettingsConstants.TRACKLIST_CURRENT)
+    )
+  },
   addToUniqueArray: (key, value, limit) => {
     let ary = Settings.getItem(key) || []
     if (ary.constructor !== Array) {

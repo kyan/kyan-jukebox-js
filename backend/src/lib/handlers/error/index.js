@@ -1,9 +1,8 @@
 import logger from '../../../config/winston'
 
 function error (e) {
-  if (e.code === 'ECONNRESET') {
-    // A client disconnected un-gracefully
-  } else {
+  // Handle non connection errors
+  if (!['ECONNREFUSED', 'ECONNRESET'].includes(e.code)) {
     throw e
   }
 }

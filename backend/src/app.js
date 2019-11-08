@@ -16,7 +16,7 @@ app.use(function (_req, res) { res.send({ msg: 'WebSocket Only!' }) })
 app.use(morgan('combined', { stream: winston.stream }))
 
 const server = http.createServer(app)
-const wss = io(server)
+const wss = io(server, { pingTimeout: 30000 })
 
 MongodbService()
 
@@ -30,6 +30,14 @@ MopidyService(wss, mopidy => {
       MessageTriage(payload, mopidy, handler => {
         handler(socket, Broadcaster)
       })
+    })
+  })
+
+  process.on('SIGTERM', function () {
+    if (mopidy.playback) mopidy.playback.pause()
+
+    server.close(function () {
+      process.exit(0)
     })
   })
 })

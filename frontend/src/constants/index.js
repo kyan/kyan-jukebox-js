@@ -11,11 +11,8 @@ export default {
   RESOLVE_IMAGE: 'actionResolveImage',
   SEND: 'actionSend',
   STORE_TOKEN: 'actionStoreToken',
-  STORE_USERNAME: 'actionStoreUserName',
-  STORE_USER: 'actionStoreUser',
-  TOGGLE_SETTINGS: 'actionToggleSettings',
+  CLEAR_STORE_TOKEN: 'actionClearStoreToken',
   UPDATE_VOLUME: 'actionUpdateVolume',
   UPDATE_PLAYBACK_STATE: 'actionPlaybackState',
-  UPDATE_PROGRESS_TIMER: 'actionUpdateProgressTimer',
-  UPDATE_RADIO_STREAM_STATE: 'updateRadioStreamState'
+  UPDATE_PROGRESS_TIMER: 'actionUpdateProgressTimer'
 }
