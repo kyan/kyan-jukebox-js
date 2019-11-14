@@ -47,12 +47,22 @@ const MopidyService = (io, callback) => {
   Object.values(MopidyConstants.EVENTS).forEach(encodedKey => {
     const key = Payload.decodeKey(encodedKey).pop()
 
-    mopidy.on(key, data => {
-      const unifiedMessage = Transformer(encodedKey, data, mopidy)
-      const payload = Payload.encodeToJson(encodedKey, unifiedMessage)
+    mopidy.on(key, message => {
+      const packAndSend = (data, key) => {
+        const unifiedMessage = Transformer(key, data, mopidy)
+        const payload = Payload.encodeToJson(key, unifiedMessage)
+        io.send(payload)
+        EventLogger({ encoded_key: key }, null, message, 'MopidyEvent')
+      }
 
-      EventLogger({ encoded_key: encodedKey }, null, data, 'MopidyEvent')
-      io.send(payload)
+      if (encodedKey === MopidyConstants.EVENTS.TRACKLIST_CHANGED) {
+        mopidy.tracklist.getTracks()
+          .then(response => {
+            packAndSend(response, MopidyConstants.GET_TRACKS)
+          })
+      } else {
+        packAndSend(message, encodedKey)
+      }
     })
   })
 
