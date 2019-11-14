@@ -51,11 +51,6 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
       className=""
     >
       <ListHeader
-        as="h5"
-      >
-        2:18
-      </ListHeader>
-      <ListHeader
         as="h4"
       >
         Silent Running
@@ -118,18 +113,13 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
       className="remove-image"
       inline={true}
       onClick={[Function]}
-      size="mini"
+      size="tiny"
       src="default-artwork.png"
       ui={true}
     />
     <ListContent
       className=""
     >
-      <ListHeader
-        as="h5"
-      >
-        2:18
-      </ListHeader>
       <ListHeader
         as="h4"
       >
