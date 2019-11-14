@@ -21,33 +21,31 @@ const currentImage = (image) => (
   />
 )
 
-const revealImage = (image, uri, onRemoveTrack) => (
-  <Image
-    className='remove-image'
-    size='mini'
-    src={image}
-    inline
-    onClick={removeTrack(uri, onRemoveTrack)}
-  />
-)
+const revealImage = (image, uri, onRemoveTrack, beenPlayed) => {
+  const size = beenPlayed ? 'tiny' : 'mini'
+  return (
+    <Image
+      className='remove-image'
+      size={size}
+      src={image}
+      inline
+      onClick={removeTrack(uri, onRemoveTrack)}
+    />
+  )
+}
 
 const removeTrack = (uri, cb) => {
   return () => cb(uri)
 }
 
-const imageChooser = (disabled, track, images, isCurrent, onRemoveTrack) => {
+const imageChooser = (disabled, track, images, isCurrent, onRemoveTrack, beenPlayed) => {
   let image
   if (images && track.album) image = images[track.album.uri]
   if (images && track.composer) image = images[track.composer.uri]
   if (!image) image = defaultImage
   if (disabled) { return currentImage(image) }
 
-  return isCurrent ? currentImage(image) : revealImage(image, track.uri, onRemoveTrack)
-}
-
-const trackStartTime = (time, isCurrent) => {
-  if (!time || isCurrent) return null
-  return <List.Header as='h5'>{dateformat(new Date(time), 'h:MM')}</List.Header>
+  return isCurrent ? currentImage(image) : revealImage(image, track.uri, onRemoveTrack, beenPlayed)
 }
 
 const trackHeading = (track) => (
@@ -73,11 +71,10 @@ const listItems = (disabled, tracks, images, currentTrack, onRemoveTrack) => {
         className={classnames({ 'current-track': isCurrent })}
         key={`${index}-${track.uri}`}
       >
-        { imageChooser(disabled, track, images, isCurrent, onRemoveTrack) }
+        { imageChooser(disabled, track, images, isCurrent, onRemoveTrack, time) }
         <List.Content
           className={classnames({ 'track-info': !time })}
         >
-          {trackStartTime(time, isCurrent)}
           {trackHeading(track)}
           {trackDescription(track)}
         </List.Content>
