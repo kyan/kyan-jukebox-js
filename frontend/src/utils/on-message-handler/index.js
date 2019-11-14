@@ -58,9 +58,6 @@ const onMessageHandler = (store, payload, progressTimer) => {
     case MopidyApi.PLAYBACK_GET_PLAYBACK_STATE:
       playBackChanged(store, data, progressTimer)
       break
-    case MopidyApi.EVENT_TRACKLIST_CHANGED:
-      store.dispatch(actions.getTrackList())
-      break
     case MopidyApi.TRACKLIST_GET_TRACKS:
       addTrackList(data, store)
       break

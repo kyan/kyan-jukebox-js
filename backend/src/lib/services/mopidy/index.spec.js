@@ -21,6 +21,7 @@ describe('MopidyService', () => {
 
   it('handles call the global events', () => {
     MopidyService(wss, callbackMock)
+
     const instance = Mopidy.mock.instances[0]
     instance.playback = {
       getCurrentTrack: jest.fn()
@@ -31,6 +32,7 @@ describe('MopidyService', () => {
       getTracks: jest.fn()
         .mockImplementationOnce(() => Promise.resolve([{ uri: 'somemadeupuri' }]))
         .mockImplementationOnce(() => Promise.resolve([]))
+        .mockImplementationOnce(() => Promise.resolve('calledaftertracklistchanjged'))
     }
 
     expect(instance.on.mock.calls[0][0]).toEqual('websocket:error')
@@ -51,7 +53,10 @@ describe('MopidyService', () => {
     expect(instance.on.mock.calls[3][0]).toEqual('event:trackPlaybackStarted')
     expect(instance.on.mock.calls[4][0]).toEqual('event:playbackStateChanged')
     expect(instance.on.mock.calls[5][0]).toEqual('event:trackPlaybackResumed')
+
     expect(instance.on.mock.calls[6][0]).toEqual('event:tracklistChanged')
+    instance.on.mock.calls[6][1]()
+
     expect(instance.on.mock.calls[7][0]).toEqual('event:volumeChanged')
     instance.on.mock.calls[7][1]({ volume: '10' })
     expect(EventLogger.mock.calls[0]).toEqual([
