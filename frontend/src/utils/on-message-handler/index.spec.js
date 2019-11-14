@@ -129,18 +129,6 @@ describe('onMessageHandler', () => {
     })
   })
 
-  describe('EVENT_TRACKLIST_CHANGED', () => {
-    it('handles change', () => {
-      const newPayload = Object.assign(
-        payload,
-        { key: MopidyApi.EVENT_TRACKLIST_CHANGED }
-      )
-      spyOn(actions, 'getTrackList')
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
-      expect(actions.getTrackList).toHaveBeenCalled()
-    })
-  })
-
   describe('TRACKLIST_GET_TRACKS', () => {
     it('handles change', () => {
       const newPayload = {
