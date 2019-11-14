@@ -1,8 +1,13 @@
-.track-info {
-  font-size: 80%;
+.ui.list>.item .header {
+  font-size: 1.3em;
+  margin-bottom: 0.1em;
 }
 
 .ui.list>.item .track-info .header {
-  font-size: 1.2em;
+  font-size: 0.8em;
   margin-bottom: 0.2em;
+}
+
+.ui.list>.item .track-info .description {
+  font-size: 0.8em;
 }

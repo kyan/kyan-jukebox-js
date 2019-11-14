@@ -58,8 +58,8 @@ export const Dashboard = () => {
         onPrevious={() => dispatch(actions.previousPlaying())}
       />
       <Divider />
-      <Grid>
-        <Grid.Column width={6}>
+      <Grid columns={2}>
+        <Grid.Column width={4}>
           <DragInTrack
             disabled={!isSignedIn}
             onDrop={
@@ -75,7 +75,7 @@ export const Dashboard = () => {
             <CurrentTrackContainer />
           </DragInTrack>
         </Grid.Column>
-        <Grid.Column width={10}>
+        <Grid.Column width={12}>
           <Header size='small'>
             Playlist <ClearPlaylist
               disabled={!isSignedIn}
