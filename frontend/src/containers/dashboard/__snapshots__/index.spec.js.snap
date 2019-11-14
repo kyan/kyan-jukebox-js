@@ -290,15 +290,17 @@ exports[`Dashboard online logged in renders as expected 1`] = `
               className="ui divider"
             />
           </Divider>
-          <Grid>
+          <Grid
+            columns={2}
+          >
             <div
-              className="ui grid"
+              className="ui two column grid"
             >
               <GridColumn
-                width={6}
+                width={4}
               >
                 <div
-                  className="six wide column"
+                  className="four wide column"
                 >
                   <DragInTrack
                     disabled={false}
@@ -392,10 +394,10 @@ exports[`Dashboard online logged in renders as expected 1`] = `
                 </div>
               </GridColumn>
               <GridColumn
-                width={10}
+                width={12}
               >
                 <div
-                  className="ten wide column"
+                  className="twelve wide column"
                 >
                   <Header
                     size="small"
@@ -794,15 +796,17 @@ exports[`Dashboard online logged out renders as expected 1`] = `
               className="ui divider"
             />
           </Divider>
-          <Grid>
+          <Grid
+            columns={2}
+          >
             <div
-              className="ui grid"
+              className="ui two column grid"
             >
               <GridColumn
-                width={6}
+                width={4}
               >
                 <div
-                  className="six wide column"
+                  className="four wide column"
                 >
                   <DragInTrack
                     disabled={true}
@@ -871,10 +875,10 @@ exports[`Dashboard online logged out renders as expected 1`] = `
                 </div>
               </GridColumn>
               <GridColumn
-                width={10}
+                width={12}
               >
                 <div
-                  className="ten wide column"
+                  className="twelve wide column"
                 >
                   <Header
                     size="small"
