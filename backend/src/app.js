@@ -4,6 +4,7 @@ import io from 'socket.io'
 import morgan from 'morgan'
 import winston from './config/winston'
 import Broadcaster from './lib/broadcaster'
+import Scheduler from './lib/scheduler'
 import Payload from './lib/payload'
 import MopidyService from './lib/services/mopidy'
 import MongodbService from './lib/services/mongodb'
@@ -18,7 +19,13 @@ app.use(morgan('combined', { stream: winston.stream }))
 const server = http.createServer(app)
 const wss = io(server, { pingTimeout: 30000 })
 
+
 MongodbService()
+
+Scheduler.scheduleAutoPlayback({
+  play: () => console.log('play'), // mopidy.playback.play,
+  pause: () => console.log('pause') //mopidy.playback.pause
+})
 
 MopidyService(wss, mopidy => {
   wss.on('connection', socket => {
