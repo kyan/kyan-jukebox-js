@@ -5,7 +5,7 @@ import Controls from './index'
 
 describe('Controls', () => {
   const onPlayMock = jest.fn()
-  const onPauseMock = jest.fn()
+  const onStopMock = jest.fn()
   const onPrevMock = jest.fn()
   const onNextMock = jest.fn()
 
@@ -20,7 +20,7 @@ describe('Controls', () => {
           playbackState={MopidyApi.PAUSED}
           disabled
           onPlay={onPlayMock}
-          onPause={onPauseMock}
+          onStop={onStopMock}
           onPrevious={onPrevMock}
           onNext={onNextMock}
         />
@@ -36,7 +36,7 @@ describe('Controls', () => {
         <Controls
           disabled
           onPlay={onPlayMock}
-          onPause={onPauseMock}
+          onStop={onStopMock}
           onPrevious={onPrevMock}
           onNext={onNextMock}
         />
@@ -53,7 +53,7 @@ describe('Controls', () => {
           playbackState={MopidyApi.PLAYING}
           disabled={false}
           onPlay={onPlayMock}
-          onPause={onPauseMock}
+          onStop={onStopMock}
           onPrevious={onPrevMock}
           onNext={onNextMock}
         />

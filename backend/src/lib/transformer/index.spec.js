@@ -112,6 +112,14 @@ describe('Transformer', () => {
     })
   })
 
+  describe('tracklist.clear', () => {
+    const data = 'data'
+
+    it('does the right thing', () => {
+      expect(Transformer('mopidy::tracklist.clear', data)).toEqual(data)
+    })
+  })
+
   describe('mixer.getVolume', () => {
     const data = 'data'
 

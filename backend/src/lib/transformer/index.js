@@ -42,12 +42,11 @@ export default function (key, data, mopidy) {
       settings.setItem(Settings.TRACKLIST_CURRENT, tracks.map(data => data.track.uri))
       return tracks
     case Mopidy.EVENTS.TRACKLIST_CHANGED:
-      clearSetTimeout(recommendTimer)
-      return data
     case Mopidy.TRACKLIST_ADD:
+    case Mopidy.PLAYBACK_NEXT:
+    case Mopidy.PLAYBACK_PREVIOUS:
       clearSetTimeout(recommendTimer)
       return data
-    case Mopidy.PLAYBACK_NEXT:
     case Mopidy.TRACKLIST_CLEAR:
     case Mopidy.TRACKLIST_REMOVE:
     case Auth.AUTHENTICATION_TOKEN_INVALID:

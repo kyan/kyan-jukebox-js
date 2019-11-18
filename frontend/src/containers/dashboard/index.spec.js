@@ -46,7 +46,7 @@ describe('Dashboard', () => {
 
         const control = wrapper.find('Controls')
         expect(control.prop('onPlay')()).toEqual(actions.startPlaying())
-        expect(control.prop('onPause')()).toEqual(actions.pausePlaying())
+        expect(control.prop('onStop')()).toEqual(actions.stopPlaying())
         expect(control.prop('onNext')()).toEqual(actions.nextPlaying())
         expect(control.prop('onPrevious')()).toEqual(actions.previousPlaying())
 
@@ -80,7 +80,7 @@ describe('Dashboard', () => {
 
         const control = wrapper.find('Controls')
         expect(control.prop('onPlay')()).toEqual(actions.startPlaying())
-        expect(control.prop('onPause')()).toEqual(actions.pausePlaying())
+        expect(control.prop('onStop')()).toEqual(actions.stopPlaying())
         expect(control.prop('onNext')()).toEqual(actions.nextPlaying())
         expect(control.prop('onPrevious')()).toEqual(actions.previousPlaying())
 

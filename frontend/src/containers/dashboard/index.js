@@ -53,7 +53,7 @@ export const Dashboard = () => {
         disabled={!isSignedIn}
         playbackState={jukebox.playbackState}
         onPlay={() => dispatch(actions.startPlaying())}
-        onPause={() => dispatch(actions.pausePlaying())}
+        onStop={() => dispatch(actions.stopPlaying())}
         onNext={() => dispatch(actions.nextPlaying())}
         onPrevious={() => dispatch(actions.previousPlaying())}
       />
