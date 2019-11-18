@@ -4,7 +4,7 @@ import Types from '../../constants'
 const initalState = {
   online: false,
   volume: 0,
-  playbackState: MopidyApi.PAUSED
+  playbackState: MopidyApi.STOPPED
 }
 
 const jukebox = (state = initalState, action) => {

@@ -19,22 +19,22 @@ const playButton = (cb, playbackState, disabled) => (
   </Button>
 )
 
-const pauseButton = (cb, playbackState, disabled) => (
+const stopButton = (cb, playbackState, disabled) => (
   <Button
     onClick={cb}
     animated='vertical'
-    disabled={(playbackState === MopidyApi.PAUSED || disabled)}
-    active={(playbackState === MopidyApi.PAUSED)}
-    className='jb-pause-button'
+    disabled={(playbackState === MopidyApi.STOPPED || disabled)}
+    active={(playbackState === MopidyApi.STOPPED)}
+    className='jb-stop-button'
   >
-    <Button.Content hidden>Pause</Button.Content>
+    <Button.Content hidden>Stop</Button.Content>
     <Button.Content visible>
-      <Icon name='pause' />
+      <Icon name='stop' />
     </Button.Content>
   </Button>
 )
 
-const Controls = ({ disabled, playbackState, onPlay, onPause, onPrevious, onNext }) => {
+const Controls = ({ disabled, playbackState, onPlay, onStop, onPrevious, onNext }) => {
   return (
     <span>
       <SkipButtons
@@ -43,7 +43,7 @@ const Controls = ({ disabled, playbackState, onPlay, onPause, onPrevious, onNext
         onNext={onNext}
       />
       {playButton(onPlay, playbackState, disabled)}
-      {pauseButton(onPause, playbackState, disabled)}
+      {stopButton(onStop, playbackState, disabled)}
     </span>
   )
 }
@@ -52,7 +52,7 @@ Controls.propTypes = {
   disabled: PropTypes.bool,
   playbackState: PropTypes.string,
   onPlay: PropTypes.func.isRequired,
-  onPause: PropTypes.func.isRequired,
+  onStop: PropTypes.func.isRequired,
   onPrevious: PropTypes.func.isRequired,
   onNext: PropTypes.func.isRequired
 }

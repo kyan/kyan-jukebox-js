@@ -16,6 +16,11 @@ const MopidyService = (io, callback) => {
     webSocketUrl: `ws://${mopidyUrl}:${mopidyPort}/mopidy/ws/`,
     callingConvention: 'by-position-or-by-name'
   })
+
+  const cacheTrackUris = (tracks) => (
+    storage.setItem(Settings.TRACKLIST_CURRENT, tracks.map(track => track.uri))
+  )
+
   const initCurrentTrackState = (mopidy) => {
     storage.clearCurrent()
 
@@ -24,7 +29,7 @@ const MopidyService = (io, callback) => {
       mopidy.tracklist.getTracks()
     ]).then(responses => {
       if (responses[0]) storage.setItem(Settings.TRACK_CURRENT, responses[0].uri)
-      storage.setItem(Settings.TRACKLIST_CURRENT, responses[1].map(track => track.uri))
+      cacheTrackUris(responses[1])
       trackListTrimmer(mopidy)
     })
   }
@@ -57,8 +62,10 @@ const MopidyService = (io, callback) => {
 
       if (encodedKey === MopidyConstants.EVENTS.TRACKLIST_CHANGED) {
         mopidy.tracklist.getTracks()
-          .then(response => {
-            packAndSend(response, MopidyConstants.GET_TRACKS)
+          .then(tracks => {
+            packAndSend(tracks, MopidyConstants.GET_TRACKS)
+            cacheTrackUris(tracks)
+            trackListTrimmer(mopidy)
           })
       } else {
         packAndSend(message, encodedKey)

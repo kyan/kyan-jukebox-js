@@ -1,25 +1,21 @@
-import * as actions from '../../actions'
+import configureStore from 'redux-mock-store'
 import MopidyApi from '../../constants/mopidy-api'
 import AuthApi from '../../constants/auth-api'
 import onMessageHandler from './index'
 import MockTrackListJson from '../../__mockData__/api'
+import notify from '../../utils/notify'
+jest.mock('../../utils/notify')
 
 describe('onMessageHandler', () => {
-  const myDispatchMock = jest.fn()
+  const mockStore = configureStore()
   const progressStartMock = jest.fn()
   const progressStopMock = jest.fn()
-  const store = { dispatch: myDispatchMock }
   const progress = {
     set: (start, end) => {
       return { start: progressStartMock }
     },
     start: progressStartMock,
     stop: progressStopMock
-  }
-  let payload = {
-    data: {
-      track: MockTrackListJson()[0].track
-    }
   }
 
   beforeEach(() => {
@@ -29,101 +25,176 @@ describe('onMessageHandler', () => {
 
   describe('MESSAGE_NOT_HANDLED', () => {
     it('handles unknown message', () => {
-      const newPayload = Object.assign(
-        payload,
-        { key: 'message_not_handled' }
-      )
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
+      const payload = { key: 'message_not_handled' }
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
       expect(console.log).toHaveBeenCalled()
     })
   })
 
   describe('PLAYBACK_GET_CURRENT_TRACK', () => {
-    it('handles message', () => {
-      const newPayload = Object.assign(
-        payload,
-        { key: MopidyApi.PLAYBACK_GET_CURRENT_TRACK }
-      )
-      spyOn(actions, 'addCurrentTrack')
-      spyOn(actions, 'getImage')
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
-      expect(actions.addCurrentTrack).toHaveBeenCalledWith(newPayload.data.track)
-      expect(actions.getImage).toHaveBeenCalledWith(newPayload.data.track.album.uri)
+    it('checks track playing', () => {
+      const payload = {
+        data: {
+          track: MockTrackListJson()[0].track
+        },
+        key: MopidyApi.PLAYBACK_GET_CURRENT_TRACK
+      }
+      const store = mockStore({
+        jukebox: {
+          playbackState: 'playing'
+        }
+      })
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions[0]).toEqual({
+        track: payload.data.track,
+        type: 'actionAddCurrentTrack'
+      })
+      expect(actions[1]).toEqual({
+        key: 'mopidy::library.getImages',
+        params: [[payload.data.track.album.uri]],
+        type: 'actionSend',
+        uri: payload.data.track.album.uri
+      })
       expect(progressStartMock.mock.calls.length).toEqual(1)
       progressStartMock.mockClear()
     })
 
-    it('handles when no track is actually playing', () => {
-      const newPayload = {
+    it('checks track playing but JB stopped', () => {
+      const payload = {
+        data: {
+          track: MockTrackListJson()[0].track
+        },
+        key: MopidyApi.PLAYBACK_GET_CURRENT_TRACK
+      }
+      const store = mockStore({
+        jukebox: {
+          playbackState: 'stopped'
+        }
+      })
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions[0]).toEqual({
+        track: payload.data.track,
+        type: 'actionAddCurrentTrack'
+      })
+      expect(actions[1]).toEqual({
+        key: 'mopidy::library.getImages',
+        params: [[payload.data.track.album.uri]],
+        type: 'actionSend',
+        uri: payload.data.track.album.uri
+      })
+      expect(progressStartMock.mock.calls.length).toEqual(0)
+      progressStartMock.mockClear()
+    })
+
+    it('checks when no track is actually playing', () => {
+      const payload = {
         data: { track: undefined },
         key: MopidyApi.PLAYBACK_GET_CURRENT_TRACK
       }
-      spyOn(actions, 'addCurrentTrack')
-      spyOn(actions, 'getImage')
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
-      expect(actions.addCurrentTrack).not.toHaveBeenCalled()
-      expect(actions.getImage).not.toHaveBeenCalled()
+      const store = mockStore({
+        jukebox: {
+          playbackState: 'stopped'
+        }
+      })
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions).toEqual([])
       expect(progressStartMock.mock.calls.length).toEqual(0)
       progressStartMock.mockClear()
     })
   })
 
   describe('EVENT_TRACK_PLAYBACK_STARTED', () => {
-    it('handles message', () => {
-      const newPayload = Object.assign(
-        payload,
-        { key: MopidyApi.EVENT_TRACK_PLAYBACK_STARTED }
-      )
-      spyOn(actions, 'addCurrentTrack')
-      spyOn(actions, 'getImage')
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
-      expect(actions.addCurrentTrack).toHaveBeenCalledWith(newPayload.data.track)
-      expect(actions.getImage).toHaveBeenCalledWith(newPayload.data.track.album.uri)
+    it('checks track playing', () => {
+      const payload = {
+        data: {
+          track: MockTrackListJson()[0].track
+        },
+        key: MopidyApi.EVENT_TRACK_PLAYBACK_STARTED
+      }
+      const store = mockStore({
+        jukebox: {
+          playbackState: 'playing'
+        }
+      })
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions[0]).toEqual({
+        track: payload.data.track,
+        type: 'actionAddCurrentTrack'
+      })
+      expect(actions[1]).toEqual({
+        key: 'mopidy::library.getImages',
+        params: [[payload.data.track.album.uri]],
+        type: 'actionSend',
+        uri: payload.data.track.album.uri
+      })
       expect(progressStartMock.mock.calls.length).toEqual(1)
       progressStartMock.mockClear()
     })
   })
 
   describe('EVENT_PLAYBACK_STATE_CHANGED', () => {
-    const newPayload = {
+    const playbackState = (state) => ({
       key: MopidyApi.EVENT_PLAYBACK_STATE_CHANGED,
-      data: undefined
-    }
-
-    afterEach(() => {
-      progressStartMock.mockClear()
-      progressStopMock.mockClear()
+      data: state
     })
 
     it('handles playing', () => {
-      spyOn(actions, 'updatePlaybackState')
-      newPayload.data = 'playing'
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
-      expect(actions.updatePlaybackState).toHaveBeenCalledWith('playing')
+      const payload = playbackState('playing')
+      const store = mockStore({
+        jukebox: {
+          playbackState: 'stopped'
+        }
+      })
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions).toEqual([{ state: 'playing', type: 'actionPlaybackState' }])
       expect(progressStartMock.mock.calls.length).toEqual(1)
+      expect(progressStopMock.mock.calls.length).toEqual(0)
     })
 
     it('handles stopping', () => {
-      spyOn(actions, 'updatePlaybackState')
-      newPayload.data = 'stopped'
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
-      expect(actions.updatePlaybackState).toHaveBeenCalledWith('stopped')
+      const payload = playbackState('stopped')
+      const store = mockStore({
+        jukebox: {
+          playbackState: 'playing'
+        }
+      })
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions).toEqual([{ state: 'stopped', type: 'actionPlaybackState' }])
+      expect(progressStartMock.mock.calls.length).toEqual(0)
       expect(progressStopMock.mock.calls.length).toEqual(1)
     })
 
     it('handles pausing', () => {
-      spyOn(actions, 'updatePlaybackState')
-      newPayload.data = 'paused'
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
-      expect(actions.updatePlaybackState).toHaveBeenCalledWith('paused')
+      const payload = playbackState('paused')
+      const store = mockStore({
+        jukebox: {
+          playbackState: 'playing'
+        }
+      })
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions).toEqual([{ state: 'paused', type: 'actionPlaybackState' }])
+      expect(progressStartMock.mock.calls.length).toEqual(0)
       expect(progressStopMock.mock.calls.length).toEqual(1)
     })
 
-    it('handles state not known', () => {
-      spyOn(actions, 'updatePlaybackState')
-      newPayload.data = 'spinningaround'
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
-      expect(actions.updatePlaybackState).not.toHaveBeenCalled()
+    it('handles weirdstate', () => {
+      const payload = playbackState('wat')
+      const store = mockStore({
+        jukebox: {
+          playbackState: 'playing'
+        }
+      })
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions).toEqual([])
       expect(progressStartMock.mock.calls.length).toEqual(0)
       expect(progressStopMock.mock.calls.length).toEqual(0)
     })
@@ -131,79 +202,127 @@ describe('onMessageHandler', () => {
 
   describe('TRACKLIST_GET_TRACKS', () => {
     it('handles change', () => {
-      const newPayload = {
+      const payload = {
         key: MopidyApi.TRACKLIST_GET_TRACKS,
         data: MockTrackListJson()
       }
-      spyOn(actions, 'addTrackList')
-      spyOn(actions, 'getImage')
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
-      expect(actions.addTrackList).toHaveBeenCalledWith(newPayload.data)
-      expect(actions.getImage).toHaveBeenCalledWith(newPayload.data[0].track.album.uri)
-      expect(actions.getImage).toHaveBeenCalledWith(newPayload.data[1].track.composer.uri)
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions[0]).toEqual({
+        list: payload.data,
+        type: 'actionAddTracks'
+      })
+      expect(actions[1]).toEqual({
+        key: 'mopidy::library.getImages',
+        params: [['spotify:album:5OVGwMCexoHavOar6v4al5']],
+        type: 'actionSend',
+        uri: 'spotify:album:5OVGwMCexoHavOar6v4al5'
+      })
+      expect(actions[2]).toEqual({
+        key: 'mopidy::library.getImages',
+        params: [['local:artist:md5:af20b04e7ff55f56afec2be1f36afe94']],
+        type: 'actionSend',
+        uri: 'local:artist:md5:af20b04e7ff55f56afec2be1f36afe94'
+      })
     })
   })
 
   describe('LIBRARY_GET_IMAGES', () => {
     it('handles resolving', () => {
-      const newPayload = Object.assign(
-        payload,
-        { key: MopidyApi.LIBRARY_GET_IMAGES }
-      )
-      spyOn(actions, 'resolveImage')
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
-      expect(actions.resolveImage).toHaveBeenCalledWith(newPayload.data)
+      const payload = {
+        key: MopidyApi.LIBRARY_GET_IMAGES,
+        data: {
+          track: MockTrackListJson()[0].track
+        }
+      }
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions[0]).toEqual({
+        type: 'actionResolveImage',
+        data: payload.data
+      })
     })
   })
 
   describe('PLAYBACK_GET_TIME_POSITION', () => {
     it('handles resolving', () => {
-      const newPayload = {
+      const payload = {
         data: 4567,
         key: MopidyApi.PLAYBACK_GET_TIME_POSITION
       }
+      const store = mockStore({})
       const progMock = jest.fn()
       const progSetMock = { set: progMock }
-      onMessageHandler(store, JSON.stringify(newPayload), progSetMock)
+      onMessageHandler(store, JSON.stringify(payload), progSetMock)
       expect(progMock.mock.calls.length).toEqual(1)
-      expect(progMock.mock.calls[0][0]).toEqual(newPayload.data)
+      expect(progMock.mock.calls[0][0]).toEqual(payload.data)
     })
   })
 
   describe('GET_VOLUME', () => {
-    it('works', () => {
-      const newPayload = {
+    it('gets the volume', () => {
+      const payload = {
         data: 32,
         key: MopidyApi.GET_VOLUME
       }
-      spyOn(actions, 'updateVolume')
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
-      expect(actions.updateVolume).toHaveBeenCalledWith(32)
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions).toEqual([{ type: 'actionUpdateVolume', volume: 32 }])
     })
   })
 
-  describe('GET_VOLUME', () => {
-    it('works', () => {
-      const newPayload = {
+  describe('EVENT_VOLUME_CHANGED', () => {
+    it('tests when the volume is changed', () => {
+      const payload = {
         data: 32,
         key: MopidyApi.EVENT_VOLUME_CHANGED
       }
-      spyOn(actions, 'updateVolume')
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
-      expect(actions.updateVolume).toHaveBeenCalledWith(32)
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions).toEqual([{ type: 'actionUpdateVolume', volume: 32 }])
+      expect(notify.mock.calls.length).toEqual(1)
     })
   })
 
   describe('AUTHENTICATION_TOKEN_INVALID', () => {
-    it('works', () => {
-      const newPayload = {
+    it('shows when invlid token', () => {
+      const payload = {
         data: { error: 'boom' },
         key: AuthApi.AUTHENTICATION_TOKEN_INVALID
       }
-      spyOn(actions, 'clearToken')
-      onMessageHandler(store, JSON.stringify(newPayload), progress)
-      expect(actions.clearToken).toHaveBeenCalled()
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions).toEqual([{ type: 'actionClearStoreToken' }])
       expect(console.log).toHaveBeenCalledWith('AUTHENTICATION_TOKEN_INVALID: boom')
+    })
+  })
+
+  describe('PLAYBACK_NEXT', () => {
+    it('check when next track is chosen', () => {
+      const payload = {
+        key: MopidyApi.PLAYBACK_NEXT
+      }
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions).toEqual([{ type: 'actionSend', key: 'mopidy::playback.getCurrentTrack' }])
+    })
+  })
+
+  describe('PLAYBACK_BACK', () => {
+    it('check when previous track is chosen', () => {
+      const payload = {
+        key: MopidyApi.PLAYBACK_BACK
+      }
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions).toEqual([{ type: 'actionSend', key: 'mopidy::playback.getCurrentTrack' }])
     })
   })
 })
