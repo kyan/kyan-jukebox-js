@@ -19,17 +19,18 @@ app.use(morgan('combined', { stream: winston.stream }))
 const server = http.createServer(app)
 const wss = io(server, { pingTimeout: 30000 })
 
-
 MongodbService()
-
-Scheduler.scheduleAutoPlayback({
-  play: () => console.log('play'), // mopidy.playback.play,
-  pause: () => console.log('pause') //mopidy.playback.pause
-})
 
 MopidyService(wss, mopidy => {
   wss.on('connection', socket => {
     ErrorsHandler(socket)
+
+    if (mopidy.playback) {
+      Scheduler.scheduleAutoPlayback({
+        play: () => mopidy.playback.play(),
+        stop: () => mopidy.playback.stop()
+      })
+    }
 
     socket.on('message', data => {
       const payload = Payload.decode(data)
