@@ -55,6 +55,7 @@
       "describe",
       "context",
       "before",
+      "beforeAll",
       "beforeEach",
       "after",
       "afterEach",

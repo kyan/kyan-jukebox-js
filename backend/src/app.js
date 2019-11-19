@@ -22,15 +22,14 @@ const wss = io(server, { pingTimeout: 30000 })
 MongodbService()
 
 MopidyService(wss, mopidy => {
+  if (mopidy.playback) {
+    Scheduler.scheduleAutoPlayback({
+      stop: () => mopidy.playback.stop()
+    })
+  }
+
   wss.on('connection', socket => {
     ErrorsHandler(socket)
-
-    if (mopidy.playback) {
-      Scheduler.scheduleAutoPlayback({
-        play: () => mopidy.playback.play(),
-        stop: () => mopidy.playback.stop()
-      })
-    }
 
     socket.on('message', data => {
       const payload = Payload.decode(data)
