@@ -17,7 +17,7 @@ exports[`App renders without crashing 1`] = `
   >
     <ContextProvider>
       <ErrorBoundary>
-        <_class
+        <_default
           options={Object {}}
         />
         <DragDropContext(Dashboard) />
