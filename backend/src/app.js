@@ -41,8 +41,6 @@ MopidyService(wss, mopidy => {
   })
 
   process.on('SIGTERM', function () {
-    if (mopidy.playback) mopidy.playback.stop()
-
     server.close(function () {
       process.exit(0)
     })
