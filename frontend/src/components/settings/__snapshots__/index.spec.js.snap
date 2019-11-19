@@ -32,21 +32,54 @@ exports[`Settinsg render when nonauthorised user renders as expected 1`] = `
     onClick={[Function]}
     title="Login using Google"
   >
-    <button
-      className="ui icon right floated button jb-settings-toggle"
-      onClick={[Function]}
-      title="Login using Google"
+    <Ref
+      innerRef={
+        Object {
+          "current": <button
+            class="ui icon right floated button jb-settings-toggle"
+            title="Login using Google"
+          >
+            <i
+              aria-hidden="true"
+              class="power off icon"
+            />
+          </button>,
+        }
+      }
     >
-      <Icon
-        as="i"
-        name="power off"
+      <RefFindNode
+        innerRef={
+          Object {
+            "current": <button
+              class="ui icon right floated button jb-settings-toggle"
+              title="Login using Google"
+            >
+              <i
+                aria-hidden="true"
+                class="power off icon"
+              />
+            </button>,
+          }
+        }
       >
-        <i
-          aria-hidden="true"
-          className="power off icon"
-        />
-      </Icon>
-    </button>
+        <button
+          className="ui icon right floated button jb-settings-toggle"
+          onClick={[Function]}
+          title="Login using Google"
+        >
+          <Icon
+            as="i"
+            name="power off"
+          >
+            <i
+              aria-hidden="true"
+              className="power off icon"
+              onClick={[Function]}
+            />
+          </Icon>
+        </button>
+      </RefFindNode>
+    </Ref>
   </Button>
 </Settings>
 `;
