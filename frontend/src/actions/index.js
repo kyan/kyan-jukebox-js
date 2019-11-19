@@ -147,7 +147,7 @@ export const clearTrackList = () => {
 }
 
 export const startPlaying = () => {
-  notify(`Jukebox Playing`)
+  notify('Jukebox Playing')
 
   return {
     type: Types.SEND,
@@ -155,12 +155,12 @@ export const startPlaying = () => {
   }
 }
 
-export const pausePlaying = () => {
-  notify(`Jukebox Paused`)
+export const stopPlaying = () => {
+  notify('Jukebox Halted')
 
   return {
     type: Types.SEND,
-    key: MopidyApi.PLAYBACK_PAUSE
+    key: MopidyApi.PLAYBACK_STOP
   }
 }
 

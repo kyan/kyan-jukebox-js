@@ -21,7 +21,7 @@ class UrlDropArea extends Component {
     const { connectDropTarget } = this.props
 
     return connectDropTarget(
-      <div>
+      <div title='Drag in Spotify tracks to add to playlist'>
         { this.props.children }
       </div>
     )

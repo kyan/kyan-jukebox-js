@@ -2,7 +2,6 @@ import logger from '../../../config/winston'
 import MopidyHandler from './index'
 import ImageCache from './image-cache'
 import Spotify from '../../services/spotify'
-import trackListTrimmer from '../../services/mopidy/tracklist-trimmer'
 jest.mock('./image-cache')
 jest.mock('../../../config/winston')
 jest.mock('../../services/spotify')
@@ -112,15 +111,14 @@ describe('MopidyHandler', () => {
       MopidyHandler({ key: payload.key }, ws, broadcasterMock, mopidy)
       ImageCache.check.mock.calls[0][2](null, {})
       expect(broadcastMock.mock.calls.length).toEqual(0)
-      expect(logger.error.mock.calls[0][0]).toEqual('failureHandler: ')
-      expect(logger.error.mock.calls[0][1]).toEqual({ key: 'playback.stop' })
+      expect(logger.error.mock.calls).toEqual([['failureHandler: ', { key: 'playback.stop' }]])
     })
 
     it('should handle api call with no response', () => {
       const mopidy = { playback: { stop: noResponseMock } }
       MopidyHandler({ key: payload.key }, ws, broadcasterMock, mopidy)
       ImageCache.check.mock.calls[0][2](null, {})
-      expect(broadcastMock.mock.calls.length).toEqual(0)
+      expect(broadcastMock.mock.calls).toEqual([['websocket', { key: 'playback.stop' }, undefined]])
     })
 
     it('should handle add track call', () => {
@@ -131,19 +129,7 @@ describe('MopidyHandler', () => {
         data: { uri: 'track123' }
       }
       MopidyHandler(payload, ws, broadcasterMock, {})
-      expect(Spotify.validateTrack.mock.calls[0][0]).toEqual('track123')
-    })
-
-    it('should handle get tracks call', () => {
-      const payload = {
-        encoded_key: 'mopidy::tracklist.getTracks',
-        key: 'tracklist.getTracks',
-        service: 'mopidy'
-      }
-      const mopidy = { tracklist: { getTracks: successMock } }
-      MopidyHandler(payload, ws, broadcasterMock, mopidy)
-      ImageCache.check.mock.calls[0][2](null, { addToCache: addToCacheMock })
-      expect(trackListTrimmer.mock.calls[0][0]).toEqual(mopidy)
+      expect(Spotify.validateTrack.mock.calls).toEqual([['track123', expect.any(Function)]])
     })
   })
 })

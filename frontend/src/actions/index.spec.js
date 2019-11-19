@@ -185,14 +185,14 @@ describe('actions', () => {
     notify.mockClear()
   })
 
-  it('should handle pausePlaying', () => {
+  it('should handle stopPlaying', () => {
     const expectedAction = {
       type: Types.SEND,
-      key: MopidyApi.PLAYBACK_PAUSE
+      key: MopidyApi.PLAYBACK_STOP
     }
-    expect(actions.pausePlaying()).toEqual(expectedAction)
+    expect(actions.stopPlaying()).toEqual(expectedAction)
     expect(notify.mock.calls.length).toEqual(1)
-    expect(notify.mock.calls[0][0]).toEqual('Jukebox Paused')
+    expect(notify.mock.calls[0][0]).toEqual('Jukebox Halted')
     notify.mockClear()
   })
 
@@ -243,5 +243,20 @@ describe('actions', () => {
       params: [32]
     }
     expect(actions.setVolume(32)).toEqual(expectedAction)
+  })
+
+  it('should handle getState', () => {
+    const expectedAction = {
+      type: Types.SEND,
+      key: MopidyApi.PLAYBACK_GET_PLAYBACK_STATE
+    }
+    expect(actions.getState()).toEqual(expectedAction)
+  })
+
+  it('should handle clearToken', () => {
+    const expectedAction = {
+      type: Types.CLEAR_STORE_TOKEN
+    }
+    expect(actions.clearToken()).toEqual(expectedAction)
   })
 })

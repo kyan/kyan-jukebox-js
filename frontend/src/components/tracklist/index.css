@@ -11,3 +11,7 @@
 .ui.list>.item .track-info .description {
   font-size: 0.8em;
 }
+
+.ui.list>.item .remove-image {
+  cursor: pointer;
+}

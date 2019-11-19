@@ -2,6 +2,7 @@ import * as actions from '../../actions'
 import AuthApi from '../../constants/auth-api'
 import MopidyApi from '../../constants/mopidy-api'
 import Payload from '../../utils/payload'
+import notify from '../../utils/notify'
 
 const updatePlaybackState = (store, state) => {
   store.dispatch(actions.updatePlaybackState(state))
@@ -29,10 +30,10 @@ const imageUriChooser = (track) => {
 }
 
 const addCurrentTrack = (track, store, progress) => {
-  if (!track) return
   store.dispatch(actions.addCurrentTrack(track))
-  progress.set(0, track.length).start()
   store.dispatch(actions.getImage(imageUriChooser(track)))
+  const progressTimer = progress.set(0, track.length)
+  if (store.getState().jukebox.playbackState === MopidyApi.PLAYING) progressTimer.start()
 }
 
 const addTrackList = (tracklist, store) => {
@@ -52,7 +53,7 @@ const onMessageHandler = (store, payload, progressTimer) => {
       break
     case MopidyApi.PLAYBACK_GET_CURRENT_TRACK:
     case MopidyApi.EVENT_TRACK_PLAYBACK_STARTED:
-      addCurrentTrack(data.track, store, progressTimer)
+      if (data.track) addCurrentTrack(data.track, store, progressTimer)
       break
     case MopidyApi.EVENT_PLAYBACK_STATE_CHANGED:
     case MopidyApi.PLAYBACK_GET_PLAYBACK_STATE:
@@ -61,11 +62,16 @@ const onMessageHandler = (store, payload, progressTimer) => {
     case MopidyApi.TRACKLIST_GET_TRACKS:
       addTrackList(data, store)
       break
+    case MopidyApi.PLAYBACK_NEXT:
+    case MopidyApi.PLAYBACK_BACK:
+      store.dispatch(actions.getCurrentTrack())
+      break
     case MopidyApi.GET_VOLUME:
       store.dispatch(actions.updateVolume(data))
       break
     case MopidyApi.EVENT_VOLUME_CHANGED:
       store.dispatch(actions.updateVolume(data))
+      notify('Volume Changed')
       break
     case MopidyApi.LIBRARY_GET_IMAGES:
       store.dispatch(actions.resolveImage(data))

@@ -109,9 +109,9 @@ exports[`Dashboard online logged in renders as expected 1`] = `
           <Controls
             disabled={false}
             onNext={[Function]}
-            onPause={[Function]}
             onPlay={[Function]}
             onPrevious={[Function]}
+            onStop={[Function]}
             playbackState="playing"
           >
             <span>
@@ -247,12 +247,12 @@ exports[`Dashboard online logged in renders as expected 1`] = `
                 active={false}
                 animated="vertical"
                 as="button"
-                className="jb-pause-button"
+                className="jb-stop-button"
                 disabled={false}
                 onClick={[Function]}
               >
                 <button
-                  className="ui vertical animated button jb-pause-button"
+                  className="ui vertical animated button jb-stop-button"
                   onClick={[Function]}
                 >
                   <ButtonContent
@@ -261,7 +261,7 @@ exports[`Dashboard online logged in renders as expected 1`] = `
                     <div
                       className="hidden content"
                     >
-                      Pause
+                      Stop
                     </div>
                   </ButtonContent>
                   <ButtonContent
@@ -272,11 +272,11 @@ exports[`Dashboard online logged in renders as expected 1`] = `
                     >
                       <Icon
                         as="i"
-                        name="pause"
+                        name="stop"
                       >
                         <i
                           aria-hidden="true"
-                          className="pause icon"
+                          className="stop icon"
                         />
                       </Icon>
                     </div>
@@ -326,7 +326,9 @@ exports[`Dashboard online logged in renders as expected 1`] = `
                           connectDropTarget={[Function]}
                           onDrop={[Function]}
                         >
-                          <div>
+                          <div
+                            title="Drag in Spotify tracks to add to playlist"
+                          >
                             <Header
                               size="small"
                             >
@@ -609,9 +611,9 @@ exports[`Dashboard online logged out renders as expected 1`] = `
           <Controls
             disabled={true}
             onNext={[Function]}
-            onPause={[Function]}
             onPlay={[Function]}
             onPrevious={[Function]}
+            onStop={[Function]}
             playbackState="playing"
           >
             <span>
@@ -751,12 +753,12 @@ exports[`Dashboard online logged out renders as expected 1`] = `
                 active={false}
                 animated="vertical"
                 as="button"
-                className="jb-pause-button"
+                className="jb-stop-button"
                 disabled={true}
                 onClick={[Function]}
               >
                 <button
-                  className="ui vertical animated disabled button jb-pause-button"
+                  className="ui vertical animated disabled button jb-stop-button"
                   disabled={true}
                   onClick={[Function]}
                   tabIndex={-1}
@@ -767,7 +769,7 @@ exports[`Dashboard online logged out renders as expected 1`] = `
                     <div
                       className="hidden content"
                     >
-                      Pause
+                      Stop
                     </div>
                   </ButtonContent>
                   <ButtonContent
@@ -778,11 +780,11 @@ exports[`Dashboard online logged out renders as expected 1`] = `
                     >
                       <Icon
                         as="i"
-                        name="pause"
+                        name="stop"
                       >
                         <i
                           aria-hidden="true"
-                          className="pause icon"
+                          className="stop icon"
                         />
                       </Icon>
                     </div>

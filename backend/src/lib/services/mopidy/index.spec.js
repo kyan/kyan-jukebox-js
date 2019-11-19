@@ -32,7 +32,7 @@ describe('MopidyService', () => {
       getTracks: jest.fn()
         .mockImplementationOnce(() => Promise.resolve([{ uri: 'somemadeupuri' }]))
         .mockImplementationOnce(() => Promise.resolve([]))
-        .mockImplementationOnce(() => Promise.resolve('calledaftertracklistchanjged'))
+        .mockImplementationOnce(() => Promise.resolve([{ uri: 'somemadeupuri' }]))
     }
 
     expect(instance.on.mock.calls[0][0]).toEqual('websocket:error')
