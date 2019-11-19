@@ -1,24 +1,19 @@
-const cron = require('node-cron');
+import logger from '../../config/winston'
+const cron = require('node-cron')
 
 const Scheduler = {
-  scheduleAutoPlayback: ({ play, pause }) => {
-    // var pauseJukebox = cron.schedule('0 19 * * *', () =>  {
-    var pauseJukebox = cron.schedule('* * * * *', () =>  {
-      pause();
-      console.log('##################')
-      console.log('Pause')
-      console.log('##################')
-    });
-    // var playJukebox = cron.schedule('0 8 * * *', () =>  {
-    var playJukebox = cron.schedule('* * * * *', () =>  {
-      play();
-      console.log('##################')
-      console.log('Play')
-      console.log('##################')
-    });
+  scheduleAutoPlayback: ({ play, stop }) => {
+    const playJukebox = cron.schedule('0 8 * * *', () => {
+      play()
+      logger.info('[Scheduled] Jukebox Played')
+    })
+    const stopJukebox = cron.schedule('0 19 * * *', () => {
+      stop()
+      logger.info('[Scheduled] Jukebox Stopped')
+    })
 
-    playJukebox.start();
-    pauseJukebox.start();
+    playJukebox.start()
+    stopJukebox.start()
   }
 }
 
