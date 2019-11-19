@@ -11,24 +11,23 @@ const isCurrentTrack = (currentTrack, track) => {
   return currentTrack.uri === track.uri
 }
 
-const currentImage = (image) => (
-  <Image
-    className='current-image'
-    size='tiny'
-    src={image}
-    inline
-  />
-)
+const trackImage = ({ image, isCurrent, onClick, hasBeenPlayed }) => {
+  let klass, title
 
-const revealImage = (image, uri, onRemoveTrack, beenPlayed) => {
-  const size = beenPlayed ? 'tiny' : 'mini'
+  if (isCurrent) klass = 'current-image'
+  if (onClick && !isCurrent) {
+    title = 'Click to remove from playlist'
+    klass = 'remove-image'
+  }
+
   return (
     <Image
-      className='remove-image'
-      size={size}
+      className={klass}
+      size={hasBeenPlayed ? 'tiny' : 'mini'}
       src={image}
+      title={title}
+      onClick={onClick}
       inline
-      onClick={removeTrack(uri, onRemoveTrack)}
     />
   )
 }
@@ -37,14 +36,18 @@ const removeTrack = (uri, cb) => {
   return () => cb(uri)
 }
 
-const imageChooser = (disabled, track, images, isCurrent, onRemoveTrack, beenPlayed) => {
+const imageChooser = (disabled, track, images, isCurrent, onRemoveTrack, hasBeenPlayed) => {
   let image
   if (images && track.album) image = images[track.album.uri]
   if (images && track.composer) image = images[track.composer.uri]
   if (!image) image = defaultImage
-  if (disabled) { return currentImage(image) }
 
-  return isCurrent ? currentImage(image) : revealImage(image, track.uri, onRemoveTrack, beenPlayed)
+  return trackImage({
+    image,
+    hasBeenPlayed,
+    isCurrent,
+    onClick: (!disabled && !isCurrent) ? removeTrack(track.uri, onRemoveTrack) : undefined
+  })
 }
 
 const trackHeading = (track) => (

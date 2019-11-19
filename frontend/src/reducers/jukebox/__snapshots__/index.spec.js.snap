@@ -3,7 +3,7 @@
 exports[`jukebox handles a CONNECTED 1`] = `
 Object {
   "online": true,
-  "playbackState": "paused",
+  "playbackState": "stopped",
   "volume": 0,
 }
 `;
@@ -33,7 +33,7 @@ Object {
 exports[`jukebox handles a UPDATE_VOLUME 1`] = `
 Object {
   "online": false,
-  "playbackState": "paused",
+  "playbackState": "stopped",
   "volume": 32,
 }
 `;
@@ -55,7 +55,7 @@ Object {
 exports[`jukebox handles default state 1`] = `
 Object {
   "online": false,
-  "playbackState": "paused",
+  "playbackState": "stopped",
   "volume": 0,
 }
 `;

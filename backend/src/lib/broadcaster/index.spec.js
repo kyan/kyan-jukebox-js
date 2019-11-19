@@ -55,7 +55,7 @@ describe('Broadcaster', () => {
       })
       expect(EventLogger.mock.calls[0][1]).toBeNull()
       expect(EventLogger.mock.calls[0][2]).toEqual('hello mum')
-      expect(EventLogger.mock.calls[0][3]).toEqual('ClientBroadcast')
+      expect(EventLogger.mock.calls[0][3]).toEqual('UserBroadcast')
     })
 
     it('handles error', () => {

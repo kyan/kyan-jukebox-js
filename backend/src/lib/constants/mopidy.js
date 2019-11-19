@@ -15,6 +15,7 @@ export default {
   PLAYBACK_GET_STATE: 'mopidy::playback.getState',
   PLAYBACK_GET_TIME_POSITION: 'mopidy::playback.getTimePosition',
   PLAYBACK_NEXT: 'mopidy::playback.next',
+  PLAYBACK_PREVIOUS: 'mopidy::playback.previous',
   TRACKLIST_ADD: 'mopidy::tracklist.add',
   TRACKLIST_CLEAR: 'mopidy::tracklist.clear',
   TRACKLIST_REMOVE: 'mopidy::tracklist.remove',
@@ -23,7 +24,7 @@ export default {
     'mopidy::tracklist.remove',
     'mopidy::tracklist.clear',
     'mopidy::playback.play',
-    'mopidy::playback.pause',
+    'mopidy::playback.stop',
     'mopidy::playback.next',
     'mopidy::playback.previous',
     'mopidy::mixer.setVolume'

@@ -11,6 +11,7 @@ export default {
   PLAYBACK_GET_TIME_POSITION: 'mopidy::playback.getTimePosition',
   PLAYBACK_GET_PLAYBACK_STATE: 'mopidy::playback.getState',
   PLAYBACK_PLAY: 'mopidy::playback.play',
+  PLAYBACK_STOP: 'mopidy::playback.stop',
   PLAYBACK_PAUSE: 'mopidy::playback.pause',
   PLAYBACK_NEXT: 'mopidy::playback.next',
   PLAYBACK_BACK: 'mopidy::playback.previous',
