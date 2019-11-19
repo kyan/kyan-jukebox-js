@@ -4,6 +4,7 @@ import io from 'socket.io'
 import morgan from 'morgan'
 import winston from './config/winston'
 import Broadcaster from './lib/broadcaster'
+import Scheduler from './lib/scheduler'
 import Payload from './lib/payload'
 import MopidyService from './lib/services/mopidy'
 import MongodbService from './lib/services/mongodb'
@@ -21,6 +22,12 @@ const wss = io(server, { pingTimeout: 30000 })
 MongodbService()
 
 MopidyService(wss, mopidy => {
+  if (mopidy.playback) {
+    Scheduler.scheduleAutoPlayback({
+      stop: () => mopidy.playback.stop()
+    })
+  }
+
   wss.on('connection', socket => {
     ErrorsHandler(socket)
 
