@@ -5,8 +5,7 @@ module.exports = shipit => {
 
   const config = {
     default: {
-      branch: 'release',
-      workspace: '/tmp/kyan-jukebox-backend',
+      branch: 'master',
       dirToCopy: 'backend',
       deployTo: 'app',
       repositoryUrl: 'https://github.com/kyan/jukebox-js.git',
@@ -17,7 +16,7 @@ module.exports = shipit => {
       shallowClone: true
     },
     pi: {
-      servers: 'jukebox@jukebox-prod'
+      servers: 'jukebox@jukebox-api-prod'
     }
   }
   shipit.initConfig(config)
