@@ -41,7 +41,7 @@ const noTrack = () => (
   </Card>
 )
 
-const CurrentTrack = ({ track, image, progress }) => {
+const CurrentTrack = ({ track, image, progress, remaining }) => {
   if (!track) { return noTrack() }
 
   return (
@@ -49,11 +49,12 @@ const CurrentTrack = ({ track, image, progress }) => {
       { albumArt(image) }
       <Card.Content>
         <div className='progress-container'>
-          <span className='progress-text'>{progress} &#37;</span>
+          <span className='remaining-text'>{millisToMinutesAndSeconds(remaining)}</span>
+          <span className='track-length'>{millisToMinutesAndSeconds(track.length)}</span>
           <Line percent={progress} />
         </div>
         <Card.Header>{track.name}</Card.Header>
-        <Card.Meta>({millisToMinutesAndSeconds(track.length)}) {track.artist.name}</Card.Meta>
+        <Card.Meta>{track.artist.name}</Card.Meta>
         { albumDescription(track.album) }
         { composerDescription(track.composer) }
       </Card.Content>
@@ -67,7 +68,8 @@ const CurrentTrack = ({ track, image, progress }) => {
 CurrentTrack.propTypes = {
   track: PropTypes.object,
   image: PropTypes.string,
-  progress: PropTypes.number
+  progress: PropTypes.number,
+  remaining: PropTypes.number
 }
 
 export default CurrentTrack
