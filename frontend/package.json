@@ -8,6 +8,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "standard && react-scripts test --env=jsdom",
+    "fix": "standard --fix",
     "eject": "react-scripts eject"
   },
   "dependencies": {
