@@ -105,10 +105,14 @@ describe('Transformer', () => {
   })
 
   describe('tracklist.remove', () => {
-    const data = 'data'
+    const data = [{
+      track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
+    }]
 
     it('does the right thing', () => {
       expect(Transformer('mopidy::tracklist.remove', data)).toEqual(data)
+      expect(settings.removeFromArray.mock.calls[0])
+        .toEqual(['tracklist.last_played', 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG'])
     })
   })
 
