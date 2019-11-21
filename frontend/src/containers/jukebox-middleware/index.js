@@ -13,58 +13,44 @@ const JukeboxMiddleware = (() => {
   let socket = null
   let progressTimer = null
 
-  const onOpen = (store, _token) => _evt => {
-    progressTimer = trackProgressTimer(store, actions)
-    store.dispatch(actions.wsConnected())
-    State.loadInitial(store)
-  }
-
-  const onClose = (store) => _evt => {
-    store.dispatch(actions.wsDisconnect())
-  }
-
-  const onMessage = (store) => data => {
-    onMessageHandler(store, data, progressTimer)
-  }
-
-  const onConnect = (store) => {
-    if (socket != null) { socket.close() }
-    store.dispatch(actions.wsConnecting())
-
-    socket = io(url, {
-      transports: ['websocket']
-    })
-    socket.on('message', onMessage(store))
-    socket.on('connect', onOpen(store))
-    socket.on('disconnect', onClose(store))
-  }
-
-  const onDisconnect = (store) => {
-    if (progressTimer) { progressTimer.reset() }
-    store.dispatch(actions.wsDisconnected())
-  }
-
-  const getJWT = (store) => {
-    return store.getState().settings.token
-  }
-
   return store => next => action => {
+    const isImageRequest = () => action.key === MopidyApi.LIBRARY_GET_IMAGES
+    const imageIsCached = () => findImageInCache(action.uri, store.getState().assets)
+    const preStoreImage = () => store.dispatch(actions.newImage(action.uri))
+    const getJWT = () => store.getState().settings.token
+    const packMessage = () => Payload.encodeToJson(getJWT(store), action.key, action.params)
+
+    const onOpen = _evt => {
+      progressTimer = trackProgressTimer(store, actions)
+      store.dispatch(actions.wsConnected())
+      State.loadInitial(store)
+    }
+    const onClose = _evt => store.dispatch(actions.wsDisconnect())
+    const onMessage = data => onMessageHandler(store, data, progressTimer)
+    const onConnect = () => {
+      if (socket != null) socket.close()
+      socket = io(url, { transports: ['websocket'] })
+      socket.on('message', onMessage)
+      socket.on('connect', onOpen)
+      socket.on('disconnect', onClose)
+
+      store.dispatch(actions.wsConnecting())
+    }
+    const onDisconnect = () => {
+      if (progressTimer) { progressTimer.reset() }
+      store.dispatch(actions.wsDisconnected())
+    }
+
     switch (action.type) {
       case Constants.CONNECT:
-        onConnect(store)
-        break
+        return onConnect()
       case Constants.DISCONNECT:
-        onDisconnect(store)
-        break
+        return onDisconnect()
       case Constants.SEND:
-        if (action.key === MopidyApi.LIBRARY_GET_IMAGES) {
-          if (!action.uri) { break }
-          if (findImageInCache(action.uri, store.getState().assets)) { break }
-          store.dispatch(actions.newImage(action.uri))
-        }
+        if (isImageRequest() && imageIsCached()) return
+        if (isImageRequest()) preStoreImage()
 
-        socket.emit('message', Payload.encodeToJson(getJWT(store), action.key, action.params))
-        break
+        return socket.emit('message', packMessage())
       default:
         return next(action)
     }

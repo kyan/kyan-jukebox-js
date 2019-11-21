@@ -12,7 +12,7 @@ jest.mock('../../../config/winston')
 jest.mock('../../services/mopidy/tracklist-trimmer')
 
 describe('MopidyService', () => {
-  const wss = { send: jest.fn() }
+  const wss = { emit: jest.fn() }
   const callbackMock = jest.fn()
 
   afterEach(() => {
