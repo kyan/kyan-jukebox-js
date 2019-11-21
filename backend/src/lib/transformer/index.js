@@ -41,6 +41,9 @@ export default function (key, data, mopidy) {
       const tracks = TransformTracklist(data)
       settings.setItem(Settings.TRACKLIST_CURRENT, tracks.map(data => data.track.uri))
       return tracks
+    case Mopidy.TRACKLIST_REMOVE:
+      settings.removeFromArray(Settings.TRACKLIST_LAST_PLAYED, data[0].track.uri)
+      return data
     case Mopidy.EVENTS.TRACKLIST_CHANGED:
     case Mopidy.TRACKLIST_ADD:
     case Mopidy.PLAYBACK_NEXT:
@@ -48,7 +51,6 @@ export default function (key, data, mopidy) {
       clearSetTimeout(recommendTimer)
       return data
     case Mopidy.TRACKLIST_CLEAR:
-    case Mopidy.TRACKLIST_REMOVE:
     case Auth.AUTHENTICATION_TOKEN_INVALID:
     case Mopidy.CONNECTION_ERROR:
     case Mopidy.LIBRARY_GET_IMAGES:
