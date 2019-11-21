@@ -17,18 +17,18 @@ app.use(function (_req, res) { res.send({ msg: 'WebSocket Only!' }) })
 app.use(morgan('combined', { stream: winston.stream }))
 
 const server = http.createServer(app)
-const wss = io(server, { pingTimeout: 30000 })
+const socketio = io(server, { pingTimeout: 30000 })
 
 MongodbService()
 
-MopidyService(wss, mopidy => {
+MopidyService(socketio, mopidy => {
   if (mopidy.playback) {
     Scheduler.scheduleAutoPlayback({
       stop: () => mopidy.playback.stop()
     })
   }
 
-  wss.on('connection', socket => {
+  socketio.on('connection', socket => {
     ErrorsHandler(socket)
 
     socket.on('message', data => {
