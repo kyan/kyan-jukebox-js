@@ -12,10 +12,14 @@ exports[`CurrentTrack render album renders track 1`] = `
       className="progress-container"
     >
       <span
-        className="progress-text"
+        className="remaining-text"
       >
-        25
-         %
+        NaN:NaN
+      </span>
+      <span
+        className="track-length"
+      >
+        4:06
       </span>
       <Progress
         className=""
@@ -33,9 +37,6 @@ exports[`CurrentTrack render album renders track 1`] = `
       No Time for Caution
     </CardHeader>
     <CardMeta>
-      (
-      4:06
-      ) 
       Hans Zimmer
     </CardMeta>
     <CardDescription>
@@ -67,10 +68,14 @@ exports[`CurrentTrack render composer renders track 1`] = `
       className="progress-container"
     >
       <span
-        className="progress-text"
+        className="remaining-text"
       >
-        25
-         %
+        NaN:NaN
+      </span>
+      <span
+        className="track-length"
+      >
+        2:04
       </span>
       <Progress
         className=""
@@ -88,9 +93,6 @@ exports[`CurrentTrack render composer renders track 1`] = `
       Silent Running
     </CardHeader>
     <CardMeta>
-      (
-      2:04
-      ) 
       Joan Baez
     </CardMeta>
     <CardDescription>

@@ -11,7 +11,7 @@ import storage from '../../local-storage'
 const mopidyUrl = process.env.WS_MOPIDY_URL
 const mopidyPort = process.env.WS_MOPIDY_PORT
 
-const MopidyService = (io, callback) => {
+const MopidyService = (socketio, callback) => {
   const mopidy = new Mopidy({
     webSocketUrl: `ws://${mopidyUrl}:${mopidyPort}/mopidy/ws/`,
     callingConvention: 'by-position-or-by-name'
@@ -56,7 +56,7 @@ const MopidyService = (io, callback) => {
       const packAndSend = (data, key) => {
         const unifiedMessage = Transformer(key, data, mopidy)
         const payload = Payload.encodeToJson(key, unifiedMessage)
-        io.send(payload)
+        socketio.emit('message', payload)
         EventLogger({ encoded_key: key }, null, message, 'MopidyEvent')
       }
 

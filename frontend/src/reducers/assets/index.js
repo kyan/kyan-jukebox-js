@@ -1,11 +1,12 @@
 import Types from '../../constants'
 
+const initalState = []
 const MAX_IMAGES_IN_CACHE = 200
 
-const assets = (state = [], action) => {
+const assets = (state = initalState, action) => {
   switch (action.type) {
     case Types.NEW_IMAGE:
-      return (state.find(a => a.ref === action.uri))
+      return (state.find(a => action.uri && a.ref === action.uri))
         ? state
         : [ ...state, { ref: action.uri } ]
     case Types.RESOLVE_IMAGE:
