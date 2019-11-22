@@ -9,6 +9,7 @@ jest.mock('node-localstorage', () => {
     .mockReturnValueOnce(null)
     .mockReturnValueOnce('["3oAWTk92mZBxKBOKf8mR5v","6PPhp1qpAjLUxQr75vSD4H"]')
     .mockReturnValueOnce('["3oAWTk92mZBxKBOKf8mR5v","6PPhp1qpAjLUxQr75vSD4H"]')
+    .mockReturnValueOnce('["3oAWTk92mZBxKBOKf8mR5v","6PPhp1qpAjLUxQr75vSD4H"]')
 
   return {
     LocalStorage: jest.fn()
@@ -69,7 +70,7 @@ describe('Settings', () => {
     it('adds to an array even if', () => {
       expect(() => {
         Settings.addToUniqueArray('myKey', 'myValue')
-      }).toThrow('addToUniqueArray: myKey is currently NOT an Array')
+      }).toThrow('myKey is currently NOT an Array')
     })
 
     it('adds information correctly when adding for the first time', () => {
@@ -91,6 +92,13 @@ describe('Settings', () => {
   describe('clearCurrent', () => {
     it('handles clearAll', () => {
       expect(Settings.clearCurrent()).toBeTruthy()
+    })
+  })
+
+  describe('removeFromArray', () => {
+    it('removes the value from the array', () => {
+      const data = Settings.removeFromArray('myKey', '3oAWTk92mZBxKBOKf8mR5v')
+      expect(data).toEqual(['6PPhp1qpAjLUxQr75vSD4H'])
     })
   })
 })
