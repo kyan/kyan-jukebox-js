@@ -1,13 +1,13 @@
 import { LocalStorage } from 'node-localstorage'
 import SettingsConstants from '../constants/settings'
 
+const invariant = require('invariant');
 const storage = new LocalStorage(process.env.LOCAL_STORAGE_PATH)
 
 const checkIsAnArray = (key, ary) => {
-  if (!Array.isArray(ary)) {
-    throw new Error(`${key} is currently NOT an Array`)
-  }
+  invariant(Array.isArray(ary), `${key} is currently NOT an Array`);
 }
+
 const setInStorage = (key, newAry) => {
   const newData = [...new Set(newAry)]
   storage.setItem(key, JSON.stringify(newData))

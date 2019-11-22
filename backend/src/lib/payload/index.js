@@ -1,3 +1,5 @@
+const invariant = require('invariant');
+
 const Payload = {
   encode: (key, data) => {
     return {
@@ -17,9 +19,8 @@ const Payload = {
   decode: payload => {
     const { jwt, key, data } = JSON.parse(payload)
     const [service, passedKey] = key.split('::')
-    if (!passedKey) {
-      throw new Error(`No service key provided! ${payload}`)
-    }
+
+    invariant(passedKey, `No service key provided! ${payload}`)
 
     return {
       jwt_token: jwt,
