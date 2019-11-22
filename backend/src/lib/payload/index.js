@@ -1,3 +1,5 @@
+import ErrorHandler from '../handlers/errors'
+
 const Payload = {
   encode: (key, data) => {
     return {
@@ -17,9 +19,10 @@ const Payload = {
   decode: payload => {
     const { jwt, key, data } = JSON.parse(payload)
     const [service, passedKey] = key.split('::')
-    if (!passedKey) {
-      throw new Error(`No service key provided! ${payload}`)
-    }
+    ErrorHandler.expectationThatThrows({
+      expect: passedKey,
+      message: `No service key provided! ${payload}`
+    })
 
     return {
       jwt_token: jwt,
