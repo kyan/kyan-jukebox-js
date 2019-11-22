@@ -7,11 +7,11 @@ function error (e) {
   }
 }
 
-const ErrorsHandler = (ws) => {
+const SocketErrorsHandler = (ws) => {
   ws.on('error', error)
   ws.on('close', () => {
     logger.info('Websocket closed', { clientID: ws.id })
   })
 }
 
-export default ErrorsHandler
+export default SocketErrorsHandler
