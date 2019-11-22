@@ -1,4 +1,4 @@
-const invariant = require('invariant');
+const invariant = require('invariant')
 
 const Payload = {
   encode: (key, data) => {
