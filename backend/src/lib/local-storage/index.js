@@ -4,8 +4,8 @@ import SettingsConstants from '../constants/settings'
 const storage = new LocalStorage(process.env.LOCAL_STORAGE_PATH)
 
 const checkIsAnArray = (key, ary) => {
-  if (ary.constructor !== Array) {
-    throw new Error(`addToUniqueArray: ${key} is currently NOT an Array`)
+  if (!Array.isArray(ary)) {
+    throw new Error(`${key} is currently NOT an Array`)
   }
 }
 const setInStorage = (key, newAry) => {

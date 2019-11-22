@@ -70,7 +70,7 @@ describe('Settings', () => {
     it('adds to an array even if', () => {
       expect(() => {
         Settings.addToUniqueArray('myKey', 'myValue')
-      }).toThrow('addToUniqueArray: myKey is currently NOT an Array')
+      }).toThrow('myKey is currently NOT an Array')
     })
 
     it('adds information correctly when adding for the first time', () => {
