@@ -8,7 +8,7 @@ import Scheduler from './lib/scheduler'
 import Payload from './lib/payload'
 import MopidyService from './lib/services/mopidy'
 import MongodbService from './lib/services/mongodb'
-import ErrorsHandler from './lib/handlers/error'
+import SocketErrorsHandler from './lib/handlers/socket-errors'
 import MessageTriage from './lib/message-triage'
 
 const app = express()
@@ -29,7 +29,7 @@ MopidyService(socketio, mopidy => {
   }
 
   socketio.on('connection', socket => {
-    ErrorsHandler(socket)
+    SocketErrorsHandler(socket)
 
     socket.on('message', data => {
       const payload = Payload.decode(data)

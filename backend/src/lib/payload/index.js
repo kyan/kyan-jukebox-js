@@ -1,4 +1,4 @@
-const invariant = require('invariant')
+import ErrorHandler from '../handlers/errors'
 
 const Payload = {
   encode: (key, data) => {
@@ -19,8 +19,10 @@ const Payload = {
   decode: payload => {
     const { jwt, key, data } = JSON.parse(payload)
     const [service, passedKey] = key.split('::')
-
-    invariant(passedKey, `No service key provided! ${payload}`)
+    ErrorHandler.expectationThatThrows({
+      expect: passedKey,
+      message: `No service key provided! ${payload}`
+    })
 
     return {
       jwt_token: jwt,
