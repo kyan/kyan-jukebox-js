@@ -35,7 +35,7 @@
     "jest": "^24.8.0",
     "lolex": "^2.3.2",
     "mockingoose": "2.4.0",
-    "nodemon": "^1.17.5",
+    "nodemon": "^2.0.1",
     "standard": "^11.0.1"
   },
   "jest": {

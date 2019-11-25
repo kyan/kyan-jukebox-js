@@ -30,6 +30,28 @@ exports[`Controls render when controls disabled renders as expected 1`] = `
     </ButtonContent>
   </Button>
   <Button
+    active={true}
+    animated="vertical"
+    as="button"
+    className="jb-pause-button"
+    disabled={true}
+    onClick={[MockFunction]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Pause
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="pause"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
     active={false}
     animated="vertical"
     as="button"
@@ -87,6 +109,28 @@ exports[`Controls render when controls enabled renders as expected 1`] = `
     active={false}
     animated="vertical"
     as="button"
+    className="jb-pause-button"
+    disabled={false}
+    onClick={[MockFunction]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Pause
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="pause"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
+    active={false}
+    animated="vertical"
+    as="button"
     className="jb-stop-button"
     disabled={false}
     onClick={[MockFunction]}
@@ -134,6 +178,28 @@ exports[`Controls render when no playstate renders as expected 1`] = `
       <Icon
         as="i"
         name="play"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
+    active={false}
+    animated="vertical"
+    as="button"
+    className="jb-pause-button"
+    disabled={true}
+    onClick={[MockFunction]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Pause
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="pause"
       />
     </ButtonContent>
   </Button>

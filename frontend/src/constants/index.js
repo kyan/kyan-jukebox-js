@@ -14,5 +14,7 @@ export default {
   CLEAR_STORE_TOKEN: 'actionClearStoreToken',
   UPDATE_VOLUME: 'actionUpdateVolume',
   UPDATE_PLAYBACK_STATE: 'actionPlaybackState',
-  UPDATE_PROGRESS_TIMER: 'actionUpdateProgressTimer'
+  UPDATE_PROGRESS_TIMER: 'actionUpdateProgressTimer',
+  MOPIDY_CONNECTED: 'actionMopidyConnected',
+  MOPIDY_DISCONNECTED: 'actionMopidyDisconnected'
 }

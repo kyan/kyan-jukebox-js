@@ -3,6 +3,7 @@ import Types from '../../constants'
 
 const initalState = {
   online: false,
+  mopidyOnline: false,
   volume: 0,
   playbackState: MopidyApi.STOPPED
 }
@@ -16,6 +17,14 @@ const jukebox = (state = initalState, action) => {
     case Types.DISCONNECTED:
       return Object.assign({}, state, {
         online: false
+      })
+    case Types.MOPIDY_CONNECTED:
+      return Object.assign({}, state, {
+        mopidyOnline: true
+      })
+    case Types.MOPIDY_DISCONNECTED:
+      return Object.assign({}, state, {
+        mopidyOnline: false
       })
     case Types.UPDATE_VOLUME:
       return Object.assign({}, state, {
