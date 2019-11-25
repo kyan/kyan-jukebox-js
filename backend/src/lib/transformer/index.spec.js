@@ -30,7 +30,7 @@ describe('Transformer', () => {
 
     it('does not tranform when we have no data', () => {
       Transformer('mopidy::playback.getCurrentTrack', null)
-      expect(TransformTrack).not.toHaveBeenCalledWith()
+      expect(TransformTrack).not.toHaveBeenCalled()
     })
   })
 

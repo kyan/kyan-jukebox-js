@@ -34,8 +34,8 @@ export default function (key, data, mopidy) {
     case Mopidy.EVENTS.PLAYBACK_STATE_CHANGED:
       return data.new_state
     case Mopidy.GET_CURRENT_TRACK:
-      const trackInfo = TransformTrack(data)
       if (!data) return null
+      const trackInfo = TransformTrack(data)
       settings.setItem(Settings.TRACK_CURRENT, trackInfo.track.uri)
       return trackInfo
     case Mopidy.GET_TRACKS:
