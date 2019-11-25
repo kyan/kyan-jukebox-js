@@ -23,7 +23,7 @@ $ wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add -
 ```
 Add the APT repo to your package sources:
 ```
-$ sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/jessie.list
+$ sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list
 ```
 Install Mopidy and any 3rd Party extensions you may want:
 ```
