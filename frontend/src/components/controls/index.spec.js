@@ -6,6 +6,7 @@ import Controls from './index'
 describe('Controls', () => {
   const onPlayMock = jest.fn()
   const onStopMock = jest.fn()
+  const onPauseMock = jest.fn()
   const onPrevMock = jest.fn()
   const onNextMock = jest.fn()
 
@@ -21,6 +22,7 @@ describe('Controls', () => {
           disabled
           onPlay={onPlayMock}
           onStop={onStopMock}
+          onPause={onPauseMock}
           onPrevious={onPrevMock}
           onNext={onNextMock}
         />
@@ -37,6 +39,7 @@ describe('Controls', () => {
           disabled
           onPlay={onPlayMock}
           onStop={onStopMock}
+          onPause={onPauseMock}
           onPrevious={onPrevMock}
           onNext={onNextMock}
         />
@@ -54,6 +57,7 @@ describe('Controls', () => {
           disabled={false}
           onPlay={onPlayMock}
           onStop={onStopMock}
+          onPause={onPauseMock}
           onPrevious={onPrevMock}
           onNext={onNextMock}
         />
@@ -65,7 +69,17 @@ describe('Controls', () => {
 
       it('handles a play click', () => {
         wrapper.find('.jb-play-button').simulate('click')
-        expect(onPlayMock.mock.calls.length).toEqual(1)
+        expect(onPlayMock).toHaveBeenCalled()
+      })
+
+      it('handles a stop click', () => {
+        wrapper.find('.jb-stop-button').simulate('click')
+        expect(onStopMock).toHaveBeenCalled()
+      })
+
+      it('handles a pause click', () => {
+        wrapper.find('.jb-pause-button').simulate('click')
+        expect(onPauseMock).toHaveBeenCalled()
       })
     })
   })

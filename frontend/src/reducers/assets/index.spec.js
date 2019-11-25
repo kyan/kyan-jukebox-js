@@ -27,7 +27,7 @@ describe('assets', () => {
     ]
     const imageData = {
       '123456789asdfghj': [
-        { uri: 'small image' },
+        { uri: 'large image' },
         { uri: 'medium image' }
       ]
     }
@@ -36,7 +36,7 @@ describe('assets', () => {
       type: Types.RESOLVE_IMAGE,
       data: imageData
     })).toEqual([
-      { 'ref': '123456789asdfghj', 'uri': 'medium image' },
+      { 'ref': '123456789asdfghj', 'uri': 'large image' },
       { 'ref': 'xdskjhdskjdhskjd' }
     ])
   })

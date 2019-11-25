@@ -10,6 +10,7 @@ jest.mock('node-localstorage', () => {
     .mockReturnValueOnce('["3oAWTk92mZBxKBOKf8mR5v","6PPhp1qpAjLUxQr75vSD4H"]')
     .mockReturnValueOnce('["3oAWTk92mZBxKBOKf8mR5v","6PPhp1qpAjLUxQr75vSD4H"]')
     .mockReturnValueOnce('["3oAWTk92mZBxKBOKf8mR5v","6PPhp1qpAjLUxQr75vSD4H"]')
+    .mockReturnValueOnce(null)
 
   return {
     LocalStorage: jest.fn()
@@ -99,6 +100,11 @@ describe('Settings', () => {
     it('removes the value from the array', () => {
       const data = Settings.removeFromArray('myKey', '3oAWTk92mZBxKBOKf8mR5v')
       expect(data).toEqual(['6PPhp1qpAjLUxQr75vSD4H'])
+    })
+
+    it('returns empty array if key not found', () => {
+      const data = Settings.removeFromArray('myKey', '3oAWTk92mZBxKBOKf8mR5v')
+      expect(data).toEqual([])
     })
   })
 })

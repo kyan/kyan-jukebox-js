@@ -2,6 +2,7 @@
 
 exports[`jukebox handles a CONNECTED 1`] = `
 Object {
+  "mopidyOnline": false,
   "online": true,
   "playbackState": "stopped",
   "volume": 0,
@@ -14,8 +15,24 @@ Object {
 }
 `;
 
+exports[`jukebox handles a MOPIDY_CONNECTED 1`] = `
+Object {
+  "mopidyOnline": true,
+  "online": false,
+  "playbackState": "stopped",
+  "volume": 0,
+}
+`;
+
+exports[`jukebox handles a MOPIDY_DISCONNECTED 1`] = `
+Object {
+  "mopidyOnline": false,
+}
+`;
+
 exports[`jukebox handles a UPDATE_PLAYBACK_STATE playing 1`] = `
 Object {
+  "mopidyOnline": false,
   "online": false,
   "playbackState": "playing",
   "volume": 0,
@@ -32,6 +49,7 @@ Object {
 
 exports[`jukebox handles a UPDATE_VOLUME 1`] = `
 Object {
+  "mopidyOnline": false,
   "online": false,
   "playbackState": "stopped",
   "volume": 32,
@@ -54,6 +72,7 @@ Object {
 
 exports[`jukebox handles default state 1`] = `
 Object {
+  "mopidyOnline": false,
   "online": false,
   "playbackState": "stopped",
   "volume": 0,

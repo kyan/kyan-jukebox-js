@@ -35,6 +35,7 @@ export default function (key, data, mopidy) {
       return data.new_state
     case Mopidy.GET_CURRENT_TRACK:
       const trackInfo = TransformTrack(data)
+      if (!data) return null
       settings.setItem(Settings.TRACK_CURRENT, trackInfo.track.uri)
       return trackInfo
     case Mopidy.GET_TRACKS:

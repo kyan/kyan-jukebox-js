@@ -23,9 +23,14 @@ describe('Transformer', () => {
   describe('playback.getCurrentTrack', () => {
     const data = 'data'
 
-    it('does the right thing', () => {
+    it('tranforms when we have data', () => {
       Transformer('mopidy::playback.getCurrentTrack', data)
       expect(TransformTrack).toHaveBeenCalledWith(data)
+    })
+
+    it('does not tranform when we have no data', () => {
+      Transformer('mopidy::playback.getCurrentTrack', null)
+      expect(TransformTrack).not.toHaveBeenCalledWith()
     })
   })
 

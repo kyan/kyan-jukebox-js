@@ -12,9 +12,21 @@ describe('jukebox', () => {
     })).toMatchSnapshot()
   })
 
+  it('handles a MOPIDY_CONNECTED', () => {
+    expect(reducer(undefined, {
+      type: Types.MOPIDY_CONNECTED
+    })).toMatchSnapshot()
+  })
+
   it('handles a DISCONNECTED', () => {
     expect(reducer({ online: true }, {
       type: Types.DISCONNECTED
+    })).toMatchSnapshot()
+  })
+
+  it('handles a MOPIDY_DISCONNECTED', () => {
+    expect(reducer({ mopidyOnline: true }, {
+      type: Types.MOPIDY_DISCONNECTED
     })).toMatchSnapshot()
   })
 
