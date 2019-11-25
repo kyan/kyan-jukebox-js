@@ -20,6 +20,10 @@ jest.mock('./transformers/mopidy/tracklist')
 jest.useFakeTimers()
 
 describe('Transformer', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('playback.getCurrentTrack', () => {
     const data = 'data'
 
