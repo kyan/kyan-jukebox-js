@@ -707,11 +707,11 @@ exports[`Dashboard online logged in renders as expected 1`] = `
                       <CurrentTrackContainer
                         dispatch={[Function]}
                         image={null}
-                        progress={NaN}
+                        progress={0}
                       >
                         <CurrentTrack
                           image={null}
-                          progress={NaN}
+                          progress={0}
                         >
                           <Card>
                             <div
@@ -1548,11 +1548,11 @@ exports[`Dashboard online logged out renders as expected 1`] = `
                       <CurrentTrackContainer
                         dispatch={[Function]}
                         image={null}
-                        progress={NaN}
+                        progress={0}
                       >
                         <CurrentTrack
                           image={null}
-                          progress={NaN}
+                          progress={0}
                         >
                           <Card>
                             <div

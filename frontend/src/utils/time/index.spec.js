@@ -39,6 +39,14 @@ describe('time', () => {
       }
       expect(time.timerToPercentage(timer)).toEqual(0)
     })
+
+    it('returns 0 if NaN', () => {
+      const timer = {
+        position: null,
+        duration: null
+      }
+      expect(time.timerToPercentage(timer)).toEqual(0)
+    })
   })
 
   describe('trackProgressTimer', () => {
