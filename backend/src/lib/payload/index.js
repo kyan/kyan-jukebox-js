@@ -1,6 +1,8 @@
 import ErrorHandler from '../handlers/errors'
 
 const Payload = {
+  toJsonString: (data) => JSON.stringify(data),
+
   encode: (key, data) => {
     return {
       key,
@@ -34,7 +36,7 @@ const Payload = {
   },
 
   encodeToJson: (key, data) => {
-    return JSON.stringify(Payload.encode(key, data))
+    return Payload.toJsonString(Payload.encode(key, data))
   }
 }
 

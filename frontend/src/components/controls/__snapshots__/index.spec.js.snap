@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Controls render when controls disabled renders as expected 1`] = `
+exports[`Controls render when disabled renders as expected 1`] = `
 <span>
   <SkipButtons
     disabled={true}
@@ -8,7 +8,7 @@ exports[`Controls render when controls disabled renders as expected 1`] = `
     onPrevious={[MockFunction]}
   />
   <Button
-    active={false}
+    active={true}
     animated="vertical"
     as="button"
     className="jb-play-button"
@@ -26,6 +26,28 @@ exports[`Controls render when controls disabled renders as expected 1`] = `
       <Icon
         as="i"
         name="play"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
+    active={false}
+    animated="vertical"
+    as="button"
+    className="jb-pause-button"
+    disabled={true}
+    onClick={[MockFunction]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Pause
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="pause"
       />
     </ButtonContent>
   </Button>
@@ -54,7 +76,159 @@ exports[`Controls render when controls disabled renders as expected 1`] = `
 </span>
 `;
 
-exports[`Controls render when controls enabled renders as expected 1`] = `
+exports[`Controls render when no playstate renders as expected 1`] = `
+<span>
+  <SkipButtons
+    disabled={false}
+    onNext={[MockFunction]}
+    onPrevious={[MockFunction]}
+  />
+  <Button
+    active={false}
+    animated="vertical"
+    as="button"
+    className="jb-play-button"
+    disabled={false}
+    onClick={[MockFunction]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Play
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="play"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
+    active={false}
+    animated="vertical"
+    as="button"
+    className="jb-pause-button"
+    disabled={false}
+    onClick={[MockFunction]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Pause
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="pause"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
+    active={false}
+    animated="vertical"
+    as="button"
+    className="jb-stop-button"
+    disabled={false}
+    onClick={[MockFunction]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Stop
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="stop"
+      />
+    </ButtonContent>
+  </Button>
+</span>
+`;
+
+exports[`Controls render when paused renders as expected 1`] = `
+<span>
+  <SkipButtons
+    disabled={false}
+    onNext={[MockFunction]}
+    onPrevious={[MockFunction]}
+  />
+  <Button
+    active={false}
+    animated="vertical"
+    as="button"
+    className="jb-play-button"
+    disabled={false}
+    onClick={[MockFunction]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Play
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="play"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
+    active={true}
+    animated="vertical"
+    as="button"
+    className="jb-pause-button"
+    disabled={true}
+    onClick={[MockFunction]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Pause
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="pause"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
+    active={false}
+    animated="vertical"
+    as="button"
+    className="jb-stop-button"
+    disabled={false}
+    onClick={[MockFunction]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Stop
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="stop"
+      />
+    </ButtonContent>
+  </Button>
+</span>
+`;
+
+exports[`Controls render when playing renders as expected 1`] = `
 <span>
   <SkipButtons
     disabled={false}
@@ -87,6 +261,28 @@ exports[`Controls render when controls enabled renders as expected 1`] = `
     active={false}
     animated="vertical"
     as="button"
+    className="jb-pause-button"
+    disabled={false}
+    onClick={[MockFunction]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Pause
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="pause"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
+    active={false}
+    animated="vertical"
+    as="button"
     className="jb-stop-button"
     disabled={false}
     onClick={[MockFunction]}
@@ -108,10 +304,10 @@ exports[`Controls render when controls enabled renders as expected 1`] = `
 </span>
 `;
 
-exports[`Controls render when no playstate renders as expected 1`] = `
+exports[`Controls render when stopped renders as expected 1`] = `
 <span>
   <SkipButtons
-    disabled={true}
+    disabled={false}
     onNext={[MockFunction]}
     onPrevious={[MockFunction]}
   />
@@ -120,7 +316,7 @@ exports[`Controls render when no playstate renders as expected 1`] = `
     animated="vertical"
     as="button"
     className="jb-play-button"
-    disabled={true}
+    disabled={false}
     onClick={[MockFunction]}
   >
     <ButtonContent
@@ -139,6 +335,28 @@ exports[`Controls render when no playstate renders as expected 1`] = `
   </Button>
   <Button
     active={false}
+    animated="vertical"
+    as="button"
+    className="jb-pause-button"
+    disabled={true}
+    onClick={[MockFunction]}
+  >
+    <ButtonContent
+      hidden={true}
+    >
+      Pause
+    </ButtonContent>
+    <ButtonContent
+      visible={true}
+    >
+      <Icon
+        as="i"
+        name="pause"
+      />
+    </ButtonContent>
+  </Button>
+  <Button
+    active={true}
     animated="vertical"
     as="button"
     className="jb-stop-button"

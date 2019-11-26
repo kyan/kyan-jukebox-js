@@ -20,12 +20,21 @@ jest.mock('./transformers/mopidy/tracklist')
 jest.useFakeTimers()
 
 describe('Transformer', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('playback.getCurrentTrack', () => {
     const data = 'data'
 
-    it('does the right thing', () => {
+    it('transforms when we have data', () => {
       Transformer('mopidy::playback.getCurrentTrack', data)
       expect(TransformTrack).toHaveBeenCalledWith(data)
+    })
+
+    it('does not transform when we have no data', () => {
+      Transformer('mopidy::playback.getCurrentTrack', null)
+      expect(TransformTrack).not.toHaveBeenCalled()
     })
   })
 

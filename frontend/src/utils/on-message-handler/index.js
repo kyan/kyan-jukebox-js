@@ -14,6 +14,7 @@ const playBackChanged = (store, state, progress) => {
     case MopidyApi.STOPPED:
       updatePlaybackState(store, state)
       progress.stop()
+      notify('Jukebox Halted')
       break
     case MopidyApi.PLAYING:
       updatePlaybackState(store, state)
@@ -53,7 +54,7 @@ const onMessageHandler = (store, payload, progressTimer) => {
       break
     case MopidyApi.PLAYBACK_GET_CURRENT_TRACK:
     case MopidyApi.EVENT_TRACK_PLAYBACK_STARTED:
-      if (data.track) addCurrentTrack(data.track, store, progressTimer)
+      if (data && data.track) addCurrentTrack(data.track, store, progressTimer)
       break
     case MopidyApi.EVENT_PLAYBACK_STATE_CHANGED:
     case MopidyApi.PLAYBACK_GET_PLAYBACK_STATE:

@@ -14,8 +14,9 @@ export const timerToPercentage = timer => {
   if (timer.duration === 0) { return 0 }
   const position = millisToSeconds(timer.position)
   const duration = millisToSeconds(timer.duration)
+  const percentage = Math.round((position / duration) * 100)
 
-  return Math.round((position / duration) * 100)
+  return isNaN(percentage) ? 0 : percentage
 }
 
 export const trackProgressTimer = (store, actions) => {

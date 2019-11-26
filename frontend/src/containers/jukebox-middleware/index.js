@@ -20,16 +20,23 @@ const JukeboxMiddleware = (() => {
     const getJWT = () => store.getState().settings.token
     const packMessage = () => Payload.encodeToJson(getJWT(store), action.key, action.params)
 
+    const mopidyStateChange = data => {
+      if (JSON.parse(data).online) {
+        store.dispatch(actions.mopidyConnected())
+        return State.loadInitial(store)
+      }
+      store.dispatch(actions.mopidyDisconnected())
+    }
     const onOpen = _evt => {
       progressTimer = trackProgressTimer(store, actions)
       store.dispatch(actions.wsConnected())
-      State.loadInitial(store)
     }
     const onClose = _evt => store.dispatch(actions.wsDisconnect())
     const onMessage = data => onMessageHandler(store, data, progressTimer)
     const onConnect = () => {
       if (socket != null) socket.close()
       socket = io(url, { transports: ['websocket'] })
+      socket.on('mopidy', mopidyStateChange)
       socket.on('message', onMessage)
       socket.on('connect', onOpen)
       socket.on('disconnect', onClose)

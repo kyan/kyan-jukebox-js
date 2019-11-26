@@ -21,6 +21,7 @@ export const Dashboard = () => {
   const tracklistImages = useSelector(state => getTracklistImagesInCache(state))
   const dispatch = useDispatch()
   const { isSignedIn, googleUser } = useContext(GoogleAuthContext)
+  const disable = !(isSignedIn && jukebox.mopidyOnline)
 
   useEffect(() => {
     dispatch(actions.wsConnect())
@@ -45,15 +46,16 @@ export const Dashboard = () => {
     >
       <Settings />
       <VolumeButtons
-        disabled={!isSignedIn}
+        disabled={disable}
         volume={jukebox.volume}
         onVolumeChange={(evt) => dispatch(actions.setVolume(evt))}
       />
       <Controls
-        disabled={!isSignedIn}
+        disabled={disable}
         playbackState={jukebox.playbackState}
         onPlay={() => dispatch(actions.startPlaying())}
         onStop={() => dispatch(actions.stopPlaying())}
+        onPause={() => dispatch(actions.pausePlaying())}
         onNext={() => dispatch(actions.nextPlaying())}
         onPrevious={() => dispatch(actions.previousPlaying())}
       />
@@ -61,7 +63,7 @@ export const Dashboard = () => {
       <Grid columns={2}>
         <Grid.Column width={4}>
           <DragInTrack
-            disabled={!isSignedIn}
+            disabled={disable}
             onDrop={
               /* istanbul ignore next */
               (_item, monitor) => {
@@ -78,12 +80,12 @@ export const Dashboard = () => {
         <Grid.Column width={12}>
           <Header size='small'>
             Playlist <ClearPlaylist
-              disabled={!isSignedIn}
+              disabled={disable}
               onClear={() => dispatch(actions.clearTrackList())}
             />
           </Header>
           <TrackList
-            disabled={!isSignedIn}
+            disabled={disable}
             images={tracklistImages}
             tracks={tracklist}
             currentTrack={currentTrack}

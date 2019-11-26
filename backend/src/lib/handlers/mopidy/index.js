@@ -1,9 +1,18 @@
 import logger from '../../../config/winston'
-import StrToFunction from '../../str-to-function'
 import EventLogger from '../../event-logger'
 import ImageCache from './image-cache'
 import Mopidy from '../../constants/mopidy'
 import Spotify from '../../services/spotify'
+
+const StrToFunction = (obj, methodStr) => {
+  let context = obj
+
+  methodStr.split('.').forEach(function (mthd) {
+    context = context[mthd]
+  })
+
+  return context
+}
 
 const isValidTrack = (key, data, callback) => {
   if (key !== Mopidy.TRACKLIST_ADD) return callback()

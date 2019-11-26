@@ -12,15 +12,16 @@ jest.mock('../../../config/winston')
 jest.mock('../../services/mopidy/tracklist-trimmer')
 
 describe('MopidyService', () => {
-  const wss = { emit: jest.fn() }
-  const callbackMock = jest.fn()
+  const broadcastMock = jest.fn()
+  const mopidyStateMock = jest.fn()
+  const allowConnectionMock = jest.fn()
 
   afterEach(() => {
     jest.clearAllMocks()
   })
 
   it('handles call the global events', () => {
-    MopidyService(wss, callbackMock)
+    MopidyService(broadcastMock, mopidyStateMock, allowConnectionMock)
 
     const instance = Mopidy.mock.instances[0]
     instance.playback = {
@@ -38,12 +39,13 @@ describe('MopidyService', () => {
     expect(instance.on.mock.calls[0][0]).toEqual('websocket:error')
     instance.on.mock.calls[0][1]({ message: 'boooooooom!' })
     expect(logger.error.mock.calls[0][0]).toEqual('Mopidy Error: boooooooom!')
-    expect(storage.clearCurrent).toBeCalled()
+    expect(storage.clearCurrent.mock.calls[0]).not.toBeUndefined()
 
     expect(instance.on.mock.calls[1][0]).toEqual('state:offline')
     instance.on.mock.calls[1][1]()
     expect(logger.info.mock.calls[0][0]).toEqual('Mopidy Offline')
-    expect(storage.clearCurrent).toBeCalled()
+    expect(mopidyStateMock.mock.calls[0][0]).toEqual(false)
+    expect(storage.clearCurrent.mock.calls[1]).not.toBeUndefined()
 
     expect(instance.on.mock.calls[2][0]).toEqual('state:online')
     instance.on.mock.calls[2][1]()
@@ -62,7 +64,7 @@ describe('MopidyService', () => {
     expect(EventLogger.mock.calls[0]).toEqual([
       { encoded_key: 'mopidy::event:volumeChanged' },
       null,
-      { volume: '10' },
+      '{"key":"mopidy::event:volumeChanged"}',
       'MopidyEvent'
     ])
     expect(Transformer.mock.calls[0][0]).toEqual('mopidy::event:volumeChanged')
