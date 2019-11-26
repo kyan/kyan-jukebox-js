@@ -18,39 +18,41 @@ app.use(morgan('combined', { stream: logger.stream }))
 
 const server = http.createServer(app)
 const socketio = io(server, { pingTimeout: 30000 })
-const genricMessage = 'message'
-const mopidyMessage = 'mopidy'
+const GENERIC_MESSAGE = 'message'
+const MOPIDY_MESSAGE = 'mopidy'
+
+const broadcastToAll = (data) => socketio.emit(GENERIC_MESSAGE, data)
+const broadcastMopidyStateChange = (online) => socketio.emit(MOPIDY_MESSAGE, Payload.toJsonString({ online }))
+const allowSocketConnections = (mopidy) => {
+  Scheduler.scheduleAutoPlayback({ stop: () => mopidy.playback.stop() })
+
+  socketio.on('connection', socket => {
+    socketio.emit(MOPIDY_MESSAGE, Payload.toJsonString({ online: true }))
+    SocketErrorsHandler(socket)
+
+    socket.on(GENERIC_MESSAGE, data => {
+      const payload = Payload.decode(data)
+
+      MessageTriage(payload, mopidy, handler => {
+        handler(socket, Broadcaster)
+      })
+    })
+  })
+
+  process.on('SIGTERM', function () {
+    server.close(function () {
+      process.exit(0)
+    })
+  })
+
+  return true
+}
 
 MongodbService()
 MopidyService(
-  (data) => socketio.emit(genricMessage, data),
-  (online) => socketio.emit(mopidyMessage, Payload.toJsonString({ online })),
-  (mopidy) => {
-    Scheduler.scheduleAutoPlayback({
-      stop: () => mopidy.playback.stop()
-    })
-
-    socketio.on('connection', socket => {
-      socketio.emit(mopidyMessage, Payload.toJsonString({ online: true }))
-      SocketErrorsHandler(socket)
-
-      socket.on(genricMessage, data => {
-        const payload = Payload.decode(data)
-
-        MessageTriage(payload, mopidy, handler => {
-          handler(socket, Broadcaster)
-        })
-      })
-    })
-
-    process.on('SIGTERM', function () {
-      server.close(function () {
-        process.exit(0)
-      })
-    })
-
-    return true
-  }
+  broadcastToAll,
+  broadcastMopidyStateChange,
+  allowSocketConnections
 )
 
 export default server

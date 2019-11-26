@@ -38,7 +38,7 @@ const stopButton = (cb, playbackState, disabled) => (
   <Button
     onClick={cb}
     animated='vertical'
-    disabled={(playbackState === MopidyApi.STOPPED || playbackState === MopidyApi.PAUSED || disabled)}
+    disabled={(playbackState === MopidyApi.STOPPED || disabled)}
     active={(playbackState === MopidyApi.STOPPED)}
     className='jb-stop-button'
   >
