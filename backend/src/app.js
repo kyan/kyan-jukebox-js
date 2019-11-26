@@ -2,7 +2,7 @@ import express from 'express'
 import http from 'http'
 import io from 'socket.io'
 import morgan from 'morgan'
-import winston from './config/winston'
+import logger from './config/winston'
 import Broadcaster from './lib/broadcaster'
 import Scheduler from './lib/scheduler'
 import Payload from './lib/payload'
@@ -14,24 +14,23 @@ import MessageTriage from './lib/message-triage'
 const app = express()
 app.disable('x-powered-by')
 app.use(function (_req, res) { res.send({ msg: 'WebSocket Only!' }) })
-app.use(morgan('combined', { stream: winston.stream }))
+app.use(morgan('combined', { stream: logger.stream }))
 
 const server = http.createServer(app)
 const socketio = io(server, { pingTimeout: 30000 })
+const GENERIC_MESSAGE = 'message'
+const MOPIDY_MESSAGE = 'mopidy'
 
-MongodbService()
-
-MopidyService(socketio, mopidy => {
-  if (mopidy.playback) {
-    Scheduler.scheduleAutoPlayback({
-      stop: () => mopidy.playback.stop()
-    })
-  }
+const broadcastToAll = (data) => socketio.emit(GENERIC_MESSAGE, data)
+const broadcastMopidyStateChange = (online) => socketio.emit(MOPIDY_MESSAGE, Payload.toJsonString({ online }))
+const allowSocketConnections = (mopidy) => {
+  Scheduler.scheduleAutoPlayback({ stop: () => mopidy.playback.stop() })
 
   socketio.on('connection', socket => {
+    socketio.emit(MOPIDY_MESSAGE, Payload.toJsonString({ online: true }))
     SocketErrorsHandler(socket)
 
-    socket.on('message', data => {
+    socket.on(GENERIC_MESSAGE, data => {
       const payload = Payload.decode(data)
 
       MessageTriage(payload, mopidy, handler => {
@@ -45,6 +44,15 @@ MopidyService(socketio, mopidy => {
       process.exit(0)
     })
   })
-})
+
+  return true
+}
+
+MongodbService()
+MopidyService(
+  broadcastToAll,
+  broadcastMopidyStateChange,
+  allowSocketConnections
+)
 
 export default server

@@ -11,8 +11,8 @@ const assets = (state = initalState, action) => {
         : [ ...state, { ref: action.uri } ]
     case Types.RESOLVE_IMAGE:
       return state.map(asset =>
-        (action.data[asset.ref] && action.data[asset.ref][1])
-          ? { ...asset, uri: action.data[asset.ref][1].uri }
+        (action.data[asset.ref] && action.data[asset.ref][0])
+          ? { ...asset, uri: action.data[asset.ref][0].uri }
           : asset
       ).slice(0, MAX_IMAGES_IN_CACHE)
     default:

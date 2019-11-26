@@ -10,8 +10,9 @@ import storage from '../../local-storage'
 
 const mopidyUrl = process.env.WS_MOPIDY_URL
 const mopidyPort = process.env.WS_MOPIDY_PORT
+let firstTime = false
 
-const MopidyService = (socketio, callback) => {
+const MopidyService = (broadcastToAll, mopidyState, cbAllowConnections) => {
   const mopidy = new Mopidy({
     webSocketUrl: `ws://${mopidyUrl}:${mopidyPort}/mopidy/ws/`,
     callingConvention: 'by-position-or-by-name'
@@ -22,15 +23,17 @@ const MopidyService = (socketio, callback) => {
   )
 
   const initCurrentTrackState = (mopidy) => {
-    storage.clearCurrent()
-
     Promise.all([
       mopidy.playback.getCurrentTrack(),
       mopidy.tracklist.getTracks()
     ]).then(responses => {
+      storage.clearCurrent()
       if (responses[0]) storage.setItem(Settings.TRACK_CURRENT, responses[0].uri)
       cacheTrackUris(responses[1])
       trackListTrimmer(mopidy)
+
+      firstTime ? mopidyState(true) : cbAllowConnections(mopidy)
+      firstTime = true
     })
   }
 
@@ -41,6 +44,7 @@ const MopidyService = (socketio, callback) => {
 
   mopidy.on('state:offline', () => {
     logger.info('Mopidy Offline', { url: `${mopidyUrl}:${mopidyPort}` })
+    mopidyState(false)
     storage.clearCurrent()
   })
 
@@ -56,8 +60,8 @@ const MopidyService = (socketio, callback) => {
       const packAndSend = (data, key) => {
         const unifiedMessage = Transformer(key, data, mopidy)
         const payload = Payload.encodeToJson(key, unifiedMessage)
-        socketio.emit('message', payload)
-        EventLogger({ encoded_key: key }, null, message, 'MopidyEvent')
+        EventLogger({ encoded_key: key }, null, payload, 'MopidyEvent')
+        broadcastToAll(payload)
       }
 
       if (encodedKey === MopidyConstants.EVENTS.TRACKLIST_CHANGED) {
@@ -72,8 +76,6 @@ const MopidyService = (socketio, callback) => {
       }
     })
   })
-
-  callback(mopidy)
 }
 
 export default MopidyService

@@ -1,7 +1,6 @@
 import * as actions from './index'
 import MopidyApi from '../constants/mopidy-api'
 import Types from '../constants'
-import notify from '../utils/notify'
 jest.mock('../utils/notify')
 
 describe('actions', () => {
@@ -180,9 +179,6 @@ describe('actions', () => {
       key: MopidyApi.PLAYBACK_PLAY
     }
     expect(actions.startPlaying()).toEqual(expectedAction)
-    expect(notify.mock.calls.length).toEqual(1)
-    expect(notify.mock.calls[0][0]).toEqual('Jukebox Playing')
-    notify.mockClear()
   })
 
   it('should handle stopPlaying', () => {
@@ -191,9 +187,14 @@ describe('actions', () => {
       key: MopidyApi.PLAYBACK_STOP
     }
     expect(actions.stopPlaying()).toEqual(expectedAction)
-    expect(notify.mock.calls.length).toEqual(1)
-    expect(notify.mock.calls[0][0]).toEqual('Jukebox Halted')
-    notify.mockClear()
+  })
+
+  it('should handle pausePlaying', () => {
+    const expectedAction = {
+      type: Types.SEND,
+      key: MopidyApi.PLAYBACK_PAUSE
+    }
+    expect(actions.pausePlaying()).toEqual(expectedAction)
   })
 
   it('should handle nextPlaying', () => {

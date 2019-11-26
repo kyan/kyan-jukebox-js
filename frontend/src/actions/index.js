@@ -1,6 +1,5 @@
 import MopidyApi from '../constants/mopidy-api'
 import Types from '../constants'
-import notify from '../utils/notify'
 import { transformUrl } from '../utils/spotify'
 
 export const updateToken = token => {
@@ -88,6 +87,18 @@ export const wsDisconnected = () => {
   }
 }
 
+export const mopidyConnected = () => {
+  return {
+    type: Types.MOPIDY_CONNECTED
+  }
+}
+
+export const mopidyDisconnected = () => {
+  return {
+    type: Types.MOPIDY_DISCONNECTED
+  }
+}
+
 export const getCurrentTrack = () => {
   return {
     type: Types.SEND,
@@ -147,8 +158,6 @@ export const clearTrackList = () => {
 }
 
 export const startPlaying = () => {
-  notify('Jukebox Playing')
-
   return {
     type: Types.SEND,
     key: MopidyApi.PLAYBACK_PLAY
@@ -156,11 +165,16 @@ export const startPlaying = () => {
 }
 
 export const stopPlaying = () => {
-  notify('Jukebox Halted')
-
   return {
     type: Types.SEND,
     key: MopidyApi.PLAYBACK_STOP
+  }
+}
+
+export const pausePlaying = () => {
+  return {
+    type: Types.SEND,
+    key: MopidyApi.PLAYBACK_PAUSE
   }
 }
 
