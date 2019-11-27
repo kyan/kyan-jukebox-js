@@ -25,7 +25,7 @@ $ cd jukebox-js
 
 First, create a `.env` file in the root directory. Example vars can be found in the [`.env.example`](.env.example) file. At a minimum `WS_MOPIDY_URL`, `WS_MOPIDY_PORT` and `CLIENT_ID` values need to be defined.
 
-`WS_MOPIDY_URL` can point either to a [local](docs/mopidy_install.md) instance of Mopidy or the production/staging instance in the office.
+`WS_MOPIDY_URL` must point to an instance of Mopidy, for example [running locally on a Raspberry Pi](docs/mopidy_install.md).
 
 `CLIENT_ID` must be set to a valid Google app ID in order for any interaction with the app to be possible.
 
