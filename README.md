@@ -21,15 +21,26 @@ $ cd jukebox-js
 
 ## Development
 
-You can run everything in `Docker`. From the root of the repo, you just need to run:
+### Environment
+
+First, create a `.env` file in the root directory. Example vars can be found in the [`.env.example`](.env.example) file. At a minimum `WS_MOPIDY_URL`, `WS_MOPIDY_PORT` and `CLIENT_ID` values need to be defined.
+
+`WS_MOPIDY_URL` must point to an instance of Mopidy, for example [running locally on a Raspberry Pi](docs/mopidy_install.md).
+
+`CLIENT_ID` must be set to a valid Google app ID in order for any interaction with the app to be possible.
+
+The backend also uses the Spotify API directly for some tasks. If you need this you will need to copy the `SPOTIFY_ID` and `SPOTIFY_SECRET` vars from the `.env.example` file to `.env` and [update the creds to your own](https://developer.spotify.com/dashboard/applications).
+
+### Running the app
+
+From there, you can run everything in `Docker`. From the root of the repo, you just need to run:
 
 ```
 $ docker-compose up
 ```
 
-This will give you a give you a working client and API plus the perisistence layer. The client is available http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart. By default the API will be talking to the live Mopidy instance in the office.
+This will give you a working client and API plus the persistence layer. The client is available at http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart.
 
-Both the frontend and backend use ENVs for their confirguration. You can make changes to the defaults by updating the `docker-compose.yml` file. The backend also uses the Spotify API directly for some tasks. If you need this you will need to re-name the `.env.example` file to `.env` and update the creds to your own.
 
 ### Mopidy
 
