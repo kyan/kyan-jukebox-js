@@ -23,7 +23,7 @@ $ cd jukebox-js
 
 ### Environment
 
-First, create a `.env` file in the root directory. Example vars can be found in the `.env.example` file. At a minimum `WS_MOPIDY_URL`, `WS_MOPIDY_PORT` and `CLIENT_ID` values need to be defined.
+First, create a `.env` file in the root directory. Example vars can be found in the [`.env.example`](.env.example) file. At a minimum `WS_MOPIDY_URL`, `WS_MOPIDY_PORT` and `CLIENT_ID` values need to be defined.
 
 `WS_MOPIDY_URL` can point either to a [local](docs/mopidy_install.md) instance of Mopidy or the production/staging instance in the office.
 
