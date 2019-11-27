@@ -29,7 +29,7 @@ First, create a `.env` file in the root directory. Example vars can be found in 
 
 `CLIENT_ID` can be set to anything for the app to launch, but needs to be set to a valid Google app ID in order for login to function.
 
-The backend also uses the Spotify API directly for some tasks. If you need this you will need to copy the `SPOTIFY_ID` and `SPOTIFY_SECRET` vars from the `.env.example` file to `.env` and update the creds to your own.
+The backend also uses the Spotify API directly for some tasks. If you need this you will need to copy the `SPOTIFY_ID` and `SPOTIFY_SECRET` vars from the `.env.example` file to `.env` and [update the creds to your own](https://developer.spotify.com/dashboard/applications).
 
 ### Running the app
 
