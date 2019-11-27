@@ -39,7 +39,7 @@ From there, you can run everything in `Docker`. From the root of the repo, you j
 $ docker-compose up
 ```
 
-This will give you a give you a working client and API plus the perisistence layer. The client is available http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart.
+This will give you a working client and API plus the persistence layer. The client is available at http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart.
 
 
 ### Mopidy
