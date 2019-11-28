@@ -29,7 +29,8 @@
     "redux": "^4.0.4",
     "reselect": "^4.0.0",
     "semantic-ui-react": "^0.88.1",
-    "socket.io-client": "^2.2.0"
+    "socket.io-client": "^2.2.0",
+    "worker-timers": "^5.0.35"
   },
   "devDependencies": {
     "enzyme": "^3.9.0",
