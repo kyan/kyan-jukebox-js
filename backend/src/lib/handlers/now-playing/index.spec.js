@@ -6,22 +6,18 @@ describe('NowPlaying', () => {
     const httpMock = jest.fn()
     const trackObject = {
       name: 'Seasons (Waiting On You)',
-      artist: {
-        name: 'Future Islands'
-      },
-      album: {
-        name: 'Singles'
-      }
+      artist: { name: 'Future Islands' },
+      album: { name: 'Singles' }
     }
     beforeAll(() => {
       jest.spyOn(HttpService, 'post').mockImplementation(httpMock)
     })
     afterEach(() => {
-      jest.resetAllMocks();
-      delete process.env.NOW_PLAYING_URL;
+      jest.resetAllMocks()
+      delete process.env.NOW_PLAYING_URL
     })
 
-    it('when the NOW_PLAYING_URL is not set it calls to the HTTP service', () => {
+    it('when the NOW_PLAYING_URL is set it calls to the HTTP service', () => {
       process.env.NOW_PLAYING_URL = 'addthetrack.com'
       NowPlaying.addTrack(trackObject)
       expect(httpMock).toHaveBeenCalledWith({
@@ -30,14 +26,14 @@ describe('NowPlaying', () => {
           added_by: 'Jukebox JS',
           title: 'Seasons (Waiting On You)',
           artist: 'Future Islands',
-          album: 'Singles',
+          album: 'Singles'
         }
       })
     })
 
-   it('when the NOW_PLAYING_URL is not set it does nothing', () => {
+    it('when the NOW_PLAYING_URL is not set it does nothing', () => {
       NowPlaying.addTrack(trackObject)
-      expect(httpMock).not.toHaveBeenCalled();
+      expect(httpMock).not.toHaveBeenCalled()
     })
   })
 })
