@@ -31,6 +31,8 @@ First, create a `.env` file in the root directory. Example vars can be found in 
 
 The backend also uses the Spotify API directly for some tasks. If you need this you will need to copy the `SPOTIFY_ID` and `SPOTIFY_SECRET` vars from the `.env.example` file to `.env` and [update the creds to your own](https://developer.spotify.com/dashboard/applications).
 
+In production we are posting currently playing track information to an endpoint defined by the `NOW_PLAYING_URL`, you can optionally set this in development (e.g. to test against [kyan.rocks](https://github.com/kyan/kyan-rocks). But you can also leave it blank.)
+
 ### Running the app
 
 From there, you can run everything in `Docker`. From the root of the repo, you just need to run:
