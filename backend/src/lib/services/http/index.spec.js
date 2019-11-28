@@ -13,6 +13,8 @@ jest.mock('gaxios', () => {
 describe('HttpService', () => {
   const errorLoggerMock = jest.fn()
   const infoLoggerMock = jest.fn()
+  const url = '/endpoint'
+  const data = { track: 'Good song' }
 
   beforeAll(() => {
     jest.spyOn(logger, 'info').mockImplementation(infoLoggerMock)
@@ -22,18 +24,16 @@ describe('HttpService', () => {
   describe('post', () => {
     beforeEach(() => {
       HttpService.post({
-        url: '/endpoint',
-        data: { track: 'Good song' }
+        url,
+        data
       })
     })
 
     it('should call through to the HTTP library with expected URL & data', () => {
       expect(request).toHaveBeenCalledWith({
         method: 'POST',
-        url: '/endpoint',
-        data: {
-          track: 'Good song'
-        }
+        url,
+        data
       })
       expect(infoLoggerMock).toHaveBeenCalledWith(
         'Posted to /endpoint',
@@ -44,10 +44,8 @@ describe('HttpService', () => {
     it('should catch an error and pass it to the logger', () => {
       expect(request).toHaveBeenCalledWith({
         method: 'POST',
-        url: '/endpoint',
-        data: {
-          track: 'Good song'
-        }
+        url,
+        data
       })
       expect(errorLoggerMock).toHaveBeenCalledWith(
         'Something went wrong with /endpoint',
