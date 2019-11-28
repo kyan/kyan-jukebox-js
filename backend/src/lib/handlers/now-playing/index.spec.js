@@ -4,10 +4,13 @@ import HttpService from '../../services/http'
 describe('NowPlaying', () => {
   describe('addTrack', () => {
     const httpMock = jest.fn()
+    const title = 'Seasons (Waiting On You)'
+    const artist = 'Future Islands'
+    const album = 'Singles'
     const trackObject = {
-      name: 'Seasons (Waiting On You)',
-      artist: { name: 'Future Islands' },
-      album: { name: 'Singles' }
+      name: title,
+      artist: { name: artist },
+      album: { name: album }
     }
     beforeAll(() => {
       jest.spyOn(HttpService, 'post').mockImplementation(httpMock)
@@ -24,9 +27,9 @@ describe('NowPlaying', () => {
         url: 'addthetrack.com',
         data: {
           added_by: 'Jukebox JS',
-          title: 'Seasons (Waiting On You)',
-          artist: 'Future Islands',
-          album: 'Singles'
+          title,
+          artist,
+          album
         }
       })
     })
