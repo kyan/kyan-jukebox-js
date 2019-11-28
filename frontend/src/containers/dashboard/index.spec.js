@@ -4,8 +4,10 @@ import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import * as actions from '../../actions'
 import GoogleAuthContext from '../../contexts/google'
+import SignInToken from '../../utils/signin-token'
 import Dashboard from './index'
 jest.mock('../../utils/notify')
+jest.mock('../../utils/signin-token')
 
 describe('Dashboard', () => {
   beforeEach(() => {
@@ -13,8 +15,8 @@ describe('Dashboard', () => {
   })
 
   describe('online', () => {
+    let mockActions, wrapper, store, data
     const mockStore = configureMockStore()
-    let wrapper, store, data
     data = {
       tracklist: [],
       jukebox: {
@@ -27,7 +29,6 @@ describe('Dashboard', () => {
         postion: 0
       }
     }
-    store = mockStore(data)
 
     describe('logged out', () => {
       it('renders as expected', () => {
@@ -35,6 +36,7 @@ describe('Dashboard', () => {
           isSignedIn: false,
           googleUser: null
         }
+        store = mockStore(data)
         wrapper = mount(
           <Provider store={store}>
             <GoogleAuthContext.Provider value={mockGoogle}>
@@ -42,7 +44,13 @@ describe('Dashboard', () => {
             </GoogleAuthContext.Provider>
           </Provider>
         )
+        mockActions = store.getActions()
         expect(wrapper).toMatchSnapshot()
+
+        expect(mockActions).toEqual([
+          { type: 'actionClearStoreToken' },
+          { type: 'actionConnect' }
+        ])
 
         const control = wrapper.find('Controls')
         expect(control.prop('onPlay')()).toEqual(actions.startPlaying())
@@ -56,6 +64,8 @@ describe('Dashboard', () => {
 
         const clear = wrapper.find('ClearPlaylist')
         expect(clear.prop('onClear')()).toEqual(actions.clearTrackList())
+
+        expect(SignInToken.clear.mock.calls.length).toEqual(1)
       })
     })
 
@@ -64,12 +74,16 @@ describe('Dashboard', () => {
         const mockGoogle = {
           isSignedIn: true,
           googleUser: {
+            Zi: {
+              id_token: 'googlejwttoken123'
+            },
             profileObj: {
               name: 'Fred Spanner',
               imageUrl: 'myImage123'
             }
           }
         }
+        store = mockStore(data)
         wrapper = mount(
           <Provider store={store}>
             <GoogleAuthContext.Provider value={mockGoogle}>
@@ -77,7 +91,12 @@ describe('Dashboard', () => {
             </GoogleAuthContext.Provider>
           </Provider>
         )
+        mockActions = store.getActions()
         expect(wrapper).toMatchSnapshot()
+        expect(mockActions).toEqual([
+          { token: 'googlejwttoken123', type: 'actionStoreToken' },
+          { type: 'actionConnect' }
+        ])
 
         const control = wrapper.find('Controls')
         expect(control.prop('onPlay')()).toEqual(actions.startPlaying())
@@ -85,6 +104,12 @@ describe('Dashboard', () => {
         expect(control.prop('onPause')()).toEqual(actions.pausePlaying())
         expect(control.prop('onNext')()).toEqual(actions.nextPlaying())
         expect(control.prop('onPrevious')()).toEqual(actions.previousPlaying())
+
+        expect(SignInToken.refresh.mock.calls.length).toEqual(1)
+        expect(SignInToken.refresh.mock.calls[0][0]).toEqual(mockGoogle.googleUser)
+        spyOn(actions, 'updateToken').and.callThrough()
+        SignInToken.refresh.mock.calls[0][1]('token')
+        expect(actions.updateToken).toHaveBeenCalledWith('token')
 
         const volume = wrapper.find('VolumeButtons')
         expect(volume.prop('onVolumeChange')(12)).toEqual(actions.setVolume(12))

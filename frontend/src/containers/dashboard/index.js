@@ -1,8 +1,9 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { Dimmer, Divider, Grid, Header } from 'semantic-ui-react'
+import SignInToken from '../../utils/signin-token'
 import GoogleAuthContext from '../../contexts/google'
 import VolumeButtons from '../../components/volume-buttons'
 import ClearPlaylist from '../../components/clear-playlist'
@@ -22,6 +23,9 @@ export const Dashboard = () => {
   const dispatch = useDispatch()
   const { isSignedIn, googleUser } = useContext(GoogleAuthContext)
   const disable = !(isSignedIn && jukebox.mopidyOnline)
+  const googleTokenId = useRef()
+  const refreshTokenTimeoutID = useRef()
+  const hasTokenChanged = (token) => token !== googleTokenId.current
 
   useEffect(() => {
     dispatch(actions.wsConnect())
@@ -32,9 +36,17 @@ export const Dashboard = () => {
     }
   }, [dispatch])
 
-  if (isSignedIn) {
-    dispatch(actions.updateToken(googleUser.tokenId))
-  } else {
+  if (isSignedIn && hasTokenChanged(googleUser.Zi.id_token)) {
+    googleTokenId.current = googleUser.Zi.id_token
+    refreshTokenTimeoutID.current = SignInToken.refresh(googleUser, (token) => {
+      dispatch(actions.updateToken(token))
+    })
+    dispatch(actions.updateToken(googleTokenId.current))
+  }
+
+  if (!isSignedIn) {
+    googleTokenId.current = undefined
+    SignInToken.clear(refreshTokenTimeoutID.current)
     dispatch(actions.clearToken())
   }
 
