@@ -1,4 +1,5 @@
-version: '3.4'
+version: '3.7'
+
 services:
   jukebox-client:
     container_name: jukebox-client
@@ -34,6 +35,7 @@ services:
       - "9229:9229"
     depends_on:
       - mongodb
+      - mopidy
     environment:
       - NODE_ENV=development
       - PORT=8080
@@ -57,3 +59,17 @@ services:
       - ./data/db:/data/db
     ports:
       - 27017:27017
+  mopidy:
+    container_name: mopidy
+    build:
+      context: ./mopidy
+    volumes:
+      - ./mopidy/config/mopidy.conf:/config/mopidy.conf
+    command: mopidy
+    ports:
+      - "6600:6600"
+      - "6680:6680"
+    networks:
+      default:
+        aliases:
+          - mopidy.local
