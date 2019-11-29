@@ -46,6 +46,7 @@ services:
       - SPOTIFY_NEW_TRACKS_ADDED_LIMIT=3
       - LOCAL_STORAGE_PATH=./local-cache
       - CLIENT_ID=${CLIENT_ID}
+      - NOW_PLAYING_URL=${NOW_PLAYING_URL}
   mongodb:
     image: mongo:3.6.4
     container_name: mongodb

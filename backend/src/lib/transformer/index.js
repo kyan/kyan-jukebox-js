@@ -3,6 +3,7 @@ import Auth from '../constants/auth'
 import Settings from '../constants/settings'
 import TransformTrack from './transformers/mopidy/track'
 import TransformTracklist from './transformers/mopidy/tracklist'
+import NowPlaying from '../handlers/now-playing'
 import settings from '../local-storage'
 import Spotify from '../services/spotify'
 
@@ -17,17 +18,18 @@ export default function (key, data, mopidy) {
   switch (key) {
     case Mopidy.EVENTS.PLAYBACK_STARTED:
       const payload = TransformTrack(data.tl_track.track)
-      settings.addToUniqueArray(Settings.TRACKLIST_LAST_PLAYED, payload.track.uri, 10)
-      settings.setItem(Settings.TRACK_CURRENT, payload.track.uri)
+      const { track } = payload
 
+      settings.addToUniqueArray(Settings.TRACKLIST_LAST_PLAYED, track.uri, 10)
+      settings.setItem(Settings.TRACK_CURRENT, track.uri)
+      NowPlaying.addTrack(track)
       Spotify.canRecommend(mopidy, (recommend) => {
-        const waitToRecommend = payload.track.length / 4 * 3
+        const waitToRecommend = track.length / 4 * 3
         const lastTracksPlayed = settings.getItem(Settings.TRACKLIST_LAST_PLAYED) || []
 
         clearSetTimeout(recommendTimer)
         recommendTimer = setTimeout(recommend, waitToRecommend, lastTracksPlayed, mopidy)
       })
-
       return payload
     case Mopidy.EVENTS.VOLUME_CHANGED:
       return data.volume
