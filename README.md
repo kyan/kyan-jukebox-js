@@ -25,7 +25,7 @@ $ cd jukebox-js
 
 First, create a `.env` file in the root directory. Example vars can be found in the [`.env.example`](.env.example) file. At a minimum `WS_MOPIDY_URL`, `WS_MOPIDY_PORT` and `CLIENT_ID` values need to be defined.
 
-`WS_MOPIDY_URL` must point to an instance of Mopidy, for example [running locally on a Raspberry Pi](docs/mopidy_install.md).
+`WS_MOPIDY_URL` must point to an instance of Mopidy, for example [running locally on a Raspberry Pi](docs/mopidy_install.md), [or within Docker](docs/mopidy_docker.md).
 
 `CLIENT_ID` must be set to a valid Google app ID in order for any interaction with the app to be possible.
 
@@ -47,6 +47,8 @@ This will give you a working client and API plus the persistence layer. The clie
 ### Mopidy
 
 If you want to run your own copy of Mopidy, you can buy yourself a Raspberry Pi and follow [these instructions](docs/mopidy_install.md).
+
+Alternatively, it is possible to run Mopidy from [within Docker](docs/mopidy_docker.md), although this currently does not support audio playback.
 
 ### Specs
 

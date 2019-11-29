@@ -40,7 +40,7 @@ COPY ./entrypoint.sh /entrypoint.sh
 # Default configuration.
 COPY ./config/mopidy.conf /config/mopidy.conf
 
-# Copy the pulse-client configuratrion.
+# Copy the pulse-client configuration.
 COPY ./config/pulse-client.conf /etc/pulse/client.conf
 
 EXPOSE 6600 6680 5555/udp
