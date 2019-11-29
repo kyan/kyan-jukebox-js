@@ -7,6 +7,8 @@ $ make build-all
 $ make serve-all
 ```
 
+You will need to provide valid credentials for Spotify within the [mopidy.conf](mopidy/config/mopidy.conf) file.
+
 Alongside Mopidy, this also runs the [Iris](https://github.com/jaedb/Iris) front-end, accessible at http://localhost:6680/iris - which can be used to browse for and add tracks to the playlist.
 
 ### Note
