@@ -38,7 +38,15 @@ In production, we are posting currently-playing track information to an endpoint
 From there, you can run everything in `Docker`. From the root of the repo, you just need to run:
 
 ```
-$ docker-compose up
+$ make build
+$ make serve
+```
+
+Or to run with local Mopidy:
+
+```
+$ make build-all
+$ make serve-all
 ```
 
 This will give you a working client and API plus the persistence layer. The client is available at http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart.
