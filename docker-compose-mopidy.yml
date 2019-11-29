@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  mopidy:
+    container_name: mopidy
+    build:
+      context: ./mopidy
+    volumes:
+      - ./mopidy/config/mopidy.conf:/config/mopidy.conf
+    command: mopidy
+    ports:
+      - "6600:6600"
+      - "6680:6680"
+    networks:
+      default:
+        aliases:
+          - mopidy.local
