@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const eventSchema = mongoose.Schema({
+const eventSchema = new mongoose.Schema({
   user: String,
   key: String,
   payload: mongoose.Schema.Types.Mixed
