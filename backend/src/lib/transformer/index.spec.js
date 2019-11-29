@@ -3,6 +3,8 @@ import TransformTrack from './transformers/mopidy/track'
 import TransformTracklist from './transformers/mopidy/tracklist'
 import settings from '../local-storage'
 import Spotify from '../services/spotify'
+import NowPlaying from '../handlers/now-playing'
+
 jest.mock('./transformers/mopidy/track', () => {
   return jest.fn(() => ({
     track: {
@@ -16,6 +18,7 @@ jest.mock('../services/mopidy/tracklist-trimmer')
 jest.mock('../services/spotify', () => ({
   canRecommend: jest.fn((_, fn) => fn('function'))
 }))
+jest.mock('../handlers/now-playing')
 jest.mock('./transformers/mopidy/tracklist')
 jest.useFakeTimers()
 
@@ -63,6 +66,10 @@ describe('Transformer', () => {
     it('does the right thing', () => {
       Transformer('mopidy::event:trackPlaybackStarted', data, mopidyMock)
       expect(TransformTrack).toHaveBeenCalledWith(data.tl_track.track)
+      expect(NowPlaying.addTrack).toHaveBeenCalledWith({
+        uri: 'spotify:track:40riOy7x9W7GXjyGp4pjAv',
+        length: 123456
+      })
       expect(settings.addToUniqueArray.mock.calls[0])
         .toEqual(['tracklist.last_played', 'spotify:track:40riOy7x9W7GXjyGp4pjAv', 10])
       expect(Spotify.canRecommend.mock.calls[0])
