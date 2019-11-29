@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const imageSchema = mongoose.Schema({
+const imageSchema = new mongoose.Schema({
   uri: String,
   data: mongoose.Schema.Types.Mixed,
   expireAt: Date
