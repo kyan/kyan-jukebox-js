@@ -7,6 +7,7 @@ const initalState = {
 const settings = (state = initalState, action) => {
   switch (action.type) {
     case Types.STORE_TOKEN:
+      if (action.token === state.token) return state
       return Object.assign({}, state, {
         token: action.token
       })
