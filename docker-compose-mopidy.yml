@@ -5,8 +5,6 @@ services:
     container_name: mopidy
     build:
       context: ./mopidy
-    volumes:
-      - ./mopidy/config/mopidy.conf:/config/mopidy.conf
     command: mopidy
     ports:
       - "6600:6600"
@@ -14,4 +12,9 @@ services:
     networks:
       default:
         aliases:
-          - mopidy.local
+          - mopidy
+    environment:
+      - MOPIDY_USERNAME=${MOPIDY_USERNAME}
+      - MOPIDY_PASSWORD=${MOPIDY_PASSWORD}
+      - MOPIDY_CLIENT_ID=${MOPIDY_CLIENT_ID}
+      - MOPIDY_CLIENT_SECRET=${MOPIDY_CLIENT_SECRET}
