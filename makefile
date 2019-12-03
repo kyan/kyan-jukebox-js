@@ -1,12 +1,12 @@
 help:
 	@echo "How to use:"
 	@echo
-	@echo "  $$ make build					builds images excluding local mopidy"
-	@echo "  $$ make build-all			builds images including local mopidy"
-	@echo "  $$ make serve    			start the local development environment excluding local mopidy"
-	@echo "  $$ make serve-all    	start the local development environment including local mopidy"
-	@echo "  $$ make test-frontend  runs client specs"
-	@echo "  $$ make test-backend  	runs api specs"
+	@echo "  $$ make build            builds images excluding local mopidy"
+	@echo "  $$ make build-all        builds images including local mopidy"
+	@echo "  $$ make serve            start the local development environment excluding local mopidy"
+	@echo "  $$ make serve-all        start the local development environment including local mopidy"
+	@echo "  $$ make test-frontend    runs client specs"
+	@echo "  $$ make test-backend     runs api specs"
 
 build:
 	docker-compose down
