@@ -7,7 +7,7 @@ $ make build-all
 $ make serve-all
 ```
 
-You will need to provide valid credentials for Spotify within the [mopidy.conf](mopidy/config/mopidy.conf) file.
+You will need to enter [valid credentials for Spotify](https://mopidy.com/authenticate/) to the [.env](../README.md#Environment) file. These will then be copied to the container when you start it up.
 
 Alongside Mopidy, this also runs the [Iris](https://github.com/jaedb/Iris) front-end, accessible at http://localhost:6680/iris - which can be used to browse for and add tracks to the playlist.
 
