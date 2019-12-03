@@ -13,6 +13,8 @@ services:
       default:
         aliases:
           - mopidy
+    volumes:
+      - ./mopidy-data:/var/lib/mopidy
     environment:
       - MOPIDY_USERNAME=${MOPIDY_USERNAME}
       - MOPIDY_PASSWORD=${MOPIDY_PASSWORD}
