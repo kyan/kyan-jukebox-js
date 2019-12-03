@@ -9,10 +9,6 @@ services:
     ports:
       - "6600:6600"
       - "6680:6680"
-    networks:
-      default:
-        aliases:
-          - mopidy
     volumes:
       - ./mopidy-data:/var/lib/mopidy
     environment:
