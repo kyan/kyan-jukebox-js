@@ -1,6 +1,6 @@
 import MopidyService from './index'
 import Mopidy from 'mopidy'
-import logger from '../../../config/winston'
+import logger from 'config/winston'
 import storage from '../../local-storage'
 import EventLogger from '../../../lib/event-logger'
 import Transformer from '../../transformer'
@@ -8,7 +8,7 @@ jest.mock('mopidy')
 jest.mock('../../../lib/event-logger')
 jest.mock('../../transformer')
 jest.mock('../../local-storage')
-jest.mock('../../../config/winston')
+jest.mock('config/winston')
 jest.mock('../../services/mopidy/tracklist-trimmer')
 
 describe('MopidyService', () => {

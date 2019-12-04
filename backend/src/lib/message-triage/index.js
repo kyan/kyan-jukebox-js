@@ -1,4 +1,4 @@
-import logger from '../../config/winston'
+import logger from 'config/winston'
 import MopidyHandler from '../handlers/mopidy'
 import AuthenticateHandler from '../handlers/authenticate'
 

@@ -1,6 +1,6 @@
 import SpotifyService from './index'
 
-jest.mock('../../../config/winston')
+jest.mock('config/winston')
 jest.mock('spotify-web-api-node', () => {
   return function () {
     return {

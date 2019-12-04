@@ -1,5 +1,5 @@
 import Mopidy from 'mopidy'
-import logger from '../../../config/winston'
+import logger from 'config/winston'
 import EventLogger from '../../event-logger'
 import MopidyConstants from '../../constants/mopidy'
 import Settings from '../../constants/settings'

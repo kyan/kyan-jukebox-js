@@ -1,7 +1,7 @@
 import broadcaster from './index'
-import logger from '../../config/winston'
+import logger from 'config/winston'
 import EventLogger from '../../lib/event-logger'
-jest.mock('../../config/winston')
+jest.mock('config/winston')
 jest.mock('../../lib/event-logger')
 
 describe('Broadcaster', () => {

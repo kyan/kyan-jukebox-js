@@ -1,4 +1,4 @@
-import logger from '../../../../config/winston'
+import logger from 'config/winston'
 import Settings from '../../../constants/settings'
 import storage from '../../../local-storage'
 

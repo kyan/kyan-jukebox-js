@@ -1,4 +1,4 @@
-import logger from '../../../config/winston'
+import logger from 'config/winston'
 import EventLogger from '../../event-logger'
 import ImageCache from './image-cache'
 import Mopidy from '../../constants/mopidy'

@@ -1,8 +1,8 @@
 import EventLogger from './index'
 import MopidyConsts from '../constants/mopidy'
 import Event from '../services/mongodb/models/event'
-import logger from '../../config/winston'
-jest.mock('../../config/winston')
+import logger from 'config/winston'
+jest.mock('config/winston')
 
 describe('EventLogger', () => {
   afterEach(() => {

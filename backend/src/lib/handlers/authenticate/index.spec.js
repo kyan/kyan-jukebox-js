@@ -1,9 +1,9 @@
 import { OAuth2Client } from 'google-auth-library'
 import User from '../../services/mongodb/models/user'
-import logger from '../../../config/winston'
+import logger from 'config/winston'
 import AuthenticateHandler from './index'
 jest.mock('google-auth-library')
-jest.mock('../../../config/winston')
+jest.mock('config/winston')
 
 describe('AuthenticateHandler', () => {
   const wsMock = jest.fn()

@@ -1,4 +1,4 @@
-import logger from '../../config/winston'
+import logger from 'config/winston'
 import EventLogger from '../event-logger'
 import Transformer from '../transformer'
 import Payload from '../payload'

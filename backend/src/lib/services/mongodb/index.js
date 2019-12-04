@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import logger from '../../../config/winston'
+import logger from 'config/winston'
 
 const mongodbUrl = process.env.MONGODB_URL
 const options = {

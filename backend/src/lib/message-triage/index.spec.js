@@ -1,10 +1,10 @@
-import logger from '../../config/winston'
+import logger from 'config/winston'
 import MessageTriage from './index'
 import AuthenticateHandler from '../handlers/authenticate'
 import MopidyHandler from '../handlers/mopidy'
 jest.mock('../handlers/authenticate')
 jest.mock('../handlers/mopidy')
-jest.mock('../../config/winston')
+jest.mock('config/winston')
 
 describe('MessageTriage', () => {
   const mopidy = jest.fn()

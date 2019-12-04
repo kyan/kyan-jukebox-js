@@ -1,4 +1,4 @@
-import logger from '../../../../config/winston'
+import logger from 'config/winston'
 import Image from '../../../services/mongodb/models/image'
 import MopidyConsts from '../../../constants/mopidy'
 

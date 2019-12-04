@@ -1,7 +1,7 @@
 import storage from '../../../local-storage'
 import tracklistTrimmer from './index'
 
-jest.mock('../../../../config/winston')
+jest.mock('config/winston')
 jest.mock('../../../local-storage')
 
 describe('tracklistTrimmer', () => {

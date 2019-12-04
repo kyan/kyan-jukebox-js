@@ -1,9 +1,9 @@
-import logger from '../../../config/winston'
+import logger from 'config/winston'
 import MopidyHandler from './index'
 import ImageCache from './image-cache'
 import Spotify from '../../services/spotify'
 jest.mock('./image-cache')
-jest.mock('../../../config/winston')
+jest.mock('config/winston')
 jest.mock('../../services/spotify')
 jest.mock('../../services/mopidy/tracklist-trimmer')
 

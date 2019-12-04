@@ -1,7 +1,7 @@
 import mockingoose from 'mockingoose'
-import logger from '../../../../config/winston'
+import logger from 'config/winston'
 import ImageCache from './index'
-jest.mock('../../../../config/winston')
+jest.mock('config/winston')
 
 describe('ImageCache', () => {
   const cb = jest.fn()
