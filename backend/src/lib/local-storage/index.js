@@ -1,5 +1,5 @@
 import { LocalStorage } from 'node-localstorage'
-import SettingsConstants from '../constants/settings'
+import SettingsConstants from 'constants/settings'
 import ErrorHandler from '../handlers/errors'
 const storage = new LocalStorage(process.env.LOCAL_STORAGE_PATH)
 

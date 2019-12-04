@@ -1,6 +1,6 @@
 import { OAuth2Client } from 'google-auth-library'
-import AuthConsts from '../../constants/auth'
-import MopidyConsts from '../../constants/mopidy'
+import AuthConsts from 'constants/auth'
+import MopidyConsts from 'constants/mopidy'
 import logger from 'config/winston'
 import User from '../../services/mongodb/models/user'
 

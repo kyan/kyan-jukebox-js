@@ -47,7 +47,7 @@
       "!<rootDir>/dist/",
       "!src/index.js",
       "!src/app.js",
-      "!src/**/constants/*.js",
+      "!src/constants/*.js",
       "!src/config/*.js"
     ]
   },

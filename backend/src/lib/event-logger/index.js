@@ -1,6 +1,6 @@
 import Event from '../services/mongodb/models/event'
 import logger from 'config/winston'
-import MopidyConsts from '../constants/mopidy'
+import MopidyConsts from 'constants/mopidy'
 
 const invalidKey = (key) => {
   if (key === MopidyConsts.LIBRARY_GET_IMAGES) return true

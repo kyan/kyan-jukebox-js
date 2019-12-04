@@ -1,5 +1,5 @@
 import settings from '../../local-storage'
-import SettingsConsts from '../../constants/settings'
+import SettingsConsts from 'constants/settings'
 import EventLogger from '../../event-logger'
 import logger from 'config/winston'
 import SpotifyWebApi from 'spotify-web-api-node'

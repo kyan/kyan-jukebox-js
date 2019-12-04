@@ -1,5 +1,5 @@
 import logger from 'config/winston'
-import Settings from '../../../constants/settings'
+import Settings from 'constants/settings'
 import storage from '../../../local-storage'
 
 const previousTracksCount = 4
