@@ -1,6 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import GoogleAuthContext from '../../contexts/google'
+import GoogleAuthContext from 'contexts/google'
 import Settings from './index'
 
 describe('Settinsg', () => {

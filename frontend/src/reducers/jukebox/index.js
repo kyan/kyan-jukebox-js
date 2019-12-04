@@ -1,5 +1,5 @@
-import MopidyApi from '../../constants/mopidy-api'
-import Types from '../../constants'
+import MopidyApi from 'constants/mopidy-api'
+import Types from 'constants/common'
 
 const initalState = {
   online: false,

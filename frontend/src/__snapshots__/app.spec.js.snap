@@ -20,7 +20,7 @@ exports[`App renders without crashing 1`] = `
         <_default
           options={Object {}}
         />
-        <DragDropContext(Dashboard) />
+        <DragDropContext(DashboardContainer) />
       </ErrorBoundary>
     </ContextProvider>
   </Container>

@@ -1,8 +1,8 @@
-import * as actions from '../../actions'
-import AuthApi from '../../constants/auth-api'
-import MopidyApi from '../../constants/mopidy-api'
-import Payload from '../../utils/payload'
-import notify from '../../utils/notify'
+import * as actions from 'actions'
+import AuthApi from 'constants/auth-api'
+import MopidyApi from 'constants/mopidy-api'
+import Payload from 'utils/payload'
+import notify from 'utils/notify'
 
 const updatePlaybackState = (store, state) => {
   store.dispatch(actions.updatePlaybackState(state))

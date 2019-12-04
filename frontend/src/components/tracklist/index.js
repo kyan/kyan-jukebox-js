@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { List, Image } from 'semantic-ui-react'
-import { millisToMinutesAndSeconds } from '../../utils/time'
-import defaultImage from './../current-track/default-artwork.png'
+import { millisToMinutesAndSeconds } from 'utils/time'
+import defaultImage from 'components/current-track/default-artwork.png'
 import './index.css'
 
 const isCurrentTrack = (currentTrack, track) => {
