@@ -1,4 +1,4 @@
-import Types from '../../constants'
+import Types from 'constants/common'
 
 const initalState = []
 const MAX_IMAGES_IN_CACHE = 200

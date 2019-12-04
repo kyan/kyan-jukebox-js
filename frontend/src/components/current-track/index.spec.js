@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import CurrentTrack from './index'
 import { Card, Image } from 'semantic-ui-react'
-import MockTrackListJson from '../../__mockData__/api'
+import MockTrackListJson from '__mockData__/api'
+import CurrentTrack from './index'
 
 describe('CurrentTrack', () => {
   let wrapper, track, image

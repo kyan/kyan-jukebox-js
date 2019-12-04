@@ -2,14 +2,14 @@ import { mount } from 'enzyme'
 import React from 'react'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
-import * as actions from '../../actions'
-import GoogleAuthContext from '../../contexts/google'
-import SignInToken from '../../utils/signin-token'
-import Dashboard from './index'
-jest.mock('../../utils/notify')
-jest.mock('../../utils/signin-token')
+import * as actions from 'actions'
+import GoogleAuthContext from 'contexts/google'
+import SignInToken from 'utils/signin-token'
+import DashboardContainer from './index'
+jest.mock('utils/notify')
+jest.mock('utils/signin-token')
 
-describe('Dashboard', () => {
+describe('DashboardContainer', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -40,7 +40,7 @@ describe('Dashboard', () => {
         wrapper = mount(
           <Provider store={store}>
             <GoogleAuthContext.Provider value={mockGoogle}>
-              <Dashboard />
+              <DashboardContainer />
             </GoogleAuthContext.Provider>
           </Provider>
         )
@@ -87,7 +87,7 @@ describe('Dashboard', () => {
         wrapper = mount(
           <Provider store={store}>
             <GoogleAuthContext.Provider value={mockGoogle}>
-              <Dashboard />
+              <DashboardContainer />
             </GoogleAuthContext.Provider>
           </Provider>
         )

@@ -1,5 +1,5 @@
 import reducer from './index'
-import Types from '../../constants'
+import Types from 'constants/common'
 
 describe('settings', () => {
   it('handles default state', () => {

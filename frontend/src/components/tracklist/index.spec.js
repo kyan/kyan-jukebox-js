@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import Tracklist from './index'
-import MockTrackListJson from '../../__mockData__/api'
+import MockTrackListJson from '__mockData__/api'
 
 describe('Tracklist', () => {
   let tracks = MockTrackListJson()

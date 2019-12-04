@@ -1,6 +1,6 @@
-import MopidyApi from '../constants/mopidy-api'
-import Types from '../constants'
-import { transformUrl } from '../utils/spotify'
+import MopidyApi from 'constants/mopidy-api'
+import Types from 'constants/common'
+import { transformUrl } from 'utils/spotify'
 
 export const updateToken = token => {
   return {

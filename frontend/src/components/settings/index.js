@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Button, Image } from 'semantic-ui-react'
-import GoogleAuthContext from '../../contexts/google'
+import GoogleAuthContext from 'contexts/google'
+import './index.css'
 
 export const Settings = () => {
   const { googleUser, signIn, signOut } = useContext(GoogleAuthContext)

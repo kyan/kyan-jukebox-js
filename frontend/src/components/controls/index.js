@@ -1,6 +1,6 @@
 import React from 'react'
-import SkipButtons from '../../components/skip-buttons'
-import MopidyApi from '../../constants/mopidy-api'
+import SkipButtons from 'components/skip-buttons'
+import MopidyApi from 'constants/mopidy-api'
 import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Card, Icon, Image } from 'semantic-ui-react'
 import { Line } from 'rc-progress'
 import defaultImage from './default-artwork.png'
-import { millisToMinutesAndSeconds } from '../../utils/time'
+import { millisToMinutesAndSeconds } from 'utils/time'
 import './index.css'
 
 const albumDescription = album => {
