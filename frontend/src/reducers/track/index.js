@@ -1,4 +1,4 @@
-import Types from '../../constants'
+import Types from 'constants/common'
 
 const track = (state = null, action) => {
   switch (action.type) {

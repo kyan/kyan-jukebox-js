@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import MopidyApi from '../../constants/mopidy-api'
+import MopidyApi from 'constants/mopidy-api'
 import Controls from './index'
 
 describe('Controls', () => {

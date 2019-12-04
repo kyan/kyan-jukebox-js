@@ -1,10 +1,10 @@
 import configureStore from 'redux-mock-store'
-import MopidyApi from '../../constants/mopidy-api'
-import AuthApi from '../../constants/auth-api'
+import MopidyApi from 'constants/mopidy-api'
+import AuthApi from 'constants/auth-api'
+import MockTrackListJson from '__mockData__/api'
+import notify from 'utils/notify'
 import onMessageHandler from './index'
-import MockTrackListJson from '../../__mockData__/api'
-import notify from '../../utils/notify'
-jest.mock('../../utils/notify')
+jest.mock('utils/notify')
 
 describe('onMessageHandler', () => {
   const mockStore = configureStore()
