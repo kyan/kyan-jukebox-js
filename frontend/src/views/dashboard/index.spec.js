@@ -37,7 +37,7 @@ describe('Dashboard', () => {
         tracklist: ['track1', 'track2'],
         currentTrack: { title: 'track1' }
       }
-      const wrapper = shallow(<Dashboard { ...props } />)
+      const wrapper = shallow(<Dashboard {...props} />)
       expect(wrapper).toMatchSnapshot()
     })
   })
