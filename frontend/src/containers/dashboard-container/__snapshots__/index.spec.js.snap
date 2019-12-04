@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Dashboard online logged in renders as expected 1`] = `
+exports[`DashboardContainer online logged in renders as expected 1`] = `
 <Provider
   store={
     Object {
@@ -13,69 +13,70 @@ exports[`Dashboard online logged in renders as expected 1`] = `
     }
   }
 >
-  <DragDropContext(Dashboard)>
-    <Dashboard>
-      <DimmerDimmable
-        blurring={true}
-        className="jukebox-dashboard"
-        dimmed={false}
+  <DragDropContext(DashboardContainer)>
+    <DashboardContainer>
+      <Dashboard
+        disabled={true}
+        onDrop={[Function]}
+        onNext={[Function]}
+        onPause={[Function]}
+        onPlay={[Function]}
+        onPrevious={[Function]}
+        onRemoveTrack={[Function]}
+        onStop={[Function]}
+        onTracklistClear={[Function]}
+        onVolumeChange={[Function]}
+        online={true}
+        playbackState="playing"
+        trackListImages={Object {}}
+        tracklist={Array []}
+        volume={25}
       >
-        <div
-          className="blurring dimmable jukebox-dashboard"
+        <DimmerDimmable
+          blurring={true}
+          className="jukebox-dashboard"
+          dimmed={false}
         >
-          <Settings>
-            <Image
-              as="img"
-              floated="right"
-              onClick={[Function]}
-              rounded={true}
-              size="mini"
-              src="myImage123"
-              title="Fred Spanner"
-              ui={true}
-            >
-              <img
-                className="ui mini rounded right floated image"
+          <div
+            className="blurring dimmable jukebox-dashboard"
+          >
+            <Settings>
+              <Image
+                as="img"
+                floated="right"
                 onClick={[Function]}
+                rounded={true}
+                size="mini"
                 src="myImage123"
                 title="Fred Spanner"
-              />
-            </Image>
-          </Settings>
-          <VolumeButtons
-            disabled={true}
-            onVolumeChange={[Function]}
-            volume={25}
-          >
-            <ButtonGroup
-              floated="right"
-            >
-              <div
-                className="ui right floated buttons"
+                ui={true}
               >
-                <Button
-                  as="button"
-                  className="jb-volume-down"
-                  disabled={true}
+                <img
+                  className="ui mini rounded right floated image"
                   onClick={[Function]}
+                  src="myImage123"
+                  title="Fred Spanner"
+                />
+              </Image>
+            </Settings>
+            <VolumeButtons
+              disabled={true}
+              onVolumeChange={[Function]}
+              volume={25}
+            >
+              <ButtonGroup
+                floated="right"
+              >
+                <div
+                  className="ui right floated buttons"
                 >
-                  <Ref
-                    innerRef={
-                      Object {
-                        "current": <button
-                          class="ui disabled button jb-volume-down"
-                          disabled=""
-                          tabindex="-1"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="volume down icon"
-                          />
-                        </button>,
-                      }
-                    }
+                  <Button
+                    as="button"
+                    className="jb-volume-down"
+                    disabled={true}
+                    onClick={[Function]}
                   >
-                    <RefFindNode
+                    <Ref
                       innerRef={
                         Object {
                           "current": <button
@@ -91,57 +92,57 @@ exports[`Dashboard online logged in renders as expected 1`] = `
                         }
                       }
                     >
-                      <button
-                        className="ui disabled button jb-volume-down"
-                        disabled={true}
-                        onClick={[Function]}
-                        tabIndex={-1}
+                      <RefFindNode
+                        innerRef={
+                          Object {
+                            "current": <button
+                              class="ui disabled button jb-volume-down"
+                              disabled=""
+                              tabindex="-1"
+                            >
+                              <i
+                                aria-hidden="true"
+                                class="volume down icon"
+                              />
+                            </button>,
+                          }
+                        }
                       >
-                        <Icon
-                          as="i"
-                          name="volume down"
+                        <button
+                          className="ui disabled button jb-volume-down"
+                          disabled={true}
+                          onClick={[Function]}
+                          tabIndex={-1}
                         >
-                          <i
-                            aria-hidden="true"
-                            className="volume down icon"
-                            onClick={[Function]}
-                          />
-                        </Icon>
-                      </button>
-                    </RefFindNode>
-                  </Ref>
-                </Button>
-                <ButtonOr
-                  text={25}
-                >
-                  <div
-                    className="or"
-                    data-text={25}
-                  />
-                </ButtonOr>
-                <Button
-                  as="button"
-                  className="jb-volume-up"
-                  disabled={true}
-                  onClick={[Function]}
-                >
-                  <Ref
-                    innerRef={
-                      Object {
-                        "current": <button
-                          class="ui disabled button jb-volume-up"
-                          disabled=""
-                          tabindex="-1"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="volume up icon"
-                          />
-                        </button>,
-                      }
-                    }
+                          <Icon
+                            as="i"
+                            name="volume down"
+                          >
+                            <i
+                              aria-hidden="true"
+                              className="volume down icon"
+                              onClick={[Function]}
+                            />
+                          </Icon>
+                        </button>
+                      </RefFindNode>
+                    </Ref>
+                  </Button>
+                  <ButtonOr
+                    text={25}
                   >
-                    <RefFindNode
+                    <div
+                      className="or"
+                      data-text={25}
+                    />
+                  </ButtonOr>
+                  <Button
+                    as="button"
+                    className="jb-volume-up"
+                    disabled={true}
+                    onClick={[Function]}
+                  >
+                    <Ref
                       innerRef={
                         Object {
                           "current": <button
@@ -157,78 +158,69 @@ exports[`Dashboard online logged in renders as expected 1`] = `
                         }
                       }
                     >
-                      <button
-                        className="ui disabled button jb-volume-up"
-                        disabled={true}
-                        onClick={[Function]}
-                        tabIndex={-1}
-                      >
-                        <Icon
-                          as="i"
-                          name="volume up"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="volume up icon"
-                            onClick={[Function]}
-                          />
-                        </Icon>
-                      </button>
-                    </RefFindNode>
-                  </Ref>
-                </Button>
-              </div>
-            </ButtonGroup>
-          </VolumeButtons>
-          <Controls
-            disabled={true}
-            onNext={[Function]}
-            onPause={[Function]}
-            onPlay={[Function]}
-            onPrevious={[Function]}
-            onStop={[Function]}
-            playbackState="playing"
-          >
-            <span>
-              <SkipButtons
-                disabled={true}
-                onNext={[Function]}
-                onPrevious={[Function]}
-              >
-                <span>
-                  <Button
-                    animated="vertical"
-                    as="button"
-                    className="jb-previous-button"
-                    disabled={true}
-                    onClick={[Function]}
-                  >
-                    <Ref
-                      innerRef={
-                        Object {
-                          "current": <button
-                            class="ui vertical animated disabled button jb-previous-button"
-                            disabled=""
-                            tabindex="-1"
-                          >
-                            <div
-                              class="hidden content"
-                            >
-                              Prev
-                            </div>
-                            <div
-                              class="visible content"
+                      <RefFindNode
+                        innerRef={
+                          Object {
+                            "current": <button
+                              class="ui disabled button jb-volume-up"
+                              disabled=""
+                              tabindex="-1"
                             >
                               <i
                                 aria-hidden="true"
-                                class="step backward icon"
+                                class="volume up icon"
                               />
-                            </div>
-                          </button>,
+                            </button>,
+                          }
                         }
-                      }
+                      >
+                        <button
+                          className="ui disabled button jb-volume-up"
+                          disabled={true}
+                          onClick={[Function]}
+                          tabIndex={-1}
+                        >
+                          <Icon
+                            as="i"
+                            name="volume up"
+                          >
+                            <i
+                              aria-hidden="true"
+                              className="volume up icon"
+                              onClick={[Function]}
+                            />
+                          </Icon>
+                        </button>
+                      </RefFindNode>
+                    </Ref>
+                  </Button>
+                </div>
+              </ButtonGroup>
+            </VolumeButtons>
+            <Controls
+              disabled={true}
+              onNext={[Function]}
+              onPause={[Function]}
+              onPlay={[Function]}
+              onPrevious={[Function]}
+              onStop={[Function]}
+              playbackState="playing"
+            >
+              <span>
+                <SkipButtons
+                  disabled={true}
+                  onNext={[Function]}
+                  onPrevious={[Function]}
+                >
+                  <span>
+                    <Button
+                      animated="vertical"
+                      as="button"
+                      className="jb-previous-button"
+                      disabled={true}
+                      onClick={[Function]}
                     >
-                      <RefFindNode
+                      <Ref
                         innerRef={
                           Object {
                             "current": <button
@@ -253,76 +245,76 @@ exports[`Dashboard online logged in renders as expected 1`] = `
                           }
                         }
                       >
-                        <button
-                          className="ui vertical animated disabled button jb-previous-button"
-                          disabled={true}
-                          onClick={[Function]}
-                          tabIndex={-1}
-                        >
-                          <ButtonContent
-                            hidden={true}
-                          >
-                            <div
-                              className="hidden content"
-                            >
-                              Prev
-                            </div>
-                          </ButtonContent>
-                          <ButtonContent
-                            visible={true}
-                          >
-                            <div
-                              className="visible content"
-                            >
-                              <Icon
-                                as="i"
-                                name="step backward"
+                        <RefFindNode
+                          innerRef={
+                            Object {
+                              "current": <button
+                                class="ui vertical animated disabled button jb-previous-button"
+                                disabled=""
+                                tabindex="-1"
                               >
-                                <i
-                                  aria-hidden="true"
-                                  className="step backward icon"
-                                  onClick={[Function]}
-                                />
-                              </Icon>
-                            </div>
-                          </ButtonContent>
-                        </button>
-                      </RefFindNode>
-                    </Ref>
-                  </Button>
-                  <Button
-                    animated="vertical"
-                    as="button"
-                    className="jb-next-button"
-                    disabled={true}
-                    onClick={[Function]}
-                  >
-                    <Ref
-                      innerRef={
-                        Object {
-                          "current": <button
-                            class="ui vertical animated disabled button jb-next-button"
-                            disabled=""
-                            tabindex="-1"
+                                <div
+                                  class="hidden content"
+                                >
+                                  Prev
+                                </div>
+                                <div
+                                  class="visible content"
+                                >
+                                  <i
+                                    aria-hidden="true"
+                                    class="step backward icon"
+                                  />
+                                </div>
+                              </button>,
+                            }
+                          }
+                        >
+                          <button
+                            className="ui vertical animated disabled button jb-previous-button"
+                            disabled={true}
+                            onClick={[Function]}
+                            tabIndex={-1}
                           >
-                            <div
-                              class="hidden content"
+                            <ButtonContent
+                              hidden={true}
                             >
-                              Next
-                            </div>
-                            <div
-                              class="visible content"
+                              <div
+                                className="hidden content"
+                              >
+                                Prev
+                              </div>
+                            </ButtonContent>
+                            <ButtonContent
+                              visible={true}
                             >
-                              <i
-                                aria-hidden="true"
-                                class="step forward icon"
-                              />
-                            </div>
-                          </button>,
-                        }
-                      }
+                              <div
+                                className="visible content"
+                              >
+                                <Icon
+                                  as="i"
+                                  name="step backward"
+                                >
+                                  <i
+                                    aria-hidden="true"
+                                    className="step backward icon"
+                                    onClick={[Function]}
+                                  />
+                                </Icon>
+                              </div>
+                            </ButtonContent>
+                          </button>
+                        </RefFindNode>
+                      </Ref>
+                    </Button>
+                    <Button
+                      animated="vertical"
+                      as="button"
+                      className="jb-next-button"
+                      disabled={true}
+                      onClick={[Function]}
                     >
-                      <RefFindNode
+                      <Ref
                         innerRef={
                           Object {
                             "current": <button
@@ -347,79 +339,79 @@ exports[`Dashboard online logged in renders as expected 1`] = `
                           }
                         }
                       >
-                        <button
-                          className="ui vertical animated disabled button jb-next-button"
-                          disabled={true}
-                          onClick={[Function]}
-                          tabIndex={-1}
-                        >
-                          <ButtonContent
-                            hidden={true}
-                          >
-                            <div
-                              className="hidden content"
-                            >
-                              Next
-                            </div>
-                          </ButtonContent>
-                          <ButtonContent
-                            visible={true}
-                          >
-                            <div
-                              className="visible content"
-                            >
-                              <Icon
-                                as="i"
-                                name="step forward"
+                        <RefFindNode
+                          innerRef={
+                            Object {
+                              "current": <button
+                                class="ui vertical animated disabled button jb-next-button"
+                                disabled=""
+                                tabindex="-1"
                               >
-                                <i
-                                  aria-hidden="true"
-                                  className="step forward icon"
-                                  onClick={[Function]}
-                                />
-                              </Icon>
-                            </div>
-                          </ButtonContent>
-                        </button>
-                      </RefFindNode>
-                    </Ref>
-                  </Button>
-                </span>
-              </SkipButtons>
-              <Button
-                active={true}
-                animated="vertical"
-                as="button"
-                className="jb-play-button"
-                disabled={true}
-                onClick={[Function]}
-              >
-                <Ref
-                  innerRef={
-                    Object {
-                      "current": <button
-                        class="ui active vertical animated disabled button jb-play-button"
-                        disabled=""
-                        tabindex="-1"
-                      >
-                        <div
-                          class="hidden content"
+                                <div
+                                  class="hidden content"
+                                >
+                                  Next
+                                </div>
+                                <div
+                                  class="visible content"
+                                >
+                                  <i
+                                    aria-hidden="true"
+                                    class="step forward icon"
+                                  />
+                                </div>
+                              </button>,
+                            }
+                          }
                         >
-                          Play
-                        </div>
-                        <div
-                          class="visible content"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="play icon"
-                          />
-                        </div>
-                      </button>,
-                    }
-                  }
+                          <button
+                            className="ui vertical animated disabled button jb-next-button"
+                            disabled={true}
+                            onClick={[Function]}
+                            tabIndex={-1}
+                          >
+                            <ButtonContent
+                              hidden={true}
+                            >
+                              <div
+                                className="hidden content"
+                              >
+                                Next
+                              </div>
+                            </ButtonContent>
+                            <ButtonContent
+                              visible={true}
+                            >
+                              <div
+                                className="visible content"
+                              >
+                                <Icon
+                                  as="i"
+                                  name="step forward"
+                                >
+                                  <i
+                                    aria-hidden="true"
+                                    className="step forward icon"
+                                    onClick={[Function]}
+                                  />
+                                </Icon>
+                              </div>
+                            </ButtonContent>
+                          </button>
+                        </RefFindNode>
+                      </Ref>
+                    </Button>
+                  </span>
+                </SkipButtons>
+                <Button
+                  active={true}
+                  animated="vertical"
+                  as="button"
+                  className="jb-play-button"
+                  disabled={true}
+                  onClick={[Function]}
                 >
-                  <RefFindNode
+                  <Ref
                     innerRef={
                       Object {
                         "current": <button
@@ -444,77 +436,77 @@ exports[`Dashboard online logged in renders as expected 1`] = `
                       }
                     }
                   >
-                    <button
-                      className="ui active vertical animated disabled button jb-play-button"
-                      disabled={true}
-                      onClick={[Function]}
-                      tabIndex={-1}
-                    >
-                      <ButtonContent
-                        hidden={true}
-                      >
-                        <div
-                          className="hidden content"
-                        >
-                          Play
-                        </div>
-                      </ButtonContent>
-                      <ButtonContent
-                        visible={true}
-                      >
-                        <div
-                          className="visible content"
-                        >
-                          <Icon
-                            as="i"
-                            name="play"
+                    <RefFindNode
+                      innerRef={
+                        Object {
+                          "current": <button
+                            class="ui active vertical animated disabled button jb-play-button"
+                            disabled=""
+                            tabindex="-1"
                           >
-                            <i
-                              aria-hidden="true"
-                              className="play icon"
-                              onClick={[Function]}
-                            />
-                          </Icon>
-                        </div>
-                      </ButtonContent>
-                    </button>
-                  </RefFindNode>
-                </Ref>
-              </Button>
-              <Button
-                active={false}
-                animated="vertical"
-                as="button"
-                className="jb-pause-button"
-                disabled={true}
-                onClick={[Function]}
-              >
-                <Ref
-                  innerRef={
-                    Object {
-                      "current": <button
-                        class="ui vertical animated disabled button jb-pause-button"
-                        disabled=""
-                        tabindex="-1"
+                            <div
+                              class="hidden content"
+                            >
+                              Play
+                            </div>
+                            <div
+                              class="visible content"
+                            >
+                              <i
+                                aria-hidden="true"
+                                class="play icon"
+                              />
+                            </div>
+                          </button>,
+                        }
+                      }
+                    >
+                      <button
+                        className="ui active vertical animated disabled button jb-play-button"
+                        disabled={true}
+                        onClick={[Function]}
+                        tabIndex={-1}
                       >
-                        <div
-                          class="hidden content"
+                        <ButtonContent
+                          hidden={true}
                         >
-                          Pause
-                        </div>
-                        <div
-                          class="visible content"
+                          <div
+                            className="hidden content"
+                          >
+                            Play
+                          </div>
+                        </ButtonContent>
+                        <ButtonContent
+                          visible={true}
                         >
-                          <i
-                            aria-hidden="true"
-                            class="pause icon"
-                          />
-                        </div>
-                      </button>,
-                    }
-                  }
+                          <div
+                            className="visible content"
+                          >
+                            <Icon
+                              as="i"
+                              name="play"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="play icon"
+                                onClick={[Function]}
+                              />
+                            </Icon>
+                          </div>
+                        </ButtonContent>
+                      </button>
+                    </RefFindNode>
+                  </Ref>
+                </Button>
+                <Button
+                  active={false}
+                  animated="vertical"
+                  as="button"
+                  className="jb-pause-button"
+                  disabled={true}
+                  onClick={[Function]}
                 >
-                  <RefFindNode
+                  <Ref
                     innerRef={
                       Object {
                         "current": <button
@@ -539,77 +531,77 @@ exports[`Dashboard online logged in renders as expected 1`] = `
                       }
                     }
                   >
-                    <button
-                      className="ui vertical animated disabled button jb-pause-button"
-                      disabled={true}
-                      onClick={[Function]}
-                      tabIndex={-1}
-                    >
-                      <ButtonContent
-                        hidden={true}
-                      >
-                        <div
-                          className="hidden content"
-                        >
-                          Pause
-                        </div>
-                      </ButtonContent>
-                      <ButtonContent
-                        visible={true}
-                      >
-                        <div
-                          className="visible content"
-                        >
-                          <Icon
-                            as="i"
-                            name="pause"
+                    <RefFindNode
+                      innerRef={
+                        Object {
+                          "current": <button
+                            class="ui vertical animated disabled button jb-pause-button"
+                            disabled=""
+                            tabindex="-1"
                           >
-                            <i
-                              aria-hidden="true"
-                              className="pause icon"
-                              onClick={[Function]}
-                            />
-                          </Icon>
-                        </div>
-                      </ButtonContent>
-                    </button>
-                  </RefFindNode>
-                </Ref>
-              </Button>
-              <Button
-                active={false}
-                animated="vertical"
-                as="button"
-                className="jb-stop-button"
-                disabled={true}
-                onClick={[Function]}
-              >
-                <Ref
-                  innerRef={
-                    Object {
-                      "current": <button
-                        class="ui vertical animated disabled button jb-stop-button"
-                        disabled=""
-                        tabindex="-1"
+                            <div
+                              class="hidden content"
+                            >
+                              Pause
+                            </div>
+                            <div
+                              class="visible content"
+                            >
+                              <i
+                                aria-hidden="true"
+                                class="pause icon"
+                              />
+                            </div>
+                          </button>,
+                        }
+                      }
+                    >
+                      <button
+                        className="ui vertical animated disabled button jb-pause-button"
+                        disabled={true}
+                        onClick={[Function]}
+                        tabIndex={-1}
                       >
-                        <div
-                          class="hidden content"
+                        <ButtonContent
+                          hidden={true}
                         >
-                          Stop
-                        </div>
-                        <div
-                          class="visible content"
+                          <div
+                            className="hidden content"
+                          >
+                            Pause
+                          </div>
+                        </ButtonContent>
+                        <ButtonContent
+                          visible={true}
                         >
-                          <i
-                            aria-hidden="true"
-                            class="stop icon"
-                          />
-                        </div>
-                      </button>,
-                    }
-                  }
+                          <div
+                            className="visible content"
+                          >
+                            <Icon
+                              as="i"
+                              name="pause"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="pause icon"
+                                onClick={[Function]}
+                              />
+                            </Icon>
+                          </div>
+                        </ButtonContent>
+                      </button>
+                    </RefFindNode>
+                  </Ref>
+                </Button>
+                <Button
+                  active={false}
+                  animated="vertical"
+                  as="button"
+                  className="jb-stop-button"
+                  disabled={true}
+                  onClick={[Function]}
                 >
-                  <RefFindNode
+                  <Ref
                     innerRef={
                       Object {
                         "current": <button
@@ -634,65 +626,158 @@ exports[`Dashboard online logged in renders as expected 1`] = `
                       }
                     }
                   >
-                    <button
-                      className="ui vertical animated disabled button jb-stop-button"
-                      disabled={true}
-                      onClick={[Function]}
-                      tabIndex={-1}
-                    >
-                      <ButtonContent
-                        hidden={true}
-                      >
-                        <div
-                          className="hidden content"
-                        >
-                          Stop
-                        </div>
-                      </ButtonContent>
-                      <ButtonContent
-                        visible={true}
-                      >
-                        <div
-                          className="visible content"
-                        >
-                          <Icon
-                            as="i"
-                            name="stop"
+                    <RefFindNode
+                      innerRef={
+                        Object {
+                          "current": <button
+                            class="ui vertical animated disabled button jb-stop-button"
+                            disabled=""
+                            tabindex="-1"
                           >
-                            <i
-                              aria-hidden="true"
-                              className="stop icon"
-                              onClick={[Function]}
-                            />
-                          </Icon>
-                        </div>
-                      </ButtonContent>
-                    </button>
-                  </RefFindNode>
-                </Ref>
-              </Button>
-            </span>
-          </Controls>
-          <Divider>
-            <div
-              className="ui divider"
-            />
-          </Divider>
-          <Grid
-            columns={2}
-          >
-            <div
-              className="ui two column grid"
+                            <div
+                              class="hidden content"
+                            >
+                              Stop
+                            </div>
+                            <div
+                              class="visible content"
+                            >
+                              <i
+                                aria-hidden="true"
+                                class="stop icon"
+                              />
+                            </div>
+                          </button>,
+                        }
+                      }
+                    >
+                      <button
+                        className="ui vertical animated disabled button jb-stop-button"
+                        disabled={true}
+                        onClick={[Function]}
+                        tabIndex={-1}
+                      >
+                        <ButtonContent
+                          hidden={true}
+                        >
+                          <div
+                            className="hidden content"
+                          >
+                            Stop
+                          </div>
+                        </ButtonContent>
+                        <ButtonContent
+                          visible={true}
+                        >
+                          <div
+                            className="visible content"
+                          >
+                            <Icon
+                              as="i"
+                              name="stop"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="stop icon"
+                                onClick={[Function]}
+                              />
+                            </Icon>
+                          </div>
+                        </ButtonContent>
+                      </button>
+                    </RefFindNode>
+                  </Ref>
+                </Button>
+              </span>
+            </Controls>
+            <Divider>
+              <div
+                className="ui divider"
+              />
+            </Divider>
+            <Grid
+              columns={2}
             >
-              <GridColumn
-                width={4}
+              <div
+                className="ui two column grid"
               >
-                <div
-                  className="four wide column"
+                <GridColumn
+                  width={4}
                 >
-                  <DragInTrack
-                    disabled={true}
-                    onDrop={[Function]}
+                  <div
+                    className="four wide column"
+                  >
+                    <DragInTrack
+                      disabled={true}
+                      onDrop={[Function]}
+                    >
+                      <Header
+                        size="small"
+                      >
+                        <div
+                          className="ui small header"
+                        >
+                          Current Track
+                        </div>
+                      </Header>
+                      <Connect(CurrentTrackContainer)>
+                        <CurrentTrackContainer
+                          dispatch={[Function]}
+                          image={null}
+                          progress={0}
+                        >
+                          <CurrentTrack
+                            image={null}
+                            progress={0}
+                          >
+                            <Card>
+                              <div
+                                className="ui card"
+                                onClick={[Function]}
+                              >
+                                <Image
+                                  as="img"
+                                  src="default-artwork.png"
+                                  ui={true}
+                                >
+                                  <img
+                                    className="ui image"
+                                    src="default-artwork.png"
+                                  />
+                                </Image>
+                                <CardContent>
+                                  <div
+                                    className="content"
+                                  >
+                                    <CardHeader>
+                                      <div
+                                        className="header"
+                                      >
+                                        Nothing playing
+                                      </div>
+                                    </CardHeader>
+                                    <CardDescription>
+                                      <div
+                                        className="description"
+                                      >
+                                        Drag some music here or press play.
+                                      </div>
+                                    </CardDescription>
+                                  </div>
+                                </CardContent>
+                              </div>
+                            </Card>
+                          </CurrentTrack>
+                        </CurrentTrackContainer>
+                      </Connect(CurrentTrackContainer)>
+                    </DragInTrack>
+                  </div>
+                </GridColumn>
+                <GridColumn
+                  width={12}
+                >
+                  <div
+                    className="twelve wide column"
                   >
                     <Header
                       size="small"
@@ -700,108 +785,41 @@ exports[`Dashboard online logged in renders as expected 1`] = `
                       <div
                         className="ui small header"
                       >
-                        Current Track
+                        Playlist 
+                        <ClearPlaylist
+                          disabled={true}
+                          onClear={[Function]}
+                        />
                       </div>
                     </Header>
-                    <Connect(CurrentTrackContainer)>
-                      <CurrentTrackContainer
-                        dispatch={[Function]}
-                        image={null}
-                        progress={0}
+                    <Tracklist
+                      disabled={true}
+                      images={Object {}}
+                      onRemoveTrack={[Function]}
+                      tracks={Array []}
+                    >
+                      <List
+                        relaxed={true}
                       >
-                        <CurrentTrack
-                          image={null}
-                          progress={0}
-                        >
-                          <Card>
-                            <div
-                              className="ui card"
-                              onClick={[Function]}
-                            >
-                              <Image
-                                as="img"
-                                src="default-artwork.png"
-                                ui={true}
-                              >
-                                <img
-                                  className="ui image"
-                                  src="default-artwork.png"
-                                />
-                              </Image>
-                              <CardContent>
-                                <div
-                                  className="content"
-                                >
-                                  <CardHeader>
-                                    <div
-                                      className="header"
-                                    >
-                                      Nothing playing
-                                    </div>
-                                  </CardHeader>
-                                  <CardDescription>
-                                    <div
-                                      className="description"
-                                    >
-                                      Drag some music here or press play.
-                                    </div>
-                                  </CardDescription>
-                                </div>
-                              </CardContent>
-                            </div>
-                          </Card>
-                        </CurrentTrack>
-                      </CurrentTrackContainer>
-                    </Connect(CurrentTrackContainer)>
-                  </DragInTrack>
-                </div>
-              </GridColumn>
-              <GridColumn
-                width={12}
-              >
-                <div
-                  className="twelve wide column"
-                >
-                  <Header
-                    size="small"
-                  >
-                    <div
-                      className="ui small header"
-                    >
-                      Playlist 
-                      <ClearPlaylist
-                        disabled={true}
-                        onClear={[Function]}
-                      />
-                    </div>
-                  </Header>
-                  <Tracklist
-                    disabled={true}
-                    images={Object {}}
-                    onRemoveTrack={[Function]}
-                    tracks={Array []}
-                  >
-                    <List
-                      relaxed={true}
-                    >
-                      <div
-                        className="ui relaxed list"
-                        role="list"
-                      />
-                    </List>
-                  </Tracklist>
-                </div>
-              </GridColumn>
-            </div>
-          </Grid>
-        </div>
-      </DimmerDimmable>
-    </Dashboard>
-  </DragDropContext(Dashboard)>
+                        <div
+                          className="ui relaxed list"
+                          role="list"
+                        />
+                      </List>
+                    </Tracklist>
+                  </div>
+                </GridColumn>
+              </div>
+            </Grid>
+          </div>
+        </DimmerDimmable>
+      </Dashboard>
+    </DashboardContainer>
+  </DragDropContext(DashboardContainer)>
 </Provider>
 `;
 
-exports[`Dashboard online logged out renders as expected 1`] = `
+exports[`DashboardContainer online logged out renders as expected 1`] = `
 <Provider
   store={
     Object {
@@ -814,41 +832,43 @@ exports[`Dashboard online logged out renders as expected 1`] = `
     }
   }
 >
-  <DragDropContext(Dashboard)>
-    <Dashboard>
-      <DimmerDimmable
-        blurring={true}
-        className="jukebox-dashboard"
-        dimmed={false}
+  <DragDropContext(DashboardContainer)>
+    <DashboardContainer>
+      <Dashboard
+        disabled={true}
+        onDrop={[Function]}
+        onNext={[Function]}
+        onPause={[Function]}
+        onPlay={[Function]}
+        onPrevious={[Function]}
+        onRemoveTrack={[Function]}
+        onStop={[Function]}
+        onTracklistClear={[Function]}
+        onVolumeChange={[Function]}
+        online={true}
+        playbackState="playing"
+        trackListImages={Object {}}
+        tracklist={Array []}
+        volume={25}
       >
-        <div
-          className="blurring dimmable jukebox-dashboard"
+        <DimmerDimmable
+          blurring={true}
+          className="jukebox-dashboard"
+          dimmed={false}
         >
-          <Settings>
-            <Button
-              as="button"
-              className="jb-settings-toggle"
-              floated="right"
-              icon="power off"
-              onClick={[Function]}
-              title="Login using Google"
-            >
-              <Ref
-                innerRef={
-                  Object {
-                    "current": <button
-                      class="ui icon right floated button jb-settings-toggle"
-                      title="Login using Google"
-                    >
-                      <i
-                        aria-hidden="true"
-                        class="power off icon"
-                      />
-                    </button>,
-                  }
-                }
+          <div
+            className="blurring dimmable jukebox-dashboard"
+          >
+            <Settings>
+              <Button
+                as="button"
+                className="jb-settings-toggle"
+                floated="right"
+                icon="power off"
+                onClick={[Function]}
+                title="Login using Google"
               >
-                <RefFindNode
+                <Ref
                   innerRef={
                     Object {
                       "current": <button
@@ -863,60 +883,59 @@ exports[`Dashboard online logged out renders as expected 1`] = `
                     }
                   }
                 >
-                  <button
-                    className="ui icon right floated button jb-settings-toggle"
-                    onClick={[Function]}
-                    title="Login using Google"
-                  >
-                    <Icon
-                      as="i"
-                      name="power off"
-                    >
-                      <i
-                        aria-hidden="true"
-                        className="power off icon"
-                        onClick={[Function]}
-                      />
-                    </Icon>
-                  </button>
-                </RefFindNode>
-              </Ref>
-            </Button>
-          </Settings>
-          <VolumeButtons
-            disabled={true}
-            onVolumeChange={[Function]}
-            volume={25}
-          >
-            <ButtonGroup
-              floated="right"
-            >
-              <div
-                className="ui right floated buttons"
-              >
-                <Button
-                  as="button"
-                  className="jb-volume-down"
-                  disabled={true}
-                  onClick={[Function]}
-                >
-                  <Ref
+                  <RefFindNode
                     innerRef={
                       Object {
                         "current": <button
-                          class="ui disabled button jb-volume-down"
-                          disabled=""
-                          tabindex="-1"
+                          class="ui icon right floated button jb-settings-toggle"
+                          title="Login using Google"
                         >
                           <i
                             aria-hidden="true"
-                            class="volume down icon"
+                            class="power off icon"
                           />
                         </button>,
                       }
                     }
                   >
-                    <RefFindNode
+                    <button
+                      className="ui icon right floated button jb-settings-toggle"
+                      onClick={[Function]}
+                      title="Login using Google"
+                    >
+                      <Icon
+                        as="i"
+                        name="power off"
+                      >
+                        <i
+                          aria-hidden="true"
+                          className="power off icon"
+                          onClick={[Function]}
+                        />
+                      </Icon>
+                    </button>
+                  </RefFindNode>
+                </Ref>
+              </Button>
+            </Settings>
+            <VolumeButtons
+              disabled={true}
+              onVolumeChange={[Function]}
+              volume={25}
+            >
+              <ButtonGroup
+                floated="right"
+              >
+                <div
+                  className="ui right floated buttons"
+                >
+                  <Button
+                    as="button"
+                    className="jb-volume-down"
+                    disabled={true}
+                    onClick={[Function]}
+                  >
+                    <Ref
                       innerRef={
                         Object {
                           "current": <button
@@ -932,57 +951,57 @@ exports[`Dashboard online logged out renders as expected 1`] = `
                         }
                       }
                     >
-                      <button
-                        className="ui disabled button jb-volume-down"
-                        disabled={true}
-                        onClick={[Function]}
-                        tabIndex={-1}
+                      <RefFindNode
+                        innerRef={
+                          Object {
+                            "current": <button
+                              class="ui disabled button jb-volume-down"
+                              disabled=""
+                              tabindex="-1"
+                            >
+                              <i
+                                aria-hidden="true"
+                                class="volume down icon"
+                              />
+                            </button>,
+                          }
+                        }
                       >
-                        <Icon
-                          as="i"
-                          name="volume down"
+                        <button
+                          className="ui disabled button jb-volume-down"
+                          disabled={true}
+                          onClick={[Function]}
+                          tabIndex={-1}
                         >
-                          <i
-                            aria-hidden="true"
-                            className="volume down icon"
-                            onClick={[Function]}
-                          />
-                        </Icon>
-                      </button>
-                    </RefFindNode>
-                  </Ref>
-                </Button>
-                <ButtonOr
-                  text={25}
-                >
-                  <div
-                    className="or"
-                    data-text={25}
-                  />
-                </ButtonOr>
-                <Button
-                  as="button"
-                  className="jb-volume-up"
-                  disabled={true}
-                  onClick={[Function]}
-                >
-                  <Ref
-                    innerRef={
-                      Object {
-                        "current": <button
-                          class="ui disabled button jb-volume-up"
-                          disabled=""
-                          tabindex="-1"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="volume up icon"
-                          />
-                        </button>,
-                      }
-                    }
+                          <Icon
+                            as="i"
+                            name="volume down"
+                          >
+                            <i
+                              aria-hidden="true"
+                              className="volume down icon"
+                              onClick={[Function]}
+                            />
+                          </Icon>
+                        </button>
+                      </RefFindNode>
+                    </Ref>
+                  </Button>
+                  <ButtonOr
+                    text={25}
                   >
-                    <RefFindNode
+                    <div
+                      className="or"
+                      data-text={25}
+                    />
+                  </ButtonOr>
+                  <Button
+                    as="button"
+                    className="jb-volume-up"
+                    disabled={true}
+                    onClick={[Function]}
+                  >
+                    <Ref
                       innerRef={
                         Object {
                           "current": <button
@@ -998,78 +1017,69 @@ exports[`Dashboard online logged out renders as expected 1`] = `
                         }
                       }
                     >
-                      <button
-                        className="ui disabled button jb-volume-up"
-                        disabled={true}
-                        onClick={[Function]}
-                        tabIndex={-1}
-                      >
-                        <Icon
-                          as="i"
-                          name="volume up"
-                        >
-                          <i
-                            aria-hidden="true"
-                            className="volume up icon"
-                            onClick={[Function]}
-                          />
-                        </Icon>
-                      </button>
-                    </RefFindNode>
-                  </Ref>
-                </Button>
-              </div>
-            </ButtonGroup>
-          </VolumeButtons>
-          <Controls
-            disabled={true}
-            onNext={[Function]}
-            onPause={[Function]}
-            onPlay={[Function]}
-            onPrevious={[Function]}
-            onStop={[Function]}
-            playbackState="playing"
-          >
-            <span>
-              <SkipButtons
-                disabled={true}
-                onNext={[Function]}
-                onPrevious={[Function]}
-              >
-                <span>
-                  <Button
-                    animated="vertical"
-                    as="button"
-                    className="jb-previous-button"
-                    disabled={true}
-                    onClick={[Function]}
-                  >
-                    <Ref
-                      innerRef={
-                        Object {
-                          "current": <button
-                            class="ui vertical animated disabled button jb-previous-button"
-                            disabled=""
-                            tabindex="-1"
-                          >
-                            <div
-                              class="hidden content"
-                            >
-                              Prev
-                            </div>
-                            <div
-                              class="visible content"
+                      <RefFindNode
+                        innerRef={
+                          Object {
+                            "current": <button
+                              class="ui disabled button jb-volume-up"
+                              disabled=""
+                              tabindex="-1"
                             >
                               <i
                                 aria-hidden="true"
-                                class="step backward icon"
+                                class="volume up icon"
                               />
-                            </div>
-                          </button>,
+                            </button>,
+                          }
                         }
-                      }
+                      >
+                        <button
+                          className="ui disabled button jb-volume-up"
+                          disabled={true}
+                          onClick={[Function]}
+                          tabIndex={-1}
+                        >
+                          <Icon
+                            as="i"
+                            name="volume up"
+                          >
+                            <i
+                              aria-hidden="true"
+                              className="volume up icon"
+                              onClick={[Function]}
+                            />
+                          </Icon>
+                        </button>
+                      </RefFindNode>
+                    </Ref>
+                  </Button>
+                </div>
+              </ButtonGroup>
+            </VolumeButtons>
+            <Controls
+              disabled={true}
+              onNext={[Function]}
+              onPause={[Function]}
+              onPlay={[Function]}
+              onPrevious={[Function]}
+              onStop={[Function]}
+              playbackState="playing"
+            >
+              <span>
+                <SkipButtons
+                  disabled={true}
+                  onNext={[Function]}
+                  onPrevious={[Function]}
+                >
+                  <span>
+                    <Button
+                      animated="vertical"
+                      as="button"
+                      className="jb-previous-button"
+                      disabled={true}
+                      onClick={[Function]}
                     >
-                      <RefFindNode
+                      <Ref
                         innerRef={
                           Object {
                             "current": <button
@@ -1094,76 +1104,76 @@ exports[`Dashboard online logged out renders as expected 1`] = `
                           }
                         }
                       >
-                        <button
-                          className="ui vertical animated disabled button jb-previous-button"
-                          disabled={true}
-                          onClick={[Function]}
-                          tabIndex={-1}
-                        >
-                          <ButtonContent
-                            hidden={true}
-                          >
-                            <div
-                              className="hidden content"
-                            >
-                              Prev
-                            </div>
-                          </ButtonContent>
-                          <ButtonContent
-                            visible={true}
-                          >
-                            <div
-                              className="visible content"
-                            >
-                              <Icon
-                                as="i"
-                                name="step backward"
+                        <RefFindNode
+                          innerRef={
+                            Object {
+                              "current": <button
+                                class="ui vertical animated disabled button jb-previous-button"
+                                disabled=""
+                                tabindex="-1"
                               >
-                                <i
-                                  aria-hidden="true"
-                                  className="step backward icon"
-                                  onClick={[Function]}
-                                />
-                              </Icon>
-                            </div>
-                          </ButtonContent>
-                        </button>
-                      </RefFindNode>
-                    </Ref>
-                  </Button>
-                  <Button
-                    animated="vertical"
-                    as="button"
-                    className="jb-next-button"
-                    disabled={true}
-                    onClick={[Function]}
-                  >
-                    <Ref
-                      innerRef={
-                        Object {
-                          "current": <button
-                            class="ui vertical animated disabled button jb-next-button"
-                            disabled=""
-                            tabindex="-1"
+                                <div
+                                  class="hidden content"
+                                >
+                                  Prev
+                                </div>
+                                <div
+                                  class="visible content"
+                                >
+                                  <i
+                                    aria-hidden="true"
+                                    class="step backward icon"
+                                  />
+                                </div>
+                              </button>,
+                            }
+                          }
+                        >
+                          <button
+                            className="ui vertical animated disabled button jb-previous-button"
+                            disabled={true}
+                            onClick={[Function]}
+                            tabIndex={-1}
                           >
-                            <div
-                              class="hidden content"
+                            <ButtonContent
+                              hidden={true}
                             >
-                              Next
-                            </div>
-                            <div
-                              class="visible content"
+                              <div
+                                className="hidden content"
+                              >
+                                Prev
+                              </div>
+                            </ButtonContent>
+                            <ButtonContent
+                              visible={true}
                             >
-                              <i
-                                aria-hidden="true"
-                                class="step forward icon"
-                              />
-                            </div>
-                          </button>,
-                        }
-                      }
+                              <div
+                                className="visible content"
+                              >
+                                <Icon
+                                  as="i"
+                                  name="step backward"
+                                >
+                                  <i
+                                    aria-hidden="true"
+                                    className="step backward icon"
+                                    onClick={[Function]}
+                                  />
+                                </Icon>
+                              </div>
+                            </ButtonContent>
+                          </button>
+                        </RefFindNode>
+                      </Ref>
+                    </Button>
+                    <Button
+                      animated="vertical"
+                      as="button"
+                      className="jb-next-button"
+                      disabled={true}
+                      onClick={[Function]}
                     >
-                      <RefFindNode
+                      <Ref
                         innerRef={
                           Object {
                             "current": <button
@@ -1188,79 +1198,79 @@ exports[`Dashboard online logged out renders as expected 1`] = `
                           }
                         }
                       >
-                        <button
-                          className="ui vertical animated disabled button jb-next-button"
-                          disabled={true}
-                          onClick={[Function]}
-                          tabIndex={-1}
-                        >
-                          <ButtonContent
-                            hidden={true}
-                          >
-                            <div
-                              className="hidden content"
-                            >
-                              Next
-                            </div>
-                          </ButtonContent>
-                          <ButtonContent
-                            visible={true}
-                          >
-                            <div
-                              className="visible content"
-                            >
-                              <Icon
-                                as="i"
-                                name="step forward"
+                        <RefFindNode
+                          innerRef={
+                            Object {
+                              "current": <button
+                                class="ui vertical animated disabled button jb-next-button"
+                                disabled=""
+                                tabindex="-1"
                               >
-                                <i
-                                  aria-hidden="true"
-                                  className="step forward icon"
-                                  onClick={[Function]}
-                                />
-                              </Icon>
-                            </div>
-                          </ButtonContent>
-                        </button>
-                      </RefFindNode>
-                    </Ref>
-                  </Button>
-                </span>
-              </SkipButtons>
-              <Button
-                active={true}
-                animated="vertical"
-                as="button"
-                className="jb-play-button"
-                disabled={true}
-                onClick={[Function]}
-              >
-                <Ref
-                  innerRef={
-                    Object {
-                      "current": <button
-                        class="ui active vertical animated disabled button jb-play-button"
-                        disabled=""
-                        tabindex="-1"
-                      >
-                        <div
-                          class="hidden content"
+                                <div
+                                  class="hidden content"
+                                >
+                                  Next
+                                </div>
+                                <div
+                                  class="visible content"
+                                >
+                                  <i
+                                    aria-hidden="true"
+                                    class="step forward icon"
+                                  />
+                                </div>
+                              </button>,
+                            }
+                          }
                         >
-                          Play
-                        </div>
-                        <div
-                          class="visible content"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="play icon"
-                          />
-                        </div>
-                      </button>,
-                    }
-                  }
+                          <button
+                            className="ui vertical animated disabled button jb-next-button"
+                            disabled={true}
+                            onClick={[Function]}
+                            tabIndex={-1}
+                          >
+                            <ButtonContent
+                              hidden={true}
+                            >
+                              <div
+                                className="hidden content"
+                              >
+                                Next
+                              </div>
+                            </ButtonContent>
+                            <ButtonContent
+                              visible={true}
+                            >
+                              <div
+                                className="visible content"
+                              >
+                                <Icon
+                                  as="i"
+                                  name="step forward"
+                                >
+                                  <i
+                                    aria-hidden="true"
+                                    className="step forward icon"
+                                    onClick={[Function]}
+                                  />
+                                </Icon>
+                              </div>
+                            </ButtonContent>
+                          </button>
+                        </RefFindNode>
+                      </Ref>
+                    </Button>
+                  </span>
+                </SkipButtons>
+                <Button
+                  active={true}
+                  animated="vertical"
+                  as="button"
+                  className="jb-play-button"
+                  disabled={true}
+                  onClick={[Function]}
                 >
-                  <RefFindNode
+                  <Ref
                     innerRef={
                       Object {
                         "current": <button
@@ -1285,77 +1295,77 @@ exports[`Dashboard online logged out renders as expected 1`] = `
                       }
                     }
                   >
-                    <button
-                      className="ui active vertical animated disabled button jb-play-button"
-                      disabled={true}
-                      onClick={[Function]}
-                      tabIndex={-1}
-                    >
-                      <ButtonContent
-                        hidden={true}
-                      >
-                        <div
-                          className="hidden content"
-                        >
-                          Play
-                        </div>
-                      </ButtonContent>
-                      <ButtonContent
-                        visible={true}
-                      >
-                        <div
-                          className="visible content"
-                        >
-                          <Icon
-                            as="i"
-                            name="play"
+                    <RefFindNode
+                      innerRef={
+                        Object {
+                          "current": <button
+                            class="ui active vertical animated disabled button jb-play-button"
+                            disabled=""
+                            tabindex="-1"
                           >
-                            <i
-                              aria-hidden="true"
-                              className="play icon"
-                              onClick={[Function]}
-                            />
-                          </Icon>
-                        </div>
-                      </ButtonContent>
-                    </button>
-                  </RefFindNode>
-                </Ref>
-              </Button>
-              <Button
-                active={false}
-                animated="vertical"
-                as="button"
-                className="jb-pause-button"
-                disabled={true}
-                onClick={[Function]}
-              >
-                <Ref
-                  innerRef={
-                    Object {
-                      "current": <button
-                        class="ui vertical animated disabled button jb-pause-button"
-                        disabled=""
-                        tabindex="-1"
+                            <div
+                              class="hidden content"
+                            >
+                              Play
+                            </div>
+                            <div
+                              class="visible content"
+                            >
+                              <i
+                                aria-hidden="true"
+                                class="play icon"
+                              />
+                            </div>
+                          </button>,
+                        }
+                      }
+                    >
+                      <button
+                        className="ui active vertical animated disabled button jb-play-button"
+                        disabled={true}
+                        onClick={[Function]}
+                        tabIndex={-1}
                       >
-                        <div
-                          class="hidden content"
+                        <ButtonContent
+                          hidden={true}
                         >
-                          Pause
-                        </div>
-                        <div
-                          class="visible content"
+                          <div
+                            className="hidden content"
+                          >
+                            Play
+                          </div>
+                        </ButtonContent>
+                        <ButtonContent
+                          visible={true}
                         >
-                          <i
-                            aria-hidden="true"
-                            class="pause icon"
-                          />
-                        </div>
-                      </button>,
-                    }
-                  }
+                          <div
+                            className="visible content"
+                          >
+                            <Icon
+                              as="i"
+                              name="play"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="play icon"
+                                onClick={[Function]}
+                              />
+                            </Icon>
+                          </div>
+                        </ButtonContent>
+                      </button>
+                    </RefFindNode>
+                  </Ref>
+                </Button>
+                <Button
+                  active={false}
+                  animated="vertical"
+                  as="button"
+                  className="jb-pause-button"
+                  disabled={true}
+                  onClick={[Function]}
                 >
-                  <RefFindNode
+                  <Ref
                     innerRef={
                       Object {
                         "current": <button
@@ -1380,77 +1390,77 @@ exports[`Dashboard online logged out renders as expected 1`] = `
                       }
                     }
                   >
-                    <button
-                      className="ui vertical animated disabled button jb-pause-button"
-                      disabled={true}
-                      onClick={[Function]}
-                      tabIndex={-1}
-                    >
-                      <ButtonContent
-                        hidden={true}
-                      >
-                        <div
-                          className="hidden content"
-                        >
-                          Pause
-                        </div>
-                      </ButtonContent>
-                      <ButtonContent
-                        visible={true}
-                      >
-                        <div
-                          className="visible content"
-                        >
-                          <Icon
-                            as="i"
-                            name="pause"
+                    <RefFindNode
+                      innerRef={
+                        Object {
+                          "current": <button
+                            class="ui vertical animated disabled button jb-pause-button"
+                            disabled=""
+                            tabindex="-1"
                           >
-                            <i
-                              aria-hidden="true"
-                              className="pause icon"
-                              onClick={[Function]}
-                            />
-                          </Icon>
-                        </div>
-                      </ButtonContent>
-                    </button>
-                  </RefFindNode>
-                </Ref>
-              </Button>
-              <Button
-                active={false}
-                animated="vertical"
-                as="button"
-                className="jb-stop-button"
-                disabled={true}
-                onClick={[Function]}
-              >
-                <Ref
-                  innerRef={
-                    Object {
-                      "current": <button
-                        class="ui vertical animated disabled button jb-stop-button"
-                        disabled=""
-                        tabindex="-1"
+                            <div
+                              class="hidden content"
+                            >
+                              Pause
+                            </div>
+                            <div
+                              class="visible content"
+                            >
+                              <i
+                                aria-hidden="true"
+                                class="pause icon"
+                              />
+                            </div>
+                          </button>,
+                        }
+                      }
+                    >
+                      <button
+                        className="ui vertical animated disabled button jb-pause-button"
+                        disabled={true}
+                        onClick={[Function]}
+                        tabIndex={-1}
                       >
-                        <div
-                          class="hidden content"
+                        <ButtonContent
+                          hidden={true}
                         >
-                          Stop
-                        </div>
-                        <div
-                          class="visible content"
+                          <div
+                            className="hidden content"
+                          >
+                            Pause
+                          </div>
+                        </ButtonContent>
+                        <ButtonContent
+                          visible={true}
                         >
-                          <i
-                            aria-hidden="true"
-                            class="stop icon"
-                          />
-                        </div>
-                      </button>,
-                    }
-                  }
+                          <div
+                            className="visible content"
+                          >
+                            <Icon
+                              as="i"
+                              name="pause"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="pause icon"
+                                onClick={[Function]}
+                              />
+                            </Icon>
+                          </div>
+                        </ButtonContent>
+                      </button>
+                    </RefFindNode>
+                  </Ref>
+                </Button>
+                <Button
+                  active={false}
+                  animated="vertical"
+                  as="button"
+                  className="jb-stop-button"
+                  disabled={true}
+                  onClick={[Function]}
                 >
-                  <RefFindNode
+                  <Ref
                     innerRef={
                       Object {
                         "current": <button
@@ -1475,65 +1485,158 @@ exports[`Dashboard online logged out renders as expected 1`] = `
                       }
                     }
                   >
-                    <button
-                      className="ui vertical animated disabled button jb-stop-button"
-                      disabled={true}
-                      onClick={[Function]}
-                      tabIndex={-1}
-                    >
-                      <ButtonContent
-                        hidden={true}
-                      >
-                        <div
-                          className="hidden content"
-                        >
-                          Stop
-                        </div>
-                      </ButtonContent>
-                      <ButtonContent
-                        visible={true}
-                      >
-                        <div
-                          className="visible content"
-                        >
-                          <Icon
-                            as="i"
-                            name="stop"
+                    <RefFindNode
+                      innerRef={
+                        Object {
+                          "current": <button
+                            class="ui vertical animated disabled button jb-stop-button"
+                            disabled=""
+                            tabindex="-1"
                           >
-                            <i
-                              aria-hidden="true"
-                              className="stop icon"
-                              onClick={[Function]}
-                            />
-                          </Icon>
-                        </div>
-                      </ButtonContent>
-                    </button>
-                  </RefFindNode>
-                </Ref>
-              </Button>
-            </span>
-          </Controls>
-          <Divider>
-            <div
-              className="ui divider"
-            />
-          </Divider>
-          <Grid
-            columns={2}
-          >
-            <div
-              className="ui two column grid"
+                            <div
+                              class="hidden content"
+                            >
+                              Stop
+                            </div>
+                            <div
+                              class="visible content"
+                            >
+                              <i
+                                aria-hidden="true"
+                                class="stop icon"
+                              />
+                            </div>
+                          </button>,
+                        }
+                      }
+                    >
+                      <button
+                        className="ui vertical animated disabled button jb-stop-button"
+                        disabled={true}
+                        onClick={[Function]}
+                        tabIndex={-1}
+                      >
+                        <ButtonContent
+                          hidden={true}
+                        >
+                          <div
+                            className="hidden content"
+                          >
+                            Stop
+                          </div>
+                        </ButtonContent>
+                        <ButtonContent
+                          visible={true}
+                        >
+                          <div
+                            className="visible content"
+                          >
+                            <Icon
+                              as="i"
+                              name="stop"
+                            >
+                              <i
+                                aria-hidden="true"
+                                className="stop icon"
+                                onClick={[Function]}
+                              />
+                            </Icon>
+                          </div>
+                        </ButtonContent>
+                      </button>
+                    </RefFindNode>
+                  </Ref>
+                </Button>
+              </span>
+            </Controls>
+            <Divider>
+              <div
+                className="ui divider"
+              />
+            </Divider>
+            <Grid
+              columns={2}
             >
-              <GridColumn
-                width={4}
+              <div
+                className="ui two column grid"
               >
-                <div
-                  className="four wide column"
+                <GridColumn
+                  width={4}
                 >
-                  <DragInTrack
-                    disabled={true}
-                    onDrop={[Function]}
+                  <div
+                    className="four wide column"
+                  >
+                    <DragInTrack
+                      disabled={true}
+                      onDrop={[Function]}
+                    >
+                      <Header
+                        size="small"
+                      >
+                        <div
+                          className="ui small header"
+                        >
+                          Current Track
+                        </div>
+                      </Header>
+                      <Connect(CurrentTrackContainer)>
+                        <CurrentTrackContainer
+                          dispatch={[Function]}
+                          image={null}
+                          progress={0}
+                        >
+                          <CurrentTrack
+                            image={null}
+                            progress={0}
+                          >
+                            <Card>
+                              <div
+                                className="ui card"
+                                onClick={[Function]}
+                              >
+                                <Image
+                                  as="img"
+                                  src="default-artwork.png"
+                                  ui={true}
+                                >
+                                  <img
+                                    className="ui image"
+                                    src="default-artwork.png"
+                                  />
+                                </Image>
+                                <CardContent>
+                                  <div
+                                    className="content"
+                                  >
+                                    <CardHeader>
+                                      <div
+                                        className="header"
+                                      >
+                                        Nothing playing
+                                      </div>
+                                    </CardHeader>
+                                    <CardDescription>
+                                      <div
+                                        className="description"
+                                      >
+                                        Drag some music here or press play.
+                                      </div>
+                                    </CardDescription>
+                                  </div>
+                                </CardContent>
+                              </div>
+                            </Card>
+                          </CurrentTrack>
+                        </CurrentTrackContainer>
+                      </Connect(CurrentTrackContainer)>
+                    </DragInTrack>
+                  </div>
+                </GridColumn>
+                <GridColumn
+                  width={12}
+                >
+                  <div
+                    className="twelve wide column"
                   >
                     <Header
                       size="small"
@@ -1541,103 +1644,36 @@ exports[`Dashboard online logged out renders as expected 1`] = `
                       <div
                         className="ui small header"
                       >
-                        Current Track
+                        Playlist 
+                        <ClearPlaylist
+                          disabled={true}
+                          onClear={[Function]}
+                        />
                       </div>
                     </Header>
-                    <Connect(CurrentTrackContainer)>
-                      <CurrentTrackContainer
-                        dispatch={[Function]}
-                        image={null}
-                        progress={0}
+                    <Tracklist
+                      disabled={true}
+                      images={Object {}}
+                      onRemoveTrack={[Function]}
+                      tracks={Array []}
+                    >
+                      <List
+                        relaxed={true}
                       >
-                        <CurrentTrack
-                          image={null}
-                          progress={0}
-                        >
-                          <Card>
-                            <div
-                              className="ui card"
-                              onClick={[Function]}
-                            >
-                              <Image
-                                as="img"
-                                src="default-artwork.png"
-                                ui={true}
-                              >
-                                <img
-                                  className="ui image"
-                                  src="default-artwork.png"
-                                />
-                              </Image>
-                              <CardContent>
-                                <div
-                                  className="content"
-                                >
-                                  <CardHeader>
-                                    <div
-                                      className="header"
-                                    >
-                                      Nothing playing
-                                    </div>
-                                  </CardHeader>
-                                  <CardDescription>
-                                    <div
-                                      className="description"
-                                    >
-                                      Drag some music here or press play.
-                                    </div>
-                                  </CardDescription>
-                                </div>
-                              </CardContent>
-                            </div>
-                          </Card>
-                        </CurrentTrack>
-                      </CurrentTrackContainer>
-                    </Connect(CurrentTrackContainer)>
-                  </DragInTrack>
-                </div>
-              </GridColumn>
-              <GridColumn
-                width={12}
-              >
-                <div
-                  className="twelve wide column"
-                >
-                  <Header
-                    size="small"
-                  >
-                    <div
-                      className="ui small header"
-                    >
-                      Playlist 
-                      <ClearPlaylist
-                        disabled={true}
-                        onClear={[Function]}
-                      />
-                    </div>
-                  </Header>
-                  <Tracklist
-                    disabled={true}
-                    images={Object {}}
-                    onRemoveTrack={[Function]}
-                    tracks={Array []}
-                  >
-                    <List
-                      relaxed={true}
-                    >
-                      <div
-                        className="ui relaxed list"
-                        role="list"
-                      />
-                    </List>
-                  </Tracklist>
-                </div>
-              </GridColumn>
-            </div>
-          </Grid>
-        </div>
-      </DimmerDimmable>
-    </Dashboard>
-  </DragDropContext(Dashboard)>
+                        <div
+                          className="ui relaxed list"
+                          role="list"
+                        />
+                      </List>
+                    </Tracklist>
+                  </div>
+                </GridColumn>
+              </div>
+            </Grid>
+          </div>
+        </DimmerDimmable>
+      </Dashboard>
+    </DashboardContainer>
+  </DragDropContext(DashboardContainer)>
 </Provider>
 `;
