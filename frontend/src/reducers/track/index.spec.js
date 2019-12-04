@@ -1,5 +1,5 @@
 import reducer from './index'
-import Types from '../../constants'
+import Types from 'constants/common'
 
 describe('track', () => {
   describe('ADD_CURRENT_TRACK', () => {

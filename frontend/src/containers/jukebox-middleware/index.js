@@ -1,12 +1,12 @@
 import io from 'socket.io-client'
-import * as actions from '../../actions'
-import MopidyApi from '../../constants/mopidy-api'
-import Constants from '../../constants'
-import { findImageInCache } from '../../utils/images'
-import { trackProgressTimer } from '../../utils/time'
-import onMessageHandler from '../../utils/on-message-handler'
-import Payload from '../../utils/payload'
-import State from '../../utils/state'
+import * as actions from 'actions'
+import MopidyApi from 'constants/mopidy-api'
+import Constants from 'constants/common'
+import { findImageInCache } from 'utils/images'
+import { trackProgressTimer } from 'utils/time'
+import onMessageHandler from 'utils/on-message-handler'
+import Payload from 'utils/payload'
+import State from 'utils/state'
 
 const JukeboxMiddleware = (() => {
   let url = `http://${process.env.REACT_APP_WS_URL}:${process.env.REACT_APP_WS_PORT}`

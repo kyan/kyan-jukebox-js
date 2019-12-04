@@ -1,13 +1,13 @@
 import io from 'socket.io-client'
 import configureMockStore from 'redux-mock-store'
-import Constants from '../../constants'
-import MopidyApi from '../../constants/mopidy-api'
-import onMessageHandler from '../../utils/on-message-handler'
-import { trackProgressTimer } from '../../utils/time'
+import Constants from 'constants/common'
+import MopidyApi from 'constants/mopidy-api'
+import onMessageHandler from 'utils/on-message-handler'
+import { trackProgressTimer } from 'utils/time'
 import JukeboxMiddleware from './index'
 jest.mock('socket.io-client')
-jest.mock('../../utils/on-message-handler')
-jest.mock('../../utils/time')
+jest.mock('utils/on-message-handler')
+jest.mock('utils/time')
 jest.useFakeTimers()
 
 describe('JukeboxMiddleware', () => {

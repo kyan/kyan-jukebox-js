@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { timerToPercentage } from '../../utils/time'
-import { getCurrentTrackImageInCache } from '../../selectors'
-import CurrentTrack from '../../components/current-track'
+import { timerToPercentage } from 'utils/time'
+import { getCurrentTrackImageInCache } from 'selectors'
+import CurrentTrack from 'components/current-track'
 
 export const CurrentTrackContainer = ({ track, image, progress, remaining }) => (
   <CurrentTrack
