@@ -1,12 +1,12 @@
 import logger from 'config/winston'
 import EventLogger from 'utils/event-logger'
-import Transformer from 'utils/transformer'
+import Transform from 'utils/transformer'
 import Payload from 'utils/payload'
 
 const Broadcaster = {
   to: (client, payload, message) => {
     const encodedKey = payload.encoded_key
-    const unifiedMessage = Transformer(encodedKey, message)
+    const unifiedMessage = Transform.message(encodedKey, message)
     const context = payload.user ? 'UserBroadcast' : 'PublicBroadcast'
     EventLogger(payload, null, unifiedMessage, context)
 

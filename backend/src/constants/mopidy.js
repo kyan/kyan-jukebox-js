@@ -1,6 +1,6 @@
 export default {
   CONNECTION_ERROR: 'mopidy::connectionError',
-  EVENTS: {
+  CORE_EVENTS: {
     PLAYBACK_STARTED: 'mopidy::event:trackPlaybackStarted',
     PLAYBACK_STATE_CHANGED: 'mopidy::event:playbackStateChanged',
     PLAYBACK_RESUMED: 'mopidy::event:trackPlaybackResumed',

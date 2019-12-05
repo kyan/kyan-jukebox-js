@@ -67,8 +67,8 @@ describe('MopidyService', () => {
       '{"key":"mopidy::event:volumeChanged"}',
       'MopidyEvent'
     ])
-    expect(Transformer.mock.calls[0][0]).toEqual('mopidy::event:volumeChanged')
-    expect(Transformer.mock.calls[0][1]).toEqual({ volume: '10' })
-    expect(Transformer.mock.calls[0][2]).toEqual(instance)
+    expect(Transformer.mopidyCoreMessage.mock.calls[0][0]).toEqual('mopidy::event:volumeChanged')
+    expect(Transformer.mopidyCoreMessage.mock.calls[0][1]).toEqual({ volume: '10' })
+    expect(Transformer.mopidyCoreMessage.mock.calls[0][2]).toEqual(instance)
   })
 })
