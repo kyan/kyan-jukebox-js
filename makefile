@@ -5,6 +5,7 @@ help:
 	@echo "  $$ make build-all        builds images including local mopidy"
 	@echo "  $$ make serve            start the local development environment excluding local mopidy"
 	@echo "  $$ make serve-all        start the local development environment including local mopidy"
+	@echo "  $$ make stop-all         stop the local development environment including local mopidy"
 	@echo "  $$ make test-frontend    runs client specs"
 	@echo "  $$ make test-backend     runs api specs"
 
@@ -20,6 +21,9 @@ serve:
 
 serve-all:
 	docker-compose -f docker-compose.yml -f docker-compose-mopidy.yml up
+
+stop-all:
+	docker-compose -f docker-compose.yml -f docker-compose-mopidy.yml down
 
 test-frontend:
 	./scripts/specs-client.sh
