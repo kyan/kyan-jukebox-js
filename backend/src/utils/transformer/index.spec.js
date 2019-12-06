@@ -31,12 +31,12 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('transforms when we have data', () => {
-      Transformer('mopidy::playback.getCurrentTrack', data)
+      Transformer.message('mopidy::playback.getCurrentTrack', data)
       expect(TransformTrack).toHaveBeenCalledWith(data)
     })
 
     it('does not transform when we have no data', () => {
-      Transformer('mopidy::playback.getCurrentTrack', null)
+      Transformer.message('mopidy::playback.getCurrentTrack', null)
       expect(TransformTrack).not.toHaveBeenCalled()
     })
   })
@@ -45,7 +45,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('mopidy::playback.getTimePosition', data)).toEqual(data)
+      expect(Transformer.message('mopidy::playback.getTimePosition', data)).toEqual(data)
     })
   })
 
@@ -54,7 +54,7 @@ describe('Transformer', () => {
 
     it('does the right thing', () => {
       TransformTracklist.mockReturnValue([{ track: { uri: '123' } }])
-      Transformer('mopidy::tracklist.getTracks', data)
+      Transformer.message('mopidy::tracklist.getTracks', data)
       expect(TransformTracklist).toHaveBeenCalledWith(data)
     })
   })
@@ -64,7 +64,7 @@ describe('Transformer', () => {
     const mopidyMock = jest.fn()
 
     it('does the right thing', () => {
-      Transformer('mopidy::event:trackPlaybackStarted', data, mopidyMock)
+      Transformer.mopidyCoreMessage('mopidy::event:trackPlaybackStarted', data, mopidyMock)
       expect(TransformTrack).toHaveBeenCalledWith(data.tl_track.track)
       expect(NowPlaying.addTrack).toHaveBeenCalledWith({
         uri: 'spotify:track:40riOy7x9W7GXjyGp4pjAv',
@@ -83,7 +83,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('mopidy::event:tracklistChanged', data)).toEqual(data)
+      expect(Transformer.mopidyCoreMessage('mopidy::event:tracklistChanged', data)).toEqual(data)
     })
   })
 
@@ -91,7 +91,7 @@ describe('Transformer', () => {
     const data = { volume: 99 }
 
     it('does the right thing', () => {
-      expect(Transformer('mopidy::event:volumeChanged', data)).toEqual(data.volume)
+      expect(Transformer.mopidyCoreMessage('mopidy::event:volumeChanged', data)).toEqual(data.volume)
     })
   })
 
@@ -99,7 +99,7 @@ describe('Transformer', () => {
     const data = { new_state: 'playing' }
 
     it('does the right thing', () => {
-      expect(Transformer('mopidy::event:playbackStateChanged', data))
+      expect(Transformer.mopidyCoreMessage('mopidy::event:playbackStateChanged', data))
         .toEqual(data.new_state)
     })
   })
@@ -108,7 +108,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('mopidy::library.getImages', data)).toEqual(data)
+      expect(Transformer.message('mopidy::library.getImages', data)).toEqual(data)
     })
   })
 
@@ -116,7 +116,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('mopidy::tracklist.add', data)).toEqual(data)
+      expect(Transformer.message('mopidy::tracklist.add', data)).toEqual(data)
     })
   })
 
@@ -126,7 +126,7 @@ describe('Transformer', () => {
     }]
 
     it('does the right thing', () => {
-      expect(Transformer('mopidy::tracklist.remove', data)).toEqual(data)
+      expect(Transformer.message('mopidy::tracklist.remove', data)).toEqual(data)
       expect(settings.removeFromArray.mock.calls[0])
         .toEqual(['tracklist.last_played', 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG'])
     })
@@ -136,7 +136,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('mopidy::tracklist.clear', data)).toEqual(data)
+      expect(Transformer.message('mopidy::tracklist.clear', data)).toEqual(data)
     })
   })
 
@@ -144,7 +144,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('mopidy::mixer.getVolume', data)).toEqual(data)
+      expect(Transformer.message('mopidy::mixer.getVolume', data)).toEqual(data)
     })
   })
 
@@ -152,7 +152,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('mopidy::mixer.setVolume', data)).toEqual(data)
+      expect(Transformer.message('mopidy::mixer.setVolume', data)).toEqual(data)
     })
   })
 
@@ -160,7 +160,7 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('mopidy::playback.next', data)).toEqual(data)
+      expect(Transformer.message('mopidy::playback.next', data)).toEqual(data)
     })
   })
 
@@ -168,7 +168,8 @@ describe('Transformer', () => {
     const data = 'data'
 
     it('does the right thing', () => {
-      expect(Transformer('unknown', data)).toEqual('BACKEND RESPONSE NOT HANDLED: unknown')
+      expect(Transformer.message('unknown', data)).toEqual('skippedTransform: unknown')
+      expect(Transformer.mopidyCoreMessage('unknown', data)).toEqual('mopidySkippedTransform: unknown')
     })
   })
 })
