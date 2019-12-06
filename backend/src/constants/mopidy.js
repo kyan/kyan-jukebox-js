@@ -1,6 +1,6 @@
 export default {
   CONNECTION_ERROR: 'mopidy::connectionError',
-  EVENTS: {
+  CORE_EVENTS: {
     PLAYBACK_STARTED: 'mopidy::event:trackPlaybackStarted',
     PLAYBACK_STATE_CHANGED: 'mopidy::event:playbackStateChanged',
     PLAYBACK_RESUMED: 'mopidy::event:trackPlaybackResumed',
@@ -24,6 +24,7 @@ export default {
     'mopidy::tracklist.remove',
     'mopidy::tracklist.clear',
     'mopidy::playback.play',
+    'mopidy::playback.pause',
     'mopidy::playback.stop',
     'mopidy::playback.next',
     'mopidy::playback.previous',
