@@ -2,6 +2,7 @@ import Mopidy from 'mopidy'
 import logger from 'config/winston'
 import EventLogger from 'utils/event-logger'
 import MopidyConstants from 'constants/mopidy'
+import MessageType from 'constants/message'
 import Settings from 'constants/settings'
 import Transform from 'utils/transformer'
 import trackListTrimmer from 'services/mopidy/tracklist-trimmer'
@@ -57,22 +58,22 @@ const MopidyService = (broadcastToAll, mopidyState, cbAllowConnections) => {
     const key = Payload.decodeKey(encodedKey).pop()
 
     mopidy.on(key, message => {
-      const packAndSend = (data, key) => {
-        const unifiedMessage = Transform.mopidyCoreMessage(key, data, mopidy)
-        const payload = Payload.encodeToJson(key, unifiedMessage)
-        EventLogger({ encoded_key: key }, null, payload, 'MopidyEvent')
-        broadcastToAll(payload)
+      EventLogger({ encoded_key: key }, null, message, MessageType.INCOMING_CORE)
+
+      const packAndSend = (data, key, messageType) => {
+        const unifiedMessage = Transform[messageType](key, data, mopidy)
+        broadcastToAll(key, unifiedMessage)
       }
 
       if (encodedKey === MopidyConstants.CORE_EVENTS.TRACKLIST_CHANGED) {
         mopidy.tracklist.getTracks()
           .then(tracks => {
-            packAndSend(tracks, MopidyConstants.GET_TRACKS)
+            packAndSend(tracks, MopidyConstants.GET_TRACKS, 'message')
             cacheTrackUris(tracks)
             trackListTrimmer(mopidy)
           })
       } else {
-        packAndSend(message, encodedKey)
+        packAndSend(message, encodedKey, 'mopidyCoreMessage')
       }
     })
   })

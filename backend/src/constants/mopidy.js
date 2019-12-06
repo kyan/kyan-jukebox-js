@@ -24,6 +24,7 @@ export default {
     'mopidy::tracklist.remove',
     'mopidy::tracklist.clear',
     'mopidy::playback.play',
+    'mopidy::playback.pause',
     'mopidy::playback.stop',
     'mopidy::playback.next',
     'mopidy::playback.previous',
