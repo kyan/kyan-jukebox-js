@@ -8,128 +8,244 @@ jest.mock('services/spotify')
 jest.mock('services/mopidy/tracklist-trimmer')
 
 describe('MopidyHandler', () => {
-  let payload = {
-    encoded_key: 'mopidy::playback.stop',
-    key: 'playback.stop',
-    service: 'mopidy',
-    data: [['12345zsdf23456']]
-  }
-  const ws = 'websocket'
-  const successMock = () => {
-    return {
-      then: (success, _) => {
-        return success('response')
-      }
-    }
-  }
-  const failMock = () => {
-    return {
-      then: (_, failure) => {
-        return failure('error')
-      }
-    }
-  }
-  const noResponseMock = () => {
-    return {
-      then: (success, _) => {
-        return success()
-      }
-    }
-  }
+  const ws = jest.fn()
   const broadcastMock = jest.fn()
   const broadcasterMock = {
     to: broadcastMock
   }
-  const addToCacheMock = jest.fn()
 
-  afterEach(() => {
-    ImageCache.check.mockClear()
-    broadcastMock.mockClear()
+  beforeEach(() => {
+    jest.clearAllMocks()
   })
 
-  describe('ImageCache', () => {
-    it('Should be called with the correct params', () => {
-      const mopidy = { playback: { stop: successMock } }
-      MopidyHandler(payload, ws, broadcasterMock, mopidy)
-      expect(ImageCache.check.mock.calls.length).toEqual(1)
-      expect(ImageCache.check.mock.calls[0][0]).toEqual(payload.encoded_key)
-      expect(ImageCache.check.mock.calls[0][1]).toEqual(payload.data)
-      expect(ImageCache.check.mock.calls[0][2]).toEqual(jasmine.any(Function))
-    })
-
-    it('should handle errors passed back', () => {
-      const mopidy = { playback: { stop: successMock } }
-      MopidyHandler(payload, ws, broadcasterMock, mopidy)
-      expect(function () {
-        ImageCache.check.mock.calls[0][2]('bang!', null)
-      }).toThrow()
-    })
-
-    it('should handle image passed back', () => {
-      const mopidy = { playback: { stop: successMock } }
-      MopidyHandler(payload, ws, broadcasterMock, mopidy)
-      ImageCache.check.mock.calls[0][2](null, { image: 'img' })
-      expect(broadcastMock.mock.calls.length).toEqual(1)
-      expect(broadcastMock.mock.calls.length).toEqual(1)
-      expect(broadcastMock.mock.calls[0][0]).toEqual('websocket')
-      expect(broadcastMock.mock.calls[0][1]).toEqual(payload)
-      expect(broadcastMock.mock.calls[0][2]).toEqual('img')
-      broadcastMock.mockClear()
-    })
-
-    it('should handle addToCacheMock passed back', () => {
-      const mopidy = { playback: { stop: successMock } }
-      MopidyHandler(payload, ws, broadcasterMock, mopidy)
-      ImageCache.check.mock.calls[0][2](null, { addToCache: addToCacheMock })
-      expect(broadcastMock.mock.calls.length).toEqual(1)
-      expect(broadcastMock.mock.calls[0][0]).toEqual('websocket')
-      expect(broadcastMock.mock.calls[0][1]).toEqual(payload)
-      expect(broadcastMock.mock.calls[0][2]).toEqual('response')
-      expect(addToCacheMock.mock.calls.length).toEqual(1)
-      expect(addToCacheMock.mock.calls[0][0]).toEqual('response')
-    })
-
-    it('should handle api call without params', () => {
-      const mopidy = { playback: { stop: successMock } }
-      MopidyHandler({ key: payload.key }, ws, broadcasterMock, mopidy)
-      ImageCache.check.mock.calls[0][2](null, {})
-      expect(broadcastMock.mock.calls.length).toEqual(1)
-    })
-
-    it('should handle api call with params', () => {
-      const mopidy = { playback: { stop: successMock } }
-      MopidyHandler({
-        key: payload.key,
-        data: payload.data
-      }, ws, broadcasterMock, mopidy)
-      ImageCache.check.mock.calls[0][2](null, { addToCache: addToCacheMock })
-      expect(broadcastMock.mock.calls.length).toEqual(1)
-    })
-
-    it('should handle api call that errors', () => {
-      const mopidy = { playback: { stop: failMock } }
-      MopidyHandler({ key: payload.key }, ws, broadcasterMock, mopidy)
-      ImageCache.check.mock.calls[0][2](null, {})
-      expect(broadcastMock.mock.calls.length).toEqual(0)
-      expect(logger.error.mock.calls).toEqual([['failureHandler: ', { key: 'playback.stop' }]])
-    })
-
-    it('should handle api call with no response', () => {
-      const mopidy = { playback: { stop: noResponseMock } }
-      MopidyHandler({ key: payload.key }, ws, broadcasterMock, mopidy)
-      ImageCache.check.mock.calls[0][2](null, {})
-      expect(broadcastMock.mock.calls).toEqual([['websocket', { key: 'playback.stop' }, undefined]])
-    })
-
-    it('should handle add track call', () => {
-      const payload = {
-        encoded_key: 'mopidy::tracklist.add',
-        key: 'tracklist.add',
-        service: 'mopidy',
-        data: { uri: 'track123' }
+  it('should handle the full happy path API call with args', done => {
+    expect.assertions(3)
+    const mopidyVolumeMock = jest.fn().mockResolvedValue(null)
+    const mopidy = {
+      tracklist: {
+        setVolume: mopidyVolumeMock
       }
-      MopidyHandler(payload, ws, broadcasterMock, {})
-      expect(Spotify.validateTrack.mock.calls).toEqual([['track123', expect.any(Function)]])
+    }
+    const payload = {
+      key: 'tracklist.setVolume',
+      encoded_key: 'mopidy::tracklist.setVolume',
+      data: [['12']]
+    }
+    const trackMock = jest.fn().mockResolvedValue()
+    const cacheMock = jest.fn().mockResolvedValue({ image: null })
+    jest.spyOn(Spotify, 'validateTrack').mockImplementation(trackMock)
+    jest.spyOn(ImageCache, 'check').mockImplementation(cacheMock)
+
+    MopidyHandler(payload, ws, broadcasterMock, mopidy)
+
+    setTimeout(() => {
+      try {
+        expect(Spotify.validateTrack).not.toHaveBeenCalled()
+        expect(ImageCache.check).toHaveBeenCalledWith(payload.encoded_key, payload.data)
+        expect(broadcastMock).toHaveBeenCalledWith(
+          ws,
+          { data: [['12']], encoded_key: 'mopidy::tracklist.setVolume', key: 'tracklist.setVolume' },
+          null
+        )
+        done()
+      } catch (err) {
+        done.fail(err)
+      }
+    })
+  })
+
+  it('should handle the full happy path API call without args', done => {
+    expect.assertions(3)
+    const mopidyVolumeMock = jest.fn().mockResolvedValue(null)
+    const mopidy = {
+      tracklist: {
+        setVolume: mopidyVolumeMock
+      }
+    }
+    const payload = {
+      key: 'tracklist.setVolume',
+      encoded_key: 'mopidy::tracklist.setVolume'
+    }
+    const trackMock = jest.fn().mockResolvedValue()
+    const cacheMock = jest.fn().mockResolvedValue({ image: null })
+    jest.spyOn(Spotify, 'validateTrack').mockImplementation(trackMock)
+    jest.spyOn(ImageCache, 'check').mockImplementation(cacheMock)
+
+    MopidyHandler(payload, ws, broadcasterMock, mopidy)
+
+    setTimeout(() => {
+      try {
+        expect(Spotify.validateTrack).not.toHaveBeenCalled()
+        expect(ImageCache.check).toHaveBeenCalledWith(payload.encoded_key, payload.data)
+        expect(broadcastMock).toHaveBeenCalledWith(
+          ws,
+          { encoded_key: 'mopidy::tracklist.setVolume', key: 'tracklist.setVolume' },
+          null
+        )
+        done()
+      } catch (err) {
+        done.fail(err)
+      }
+    })
+  })
+
+  it('should handle image request coming back', done => {
+    expect.assertions(4)
+    const mopidyMock = jest.fn().mockResolvedValue('true')
+    const addToCacheMock = jest.fn()
+    const mopidy = {
+      library: {
+        getImages: mopidyMock
+      }
+    }
+    const payload = {
+      key: 'library.getImages',
+      encoded_key: 'mopidy::library.getImages',
+      data: [['12']]
+    }
+    const trackMock = jest.fn().mockResolvedValue()
+    const cacheMock = jest.fn().mockResolvedValue({ image: null, addToCache: addToCacheMock })
+    jest.spyOn(Spotify, 'validateTrack').mockImplementation(trackMock)
+    jest.spyOn(ImageCache, 'check').mockImplementation(cacheMock)
+
+    MopidyHandler(payload, ws, broadcasterMock, mopidy)
+
+    setTimeout(() => {
+      try {
+        expect(addToCacheMock).toHaveBeenCalledWith('true')
+        expect(Spotify.validateTrack).not.toHaveBeenCalled()
+        expect(ImageCache.check).toHaveBeenCalledWith(payload.encoded_key, payload.data)
+        expect(broadcastMock).toHaveBeenCalledWith(
+          ws,
+          { data: [['12']], encoded_key: 'mopidy::library.getImages', key: 'library.getImages' },
+          'true'
+        )
+        done()
+      } catch (err) {
+        done.fail(err)
+      }
+    })
+  })
+
+  it('should handle image request coming back with nothing to add to cache', done => {
+    expect.assertions(3)
+    const mopidyMock = jest.fn().mockResolvedValue('true')
+    const mopidy = {
+      library: {
+        getImages: mopidyMock
+      }
+    }
+    const payload = {
+      key: 'library.getImages',
+      encoded_key: 'mopidy::library.getImages',
+      data: [['12']]
+    }
+    const trackMock = jest.fn().mockResolvedValue()
+    const cacheMock = jest.fn().mockResolvedValue({ image: null, addToCache: false })
+    jest.spyOn(Spotify, 'validateTrack').mockImplementation(trackMock)
+    jest.spyOn(ImageCache, 'check').mockImplementation(cacheMock)
+
+    MopidyHandler(payload, ws, broadcasterMock, mopidy)
+
+    setTimeout(() => {
+      try {
+        expect(Spotify.validateTrack).not.toHaveBeenCalled()
+        expect(ImageCache.check).toHaveBeenCalledWith(payload.encoded_key, payload.data)
+        expect(broadcastMock).toHaveBeenCalledWith(
+          ws,
+          { data: [['12']], encoded_key: 'mopidy::library.getImages', key: 'library.getImages' },
+          'true'
+        )
+        done()
+      } catch (err) {
+        done.fail(err)
+      }
+    })
+  })
+
+  it('should handle api call failure', done => {
+    expect.assertions(4)
+    const mopidyMock = jest.fn().mockRejectedValue(new Error('API Broke'))
+    const mopidy = {
+      library: {
+        getImages: mopidyMock
+      }
+    }
+    const payload = {
+      key: 'library.getImages',
+      encoded_key: 'mopidy::library.getImages',
+      data: [['12']]
+    }
+    const trackMock = jest.fn().mockResolvedValue()
+    const cacheMock = jest.fn().mockResolvedValue({ image: null, addToCache: false })
+    jest.spyOn(Spotify, 'validateTrack').mockImplementation(trackMock)
+    jest.spyOn(ImageCache, 'check').mockImplementation(cacheMock)
+
+    MopidyHandler(payload, ws, broadcasterMock, mopidy)
+
+    setTimeout(() => {
+      try {
+        expect(Spotify.validateTrack).not.toHaveBeenCalled()
+        expect(ImageCache.check).toHaveBeenCalledWith(payload.encoded_key, payload.data)
+        expect(broadcastMock).not.toHaveBeenCalled()
+        expect(logger.error).toHaveBeenCalledWith('Mopidy API Failure: API Broke')
+        done()
+      } catch (err) {
+        done.fail(err)
+      }
+    })
+  })
+
+  it('should skip validation when found cached image', done => {
+    expect.assertions(3)
+    jest.spyOn(ImageCache, 'check')
+    const mopidy = 'mopidy'
+    const payload = { encoded_key: 'mopidy::library.getImages', data: [['12345zsdf23456']] }
+    const trackMock = jest.fn().mockResolvedValue()
+    const cacheMock = jest.fn().mockResolvedValue({ image: 'image' })
+    jest.spyOn(Spotify, 'validateTrack').mockImplementation(trackMock)
+    jest.spyOn(ImageCache, 'check').mockImplementation(cacheMock)
+
+    MopidyHandler(payload, ws, broadcasterMock, mopidy)
+
+    setTimeout(() => {
+      try {
+        expect(Spotify.validateTrack).not.toHaveBeenCalled()
+        expect(ImageCache.check).toHaveBeenCalledWith(payload.encoded_key, payload.data)
+        expect(broadcastMock).toHaveBeenCalledWith(
+          ws,
+          { data: [['12345zsdf23456']], encoded_key: 'mopidy::library.getImages' },
+          'image'
+        )
+        done()
+      } catch (err) {
+        done.fail(err)
+      }
+    })
+  })
+
+  it('should handle an invalid track', done => {
+    expect.assertions(2)
+    jest.spyOn(ImageCache, 'check')
+    const mopidy = 'mopidy'
+    const trackMock = jest.fn().mockRejectedValue(new Error('naughty-naughty'))
+    const payload = { encoded_key: 'mopidy::tracklist.add', data: [['12345zsdf23456']] }
+    jest.spyOn(Spotify, 'validateTrack').mockImplementation(trackMock)
+
+    MopidyHandler(payload, ws, broadcasterMock, mopidy)
+
+    setTimeout(() => {
+      try {
+        expect(broadcastMock).toHaveBeenCalledWith(
+          ws,
+          { data: [['12345zsdf23456']], encoded_key: 'mopidy::tracklist.validation' },
+          'naughty-naughty'
+        )
+        expect(ImageCache.check).not.toHaveBeenCalled()
+        done()
+      } catch (err) {
+        done.fail(err)
+      }
     })
   })
 })

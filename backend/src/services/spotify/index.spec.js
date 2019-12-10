@@ -19,8 +19,8 @@ jest.mock('spotify-web-api-node', () => {
         }})),
       setAccessToken: jest.fn(),
       getTrack: jest.fn()
+        .mockImplementationOnce(() => Promise.resolve({ body: { explicit: true, name: 'Naughty' } }))
         .mockImplementationOnce(() => Promise.resolve({ body: { explicit: false } }))
-        .mockImplementationOnce(() => Promise.resolve({ body: { explicit: true } }))
     }
   }
 })
@@ -43,8 +43,13 @@ describe('SpotifyService', () => {
   }
   const mockCallback = jest.fn()
 
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('canRecommend', () => {
     it('should behave as expected', async () => {
+      expect.assertions(3)
       await SpotifyService.canRecommend(mopidy, mockCallback)
       expect(mockCallback.mock.calls.length).toEqual(0)
       await SpotifyService.canRecommend(mopidy, mockCallback)
@@ -63,13 +68,31 @@ describe('SpotifyService', () => {
   })
 
   describe('validateTrack', () => {
-    it('should correctly handle various scenarios', async () => {
-      await SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMt2zwqCT', mockCallback)
-      expect(mockCallback.mock.calls.length).toEqual(0)
-      await SpotifyService.validateTrack('unique', mockCallback)
-      expect(mockCallback.mock.calls.length).toEqual(0)
-      await SpotifyService.validateTrack('unique', mockCallback)
-      expect(mockCallback.mock.calls.length).toEqual(1)
+    it('should reject if track is already in tracklist', done => {
+      expect.assertions(1)
+      SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMt2zwqCT')
+        .catch((error) => {
+          expect(error.message).toEqual('Already in tracklist: spotify:track:03fT3OHB9KyMtGMt2zwqCT')
+          done()
+        })
+    })
+
+    it('should reject if track is explicit', done => {
+      expect.assertions(1)
+      SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW')
+        .catch((error) => {
+          expect(error.message).toEqual('Is there a radio mix? - Naughty')
+          done()
+        })
+    })
+
+    it('should resolve if track is valid', done => {
+      expect.assertions(1)
+      SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW')
+        .then((result) => {
+          expect(result).toEqual(true)
+          done()
+        })
     })
   })
 })

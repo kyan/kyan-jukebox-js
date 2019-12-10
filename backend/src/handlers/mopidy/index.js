@@ -15,9 +15,9 @@ const StrToFunction = (obj, methodStr) => {
   return context
 }
 
-const isValidTrack = (key, data, callback) => {
-  if (key !== Mopidy.TRACKLIST_ADD) return callback()
-  Spotify.validateTrack(data.uri, callback)
+const isValidTrack = (key, data) => {
+  if (key !== Mopidy.TRACKLIST_ADD) return Promise.resolve()
+  return Spotify.validateTrack(data.uri)
 }
 
 const sendToClient = (bcast, ws, payload, data) => {
@@ -32,10 +32,12 @@ const MopidyHandler = (payload, ws, bcast, mopidy) => {
   const { key, data } = payload
   logEvent(payload, data, null, MessageType.INCOMING_CLIENT)
 
-  isValidTrack(payload.encoded_key, data, () => {
-    ImageCache.check(payload.encoded_key, data, (err, obj) => {
-      if (err) { throw err }
-
+  isValidTrack(
+    payload.encoded_key, data
+  ).then(() => {
+    ImageCache.check(
+      payload.encoded_key, data
+    ).then((obj) => {
       if (obj.image) {
         sendToClient(bcast, ws, payload, obj.image)
       } else {
@@ -52,13 +54,14 @@ const MopidyHandler = (payload, ws, bcast, mopidy) => {
           sendToClient(bcast, ws, payload, response)
         }
 
-        const failureHandler = () => {
-          logger.error('failureHandler: ', { key: key })
-        }
-
-        (data ? apiCall(data) : apiCall()).then(successHandler, failureHandler)
+        (data ? apiCall(data) : apiCall())
+          .then(successHandler)
+          .catch((err) => logger.error(`Mopidy API Failure: ${err.message}`))
       }
     })
+  }).catch((err) => {
+    payload.encoded_key = Mopidy.VALIDATION_ERROR
+    sendToClient(bcast, ws, payload, err.message)
   })
 }
 

@@ -284,7 +284,7 @@ describe('onMessageHandler', () => {
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
       expect(actions).toEqual([{ type: 'actionUpdateVolume', volume: 32 }])
-      expect(notify.mock.calls.length).toEqual(1)
+      expect(notify.success.mock.calls.length).toEqual(1)
     })
   })
 
@@ -323,6 +323,18 @@ describe('onMessageHandler', () => {
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
       expect(actions).toEqual([{ type: 'actionSend', key: 'mopidy::playback.getCurrentTrack' }])
+    })
+  })
+
+  describe('VALIDATION_ERROR', () => {
+    it('handles the rude', () => {
+      const payload = {
+        data: 'Is there a radio mix? - Boy - Naughty',
+        key: MopidyApi.VALIDATION_ERROR
+      }
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      expect(notify.warning.mock.calls).toEqual([['Is there a radio mix? - Boy - Naughty']])
     })
   })
 })

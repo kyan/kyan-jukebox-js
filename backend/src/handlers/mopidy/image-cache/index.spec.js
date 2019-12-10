@@ -1,54 +1,62 @@
-import mockingoose from 'mockingoose'
 import logger from 'config/winston'
+import mockingoose from 'mockingoose'
 import ImageCache from './index'
 jest.mock('config/winston')
 
 describe('ImageCache', () => {
-  const cb = jest.fn()
-
   beforeEach(() => {
     mockingoose.resetAll()
+    jest.clearAllMocks()
   })
 
   it('passes through a non getImages request', async () => {
-    await ImageCache.check('mopidy::playback.stop', null, cb)
-    expect(cb.mock.calls.length).toEqual(1)
-    expect(cb.mock.calls[0][0]).toBeNull()
-    expect(cb.mock.calls[0][1]).toEqual({ image: false })
+    const result = await ImageCache.check('mopidy::playback.stop', null)
+    expect(result).toEqual({ image: false })
   })
 
   describe('when the image fetched from API is found', () => {
-    it('handles not finding an image in the cache and adds it ', async () => {
+    it('handles not finding an image in the cache and adds it ', done => {
+      expect.assertions(2)
       mockingoose.Image.toReturn(null, 'findOne')
+      mockingoose.Image.toReturn({ uri: 'saved123' }, 'save')
 
-      await ImageCache.check('mopidy::library.getImages', [['uri123']], cb)
-      expect(cb.mock.calls.length).toEqual(1)
-      expect(cb.mock.calls[0][0]).toBeNull()
-      expect(cb.mock.calls[0][1]).toEqual({ addToCache: jasmine.any(Function) })
-      cb.mock.calls[0][1].addToCache({ 'uri123': ['image1'] })
+      ImageCache.check('mopidy::library.getImages', [['uri123']])
+        .then((result) => {
+          expect(result).toEqual({ addToCache: jasmine.any(Function) })
+          result.addToCache({ 'uri123': [] }).then((result) => {
+            expect(result.uri).toEqual('saved123')
+            done()
+          })
+        })
+    })
+
+    it('handles resolving an image ', done => {
+      expect.assertions(2)
+      mockingoose.Image.toReturn(null, 'findOne')
+      mockingoose.Image.toReturn({ uri: 'saved123' }, 'save')
+
+      ImageCache.check('mopidy::library.getImages', [['uri123']])
+        .then((result) => {
+          expect(result).toEqual({ addToCache: jasmine.any(Function) })
+          result.addToCache({ 'uri123': ['uri123'] }).then((result) => {
+            expect(result.uri).toEqual('saved123')
+            done()
+          })
+        })
     })
   })
 
-  describe('when the image fetched from API is not found', () => {
-    it('handles not finding an image in the cache and adds it ', async () => {
-      mockingoose.Image.toReturn(null, 'findOne')
+  describe('when the image fetched from API is found', () => {
+    it('handles finding an image in the cache and returns it ', done => {
+      expect.assertions(2)
+      mockingoose.Image.toReturn({ data: 'cached123' }, 'findOne')
 
-      await ImageCache.check('mopidy::library.getImages', [['uri123']], cb)
-      expect(cb.mock.calls.length).toEqual(1)
-      expect(cb.mock.calls[0][0]).toBeNull()
-      expect(cb.mock.calls[0][1]).toEqual({ addToCache: jasmine.any(Function) })
-      cb.mock.calls[0][1].addToCache({ 'uri123': [] })
-    })
-  })
-
-  it('handles finding an image in the cache', async () => {
-    mockingoose.Image.toReturn({ data: 'xxxx' }, 'findOne')
-
-    await ImageCache.check('mopidy::library.getImages', [['uri123']], cb)
-    expect(cb.mock.calls.length).toEqual(1)
-    expect(logger.info.mock.calls[0][0]).toEqual('Using cache')
-    expect(logger.info.mock.calls[0][1]).toEqual({
-      key: 'mopidy::library.getImages#uri123'
+      ImageCache.check('mopidy::library.getImages', [['uri123']])
+        .then((result) => {
+          expect(result).toEqual({ image: 'cached123' })
+          expect(logger.info).toHaveBeenCalledWith('Using cache', { key: 'mopidy::library.getImages#uri123' })
+          done()
+        })
     })
   })
 })

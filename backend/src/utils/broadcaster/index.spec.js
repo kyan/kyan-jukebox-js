@@ -28,7 +28,8 @@ describe('Broadcaster', () => {
         .toEqual('{"key":"mopidy::playback.next","data":"hello mum"}')
       expect(EventLogger.mock.calls[0][0]).toEqual({ encoded_key: 'mopidy::playback.next' })
       expect(EventLogger.mock.calls[0][1]).toBeNull()
-      expect(EventLogger.mock.calls[0][2]).toEqual('hello mum')
+      expect(EventLogger.mock.calls[0][2])
+        .toEqual('{"key":"mopidy::playback.next","data":"hello mum"}')
       expect(EventLogger.mock.calls[0][3]).toEqual('OUTGOING API')
     })
 
@@ -48,13 +49,14 @@ describe('Broadcaster', () => {
       expect(sendMock.mock.calls.length).toEqual(1)
       expect(sendMock.mock.calls[0][0]).toEqual('message')
       expect(sendMock.mock.calls[0][1])
-        .toEqual('{"key":"mopidy::playback.next","data":"hello mum"}')
+        .toEqual('{"key":"mopidy::playback.next","data":"hello mum","user":{"_id":"123"}}')
       expect(EventLogger.mock.calls[0][0]).toEqual({
         encoded_key: 'mopidy::playback.next',
         user: { _id: '123' }
       })
       expect(EventLogger.mock.calls[0][1]).toBeNull()
-      expect(EventLogger.mock.calls[0][2]).toEqual('hello mum')
+      expect(EventLogger.mock.calls[0][2])
+        .toEqual('{"key":"mopidy::playback.next","data":"hello mum","user":{"_id":"123"}}')
       expect(EventLogger.mock.calls[0][3]).toEqual('OUTGOING API [AUTHED]')
     })
 
@@ -71,7 +73,8 @@ describe('Broadcaster', () => {
       const message = 'hello mum'
 
       broadcaster.to(clientMock, payload, message)
-      expect(sendMock.mock.calls[0]).toEqual(['message', '{"key":"mopidy::playback.next","data":"hello mum"}'])
+      expect(sendMock.mock.calls[0])
+        .toEqual(['message', '{"key":"mopidy::playback.next","data":"hello mum","user":{"_id":"123"}}'])
       expect(logger.error.mock.calls[0][0]).toEqual('Broadcaster#to')
       expect(logger.error.mock.calls[0][1]).toEqual({ message: 'oops' })
     })
@@ -90,7 +93,7 @@ describe('Broadcaster', () => {
       expect(sendMock.mock.calls.length).toEqual(1)
       expect(sendMock.mock.calls[0][0]).toEqual('message')
       expect(sendMock.mock.calls[0][1]).toEqual('{"key":"mopidy::playback.next","data":"hello mum"}')
-      expect(EventLogger.mock.calls[0][0]).toEqual('{"key":"mopidy::playback.next","data":"hello mum"}')
+      expect(EventLogger.mock.calls[0][0]).toEqual('mopidy::playback.next')
       expect(EventLogger.mock.calls[0][1]).toBeNull()
       expect(EventLogger.mock.calls[0][2]).toEqual('hello mum')
       expect(EventLogger.mock.calls[0][3]).toEqual('OUTGOING API BROADCAST')

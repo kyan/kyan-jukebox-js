@@ -69,6 +69,7 @@ const Transform = {
       case Mopidy.MIXER_SET_VOLUME:
       case Mopidy.PLAYBACK_GET_TIME_POSITION:
       case Mopidy.PLAYBACK_GET_STATE:
+      case Mopidy.VALIDATION_ERROR:
       case Auth.AUTHENTICATION_TOKEN_INVALID:
         return data
       default:

@@ -1,9 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`notify calls the toast interface 1`] = `
+exports[`notify calls the success toast interface 1`] = `
 Array [
-  "Added Foo by Bar",
+  "A message",
   "success",
+  3000,
+  Object {},
+]
+`;
+
+exports[`notify calls the warning toast interface 1`] = `
+Array [
+  "A message",
+  "warning",
   3000,
   Object {},
 ]
