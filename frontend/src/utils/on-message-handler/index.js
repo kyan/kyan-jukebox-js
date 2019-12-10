@@ -14,7 +14,7 @@ const playBackChanged = (store, state, progress) => {
     case MopidyApi.STOPPED:
       updatePlaybackState(store, state)
       progress.stop()
-      notify('Jukebox Halted')
+      notify.success('Jukebox Halted')
       break
     case MopidyApi.PLAYING:
       updatePlaybackState(store, state)
@@ -72,13 +72,16 @@ const onMessageHandler = (store, payload, progressTimer) => {
       break
     case MopidyApi.EVENT_VOLUME_CHANGED:
       store.dispatch(actions.updateVolume(data))
-      notify('Volume Changed')
+      notify.success('Volume Changed')
       break
     case MopidyApi.LIBRARY_GET_IMAGES:
       store.dispatch(actions.resolveImage(data))
       break
     case MopidyApi.PLAYBACK_GET_TIME_POSITION:
       progressTimer.set(data)
+      break
+    case MopidyApi.VALIDATION_ERROR:
+      notify.warning(data)
       break
     default:
       console.log(`Unknown message: ${key} body: ${data}`)
