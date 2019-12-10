@@ -114,13 +114,22 @@ const SpotifyService = {
     })
   },
 
-  validateTrack: (uri, callback) => {
+  validateTrack: (uri) => {
     const tracklist = settings.getItem(SettingsConsts.TRACKLIST_CURRENT)
-    if (tracklist.includes(uri)) return
 
-    getTrack(uri, (track) => {
-      if (track.explicit) return
-      callback()
+    return new Promise((resolve, reject) => {
+      if (tracklist.includes(uri)) {
+        const message = `Already in tracklist: ${uri}`
+        return reject(new Error(message))
+      }
+
+      getTrack(uri, (track) => {
+        if (track.explicit) {
+          const message = `Is there a radio mix? - ${track.name}`
+          return reject(new Error(message))
+        }
+        return resolve(true)
+      })
     })
   }
 }

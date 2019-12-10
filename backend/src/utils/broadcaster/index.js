@@ -5,14 +5,15 @@ import Transform from 'utils/transformer'
 import Payload from 'utils/payload'
 
 const Broadcaster = {
-  to: (client, payload, message) => {
-    const encodedKey = payload.encoded_key
-    const unifiedMessage = Transform.message(encodedKey, message)
-    const context = payload.user ? MessageType.OUTGOING_API_AUTH : MessageType.OUTGOING_API
-    EventLogger(payload, null, unifiedMessage, context)
+  to: (client, headers, message) => {
+    const key = headers.encoded_key
+    const unifiedMessage = Transform.message(key, message)
+    const context = headers.user ? MessageType.OUTGOING_API_AUTH : MessageType.OUTGOING_API
 
     try {
-      client.emit(MessageType.GENERIC, Payload.encodeToJson(encodedKey, unifiedMessage))
+      const payload = Payload.encodeToJson(key, unifiedMessage, headers.user)
+      EventLogger(headers, null, payload, context)
+      client.emit(MessageType.GENERIC, payload)
     } catch (e) {
       logger.error('Broadcaster#to', { message: e.message })
     }
@@ -22,7 +23,7 @@ const Broadcaster = {
     const payload = Payload.encodeToJson(key, message)
 
     try {
-      EventLogger(payload, null, message, MessageType.OUTGOING_API_ALL)
+      EventLogger(key, null, message, MessageType.OUTGOING_API_ALL)
       socket.emit(MessageType.GENERIC, payload)
     } catch (e) {
       logger.error('Broadcaster#toAll', { message: e.message })
