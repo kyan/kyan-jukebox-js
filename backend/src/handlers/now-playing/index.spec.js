@@ -21,10 +21,11 @@ describe('NowPlaying', () => {
     })
 
     it('when the NOW_PLAYING_URL is set it calls to the HTTP service', () => {
-      process.env.NOW_PLAYING_URL = 'addthetrack.com'
+      const url = 'https://addthetrack.com'
+      process.env.NOW_PLAYING_URL = url
       NowPlaying.addTrack(trackObject)
       expect(httpMock).toHaveBeenCalledWith({
-        url: 'addthetrack.com',
+        url,
         data: {
           added_by: 'Jukebox JS',
           title,
