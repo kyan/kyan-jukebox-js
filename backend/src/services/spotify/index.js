@@ -3,13 +3,14 @@ import SettingsConsts from 'constants/settings'
 import EventLogger from 'utils/event-logger'
 import logger from 'config/winston'
 import SpotifyWebApi from 'spotify-web-api-node'
+import EnvVars from 'utils/env-vars'
 import _ from 'lodash'
 
 const countryCode = 'GB'
-const newTracksAddedLimit = process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT
+const newTracksAddedLimit = Number(EnvVars.get('SPOTIFY_NEW_TRACKS_ADDED_LIMIT'))
 const spotifyApi = new SpotifyWebApi({
-  clientId: process.env.SPOTIFY_ID,
-  clientSecret: process.env.SPOTIFY_SECRET
+  clientId: EnvVars.get('SPOTIFY_ID'),
+  clientSecret: EnvVars.get('SPOTIFY_SECRET')
 })
 
 /* istanbul ignore next */

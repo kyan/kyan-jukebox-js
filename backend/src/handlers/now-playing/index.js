@@ -1,10 +1,11 @@
 import HttpService from 'services/http'
+import EnvVars from 'utils/env-vars'
 
 const NowPlaying = {
   addTrack: (track) => {
-    if (process.env.NOW_PLAYING_URL) {
+    if (EnvVars.isSet('NOW_PLAYING_URL')) {
       HttpService.post({
-        url: `${process.env.NOW_PLAYING_URL}`,
+        url: EnvVars.get('NOW_PLAYING_URL'),
         data: {
           title: track.name,
           artist: track.artist.name,

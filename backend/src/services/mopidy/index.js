@@ -8,9 +8,10 @@ import Transform from 'utils/transformer'
 import trackListTrimmer from 'services/mopidy/tracklist-trimmer'
 import Payload from 'utils/payload'
 import storage from 'utils/local-storage'
+import EnvVars from 'utils/env-vars'
 
-const mopidyUrl = process.env.WS_MOPIDY_URL
-const mopidyPort = process.env.WS_MOPIDY_PORT
+const mopidyUrl = EnvVars.get('WS_MOPIDY_URL')
+const mopidyPort = Number(EnvVars.get('WS_MOPIDY_PORT'))
 let firstTime = false
 
 const MopidyService = (broadcastToAll, mopidyState, cbAllowConnections) => {

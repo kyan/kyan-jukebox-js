@@ -1,7 +1,8 @@
 import mongoose from 'mongoose'
 import logger from 'config/winston'
+import EnvVars from 'utils/env-vars'
 
-const mongodbUrl = process.env.MONGODB_URL
+const mongodbUrl = EnvVars.get('MONGODB_URL')
 const options = {
   useFindAndModify: false,
   reconnectTries: Number.MAX_VALUE,
@@ -13,9 +14,9 @@ const options = {
 
 const MongodbService = () => {
   mongoose.connect(mongodbUrl, options).then(() => {
-    logger.info(`Mongodb Connected`, { url: process.env.MONGODB_URL })
+    logger.info(`Mongodb Connected`, { url: mongodbUrl })
   }).catch(err => {
-    logger.error(`Mongodb: ${err}`, { url: process.env.MONGODB_URL })
+    logger.error(`Mongodb: ${err}`, { url: mongodbUrl })
   })
 
   return mongoose

@@ -3,6 +3,7 @@ import AuthConsts from 'constants/auth'
 import MopidyConsts from 'constants/mopidy'
 import logger from 'config/winston'
 import User from 'services/mongodb/models/user'
+import EnvVars from 'utils/env-vars'
 
 const isAuthorisedRequest = (key) => {
   return MopidyConsts.AUTHORISED_KEYS.includes(key)
@@ -18,9 +19,10 @@ const persistUser = (user) => {
 const AuthenticateHandler = (payload, ws, broadcaster, moveOn) => {
   if (!isAuthorisedRequest(payload.encoded_key)) return moveOn(payload)
   const token = payload.jwt_token
-  const client = new OAuth2Client(process.env.CLIENT_ID)
+  const clientId = EnvVars.get('CLIENT_ID')
+  const client = new OAuth2Client(clientId)
 
-  client.verifyIdToken({ idToken: token, audience: process.env.CLIENT_ID })
+  client.verifyIdToken({ idToken: token, audience: clientId })
     .then((ticket) => {
       const data = ticket.getPayload()
       const responsePayload = {

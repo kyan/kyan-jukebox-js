@@ -1,7 +1,9 @@
 import { LocalStorage } from 'node-localstorage'
 import SettingsConstants from 'constants/settings'
 import ErrorHandler from 'handlers/errors'
-const storage = new LocalStorage(process.env.LOCAL_STORAGE_PATH)
+import EnvVars from 'utils/env-vars'
+
+const storage = new LocalStorage(EnvVars.get('LOCAL_STORAGE_PATH'))
 
 const checkIsAnArray = (key, ary) => {
   ErrorHandler.expectationThatThrows({
