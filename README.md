@@ -2,7 +2,26 @@
 
 # Jukebox 2.0
 
-An WebSocket/[Mopidy](https://github.com/mopidy) event powered JukeBox client and API
+A WebSocket/[Mopidy](https://github.com/mopidy) event powered JukeBox client and API
+
+* [Background](#background)
+* [Overview](#overview)
+* [Requirements](#requirements)
+* [Development](#development)
+  * [Environment](#environment)
+  * [Running the app](#running-the-app)
+  * [Mopidy](#mopidy)
+  * [Specs](#specs)
+  * [Client](#client)
+  * [API](#api)
+  * [MongoDB](#mongodb)
+  * [Adding a new package to `package.json`](#adding-a-new-package-to-packagejson)
+  * [Adding a new environment variable](#adding-a-new-environment-variable)
+* [Deployment](#deployment)
+  * [client](#client-1)
+  * [api](#api-1)
+  * [mongodb](#mongodb-1)
+
 
 ## Background
 
@@ -111,6 +130,16 @@ $ doc build
 ```
 
 You can then start all the containers again `doc up`
+
+### Adding a new environment variable
+
+If you need to add a new backend environment variable, it needs to be added in the following places:
+
+1. [`.env.example`](.env.example)
+2. [`docker-compose.yml`](docker-compose.yml)  –  Add the environment variable to `services: jukebox-api: environment`
+3. [`.github/workflows/nodejs.yml`](.github/workflows/nodejs.yml)  –  Add the environment variable to `jobs: build: steps: env`
+4. [`backend/src/constants/env-vars-schema.js`](backend/src/constants/env-vars-schema.js)  –  Provide a regular expression to validate the value
+
 
 ## Deployment
 
