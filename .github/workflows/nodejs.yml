@@ -40,8 +40,13 @@ jobs:
         npm test -- --coverage
       env:
         CI: true
+        CLIENT_ID: abcdefg
+        CLIENT_ID_PRODUCTION: abcdefg
         LOCAL_STORAGE_PATH: /tmp/jukebox
         MONGODB_URL: mongodb://mongodb:27017/jb-dev
-        WS_MOPIDY_URL: mopidy-prod.local
+        NOW_PLAYING_URL: 'https://nowplaying.dev'
+        SPOTIFY_ID: 0123456789abcdef0123456789abcdef
+        SPOTIFY_NEW_TRACKS_ADDED_LIMIT: 3
+        SPOTIFY_SECRET: 0123456789abcdef0123456789abcdef
         WS_MOPIDY_PORT: 6680
-        CLIENT_ID: abcdefg
+        WS_MOPIDY_URL: mopidy-prod.local
