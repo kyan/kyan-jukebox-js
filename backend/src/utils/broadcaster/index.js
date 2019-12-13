@@ -7,16 +7,16 @@ import Payload from 'utils/payload'
 const Broadcaster = {
   to: (client, headers, message) => {
     const key = headers.encoded_key
-    const unifiedMessage = Transform.message(key, message)
-    const context = headers.user ? MessageType.OUTGOING_API_AUTH : MessageType.OUTGOING_API
-
-    try {
-      const payload = Payload.encodeToJson(key, unifiedMessage, headers.user)
-      EventLogger(headers, null, payload, context)
-      client.emit(MessageType.GENERIC, payload)
-    } catch (e) {
-      logger.error('Broadcaster#to', { message: e.message })
-    }
+    Transform.message(key, message).then(unifiedMessage => {
+      const context = headers.user ? MessageType.OUTGOING_API_AUTH : MessageType.OUTGOING_API
+      try {
+        const payload = Payload.encodeToJson(key, unifiedMessage, headers.user)
+        EventLogger(headers, null, payload, context)
+        client.emit(MessageType.GENERIC, payload)
+      } catch (e) {
+        logger.error('Broadcaster#to', { message: e.message })
+      }
+    })
   },
 
   toAllGeneric: (socket, key, message) => {

@@ -32,16 +32,16 @@ const Transform = {
             clearSetTimeout(recommendTimer)
             recommendTimer = setTimeout(recommend, waitToRecommend, lastTracksPlayed, mopidy)
           })
-          resolve(payload)
+          return resolve(payload)
         case Mopidy.CORE_EVENTS.VOLUME_CHANGED:
-          resolve(data.volume)
+          return resolve(data.volume)
         case Mopidy.CORE_EVENTS.PLAYBACK_STATE_CHANGED:
-          resolve(data.new_state)
+          return resolve(data.new_state)
         case Mopidy.CORE_EVENTS.TRACKLIST_CHANGED:
           clearSetTimeout(recommendTimer)
-          resolve(data)
+          return resolve(data)
         default:
-          resolve(`mopidySkippedTransform: ${key}`)
+          return resolve(`mopidySkippedTransform: ${key}`)
       }
     })
   },
@@ -49,22 +49,22 @@ const Transform = {
     return new Promise((resolve) => {
       switch (key) {
         case Mopidy.GET_CURRENT_TRACK:
-          if (!data) return resolve();
+          if (!data) return resolve()
           const trackInfo = TransformTrack(data)
           settings.setItem(Settings.TRACK_CURRENT, trackInfo.track.uri)
-          resolve(trackInfo)
+          return resolve(trackInfo)
         case Mopidy.GET_TRACKS:
           const tracks = TransformTracklist(data)
           settings.setItem(Settings.TRACKLIST_CURRENT, tracks.map(data => data.track.uri))
-          resolve(tracks)
+          return resolve(tracks)
         case Mopidy.TRACKLIST_REMOVE:
           settings.removeFromArray(Settings.TRACKLIST_LAST_PLAYED, data[0].track.uri)
-          resolve(data)
+          return resolve(data)
         case Mopidy.TRACKLIST_ADD:
         case Mopidy.PLAYBACK_NEXT:
         case Mopidy.PLAYBACK_PREVIOUS:
           clearSetTimeout(recommendTimer)
-          resolve(data)
+          return resolve(data)
         case Mopidy.TRACKLIST_CLEAR:
         case Mopidy.CONNECTION_ERROR:
         case Mopidy.LIBRARY_GET_IMAGES:
@@ -74,10 +74,11 @@ const Transform = {
         case Mopidy.PLAYBACK_GET_STATE:
         case Mopidy.VALIDATION_ERROR:
         case Auth.AUTHENTICATION_TOKEN_INVALID:
-          resolve(data)
+          return resolve(data)
         default:
-          resolve(`skippedTransform: ${key}`)
-    }})
+          return resolve(`skippedTransform: ${key}`)
+      }
+    })
   }
 }
 
