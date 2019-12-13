@@ -31,31 +31,31 @@ describe('Transformer', () => {
 
   describe('playback.getCurrentTrack', () => {
     it('transforms when we have data', () => {
-      expect.assertions(1);
+      expect.assertions(1)
       return Transformer.message('mopidy::playback.getCurrentTrack', data).then(() => expect(TransformTrack).toHaveBeenCalledWith(data))
     })
 
     it('does not transform when we have no data', () => {
-      expect.assertions(1);
+      expect.assertions(1)
       return Transformer.message('mopidy::playback.getCurrentTrack', null).then(() => expect(TransformTrack).not.toHaveBeenCalled())
     })
   })
 
   describe('playback.getTimePosition', () => {
     it('returns the data that was passed in', () => {
-      expect.assertions(1);
+      expect.assertions(1)
       return Transformer.message('mopidy::playback.getTimePosition', data).then(returnData => expect(returnData).toEqual(data))
     })
   })
 
   describe('tracklist.getTracks', () => {
     it('calls the TransformTracklist class, passes it into the settings and returns the result', () => {
-      expect.assertions(3);
+      expect.assertions(3)
       TransformTracklist.mockReturnValue([{ track: { uri: '123' } }])
       return Transformer.message('mopidy::tracklist.getTracks', data).then((returnData) => {
         expect(TransformTracklist).toHaveBeenCalledWith(data)
         expect(settings.setItem).toHaveBeenCalledWith('tracklist.current', ['123'])
-        expect(returnData).toEqual([{"track": {"uri": "123"}}])
+        expect(returnData).toEqual([{'track': {'uri': '123'}}])
       })
     })
   })
@@ -64,7 +64,7 @@ describe('Transformer', () => {
     it('transforms the track, passes to NowPlaying and sets up Spotify recommendations', () => {
       data = { tl_track: { track: 'data' } }
       const mopidyMock = jest.fn()
-      expect.assertions(5);
+      expect.assertions(5)
       return Transformer.mopidyCoreMessage('mopidy::event:trackPlaybackStarted', data, mopidyMock).then(() => {
         expect(TransformTrack).toHaveBeenCalledWith(data.tl_track.track)
         expect(NowPlaying.addTrack).toHaveBeenCalledWith({
@@ -83,7 +83,7 @@ describe('Transformer', () => {
 
   describe('event:tracklistChanged', () => {
     it('returns the data passed in', () => {
-      expect.assertions(1);
+      expect.assertions(1)
       return Transformer.mopidyCoreMessage('mopidy::event:tracklistChanged', data).then(returnData => expect(returnData).toEqual(data))
     })
   })
@@ -92,7 +92,7 @@ describe('Transformer', () => {
     data = { volume: 99 }
 
     it('returns the volume data passed in', () => {
-      expect.assertions(1);
+      expect.assertions(1)
       return Transformer.mopidyCoreMessage('mopidy::event:volumeChanged', data).then(returnData => expect(returnData).toEqual(data.volume))
     })
   })
@@ -101,21 +101,21 @@ describe('Transformer', () => {
     data = { new_state: 'playing' }
 
     it('returns the playback state data passed in', () => {
-      expect.assertions(1);
+      expect.assertions(1)
       return Transformer.mopidyCoreMessage('mopidy::event:playbackStateChanged', data).then(returnData => expect(returnData).toEqual(data.new_state))
     })
   })
 
   describe('library.getImages', () => {
     it('returns the data passed in', () => {
-      expect.assertions(1);
+      expect.assertions(1)
       return Transformer.message('mopidy::library.getImages', data).then(returnData => expect(returnData).toEqual(data))
     })
   })
 
   describe('tracklist.add', () => {
     it('returns the data passed in', () => {
-      expect.assertions(1);
+      expect.assertions(1)
       return Transformer.message('mopidy::tracklist.add', data).then(returnData => expect(returnData).toEqual(data))
     })
   })
@@ -125,53 +125,53 @@ describe('Transformer', () => {
       data = [{
         track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
       }]
-      expect.assertions(2);
+      expect.assertions(2)
       return Transformer.message('mopidy::tracklist.remove', data).then(returnData => {
         expect(returnData).toEqual(data)
         expect(settings.removeFromArray.mock.calls[0])
-        .toEqual(['tracklist.last_played', 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG'])
+          .toEqual(['tracklist.last_played', 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG'])
       })
     })
   })
 
   describe('tracklist.clear', () => {
     it('returns the data passed in', () => {
-      expect.assertions(1);
+      expect.assertions(1)
       return Transformer.message('mopidy::tracklist.clear', data).then(returnData => expect(returnData).toEqual(data))
     })
   })
 
   describe('mixer.getVolume', () => {
     it('returns the data passed in', () => {
-      expect.assertions(1);
+      expect.assertions(1)
       return Transformer.message('mopidy::mixer.getVolume', data).then(returnData => expect(returnData).toEqual(data))
     })
   })
 
   describe('mixer.setVolume', () => {
     it('returns the data passed in', () => {
-      expect.assertions(1);
+      expect.assertions(1)
       return Transformer.message('mopidy::mixer.setVolume', data).then(returnData => expect(returnData).toEqual(data))
     })
   })
 
   describe('playback.next', () => {
     it('returns the data passed in', () => {
-      expect.assertions(1);
+      expect.assertions(1)
       return Transformer.message('mopidy::playback.next', data).then(returnData => expect(returnData).toEqual(data))
     })
   })
 
   describe('when passing an unknown key into Transform.message', () => {
     it('returns with a skippedTransform message', () => {
-      expect.assertions(1);
+      expect.assertions(1)
       return Transformer.message('unknown', data).then(returnData => expect(returnData).toEqual('skippedTransform: unknown'))
     })
   })
 
   describe('when passing an unknown key into Transform.mopidyCoreMessage', () => {
     it('returns with a skippedTransform message', () => {
-      expect.assertions(1);
+      expect.assertions(1)
       return Transformer.mopidyCoreMessage('unknown', data).then(returnData => expect(returnData).toEqual('mopidySkippedTransform: unknown'))
     })
   })
