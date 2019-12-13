@@ -18,8 +18,13 @@ jest.mock('utils/transformer/transformers/mopidy/track', () => {
 jest.mock('utils/local-storage')
 jest.mock('services/spotify')
 jest.mock('handlers/now-playing')
-jest.mock('utils/transformer/transformers/mopidy/tracklist')
 jest.mock('utils/transformer/transformers/spotify/search')
+jest.mock('./transformers/mopidy/tracklist', () => {
+  return jest.fn().mockImplementation(() => Promise.resolve(
+    [{ track: { uri: '123' } }]
+  ))
+})
+
 jest.useFakeTimers()
 
 let data = 'data'
@@ -54,7 +59,6 @@ describe('Transformer', () => {
   describe('tracklist.getTracks', () => {
     it('calls the TransformTracklist class, passes it into the settings and returns the result', () => {
       expect.assertions(3)
-      TransformTracklist.mockReturnValue([{ track: { uri: '123' } }])
       return Transformer.message('mopidy::tracklist.getTracks', data).then((returnData) => {
         expect(TransformTracklist).toHaveBeenCalledWith(data)
         expect(settings.setItem).toHaveBeenCalledWith('tracklist.current', ['123'])

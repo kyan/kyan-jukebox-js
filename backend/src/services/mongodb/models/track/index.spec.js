@@ -22,4 +22,3 @@ describe('test mongoose Track model', () => {
       })
   })
 })
-
