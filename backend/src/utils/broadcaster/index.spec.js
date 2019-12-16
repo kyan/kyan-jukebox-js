@@ -3,14 +3,18 @@ import logger from 'config/winston'
 import EventLogger from 'utils/event-logger'
 jest.mock('config/winston')
 jest.mock('utils/event-logger')
-
+jest.mock('utils/transformer', () => {
+  return {
+    message: jest.fn().mockImplementation((key, message) => Promise.resolve(message))
+  }
+})
 describe('Broadcaster', () => {
   afterEach(() => {
     EventLogger.mockClear()
   })
 
   describe('#to', () => {
-    it('handles unauthorised call', () => {
+    it('handles unauthorised call', async () => {
       const sendMock = jest.fn()
       const clientMock = {
         id: '12345',
@@ -21,7 +25,7 @@ describe('Broadcaster', () => {
       }
       const message = 'hello mum'
 
-      broadcaster.to(clientMock, payload, message)
+      await broadcaster.to(clientMock, payload, message)
       expect(sendMock.mock.calls.length).toEqual(1)
       expect(sendMock.mock.calls[0][0]).toEqual('message')
       expect(sendMock.mock.calls[0][1])
@@ -33,7 +37,7 @@ describe('Broadcaster', () => {
       expect(EventLogger.mock.calls[0][3]).toEqual('OUTGOING API')
     })
 
-    it('handles authorised call', () => {
+    it('handles authorised call', async () => {
       const sendMock = jest.fn()
       const clientMock = {
         id: '12345',
@@ -45,7 +49,7 @@ describe('Broadcaster', () => {
       }
       const message = 'hello mum'
 
-      broadcaster.to(clientMock, payload, message)
+      await broadcaster.to(clientMock, payload, message)
       expect(sendMock.mock.calls.length).toEqual(1)
       expect(sendMock.mock.calls[0][0]).toEqual('message')
       expect(sendMock.mock.calls[0][1])
@@ -60,7 +64,7 @@ describe('Broadcaster', () => {
       expect(EventLogger.mock.calls[0][3]).toEqual('OUTGOING API [AUTHED]')
     })
 
-    it('handles error', () => {
+    it('handles error', async () => {
       const sendMock = jest.fn(() => { throw Error('oops') })
       const clientMock = {
         id: '12345',
@@ -72,7 +76,7 @@ describe('Broadcaster', () => {
       }
       const message = 'hello mum'
 
-      broadcaster.to(clientMock, payload, message)
+      await broadcaster.to(clientMock, payload, message)
       expect(sendMock.mock.calls[0])
         .toEqual(['message', '{"key":"mopidy::playback.next","data":"hello mum","user":{"_id":"123"}}'])
       expect(logger.error.mock.calls[0][0]).toEqual('Broadcaster#to')

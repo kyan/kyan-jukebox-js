@@ -6,7 +6,12 @@ import EventLogger from 'utils/event-logger'
 import Transformer from 'utils/transformer'
 jest.mock('mopidy')
 jest.mock('utils/event-logger')
-jest.mock('utils/transformer')
+jest.mock('utils/transformer', () => {
+  return {
+    mopidyCoreMessage: jest.fn().mockImplementation(data => Promise.resolve(data)),
+    message: jest.fn().mockImplementation(data => Promise.resolve(data))
+  }
+})
 jest.mock('utils/local-storage')
 jest.mock('config/winston')
 jest.mock('services/mopidy/tracklist-trimmer')
