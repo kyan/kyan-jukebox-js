@@ -61,8 +61,9 @@ const MopidyService = (broadcastToAll, mopidyState, cbAllowConnections) => {
       EventLogger({ encoded_key: key }, null, message, MessageType.INCOMING_CORE)
 
       const packAndSend = (data, key, messageType) => {
-        const unifiedMessage = Transform[messageType](key, data, mopidy)
-        broadcastToAll(key, unifiedMessage)
+        Transform[messageType](key, data, mopidy).then(unifiedMessage => {
+          broadcastToAll(key, unifiedMessage)
+        })
       }
 
       if (encodedKey === MopidyConstants.CORE_EVENTS.TRACKLIST_CHANGED) {
