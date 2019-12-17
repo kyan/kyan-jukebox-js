@@ -9,11 +9,11 @@ export function findTrack (uri) {
 }
 
 export function addTrack (uri, user) {
-  Track.updateOne({ trackUri: uri },
-    { $push: { users: { ...user, added_at: new Date() } } },
+  Track.updateOne({ _id: uri },
+    { $push: { added_by: { ...user, added_at: new Date() } } },
     { upsert: true }, // Create a new Track if it doesn't exist
     (err, track) => {
-      if (err) return
+      if (err) { return }
       if (track) {
         console.log(track)
       }
