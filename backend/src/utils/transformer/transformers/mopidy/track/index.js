@@ -4,8 +4,7 @@ export default function (json) {
   let payload = {
     uri: json.uri,
     name: json.name,
-    length: json.length || json.duration_ms,
-    addedBy: json.addedBy
+    length: json.length || json.duration_ms
   }
 
   if (json.album) {
@@ -35,6 +34,10 @@ export default function (json) {
 
   if (json.date) {
     payload.year = json.date
+  }
+
+  if (json.addedBy) {
+    payload.addedBy = json.addedBy
   }
 
   return { track: payload }
