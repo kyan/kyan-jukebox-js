@@ -8,6 +8,11 @@
   margin-bottom: 0.2em;
 }
 
+.ui.list>.item .track-info .description,
+.ui.list>.item .track-info .added-by {
+  font-size: 0.8em;
+}
+
 .ui.list>.item .track-info .description {
   font-size: 0.8em;
 }

@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import { List, Image } from 'semantic-ui-react'
 import { millisToMinutesAndSeconds } from 'utils/time'
 import defaultImage from 'components/current-track/default-artwork.png'
+import AddedBy from './added-by'
 import './index.css'
 
 const isCurrentTrack = (currentTrack, track) => {
@@ -79,6 +80,7 @@ const listItems = (disabled, tracks, images, currentTrack, onRemoveTrack) => {
         >
           {trackHeading(track)}
           {trackDescription(track)}
+          <AddedBy addedBy={track.addedBy} />
         </List.Content>
       </List.Item>
     )
