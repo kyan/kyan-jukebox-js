@@ -9,7 +9,7 @@ describe('test mongoose Track model', () => {
   it('should return the event with findById', () => {
     const _doc = {
       _id: '2xN54cw14BBwQVCzQS2izH',
-      added_by: []
+      addedBy: []
     }
 
     mockingoose.Track.toReturn(_doc, 'findOne')

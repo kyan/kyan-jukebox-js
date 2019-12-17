@@ -2,17 +2,27 @@ import TransformerTracklist from './index'
 import fs from 'fs'
 import lolex from 'lolex'
 
-const mockUserData = [{
-  trackUri: 'spotify:track:0g6HP9c1bfzHQsK91EPMFV',
-  users: [
+const firstTrack = {
+  _id: 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3',
+  addedBy: [
     {
       _id: '123',
       fullname: 'Big Rainbowhead'
     }
   ]
-}]
+}
+const secondTrack = {
+  _id: 'spotify:track:dfkm12398dsf1212mldf',
+  addedBy: [
+    {
+      _id: '456',
+      fullname: 'Bigger Rainbowhead'
+    }
+  ]
+}
+const mockTrackData = [firstTrack, secondTrack]
 jest.mock('utils/track', () => ({
-  findTrack: jest.fn().mockImplementation(() => Promise.resolve(mockUserData))
+  findTracks: jest.fn().mockImplementation(() => Promise.resolve(mockTrackData))
 }))
 
 describe('TransformerTracklist', () => {
@@ -46,7 +56,7 @@ describe('TransformerTracklist', () => {
               length: 246000,
               name: 'No Time for Caution',
               uri: 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3',
-              user_data: mockUserData,
+              addedBy: firstTrack.addedBy,
               year: '2014'
             }
           },
@@ -64,7 +74,7 @@ describe('TransformerTracklist', () => {
               length: 123973,
               name: 'Silent Running',
               uri: 'local:track:Soundtracks/Silent%20Running%20OST/Silent%20Running%20',
-              user_data: mockUserData
+              addedBy: undefined
             }
           }
         ])
