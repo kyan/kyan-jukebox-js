@@ -4,31 +4,38 @@ import { List, Popup, Icon } from 'semantic-ui-react'
 import dateFormat from 'dateformat'
 
 const addedByContent = users => {
-  return (
-    <List>
-      {
-        users.map(user => {
-          return (
-            <List.Item key={user.addedAt}>
-              {user.fullname} on {dateFormat(user.addedAt, 'longDate')}
-            </List.Item>
-          )
-      })
-    }
-    </List>
-  )
+  console.log('USERERES', users)
+  if (users) {
+    return (
+      <List>
+        {
+          users.map(user => {
+            return (
+              <List.Item key={user.addedAt}>
+                {user.fullname} on {dateFormat(user.addedAt, 'longDate')}
+              </List.Item>
+            )
+          })
+        }
+      </List>
+    )
+  }
+  return 'This is the first play!'
 }
 
-const currentInfo = users => {
+const currentPlayInfo = user => {
   return (
-    <span className='added-by'><Icon name='user outline' />{users[users.length-1].fullname}</span>
+    <span className='added-by'><Icon name='user outline' />{user.fullname}</span>
   )
 }
 
 const AddedBy = props => {
-  const { addedBy } = props;
-  if (addedBy) {
-    return <Popup content={addedByContent(addedBy)} trigger={currentInfo(addedBy)} />
+  const { addedBy: users } = props
+  if (users) {
+    console.log('USERSS BEFORE I POP U', users)
+    const current = users.pop()
+    console.log('USERSS DID I POP U', users)
+    return <Popup content={addedByContent(users)} trigger={currentPlayInfo(current)} />
   }
   return <Icon name='spotify' />
 }
