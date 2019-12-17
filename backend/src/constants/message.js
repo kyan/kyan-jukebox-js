@@ -1,6 +1,7 @@
 export default {
   GENERIC: 'message',
   MOPIDY: 'mopidy',
+  SEARCH: 'search',
   INCOMING_CORE: 'INCOMING MOPIDY [CORE]',
   INCOMING_CLIENT: 'INCOMING CLIENT',
   INCOMING_MOPIDY: 'INCOMING MOPIDY',

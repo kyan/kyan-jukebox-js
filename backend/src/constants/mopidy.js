@@ -19,7 +19,7 @@ export default {
   TRACKLIST_ADD: 'mopidy::tracklist.add',
   TRACKLIST_CLEAR: 'mopidy::tracklist.clear',
   TRACKLIST_REMOVE: 'mopidy::tracklist.remove',
-  VALIDATION_ERROR: 'mopidy::tracklist.validation',
+  VALIDATION_ERROR: 'mopidy::validationError',
   AUTHORISED_KEYS: [
     'mopidy::tracklist.add',
     'mopidy::tracklist.remove',

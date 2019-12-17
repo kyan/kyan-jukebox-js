@@ -1,11 +1,12 @@
 import broadcaster from './index'
 import logger from 'config/winston'
 import EventLogger from 'utils/event-logger'
+import Transform from 'utils/transformer'
 jest.mock('config/winston')
 jest.mock('utils/event-logger')
 jest.mock('utils/transformer', () => {
   return {
-    message: jest.fn().mockImplementation((key, message) => Promise.resolve(message))
+    message: jest.fn().mockImplementation((_, message) => Promise.resolve(message))
   }
 })
 describe('Broadcaster', () => {
@@ -26,15 +27,17 @@ describe('Broadcaster', () => {
       const message = 'hello mum'
 
       await broadcaster.to(clientMock, payload, message)
-      expect(sendMock.mock.calls.length).toEqual(1)
-      expect(sendMock.mock.calls[0][0]).toEqual('message')
-      expect(sendMock.mock.calls[0][1])
-        .toEqual('{"key":"mopidy::playback.next","data":"hello mum"}')
-      expect(EventLogger.mock.calls[0][0]).toEqual({ encoded_key: 'mopidy::playback.next' })
-      expect(EventLogger.mock.calls[0][1]).toBeNull()
-      expect(EventLogger.mock.calls[0][2])
-        .toEqual('{"key":"mopidy::playback.next","data":"hello mum"}')
-      expect(EventLogger.mock.calls[0][3]).toEqual('OUTGOING API')
+      expect(Transform.message).toHaveBeenCalledWith('mopidy::playback.next', 'hello mum')
+      expect(sendMock).toHaveBeenCalledWith(
+        'message',
+        '{"key":"mopidy::playback.next","data":"hello mum"}'
+      )
+      expect(EventLogger).toHaveBeenCalledWith(
+        { encoded_key: 'mopidy::playback.next' },
+        null,
+        '{"key":"mopidy::playback.next","data":"hello mum"}',
+        'OUTGOING API'
+      )
     })
 
     it('handles authorised call', async () => {
@@ -44,24 +47,23 @@ describe('Broadcaster', () => {
         emit: sendMock
       }
       const payload = {
-        user: { _id: '123' },
-        encoded_key: 'mopidy::playback.next'
+        encoded_key: 'mopidy::playback.next',
+        user: 'duncan'
       }
       const message = 'hello mum'
 
       await broadcaster.to(clientMock, payload, message)
-      expect(sendMock.mock.calls.length).toEqual(1)
-      expect(sendMock.mock.calls[0][0]).toEqual('message')
-      expect(sendMock.mock.calls[0][1])
-        .toEqual('{"key":"mopidy::playback.next","data":"hello mum","user":{"_id":"123"}}')
-      expect(EventLogger.mock.calls[0][0]).toEqual({
-        encoded_key: 'mopidy::playback.next',
-        user: { _id: '123' }
-      })
-      expect(EventLogger.mock.calls[0][1]).toBeNull()
-      expect(EventLogger.mock.calls[0][2])
-        .toEqual('{"key":"mopidy::playback.next","data":"hello mum","user":{"_id":"123"}}')
-      expect(EventLogger.mock.calls[0][3]).toEqual('OUTGOING API [AUTHED]')
+      expect(Transform.message).toHaveBeenCalledWith('mopidy::playback.next', 'hello mum')
+      expect(sendMock).toHaveBeenCalledWith(
+        'message',
+        '{"key":"mopidy::playback.next","data":"hello mum","user":"duncan"}'
+      )
+      expect(EventLogger).toHaveBeenCalledWith(
+        { encoded_key: 'mopidy::playback.next', user: 'duncan' },
+        null,
+        '{"key":"mopidy::playback.next","data":"hello mum","user":"duncan"}',
+        'OUTGOING API [AUTHED]'
+      )
     })
 
     it('handles error', async () => {
@@ -71,16 +73,13 @@ describe('Broadcaster', () => {
         emit: sendMock
       }
       const payload = {
-        user: { _id: '123' },
-        encoded_key: 'mopidy::playback.next'
+        encoded_key: 'mopidy::playback.next',
+        user: 'duncan'
       }
       const message = 'hello mum'
 
       await broadcaster.to(clientMock, payload, message)
-      expect(sendMock.mock.calls[0])
-        .toEqual(['message', '{"key":"mopidy::playback.next","data":"hello mum","user":{"_id":"123"}}'])
-      expect(logger.error.mock.calls[0][0]).toEqual('Broadcaster#to')
-      expect(logger.error.mock.calls[0][1]).toEqual({ message: 'oops' })
+      expect(logger.error).toHaveBeenCalledWith('Broadcaster#to', { message: 'oops' })
     })
   })
 

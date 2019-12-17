@@ -6,6 +6,7 @@ import SpotifyWebApi from 'spotify-web-api-node'
 import _ from 'lodash'
 
 const countryCode = 'GB'
+const defaultOptions = { market: countryCode }
 const newTracksAddedLimit = process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_ID,
@@ -29,6 +30,17 @@ const setupSpotify = (callback) => {
   })
 }
 
+const searchTracks = (params) => {
+  return new Promise((resolve) => {
+    setupSpotify((api) => {
+      const options = { ...defaultOptions, ...params.options }
+      api.searchTracks(params.query, options)
+        .then((data) => resolve(data.body))
+        .catch((error) => logger.error(`searchTracks: ${error.message}`))
+    })
+  })
+}
+
 const filterSuitableTracksUris = (tracks) => {
   const currentTrackList = settings.getItem(SettingsConsts.TRACKLIST_CURRENT)
 
@@ -49,13 +61,13 @@ const getRecommendations = (uris, mopidy) => {
 
   return new Promise((resolve, reject) => {
     const seedTracks = stripServiceFromUris(uris.slice(-5))
-    const options = {
-      country: countryCode,
+    const seedOptions = {
       min_popularity: 20,
       seed_tracks: seedTracks,
       valence: 0.7,
       liveness: 0.0
     }
+    const options = { ...defaultOptions, ...seedOptions }
 
     setupSpotify((api) => {
       api.getRecommendations(options).then(
@@ -92,25 +104,27 @@ const getRecommendations = (uris, mopidy) => {
   })
 }
 
-/* istanbul ignore next */
-const getTrack = (uri, callback) => {
+const getTrack = (uri) => {
   const trackUri = stripServiceFromUris([uri])[0]
 
-  setupSpotify((api) => {
-    api.getTrack(trackUri).then(
-      function (data) {
-        callback(data.body)
-      }
-    ).catch(function (error) {
-      logger.error(`getTrack: ${error.message}`)
+  return new Promise((resolve) => {
+    setupSpotify((api) => {
+      api.getTrack(trackUri, defaultOptions)
+        .then((data) => resolve(data.body))
+        .catch((error) => logger.error(`getTrack: ${error.message}`))
     })
   })
 }
 
 const SpotifyService = {
-  canRecommend: (mopidy, callback) => {
-    mopidy.tracklist.nextTrack([null]).then((data) => {
-      if (!data) callback(getRecommendations)
+  canRecommend: (mopidy) => {
+    return new Promise((resolve) => {
+      mopidy.tracklist.nextTrack([null])
+        .then((data) => {
+          if (!data) return resolve(getRecommendations)
+          return resolve()
+        })
+        .catch((error) => logger.error(`nextTrack: ${error.message}`))
     })
   },
 
@@ -123,7 +137,7 @@ const SpotifyService = {
         return reject(new Error(message))
       }
 
-      getTrack(uri, (track) => {
+      getTrack(uri).then((track) => {
         if (track.explicit) {
           const message = `Is there a radio mix? - ${track.name}`
           return reject(new Error(message))
@@ -131,7 +145,9 @@ const SpotifyService = {
         return resolve(true)
       })
     })
-  }
+  },
+
+  search: (params) => searchTracks(params)
 }
 
 export default SpotifyService

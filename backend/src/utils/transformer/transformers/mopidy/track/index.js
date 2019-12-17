@@ -4,7 +4,7 @@ export default function (json) {
   let payload = {
     uri: json.uri,
     name: json.name,
-    length: json.length
+    length: json.length || json.duration_ms
   }
 
   if (json.album) {
@@ -12,6 +12,10 @@ export default function (json) {
       uri: json.album.uri,
       name: json.album.name,
       year: json.album.date
+    }
+
+    if (json.album.images && json.album.images.length > 0) {
+      payload.image = json.album.images[0].url
     }
   }
 

@@ -2,6 +2,7 @@ import io from 'socket.io-client'
 import configureMockStore from 'redux-mock-store'
 import Constants from 'constants/common'
 import MopidyApi from 'constants/mopidy-api'
+import Search from 'search/constants'
 import onMessageHandler from 'utils/on-message-handler'
 import { trackProgressTimer } from 'utils/time'
 import JukeboxMiddleware from './index'
@@ -189,6 +190,24 @@ describe('JukeboxMiddleware', () => {
         { type: 'actionDisconnect' },
         { type: 'actionConnecting' }
       ])
+    })
+
+    it('should dispatch search message', () => {
+      io.mockImplementation(() => ({ on: mockOn, emit: mockEmit, close: mockClose }))
+      const store = mockStore({
+        settings: { token: 'token' }
+      })
+      JukeboxMiddleware(store)(next)({
+        type: Search.SEARCH,
+        key: 'search::getTracks',
+        params: 'params'
+      })
+      const actions = store.getActions()
+      expect(actions).toEqual([])
+      expect(mockEmit).toHaveBeenCalledWith(
+        'search',
+        '{"jwt":"token","key":"search::getTracks","data":"params"}'
+      )
     })
   })
 })
