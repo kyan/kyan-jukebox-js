@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard render renders the happy path correctly 1`] = `
+<DimmerDimmable
+  blurring={true}
+  dimmed={false}
+>
+  <SearchContainer>
+    <Container
+      className="header-wrapper"
+      fluid={true}
+    >
+      <Settings />
+      <VolumeButtons
+        disabled={false}
+        onVolumeChange={[MockFunction onVolumeChangeMock]}
+        volume={23}
+      />
+      <SearchButton
+        disabled={false}
+        onClick={[MockFunction onSearchClickMock]}
+      />
+      <Controls
+        disabled={false}
+        onNext={[MockFunction onNextMock]}
+        onPause={[MockFunction onPauseMock]}
+        onPlay={[MockFunction onPlayMock]}
+        onPrevious={[MockFunction onPreviousMock]}
+        onStop={[MockFunction onStopMock]}
+        playbackState="playing"
+      />
+    </Container>
+    <Divider />
+    <Container
+      className="body-wrapper"
+      fluid={true}
+    >
+      <Grid
+        className="dashboard-grid"
+        columns={2}
+        stackable={true}
+      >
+        <GridColumn
+          width={4}
+        >
+          <DragInTrack
+            disabled={false}
+            onDrop={[MockFunction onDropMock]}
+          >
+            <Header
+              size="small"
+            >
+              Current Track
+            </Header>
+            <Connect(CurrentTrackContainer) />
+          </DragInTrack>
+        </GridColumn>
+        <GridColumn
+          width={8}
+        >
+          <Header
+            size="small"
+          >
+            Playlist 
+            <ClearPlaylist
+              disabled={false}
+              onClear={[MockFunction onTracklistClearMock]}
+            />
+          </Header>
+          <Tracklist
+            currentTrack={
+              Object {
+                "title": "track1",
+              }
+            }
+            disabled={false}
+            images={Object {}}
+            onRemoveTrack={[MockFunction onRemoveTrackMock]}
+            tracks={
+              Array [
+                "track1",
+                "track2",
+              ]
+            }
+          />
+        </GridColumn>
+      </Grid>
+    </Container>
+  </SearchContainer>
+</DimmerDimmable>
+`;

@@ -1,8 +1,9 @@
-import { mount } from 'enzyme'
 import React from 'react'
+import { mount } from 'enzyme'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 import * as actions from 'actions'
+import * as searchActions from 'search/actions'
 import GoogleAuthContext from 'contexts/google'
 import SignInToken from 'utils/signin-token'
 import DashboardContainer from './index'
@@ -27,6 +28,10 @@ describe('DashboardContainer', () => {
       timer: {
         duration: 100,
         postion: 0
+      },
+      search: {
+        searchSideBarOpen: false,
+        results: []
       }
     }
 
@@ -51,6 +56,9 @@ describe('DashboardContainer', () => {
           { type: 'actionClearStoreToken' },
           { type: 'actionConnect' }
         ])
+
+        const searchButton = wrapper.find('SearchButton')
+        expect(searchButton.prop('onClick')()).toEqual(searchActions.toggleSearchSidebar(true))
 
         const control = wrapper.find('Controls')
         expect(control.prop('onPlay')()).toEqual(actions.startPlaying())
