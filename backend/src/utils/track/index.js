@@ -1,8 +1,8 @@
 import Track from 'services/mongodb/models/track'
 
-export function findTrack (uri) {
+export function findTracks (uris) {
   return new Promise((resolve, reject) => {
-    Track.findOne({ trackUri: uri })
+    Track.find({'_id': { $in: uris }})
       .then(track => resolve(track))
       .catch(err => reject(err))
   })
@@ -10,7 +10,7 @@ export function findTrack (uri) {
 
 export function addTrack (uri, user) {
   Track.updateOne({ _id: uri },
-    { $push: { added_by: { ...user, added_at: new Date() } } },
+    { $push: { addedBy: { ...user, addedAt: new Date() } } },
     { upsert: true }, // Create a new Track if it doesn't exist
     (err, track) => {
       if (err) { return }
@@ -21,4 +21,4 @@ export function addTrack (uri, user) {
   )
 }
 
-export default { findTrack, addTrack }
+export default { findTracks, addTrack }

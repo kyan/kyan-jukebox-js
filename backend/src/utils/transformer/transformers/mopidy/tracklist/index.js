@@ -1,15 +1,17 @@
 import TransformTrack from 'utils/transformer/transformers/mopidy/track'
-import { findTrack } from 'utils/track'
+import { findTracks } from 'utils/track'
 
 const Tracklist = (json) => {
   return new Promise((resolve) => {
-    const tracks = json.map(data => {
-      return findTrack(data.uri).then(trackData => {
-        data.user_data = trackData
+    const trackUris = json.map(data => data.uri)
+    findTracks(trackUris).then(tracks => {
+      const decoratedTracks = json.map(data => {
+        const trackData = tracks.find(track => track._id === data.uri)
+        if (trackData) { data.addedBy = trackData.addedBy }
         return TransformTrack(data)
       })
+      resolve(decoratedTracks)
     })
-    Promise.all(tracks).then(decoratedTracks => resolve(decoratedTracks))
   })
 }
 

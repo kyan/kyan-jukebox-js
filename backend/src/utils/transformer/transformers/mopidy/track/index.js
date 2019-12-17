@@ -4,7 +4,8 @@ export default function (json) {
   let payload = {
     uri: json.uri,
     name: json.name,
-    length: json.length || json.duration_ms
+    length: json.length || json.duration_ms,
+    addedBy: json.addedBy
   }
 
   if (json.album) {
