@@ -15,38 +15,41 @@ const persistUser = (user) => {
   return User.findOneAndUpdate(query, update, options)
 }
 
-const AuthenticateHandler = (payload, ws, broadcaster, moveOn) => {
-  if (!isAuthorisedRequest(payload.encoded_key)) return moveOn(payload)
-  const token = payload.jwt_token
-  const client = new OAuth2Client(process.env.CLIENT_ID)
+const AuthenticateHandler = (payload, ws, broadcaster) => {
+  if (!isAuthorisedRequest(payload.encoded_key)) return Promise.resolve(payload)
 
-  client.verifyIdToken({ idToken: token, audience: process.env.CLIENT_ID })
-    .then((ticket) => {
-      const data = ticket.getPayload()
-      const responsePayload = {
-        data: payload.data,
-        key: payload.key,
-        encoded_key: payload.encoded_key,
-        token: token,
-        user: {
-          _id: data['sub'],
-          fullname: data['name']
+  return new Promise((resolve) => {
+    const token = payload.jwt_token
+    const client = new OAuth2Client(process.env.CLIENT_ID)
+
+    client.verifyIdToken({ idToken: token, audience: process.env.CLIENT_ID })
+      .then((ticket) => {
+        const data = ticket.getPayload()
+        const responsePayload = {
+          data: payload.data,
+          key: payload.key,
+          encoded_key: payload.encoded_key,
+          token: token,
+          user: {
+            _id: data['sub'],
+            fullname: data['name']
+          }
         }
-      }
 
-      if (data['hd'] === 'kyanmedia.com') {
-        return persistUser(responsePayload.user)
-          .then(() => moveOn(responsePayload))
-          .catch((err) => logger.error('Error checking user', { error: err.message }))
-      }
+        if (data['hd'] === 'kyanmedia.com') {
+          return persistUser(responsePayload.user)
+            .then(() => resolve(responsePayload))
+            .catch((err) => logger.error('Error checking user', { error: err.message }))
+        }
 
-      payload.encoded_key = AuthConsts.AUTHENTICATION_TOKEN_INVALID
-      broadcaster.to(ws, payload, { error: `Invalid domain: ${data['hd']}` })
-    })
-    .catch(err => {
-      payload.encoded_key = AuthConsts.AUTHENTICATION_TOKEN_INVALID
-      broadcaster.to(ws, payload, { error: err.message })
-    })
+        payload.encoded_key = AuthConsts.AUTHENTICATION_TOKEN_INVALID
+        broadcaster.to(ws, payload, { error: `Invalid domain: ${data['hd']}` })
+      })
+      .catch(err => {
+        payload.encoded_key = AuthConsts.AUTHENTICATION_TOKEN_INVALID
+        broadcaster.to(ws, payload, { error: err.message })
+      })
+  })
 }
 
 export default AuthenticateHandler

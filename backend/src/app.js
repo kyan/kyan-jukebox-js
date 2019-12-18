@@ -10,7 +10,9 @@ import Payload from 'utils/payload'
 import MopidyService from 'services/mopidy'
 import MongodbService from 'services/mongodb'
 import SocketErrorsHandler from 'handlers/socket-errors'
-import MessageTriage from 'utils/message-triage'
+import MopidyHandler from 'handlers/mopidy'
+import SearchHandler from 'handlers/search'
+import AuthenticateHandler from 'handlers/authenticate'
 
 const app = express()
 app.disable('x-powered-by')
@@ -32,17 +34,15 @@ const allowSocketConnections = (mopidy) => {
     socket.on(MessageType.GENERIC, data => {
       const payload = Payload.decode(data)
 
-      MessageTriage(payload, mopidy, handler => {
-        handler(socket, Broadcaster)
-      })
+      AuthenticateHandler(payload, socket, Broadcaster)
+        .then((updatedPayload) => MopidyHandler(updatedPayload, socket, Broadcaster, mopidy))
     })
 
     socket.on(MessageType.SEARCH, data => {
       const payload = Payload.decode(data)
 
-      MessageTriage(payload, mopidy, handler => {
-        handler(socket, Broadcaster)
-      })
+      AuthenticateHandler(payload, socket, Broadcaster)
+        .then((updatedPayload) => SearchHandler(updatedPayload, socket, Broadcaster))
     })
   })
 
