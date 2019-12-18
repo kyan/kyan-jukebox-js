@@ -1,8 +1,10 @@
 import Mopidy from 'constants/mopidy'
 import Auth from 'constants/auth'
 import Settings from 'constants/settings'
+import SearchConst from 'constants/search'
 import TransformTrack from 'utils/transformer/transformers/mopidy/track'
 import TransformTracklist from 'utils/transformer/transformers/mopidy/tracklist'
+import TransformSearchResults from 'utils/transformer/transformers/spotify/search'
 import NowPlaying from 'handlers/now-playing'
 import settings from 'utils/local-storage'
 import Spotify from 'services/spotify'
@@ -21,17 +23,19 @@ const Transform = {
         case Mopidy.CORE_EVENTS.PLAYBACK_STARTED:
           const payload = TransformTrack(data.tl_track.track)
           const { track } = payload
-
           settings.addToUniqueArray(Settings.TRACKLIST_LAST_PLAYED, track.uri, 10)
           settings.setItem(Settings.TRACK_CURRENT, track.uri)
-          NowPlaying.addTrack(track)
-          Spotify.canRecommend(mopidy, (recommend) => {
-            const waitToRecommend = track.length / 4 * 3
-            const lastTracksPlayed = settings.getItem(Settings.TRACKLIST_LAST_PLAYED) || []
+          Spotify.canRecommend(mopidy)
+            .then((recommend) => {
+              if (recommend) {
+                const waitToRecommend = track.length / 4 * 3
+                const lastTracksPlayed = settings.getItem(Settings.TRACKLIST_LAST_PLAYED) || []
 
-            clearSetTimeout(recommendTimer)
-            recommendTimer = setTimeout(recommend, waitToRecommend, lastTracksPlayed, mopidy)
-          })
+                clearSetTimeout(recommendTimer)
+                recommendTimer = setTimeout(recommend, waitToRecommend, lastTracksPlayed, mopidy)
+              }
+            })
+          NowPlaying.addTrack(track)
           return resolve(payload)
         case Mopidy.CORE_EVENTS.VOLUME_CHANGED:
           return resolve(data.volume)
@@ -48,6 +52,11 @@ const Transform = {
   message: (key, data) => {
     return new Promise((resolve) => {
       switch (key) {
+        case SearchConst.SEARCH_GET_TRACKS:
+          const searchResults = data
+          const searchTracks = TransformSearchResults(data.tracks.items)
+          searchResults.tracks.items = searchTracks
+          return resolve(searchResults)
         case Mopidy.GET_CURRENT_TRACK:
           if (!data) return resolve()
           const trackInfo = TransformTrack(data)
@@ -64,7 +73,8 @@ const Transform = {
         case Mopidy.PLAYBACK_NEXT:
         case Mopidy.PLAYBACK_PREVIOUS:
           clearSetTimeout(recommendTimer)
-          return resolve(data)
+          if (data && data.length > 0) return resolve(TransformTrack(data[0].track))
+          return resolve()
         case Mopidy.TRACKLIST_CLEAR:
         case Mopidy.CONNECTION_ERROR:
         case Mopidy.LIBRARY_GET_IMAGES:

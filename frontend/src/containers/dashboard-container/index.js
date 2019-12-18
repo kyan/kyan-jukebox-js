@@ -5,8 +5,9 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import SignInToken from 'utils/signin-token'
 import GoogleAuthContext from 'contexts/google'
 import * as actions from 'actions'
+import * as searchActions from 'search/actions'
 import { getTracklistImagesInCache } from 'selectors'
-import Dashboard from 'views/dashboard'
+import Dashboard from 'dashboard'
 
 export const DashboardContainer = () => {
   const jukebox = useSelector(state => state.jukebox)
@@ -64,6 +65,7 @@ export const DashboardContainer = () => {
         }
       }
       onTracklistClear={() => dispatch(actions.clearTrackList())}
+      onSearchClick={() => dispatch(searchActions.toggleSearchSidebar(true))}
       trackListImages={tracklistImages}
       tracklist={tracklist}
       currentTrack={currentTrack}

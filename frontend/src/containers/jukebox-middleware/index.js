@@ -2,6 +2,7 @@ import io from 'socket.io-client'
 import * as actions from 'actions'
 import MopidyApi from 'constants/mopidy-api'
 import Constants from 'constants/common'
+import SearchConst from 'search/constants'
 import { findImageInCache } from 'utils/images'
 import { trackProgressTimer } from 'utils/time'
 import onMessageHandler from 'utils/on-message-handler'
@@ -33,9 +34,11 @@ const JukeboxMiddleware = (() => {
     }
     const onClose = _evt => store.dispatch(actions.wsDisconnect())
     const onMessage = data => onMessageHandler(store, data, progressTimer)
+    const onSearchResults = data => onMessageHandler(store, data, progressTimer)
     const onConnect = () => {
       if (socket != null) socket.close()
       socket = io(url, { transports: ['websocket'] })
+      socket.on('search', onSearchResults)
       socket.on('mopidy', mopidyStateChange)
       socket.on('message', onMessage)
       socket.on('connect', onOpen)
@@ -58,6 +61,8 @@ const JukeboxMiddleware = (() => {
         if (isImageRequest()) preStoreImage()
 
         return socket.emit('message', packMessage())
+      case SearchConst.SEARCH:
+        return socket.emit('search', packMessage())
       default:
         return next(action)
     }

@@ -36,6 +36,14 @@ const allowSocketConnections = (mopidy) => {
         handler(socket, Broadcaster)
       })
     })
+
+    socket.on(MessageType.SEARCH, data => {
+      const payload = Payload.decode(data)
+
+      MessageTriage(payload, mopidy, handler => {
+        handler(socket, Broadcaster)
+      })
+    })
   })
 
   process.on('SIGTERM', function () {

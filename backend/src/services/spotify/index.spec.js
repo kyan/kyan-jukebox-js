@@ -1,26 +1,30 @@
 import SpotifyService from './index'
+import EventLogger from 'utils/event-logger'
+import logger from 'config/winston'
 
+jest.mock('utils/event-logger')
 jest.mock('config/winston')
 jest.mock('spotify-web-api-node', () => {
   return function () {
+    const tracks = [
+      { uri: 'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt' },
+      { uri: 'spotify:track:03fT3OHB9KyMtGMt2zwqCT' },
+      { uri: 'spotify:track:7LzeKqmOtpKVKJ1dmalkC0' },
+      { uri: 'spotify:track:1Ut1A8UaNqGuwsHgWq75PW' }
+    ]
     return {
       clientCredentialsGrant: jest.fn()
-        .mockImplementationOnce(() => Promise.resolve({ body: {} }))
-        .mockImplementationOnce(() => Promise.resolve({ body: {} }))
-        .mockImplementationOnce(() => Promise.resolve({ body: {} })),
+        .mockImplementation(() => Promise.resolve({ body: {} })),
       getRecommendations: jest.fn()
-        .mockImplementation(() => Promise.resolve({ body: {
-          tracks: [
-            { uri: 'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt' },
-            { uri: 'spotify:track:03fT3OHB9KyMtGMt2zwqCT' },
-            { uri: 'spotify:track:7LzeKqmOtpKVKJ1dmalkC0' },
-            { uri: 'spotify:track:1Ut1A8UaNqGuwsHgWq75PW' }
-          ]
-        }})),
+        .mockImplementationOnce(() => Promise.resolve({ body: { tracks } })),
       setAccessToken: jest.fn(),
       getTrack: jest.fn()
         .mockImplementationOnce(() => Promise.resolve({ body: { explicit: true, name: 'Naughty' } }))
         .mockImplementationOnce(() => Promise.resolve({ body: { explicit: false } }))
+        .mockImplementationOnce(() => Promise.reject(new Error('bang!'))),
+      searchTracks: jest.fn()
+        .mockImplementationOnce(() => Promise.resolve({ body: 'search results' }))
+        .mockImplementationOnce(() => Promise.reject(new Error('search bang!')))
     }
   }
 })
@@ -32,37 +36,99 @@ jest.mock('lodash', () => ({
 }))
 
 describe('SpotifyService', () => {
-  const mopidy = {
-    tracklist: {
-      nextTrack: jest.fn()
-        .mockImplementationOnce(() => Promise.resolve('data'))
-        .mockImplementationOnce(() => Promise.resolve()),
-      add: jest.fn()
-        .mockImplementationOnce(() => Promise.resolve('track added OK'))
-    }
-  }
-  const mockCallback = jest.fn()
-
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   describe('canRecommend', () => {
-    it('should behave as expected', async () => {
-      expect.assertions(3)
-      await SpotifyService.canRecommend(mopidy, mockCallback)
-      expect(mockCallback.mock.calls.length).toEqual(0)
-      await SpotifyService.canRecommend(mopidy, mockCallback)
-      expect(mockCallback.mock.calls.length).toEqual(1)
+    it('should return nothing if no recommendations should be attempted', done => {
+      expect.assertions(1)
+      const mopidy = {
+        tracklist: {
+          nextTrack: jest.fn()
+            .mockImplementationOnce(() => Promise.resolve('somedata'))
+        }
+      }
+      SpotifyService.canRecommend(mopidy)
+        .then((result) => {
+          expect(result).toBeUndefined()
+          done()
+        })
+    })
 
-      const uris = [
-        'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt',
-        'spotify:track:7LzeKqmOtpKVKJ1dmalkC0',
-        'spotify:track:1Ut1A8UaNqGuwsHgWq75PW'
-      ]
-      await mockCallback.mock.calls[0][0](uris, mopidy)
-      expect(mopidy.tracklist.add.mock.calls[0][0]).toEqual({
-        uris: uris
+    it('should handle some recomendations', done => {
+      expect.assertions(3)
+      const mopidy = {
+        tracklist: {
+          nextTrack: jest.fn()
+            .mockImplementationOnce(() => Promise.resolve(null)),
+          add: jest.fn()
+            .mockImplementationOnce(() => Promise.resolve('track added OK'))
+        }
+      }
+      SpotifyService.canRecommend(mopidy)
+        .then((result) => {
+          expect(result).toEqual(jasmine.any(Function))
+
+          const uris = [
+            'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt',
+            'spotify:track:7LzeKqmOtpKVKJ1dmalkC0',
+            'spotify:track:1Ut1A8UaNqGuwsHgWq75PW'
+          ]
+          result(uris, mopidy)
+            .then((result) => {
+              expect(result).toBeUndefined()
+              expect(EventLogger).toHaveBeenCalledWith(
+                { encoded_key: 'mopidy.tracklist.add' },
+                { uris: [
+                  'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt',
+                  'spotify:track:7LzeKqmOtpKVKJ1dmalkC0',
+                  'spotify:track:1Ut1A8UaNqGuwsHgWq75PW'
+                ] },
+                'track added OK',
+                'APIRequest'
+              )
+              done()
+            })
+        })
+    })
+
+    it('should handle no recomendations', done => {
+      expect.assertions(2)
+      const mopidy = {
+        tracklist: {
+          nextTrack: jest.fn()
+            .mockImplementationOnce(() => Promise.resolve(null))
+        }
+      }
+      SpotifyService.canRecommend(mopidy)
+        .then((result) => {
+          expect(result).toEqual(jasmine.any(Function))
+
+          const uris = []
+          result(uris, mopidy)
+            .then((result) => {
+              expect(result).toBeUndefined()
+              done()
+            })
+        })
+    })
+
+    it('should log an error if nextTrack bails', done => {
+      expect.assertions(1)
+      const mopidy = {
+        tracklist: {
+          nextTrack: jest.fn().mockRejectedValue(new Error('nextTrack broke'))
+        }
+      }
+      SpotifyService.canRecommend(mopidy)
+      setTimeout(() => {
+        try {
+          expect(logger.error).toHaveBeenCalledWith('nextTrack: nextTrack broke')
+          done()
+        } catch (err) {
+          done.fail(err)
+        }
       })
     })
   })
@@ -93,6 +159,43 @@ describe('SpotifyService', () => {
           expect(result).toEqual(true)
           done()
         })
+    })
+
+    it('should log if track is broken', done => {
+      expect.assertions(1)
+      SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW')
+      setTimeout(() => {
+        try {
+          expect(logger.error).toHaveBeenCalledWith('getTrack: bang!')
+          done()
+        } catch (err) {
+          done.fail(err)
+        }
+      })
+    })
+  })
+
+  describe('search', () => {
+    it('should resolve search', done => {
+      expect.assertions(1)
+      SpotifyService.search('hello', {})
+        .then((result) => {
+          expect(result).toEqual('search results')
+          done()
+        })
+    })
+
+    it('should reject when search fails', done => {
+      expect.assertions(1)
+      SpotifyService.search('hello', {})
+      setTimeout(() => {
+        try {
+          expect(logger.error).toHaveBeenCalledWith('searchTracks: search bang!')
+          done()
+        } catch (err) {
+          done.fail(err)
+        }
+      })
     })
   })
 })

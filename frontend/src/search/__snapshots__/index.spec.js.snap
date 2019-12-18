@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchContainer render actions 1`] = `
+Array [
+  Object {
+    "open": false,
+    "type": "actionToggleSearchSidebar",
+  },
+  Object {
+    "key": "search::getTracks",
+    "params": Object {
+      "options": Object {
+        "limit": 20,
+        "offset": 0,
+      },
+      "query": "happy",
+    },
+    "type": "actionTrackSearch",
+  },
+  Object {
+    "type": "actionRemoveFromSearchResults",
+    "uri": "track1",
+  },
+  Object {
+    "key": "mopidy::tracklist.add",
+    "params": Object {
+      "uri": null,
+    },
+    "type": "actionSend",
+  },
+  Object {
+    "query": "spam",
+    "type": "actionStoreSearchQuery",
+  },
+  Object {
+    "key": "search::getTracks",
+    "params": Object {
+      "options": Object {
+        "limit": 20,
+        "offset": 20,
+      },
+      "query": "happy",
+    },
+    "type": "actionTrackSearch",
+  },
+]
+`;

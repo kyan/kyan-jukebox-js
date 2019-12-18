@@ -1,5 +1,6 @@
 import configureStore from 'redux-mock-store'
 import MopidyApi from 'constants/mopidy-api'
+import Search from 'search/constants'
 import AuthApi from 'constants/auth-api'
 import MockTrackListJson from '__mockData__/api'
 import notify from 'utils/notify'
@@ -335,6 +336,45 @@ describe('onMessageHandler', () => {
       const store = mockStore({})
       onMessageHandler(store, JSON.stringify(payload), progress)
       expect(notify.warning.mock.calls).toEqual([['Is there a radio mix? - Boy - Naughty']])
+    })
+  })
+
+  describe('TRACKLIST_ADD_TRACK', () => {
+    it('lets us know a track has been added', () => {
+      const payload = {
+        key: MopidyApi.TRACKLIST_ADD_TRACK,
+        data: {
+          track: {
+            name: 'track name',
+            album: {
+              name: 'album name'
+            },
+            artist: {
+              name: 'artist name'
+            }
+          }
+        }
+      }
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      expect(notify.success)
+        .toHaveBeenCalledWith('Adding: track name / album name by artist name')
+    })
+  })
+
+  describe('SEARCH_GET_TRACKS', () => {
+    it('stores search results', () => {
+      const payload = {
+        key: Search.SEARCH_GET_TRACKS,
+        data: 'searchresults'
+      }
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions).toEqual([{
+        type: 'actionStoreSearchResults',
+        results: 'searchresults'
+      }])
     })
   })
 })

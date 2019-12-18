@@ -49,7 +49,8 @@ const stopButton = (cb, playbackState, disabled) => (
   </Button>
 )
 
-const Controls = ({ disabled, playbackState, onPlay, onPause, onStop, onPrevious, onNext }) => {
+const Controls = (props) => {
+  const { disabled, playbackState, onPlay, onPause, onStop, onPrevious, onNext } = props
   return (
     <span>
       <SkipButtons
