@@ -61,8 +61,6 @@ const trackDescription = (track) => (
   </List.Description>
 )
 
-const addedByUsers = addedBy => addedBy.map(user => user[0])
-
 const listItems = (disabled, tracks, images, currentTrack, onRemoveTrack) => {
   let time
 
@@ -82,7 +80,7 @@ const listItems = (disabled, tracks, images, currentTrack, onRemoveTrack) => {
         >
           {trackHeading(track)}
           {trackDescription(track)}
-          <AddedBy addedBy={addedByUsers(track.addedBy)} />
+          <AddedBy users={track.addedBy} />
         </List.Content>
       </List.Item>
     )
