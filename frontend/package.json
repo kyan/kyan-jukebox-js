@@ -49,6 +49,7 @@
       "!<rootDir>/build/**",
       "!src/index.js",
       "!src/constants/*.js",
+      "!src/**/constants.js",
       "!src/components/url-drop-area/*.js",
       "!src/components/error-boundary/*.js"
     ],

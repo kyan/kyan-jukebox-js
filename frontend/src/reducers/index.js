@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux'
-import track from './track'
-import tracklist from './tracklist'
-import assets from './assets'
-import timer from './timer'
-import jukebox from './jukebox'
-import settings from './settings'
+import track from 'reducers/track'
+import tracklist from 'reducers/tracklist'
+import assets from 'reducers/assets'
+import timer from 'reducers/timer'
+import jukebox from 'reducers/jukebox'
+import settings from 'reducers/settings'
+import search from 'search/reducers'
 
 const jukeboxApp = combineReducers({
   track,
@@ -12,7 +13,8 @@ const jukeboxApp = combineReducers({
   assets,
   timer,
   jukebox,
-  settings
+  settings,
+  search
 })
 
 export default jukeboxApp

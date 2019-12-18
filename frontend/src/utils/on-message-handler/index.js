@@ -1,6 +1,8 @@
 import * as actions from 'actions'
+import * as searchActions from 'search/actions'
 import AuthApi from 'constants/auth-api'
 import MopidyApi from 'constants/mopidy-api'
+import SearchConst from 'search/constants'
 import Payload from 'utils/payload'
 import notify from 'utils/notify'
 
@@ -63,6 +65,10 @@ const onMessageHandler = (store, payload, progressTimer) => {
     case MopidyApi.TRACKLIST_GET_TRACKS:
       addTrackList(data, store)
       break
+    case MopidyApi.TRACKLIST_ADD_TRACK:
+      const track = data.track
+      notify.success(`Adding: ${track.name} / ${track.album.name} by ${track.artist.name}`)
+      break
     case MopidyApi.PLAYBACK_NEXT:
     case MopidyApi.PLAYBACK_BACK:
       store.dispatch(actions.getCurrentTrack())
@@ -79,6 +85,9 @@ const onMessageHandler = (store, payload, progressTimer) => {
       break
     case MopidyApi.PLAYBACK_GET_TIME_POSITION:
       progressTimer.set(data)
+      break
+    case SearchConst.SEARCH_GET_TRACKS:
+      store.dispatch(searchActions.storeSearchResults(data))
       break
     case MopidyApi.VALIDATION_ERROR:
       notify.warning(data)

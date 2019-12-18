@@ -238,7 +238,7 @@ describe('MopidyHandler', () => {
       try {
         expect(broadcastMock).toHaveBeenCalledWith(
           ws,
-          { data: [['12345zsdf23456']], encoded_key: 'mopidy::tracklist.validation' },
+          { data: [['12345zsdf23456']], encoded_key: 'mopidy::validationError' },
           'naughty-naughty'
         )
         expect(ImageCache.check).not.toHaveBeenCalled()

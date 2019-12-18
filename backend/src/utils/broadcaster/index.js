@@ -5,14 +5,14 @@ import Transform from 'utils/transformer'
 import Payload from 'utils/payload'
 
 const Broadcaster = {
-  to: (client, headers, message) => {
+  to: (client, headers, message, type) => {
     const key = headers.encoded_key
     Transform.message(key, message).then(unifiedMessage => {
       const context = headers.user ? MessageType.OUTGOING_API_AUTH : MessageType.OUTGOING_API
       try {
         const payload = Payload.encodeToJson(key, unifiedMessage, headers.user)
         EventLogger(headers, null, payload, context)
-        client.emit(MessageType.GENERIC, payload)
+        client.emit(type || MessageType.GENERIC, payload)
       } catch (e) {
         logger.error('Broadcaster#to', { message: e.message })
       }
