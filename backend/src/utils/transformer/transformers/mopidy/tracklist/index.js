@@ -7,7 +7,7 @@ const Tracklist = (json) => {
     findTracks(trackUris).then(tracks => {
       const decoratedTracks = json.map(data => {
         const trackData = tracks.find(track => track._id === data.uri)
-        if (trackData) { data.addedBy = trackData.addedBy }
+        if (trackData) { data.addedBy = trackData.addedBy.map(user => user[0]) }
         return TransformTrack(data)
       })
       resolve(decoratedTracks)

@@ -2,7 +2,7 @@ import TransformerTracklist from './index'
 import fs from 'fs'
 import lolex from 'lolex'
 
-const firstTrack = {
+const firstTrack = [{
   _id: 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3',
   addedBy: [
     {
@@ -10,8 +10,8 @@ const firstTrack = {
       fullname: 'Big Rainbowhead'
     }
   ]
-}
-const secondTrack = {
+}]
+const secondTrack = [{
   _id: 'spotify:track:dfkm12398dsf1212mldf',
   addedBy: [
     {
@@ -19,7 +19,7 @@ const secondTrack = {
       fullname: 'Bigger Rainbowhead'
     }
   ]
-}
+}]
 const mockTrackData = [firstTrack, secondTrack]
 jest.mock('utils/track', () => ({
   findTracks: jest.fn().mockImplementation(() => Promise.resolve(mockTrackData))
