@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddedBy when addedBy information provided and it is the first play displays a current user icon with a popup message 1`] = `
+<Popup
+  content="This is the first play!"
+  disabled={false}
+  eventsEnabled={true}
+  offset={0}
+  on={
+    Array [
+      "click",
+      "hover",
+    ]
+  }
+  pinned={false}
+  position="top left"
+  trigger={
+    <span
+      className="added-by"
+    >
+      <Icon
+        as="i"
+        name="user outline"
+      />
+      Big Rainbowhead
+    </span>
+  }
+/>
+`;
+
+exports[`AddedBy when addedBy information provided and there is play history displays a current user icon with a popup message containing previous  1`] = `
+<Popup
+  content={
+    <List>
+      <ListItem>
+        Big Rainbowhead
+         on 
+        December 17, 2019
+      </ListItem>
+    </List>
+  }
+  disabled={false}
+  eventsEnabled={true}
+  offset={0}
+  on={
+    Array [
+      "click",
+      "hover",
+    ]
+  }
+  pinned={false}
+  position="top left"
+  trigger={
+    <span
+      className="added-by"
+    >
+      <Icon
+        as="i"
+        name="user outline"
+      />
+      Big Rainbowhead2
+    </span>
+  }
+/>
+`;
+
+exports[`AddedBy when no addedBy information provided displays a spotify icon 1`] = `
+<Icon
+  as="i"
+  name="spotify"
+/>
+`;

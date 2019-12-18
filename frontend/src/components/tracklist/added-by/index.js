@@ -4,8 +4,7 @@ import { List, Popup, Icon } from 'semantic-ui-react'
 import dateFormat from 'dateformat'
 
 const addedByContent = users => {
-  console.log('USERERES', users)
-  if (users) {
+  if (users.length) {
     return (
       <List>
         {
@@ -29,19 +28,15 @@ const currentPlayInfo = user => {
   )
 }
 
-const AddedBy = props => {
-  const { addedBy: users } = props
-  if (users) {
-    console.log('USERSS BEFORE I POP U', users)
-    const current = users.pop()
-    console.log('USERSS DID I POP U', users)
-    return <Popup content={addedByContent(users)} trigger={currentPlayInfo(current)} />
-  }
-  return <Icon name='spotify' />
+const AddedBy = ({ users = [] }) => {
+  if (!users.length) return <Icon name='spotify' />
+
+  const current = users.pop()
+  return <Popup content={addedByContent(users)} trigger={currentPlayInfo(current)} />
 }
 
 AddedBy.propTypes = {
-  addedBy: PropTypes.array
+  users: PropTypes.array
 }
 
 export default AddedBy
