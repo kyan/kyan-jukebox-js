@@ -7,7 +7,6 @@ jest.mock('config/winston')
 
 describe('AuthenticateHandler', () => {
   const wsMock = jest.fn()
-  const cbMock = jest.fn()
   const broadcastMock = jest.fn()
   const broadcasterMock = {
     to: broadcastMock
@@ -43,34 +42,35 @@ describe('AuthenticateHandler', () => {
     jest.spyOn(User, 'findOneAndUpdate')
       .mockImplementation(() => Promise.resolve(true))
 
-    AuthenticateHandler(payload, wsMock, broadcasterMock, cbMock)
-
-    setTimeout(() => {
-      try {
-        expect(cbMock.mock.calls).toEqual([[{
-          data: ['12'],
-          encoded_key: 'mopidy::mixer.setVolume',
-          key: 'mixer.setVolume',
-          token: 'somevalidjwttoken',
-          user: {
-            _id: 'abcdefg123456',
-            fullname: 'Duncan Robotson'
+    AuthenticateHandler(payload, wsMock, broadcasterMock)
+      .then((response) => {
+        setTimeout(() => {
+          try {
+            expect(response).toEqual({
+              data: ['12'],
+              encoded_key: 'mopidy::mixer.setVolume',
+              key: 'mixer.setVolume',
+              token: 'somevalidjwttoken',
+              user: {
+                _id: 'abcdefg123456',
+                fullname: 'Duncan Robotson'
+              }
+            })
+            expect(broadcastMock.mock.calls.length).toBe(0)
+            expect(User.findOneAndUpdate.mock.calls[0]).toEqual([
+              { _id: 'abcdefg123456' },
+              { _id: 'abcdefg123456', 'fullname': 'Duncan Robotson' },
+              { new: true, 'setDefaultsOnInsert': true, 'upsert': true }])
+            done()
+          } catch (err) {
+            done.fail(err)
           }
-        }]])
-        expect(broadcastMock.mock.calls.length).toBe(0)
-        expect(User.findOneAndUpdate.mock.calls[0]).toEqual([
-          { _id: 'abcdefg123456' },
-          { _id: 'abcdefg123456', 'fullname': 'Duncan Robotson' },
-          { new: true, 'setDefaultsOnInsert': true, 'upsert': true }])
-        done()
-      } catch (err) {
-        done.fail(err)
-      }
-    })
+        })
+      })
   })
 
   it('handles verify error', done => {
-    expect.assertions(5)
+    expect.assertions(4)
 
     const payload = {
       encoded_key: 'mopidy::mixer.setVolume',
@@ -86,11 +86,9 @@ describe('AuthenticateHandler', () => {
       }
     })
 
-    AuthenticateHandler(payload, wsMock, broadcasterMock, cbMock)
-
+    AuthenticateHandler(payload, wsMock, broadcasterMock)
     setTimeout(() => {
       try {
-        expect(cbMock.mock.calls.length).toBe(0)
         expect(User.findOneAndUpdate).not.toHaveBeenCalled()
         expect(broadcastMock.mock.calls[0][0]).toEqual(wsMock)
         expect(broadcastMock.mock.calls[0][1]).toEqual(payload)
@@ -103,7 +101,7 @@ describe('AuthenticateHandler', () => {
   })
 
   it('handles incorrect domain', done => {
-    expect.assertions(5)
+    expect.assertions(4)
 
     const payload = {
       encoded_key: 'mopidy::mixer.setVolume',
@@ -127,11 +125,9 @@ describe('AuthenticateHandler', () => {
 
     jest.spyOn(User, 'findOneAndUpdate')
 
-    AuthenticateHandler(payload, wsMock, broadcasterMock, cbMock)
-
+    AuthenticateHandler(payload, wsMock, broadcasterMock)
     setTimeout(() => {
       try {
-        expect(cbMock.mock.calls.length).toBe(0)
         expect(User.findOneAndUpdate).not.toHaveBeenCalled()
         expect(broadcastMock.mock.calls[0][0]).toEqual(wsMock)
         expect(broadcastMock.mock.calls[0][1]).toEqual(payload)
@@ -152,18 +148,19 @@ describe('AuthenticateHandler', () => {
       data: ['12']
     }
 
-    AuthenticateHandler(payload, wsMock, broadcasterMock, cbMock)
-
-    expect(cbMock.mock.calls).toEqual([[{
-      data: ['12'],
-      encoded_key: 'mopidy::somenonauthtask',
-      key: 'somenonauthtask'
-    }]])
-    expect(broadcastMock.mock.calls.length).toBe(0)
+    AuthenticateHandler(payload, wsMock, broadcasterMock)
+      .then((response) => {
+        expect(response).toEqual({
+          data: ['12'],
+          encoded_key: 'mopidy::somenonauthtask',
+          key: 'somenonauthtask'
+        })
+        expect(broadcastMock.mock.calls.length).toBe(0)
+      })
   })
 
   it('handles User.findOneAndUpdate error', done => {
-    expect.assertions(4)
+    expect.assertions(3)
 
     const payload = {
       encoded_key: 'mopidy::mixer.setVolume',
@@ -188,11 +185,9 @@ describe('AuthenticateHandler', () => {
     jest.spyOn(User, 'findOneAndUpdate')
       .mockImplementation(() => Promise.reject(new Error('bang')))
 
-    AuthenticateHandler(payload, wsMock, broadcasterMock, cbMock)
-
+    AuthenticateHandler(payload, wsMock, broadcasterMock)
     setTimeout(() => {
       try {
-        expect(cbMock.mock.calls.length).toBe(0)
         expect(User.findOneAndUpdate.mock.calls[0]).toEqual([
           { _id: 'abcdefg123456' },
           { _id: 'abcdefg123456', 'fullname': 'Fred Spanner' },
