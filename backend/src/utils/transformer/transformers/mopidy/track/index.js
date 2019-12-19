@@ -36,5 +36,9 @@ export default function (json) {
     payload.year = json.date
   }
 
+  if (json.addedBy) {
+    payload.addedBy = json.addedBy
+  }
+
   return { track: payload }
 }
