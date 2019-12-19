@@ -1,4 +1,5 @@
 import Track from 'services/mongodb/models/track'
+import logger from 'config/winston'
 
 export function findTracks (uris) {
   return new Promise((resolve, reject) => {
@@ -14,9 +15,7 @@ export function addTrack (uri, user) {
     { upsert: true }, // Create a new Track if it doesn't exist
     (err, track) => {
       if (err) { return }
-      if (track) {
-        console.log(track)
-      }
+      if (track) { logger.info('Updated track', track) }
     }
   )
 }

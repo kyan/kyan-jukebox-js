@@ -1,5 +1,7 @@
 import { findTracks, addTrack } from './index'
 import Track from 'services/mongodb/models/track'
+import logger from 'config/winston'
+jest.mock('config/winston')
 
 const userObject = {
   _id: '123',
@@ -21,9 +23,10 @@ describe('findTracks', () => {
 })
 
 describe('addTrack', () => {
+  const trackObject = { trackUri: '123' }
   it('makes a call to updateOne Track document', () => {
-    expect.assertions(1)
-    jest.spyOn(Track, 'updateOne').mockReturnValue(Promise.resolve({ trackUri: '123' }))
+    expect.assertions(2)
+    jest.spyOn(Track, 'updateOne').mockReturnValue(Promise.resolve(trackObject))
     const dateSpy = jest.spyOn(global, 'Date')
     addTrack('123', userObject)
     expect(Track.updateOne).toHaveBeenCalledWith(
@@ -32,5 +35,7 @@ describe('addTrack', () => {
       { upsert: true },
       expect.any(Function)
     )
+    Track.updateOne.mock.calls[0][3](null, trackObject)
+    expect(logger.info).toHaveBeenCalledWith('Updated track', {'trackUri': '123'})
   })
 })
