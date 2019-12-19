@@ -41,7 +41,6 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
               "addedAt": "2019-12-17T13:11:37.316Z",
               "fullname": "Big Rainbowhead",
             },
-            Object {},
           ]
         }
       />
@@ -122,7 +121,6 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
               "addedAt": "2019-12-17T13:11:37.316Z",
               "fullname": "Big Rainbowhead",
             },
-            Object {},
           ]
         }
       />

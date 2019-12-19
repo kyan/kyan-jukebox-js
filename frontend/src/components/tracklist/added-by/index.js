@@ -30,9 +30,9 @@ const currentPlayInfo = user => {
 
 const AddedBy = ({ users = [] }) => {
   if (!users.length) return <Icon name='spotify' />
-
-  const current = users.pop()
-  return <Popup content={addedByContent(users)} trigger={currentPlayInfo(current)} />
+  const curentUser = users[users.length - 1]
+  const previousUSers = users.slice(0, -1)
+  return <Popup content={addedByContent(previousUSers)} trigger={currentPlayInfo(curentUser)} />
 }
 
 AddedBy.propTypes = {

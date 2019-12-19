@@ -68,7 +68,7 @@ const listItems = (disabled, tracks, images, currentTrack, onRemoveTrack) => {
     const isCurrent = isCurrentTrack(currentTrack, track)
     if (time) time += track.length
     if (isCurrent) time = Date.now()
-
+    const { addedBy } = track
     return (
       <List.Item
         className={classnames({ 'current-track': isCurrent })}
@@ -80,7 +80,7 @@ const listItems = (disabled, tracks, images, currentTrack, onRemoveTrack) => {
         >
           {trackHeading(track)}
           {trackDescription(track)}
-          <AddedBy users={track.addedBy} />
+          <AddedBy users={addedBy} />
         </List.Content>
       </List.Item>
     )
