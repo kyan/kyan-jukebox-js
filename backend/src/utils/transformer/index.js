@@ -63,9 +63,10 @@ const Transform = {
           settings.setItem(Settings.TRACK_CURRENT, trackInfo.track.uri)
           return resolve(trackInfo)
         case Mopidy.GET_TRACKS:
-          const tracks = TransformTracklist(data)
-          settings.setItem(Settings.TRACKLIST_CURRENT, tracks.map(data => data.track.uri))
-          return resolve(tracks)
+          return TransformTracklist(data).then(tracks => {
+            settings.setItem(Settings.TRACKLIST_CURRENT, tracks.map(data => data.track.uri))
+            resolve(tracks)
+          })
         case Mopidy.TRACKLIST_REMOVE:
           settings.removeFromArray(Settings.TRACKLIST_LAST_PLAYED, data[0].track.uri)
           return resolve(data)
