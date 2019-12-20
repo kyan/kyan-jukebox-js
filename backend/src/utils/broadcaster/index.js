@@ -7,7 +7,7 @@ import Payload from 'utils/payload'
 const Broadcaster = {
   to: (client, headers, message, type) => {
     const key = headers.encoded_key
-    Transform.message(key, message).then(unifiedMessage => {
+    Transform.message(headers, message).then(unifiedMessage => {
       const context = headers.user ? MessageType.OUTGOING_API_AUTH : MessageType.OUTGOING_API
       try {
         const payload = Payload.encodeToJson(key, unifiedMessage, headers.user)

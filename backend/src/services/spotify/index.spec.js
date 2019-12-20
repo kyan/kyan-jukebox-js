@@ -18,9 +18,9 @@ jest.mock('spotify-web-api-node', () => {
       getRecommendations: jest.fn()
         .mockImplementationOnce(() => Promise.resolve({ body: { tracks } })),
       setAccessToken: jest.fn(),
-      getTrack: jest.fn()
-        .mockImplementationOnce(() => Promise.resolve({ body: { explicit: true, name: 'Naughty' } }))
-        .mockImplementationOnce(() => Promise.resolve({ body: { explicit: false } }))
+      getTracks: jest.fn()
+        .mockImplementationOnce(() => Promise.resolve({ body: { tracks: [{ explicit: true, name: 'Naughty' }] } }))
+        .mockImplementationOnce(() => Promise.resolve({ body: { tracks: [{ explicit: false }] } }))
         .mockImplementationOnce(() => Promise.reject(new Error('bang!'))),
       searchTracks: jest.fn()
         .mockImplementationOnce(() => Promise.resolve({ body: 'search results' }))
@@ -147,7 +147,7 @@ describe('SpotifyService', () => {
       expect.assertions(1)
       SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW')
         .catch((error) => {
-          expect(error.message).toEqual('Is there a radio mix? - Naughty')
+          expect(error.message).toEqual('Not suitable. Is there a radio mix? - Naughty')
           done()
         })
     })
@@ -166,7 +166,7 @@ describe('SpotifyService', () => {
       SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW')
       setTimeout(() => {
         try {
-          expect(logger.error).toHaveBeenCalledWith('getTrack: bang!')
+          expect(logger.error).toHaveBeenCalledWith('getTracks: bang!')
           done()
         } catch (err) {
           done.fail(err)

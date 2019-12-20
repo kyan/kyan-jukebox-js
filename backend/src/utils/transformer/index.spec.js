@@ -34,16 +34,22 @@ describe('Transformer', () => {
     jest.clearAllMocks()
   })
 
+  const h = (key) => {
+    return {
+      encoded_key: key
+    }
+  }
+
   describe('playback.getCurrentTrack', () => {
     it('transforms when we have data', () => {
       expect.assertions(1)
-      return Transformer.message('mopidy::playback.getCurrentTrack', data)
+      return Transformer.message(h('mopidy::playback.getCurrentTrack'), data)
         .then(() => expect(TransformTrack).toHaveBeenCalledWith(data))
     })
 
     it('does not transform when we have no data', () => {
       expect.assertions(1)
-      return Transformer.message('mopidy::playback.getCurrentTrack', null)
+      return Transformer.message(h('mopidy::playback.getCurrentTrack'), null)
         .then(() => expect(TransformTrack).not.toHaveBeenCalled())
     })
   })
@@ -51,7 +57,7 @@ describe('Transformer', () => {
   describe('playback.getTimePosition', () => {
     it('returns the data that was passed in', () => {
       expect.assertions(1)
-      return Transformer.message('mopidy::playback.getTimePosition', data)
+      return Transformer.message(h('mopidy::playback.getTimePosition'), data)
         .then(returnData => expect(returnData).toEqual(data))
     })
   })
@@ -59,7 +65,7 @@ describe('Transformer', () => {
   describe('tracklist.getTracks', () => {
     it('calls the TransformTracklist class, passes it into the settings and returns the result', () => {
       expect.assertions(3)
-      return Transformer.message('mopidy::tracklist.getTracks', data).then((returnData) => {
+      return Transformer.message(h('mopidy::tracklist.getTracks'), data).then((returnData) => {
         expect(TransformTracklist).toHaveBeenCalledWith(data)
         expect(settings.setItem).toHaveBeenCalledWith('tracklist.current', ['123'])
         expect(returnData).toEqual([{'track': {'uri': '123'}}])
@@ -75,7 +81,7 @@ describe('Transformer', () => {
       TransformTracklist.mockReturnValue([{ track: { uri: '123', length: 2820123 } }])
       const recomendMock = jest.fn()
       Spotify.canRecommend.mockResolvedValue('functionName')
-      return Transformer.mopidyCoreMessage('mopidy::event:trackPlaybackStarted', data, mopidyMock).then((response) => {
+      return Transformer.mopidyCoreMessage(h('mopidy::event:trackPlaybackStarted'), data, mopidyMock).then((response) => {
         expect(TransformTrack).toHaveBeenCalledWith(data.tl_track.track)
         expect(settings.addToUniqueArray).toHaveBeenCalledWith(
           'tracklist.last_played',
@@ -111,7 +117,7 @@ describe('Transformer', () => {
       expect.assertions(6)
       TransformTracklist.mockReturnValue([{ track: { uri: '123' } }])
       Spotify.canRecommend.mockResolvedValue(null)
-      return Transformer.mopidyCoreMessage('mopidy::event:trackPlaybackStarted', data, mopidyMock).then((response) => {
+      return Transformer.mopidyCoreMessage(h('mopidy::event:trackPlaybackStarted'), data, mopidyMock).then((response) => {
         expect(TransformTrack).toHaveBeenCalledWith(data.tl_track.track)
         expect(settings.addToUniqueArray).toHaveBeenCalledWith(
           'tracklist.last_played',
@@ -140,7 +146,7 @@ describe('Transformer', () => {
   describe('event:tracklistChanged', () => {
     it('returns the data passed in', () => {
       expect.assertions(1)
-      return Transformer.mopidyCoreMessage('mopidy::event:tracklistChanged', data)
+      return Transformer.mopidyCoreMessage(h('mopidy::event:tracklistChanged'), data)
         .then(returnData => expect(returnData).toEqual(data))
     })
   })
@@ -150,7 +156,7 @@ describe('Transformer', () => {
 
     it('returns the volume data passed in', () => {
       expect.assertions(1)
-      return Transformer.mopidyCoreMessage('mopidy::event:volumeChanged', data)
+      return Transformer.mopidyCoreMessage(h('mopidy::event:volumeChanged'), data)
         .then(returnData => expect(returnData).toEqual(data.volume))
     })
   })
@@ -160,7 +166,7 @@ describe('Transformer', () => {
 
     it('returns the playback state data passed in', () => {
       expect.assertions(1)
-      return Transformer.mopidyCoreMessage('mopidy::event:playbackStateChanged', data)
+      return Transformer.mopidyCoreMessage(h('mopidy::event:playbackStateChanged'), data)
         .then(returnData => expect(returnData).toEqual(data.new_state))
     })
   })
@@ -168,7 +174,7 @@ describe('Transformer', () => {
   describe('library.getImages', () => {
     it('returns the data passed in', () => {
       expect.assertions(1)
-      return Transformer.message('mopidy::library.getImages', data)
+      return Transformer.message(h('mopidy::library.getImages'), data)
         .then(returnData => expect(returnData).toEqual(data))
     })
   })
@@ -179,7 +185,7 @@ describe('Transformer', () => {
         track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
       }]
       expect.assertions(2)
-      return Transformer.message('mopidy::tracklist.remove', data).then(returnData => {
+      return Transformer.message(h('mopidy::tracklist.remove'), data).then(returnData => {
         expect(returnData).toEqual(data)
         expect(settings.removeFromArray.mock.calls[0])
           .toEqual(['tracklist.last_played', 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG'])
@@ -190,7 +196,7 @@ describe('Transformer', () => {
   describe('tracklist.clear', () => {
     it('returns the data passed in', () => {
       expect.assertions(1)
-      return Transformer.message('mopidy::tracklist.clear', data)
+      return Transformer.message(h('mopidy::tracklist.clear'), data)
         .then(returnData => expect(returnData).toEqual(data))
     })
   })
@@ -198,7 +204,7 @@ describe('Transformer', () => {
   describe('mixer.getVolume', () => {
     it('returns the data passed in', () => {
       expect.assertions(1)
-      return Transformer.message('mopidy::mixer.getVolume', data)
+      return Transformer.message(h('mopidy::mixer.getVolume'), data)
         .then(returnData => expect(returnData).toEqual(data))
     })
   })
@@ -206,7 +212,7 @@ describe('Transformer', () => {
   describe('mixer.setVolume', () => {
     it('returns the data passed in', () => {
       expect.assertions(1)
-      return Transformer.message('mopidy::mixer.setVolume', data)
+      return Transformer.message(h('mopidy::mixer.setVolume'), data)
         .then(returnData => expect(returnData).toEqual(data))
     })
   })
@@ -216,9 +222,18 @@ describe('Transformer', () => {
       data = [{
         track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
       }]
-      expect.assertions(1)
-      return Transformer.message('mopidy::tracklist.add', data)
-        .then(returnData => expect(returnData).toEqual({ track: mockTrack }))
+      let headers = h('mopidy::tracklist.add')
+      headers.data = {
+        track: {
+          uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG'
+        }
+      }
+      expect.assertions(2)
+      return Transformer.message(headers, data)
+        .then(returnData => {
+          expect(returnData).toEqual({ track: mockTrack })
+          expect(TransformTrack).toHaveBeenCalledWith(data[0].track)
+        })
     })
   })
 
@@ -228,13 +243,13 @@ describe('Transformer', () => {
         track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
       }]
       expect.assertions(1)
-      return Transformer.message('mopidy::playback.next', data)
+      return Transformer.message(h('mopidy::playback.next'), data)
         .then(returnData => expect(returnData).toEqual({ track: mockTrack }))
     })
 
     it('returns null if no data', () => {
       expect.assertions(1)
-      return Transformer.message('mopidy::playback.next', [])
+      return Transformer.message(h('mopidy::playback.next'), [])
         .then(returnData => expect(returnData).toBeUndefined())
     })
   })
@@ -245,13 +260,13 @@ describe('Transformer', () => {
         track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
       }]
       expect.assertions(1)
-      return Transformer.message('mopidy::playback.previous', data)
+      return Transformer.message(h('mopidy::playback.previous'), data)
         .then(returnData => expect(returnData).toEqual({ track: mockTrack }))
     })
 
     it('returns null if no data', () => {
       expect.assertions(1)
-      return Transformer.message('mopidy::playback.previous', [])
+      return Transformer.message(h('mopidy::playback.previous'), [])
         .then(returnData => expect(returnData).toBeUndefined())
     })
   })
@@ -259,7 +274,7 @@ describe('Transformer', () => {
   describe('when passing an unknown key into Transform.message', () => {
     it('returns with a skippedTransform message', () => {
       expect.assertions(1)
-      return Transformer.message('unknown', data)
+      return Transformer.message(h('unknown'), data)
         .then(returnData => expect(returnData).toEqual('skippedTransform: unknown'))
     })
   })
@@ -267,7 +282,7 @@ describe('Transformer', () => {
   describe('when passing an unknown key into Transform.mopidyCoreMessage', () => {
     it('returns with a skippedTransform message', () => {
       expect.assertions(1)
-      return Transformer.mopidyCoreMessage('unknown', data)
+      return Transformer.mopidyCoreMessage(h('unknown'), data)
         .then(returnData => expect(returnData).toEqual('mopidySkippedTransform: unknown'))
     })
   })
@@ -278,7 +293,7 @@ describe('Transformer', () => {
       data = { tracks: { items: ['item1', 'item2'] } }
       expect.assertions(1)
       TransformSearchResults.mockReturnValue(searchResults)
-      return Transformer.message('search::getTracks', data)
+      return Transformer.message(h('search::getTracks'), data)
         .then(returnData => expect(returnData).toEqual(
           { tracks: { items: ['item1updated', 'item2updated'] } }))
     })
