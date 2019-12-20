@@ -8,6 +8,7 @@ import TransformSearchResults from 'utils/transformer/transformers/spotify/searc
 import NowPlaying from 'handlers/now-playing'
 import settings from 'utils/local-storage'
 import Spotify from 'services/spotify'
+import { addTrack } from 'utils/track'
 
 const clearSetTimeout = (timeout) => {
   clearTimeout(timeout)
@@ -17,8 +18,10 @@ const clearSetTimeout = (timeout) => {
 let recommendTimer
 
 const Transform = {
-  mopidyCoreMessage: (key, data, mopidy) => {
+  mopidyCoreMessage: (headers, data, mopidy) => {
     return new Promise((resolve) => {
+      const { encoded_key: key } = headers
+
       switch (key) {
         case Mopidy.CORE_EVENTS.PLAYBACK_STARTED:
           const payload = TransformTrack(data.tl_track.track)
@@ -49,8 +52,10 @@ const Transform = {
       }
     })
   },
-  message: (key, data) => {
+  message: (headers, data) => {
     return new Promise((resolve) => {
+      const { encoded_key: key, user } = headers
+
       switch (key) {
         case SearchConst.SEARCH_GET_TRACKS:
           const searchResults = data
@@ -71,6 +76,9 @@ const Transform = {
           settings.removeFromArray(Settings.TRACKLIST_LAST_PLAYED, data[0].track.uri)
           return resolve(data)
         case Mopidy.TRACKLIST_ADD:
+          const { data: track } = headers
+          addTrack(track.uri, user)
+          /* falls through */
         case Mopidy.PLAYBACK_NEXT:
         case Mopidy.PLAYBACK_PREVIOUS:
           clearSetTimeout(recommendTimer)

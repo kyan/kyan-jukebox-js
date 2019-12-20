@@ -7,6 +7,7 @@ describe('TransformerTrack', () => {
   describe('when passed the full album track', () => {
     it('transforms the track', () => {
       const albumTrack = payload[0]
+      albumTrack.addedBy = 'duncan'
 
       expect(TransformerTrack(albumTrack)).toEqual({
         track: {
@@ -14,6 +15,7 @@ describe('TransformerTrack', () => {
           name: 'No Time for Caution',
           year: '2014',
           length: 246000,
+          addedBy: 'duncan',
           album: {
             uri: 'spotify:album:5OVGwMCexoHavOar6v4al5',
             name: 'Interstellar: Original Motion Picture Soundtrack (Deluxe Digital Version)',

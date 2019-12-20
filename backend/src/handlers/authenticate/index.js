@@ -32,7 +32,8 @@ const AuthenticateHandler = (payload, ws, broadcaster) => {
           token: token,
           user: {
             _id: data['sub'],
-            fullname: data['name']
+            fullname: data['name'],
+            picture: data['picture']
           }
         }
 

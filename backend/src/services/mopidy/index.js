@@ -58,23 +58,24 @@ const MopidyService = (broadcastToAll, mopidyState, cbAllowConnections) => {
     const key = Payload.decodeKey(encodedKey).pop()
 
     mopidy.on(key, message => {
-      EventLogger({ encoded_key: key }, null, message, MessageType.INCOMING_CORE)
+      const headers = { encoded_key: encodedKey }
+      EventLogger(headers, null, message, MessageType.INCOMING_CORE)
 
-      const packAndSend = (data, key, messageType) => {
-        Transform[messageType](key, data, mopidy).then(unifiedMessage => {
-          broadcastToAll(key, unifiedMessage)
+      const packAndSend = (head, data, messageType) => {
+        Transform[messageType](head, data, mopidy).then(unifiedMessage => {
+          broadcastToAll(head.encoded_key, unifiedMessage)
         })
       }
 
       if (encodedKey === MopidyConstants.CORE_EVENTS.TRACKLIST_CHANGED) {
         mopidy.tracklist.getTracks()
           .then(tracks => {
-            packAndSend(tracks, MopidyConstants.GET_TRACKS, 'message')
+            packAndSend({ encoded_key: MopidyConstants.GET_TRACKS }, tracks, 'message')
             cacheTrackUris(tracks)
             trackListTrimmer(mopidy)
           })
       } else {
-        packAndSend(message, encodedKey, 'mopidyCoreMessage')
+        packAndSend(headers, message, 'mopidyCoreMessage')
       }
     })
   })
