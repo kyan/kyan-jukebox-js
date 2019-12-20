@@ -1,9 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { List, Popup, Icon } from 'semantic-ui-react'
+import { List, Popup, Icon, Image } from 'semantic-ui-react'
 import dateFormat from 'dateformat'
 
-const addedByContent = users => {
+const firstTime = (user) => {
+  if (!user) return 'First time played.'
+
+  return <strong>Added: {dateFormat(user.addedAt, 'dd mmm yyyy @ h:MM tt')}</strong>
+}
+
+const addedByContent = (user, users) => {
   if (users.length) {
     return (
       <List>
@@ -11,7 +17,12 @@ const addedByContent = users => {
           users.map(user => {
             return (
               <List.Item key={user.addedAt}>
-                {user.fullname} on {dateFormat(user.addedAt, 'longDate')}
+                {userPicture(user)}
+                <List.Content>
+                  <List.Description>
+                    <strong>{dateFormat(user.addedAt, 'dd mmm yyyy @ h:MM tt')}</strong> - {user.fullname}
+                  </List.Description>
+                </List.Content>
               </List.Item>
             )
           })
@@ -19,20 +30,26 @@ const addedByContent = users => {
       </List>
     )
   }
-  return 'This is the first play!'
+
+  return firstTime(user)
 }
 
-const currentPlayInfo = user => {
-  return (
-    <span className='added-by'><Icon name='user outline' />{user.fullname}</span>
-  )
+const userPicture = user => {
+  if (user && user.picture) return <Image avatar className='tracklist_avatar_image' src={user.picture} />
+  return <Icon name='spotify' color='green' />
 }
 
 const AddedBy = ({ users = [] }) => {
-  if (!users.length) return <Icon name='spotify' />
-  const curentUser = users[users.length - 1]
-  const previousUSers = users.slice(0, -1)
-  return <Popup content={addedByContent(previousUSers)} trigger={currentPlayInfo(curentUser)} />
+  const currentUser = users[0]
+  const previousUsers = users.slice(0, -1)
+
+  return (
+    <Popup
+      wide
+      content={addedByContent(currentUser, previousUsers)}
+      trigger={userPicture(currentUser)}
+    />
+  )
 }
 
 AddedBy.propTypes = {

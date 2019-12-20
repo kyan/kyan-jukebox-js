@@ -3,6 +3,7 @@ import SettingsConsts from 'constants/settings'
 import EventLogger from 'utils/event-logger'
 import logger from 'config/winston'
 import SpotifyWebApi from 'spotify-web-api-node'
+import { addTrack } from 'utils/track'
 import _ from 'lodash'
 
 const countryCode = 'GB'
@@ -37,6 +38,18 @@ const searchTracks = (params) => {
       api.searchTracks(params.query, options)
         .then((data) => resolve(data.body))
         .catch((error) => logger.error(`searchTracks: ${error.message}`))
+    })
+  })
+}
+
+const getTracks = (uris) => {
+  return new Promise((resolve) => {
+    const trackUris = stripServiceFromUris(uris)
+
+    setupSpotify((api) => {
+      api.getTracks(trackUris, defaultOptions)
+        .then((data) => resolve(data.body))
+        .catch((error) => logger.error(`getTracks: ${error.message}`))
     })
   })
 }
@@ -78,6 +91,8 @@ const getRecommendations = (uris, mopidy) => {
           if (suitableTracks.length > 0) {
             const successHandler = response => {
               if (response) {
+                suitableTracks.forEach(uri => addTrack(uri))
+
                 EventLogger(
                   { encoded_key: 'mopidy.tracklist.add' },
                   { uris: suitableTracks },
@@ -104,18 +119,6 @@ const getRecommendations = (uris, mopidy) => {
   })
 }
 
-const getTrack = (uri) => {
-  const trackUri = stripServiceFromUris([uri])[0]
-
-  return new Promise((resolve) => {
-    setupSpotify((api) => {
-      api.getTrack(trackUri, defaultOptions)
-        .then((data) => resolve(data.body))
-        .catch((error) => logger.error(`getTrack: ${error.message}`))
-    })
-  })
-}
-
 const SpotifyService = {
   canRecommend: (mopidy) => {
     return new Promise((resolve) => {
@@ -137,9 +140,11 @@ const SpotifyService = {
         return reject(new Error(message))
       }
 
-      getTrack(uri).then((track) => {
+      getTracks([uri]).then((response) => {
+        const track = response.tracks[0]
+
         if (track.explicit) {
-          const message = `Is there a radio mix? - ${track.name}`
+          const message = `Not suitable. Is there a radio mix? - ${track.name}`
           return reject(new Error(message))
         }
         return resolve(true)

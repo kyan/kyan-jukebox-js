@@ -65,7 +65,7 @@ describe('MopidyService', () => {
     instance.on.mock.calls[6][1]()
 
     expect(EventLogger.mock.calls[0]).toEqual([
-      { encoded_key: 'event:tracklistChanged' },
+      { encoded_key: 'mopidy::event:tracklistChanged' },
       null,
       undefined,
       'INCOMING MOPIDY [CORE]'
@@ -74,12 +74,13 @@ describe('MopidyService', () => {
     expect(instance.on.mock.calls[7][0]).toEqual('event:volumeChanged')
     instance.on.mock.calls[7][1]({ volume: '10' })
     expect(EventLogger.mock.calls[1]).toEqual([
-      { encoded_key: 'event:volumeChanged' },
+      { encoded_key: 'mopidy::event:volumeChanged' },
       null,
       { 'volume': '10' },
       'INCOMING MOPIDY [CORE]'
     ])
-    expect(Transformer.mopidyCoreMessage.mock.calls[0][0]).toEqual('mopidy::event:volumeChanged')
+    expect(Transformer.mopidyCoreMessage.mock.calls[0][0])
+      .toEqual({ encoded_key: 'mopidy::event:volumeChanged' })
     expect(Transformer.mopidyCoreMessage.mock.calls[0][1]).toEqual({ volume: '10' })
     expect(Transformer.mopidyCoreMessage.mock.calls[0][2]).toEqual(instance)
   })

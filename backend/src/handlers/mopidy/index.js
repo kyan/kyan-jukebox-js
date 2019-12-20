@@ -4,7 +4,6 @@ import ImageCache from './image-cache'
 import MessageType from 'constants/message'
 import Mopidy from 'constants/mopidy'
 import Spotify from 'services/spotify'
-import { addTrack } from 'utils/track'
 
 const StrToFunction = (obj, methodStr) => {
   let context = obj
@@ -47,11 +46,6 @@ const MopidyHandler = (payload, ws, bcast, mopidy) => {
 
         const successHandler = response => {
           logEvent(payload, data, response, MessageType.INCOMING_MOPIDY)
-
-          if (payload.encoded_key === Mopidy.TRACKLIST_ADD) {
-            const { data: track, user } = payload
-            addTrack(track.uri, user)
-          }
 
           if (response) {
             if (obj.addToCache) obj.addToCache(response)
