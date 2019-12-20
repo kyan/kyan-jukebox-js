@@ -27,7 +27,10 @@ describe('Broadcaster', () => {
       const message = 'hello mum'
 
       await broadcaster.to(clientMock, payload, message)
-      expect(Transform.message).toHaveBeenCalledWith('mopidy::playback.next', 'hello mum')
+      expect(Transform.message).toHaveBeenCalledWith(
+        { encoded_key: 'mopidy::playback.next' },
+        'hello mum'
+      )
       expect(sendMock).toHaveBeenCalledWith(
         'message',
         '{"key":"mopidy::playback.next","data":"hello mum"}'
@@ -53,7 +56,10 @@ describe('Broadcaster', () => {
       const message = 'hello mum'
 
       await broadcaster.to(clientMock, payload, message)
-      expect(Transform.message).toHaveBeenCalledWith('mopidy::playback.next', 'hello mum')
+      expect(Transform.message).toHaveBeenCalledWith(
+        { encoded_key: 'mopidy::playback.next', user: 'duncan' },
+        'hello mum'
+      )
       expect(sendMock).toHaveBeenCalledWith(
         'message',
         '{"key":"mopidy::playback.next","data":"hello mum","user":"duncan"}'

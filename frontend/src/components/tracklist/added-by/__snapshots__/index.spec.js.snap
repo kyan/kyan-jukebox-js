@@ -2,7 +2,12 @@
 
 exports[`AddedBy when addedBy information provided and it is the first play displays a current user icon with a popup message 1`] = `
 <Popup
-  content="This is the first play!"
+  content={
+    <strong>
+      Added: 
+      17 Dec 2019 @ 1:11 pm
+    </strong>
+  }
   disabled={false}
   eventsEnabled={true}
   offset={0}
@@ -15,16 +20,15 @@ exports[`AddedBy when addedBy information provided and it is the first play disp
   pinned={false}
   position="top left"
   trigger={
-    <span
-      className="added-by"
-    >
-      <Icon
-        as="i"
-        name="user outline"
-      />
-      Big Rainbowhead
-    </span>
+    <Image
+      as="img"
+      avatar={true}
+      className="tracklist_avatar_image"
+      src="link/to/image"
+      ui={true}
+    />
   }
+  wide={true}
 />
 `;
 
@@ -33,9 +37,22 @@ exports[`AddedBy when addedBy information provided and there is play history dis
   content={
     <List>
       <ListItem>
-        Big Rainbowhead
-         on 
-        December 17, 2019
+        <Image
+          as="img"
+          avatar={true}
+          className="tracklist_avatar_image"
+          src="link/to/image"
+          ui={true}
+        />
+        <ListContent>
+          <ListDescription>
+            <strong>
+              17 Dec 2019 @ 1:11 pm
+            </strong>
+             - 
+            Big Rainbowhead
+          </ListDescription>
+        </ListContent>
       </ListItem>
     </List>
   }
@@ -51,22 +68,39 @@ exports[`AddedBy when addedBy information provided and there is play history dis
   pinned={false}
   position="top left"
   trigger={
-    <span
-      className="added-by"
-    >
-      <Icon
-        as="i"
-        name="user outline"
-      />
-      Big Rainbowhead2
-    </span>
+    <Image
+      as="img"
+      avatar={true}
+      className="tracklist_avatar_image"
+      src="link/to/image"
+      ui={true}
+    />
   }
+  wide={true}
 />
 `;
 
 exports[`AddedBy when no addedBy information provided displays a spotify icon 1`] = `
-<Icon
-  as="i"
-  name="spotify"
+<Popup
+  content="First time played."
+  disabled={false}
+  eventsEnabled={true}
+  offset={0}
+  on={
+    Array [
+      "click",
+      "hover",
+    ]
+  }
+  pinned={false}
+  position="top left"
+  trigger={
+    <Icon
+      as="i"
+      color="green"
+      name="spotify"
+    />
+  }
+  wide={true}
 />
 `;

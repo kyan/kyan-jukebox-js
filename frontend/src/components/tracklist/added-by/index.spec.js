@@ -5,6 +5,7 @@ import AddedBy from './index'
 const firstUser = {
   _id: '123',
   fullname: 'Big Rainbowhead',
+  picture: 'link/to/image',
   addedAt: '2019-12-17T13:11:37.316Z'
 }
 const secondUser = {

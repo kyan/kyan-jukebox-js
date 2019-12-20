@@ -21,5 +21,5 @@ export default {
   SET_VOLUME: 'mopidy::mixer.setVolume',
   GET_VOLUME: 'mopidy::mixer.getVolume',
   EVENT_VOLUME_CHANGED: 'mopidy::event:volumeChanged',
-  VALIDATION_ERROR: 'mopidy::tracklist.validation'
+  VALIDATION_ERROR: 'mopidy::validationError'
 }
