@@ -1,7 +1,9 @@
 import SpotifyService from './index'
 import EventLogger from 'utils/event-logger'
 import logger from 'config/winston'
+import { addTracks } from 'utils/track'
 
+jest.mock('utils/track')
 jest.mock('utils/event-logger')
 jest.mock('config/winston')
 jest.mock('spotify-web-api-node', () => {
@@ -66,6 +68,8 @@ describe('SpotifyService', () => {
             .mockImplementationOnce(() => Promise.resolve('track added OK'))
         }
       }
+      addTracks.mockImplementation(() => Promise.resolve('uris'))
+
       SpotifyService.canRecommend(mopidy)
         .then((result) => {
           expect(result).toEqual(jasmine.any(Function))
@@ -77,18 +81,24 @@ describe('SpotifyService', () => {
           ]
           result(uris, mopidy)
             .then((result) => {
-              expect(result).toBeUndefined()
-              expect(EventLogger).toHaveBeenCalledWith(
-                { encoded_key: 'mopidy.tracklist.add' },
-                { uris: [
-                  'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt',
-                  'spotify:track:7LzeKqmOtpKVKJ1dmalkC0',
-                  'spotify:track:1Ut1A8UaNqGuwsHgWq75PW'
-                ] },
-                'track added OK',
-                'APIRequest'
-              )
-              done()
+              setTimeout(() => {
+                try {
+                  expect(result).toBeUndefined()
+                  expect(EventLogger).toHaveBeenCalledWith(
+                    { encoded_key: 'mopidy.tracklist.add' },
+                    { uris: [
+                      'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt',
+                      'spotify:track:7LzeKqmOtpKVKJ1dmalkC0',
+                      'spotify:track:1Ut1A8UaNqGuwsHgWq75PW'
+                    ] },
+                    'track added OK',
+                    'APIRequest'
+                  )
+                  done()
+                } catch (err) {
+                  done.fail(err)
+                }
+              })
             })
         })
     })
