@@ -9,20 +9,25 @@ export function findTracks (uris) {
   })
 }
 
-export function addTrack (uri, user) {
-  const brh = {
-    fullname: 'BRH',
-    picture: 'https://cdn-images-1.medium.com/fit/c/200/200/1*bFBXYvskkPFI9nPx6Elwxg.png'
-  }
-
-  Track.updateOne({ _id: uri },
-    { $push: { addedBy: { ...(user || brh), addedAt: new Date() } } },
-    { upsert: true }, // Create a new Track if it doesn't exist
-    (err, track) => {
-      if (err) { logger.error('Updated track', { message: err.message }) }
-      if (track) { logger.info('Updated track', track) }
+export function addTracks (uris, user) {
+  return new Promise((resolve) => {
+    const brh = {
+      fullname: 'BRH',
+      picture: 'https://cdn-images-1.medium.com/fit/c/200/200/1*bFBXYvskkPFI9nPx6Elwxg.png'
     }
-  )
+
+    const requests = uris.map((uri) => (
+      Track.updateOne(
+        { _id: uri },
+        { $push: { addedBy: { ...(user || brh), addedAt: new Date() } } },
+        { upsert: true } // Create a new Track if it doesn't exist
+      ).exec()
+    ))
+
+    Promise.all(requests)
+      .then(() => resolve(uris))
+      .catch((error) => logger.error('addTracks', { message: error.message }))
+  })
 }
 
-export default { findTracks, addTrack }
+export default { findTracks, addTracks }
