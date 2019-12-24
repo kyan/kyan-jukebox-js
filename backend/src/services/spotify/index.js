@@ -3,7 +3,7 @@ import SettingsConsts from 'constants/settings'
 import EventLogger from 'utils/event-logger'
 import logger from 'config/winston'
 import SpotifyWebApi from 'spotify-web-api-node'
-import { addTrack } from 'utils/track'
+import { addTracks } from 'utils/track'
 import _ from 'lodash'
 
 const countryCode = 'GB'
@@ -91,8 +91,6 @@ const getRecommendations = (uris, mopidy) => {
           if (suitableTracks.length > 0) {
             const successHandler = response => {
               if (response) {
-                suitableTracks.forEach(uri => addTrack(uri))
-
                 EventLogger(
                   { encoded_key: 'mopidy.tracklist.add' },
                   { uris: suitableTracks },
@@ -106,7 +104,9 @@ const getRecommendations = (uris, mopidy) => {
               logger.error('failureHandler: ', error.message)
             }
 
-            mopidy.tracklist.add({ uris: suitableTracks }).then(successHandler, failureHandler)
+            addTracks(suitableTracks).then((uris) => {
+              mopidy.tracklist.add({ uris: uris }).then(successHandler, failureHandler)
+            })
           }
 
           resolve()

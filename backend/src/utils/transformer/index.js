@@ -8,7 +8,7 @@ import TransformSearchResults from 'utils/transformer/transformers/spotify/searc
 import NowPlaying from 'handlers/now-playing'
 import settings from 'utils/local-storage'
 import Spotify from 'services/spotify'
-import { addTrack } from 'utils/track'
+import { addTracks } from 'utils/track'
 
 const clearSetTimeout = (timeout) => {
   clearTimeout(timeout)
@@ -77,7 +77,7 @@ const Transform = {
           return resolve(data)
         case Mopidy.TRACKLIST_ADD:
           const { data: track } = headers
-          addTrack(track.uri, user)
+          addTracks([track.uri], user)
           /* falls through */
         case Mopidy.PLAYBACK_NEXT:
         case Mopidy.PLAYBACK_PREVIOUS:
