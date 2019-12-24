@@ -1,12 +1,12 @@
-import { findTracks, addTrack } from './index'
+import { findTracks, addTracks } from './index'
 import Track from 'services/mongodb/models/track'
 import logger from 'config/winston'
 jest.mock('config/winston')
 jest.mock('services/mongodb/models/track')
 
 const userObject = {
-  _id: '123',
-  fullname: 'Big Rainbowhead'
+  _id: '999',
+  fullname: 'Fred Spanner'
 }
 
 describe('trackUtils', () => {
@@ -38,38 +38,92 @@ describe('trackUtils', () => {
 
   describe('#addTrack', () => {
     const trackObject = { trackUri: '123' }
+    const fakeDate = new Date(1222222224332)
 
-    it('makes a call to updateOne Track document', () => {
-      expect.assertions(3)
-      Track.updateOne.mockResolvedValue(trackObject)
-      const dateSpy = jest.spyOn(global, 'Date')
-      addTrack('123', userObject)
-      expect(Track.updateOne).toHaveBeenCalledWith(
-        { '_id': '123' },
-        { '$push': { addedBy: { _id: '123', addedAt: dateSpy.mock.instances[0], fullname: 'Big Rainbowhead' } } },
-        { upsert: true },
-        expect.any(Function)
-      )
-      Track.updateOne.mock.calls[0][3](null, trackObject)
-      expect(logger.info).toHaveBeenCalledWith('Updated track', { trackUri: '123' })
-      Track.updateOne.mock.calls[0][3](new Error('bang'), null)
-      expect(logger.error).toHaveBeenCalledWith('Updated track', { message: 'bang' })
+    it('makes a call to updateOne Track document via user', done => {
+      expect.assertions(2)
+      Track.updateOne.mockImplementation(() => {
+        return {
+          exec: jest.fn().mockResolvedValue(trackObject)
+        }
+      })
+      const demoUris = ['123', '456']
+      jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
+      addTracks(demoUris, userObject).then((uris) => {
+        setTimeout(() => {
+          try {
+            expect(uris).toEqual(demoUris)
+            expect(Track.updateOne.mock.calls[0]).toEqual([
+              { _id: '123' },
+              { $push: {
+                addedBy: {
+                  _id: '999',
+                  addedAt: fakeDate,
+                  fullname: 'Fred Spanner'
+                }
+              }
+              },
+              { upsert: true }
+            ])
+            done()
+          } catch (err) {
+            done.fail(err)
+          }
+        })
+      })
     })
 
-    it('makes a call to updateOne Track document without user', () => {
-      expect.assertions(3)
-      Track.updateOne.mockResolvedValue(trackObject)
-      addTrack('123', null)
-      expect(Track.updateOne).toHaveBeenCalledWith(
-        {'_id': '123'},
-        { '$push': { addedBy: { addedAt: {}, fullname: 'BRH', picture: 'https://cdn-images-1.medium.com/fit/c/200/200/1*bFBXYvskkPFI9nPx6Elwxg.png' } } },
-        { upsert: true },
-        expect.any(Function)
-      )
-      Track.updateOne.mock.calls[0][3](null, trackObject)
-      expect(logger.info).toHaveBeenCalledWith('Updated track', { trackUri: '123' })
-      Track.updateOne.mock.calls[0][3](new Error('bang'), null)
-      expect(logger.error).toHaveBeenCalledWith('Updated track', { message: 'bang' })
+    it('makes a call to updateOne Track document via BRH', done => {
+      expect.assertions(2)
+      Track.updateOne.mockImplementation(() => {
+        return {
+          exec: jest.fn().mockResolvedValue(trackObject)
+        }
+      })
+      const demoUris = ['123', '456']
+      jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
+      addTracks(demoUris).then((uris) => {
+        setTimeout(() => {
+          try {
+            expect(uris).toEqual(demoUris)
+            expect(Track.updateOne.mock.calls[0]).toEqual([
+              { _id: '123' },
+              { $push: {
+                addedBy: {
+                  addedAt: fakeDate,
+                  fullname: 'BRH',
+                  picture: 'https://cdn-images-1.medium.com/fit/c/200/200/1*bFBXYvskkPFI9nPx6Elwxg.png'
+                }
+              }
+              },
+              { upsert: true }
+            ])
+            done()
+          } catch (err) {
+            done.fail(err)
+          }
+        })
+      })
+    })
+
+    it('makes a call to updateOne Track document and errors', done => {
+      expect.assertions(1)
+      Track.updateOne.mockImplementation(() => {
+        return {
+          exec: jest.fn().mockRejectedValue(new Error('boom'))
+        }
+      })
+      const demoUris = ['123', '456']
+      jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
+      addTracks(demoUris)
+      setTimeout(() => {
+        try {
+          expect(logger.error).toHaveBeenCalledWith('addTracks', { message: 'boom' })
+          done()
+        } catch (err) {
+          done.fail(err)
+        }
+      })
     })
   })
 })
