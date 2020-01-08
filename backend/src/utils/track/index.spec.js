@@ -1,8 +1,10 @@
-import { findTracks, addTracks } from './index'
+import { findTracks, addTracks, findImages } from './index'
 import Track from 'services/mongodb/models/track'
+import Image from 'services/mongodb/models/image'
 import logger from 'config/winston'
 jest.mock('config/winston')
 jest.mock('services/mongodb/models/track')
+jest.mock('services/mongodb/models/image')
 
 const userObject = {
   _id: '999',
@@ -10,11 +12,11 @@ const userObject = {
 }
 
 describe('trackUtils', () => {
-  describe('#findTracks', () => {
-    afterEach(() => {
-      jest.clearAllMocks()
-    })
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
 
+  describe('#findTracks', () => {
     it('makes a call to findOne Track document', () => {
       expect.assertions(1)
       Track.find.mockResolvedValue([{ _id: '123' }])
@@ -31,6 +33,28 @@ describe('trackUtils', () => {
       expect.assertions(1)
       Track.find.mockRejectedValue(new Error('bang'))
       return findTracks('123').catch((error) => {
+        expect(error.message).toEqual('bang')
+      })
+    })
+  })
+
+  describe('#findImages', () => {
+    it('makes a call to findImages', () => {
+      expect.assertions(1)
+      Image.find.mockResolvedValue([{ _id: '123' }])
+      return findImages('123').then(() => {
+        expect(Image.find).toHaveBeenCalledWith({
+          uri: {
+            $in: '123'
+          }
+        })
+      })
+    })
+
+    it('handles errors', () => {
+      expect.assertions(1)
+      Image.find.mockRejectedValue(new Error('bang'))
+      return findImages('uri123').catch((error) => {
         expect(error.message).toEqual('bang')
       })
     })

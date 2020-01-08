@@ -20,10 +20,6 @@ const isValidTrack = (key, data) => {
   return Spotify.validateTrack(data.uri)
 }
 
-const sendToClient = (bcast, ws, payload, data) => {
-  bcast.to(ws, payload, data)
-}
-
 const logEvent = (headers, params, response, context) => {
   EventLogger({ encoded_key: headers.encoded_key }, params, response, context)
 }
@@ -39,7 +35,7 @@ const MopidyHandler = (payload, ws, bcast, mopidy) => {
       payload.encoded_key, data
     ).then((obj) => {
       if (obj.image) {
-        sendToClient(bcast, ws, payload, obj.image)
+        bcast.to(ws, payload, obj.image, MessageType.IMAGE)
       } else {
         const apiCall = StrToFunction(mopidy, key)
         logEvent(payload, data, null, MessageType.OUTGOING_MOPIDY)
@@ -51,7 +47,7 @@ const MopidyHandler = (payload, ws, bcast, mopidy) => {
             if (obj.addToCache) obj.addToCache(response)
           }
 
-          sendToClient(bcast, ws, payload, response)
+          bcast.to(ws, payload, response)
         }
 
         (data ? apiCall(data) : apiCall())
@@ -61,7 +57,7 @@ const MopidyHandler = (payload, ws, bcast, mopidy) => {
     })
   }).catch((err) => {
     payload.encoded_key = Mopidy.VALIDATION_ERROR
-    sendToClient(bcast, ws, payload, err.message)
+    bcast.to(ws, payload, err.message)
   })
 }
 

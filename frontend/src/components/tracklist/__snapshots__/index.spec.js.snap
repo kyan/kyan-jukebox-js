@@ -13,7 +13,7 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
       className="current-image"
       inline={true}
       size="tiny"
-      src="album-image.jpg"
+      src="http://path/to/cool/image.png"
       ui={true}
     />
     <ListContent
@@ -48,7 +48,48 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
   </ListItem>
   <ListItem
     className=""
-    key="1-local:track:Soundtracks/Silent%20Running%20OST/Silent%20Running%20"
+    key="1-spotify:track:1yzSSn5Sj1azuo7Rgwvdunc"
+  >
+    <Image
+      as="img"
+      inline={true}
+      size="tiny"
+      src="default-artwork.png"
+      ui={true}
+    />
+    <ListContent
+      className=""
+    >
+      <ListHeader
+        as="h4"
+      >
+        Is this sucker going live anytime soon
+      </ListHeader>
+      <ListDescription>
+        The chancer
+         
+        <small>
+          (
+          4:06
+          )
+        </small>
+      </ListDescription>
+      <AddedBy
+        users={
+          Array [
+            Object {
+              "_id": "666",
+              "addedAt": "2019-12-17T13:11:37.316Z",
+              "fullname": "Duncan Robertson",
+            },
+          ]
+        }
+      />
+    </ListContent>
+  </ListItem>
+  <ListItem
+    className=""
+    key="2-soundcloud:track:5OVGwMCexoHacompose"
   >
     <Image
       as="img"
@@ -93,7 +134,7 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
       className="current-image"
       inline={true}
       size="tiny"
-      src="album-image.jpg"
+      src="http://path/to/cool/image.png"
       ui={true}
     />
     <ListContent
@@ -128,7 +169,51 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
   </ListItem>
   <ListItem
     className=""
-    key="1-local:track:Soundtracks/Silent%20Running%20OST/Silent%20Running%20"
+    key="1-spotify:track:1yzSSn5Sj1azuo7Rgwvdunc"
+  >
+    <Image
+      as="img"
+      className="remove-image"
+      inline={true}
+      onClick={[Function]}
+      size="tiny"
+      src="default-artwork.png"
+      title="Click to remove from playlist"
+      ui={true}
+    />
+    <ListContent
+      className=""
+    >
+      <ListHeader
+        as="h4"
+      >
+        Is this sucker going live anytime soon
+      </ListHeader>
+      <ListDescription>
+        The chancer
+         
+        <small>
+          (
+          4:06
+          )
+        </small>
+      </ListDescription>
+      <AddedBy
+        users={
+          Array [
+            Object {
+              "_id": "666",
+              "addedAt": "2019-12-17T13:11:37.316Z",
+              "fullname": "Duncan Robertson",
+            },
+          ]
+        }
+      />
+    </ListContent>
+  </ListItem>
+  <ListItem
+    className=""
+    key="2-soundcloud:track:5OVGwMCexoHacompose"
   >
     <Image
       as="img"
@@ -177,7 +262,7 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
       inline={true}
       onClick={[Function]}
       size="mini"
-      src="default-artwork.png"
+      src="http://path/to/cool/image.png"
       title="Click to remove from playlist"
       ui={true}
     />
@@ -213,7 +298,51 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
   </ListItem>
   <ListItem
     className=""
-    key="1-local:track:Soundtracks/Silent%20Running%20OST/Silent%20Running%20"
+    key="1-spotify:track:1yzSSn5Sj1azuo7Rgwvdunc"
+  >
+    <Image
+      as="img"
+      className="remove-image"
+      inline={true}
+      onClick={[Function]}
+      size="mini"
+      src="default-artwork.png"
+      title="Click to remove from playlist"
+      ui={true}
+    />
+    <ListContent
+      className="track-info"
+    >
+      <ListHeader
+        as="h4"
+      >
+        Is this sucker going live anytime soon
+      </ListHeader>
+      <ListDescription>
+        The chancer
+         
+        <small>
+          (
+          4:06
+          )
+        </small>
+      </ListDescription>
+      <AddedBy
+        users={
+          Array [
+            Object {
+              "_id": "666",
+              "addedAt": "2019-12-17T13:11:37.316Z",
+              "fullname": "Duncan Robertson",
+            },
+          ]
+        }
+      />
+    </ListContent>
+  </ListItem>
+  <ListItem
+    className=""
+    key="2-soundcloud:track:5OVGwMCexoHacompose"
   >
     <Image
       as="img"
