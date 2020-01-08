@@ -130,29 +130,31 @@ describe('JukeboxMiddleware', () => {
       ])
 
       // fetch image not in the cache
-      store.clearActions()
+      mockEmit.mockClear()
       JukeboxMiddleware(store)(next)({
-        type: Constants.SEND,
+        type: Constants.IMAGE_REQUEST,
         key: MopidyApi.LIBRARY_GET_IMAGES,
         params: 'params',
         uri: '12345678'
       })
-      actions = store.getActions()
-      expect(actions).toEqual([{ type: 'actionNewImage', uri: '12345678' }])
+      expect(mockEmit.mock.calls).toEqual([['message', '{"jwt":"token","key":"mopidy::library.getImages","data":"params"}']])
 
-      // fetch image already in the cache
+      // don't fetch image already in the cache
       store.clearActions()
+      mockEmit.mockClear()
       const imageInStore = mockStore({
-        assets: [{ ref: 'imageincache', uri: 'image123' }]
+        assets: { 'imageincache': 'image123' },
+        settings: { token: 'token' }
       })
       JukeboxMiddleware(imageInStore)(next)({
-        type: Constants.SEND,
+        type: Constants.IMAGE_REQUEST,
         key: MopidyApi.LIBRARY_GET_IMAGES,
         params: 'params',
         uri: 'imageincache'
       })
       actions = store.getActions()
       expect(actions).toEqual([])
+      expect(mockEmit.mock.calls).toEqual([])
 
       // send message with params
       mockEmit.mockClear()

@@ -22,7 +22,7 @@ app.use(morgan('combined', { stream: logger.stream }))
 const server = http.createServer(app)
 const socketio = io(server, { pingTimeout: 30000 })
 
-const broadcastToAll = (key, message) => Broadcaster.toAllGeneric(socketio, key, message)
+const broadcastToAll = (key, message) => Broadcaster.toAll(socketio, key, message)
 const broadcastMopidyStateChange = (online) => Broadcaster.toAllMopidy(socketio, { online })
 const allowSocketConnections = (mopidy) => {
   Scheduler.scheduleAutoPlayback({ stop: () => mopidy.playback.stop() })

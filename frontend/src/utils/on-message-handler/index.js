@@ -34,7 +34,9 @@ const imageUriChooser = (track) => {
 
 const addCurrentTrack = (track, store, progress) => {
   store.dispatch(actions.addCurrentTrack(track))
-  store.dispatch(actions.getImage(imageUriChooser(track)))
+  if (!track.image) {
+    store.dispatch(actions.getImage(imageUriChooser(track)))
+  }
   const progressTimer = progress.set(0, track.length)
   if (store.getState().jukebox.playbackState === MopidyApi.PLAYING) progressTimer.start()
 }
@@ -42,7 +44,9 @@ const addCurrentTrack = (track, store, progress) => {
 const addTrackList = (tracklist, store) => {
   store.dispatch(actions.addTrackList(tracklist))
   tracklist.forEach(item => {
-    store.dispatch(actions.getImage(imageUriChooser(item.track)))
+    if (!item.track.image) {
+      store.dispatch(actions.getImage(imageUriChooser(item.track)))
+    }
   })
 }
 

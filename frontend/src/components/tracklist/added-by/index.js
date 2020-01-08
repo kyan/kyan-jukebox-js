@@ -3,13 +3,7 @@ import PropTypes from 'prop-types'
 import { List, Popup, Icon, Image } from 'semantic-ui-react'
 import dateFormat from 'dateformat'
 
-const firstTime = (user) => {
-  if (!user) return 'First time played.'
-
-  return <strong>Added: {dateFormat(user.addedAt, 'dd mmm yyyy @ h:MM tt')}</strong>
-}
-
-const addedByContent = (user, users) => {
+const addedByContent = (users) => {
   if (users.length) {
     return (
       <List>
@@ -31,7 +25,7 @@ const addedByContent = (user, users) => {
     )
   }
 
-  return firstTime(user)
+  return 'First time played.'
 }
 
 const userPicture = user => {
@@ -40,14 +34,11 @@ const userPicture = user => {
 }
 
 const AddedBy = ({ users = [] }) => {
-  const currentUser = users[0]
-  const previousUsers = users.slice(0, -1)
-
   return (
     <Popup
       wide
-      content={addedByContent(currentUser, previousUsers)}
-      trigger={userPicture(currentUser)}
+      content={addedByContent(users)}
+      trigger={userPicture(users[0])}
     />
   )
 }

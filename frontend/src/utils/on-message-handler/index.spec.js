@@ -37,7 +37,7 @@ describe('onMessageHandler', () => {
     it('checks track playing', () => {
       const payload = {
         data: {
-          track: MockTrackListJson()[0].track
+          track: MockTrackListJson()[1].track
         },
         key: MopidyApi.PLAYBACK_GET_CURRENT_TRACK
       }
@@ -55,7 +55,7 @@ describe('onMessageHandler', () => {
       expect(actions[1]).toEqual({
         key: 'mopidy::library.getImages',
         params: [[payload.data.track.album.uri]],
-        type: 'actionSend',
+        type: 'actionRequestImage',
         uri: payload.data.track.album.uri
       })
       expect(progressStartMock.mock.calls.length).toEqual(1)
@@ -80,12 +80,7 @@ describe('onMessageHandler', () => {
         track: payload.data.track,
         type: 'actionAddCurrentTrack'
       })
-      expect(actions[1]).toEqual({
-        key: 'mopidy::library.getImages',
-        params: [[payload.data.track.album.uri]],
-        type: 'actionSend',
-        uri: payload.data.track.album.uri
-      })
+      expect(actions.length).toEqual(1)
       expect(progressStartMock.mock.calls.length).toEqual(0)
       progressStartMock.mockClear()
     })
@@ -102,14 +97,14 @@ describe('onMessageHandler', () => {
       })
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
-      expect(actions).toEqual([])
+      expect(actions.length).toEqual(0)
       expect(progressStartMock.mock.calls.length).toEqual(0)
       progressStartMock.mockClear()
     })
   })
 
   describe('EVENT_TRACK_PLAYBACK_STARTED', () => {
-    it('checks track playing', () => {
+    it('checks track playing with image provided in payload', () => {
       const payload = {
         data: {
           track: MockTrackListJson()[0].track
@@ -127,10 +122,33 @@ describe('onMessageHandler', () => {
         track: payload.data.track,
         type: 'actionAddCurrentTrack'
       })
+      expect(actions.length).toEqual(1)
+      expect(progressStartMock.mock.calls.length).toEqual(1)
+      progressStartMock.mockClear()
+    })
+
+    it('checks track playing with no image provided in payload', () => {
+      const payload = {
+        data: {
+          track: MockTrackListJson()[1].track
+        },
+        key: MopidyApi.EVENT_TRACK_PLAYBACK_STARTED
+      }
+      const store = mockStore({
+        jukebox: {
+          playbackState: 'playing'
+        }
+      })
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions[0]).toEqual({
+        track: payload.data.track,
+        type: 'actionAddCurrentTrack'
+      })
       expect(actions[1]).toEqual({
         key: 'mopidy::library.getImages',
         params: [[payload.data.track.album.uri]],
-        type: 'actionSend',
+        type: 'actionRequestImage',
         uri: payload.data.track.album.uri
       })
       expect(progressStartMock.mock.calls.length).toEqual(1)
@@ -195,7 +213,7 @@ describe('onMessageHandler', () => {
       })
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
-      expect(actions).toEqual([])
+      expect(actions.length).toEqual(0)
       expect(progressStartMock.mock.calls.length).toEqual(0)
       expect(progressStopMock.mock.calls.length).toEqual(0)
     })
@@ -216,16 +234,17 @@ describe('onMessageHandler', () => {
       })
       expect(actions[1]).toEqual({
         key: 'mopidy::library.getImages',
-        params: [['spotify:album:5OVGwMCexoHavOar6v4al5']],
-        type: 'actionSend',
-        uri: 'spotify:album:5OVGwMCexoHavOar6v4al5'
+        params: [['spotify:album:5OVGwMCexoHavOar6vdunc']],
+        type: 'actionRequestImage',
+        uri: 'spotify:album:5OVGwMCexoHavOar6vdunc'
       })
       expect(actions[2]).toEqual({
         key: 'mopidy::library.getImages',
-        params: [['local:artist:md5:af20b04e7ff55f56afec2be1f36afe94']],
-        type: 'actionSend',
-        uri: 'local:artist:md5:af20b04e7ff55f56afec2be1f36afe94'
+        params: [['soundcloud:album:5OVGwMCexoHacompose']],
+        type: 'actionRequestImage',
+        uri: 'soundcloud:album:5OVGwMCexoHacompose'
       })
+      expect(actions.length).toEqual(3)
     })
   })
 
@@ -233,9 +252,7 @@ describe('onMessageHandler', () => {
     it('handles resolving', () => {
       const payload = {
         key: MopidyApi.LIBRARY_GET_IMAGES,
-        data: {
-          track: MockTrackListJson()[0].track
-        }
+        image: { 'spotify1': 'path/to/url/1' }
       }
       const store = mockStore({})
       onMessageHandler(store, JSON.stringify(payload), progress)
