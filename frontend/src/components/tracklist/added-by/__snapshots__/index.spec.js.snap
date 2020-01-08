@@ -3,10 +3,26 @@
 exports[`AddedBy when addedBy information provided and it is the first play displays a current user icon with a popup message 1`] = `
 <Popup
   content={
-    <strong>
-      Added: 
-      17 Dec 2019 @ 1:11 pm
-    </strong>
+    <List>
+      <ListItem>
+        <Image
+          as="img"
+          avatar={true}
+          className="tracklist_avatar_image"
+          src="link/to/image"
+          ui={true}
+        />
+        <ListContent>
+          <ListDescription>
+            <strong>
+              17 Dec 2019 @ 1:11 pm
+            </strong>
+             - 
+            Big Rainbowhead
+          </ListDescription>
+        </ListContent>
+      </ListItem>
+    </List>
   }
   disabled={false}
   eventsEnabled={true}
@@ -51,6 +67,22 @@ exports[`AddedBy when addedBy information provided and there is play history dis
             </strong>
              - 
             Big Rainbowhead
+          </ListDescription>
+        </ListContent>
+      </ListItem>
+      <ListItem>
+        <Icon
+          as="i"
+          color="green"
+          name="spotify"
+        />
+        <ListContent>
+          <ListDescription>
+            <strong>
+              17 Dec 2019 @ 1:11 pm
+            </strong>
+             - 
+            Big Rainbowhead2
           </ListDescription>
         </ListContent>
       </ListItem>

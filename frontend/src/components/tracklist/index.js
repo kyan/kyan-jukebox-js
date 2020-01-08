@@ -39,8 +39,9 @@ const removeTrack = (uri, cb) => {
 
 const imageChooser = (disabled, track, images, isCurrent, onRemoveTrack, hasBeenPlayed) => {
   let image
-  if (images && track.album) image = images[track.album.uri]
-  if (images && track.composer) image = images[track.composer.uri]
+  if (track.image) image = track.image
+  if (!image && images && track.album) image = images[track.album.uri]
+  if (!image && images && track.composer) image = images[track.composer.uri]
   if (!image) image = defaultImage
 
   return trackImage({

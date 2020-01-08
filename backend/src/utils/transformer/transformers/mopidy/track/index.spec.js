@@ -8,11 +8,13 @@ describe('TransformerTrack', () => {
     it('transforms the track', () => {
       const albumTrack = payload[0]
       albumTrack.addedBy = 'duncan'
+      albumTrack.image = 'http://path/to/image'
 
       expect(TransformerTrack(albumTrack)).toEqual({
         track: {
           uri: 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3',
           name: 'No Time for Caution',
+          image: 'http://path/to/image',
           year: '2014',
           length: 246000,
           addedBy: 'duncan',

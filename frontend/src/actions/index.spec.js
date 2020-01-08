@@ -131,7 +131,7 @@ describe('actions', () => {
   it('should handle getImage', () => {
     const uri = 'spotify:track:0c41pMosF5Kqwwegcps8ES'
     const expectedAction = {
-      type: Types.SEND,
+      type: Types.IMAGE_REQUEST,
       key: MopidyApi.LIBRARY_GET_IMAGES,
       params: [[uri]],
       uri
@@ -139,22 +139,13 @@ describe('actions', () => {
     expect(actions.getImage(uri)).toEqual(expectedAction)
   })
 
-  it('should handle newImage', () => {
-    const uri = 'spotify:track:0c41pMosF5Kqwwegcps8ES'
-    const expectedAction = {
-      type: Types.NEW_IMAGE,
-      uri
-    }
-    expect(actions.newImage(uri)).toEqual(expectedAction)
-  })
-
   it('should handle resolveImage', () => {
-    const data = 'spotify:track:0c41pMosF5Kqwwegcps8ES'
+    const image = { 'spotify:track:0c41pMosF5Kqwwegcps8ES': 'path/to/image' }
     const expectedAction = {
       type: Types.RESOLVE_IMAGE,
-      data
+      image
     }
-    expect(actions.resolveImage(data)).toEqual(expectedAction)
+    expect(actions.resolveImage(image)).toEqual(expectedAction)
   })
 
   it('should handle getTrackList', () => {

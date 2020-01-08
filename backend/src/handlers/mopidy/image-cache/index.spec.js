@@ -54,7 +54,7 @@ describe('ImageCache', () => {
       ImageCache.check('mopidy::library.getImages', [['uri123']])
         .then((result) => {
           expect(result).toEqual({ image: 'cached123' })
-          expect(logger.info).toHaveBeenCalledWith('Using cache', { key: 'mopidy::library.getImages#uri123' })
+          expect(logger.info).toHaveBeenCalledWith('FOUND CACHED IMAGE', { key: 'uri123' })
           done()
         })
     })

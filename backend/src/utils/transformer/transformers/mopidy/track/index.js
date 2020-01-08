@@ -7,6 +7,10 @@ export default function (json) {
     length: json.length || json.duration_ms
   }
 
+  if (json.image) {
+    payload.image = json.image
+  }
+
   if (json.album) {
     payload.album = {
       uri: json.album.uri,
@@ -14,7 +18,7 @@ export default function (json) {
       year: json.album.date
     }
 
-    if (json.album.images && json.album.images.length > 0) {
+    if (!payload.image && json.album.images && json.album.images.length > 0) {
       payload.image = json.album.images[0].url
     }
   }

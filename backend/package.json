@@ -50,7 +50,15 @@
       "!src/app.js",
       "!src/constants/*.js",
       "!src/config/*.js"
-    ]
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    }
   },
   "standard": {
     "parser": "babel-eslint",

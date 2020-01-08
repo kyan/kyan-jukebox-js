@@ -1,10 +1,25 @@
 import Track from 'services/mongodb/models/track'
+import Image from 'services/mongodb/models/image'
 import logger from 'config/winston'
 
 export function findTracks (uris) {
   return new Promise((resolve, reject) => {
-    Track.find({'_id': { $in: uris }})
-      .then(tracks => resolve(tracks))
+    Track.find({ _id: { $in: uris } })
+      .then(tracks => {
+        logger.info('FOUND CACHED TRACKS', { keys: uris })
+        return resolve(tracks)
+      })
+      .catch(err => reject(err))
+  })
+}
+
+export function findImages (uris) {
+  return new Promise((resolve, reject) => {
+    Image.find({ uri: { $in: uris } })
+      .then(images => {
+        logger.info('FOUND CACHED IMAGES', { keys: uris })
+        return resolve(images)
+      })
       .catch(err => reject(err))
   })
 }
@@ -30,4 +45,4 @@ export function addTracks (uris, user) {
   })
 }
 
-export default { findTracks, addTracks }
+export default { findTracks, findImages, addTracks }

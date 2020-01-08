@@ -202,7 +202,7 @@ describe('MopidyHandler', () => {
     const mopidy = 'mopidy'
     const payload = { encoded_key: 'mopidy::library.getImages', data: [['12345zsdf23456']] }
     const trackMock = jest.fn().mockResolvedValue()
-    const cacheMock = jest.fn().mockResolvedValue({ image: 'image' })
+    const cacheMock = jest.fn().mockResolvedValue({ image: 'cachedImageData' })
     jest.spyOn(Spotify, 'validateTrack').mockImplementation(trackMock)
     jest.spyOn(ImageCache, 'check').mockImplementation(cacheMock)
 
@@ -215,6 +215,7 @@ describe('MopidyHandler', () => {
         expect(broadcastMock).toHaveBeenCalledWith(
           ws,
           { data: [['12345zsdf23456']], encoded_key: 'mopidy::library.getImages' },
+          'cachedImageData',
           'image'
         )
         done()
