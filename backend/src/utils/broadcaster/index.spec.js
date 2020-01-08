@@ -89,7 +89,7 @@ describe('Broadcaster', () => {
     })
   })
 
-  describe('#toAllGeneric', () => {
+  describe('#toAll', () => {
     it('handles call', () => {
       const sendMock = jest.fn()
       const socketMock = {
@@ -98,7 +98,7 @@ describe('Broadcaster', () => {
       const key = 'mopidy::playback.next'
       const message = 'hello mum'
 
-      broadcaster.toAllGeneric(socketMock, key, message)
+      broadcaster.toAll(socketMock, key, message)
       expect(sendMock.mock.calls.length).toEqual(1)
       expect(sendMock.mock.calls[0][0]).toEqual('message')
       expect(sendMock.mock.calls[0][1]).toEqual('{"key":"mopidy::playback.next","data":"hello mum"}')
@@ -116,7 +116,7 @@ describe('Broadcaster', () => {
       const key = 'mopidy::playback.next'
       const message = 'hello mum'
 
-      broadcaster.toAllGeneric(socketMock, key, message)
+      broadcaster.toAll(socketMock, key, message)
       expect(sendMock.mock.calls[0]).toEqual(['message', '{"key":"mopidy::playback.next","data":"hello mum"}'])
       expect(logger.error.mock.calls[0][0]).toEqual('Broadcaster#toAll')
       expect(logger.error.mock.calls[0][1]).toEqual({ message: 'oops' })
@@ -149,7 +149,7 @@ describe('Broadcaster', () => {
 
       broadcaster.toAllMopidy(socketMock, message)
       expect(sendMock.mock.calls[0]).toEqual(['mopidy', '{"online":false}'])
-      expect(logger.error.mock.calls[0][0]).toEqual('Broadcaster#toAll')
+      expect(logger.error.mock.calls[0][0]).toEqual('Broadcaster#toAllMopidy')
       expect(logger.error.mock.calls[0][1]).toEqual({ message: 'oops' })
     })
   })

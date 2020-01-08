@@ -84,9 +84,12 @@ const Transform = {
           clearSetTimeout(recommendTimer)
           if (data && data.length > 0) return resolve(TransformTrack(data[0].track))
           return resolve()
+        case Mopidy.LIBRARY_GET_IMAGES:
+          const uri = Object.keys(data)[0]
+          const image = data[uri][0].uri
+          return resolve({ [uri]: image })
         case Mopidy.TRACKLIST_CLEAR:
         case Mopidy.CONNECTION_ERROR:
-        case Mopidy.LIBRARY_GET_IMAGES:
         case Mopidy.MIXER_GET_VOLUME:
         case Mopidy.MIXER_SET_VOLUME:
         case Mopidy.PLAYBACK_GET_TIME_POSITION:

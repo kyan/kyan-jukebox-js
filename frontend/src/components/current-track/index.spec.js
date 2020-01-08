@@ -44,7 +44,7 @@ describe('CurrentTrack', () => {
 
     describe('composer', () => {
       it('renders track', () => {
-        track = MockTrackListJson()[1].track
+        track = MockTrackListJson()[2].track
         wrapper = shallow(
           <CurrentTrack
             track={track}

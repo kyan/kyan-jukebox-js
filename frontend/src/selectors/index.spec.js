@@ -1,11 +1,11 @@
 import * as selectors from './index'
 
 describe('selectors', () => {
-  const cache = [
-    { ref: 'spotify:track:0c41pMosF5Kqwwegcps8ES' },
-    { ref: 'spotify:track:0c41pMosF5Kqwweg123455', uri: 'path/to/file' },
-    { ref: 'spotify:track:0c41pMosF5Kqwwegxxxxxx', uri: 'path/to/file1' }
-  ]
+  const cache = {
+    'spotify:track:0c41pMosF5Kqwwegcps8ES': null,
+    'spotify:track:0c41pMosF5Kqwweg123455': 'path/to/file',
+    'spotify:track:0c41pMosF5Kqwwegxxxxxx': 'path/to/file1'
+  }
 
   describe('getCurrentTrackImageInCache', () => {
     const track = { album: { uri: 'spotify:track:0c41pMosF5Kqwweg123455' } }

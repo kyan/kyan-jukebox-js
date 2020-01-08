@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect'
-import { findImageInCache } from 'utils/images'
 
 const getCurrentTrack = (state) => state.track
 const getTrackList = (state) => state.tracklist
@@ -9,7 +8,7 @@ export const getCurrentTrackImageInCache = createSelector(
   [getCurrentTrack, getAssets],
   (track, cache) => {
     if (!track) { return null }
-    return findImageInCache(track.album.uri, cache)
+    return track.album.image || cache[track.album.uri]
   }
 )
 
@@ -18,7 +17,7 @@ export const getTracklistImagesInCache = createSelector(
   (tracklist, cache) => {
     const images = {}
     tracklist.forEach(track => {
-      images[track.album.uri] = findImageInCache(track.album.uri, cache)
+      images[track.album.uri] = track.album.image || cache[track.album.uri]
     })
     return images
   }

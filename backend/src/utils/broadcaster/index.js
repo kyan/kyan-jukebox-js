@@ -19,7 +19,7 @@ const Broadcaster = {
     })
   },
 
-  toAllGeneric: (socket, key, message) => {
+  toAll: (socket, key, message) => {
     const payload = Payload.encodeToJson(key, message)
 
     try {
@@ -37,7 +37,7 @@ const Broadcaster = {
       EventLogger({ encoded_key: 'state' }, null, payload, MessageType.OUTGOING_API_ALL)
       socket.emit(MessageType.MOPIDY, payload)
     } catch (e) {
-      logger.error('Broadcaster#toAll', { message: e.message })
+      logger.error('Broadcaster#toAllMopidy', { message: e.message })
     }
   }
 }

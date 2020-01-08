@@ -13,30 +13,20 @@ const expiresDate = (imgs) => {
   return new Date(today.getTime() + (day * 30))
 }
 
-const addToCacheHandler = (encodedKey) => {
-  const handler = (data) => {
-    const uri = encodedKey.split('#')[1]
-
-    return Image.create({
-      expireAt: expiresDate(data[uri]),
-      uri: encodedKey,
-      data
-    })
-  }
-  return handler
-}
+const storeImage = (uri, data) => Image.create({ expireAt: expiresDate(data[uri]), uri, data })
+const addToCacheHandler = (uri) => (data) => storeImage(uri, data)
 
 const ImageCache = {
   check: (key, data) => new Promise((resolve) => {
     if (!isImageKey(key)) return resolve({ image: false })
-    const encodedKey = `${key}#${data[0][0]}`
+    const uri = data[0][0]
 
-    fetchFromCache(encodedKey).then((response) => {
+    fetchFromCache(uri).then((response) => {
       if (response) {
-        logger.info('Using cache', { key: encodedKey })
+        logger.info('FOUND CACHED IMAGE', { key: uri })
         return resolve({ image: response.data })
       } else {
-        return resolve({ addToCache: addToCacheHandler(encodedKey) })
+        return resolve({ addToCache: addToCacheHandler(uri) })
       }
     })
   })

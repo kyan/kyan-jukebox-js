@@ -152,9 +152,8 @@ describe('Transformer', () => {
   })
 
   describe('event:volumeChanged', () => {
-    data = { volume: 99 }
-
     it('returns the volume data passed in', () => {
+      data = { volume: 99 }
       expect.assertions(1)
       return Transformer.mopidyCoreMessage(h('mopidy::event:volumeChanged'), data)
         .then(returnData => expect(returnData).toEqual(data.volume))
@@ -162,9 +161,8 @@ describe('Transformer', () => {
   })
 
   describe('event:playbackStateChanged', () => {
-    data = { new_state: 'playing' }
-
     it('returns the playback state data passed in', () => {
+      data = { new_state: 'playing' }
       expect.assertions(1)
       return Transformer.mopidyCoreMessage(h('mopidy::event:playbackStateChanged'), data)
         .then(returnData => expect(returnData).toEqual(data.new_state))
@@ -173,9 +171,15 @@ describe('Transformer', () => {
 
   describe('library.getImages', () => {
     it('returns the data passed in', () => {
+      data = {
+        'spotify123abc': [
+          { uri: 'path/to/img/1' },
+          { uri: 'path/to/img/2' }
+        ]
+      }
       expect.assertions(1)
       return Transformer.message(h('mopidy::library.getImages'), data)
-        .then(returnData => expect(returnData).toEqual(data))
+        .then(returnData => expect(returnData).toEqual({'spotify123abc': 'path/to/img/1'}))
     })
   })
 
