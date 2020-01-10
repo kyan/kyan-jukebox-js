@@ -13,7 +13,6 @@ const JukeboxMiddleware = (() => {
   let progressTimer = null
 
   return store => next => action => {
-    const imageIsCached = () => store.getState().assets[action.uri]
     const getJWT = () => store.getState().settings.token
     const packMessage = () => Payload.encodeToJson(getJWT(store), action.key, action.params)
 
@@ -30,12 +29,10 @@ const JukeboxMiddleware = (() => {
     }
     const onClose = _evt => store.dispatch(actions.wsDisconnect())
     const onMessage = data => onMessageHandler(store, data, progressTimer)
-    const onImage = data => onMessageHandler(store, data, progressTimer)
     const onSearchResults = data => onMessageHandler(store, data, progressTimer)
     const onConnect = () => {
       if (socket != null) socket.close()
       socket = io(url, { transports: ['websocket'] })
-      socket.on('image', onImage)
       socket.on('search', onSearchResults)
       socket.on('mopidy', mopidyStateChange)
       socket.on('message', onMessage)
@@ -58,9 +55,6 @@ const JukeboxMiddleware = (() => {
         return socket.emit('message', packMessage())
       case SearchConst.SEARCH:
         return socket.emit('search', packMessage())
-      case Constants.IMAGE_REQUEST:
-        if (imageIsCached()) return
-        return socket.emit('message', packMessage())
       default:
         return next(action)
     }

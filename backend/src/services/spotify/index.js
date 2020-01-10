@@ -2,6 +2,7 @@ import settings from 'utils/local-storage'
 import SettingsConsts from 'constants/settings'
 import EventLogger from 'utils/event-logger'
 import logger from 'config/winston'
+import ImageCache from 'utils/image-cache'
 import SpotifyWebApi from 'spotify-web-api-node'
 import { addTracks } from 'utils/track'
 import _ from 'lodash'
@@ -29,6 +30,12 @@ const setupSpotify = (callback) => {
   }).catch(function (error) {
     logger.error(`setupSpotify: ${error.message}`)
   })
+}
+
+const getImageFromSpotifyTracks = (tracks) => {
+  const albumTracks = tracks.filter((track) => track.album)
+  const images = albumTracks.map(track => ({ [track.album.uri]: track.album.images[0].url }))
+  return Object.assign({}, ...images)
 }
 
 const searchTracks = (params) => {
@@ -86,6 +93,7 @@ const getRecommendations = (uris, mopidy) => {
       api.getRecommendations(options).then(
         function (data) {
           const tracks = data.body.tracks
+          const images = getImageFromSpotifyTracks(tracks)
           const suitableTracks = filterSuitableTracksUris(tracks)
 
           if (suitableTracks.length > 0) {
@@ -104,8 +112,10 @@ const getRecommendations = (uris, mopidy) => {
               logger.error('failureHandler: ', error.message)
             }
 
-            addTracks(suitableTracks).then((uris) => {
-              mopidy.tracklist.add({ uris: uris }).then(successHandler, failureHandler)
+            ImageCache.addAll(images).then(() => {
+              addTracks(suitableTracks).then((uris) => {
+                mopidy.tracklist.add({ uris }).then(successHandler, failureHandler)
+              })
             })
           }
 
@@ -142,12 +152,13 @@ const SpotifyService = {
 
       getTracks([uri]).then((response) => {
         const track = response.tracks[0]
-
-        if (track.explicit) {
-          const message = `Not suitable. Is there a radio mix? - ${track.name}`
-          return reject(new Error(message))
-        }
-        return resolve(true)
+        ImageCache.addAll(getImageFromSpotifyTracks([track])).then(() => {
+          if (track.explicit) {
+            const message = `Not suitable. Is there a radio mix? - ${track.name}`
+            return reject(new Error(message))
+          }
+          return resolve(true)
+        })
       })
     })
   },

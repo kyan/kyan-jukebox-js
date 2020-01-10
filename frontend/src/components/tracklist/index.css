@@ -20,8 +20,3 @@
 .ui.list>.item .remove-image {
   cursor: pointer;
 }
-
-.ui.avatar.tracklist_avatar_image {
-  width: 16px;
-  height: 16px;
-}

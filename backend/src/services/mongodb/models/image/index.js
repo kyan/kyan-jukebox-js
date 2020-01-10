@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 
 const imageSchema = new mongoose.Schema({
-  uri: String,
-  data: mongoose.Schema.Types.Mixed,
+  _id: String,
+  url: String,
   expireAt: Date
 })
 imageSchema.index(

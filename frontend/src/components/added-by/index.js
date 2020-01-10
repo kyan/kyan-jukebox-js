@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { List, Popup, Icon, Image } from 'semantic-ui-react'
 import dateFormat from 'dateformat'
+import './index.css'
 
 const addedByContent = (users) => {
   if (users.length) {
@@ -29,7 +30,7 @@ const addedByContent = (users) => {
 }
 
 const userPicture = user => {
-  if (user && user.picture) return <Image avatar className='tracklist_avatar_image' src={user.picture} />
+  if (user && user.picture) return <Image avatar className='added_by_avatar_image' src={user.picture} />
   return <Icon name='spotify' color='green' />
 }
 

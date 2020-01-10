@@ -1,7 +1,6 @@
 import io from 'socket.io-client'
 import configureMockStore from 'redux-mock-store'
 import Constants from 'constants/common'
-import MopidyApi from 'constants/mopidy-api'
 import Search from 'search/constants'
 import onMessageHandler from 'utils/on-message-handler'
 import { trackProgressTimer } from 'utils/time'
@@ -128,33 +127,6 @@ describe('JukeboxMiddleware', () => {
         { type: 'actionDisconnect' },
         { type: 'actionConnecting' }
       ])
-
-      // fetch image not in the cache
-      mockEmit.mockClear()
-      JukeboxMiddleware(store)(next)({
-        type: Constants.IMAGE_REQUEST,
-        key: MopidyApi.LIBRARY_GET_IMAGES,
-        params: 'params',
-        uri: '12345678'
-      })
-      expect(mockEmit.mock.calls).toEqual([['message', '{"jwt":"token","key":"mopidy::library.getImages","data":"params"}']])
-
-      // don't fetch image already in the cache
-      store.clearActions()
-      mockEmit.mockClear()
-      const imageInStore = mockStore({
-        assets: { 'imageincache': 'image123' },
-        settings: { token: 'token' }
-      })
-      JukeboxMiddleware(imageInStore)(next)({
-        type: Constants.IMAGE_REQUEST,
-        key: MopidyApi.LIBRARY_GET_IMAGES,
-        params: 'params',
-        uri: 'imageincache'
-      })
-      actions = store.getActions()
-      expect(actions).toEqual([])
-      expect(mockEmit.mock.calls).toEqual([])
 
       // send message with params
       mockEmit.mockClear()

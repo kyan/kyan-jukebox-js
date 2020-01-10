@@ -24,22 +24,24 @@ const Transform = {
 
       switch (key) {
         case Mopidy.CORE_EVENTS.PLAYBACK_STARTED:
-          const payload = TransformTrack(data.tl_track.track)
-          const { track } = payload
-          settings.addToUniqueArray(Settings.TRACKLIST_LAST_PLAYED, track.uri, 10)
-          settings.setItem(Settings.TRACK_CURRENT, track.uri)
-          Spotify.canRecommend(mopidy)
-            .then((recommend) => {
-              if (recommend) {
-                const waitToRecommend = track.length / 4 * 3
-                const lastTracksPlayed = settings.getItem(Settings.TRACKLIST_LAST_PLAYED) || []
+          return TransformTracklist([data.tl_track.track]).then(data => {
+            const payload = data[0]
+            const { track } = payload
+            settings.addToUniqueArray(Settings.TRACKLIST_LAST_PLAYED, track.uri, 10)
+            settings.setItem(Settings.TRACK_CURRENT, track.uri)
+            Spotify.canRecommend(mopidy)
+              .then((recommend) => {
+                if (recommend) {
+                  const waitToRecommend = track.length / 4 * 3
+                  const lastTracksPlayed = settings.getItem(Settings.TRACKLIST_LAST_PLAYED) || []
 
-                clearSetTimeout(recommendTimer)
-                recommendTimer = setTimeout(recommend, waitToRecommend, lastTracksPlayed, mopidy)
-              }
-            })
-          NowPlaying.addTrack(track)
-          return resolve(payload)
+                  clearSetTimeout(recommendTimer)
+                  recommendTimer = setTimeout(recommend, waitToRecommend, lastTracksPlayed, mopidy)
+                }
+              })
+            NowPlaying.addTrack(track)
+            return resolve(payload)
+          })
         case Mopidy.CORE_EVENTS.VOLUME_CHANGED:
           return resolve(data.volume)
         case Mopidy.CORE_EVENTS.PLAYBACK_STATE_CHANGED:
@@ -64,9 +66,12 @@ const Transform = {
           return resolve(searchResults)
         case Mopidy.GET_CURRENT_TRACK:
           if (!data) return resolve()
-          const trackInfo = TransformTrack(data)
-          settings.setItem(Settings.TRACK_CURRENT, trackInfo.track.uri)
-          return resolve(trackInfo)
+
+          return TransformTracklist([data]).then(TransformedData => {
+            const trackInfo = TransformedData[0]
+            settings.setItem(Settings.TRACK_CURRENT, trackInfo.track.uri)
+            return resolve(trackInfo)
+          })
         case Mopidy.GET_TRACKS:
           return TransformTracklist(data).then(tracks => {
             settings.setItem(Settings.TRACKLIST_CURRENT, tracks.map(data => data.track.uri))
@@ -84,10 +89,6 @@ const Transform = {
           clearSetTimeout(recommendTimer)
           if (data && data.length > 0) return resolve(TransformTrack(data[0].track))
           return resolve()
-        case Mopidy.LIBRARY_GET_IMAGES:
-          const uri = Object.keys(data)[0]
-          const image = data[uri][0].uri
-          return resolve({ [uri]: image })
         case Mopidy.TRACKLIST_CLEAR:
         case Mopidy.CONNECTION_ERROR:
         case Mopidy.MIXER_GET_VOLUME:

@@ -74,7 +74,6 @@ exports[`Dashboard render renders the happy path correctly 1`] = `
               }
             }
             disabled={false}
-            images={Object {}}
             onRemoveTrack={[MockFunction onRemoveTrackMock]}
             tracks={
               Array [

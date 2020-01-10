@@ -120,22 +120,6 @@ export const getState = () => {
   }
 }
 
-export const getImage = (uri) => {
-  return {
-    type: Types.IMAGE_REQUEST,
-    key: MopidyApi.LIBRARY_GET_IMAGES,
-    params: [[uri]],
-    uri: uri
-  }
-}
-
-export const resolveImage = (image) => {
-  return {
-    type: Types.RESOLVE_IMAGE,
-    image
-  }
-}
-
 export const getTrackList = () => {
   return {
     type: Types.SEND,
