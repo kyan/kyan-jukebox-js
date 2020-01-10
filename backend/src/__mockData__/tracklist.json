@@ -1,56 +1,97 @@
 [
   {
     "album": {
-      "date": "2014",
+      "date": "1986",
       "__model__": "Album",
       "artists": [
         {
           "__model__": "Artist",
-          "name": "Hans Zimmer",
-          "uri": "spotify:artist:0YC192cP3KPCRWx8zr8MfZ"
+          "name": "The Housemartins",
+          "uri": "spotify:artist:77D38RDgCtlYNLpayStftL"
         }
       ],
-      "name": "Interstellar: Original Motion Picture Soundtrack (Deluxe Digital Version)",
-      "uri": "spotify:album:5OVGwMCexoHavOar6v4al5"
+      "name": "London 0 Hull 4",
+      "uri": "spotify:album:13gokJcmO1Dbc9cbHM93jO"
     },
     "__model__": "Track",
-    "name": "No Time for Caution",
+    "name": "Happy Hour",
     "disc_no": 0,
-    "uri": "spotify:track:1yzSSn5Sj1azuo7RgwvDb3",
-    "length": 246000,
-    "track_no": 22,
+    "uri": "spotify:track:6IZWJhXyk1Z0rtWNxIi4o7",
+    "length": 145000,
+    "track_no": 1,
     "artists": [
       {
         "__model__": "Artist",
-        "name": "Hans Zimmer",
-        "uri": "spotify:artist:0YC192cP3KPCRWx8zr8MfZ"
+        "name": "The Housemartins",
+        "uri": "spotify:artist:77D38RDgCtlYNLpayStftL"
       }
     ],
-    "date": "2014",
+    "date": "1986",
     "bitrate": 160
   },
   {
-    "composers": [
-      {
-        "__model__": "Artist",
-        "name": "Peter Schickele",
-        "uri": "local:artist:md5:af20b04e7ff55f56afec2be1f36afe94"
-      }
-    ],
-    "comment": "Silent Running",
+    "album": {
+      "date": "2018",
+      "__model__": "Album",
+      "artists": [
+        {
+          "__model__": "Artist",
+          "name": "Kygo",
+          "uri": "spotify:artist:23fqKkggKUBHNkbKtXEls4"
+        }
+      ],
+      "name": "Happy Now",
+      "uri": "spotify:album:6nAjd2MlBY1f1mNu6BsWLO"
+    },
     "__model__": "Track",
-    "name": "Silent Running",
-    "uri": "local:track:Soundtracks/Silent%20Running%20OST/Silent%20Running%20",
-    "length": 123973,
-    "last_modified": 1440004676445,
-    "track_no": 7,
+    "name": "Happy Now",
+    "disc_no": 0,
+    "uri": "spotify:track:14sOS5L36385FJ3OL8hew4",
+    "length": 211000,
+    "track_no": 1,
     "artists": [
       {
         "__model__": "Artist",
-        "name": "Joan Baez",
-        "uri": "local:artist:md5:23327ccea5c999183cc88701751f8c73"
+        "name": "Kygo",
+        "uri": "spotify:artist:23fqKkggKUBHNkbKtXEls4"
+      },
+      {
+        "__model__": "Artist",
+        "name": "Sandro Cavazza",
+        "uri": "spotify:artist:5JYo7gm2dkyLLlWHjxS7Dy"
       }
     ],
-    "genre": "Soundtrack"
+    "date": "2018",
+    "bitrate": 160
+  },
+  {
+    "album": {
+      "date": "2006",
+      "__model__": "Album",
+      "artists": [
+        {
+          "__model__": "Artist",
+          "name": "Snow Patrol",
+          "uri": "spotify:artist:3rIZMv9rysU7JkLzEaC5Jp"
+        }
+      ],
+      "name": "Eyes Open",
+      "uri": "spotify:album:5PYva5C1cdwx2PAsOgZBHN"
+    },
+    "__model__": "Track",
+    "name": "You Could Be Happy",
+    "disc_no": 0,
+    "uri": "spotify:track:7zkLcJktbodeRntovGdXQK",
+    "length": 182000,
+    "track_no": 6,
+    "artists": [
+      {
+        "__model__": "Artist",
+        "name": "Snow Patrol",
+        "uri": "spotify:artist:3rIZMv9rysU7JkLzEaC5Jp"
+      }
+    ],
+    "date": "2006",
+    "bitrate": 160
   }
 ]

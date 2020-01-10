@@ -23,14 +23,6 @@ export default function (json) {
     }
   }
 
-  if (json.composers && json.composers.length > 0) {
-    payload.composer = {
-      uri: json.composers[0].uri,
-      name: json.composers[0].name
-    }
-    payload.genre = json.genre
-  }
-
   payload.artist = {
     uri: json.artists[0].uri,
     name: json.artists[0].name

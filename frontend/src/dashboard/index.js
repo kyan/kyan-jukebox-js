@@ -26,7 +26,6 @@ const Dashboard = (props) => {
     onDrop,
     onTracklistClear,
     onSearchClick,
-    trackListImages,
     tracklist,
     currentTrack,
     onRemoveTrack
@@ -80,7 +79,6 @@ const Dashboard = (props) => {
               </Header>
               <TrackList
                 disabled={disabled}
-                images={trackListImages}
                 tracks={tracklist}
                 currentTrack={currentTrack}
                 onRemoveTrack={onRemoveTrack}

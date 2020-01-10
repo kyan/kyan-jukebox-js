@@ -2,7 +2,6 @@
 
 exports[`CurrentTrackContainer render just the app without redux renders as expected 1`] = `
 <CurrentTrack
-  image="image"
   progress={50}
   track={
     Object {
@@ -28,11 +27,9 @@ exports[`CurrentTrackContainer render the connected app renders as expected 1`] 
   <Connect(CurrentTrackContainer)>
     <CurrentTrackContainer
       dispatch={[Function]}
-      image={null}
       progress={0}
     >
       <CurrentTrack
-        image={null}
         progress={0}
       >
         <Card>

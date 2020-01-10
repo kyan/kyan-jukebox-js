@@ -27,27 +27,14 @@ const playBackChanged = (store, state, progress) => {
   }
 }
 
-const imageUriChooser = (track) => {
-  if (track.composer) return track.composer.uri
-  return track.album.uri
-}
-
 const addCurrentTrack = (track, store, progress) => {
   store.dispatch(actions.addCurrentTrack(track))
-  if (!track.image) {
-    store.dispatch(actions.getImage(imageUriChooser(track)))
-  }
   const progressTimer = progress.set(0, track.length)
   if (store.getState().jukebox.playbackState === MopidyApi.PLAYING) progressTimer.start()
 }
 
 const addTrackList = (tracklist, store) => {
   store.dispatch(actions.addTrackList(tracklist))
-  tracklist.forEach(item => {
-    if (!item.track.image) {
-      store.dispatch(actions.getImage(imageUriChooser(item.track)))
-    }
-  })
 }
 
 const onMessageHandler = (store, payload, progressTimer) => {
@@ -83,9 +70,6 @@ const onMessageHandler = (store, payload, progressTimer) => {
     case MopidyApi.EVENT_VOLUME_CHANGED:
       store.dispatch(actions.updateVolume(data))
       notify.success('Volume Changed')
-      break
-    case MopidyApi.LIBRARY_GET_IMAGES:
-      store.dispatch(actions.resolveImage(data))
       break
     case MopidyApi.PLAYBACK_GET_TIME_POSITION:
       progressTimer.set(data)

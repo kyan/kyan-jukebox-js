@@ -42,9 +42,15 @@ describe('Transformer', () => {
 
   describe('playback.getCurrentTrack', () => {
     it('transforms when we have data', () => {
-      expect.assertions(1)
-      return Transformer.message(h('mopidy::playback.getCurrentTrack'), data)
-        .then(() => expect(TransformTrack).toHaveBeenCalledWith(data))
+      expect.assertions(2)
+      TransformTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123 } }])
+      return Transformer.message(h('mopidy::playback.getCurrentTrack'), data).then(() => {
+        expect(TransformTracklist).toHaveBeenCalledWith([data])
+        expect(settings.setItem).toHaveBeenCalledWith(
+          'track.current',
+          '123'
+        )
+      })
     })
 
     it('does not transform when we have no data', () => {
@@ -65,10 +71,11 @@ describe('Transformer', () => {
   describe('tracklist.getTracks', () => {
     it('calls the TransformTracklist class, passes it into the settings and returns the result', () => {
       expect.assertions(3)
+      TransformTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123 } }])
       return Transformer.message(h('mopidy::tracklist.getTracks'), data).then((returnData) => {
         expect(TransformTracklist).toHaveBeenCalledWith(data)
         expect(settings.setItem).toHaveBeenCalledWith('tracklist.current', ['123'])
-        expect(returnData).toEqual([{'track': {'uri': '123'}}])
+        expect(returnData).toEqual([{ track: { uri: '123', length: 2820123 } }])
       })
     })
   })
@@ -77,20 +84,19 @@ describe('Transformer', () => {
     it('does recommend if there are recomendations', () => {
       data = { tl_track: { track: 'data' } }
       const mopidyMock = jest.fn()
-      expect.assertions(6)
-      TransformTracklist.mockReturnValue([{ track: { uri: '123', length: 2820123 } }])
+      expect.assertions(5)
+      TransformTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123 } }])
       const recomendMock = jest.fn()
       Spotify.canRecommend.mockResolvedValue('functionName')
       return Transformer.mopidyCoreMessage(h('mopidy::event:trackPlaybackStarted'), data, mopidyMock).then((response) => {
-        expect(TransformTrack).toHaveBeenCalledWith(data.tl_track.track)
         expect(settings.addToUniqueArray).toHaveBeenCalledWith(
           'tracklist.last_played',
-          'spotify:track:40riOy7x9W7GXjyGp4pjAv',
+          '123',
           10
         )
         expect(settings.setItem).toHaveBeenCalledWith(
           'track.current',
-          'spotify:track:40riOy7x9W7GXjyGp4pjAv'
+          '123'
         )
         expect(setTimeout).toHaveBeenCalled(
           recomendMock(),
@@ -99,13 +105,13 @@ describe('Transformer', () => {
           mopidyMock
         )
         expect(NowPlaying.addTrack).toHaveBeenCalledWith({
-          length: 123456,
-          uri: 'spotify:track:40riOy7x9W7GXjyGp4pjAv'
+          length: 2820123,
+          uri: '123'
         })
         expect(response).toEqual({
           track: {
-            length: 123456,
-            uri: 'spotify:track:40riOy7x9W7GXjyGp4pjAv'
+            length: 2820123,
+            uri: '123'
           }
         })
       })
@@ -114,29 +120,26 @@ describe('Transformer', () => {
     it('does not recommend if there are no recomendation', () => {
       data = { tl_track: { track: 'data' } }
       const mopidyMock = jest.fn()
-      expect.assertions(6)
-      TransformTracklist.mockReturnValue([{ track: { uri: '123' } }])
+      expect.assertions(5)
+      TransformTracklist.mockResolvedValue([{ track: { uri: '123' } }])
       Spotify.canRecommend.mockResolvedValue(null)
       return Transformer.mopidyCoreMessage(h('mopidy::event:trackPlaybackStarted'), data, mopidyMock).then((response) => {
-        expect(TransformTrack).toHaveBeenCalledWith(data.tl_track.track)
         expect(settings.addToUniqueArray).toHaveBeenCalledWith(
           'tracklist.last_played',
-          'spotify:track:40riOy7x9W7GXjyGp4pjAv',
+          '123',
           10
         )
         expect(settings.setItem).toHaveBeenCalledWith(
           'track.current',
-          'spotify:track:40riOy7x9W7GXjyGp4pjAv'
+          '123'
         )
         expect(setTimeout).not.toHaveBeenCalled()
         expect(NowPlaying.addTrack).toHaveBeenCalledWith({
-          length: 123456,
-          uri: 'spotify:track:40riOy7x9W7GXjyGp4pjAv'
+          uri: '123'
         })
         expect(response).toEqual({
           track: {
-            length: 123456,
-            uri: 'spotify:track:40riOy7x9W7GXjyGp4pjAv'
+            uri: '123'
           }
         })
       })
@@ -166,20 +169,6 @@ describe('Transformer', () => {
       expect.assertions(1)
       return Transformer.mopidyCoreMessage(h('mopidy::event:playbackStateChanged'), data)
         .then(returnData => expect(returnData).toEqual(data.new_state))
-    })
-  })
-
-  describe('library.getImages', () => {
-    it('returns the data passed in', () => {
-      data = {
-        'spotify123abc': [
-          { uri: 'path/to/img/1' },
-          { uri: 'path/to/img/2' }
-        ]
-      }
-      expect.assertions(1)
-      return Transformer.message(h('mopidy::library.getImages'), data)
-        .then(returnData => expect(returnData).toEqual({'spotify123abc': 'path/to/img/1'}))
     })
   })
 
