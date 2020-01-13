@@ -1,6 +1,5 @@
 import logger from 'config/winston'
 import EventLogger from 'utils/event-logger'
-import ImageCache from './image-cache'
 import MessageType from 'constants/message'
 import Mopidy from 'constants/mopidy'
 import Spotify from 'services/spotify'
@@ -31,30 +30,17 @@ const MopidyHandler = (payload, ws, bcast, mopidy) => {
   isValidTrack(
     payload.encoded_key, data
   ).then(() => {
-    ImageCache.check(
-      payload.encoded_key, data
-    ).then((obj) => {
-      if (obj.image) {
-        bcast.to(ws, payload, obj.image, MessageType.IMAGE)
-      } else {
-        const apiCall = StrToFunction(mopidy, key)
-        logEvent(payload, data, null, MessageType.OUTGOING_MOPIDY)
+    const apiCall = StrToFunction(mopidy, key)
+    logEvent(payload, data, null, MessageType.OUTGOING_MOPIDY)
 
-        const successHandler = response => {
-          logEvent(payload, data, response, MessageType.INCOMING_MOPIDY)
+    const successHandler = response => {
+      logEvent(payload, data, response, MessageType.INCOMING_MOPIDY)
+      bcast.to(ws, payload, response)
+    }
 
-          if (response) {
-            if (obj.addToCache) obj.addToCache(response)
-          }
-
-          bcast.to(ws, payload, response)
-        }
-
-        (data ? apiCall(data) : apiCall())
-          .then(successHandler)
-          .catch((err) => logger.error(`Mopidy API Failure: ${err.message}`))
-      }
-    })
+    (data ? apiCall(data) : apiCall())
+      .then(successHandler)
+      .catch((err) => logger.error(`Mopidy API Failure: ${err.message}`))
   }).catch((err) => {
     payload.encoded_key = Mopidy.VALIDATION_ERROR
     bcast.to(ws, payload, err.message)

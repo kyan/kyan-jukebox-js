@@ -4,7 +4,7 @@ exports[`CurrentTrack render album renders track 1`] = `
 <Card>
   <Image
     as="img"
-    src="path/to/image"
+    src="http://path/to/cool/image.png"
     ui={true}
   />
   <CardContent>
@@ -47,10 +47,16 @@ exports[`CurrentTrack render album renders track 1`] = `
   <CardContent
     extra={true}
   >
-    <Icon
-      as="i"
-      color="green"
-      name="spotify"
+    <AddedBy
+      users={
+        Array [
+          Object {
+            "_id": "123",
+            "addedAt": "2019-12-17T13:11:37.316Z",
+            "fullname": "Big Rainbowhead",
+          },
+        ]
+      }
     />
   </CardContent>
 </Card>
@@ -60,7 +66,7 @@ exports[`CurrentTrack render composer renders track 1`] = `
 <Card>
   <Image
     as="img"
-    src="path/to/image"
+    src="default-artwork.png"
     ui={true}
   />
   <CardContent>
@@ -101,6 +107,8 @@ exports[`CurrentTrack render composer renders track 1`] = `
   </CardContent>
   <CardContent
     extra={true}
-  />
+  >
+    <AddedBy />
+  </CardContent>
 </Card>
 `;

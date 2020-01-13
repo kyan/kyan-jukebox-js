@@ -128,26 +128,6 @@ describe('actions', () => {
     expect(actions.getTimePosition()).toEqual(expectedAction)
   })
 
-  it('should handle getImage', () => {
-    const uri = 'spotify:track:0c41pMosF5Kqwwegcps8ES'
-    const expectedAction = {
-      type: Types.IMAGE_REQUEST,
-      key: MopidyApi.LIBRARY_GET_IMAGES,
-      params: [[uri]],
-      uri
-    }
-    expect(actions.getImage(uri)).toEqual(expectedAction)
-  })
-
-  it('should handle resolveImage', () => {
-    const image = { 'spotify:track:0c41pMosF5Kqwwegcps8ES': 'path/to/image' }
-    const expectedAction = {
-      type: Types.RESOLVE_IMAGE,
-      image
-    }
-    expect(actions.resolveImage(image)).toEqual(expectedAction)
-  })
-
   it('should handle getTrackList', () => {
     const expectedAction = {
       type: Types.SEND,

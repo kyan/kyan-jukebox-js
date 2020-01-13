@@ -8,7 +8,7 @@ exports[`AddedBy when addedBy information provided and it is the first play disp
         <Image
           as="img"
           avatar={true}
-          className="tracklist_avatar_image"
+          className="added_by_avatar_image"
           src="link/to/image"
           ui={true}
         />
@@ -39,7 +39,7 @@ exports[`AddedBy when addedBy information provided and it is the first play disp
     <Image
       as="img"
       avatar={true}
-      className="tracklist_avatar_image"
+      className="added_by_avatar_image"
       src="link/to/image"
       ui={true}
     />
@@ -56,7 +56,7 @@ exports[`AddedBy when addedBy information provided and there is play history dis
         <Image
           as="img"
           avatar={true}
-          className="tracklist_avatar_image"
+          className="added_by_avatar_image"
           src="link/to/image"
           ui={true}
         />
@@ -103,7 +103,7 @@ exports[`AddedBy when addedBy information provided and there is play history dis
     <Image
       as="img"
       avatar={true}
-      className="tracklist_avatar_image"
+      className="added_by_avatar_image"
       src="link/to/image"
       ui={true}
     />

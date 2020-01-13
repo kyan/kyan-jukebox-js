@@ -1,16 +1,38 @@
 import SpotifyService from './index'
 import EventLogger from 'utils/event-logger'
+import ImageCache from 'utils/image-cache'
 import logger from 'config/winston'
 import { addTracks } from 'utils/track'
 
+jest.mock('utils/image-cache')
 jest.mock('utils/track')
 jest.mock('utils/event-logger')
 jest.mock('config/winston')
 jest.mock('spotify-web-api-node', () => {
   return function () {
     const tracks = [
-      { uri: 'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt' },
-      { uri: 'spotify:track:03fT3OHB9KyMtGMt2zwqCT' },
+      {
+        uri: 'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt',
+        album: {
+          uri: 'spotify:album:0ZUo4YjG4saFnEJhdWp9Bt',
+          images: [
+            {
+              url: 'https://i.scdn.co/dfaf92'
+            }
+          ]
+        }
+      },
+      {
+        uri: 'spotify:track:03fT3OHB9KyMtGMt2zwqCT',
+        album: {
+          uri: 'spotify:album:03fT3OHB9KyMtGMt2zwqCT',
+          images: [
+            {
+              url: 'https://i.scdn.co/1d873289c511dfaf92'
+            }
+          ]
+        }
+      },
       { uri: 'spotify:track:7LzeKqmOtpKVKJ1dmalkC0' },
       { uri: 'spotify:track:1Ut1A8UaNqGuwsHgWq75PW' }
     ]
@@ -69,6 +91,7 @@ describe('SpotifyService', () => {
         }
       }
       addTracks.mockImplementation(() => Promise.resolve('uris'))
+      ImageCache.addAll.mockImplementation(() => Promise.resolve())
 
       SpotifyService.canRecommend(mopidy)
         .then((result) => {

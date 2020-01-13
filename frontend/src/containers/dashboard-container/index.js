@@ -6,14 +6,12 @@ import SignInToken from 'utils/signin-token'
 import GoogleAuthContext from 'contexts/google'
 import * as actions from 'actions'
 import * as searchActions from 'search/actions'
-import { getTracklistImagesInCache } from 'selectors'
 import Dashboard from 'dashboard'
 
 export const DashboardContainer = () => {
   const jukebox = useSelector(state => state.jukebox)
   const tracklist = useSelector(state => state.tracklist)
   const currentTrack = useSelector(state => state.track)
-  const tracklistImages = useSelector(state => getTracklistImagesInCache(state))
   const dispatch = useDispatch()
   const { isSignedIn, googleUser } = useContext(GoogleAuthContext)
   const disable = !(isSignedIn && jukebox.mopidyOnline)
@@ -66,7 +64,6 @@ export const DashboardContainer = () => {
       }
       onTracklistClear={() => dispatch(actions.clearTrackList())}
       onSearchClick={() => dispatch(searchActions.toggleSearchSidebar(true))}
-      trackListImages={tracklistImages}
       tracklist={tracklist}
       currentTrack={currentTrack}
       onRemoveTrack={

@@ -3,7 +3,6 @@ import logger from 'config/winston'
 import MopidyConsts from 'constants/mopidy'
 
 const invalidKey = (key) => {
-  if (key === MopidyConsts.LIBRARY_GET_IMAGES) return true
   if (key === MopidyConsts.PLAYBACK_GET_TIME_POSITION) return true
   if (key === MopidyConsts.PLAYBACK_GET_STATE) return true
   if (key === MopidyConsts.MIXER_GET_VOLUME) return true
