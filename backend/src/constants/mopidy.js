@@ -9,7 +9,6 @@ export default {
   },
   GET_CURRENT_TRACK: 'mopidy::playback.getCurrentTrack',
   GET_TRACKS: 'mopidy::tracklist.getTracks',
-  LIBRARY_GET_IMAGES: 'mopidy::library.getImages',
   MIXER_GET_VOLUME: 'mopidy::mixer.getVolume',
   MIXER_SET_VOLUME: 'mopidy::mixer.setVolume',
   PLAYBACK_GET_STATE: 'mopidy::playback.getState',

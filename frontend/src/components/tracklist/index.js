@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import { List, Image } from 'semantic-ui-react'
 import { millisToMinutesAndSeconds } from 'utils/time'
 import defaultImage from 'components/current-track/default-artwork.png'
-import AddedBy from './added-by'
+import AddedBy from 'components/added-by'
 import './index.css'
 
 const isCurrentTrack = (currentTrack, track) => {
@@ -37,12 +37,8 @@ const removeTrack = (uri, cb) => {
   return () => cb(uri)
 }
 
-const imageChooser = (disabled, track, images, isCurrent, onRemoveTrack, hasBeenPlayed) => {
-  let image
-  if (track.image) image = track.image
-  if (!image && images && track.album) image = images[track.album.uri]
-  if (!image && images && track.composer) image = images[track.composer.uri]
-  if (!image) image = defaultImage
+const imageChooser = (disabled, track, isCurrent, onRemoveTrack, hasBeenPlayed) => {
+  const image = track.image ? track.image : defaultImage
 
   return trackImage({
     image,
@@ -62,7 +58,7 @@ const trackDescription = (track) => (
   </List.Description>
 )
 
-const listItems = (disabled, tracks, images, currentTrack, onRemoveTrack) => {
+const listItems = (disabled, tracks, currentTrack, onRemoveTrack) => {
   let time
 
   return tracks.map((track, index) => {
@@ -75,7 +71,7 @@ const listItems = (disabled, tracks, images, currentTrack, onRemoveTrack) => {
         className={classnames({ 'current-track': isCurrent })}
         key={`${index}-${track.uri}`}
       >
-        { imageChooser(disabled, track, images, isCurrent, onRemoveTrack, time) }
+        { imageChooser(disabled, track, isCurrent, onRemoveTrack, time) }
         <List.Content
           className={classnames({ 'track-info': !time })}
         >
@@ -88,12 +84,12 @@ const listItems = (disabled, tracks, images, currentTrack, onRemoveTrack) => {
   })
 }
 
-const Tracklist = ({ disabled, tracks, images, currentTrack, onRemoveTrack }) => {
+const Tracklist = ({ disabled, tracks, currentTrack, onRemoveTrack }) => {
   if (!tracks) { return null }
 
   return (
     <List relaxed>
-      {listItems(disabled, tracks, images, currentTrack, onRemoveTrack)}
+      {listItems(disabled, tracks, currentTrack, onRemoveTrack)}
     </List>
   )
 }
@@ -101,7 +97,6 @@ const Tracklist = ({ disabled, tracks, images, currentTrack, onRemoveTrack }) =>
 Tracklist.propTypes = {
   disabled: PropTypes.bool,
   tracks: PropTypes.array,
-  images: PropTypes.object,
   currentTrack: PropTypes.object,
   onRemoveTrack: PropTypes.func.isRequired
 }

@@ -8,15 +8,14 @@ describe('test mongoose Image model', () => {
 
   it('should return the image with findById', () => {
     const _doc = {
-      _id: '507f191e810c19729de860ea',
-      uri: 'spotifyuri123456789',
-      data: { 'spotifyuri123456789': [] }
+      _id: 'spotify507f191e810c19729de860ea',
+      url: 'url/to/image'
     }
 
     mockingoose.Image.toReturn(_doc, 'findOne')
 
     return model
-      .findById({ _id: '507f191e810c19729de860ea' })
+      .findById({ _id: 'spotify507f191e810c19729de860ea' })
       .then(doc => {
         expect(JSON.parse(JSON.stringify(doc))).toMatchObject(_doc)
       })

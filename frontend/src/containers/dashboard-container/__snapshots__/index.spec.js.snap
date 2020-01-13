@@ -29,7 +29,6 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
         onVolumeChange={[Function]}
         online={true}
         playbackState="playing"
-        trackListImages={Object {}}
         tracklist={Array []}
         volume={25}
       >
@@ -1097,11 +1096,9 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                       <Connect(CurrentTrackContainer)>
                                         <CurrentTrackContainer
                                           dispatch={[Function]}
-                                          image={null}
                                           progress={0}
                                         >
                                           <CurrentTrack
-                                            image={null}
                                             progress={0}
                                           >
                                             <Card>
@@ -1168,7 +1165,6 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                     </Header>
                                     <Tracklist
                                       disabled={true}
-                                      images={Object {}}
                                       onRemoveTrack={[Function]}
                                       tracks={Array []}
                                     >
@@ -1230,7 +1226,6 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
         onVolumeChange={[Function]}
         online={true}
         playbackState="playing"
-        trackListImages={Object {}}
         tracklist={Array []}
         volume={25}
       >
@@ -2338,11 +2333,9 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                       <Connect(CurrentTrackContainer)>
                                         <CurrentTrackContainer
                                           dispatch={[Function]}
-                                          image={null}
                                           progress={0}
                                         >
                                           <CurrentTrack
-                                            image={null}
                                             progress={0}
                                           >
                                             <Card>
@@ -2409,7 +2402,6 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                     </Header>
                                     <Tracklist
                                       disabled={true}
-                                      images={Object {}}
                                       onRemoveTrack={[Function]}
                                       tracks={Array []}
                                     >

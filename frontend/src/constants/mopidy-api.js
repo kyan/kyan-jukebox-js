@@ -7,7 +7,6 @@ export default {
   TRACKLIST_ADD_TRACK: 'mopidy::tracklist.add',
   TRACKLIST_REMOVE_TRACK: 'mopidy::tracklist.remove',
   TRACKLIST_CLEAR: 'mopidy::tracklist.clear',
-  LIBRARY_GET_IMAGES: 'mopidy::library.getImages',
   PLAYBACK_GET_TIME_POSITION: 'mopidy::playback.getTimePosition',
   PLAYBACK_GET_PLAYBACK_STATE: 'mopidy::playback.getState',
   PLAYBACK_PLAY: 'mopidy::playback.play',
