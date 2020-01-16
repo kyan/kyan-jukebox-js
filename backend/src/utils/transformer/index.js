@@ -8,7 +8,7 @@ import TransformSearchResults from 'utils/transformer/transformers/spotify/searc
 import NowPlaying from 'handlers/now-playing'
 import settings from 'utils/local-storage'
 import Spotify from 'services/spotify'
-import { addTracks } from 'utils/track'
+import { addTracks, updateTrackPlaycount } from 'services/mongodb/models/track'
 
 const clearSetTimeout = (timeout) => {
   clearTimeout(timeout)
@@ -27,6 +27,7 @@ const Transform = {
           return TransformTracklist([data.tl_track.track]).then(data => {
             const payload = data[0]
             const { track } = payload
+            updateTrackPlaycount(track.uri)
             settings.addToUniqueArray(Settings.TRACKLIST_LAST_PLAYED, track.uri, 10)
             settings.setItem(Settings.TRACK_CURRENT, track.uri)
             Spotify.canRecommend(mopidy)
