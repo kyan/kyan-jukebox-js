@@ -4,42 +4,41 @@ import { List, Popup, Icon, Image } from 'semantic-ui-react'
 import dateFormat from 'dateformat'
 import './index.css'
 
-const addedByContent = (users) => {
-  if (users.length) {
-    return (
-      <List>
-        {
-          users.map(user => {
-            return (
-              <List.Item key={user.addedAt}>
-                {userPicture(user)}
-                <List.Content>
-                  <List.Description>
-                    <strong>{dateFormat(user.addedAt, 'dd mmm yyyy @ h:MM tt')}</strong> - {user.fullname}
-                  </List.Description>
-                </List.Content>
-              </List.Item>
-            )
-          })
-        }
-      </List>
-    )
-  }
+const addedByContent = (users) => (
+  <List>
+    {
+      users.map(data => {
+        const fullName = data.user ? data.user.fullname : 'User unknown'
 
-  return 'First time played.'
-}
+        return (
+          <List.Item key={data.addedAt}>
+            {userPicture(data)}
+            <List.Content>
+              <List.Description>
+                <strong>{dateFormat(data.addedAt, 'dd mmm yyyy @ h:MM tt')}</strong> - {fullName}
+              </List.Description>
+            </List.Content>
+          </List.Item>
+        )
+      })
+    }
+  </List>
+)
 
-const userPicture = user => {
-  if (user && user.picture) return <Image avatar className='added_by_avatar_image' src={user.picture} />
+const userPicture = data => {
+  if (data && data.user && data.user.picture) return <Image avatar className='added_by_avatar_image' src={data.user.picture} />
   return <Icon name='spotify' color='green' />
 }
 
 const AddedBy = ({ users = [] }) => {
+  const avatar = userPicture(users[0])
+  if (!users.length) return avatar
+
   return (
     <Popup
       wide
       content={addedByContent(users)}
-      trigger={userPicture(users[0])}
+      trigger={avatar}
     />
   )
 }

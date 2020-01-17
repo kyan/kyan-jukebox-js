@@ -3,15 +3,25 @@ import { shallow } from 'enzyme'
 import AddedBy from './index'
 
 const firstUser = {
-  _id: '123',
-  fullname: 'Big Rainbowhead',
-  picture: 'link/to/image',
-  addedAt: '2019-12-17T13:11:37.316Z'
+  user: {
+    _id: '123',
+    fullname: 'Big Rainbowhead',
+    picture: 'link/to/image'
+  },
+  addedAt: '2019-12-17T13:11:37.316Z',
+  playedAt: '2019-12-17T13:11:37.316Z'
 }
 const secondUser = {
-  _id: '456',
-  fullname: 'Big Rainbowhead2',
-  addedAt: '2019-12-17T13:11:37.316Z'
+  user: {
+    _id: '456',
+    fullname: 'Big Rainbowhead2'
+  },
+  addedAt: '2019-12-17T13:11:37.316Z',
+  playedAt: null
+}
+const thirdUser = {
+  addedAt: '2019-12-17T13:11:37.316Z',
+  playedAt: null
 }
 
 describe('AddedBy', () => {
@@ -34,7 +44,7 @@ describe('AddedBy', () => {
 
     describe('and there is play history', () => {
       it('displays a current user icon with a popup message containing previous ', () => {
-        wrapper = shallow(<AddedBy users={[firstUser, secondUser]} />)
+        wrapper = shallow(<AddedBy users={[firstUser, secondUser, thirdUser]} />)
         expect(wrapper).toMatchSnapshot()
       })
     })
