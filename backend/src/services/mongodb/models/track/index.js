@@ -10,7 +10,7 @@ const trackSchema = mongoose.Schema({
     addedAt: mongoose.Schema.Types.Date,
     playedAt: { type: mongoose.Schema.Types.Date, default: null }
   }]
-})
+}, { _id: false })
 const Track = mongoose.model('Track', trackSchema)
 
 const brh = {
