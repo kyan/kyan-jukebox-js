@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test mongoose Track model #Track should return using findById: findById query 1`] = `
+Object {
+  "_id": "2xN54cw14BBwQVCzQS2izH",
+}
+`;
+
+exports[`test mongoose Track model #addTracks returns the uris and uses BRH: findOneAndUpdate query 1`] = `
+Object {
+  "_id": "1ambigrainbowhead",
+}
+`;
+
+exports[`test mongoose Track model #updateTrackPlaycount does not set the playedAt: playedAt data filled in 1`] = `
+Object {
+  "addedBy": Array [],
+}
+`;
+
+exports[`test mongoose Track model #updateTrackPlaycount sets the playedAt: playedAt data filled in 1`] = `
+Object {
+  "addedBy": Array [
+    Object {
+      "playedAt": 1970-04-06T12:00:00.000Z,
+    },
+  ],
+}
+`;

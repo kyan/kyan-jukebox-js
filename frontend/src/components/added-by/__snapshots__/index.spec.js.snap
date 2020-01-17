@@ -86,6 +86,22 @@ exports[`AddedBy when addedBy information provided and there is play history dis
           </ListDescription>
         </ListContent>
       </ListItem>
+      <ListItem>
+        <Icon
+          as="i"
+          color="green"
+          name="spotify"
+        />
+        <ListContent>
+          <ListDescription>
+            <strong>
+              17 Dec 2019 @ 1:11 pm
+            </strong>
+             - 
+            User unknown
+          </ListDescription>
+        </ListContent>
+      </ListItem>
     </List>
   }
   disabled={false}
@@ -113,26 +129,9 @@ exports[`AddedBy when addedBy information provided and there is play history dis
 `;
 
 exports[`AddedBy when no addedBy information provided displays a spotify icon 1`] = `
-<Popup
-  content="First time played."
-  disabled={false}
-  eventsEnabled={true}
-  offset={0}
-  on={
-    Array [
-      "click",
-      "hover",
-    ]
-  }
-  pinned={false}
-  position="top left"
-  trigger={
-    <Icon
-      as="i"
-      color="green"
-      name="spotify"
-    />
-  }
-  wide={true}
+<Icon
+  as="i"
+  color="green"
+  name="spotify"
 />
 `;

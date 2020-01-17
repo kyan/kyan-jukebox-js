@@ -4,7 +4,7 @@ import EventLogger from 'utils/event-logger'
 import logger from 'config/winston'
 import ImageCache from 'utils/image-cache'
 import SpotifyWebApi from 'spotify-web-api-node'
-import { addTracks } from 'utils/track'
+import { addTracks } from 'services/mongodb/models/track'
 import _ from 'lodash'
 
 const countryCode = 'GB'
