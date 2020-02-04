@@ -5,7 +5,7 @@ import { Line } from 'rc-progress'
 import AddedBy from 'components/added-by'
 import VotedBy from 'components/voted-by'
 import defaultImage from './default-artwork.png'
-import { sumBy } from 'lodash'
+import { flatten, mean } from 'lodash'
 import { millisToMinutesAndSeconds } from 'utils/time'
 import './index.css'
 
@@ -30,6 +30,12 @@ const noTrack = () => (
   </Card>
 )
 
+const calcVoteAverage = (data) => {
+  const votes = data.map(i => i.vote)
+  if (votes.length < 1) return 0
+  return mean(flatten(votes))
+}
+
 const CurrentTrack = (props) => {
   const { track, progress, remaining, onVote, userID } = props
   if (!track) { return noTrack() }
@@ -41,7 +47,6 @@ const CurrentTrack = (props) => {
   const currentUserVoter = votes.find(u => u.user._id === userID)
   const currentUserVote = currentUserVoter ? (currentUserVoter.vote / maxRating) : 0
   const doVote = (uri) => (_, data) => onVote(uri, data.rating)
-  const liveVoteScore = sumBy(votes, v => v.vote)
 
   return (
     <Card>
@@ -66,7 +71,7 @@ const CurrentTrack = (props) => {
           rating={currentUserVote}
           onRate={doVote(track.uri)}
         />
-        <VotedBy total={liveVoteScore} votes={votes} />
+        <VotedBy total={calcVoteAverage(votes)} votes={votes} />
       </Card.Content>
       <Card.Content extra>
         <Label size='mini'>
