@@ -36,57 +36,54 @@ const Dashboard = (props) => {
       blurring
       dimmed={!online}
     >
-      <SearchContainer>
-        <Container className='header-wrapper' fluid>
-          <Settings />
-          <VolumeButtons
-            disabled={disabled}
-            volume={volume}
-            onVolumeChange={onVolumeChange}
-          />
-          <SearchButton
-            onClick={onSearchClick}
-            disabled={disabled}
-          />
-          <Controls
-            disabled={disabled}
-            playbackState={playbackState}
-            onPlay={onPlay}
-            onStop={onStop}
-            onPause={onPause}
-            onNext={onNext}
-            onPrevious={onPrevious}
-          />
-        </Container>
-        <Divider />
-        <Container className='body-wrapper' fluid>
-          <Grid stackable columns={2} className='dashboard-grid'>
-            <Grid.Column width={4}>
-              <DragInTrack
-                disabled={disabled}
-                onDrop={onDrop}
-              >
+      <DragInTrack
+        disabled={disabled}
+        onDrop={onDrop}
+      >
+        <SearchContainer>
+          <Container className='header-wrapper' fluid>
+            <Settings />
+            <VolumeButtons
+              disabled={disabled}
+              volume={volume}
+              onVolumeChange={onVolumeChange}
+            />
+            <SearchButton
+              onClick={onSearchClick}
+              disabled={disabled}
+            />
+            <Controls
+              disabled={disabled}
+              playbackState={playbackState}
+              onPlay={onPlay}
+              onStop={onStop}
+              onPause={onPause}
+              onNext={onNext}
+              onPrevious={onPrevious}
+            />
+          </Container>
+          <Divider />
+          <Container className='body-wrapper' fluid>
+            <Grid stackable columns={2} className='dashboard-grid'>
+              <Grid.Column width={4}>
                 <Header size='small'>Current Track</Header>
                 <CurrentTrackContainer />
-              </DragInTrack>
-            </Grid.Column>
-            <Grid.Column width={8}>
-              <Header size='small'>
-                Playlist <ClearPlaylist
+              </Grid.Column>
+              <Grid.Column width={8}>
+                <Header size='small'>
+                  Playlist <ClearPlaylist disabled={disabled} onClear={onTracklistClear} />
+                </Header>
+                <TrackList
                   disabled={disabled}
-                  onClear={onTracklistClear}
+                  tracks={tracklist}
+                  currentTrack={currentTrack}
+                  onRemoveTrack={onRemoveTrack}
                 />
-              </Header>
-              <TrackList
-                disabled={disabled}
-                tracks={tracklist}
-                currentTrack={currentTrack}
-                onRemoveTrack={onRemoveTrack}
-              />
-            </Grid.Column>
-          </Grid>
-        </Container>
-      </SearchContainer>
+              </Grid.Column>
+            </Grid>
+          </Container>
+        </SearchContainer>
+      </DragInTrack>
     </Dimmer.Dimmable>
   )
 }

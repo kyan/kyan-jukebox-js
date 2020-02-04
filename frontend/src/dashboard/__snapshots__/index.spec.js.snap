@@ -5,86 +5,86 @@ exports[`Dashboard render renders the happy path correctly 1`] = `
   blurring={true}
   dimmed={false}
 >
-  <SearchContainer>
-    <Container
-      className="header-wrapper"
-      fluid={true}
-    >
-      <Settings />
-      <VolumeButtons
-        disabled={false}
-        onVolumeChange={[MockFunction onVolumeChangeMock]}
-        volume={23}
-      />
-      <SearchButton
-        disabled={false}
-        onClick={[MockFunction onSearchClickMock]}
-      />
-      <Controls
-        disabled={false}
-        onNext={[MockFunction onNextMock]}
-        onPause={[MockFunction onPauseMock]}
-        onPlay={[MockFunction onPlayMock]}
-        onPrevious={[MockFunction onPreviousMock]}
-        onStop={[MockFunction onStopMock]}
-        playbackState="playing"
-      />
-    </Container>
-    <Divider />
-    <Container
-      className="body-wrapper"
-      fluid={true}
-    >
-      <Grid
-        className="dashboard-grid"
-        columns={2}
-        stackable={true}
+  <DragInTrack
+    disabled={false}
+    onDrop={[MockFunction onDropMock]}
+  >
+    <SearchContainer>
+      <Container
+        className="header-wrapper"
+        fluid={true}
       >
-        <GridColumn
-          width={4}
+        <Settings />
+        <VolumeButtons
+          disabled={false}
+          onVolumeChange={[MockFunction onVolumeChangeMock]}
+          volume={23}
+        />
+        <SearchButton
+          disabled={false}
+          onClick={[MockFunction onSearchClickMock]}
+        />
+        <Controls
+          disabled={false}
+          onNext={[MockFunction onNextMock]}
+          onPause={[MockFunction onPauseMock]}
+          onPlay={[MockFunction onPlayMock]}
+          onPrevious={[MockFunction onPreviousMock]}
+          onStop={[MockFunction onStopMock]}
+          playbackState="playing"
+        />
+      </Container>
+      <Divider />
+      <Container
+        className="body-wrapper"
+        fluid={true}
+      >
+        <Grid
+          className="dashboard-grid"
+          columns={2}
+          stackable={true}
         >
-          <DragInTrack
-            disabled={false}
-            onDrop={[MockFunction onDropMock]}
+          <GridColumn
+            width={4}
           >
             <Header
               size="small"
             >
               Current Track
             </Header>
-            <Connect(CurrentTrackContainer) />
-          </DragInTrack>
-        </GridColumn>
-        <GridColumn
-          width={8}
-        >
-          <Header
-            size="small"
+            <CurrentTrackContainer />
+          </GridColumn>
+          <GridColumn
+            width={8}
           >
-            Playlist 
-            <ClearPlaylist
-              disabled={false}
-              onClear={[MockFunction onTracklistClearMock]}
-            />
-          </Header>
-          <Tracklist
-            currentTrack={
-              Object {
-                "title": "track1",
+            <Header
+              size="small"
+            >
+              Playlist 
+              <ClearPlaylist
+                disabled={false}
+                onClear={[MockFunction onTracklistClearMock]}
+              />
+            </Header>
+            <Tracklist
+              currentTrack={
+                Object {
+                  "title": "track1",
+                }
               }
-            }
-            disabled={false}
-            onRemoveTrack={[MockFunction onRemoveTrackMock]}
-            tracks={
-              Array [
-                "track1",
-                "track2",
-              ]
-            }
-          />
-        </GridColumn>
-      </Grid>
-    </Container>
-  </SearchContainer>
+              disabled={false}
+              onRemoveTrack={[MockFunction onRemoveTrackMock]}
+              tracks={
+                Array [
+                  "track1",
+                  "track2",
+                ]
+              }
+            />
+          </GridColumn>
+        </Grid>
+      </Container>
+    </SearchContainer>
+  </DragInTrack>
 </DimmerDimmable>
 `;

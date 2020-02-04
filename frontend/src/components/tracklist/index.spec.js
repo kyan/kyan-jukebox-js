@@ -5,9 +5,6 @@ import MockTrackListJson from '__mockData__/api'
 
 describe('Tracklist', () => {
   let tracks = MockTrackListJson()
-  const images = {
-    'spotify:album:5OVGwMCexoHavOar6v4al5': 'album-image.jpg'
-  }
   const onRemoveMock = jest.fn()
 
   beforeEach(() => {
@@ -22,7 +19,6 @@ describe('Tracklist', () => {
         <Tracklist
           disabled
           tracks={tracks.map(item => item.track)}
-          images={images}
           currentTrack={tracks[0].track}
           onRemoveTrack={onRemoveMock}
         />
@@ -38,7 +34,6 @@ describe('Tracklist', () => {
         <Tracklist
           disabled={false}
           tracks={tracks.map(item => item.track)}
-          images={images}
           currentTrack={tracks[0].track}
           onRemoveTrack={onRemoveMock}
         />
@@ -53,15 +48,14 @@ describe('Tracklist', () => {
       const wrapper = mount(
         <Tracklist
           tracks={tracks.map(item => item.track)}
-          images={images}
           currentTrack={tracks[0].track}
           onRemoveTrack={onRemoveMock}
         />
       )
 
-      wrapper.find('.item').at(1).find('img').simulate('click')
+      wrapper.find('.item > .remove-image').at(1).simulate('click')
       expect(onRemoveMock.mock.calls.length).toEqual(1)
-      expect(onRemoveMock.mock.calls[0][0]).toEqual('spotify:track:1yzSSn5Sj1azuo7Rgwvdunc')
+      expect(onRemoveMock.mock.calls[0][0]).toEqual('spotify:track:6hp4DW1Z1RInKvO5ijj9nW')
     })
   })
 
@@ -82,6 +76,21 @@ describe('Tracklist', () => {
       const wrapper = shallow(
         <Tracklist
           tracks={tracks.map(item => item.track)}
+          onRemoveTrack={onRemoveMock}
+        />
+      )
+      expect(wrapper).toMatchSnapshot()
+    })
+  })
+
+  describe('tracklist has track with no addedBy data', () => {
+    it('does nothing', () => {
+      const track = tracks[0].track
+      delete track.addedBy
+
+      const wrapper = shallow(
+        <Tracklist
+          tracks={[track]}
           onRemoveTrack={onRemoveMock}
         />
       )

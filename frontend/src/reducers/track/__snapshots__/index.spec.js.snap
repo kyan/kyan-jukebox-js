@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`track ADD_CURRENT_TRACK handles a track 1`] = `
+Object {
+  "addedBy": null,
+  "album": Object {
+    "name": "album1",
+  },
+  "artist": Object {
+    "name": "artist1",
+  },
+  "metrics": null,
+  "name": "track1",
+  "uri": "t1",
+}
+`;
+
+exports[`track SYNC_SOCIAL_DATA handles a change 1`] = `
+Object {
+  "addedBy": "duncan",
+  "album": Object {
+    "name": "album1",
+  },
+  "artist": Object {
+    "name": "artist1",
+  },
+  "metrics": "metrics",
+  "name": "track1",
+  "uri": "t1",
+}
+`;
+
+exports[`track SYNC_SOCIAL_DATA handles no change 1`] = `
+Object {
+  "addedBy": undefined,
+  "album": Object {
+    "name": "album1",
+  },
+  "artist": Object {
+    "name": "artist1",
+  },
+  "metrics": undefined,
+  "name": "track1",
+  "uri": "t1",
+}
+`;

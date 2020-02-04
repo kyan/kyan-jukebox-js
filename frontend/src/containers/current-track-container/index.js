@@ -1,24 +1,26 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { useContext } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import GoogleAuthContext from 'contexts/google'
 import { timerToPercentage } from 'utils/time'
+import * as voteActions from 'votes/actions'
 import CurrentTrack from 'components/current-track'
 
-export const CurrentTrackContainer = ({ track, progress, remaining }) => (
-  <CurrentTrack
-    track={track}
-    progress={progress}
-    remaining={remaining}
-  />
-)
+export const CurrentTrackContainer = () => {
+  const { googleUser } = useContext(GoogleAuthContext)
+  const progressAsPercent = useSelector(state => timerToPercentage(state.timer))
+  const remaining = useSelector(state => state.timer.remaining)
+  const track = useSelector(state => state.track)
+  const dispatch = useDispatch()
 
-const mapStateToProps = state => {
-  return {
-    track: state.track,
-    progress: timerToPercentage(state.timer),
-    remaining: state.timer.remaining
-  }
+  return (
+    <CurrentTrack
+      userID={googleUser && googleUser.googleId}
+      track={track}
+      progress={progressAsPercent}
+      remaining={remaining}
+      onVote={(uri, rating) => dispatch(voteActions.vote(uri, rating))}
+    />
+  )
 }
 
-export default connect(
-  mapStateToProps
-)(CurrentTrackContainer)
+export default CurrentTrackContainer

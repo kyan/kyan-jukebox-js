@@ -3,6 +3,7 @@ import * as searchActions from 'search/actions'
 import AuthApi from 'constants/auth-api'
 import MopidyApi from 'constants/mopidy-api'
 import SearchConst from 'search/constants'
+import VoteConst from 'votes/constants'
 import Payload from 'utils/payload'
 import notify from 'utils/notify'
 
@@ -29,6 +30,7 @@ const playBackChanged = (store, state, progress) => {
 
 const addCurrentTrack = (track, store, progress) => {
   store.dispatch(actions.addCurrentTrack(track))
+  store.dispatch(actions.syncSocialData(track))
   const progressTimer = progress.set(0, track.length)
   if (store.getState().jukebox.playbackState === MopidyApi.PLAYING) progressTimer.start()
 }
@@ -76,6 +78,11 @@ const onMessageHandler = (store, payload, progressTimer) => {
       break
     case SearchConst.SEARCH_GET_TRACKS:
       store.dispatch(searchActions.storeSearchResults(data))
+      break
+    case VoteConst.VOTE_CASTED:
+      if (data) {
+        store.dispatch(actions.syncSocialData(data))
+      }
       break
     case MopidyApi.VALIDATION_ERROR:
       notify.warning(data)

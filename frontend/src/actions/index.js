@@ -32,6 +32,13 @@ export const addCurrentTrack = track => {
   }
 }
 
+export const syncSocialData = track => {
+  return {
+    type: Types.SYNC_SOCIAL_DATA,
+    track
+  }
+}
+
 export const addTrackList = list => {
   return {
     type: Types.ADD_TRACKS,

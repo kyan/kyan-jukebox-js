@@ -1,6 +1,7 @@
 import configureStore from 'redux-mock-store'
 import MopidyApi from 'constants/mopidy-api'
 import Search from 'search/constants'
+import VoteConst from 'votes/constants'
 import AuthApi from 'constants/auth-api'
 import MockTrackListJson from '__mockData__/api'
 import notify from 'utils/notify'
@@ -48,12 +49,12 @@ describe('onMessageHandler', () => {
       })
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
-      expect(actions[0]).toEqual({
-        track: payload.data.track,
-        type: 'actionAddCurrentTrack'
-      })
+      expect(actions).toEqual([
+        { track: payload.data.track, type: 'actionAddCurrentTrack' },
+        { track: payload.data.track, type: 'syncSocialData' }
+      ])
       expect(progressStartMock.mock.calls.length).toEqual(1)
-      progressStartMock.mockClear()
+      store.clearActions()
     })
 
     it('checks track playing but JB stopped', () => {
@@ -70,13 +71,12 @@ describe('onMessageHandler', () => {
       })
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
-      expect(actions[0]).toEqual({
-        track: payload.data.track,
-        type: 'actionAddCurrentTrack'
-      })
-      expect(actions.length).toEqual(1)
+      expect(actions).toEqual([
+        { track: payload.data.track, type: 'actionAddCurrentTrack' },
+        { track: payload.data.track, type: 'syncSocialData' }
+      ])
       expect(progressStartMock.mock.calls.length).toEqual(0)
-      progressStartMock.mockClear()
+      store.clearActions()
     })
 
     it('checks when no track is actually playing', () => {
@@ -93,7 +93,7 @@ describe('onMessageHandler', () => {
       const actions = store.getActions()
       expect(actions.length).toEqual(0)
       expect(progressStartMock.mock.calls.length).toEqual(0)
-      progressStartMock.mockClear()
+      store.clearActions()
     })
   })
 
@@ -101,7 +101,7 @@ describe('onMessageHandler', () => {
     it('checks track playing with image provided in payload', () => {
       const payload = {
         data: {
-          track: MockTrackListJson()[0].track
+          track: MockTrackListJson()[1].track
         },
         key: MopidyApi.EVENT_TRACK_PLAYBACK_STARTED
       }
@@ -112,13 +112,12 @@ describe('onMessageHandler', () => {
       })
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
-      expect(actions[0]).toEqual({
-        track: payload.data.track,
-        type: 'actionAddCurrentTrack'
-      })
-      expect(actions.length).toEqual(1)
+      expect(actions).toEqual([
+        { track: payload.data.track, type: 'actionAddCurrentTrack' },
+        { track: payload.data.track, type: 'syncSocialData' }
+      ])
       expect(progressStartMock.mock.calls.length).toEqual(1)
-      progressStartMock.mockClear()
+      store.clearActions()
     })
   })
 
@@ -140,6 +139,7 @@ describe('onMessageHandler', () => {
       expect(actions).toEqual([{ state: 'playing', type: 'actionPlaybackState' }])
       expect(progressStartMock.mock.calls.length).toEqual(1)
       expect(progressStopMock.mock.calls.length).toEqual(0)
+      store.clearActions()
     })
 
     it('handles stopping', () => {
@@ -154,6 +154,7 @@ describe('onMessageHandler', () => {
       expect(actions).toEqual([{ state: 'stopped', type: 'actionPlaybackState' }])
       expect(progressStartMock.mock.calls.length).toEqual(0)
       expect(progressStopMock.mock.calls.length).toEqual(1)
+      store.clearActions()
     })
 
     it('handles pausing', () => {
@@ -168,6 +169,7 @@ describe('onMessageHandler', () => {
       expect(actions).toEqual([{ state: 'paused', type: 'actionPlaybackState' }])
       expect(progressStartMock.mock.calls.length).toEqual(0)
       expect(progressStopMock.mock.calls.length).toEqual(1)
+      store.clearActions()
     })
 
     it('handles weirdstate', () => {
@@ -182,6 +184,7 @@ describe('onMessageHandler', () => {
       expect(actions.length).toEqual(0)
       expect(progressStartMock.mock.calls.length).toEqual(0)
       expect(progressStopMock.mock.calls.length).toEqual(0)
+      store.clearActions()
     })
   })
 
@@ -199,6 +202,7 @@ describe('onMessageHandler', () => {
         type: 'actionAddTracks'
       })
       expect(actions.length).toEqual(1)
+      store.clearActions()
     })
   })
 
@@ -214,6 +218,7 @@ describe('onMessageHandler', () => {
       onMessageHandler(store, JSON.stringify(payload), progSetMock)
       expect(progMock.mock.calls.length).toEqual(1)
       expect(progMock.mock.calls[0][0]).toEqual(payload.data)
+      store.clearActions()
     })
   })
 
@@ -227,6 +232,7 @@ describe('onMessageHandler', () => {
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
       expect(actions).toEqual([{ type: 'actionUpdateVolume', volume: 32 }])
+      store.clearActions()
     })
   })
 
@@ -241,6 +247,7 @@ describe('onMessageHandler', () => {
       const actions = store.getActions()
       expect(actions).toEqual([{ type: 'actionUpdateVolume', volume: 32 }])
       expect(notify.success.mock.calls.length).toEqual(1)
+      store.clearActions()
     })
   })
 
@@ -255,6 +262,7 @@ describe('onMessageHandler', () => {
       const actions = store.getActions()
       expect(actions).toEqual([{ type: 'actionClearStoreToken' }])
       expect(console.log).toHaveBeenCalledWith('AUTHENTICATION_TOKEN_INVALID: boom')
+      store.clearActions()
     })
   })
 
@@ -267,6 +275,7 @@ describe('onMessageHandler', () => {
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
       expect(actions).toEqual([{ type: 'actionSend', key: 'mopidy::playback.getCurrentTrack' }])
+      store.clearActions()
     })
   })
 
@@ -279,6 +288,7 @@ describe('onMessageHandler', () => {
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
       expect(actions).toEqual([{ type: 'actionSend', key: 'mopidy::playback.getCurrentTrack' }])
+      store.clearActions()
     })
   })
 
@@ -291,6 +301,7 @@ describe('onMessageHandler', () => {
       const store = mockStore({})
       onMessageHandler(store, JSON.stringify(payload), progress)
       expect(notify.warning.mock.calls).toEqual([['Is there a radio mix? - Boy - Naughty']])
+      store.clearActions()
     })
   })
 
@@ -314,6 +325,7 @@ describe('onMessageHandler', () => {
       onMessageHandler(store, JSON.stringify(payload), progress)
       expect(notify.success)
         .toHaveBeenCalledWith('Adding: track name / album name by artist name')
+      store.clearActions()
     })
   })
 
@@ -330,6 +342,36 @@ describe('onMessageHandler', () => {
         type: 'actionStoreSearchResults',
         results: 'searchresults'
       }])
+      store.clearActions()
+    })
+  })
+
+  describe('VOTE_CASTED', () => {
+    it('syncs vote data when there provided', () => {
+      const payload = {
+        key: VoteConst.VOTE_CASTED,
+        data: 'voteData'
+      }
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions).toEqual([{
+        type: 'syncSocialData',
+        track: 'voteData'
+      }])
+      store.clearActions()
+    })
+
+    it('does not sync vote data when there none', () => {
+      const payload = {
+        key: VoteConst.VOTE_CASTED,
+        data: null
+      }
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      const actions = store.getActions()
+      expect(actions).toEqual([])
+      store.clearActions()
     })
   })
 })

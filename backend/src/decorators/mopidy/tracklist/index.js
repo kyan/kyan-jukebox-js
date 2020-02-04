@@ -1,4 +1,4 @@
-import TransformTrack from 'utils/transformer/transformers/mopidy/track'
+import DecorateTrack from 'decorators/mopidy/track'
 import { findTracks } from 'services/mongodb/models/track'
 import ImageCache from 'utils/image-cache'
 
@@ -18,10 +18,13 @@ const TransformerTracklist = (json) => {
         const trackData = tracks.find(track => track._id === data.uri)
         const imageData = images.find(image => image._id === (data.album && data.album.uri))
 
-        if (trackData) data.addedBy = trackData.addedBy.reverse()
+        if (trackData) {
+          data.addedBy = trackData.addedBy
+          data.metrics = trackData.metrics
+        }
         if (imageData) data.image = imageData.url
 
-        return TransformTrack(data)
+        return DecorateTrack(data)
       })
 
       return resolve(decoratedTracks)

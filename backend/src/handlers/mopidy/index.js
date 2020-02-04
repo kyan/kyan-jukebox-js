@@ -1,4 +1,6 @@
 import logger from 'config/winston'
+import Broadcaster from 'utils/broadcaster'
+import Decorator from 'decorators/mopidy'
 import EventLogger from 'utils/event-logger'
 import MessageType from 'constants/message'
 import Mopidy from 'constants/mopidy'
@@ -19,23 +21,25 @@ const isValidTrack = (key, data) => {
   return Spotify.validateTrack(data.uri)
 }
 
-const logEvent = (headers, params, response, context) => {
-  EventLogger({ encoded_key: headers.encoded_key }, params, response, context)
-}
-
-const MopidyHandler = (payload, ws, bcast, mopidy) => {
+const MopidyHandler = (payload, socket, mopidy) => {
   const { key, data } = payload
-  logEvent(payload, data, null, MessageType.INCOMING_CLIENT)
+  EventLogger.info(MessageType.INCOMING_CLIENT, payload)
+
+  const broadcastTo = (headers, message) => {
+    Decorator.parse(headers, message).then(unifiedMessage => {
+      Broadcaster.toClient(socket, headers, unifiedMessage)
+    })
+  }
 
   isValidTrack(
     payload.encoded_key, data
   ).then(() => {
     const apiCall = StrToFunction(mopidy, key)
-    logEvent(payload, data, null, MessageType.OUTGOING_MOPIDY)
+    EventLogger.info(MessageType.OUTGOING_MOPIDY, payload)
 
     const successHandler = response => {
-      logEvent(payload, data, response, MessageType.INCOMING_MOPIDY)
-      bcast.to(ws, payload, response)
+      EventLogger.info(MessageType.INCOMING_MOPIDY, { ...payload, ...{ response } }, true)
+      broadcastTo(payload, response)
     }
 
     (data ? apiCall(data) : apiCall())
@@ -43,7 +47,7 @@ const MopidyHandler = (payload, ws, bcast, mopidy) => {
       .catch((err) => logger.error(`Mopidy API Failure: ${err.message}`))
   }).catch((err) => {
     payload.encoded_key = Mopidy.VALIDATION_ERROR
-    bcast.to(ws, payload, err.message)
+    Broadcaster.toClient(socket, payload, err.message)
   })
 }
 

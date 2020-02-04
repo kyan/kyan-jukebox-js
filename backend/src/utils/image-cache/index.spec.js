@@ -1,7 +1,7 @@
-import logger from 'config/winston'
+import EventLogger from 'utils/event-logger'
 import mockingoose from 'mockingoose'
 import ImageCache from './index'
-jest.mock('config/winston')
+jest.mock('utils/event-logger')
 
 describe('ImageCache', () => {
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('ImageCache', () => {
       ImageCache.findAll([_doc._id])
         .then((result) => {
           expect(result).toMatchObject([_doc])
-          expect(logger.info).toHaveBeenCalledWith('FOUND CACHED IMAGES', { keys: ['spotify123'] })
+          expect(EventLogger.info).toHaveBeenCalledWith('FOUND CACHED IMAGES', { data: ['spotify123'] })
           done()
         })
     })
@@ -37,7 +37,7 @@ describe('ImageCache', () => {
       ImageCache.findAll([_doc._id])
         .then((result) => {
           expect(result).toMatchObject([])
-          expect(logger.info).not.toHaveBeenCalled()
+          expect(EventLogger.info).not.toHaveBeenCalled()
           done()
         })
     })
