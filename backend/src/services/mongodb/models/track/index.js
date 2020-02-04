@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
+import { flatten, mean, sumBy } from 'lodash'
 import User from 'services/mongodb/models/user'
+import EventLogger from 'utils/event-logger'
 import logger from 'config/winston'
 
 const trackSchema = mongoose.Schema({
@@ -8,8 +10,24 @@ const trackSchema = mongoose.Schema({
     _id: false,
     user: { type: mongoose.Schema.Types.String, ref: 'User' },
     addedAt: mongoose.Schema.Types.Date,
-    playedAt: { type: mongoose.Schema.Types.Date, default: null }
-  }]
+    played: [{
+      _id: false,
+      at: mongoose.Schema.Types.Date
+    }],
+    votes: [{
+      _id: false,
+      user: { type: mongoose.Schema.Types.String, ref: 'User' },
+      vote: mongoose.Schema.Types.Number,
+      at: mongoose.Schema.Types.Date
+    }]
+  }],
+  metrics: {
+    _id: false,
+    plays: { type: mongoose.Schema.Types.Number, default: 0 },
+    votes: { type: mongoose.Schema.Types.Number, default: 0 },
+    votesTotal: { type: mongoose.Schema.Types.Number, default: 0 },
+    votesAverage: { type: mongoose.Schema.Types.Number, default: 0 }
+  }
 }, { _id: false })
 const Track = mongoose.model('Track', trackSchema)
 
@@ -19,12 +37,16 @@ const brh = {
   picture: 'https://cdn-images-1.medium.com/fit/c/200/200/1*bFBXYvskkPFI9nPx6Elwxg.png'
 }
 
+// This is what we times the vote by to get a nice big value to store
+const voteConstant = 10
+
 const findTracks = (uris) => {
   return new Promise((resolve, reject) => {
     Track.find({ _id: { $in: uris } })
       .populate({ path: 'addedBy.user' })
+      .populate({ path: 'addedBy.votes.user' })
       .then(tracks => {
-        if (tracks.length > 0) logger.info('FOUND CACHED TRACKS', { keys: uris })
+        if (tracks.length > 0) EventLogger.info('FOUND CACHED TRACKS', { data: uris })
         return resolve(tracks)
       })
       .catch(err => reject(err))
@@ -45,15 +67,15 @@ const addTracks = (uris, user) => {
   return new Promise((resolve) => {
     findOrUseBRH(user).then((returnUser) => {
       const requests = uris.map((uri) => (
-        Track.updateOne(
+        Track.findOneAndUpdate(
           { _id: uri },
-          { $push: { addedBy: { user: returnUser, addedAt: new Date() } } },
-          { upsert: true, runValidators: true } // Create a new Track if it doesn't exist
+          { $push: { addedBy: { $each: [{ user: returnUser, addedAt: new Date() }], $position: 0 } } },
+          { upsert: true, runValidators: true, setDefaultsOnInsert: true }
         ).exec()
       ))
 
       Promise.all(requests)
-        .then(() => resolve(uris))
+        .then(() => resolve({ uris, user: returnUser }))
         .catch((error) => logger.error('addTracks:Track.updateOne', { message: error.message }))
     }).catch((error) => logger.error('addTracks:findOrUseBRH', { message: error.message }))
   })
@@ -62,9 +84,12 @@ const addTracks = (uris, user) => {
 const updateTrackPlaycount = (uri) => {
   return new Promise((resolve) => {
     Track.findById(uri)
+      .populate({ path: 'addedBy.user' })
+      .populate({ path: 'addedBy.votes.user' })
       .then((track) => {
         if (track && track.addedBy[0]) {
-          track.addedBy[0].playedAt = new Date()
+          track.addedBy[0].played.unshift({ at: new Date() })
+          track.metrics.plays = track.metrics.plays + 1
           return track.save()
         }
 
@@ -75,5 +100,51 @@ const updateTrackPlaycount = (uri) => {
   })
 }
 
+const calcVoteCount = (data) => {
+  return sumBy(data, i => i.votes.length)
+}
+
+const calcVoteTotal = (data) => {
+  return sumBy(data, i => sumBy(i.votes, v => v.vote))
+}
+
+const calcVoteAverage = (data) => {
+  const votes = data.map(i => i.votes.map(j => j.vote))
+  return mean(flatten(votes))
+}
+
+const updateTrackVote = (uri, user, vote) => {
+  return new Promise((resolve) => {
+    findOrUseBRH(user).then((returnUser) => {
+      Track.findById(uri)
+        .populate({ path: 'addedBy.user' })
+        .populate({ path: 'addedBy.votes.user' })
+        .then((track) => {
+          if (track && track.addedBy[0]) {
+            const currentVote = vote * voteConstant
+            const currentVoteData = { _id: false, at: new Date(), vote: currentVote, user: returnUser }
+            const votes = track.addedBy[0].votes
+            const currentVoteIndex = votes.findIndex(vote => vote.user._id === returnUser._id)
+
+            if (currentVoteIndex !== -1) {
+              votes[currentVoteIndex].vote = currentVote
+            } else {
+              votes.unshift(currentVoteData)
+              track.metrics.votes = calcVoteCount(track.addedBy)
+            }
+            track.metrics.votesTotal = calcVoteTotal(track.addedBy)
+            track.metrics.votesAverage = calcVoteAverage(track.addedBy)
+
+            return track.save()
+          }
+
+          return Promise.resolve(track)
+        })
+        .then((track) => resolve({ uri: track.id, addedBy: track.addedBy, metrics: track.metrics }))
+        .catch((error) => logger.error('updateTrackVote:findById', { message: error.message }))
+    }).catch((error) => logger.error('updateTrackVote:findOrUseBRH', { message: error.message }))
+  })
+}
+
 export default Track
-export { findTracks, addTracks, updateTrackPlaycount }
+export { findTracks, addTracks, updateTrackPlaycount, updateTrackVote }

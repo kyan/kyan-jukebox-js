@@ -1,4 +1,5 @@
 import { OAuth2Client } from 'google-auth-library'
+import Broadcaster from 'utils/broadcaster'
 import AuthConsts from 'constants/auth'
 import MopidyConsts from 'constants/mopidy'
 import logger from 'config/winston'
@@ -15,12 +16,19 @@ const persistUser = (user) => {
   return User.findOneAndUpdate(query, update, options)
 }
 
-const AuthenticateHandler = (payload, ws, broadcaster) => {
-  if (!isAuthorisedRequest(payload.encoded_key)) return Promise.resolve(payload)
+const AuthenticateHandler = (payload, socket) => {
+  if (!isAuthorisedRequest(payload.encoded_key)) {
+    delete (payload.jwt_token)
+    return Promise.resolve(payload)
+  }
 
   return new Promise((resolve) => {
     const token = payload.jwt_token
     const client = new OAuth2Client(process.env.CLIENT_ID)
+
+    const broadcastTo = (headers, message) => {
+      Broadcaster.toClient(socket, headers, message)
+    }
 
     client.verifyIdToken({ idToken: token, audience: process.env.CLIENT_ID })
       .then((ticket) => {
@@ -29,7 +37,6 @@ const AuthenticateHandler = (payload, ws, broadcaster) => {
           data: payload.data,
           key: payload.key,
           encoded_key: payload.encoded_key,
-          token: token,
           user: {
             _id: data['sub'],
             fullname: data['name'],
@@ -44,11 +51,10 @@ const AuthenticateHandler = (payload, ws, broadcaster) => {
         }
 
         payload.encoded_key = AuthConsts.AUTHENTICATION_TOKEN_INVALID
-        broadcaster.to(ws, payload, { error: `Invalid domain: ${data['hd']}` })
+        broadcastTo(payload, { error: `Invalid domain: ${data['hd']}` })
       })
       .catch(err => {
-        payload.encoded_key = AuthConsts.AUTHENTICATION_TOKEN_INVALID
-        broadcaster.to(ws, payload, { error: err.message })
+        broadcastTo(payload, { error: err.message })
       })
   })
 }

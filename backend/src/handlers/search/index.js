@@ -1,26 +1,25 @@
-import EventLogger from 'utils/event-logger'
+import Broadcaster from 'utils/broadcaster'
 import MopidyConst from 'constants/mopidy'
 import MessageType from 'constants/message'
-import SearchConst from 'constants/search'
 import Spotify from 'services/spotify'
+import EventLogger from 'utils/event-logger'
+import Decorator from 'decorators/search'
 
-const sendToClient = (bcast, ws, payload, data) => {
-  bcast.to(ws, payload, data, MessageType.SEARCH)
-}
-
-const logEvent = (headers, params, response, context) => {
-  EventLogger({ encoded_key: headers.encoded_key }, params, response, context)
-}
-
-const SearchHandler = (payload, ws, bcast) => {
+const SearchHandler = (payload, socket) => {
   const { data } = payload
-  logEvent(payload, data, null, SearchConst.SEARCH_GET_TRACKS)
+  EventLogger.info('SEARCH', payload, true)
+
+  const broadcastTo = (headers, message) => {
+    Decorator.parse(headers, message).then(unifiedMessage => {
+      Broadcaster.toClient(socket, headers, unifiedMessage, MessageType.SEARCH)
+    })
+  }
 
   Spotify.search(data).then((tracks) => {
-    sendToClient(bcast, ws, payload, tracks)
+    broadcastTo(payload, tracks)
   }).catch((err) => {
     payload.encoded_key = MopidyConst.VALIDATION_ERROR
-    sendToClient(bcast, ws, payload, err.message)
+    broadcastTo(payload, err.message)
   })
 }
 

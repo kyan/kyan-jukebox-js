@@ -1,17 +1,12 @@
 import broadcaster from './index'
 import logger from 'config/winston'
 import EventLogger from 'utils/event-logger'
-import Transform from 'utils/transformer'
 jest.mock('config/winston')
 jest.mock('utils/event-logger')
-jest.mock('utils/transformer', () => {
-  return {
-    message: jest.fn().mockImplementation((_, message) => Promise.resolve(message))
-  }
-})
+
 describe('Broadcaster', () => {
-  afterEach(() => {
-    EventLogger.mockClear()
+  beforeEach(() => {
+    jest.clearAllMocks()
   })
 
   describe('#to', () => {
@@ -26,20 +21,14 @@ describe('Broadcaster', () => {
       }
       const message = 'hello mum'
 
-      await broadcaster.to(clientMock, payload, message)
-      expect(Transform.message).toHaveBeenCalledWith(
-        { encoded_key: 'mopidy::playback.next' },
-        'hello mum'
-      )
+      await broadcaster.toClient(clientMock, payload, message)
       expect(sendMock).toHaveBeenCalledWith(
         'message',
         '{"key":"mopidy::playback.next","data":"hello mum"}'
       )
-      expect(EventLogger).toHaveBeenCalledWith(
-        { encoded_key: 'mopidy::playback.next' },
-        null,
-        '{"key":"mopidy::playback.next","data":"hello mum"}',
-        'OUTGOING API'
+      expect(EventLogger.info).toHaveBeenCalledWith(
+        'OUTGOING API',
+        { data: 'hello mum', key: 'mopidy::playback.next' }
       )
     })
 
@@ -55,20 +44,14 @@ describe('Broadcaster', () => {
       }
       const message = 'hello mum'
 
-      await broadcaster.to(clientMock, payload, message)
-      expect(Transform.message).toHaveBeenCalledWith(
-        { encoded_key: 'mopidy::playback.next', user: 'duncan' },
-        'hello mum'
-      )
+      await broadcaster.toClient(clientMock, payload, message)
       expect(sendMock).toHaveBeenCalledWith(
         'message',
         '{"key":"mopidy::playback.next","data":"hello mum","user":"duncan"}'
       )
-      expect(EventLogger).toHaveBeenCalledWith(
-        { encoded_key: 'mopidy::playback.next', user: 'duncan' },
-        null,
-        '{"key":"mopidy::playback.next","data":"hello mum","user":"duncan"}',
-        'OUTGOING API [AUTHED]'
+      expect(EventLogger.info).toHaveBeenCalledWith(
+        'OUTGOING API [AUTHED]',
+        { data: 'hello mum', key: 'mopidy::playback.next' }
       )
     })
 
@@ -84,8 +67,8 @@ describe('Broadcaster', () => {
       }
       const message = 'hello mum'
 
-      await broadcaster.to(clientMock, payload, message)
-      expect(logger.error).toHaveBeenCalledWith('Broadcaster#to', { message: 'oops' })
+      await broadcaster.toClient(clientMock, payload, message)
+      expect(logger.error).toHaveBeenCalledWith('Broadcaster#toClient', { message: 'oops' })
     })
   })
 
@@ -102,10 +85,11 @@ describe('Broadcaster', () => {
       expect(sendMock.mock.calls.length).toEqual(1)
       expect(sendMock.mock.calls[0][0]).toEqual('message')
       expect(sendMock.mock.calls[0][1]).toEqual('{"key":"mopidy::playback.next","data":"hello mum"}')
-      expect(EventLogger.mock.calls[0][0]).toEqual('mopidy::playback.next')
-      expect(EventLogger.mock.calls[0][1]).toBeNull()
-      expect(EventLogger.mock.calls[0][2]).toEqual('hello mum')
-      expect(EventLogger.mock.calls[0][3]).toEqual('OUTGOING API BROADCAST')
+
+      expect(EventLogger.info).toHaveBeenCalledWith(
+        'OUTGOING API BROADCAST',
+        { data: 'hello mum', key: 'mopidy::playback.next' }
+      )
     })
 
     it('handles error', () => {
@@ -123,7 +107,7 @@ describe('Broadcaster', () => {
     })
   })
 
-  describe('#toAllMopidy', () => {
+  describe('#stateChange', () => {
     it('handles call', () => {
       const sendMock = jest.fn()
       const socketMock = {
@@ -131,13 +115,14 @@ describe('Broadcaster', () => {
       }
       const message = { online: false }
 
-      broadcaster.toAllMopidy(socketMock, message)
+      broadcaster.stateChange(socketMock, message)
       expect(sendMock.mock.calls.length).toEqual(1)
       expect(sendMock.mock.calls[0][0]).toEqual('mopidy')
       expect(sendMock.mock.calls[0][1]).toEqual('{"online":false}')
-      expect(EventLogger.mock.calls[0][0]).toEqual({ encoded_key: 'state' })
-      expect(EventLogger.mock.calls[0][1]).toBeNull()
-      expect(EventLogger.mock.calls[0][3]).toEqual('OUTGOING API BROADCAST')
+      expect(EventLogger.info).toHaveBeenCalledWith(
+        'OUTGOING STATE CHANGE',
+        { data: { online: false }, key: 'state' }
+      )
     })
 
     it('handles error', () => {
@@ -147,8 +132,8 @@ describe('Broadcaster', () => {
       }
       const message = { online: false }
 
-      broadcaster.toAllMopidy(socketMock, message)
-      expect(sendMock.mock.calls[0]).toEqual(['mopidy', '{"online":false}'])
+      broadcaster.stateChange(socketMock, message)
+      expect(sendMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
       expect(logger.error.mock.calls[0][0]).toEqual('Broadcaster#toAllMopidy')
       expect(logger.error.mock.calls[0][1]).toEqual({ message: 'oops' })
     })

@@ -2,58 +2,19 @@
 
 exports[`Tracklist render when disabled renders the as expected 1`] = `
 <List
-  relaxed={true}
+  divided={true}
+  relaxed="very"
 >
   <ListItem
     className="current-track"
-    key="0-spotify:track:1yzSSn5Sj1azuo7RgwvDb3"
+    key="0-spotify:track:1WaBuuaXGwrU4sFvxAjnkf"
   >
     <Image
       as="img"
+      bordered={true}
       className="current-image"
       inline={true}
-      size="tiny"
-      src="http://path/to/cool/image.png"
-      ui={true}
-    />
-    <ListContent
-      className=""
-    >
-      <ListHeader
-        as="h4"
-      >
-        No Time for Caution
-      </ListHeader>
-      <ListDescription>
-        Hans Zimmer
-         
-        <small>
-          (
-          4:06
-          )
-        </small>
-      </ListDescription>
-      <AddedBy
-        users={
-          Array [
-            Object {
-              "_id": "123",
-              "addedAt": "2019-12-17T13:11:37.316Z",
-              "fullname": "Big Rainbowhead",
-            },
-          ]
-        }
-      />
-    </ListContent>
-  </ListItem>
-  <ListItem
-    className=""
-    key="1-spotify:track:1yzSSn5Sj1azuo7Rgwvdunc"
-  >
-    <Image
-      as="img"
-      inline={true}
-      size="tiny"
+      size="small"
       src="default-artwork.png"
       ui={true}
     />
@@ -63,24 +24,57 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
       <ListHeader
         as="h4"
       >
-        Is this sucker going live anytime soon
+        Happiness
       </ListHeader>
       <ListDescription>
-        The chancer
+        Ken Dodd
          
         <small>
           (
-          4:06
+          2:00
           )
         </small>
       </ListDescription>
+      <VotedBy
+        total={80}
+      />
+      <Label
+        className="track-label"
+        size="tiny"
+      >
+        Played
+        <LabelDetail>
+          1
+        </LabelDetail>
+      </Label>
       <AddedBy
         users={
           Array [
             Object {
-              "_id": "666",
-              "addedAt": "2019-12-17T13:11:37.316Z",
-              "fullname": "Duncan Robertson",
+              "addedAt": "2020-01-27T20:19:27.965Z",
+              "played": Array [
+                Object {
+                  "at": "2020-01-27T20:20:34.422Z",
+                },
+              ],
+              "user": Object {
+                "__v": 0,
+                "_id": "1117795953801840xxxxx",
+                "fullname": "Duncan Robertson",
+                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+              },
+              "votes": Array [
+                Object {
+                  "at": "2020-01-27T20:20:37.904Z",
+                  "user": Object {
+                    "__v": 0,
+                    "_id": "1117795953801840xxxxx",
+                    "fullname": "Duncan Robertson",
+                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                  },
+                  "vote": 80,
+                },
+              ],
             },
           ]
         }
@@ -89,13 +83,14 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
   </ListItem>
   <ListItem
     className=""
-    key="2-soundcloud:track:5OVGwMCexoHacompose"
+    key="1-spotify:track:6BitwTrBfUrTdztRrQiw52"
   >
     <Image
       as="img"
+      bordered={true}
       inline={true}
-      size="tiny"
-      src="default-artwork.png"
+      size="small"
+      src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
       ui={true}
     />
     <ListContent
@@ -104,18 +99,134 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
       <ListHeader
         as="h4"
       >
-        Silent Running
+        Chicken Song
       </ListHeader>
       <ListDescription>
-        Joan Baez
+        3 Shades
          
         <small>
           (
-          2:04
+          1:00
           )
         </small>
       </ListDescription>
-      <AddedBy />
+      <VotedBy
+        total={40}
+      />
+      <Label
+        className="track-label"
+        size="tiny"
+      >
+        Played
+        <LabelDetail>
+          3
+        </LabelDetail>
+      </Label>
+      <AddedBy
+        users={
+          Array [
+            Object {
+              "addedAt": "2020-01-27T20:19:49.207Z",
+              "played": Array [
+                Object {
+                  "at": "2020-01-27T20:20:48.148Z",
+                },
+                Object {
+                  "at": "2020-01-27T20:20:44.403Z",
+                },
+                Object {
+                  "at": "2020-01-27T20:20:41.006Z",
+                },
+              ],
+              "user": Object {
+                "__v": 0,
+                "_id": "1117795953801840xxxxx",
+                "fullname": "Duncan Robertson",
+                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+              },
+              "votes": Array [
+                Object {
+                  "at": "2020-01-27T20:20:50.355Z",
+                  "user": Object {
+                    "__v": 0,
+                    "_id": "1117795953801840xxxxx",
+                    "fullname": "Duncan Robertson",
+                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                  },
+                  "vote": 40,
+                },
+              ],
+            },
+          ]
+        }
+      />
+    </ListContent>
+  </ListItem>
+  <ListItem
+    className=""
+    key="2-spotify:track:6hp4DW1Z1RInKvO5ijj9nW"
+  >
+    <Image
+      as="img"
+      bordered={true}
+      inline={true}
+      size="small"
+      src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
+      ui={true}
+    />
+    <ListContent
+      className=""
+    >
+      <ListHeader
+        as="h4"
+      >
+        I Know Him So Well
+      </ListHeader>
+      <ListDescription>
+        Geraldine McQueen
+         
+        <small>
+          (
+          4:14
+          )
+        </small>
+      </ListDescription>
+      <VotedBy
+        total={0}
+      />
+      <Label
+        className="track-label"
+        size="tiny"
+      >
+        Played
+        <LabelDetail>
+          2
+        </LabelDetail>
+      </Label>
+      <AddedBy
+        users={
+          Array [
+            Object {
+              "addedAt": "2020-01-27T20:20:27.606Z",
+              "played": Array [
+                Object {
+                  "at": "2020-01-27T20:20:46.330Z",
+                },
+                Object {
+                  "at": "2020-01-27T20:20:42.593Z",
+                },
+              ],
+              "user": Object {
+                "__v": 0,
+                "_id": "1117795953801840xxxxx",
+                "fullname": "Duncan Robertson",
+                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+              },
+              "votes": Array [],
+            },
+          ]
+        }
+      />
     </ListContent>
   </ListItem>
 </List>
@@ -123,18 +234,20 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
 
 exports[`Tracklist render when enabled renders the as expected 1`] = `
 <List
-  relaxed={true}
+  divided={true}
+  relaxed="very"
 >
   <ListItem
     className="current-track"
-    key="0-spotify:track:1yzSSn5Sj1azuo7RgwvDb3"
+    key="0-spotify:track:1WaBuuaXGwrU4sFvxAjnkf"
   >
     <Image
       as="img"
+      bordered={true}
       className="current-image"
       inline={true}
-      size="tiny"
-      src="http://path/to/cool/image.png"
+      size="small"
+      src="default-artwork.png"
       ui={true}
     />
     <ListContent
@@ -143,24 +256,57 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
       <ListHeader
         as="h4"
       >
-        No Time for Caution
+        Happiness
       </ListHeader>
       <ListDescription>
-        Hans Zimmer
+        Ken Dodd
          
         <small>
           (
-          4:06
+          2:00
           )
         </small>
       </ListDescription>
+      <VotedBy
+        total={80}
+      />
+      <Label
+        className="track-label"
+        size="tiny"
+      >
+        Played
+        <LabelDetail>
+          1
+        </LabelDetail>
+      </Label>
       <AddedBy
         users={
           Array [
             Object {
-              "_id": "123",
-              "addedAt": "2019-12-17T13:11:37.316Z",
-              "fullname": "Big Rainbowhead",
+              "addedAt": "2020-01-27T20:19:27.965Z",
+              "played": Array [
+                Object {
+                  "at": "2020-01-27T20:20:34.422Z",
+                },
+              ],
+              "user": Object {
+                "__v": 0,
+                "_id": "1117795953801840xxxxx",
+                "fullname": "Duncan Robertson",
+                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+              },
+              "votes": Array [
+                Object {
+                  "at": "2020-01-27T20:20:37.904Z",
+                  "user": Object {
+                    "__v": 0,
+                    "_id": "1117795953801840xxxxx",
+                    "fullname": "Duncan Robertson",
+                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                  },
+                  "vote": 80,
+                },
+              ],
             },
           ]
         }
@@ -169,15 +315,16 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
   </ListItem>
   <ListItem
     className=""
-    key="1-spotify:track:1yzSSn5Sj1azuo7Rgwvdunc"
+    key="1-spotify:track:6BitwTrBfUrTdztRrQiw52"
   >
     <Image
       as="img"
+      bordered={true}
       className="remove-image"
       inline={true}
       onClick={[Function]}
-      size="tiny"
-      src="default-artwork.png"
+      size="small"
+      src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
       title="Click to remove from playlist"
       ui={true}
     />
@@ -187,24 +334,63 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
       <ListHeader
         as="h4"
       >
-        Is this sucker going live anytime soon
+        Chicken Song
       </ListHeader>
       <ListDescription>
-        The chancer
+        3 Shades
          
         <small>
           (
-          4:06
+          1:00
           )
         </small>
       </ListDescription>
+      <VotedBy
+        total={40}
+      />
+      <Label
+        className="track-label"
+        size="tiny"
+      >
+        Played
+        <LabelDetail>
+          3
+        </LabelDetail>
+      </Label>
       <AddedBy
         users={
           Array [
             Object {
-              "_id": "666",
-              "addedAt": "2019-12-17T13:11:37.316Z",
-              "fullname": "Duncan Robertson",
+              "addedAt": "2020-01-27T20:19:49.207Z",
+              "played": Array [
+                Object {
+                  "at": "2020-01-27T20:20:48.148Z",
+                },
+                Object {
+                  "at": "2020-01-27T20:20:44.403Z",
+                },
+                Object {
+                  "at": "2020-01-27T20:20:41.006Z",
+                },
+              ],
+              "user": Object {
+                "__v": 0,
+                "_id": "1117795953801840xxxxx",
+                "fullname": "Duncan Robertson",
+                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+              },
+              "votes": Array [
+                Object {
+                  "at": "2020-01-27T20:20:50.355Z",
+                  "user": Object {
+                    "__v": 0,
+                    "_id": "1117795953801840xxxxx",
+                    "fullname": "Duncan Robertson",
+                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                  },
+                  "vote": 40,
+                },
+              ],
             },
           ]
         }
@@ -213,15 +399,16 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
   </ListItem>
   <ListItem
     className=""
-    key="2-soundcloud:track:5OVGwMCexoHacompose"
+    key="2-spotify:track:6hp4DW1Z1RInKvO5ijj9nW"
   >
     <Image
       as="img"
+      bordered={true}
       className="remove-image"
       inline={true}
       onClick={[Function]}
-      size="tiny"
-      src="default-artwork.png"
+      size="small"
+      src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
       title="Click to remove from playlist"
       ui={true}
     />
@@ -231,18 +418,53 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
       <ListHeader
         as="h4"
       >
-        Silent Running
+        I Know Him So Well
       </ListHeader>
       <ListDescription>
-        Joan Baez
+        Geraldine McQueen
          
         <small>
           (
-          2:04
+          4:14
           )
         </small>
       </ListDescription>
-      <AddedBy />
+      <VotedBy
+        total={0}
+      />
+      <Label
+        className="track-label"
+        size="tiny"
+      >
+        Played
+        <LabelDetail>
+          2
+        </LabelDetail>
+      </Label>
+      <AddedBy
+        users={
+          Array [
+            Object {
+              "addedAt": "2020-01-27T20:20:27.606Z",
+              "played": Array [
+                Object {
+                  "at": "2020-01-27T20:20:46.330Z",
+                },
+                Object {
+                  "at": "2020-01-27T20:20:42.593Z",
+                },
+              ],
+              "user": Object {
+                "__v": 0,
+                "_id": "1117795953801840xxxxx",
+                "fullname": "Duncan Robertson",
+                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+              },
+              "votes": Array [],
+            },
+          ]
+        }
+      />
     </ListContent>
   </ListItem>
 </List>
@@ -250,62 +472,20 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
 
 exports[`Tracklist tracklist but nothing cued up does not mark anything as current 1`] = `
 <List
-  relaxed={true}
+  divided={true}
+  relaxed="very"
 >
   <ListItem
     className=""
-    key="0-spotify:track:1yzSSn5Sj1azuo7RgwvDb3"
+    key="0-spotify:track:1WaBuuaXGwrU4sFvxAjnkf"
   >
     <Image
       as="img"
+      bordered={true}
       className="remove-image"
       inline={true}
       onClick={[Function]}
-      size="mini"
-      src="http://path/to/cool/image.png"
-      title="Click to remove from playlist"
-      ui={true}
-    />
-    <ListContent
-      className="track-info"
-    >
-      <ListHeader
-        as="h4"
-      >
-        No Time for Caution
-      </ListHeader>
-      <ListDescription>
-        Hans Zimmer
-         
-        <small>
-          (
-          4:06
-          )
-        </small>
-      </ListDescription>
-      <AddedBy
-        users={
-          Array [
-            Object {
-              "_id": "123",
-              "addedAt": "2019-12-17T13:11:37.316Z",
-              "fullname": "Big Rainbowhead",
-            },
-          ]
-        }
-      />
-    </ListContent>
-  </ListItem>
-  <ListItem
-    className=""
-    key="1-spotify:track:1yzSSn5Sj1azuo7Rgwvdunc"
-  >
-    <Image
-      as="img"
-      className="remove-image"
-      inline={true}
-      onClick={[Function]}
-      size="mini"
+      size="tiny"
       src="default-artwork.png"
       title="Click to remove from playlist"
       ui={true}
@@ -316,24 +496,57 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
       <ListHeader
         as="h4"
       >
-        Is this sucker going live anytime soon
+        Happiness
       </ListHeader>
       <ListDescription>
-        The chancer
+        Ken Dodd
          
         <small>
           (
-          4:06
+          2:00
           )
         </small>
       </ListDescription>
+      <VotedBy
+        total={80}
+      />
+      <Label
+        className="track-label"
+        size="tiny"
+      >
+        Played
+        <LabelDetail>
+          1
+        </LabelDetail>
+      </Label>
       <AddedBy
         users={
           Array [
             Object {
-              "_id": "666",
-              "addedAt": "2019-12-17T13:11:37.316Z",
-              "fullname": "Duncan Robertson",
+              "addedAt": "2020-01-27T20:19:27.965Z",
+              "played": Array [
+                Object {
+                  "at": "2020-01-27T20:20:34.422Z",
+                },
+              ],
+              "user": Object {
+                "__v": 0,
+                "_id": "1117795953801840xxxxx",
+                "fullname": "Duncan Robertson",
+                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+              },
+              "votes": Array [
+                Object {
+                  "at": "2020-01-27T20:20:37.904Z",
+                  "user": Object {
+                    "__v": 0,
+                    "_id": "1117795953801840xxxxx",
+                    "fullname": "Duncan Robertson",
+                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                  },
+                  "vote": 80,
+                },
+              ],
             },
           ]
         }
@@ -342,14 +555,177 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
   </ListItem>
   <ListItem
     className=""
-    key="2-soundcloud:track:5OVGwMCexoHacompose"
+    key="1-spotify:track:6BitwTrBfUrTdztRrQiw52"
   >
     <Image
       as="img"
+      bordered={true}
       className="remove-image"
       inline={true}
       onClick={[Function]}
-      size="mini"
+      size="tiny"
+      src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
+      title="Click to remove from playlist"
+      ui={true}
+    />
+    <ListContent
+      className="track-info"
+    >
+      <ListHeader
+        as="h4"
+      >
+        Chicken Song
+      </ListHeader>
+      <ListDescription>
+        3 Shades
+         
+        <small>
+          (
+          1:00
+          )
+        </small>
+      </ListDescription>
+      <VotedBy
+        total={40}
+      />
+      <Label
+        className="track-label"
+        size="tiny"
+      >
+        Played
+        <LabelDetail>
+          3
+        </LabelDetail>
+      </Label>
+      <AddedBy
+        users={
+          Array [
+            Object {
+              "addedAt": "2020-01-27T20:19:49.207Z",
+              "played": Array [
+                Object {
+                  "at": "2020-01-27T20:20:48.148Z",
+                },
+                Object {
+                  "at": "2020-01-27T20:20:44.403Z",
+                },
+                Object {
+                  "at": "2020-01-27T20:20:41.006Z",
+                },
+              ],
+              "user": Object {
+                "__v": 0,
+                "_id": "1117795953801840xxxxx",
+                "fullname": "Duncan Robertson",
+                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+              },
+              "votes": Array [
+                Object {
+                  "at": "2020-01-27T20:20:50.355Z",
+                  "user": Object {
+                    "__v": 0,
+                    "_id": "1117795953801840xxxxx",
+                    "fullname": "Duncan Robertson",
+                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                  },
+                  "vote": 40,
+                },
+              ],
+            },
+          ]
+        }
+      />
+    </ListContent>
+  </ListItem>
+  <ListItem
+    className=""
+    key="2-spotify:track:6hp4DW1Z1RInKvO5ijj9nW"
+  >
+    <Image
+      as="img"
+      bordered={true}
+      className="remove-image"
+      inline={true}
+      onClick={[Function]}
+      size="tiny"
+      src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
+      title="Click to remove from playlist"
+      ui={true}
+    />
+    <ListContent
+      className="track-info"
+    >
+      <ListHeader
+        as="h4"
+      >
+        I Know Him So Well
+      </ListHeader>
+      <ListDescription>
+        Geraldine McQueen
+         
+        <small>
+          (
+          4:14
+          )
+        </small>
+      </ListDescription>
+      <VotedBy
+        total={0}
+      />
+      <Label
+        className="track-label"
+        size="tiny"
+      >
+        Played
+        <LabelDetail>
+          2
+        </LabelDetail>
+      </Label>
+      <AddedBy
+        users={
+          Array [
+            Object {
+              "addedAt": "2020-01-27T20:20:27.606Z",
+              "played": Array [
+                Object {
+                  "at": "2020-01-27T20:20:46.330Z",
+                },
+                Object {
+                  "at": "2020-01-27T20:20:42.593Z",
+                },
+              ],
+              "user": Object {
+                "__v": 0,
+                "_id": "1117795953801840xxxxx",
+                "fullname": "Duncan Robertson",
+                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+              },
+              "votes": Array [],
+            },
+          ]
+        }
+      />
+    </ListContent>
+  </ListItem>
+</List>
+`;
+
+exports[`Tracklist tracklist has track with no addedBy data does nothing 1`] = `
+<List
+  divided={true}
+  relaxed="very"
+>
+  <ListItem
+    className=""
+    key="0-spotify:track:1WaBuuaXGwrU4sFvxAjnkf"
+  >
+    <Image
+      as="img"
+      bordered={true}
+      className="remove-image"
+      inline={true}
+      onClick={[Function]}
+      size="tiny"
       src="default-artwork.png"
       title="Click to remove from playlist"
       ui={true}
@@ -360,18 +736,32 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
       <ListHeader
         as="h4"
       >
-        Silent Running
+        Happiness
       </ListHeader>
       <ListDescription>
-        Joan Baez
+        Ken Dodd
          
         <small>
           (
-          2:04
+          2:00
           )
         </small>
       </ListDescription>
-      <AddedBy />
+      <VotedBy
+        total={80}
+      />
+      <Label
+        className="track-label"
+        size="tiny"
+      >
+        Played
+        <LabelDetail>
+          1
+        </LabelDetail>
+      </Label>
+      <AddedBy
+        users={Array []}
+      />
     </ListContent>
   </ListItem>
 </List>

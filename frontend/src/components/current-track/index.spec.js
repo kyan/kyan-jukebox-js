@@ -1,59 +1,31 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import { Card, Image } from 'semantic-ui-react'
+import { shallow, mount } from 'enzyme'
+import { Image } from 'semantic-ui-react'
 import MockTrackListJson from '__mockData__/api'
 import CurrentTrack from './index'
 
 describe('CurrentTrack', () => {
-  let wrapper, track, image
-
-  beforeEach(() => {
-    image = 'path/to/image'
-  })
+  let wrapper, track
 
   describe('render', () => {
     describe('album', () => {
       it('renders track', () => {
-        track = MockTrackListJson()[0].track
-        wrapper = shallow(
-          <CurrentTrack
-            track={track}
-            image={image}
-            progress={25}
-          />
-        )
-
-        expect(wrapper).toMatchSnapshot()
-      })
-
-      it('renders no album date if not available', () => {
-        track = MockTrackListJson()[0].track
+        const voteMock = jest.fn()
+        track = MockTrackListJson()[1].track
         delete track.album.year
-        wrapper = shallow(
+        wrapper = mount(
           <CurrentTrack
+            userID='1117795953801840xxxxx'
             track={track}
-            image={image}
             progress={25}
-          />
-        )
-
-        expect(wrapper.find(Card.Description).html())
-          .not.toContain(MockTrackListJson()[0].track.album.year)
-      })
-    })
-
-    describe('composer', () => {
-      it('renders track', () => {
-        track = MockTrackListJson()[2].track
-        wrapper = shallow(
-          <CurrentTrack
-            track={track}
-            image={image}
-            progress={25}
+            remaining={5}
+            onVote={voteMock}
           />
         )
 
         expect(wrapper).toMatchSnapshot()
+        wrapper.find('RatingIcon').at(3).simulate('click')
+        expect(voteMock).toHaveBeenCalledWith('spotify:track:6BitwTrBfUrTdztRrQiw52', 4)
       })
     })
   })
@@ -61,10 +33,7 @@ describe('CurrentTrack', () => {
   describe('when no track', () => {
     it('renders nothing', () => {
       wrapper = shallow(
-        <CurrentTrack
-          image={image}
-          progress={25}
-        />
+        <CurrentTrack />
       )
 
       expect(wrapper.instance()).toBeNull()
@@ -73,7 +42,7 @@ describe('CurrentTrack', () => {
 
   describe('when no image', () => {
     it('renders default image', () => {
-      track = MockTrackListJson()[1].track
+      track = MockTrackListJson()[0].track
       wrapper = shallow(
         <CurrentTrack
           track={track}
@@ -81,7 +50,23 @@ describe('CurrentTrack', () => {
         />
       )
 
-      expect(wrapper.find(Image).html()).toContain('default-artwork.png')
+      expect(wrapper.find(Image)).toMatchSnapshot()
+    })
+  })
+
+  describe('when missing data', () => {
+    it('renders defaults', () => {
+      track = MockTrackListJson()[2].track
+      delete track.addedBy
+      delete track.album
+      wrapper = shallow(
+        <CurrentTrack
+          track={track}
+          progress={25}
+        />
+      )
+
+      expect(wrapper).toMatchSnapshot()
     })
   })
 })

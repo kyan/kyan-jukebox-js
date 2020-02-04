@@ -12,6 +12,7 @@ import MongodbService from 'services/mongodb'
 import SocketErrorsHandler from 'handlers/socket-errors'
 import MopidyHandler from 'handlers/mopidy'
 import SearchHandler from 'handlers/search'
+import VoteHandler from 'handlers/voting'
 import AuthenticateHandler from 'handlers/authenticate'
 
 const app = express()
@@ -23,26 +24,33 @@ const server = http.createServer(app)
 const socketio = io(server, { pingTimeout: 30000 })
 
 const broadcastToAll = (key, message) => Broadcaster.toAll(socketio, key, message)
-const broadcastMopidyStateChange = (online) => Broadcaster.toAllMopidy(socketio, { online })
+const broadcastMopidyStateChange = (online) => Broadcaster.stateChange(socketio, { online })
 const allowSocketConnections = (mopidy) => {
   Scheduler.scheduleAutoPlayback({ stop: () => mopidy.playback.stop() })
 
   socketio.on('connection', socket => {
-    Broadcaster.toAllMopidy(socketio, { online: true })
+    Broadcaster.stateChange(socketio, { online: true })
     SocketErrorsHandler(socket)
 
     socket.on(MessageType.GENERIC, data => {
       const payload = Payload.decode(data)
 
-      AuthenticateHandler(payload, socket, Broadcaster)
-        .then((updatedPayload) => MopidyHandler(updatedPayload, socket, Broadcaster, mopidy))
+      AuthenticateHandler(payload, socket)
+        .then((updatedPayload) => MopidyHandler(updatedPayload, socket, mopidy))
     })
 
     socket.on(MessageType.SEARCH, data => {
       const payload = Payload.decode(data)
 
-      AuthenticateHandler(payload, socket, Broadcaster)
-        .then((updatedPayload) => SearchHandler(updatedPayload, socket, Broadcaster))
+      AuthenticateHandler(payload, socket)
+        .then((updatedPayload) => SearchHandler(updatedPayload, socket))
+    })
+
+    socket.on(MessageType.VOTE, data => {
+      const payload = Payload.decode(data)
+
+      AuthenticateHandler(payload, socket)
+        .then((updatedPayload) => VoteHandler(updatedPayload, socket, socketio))
     })
   })
 

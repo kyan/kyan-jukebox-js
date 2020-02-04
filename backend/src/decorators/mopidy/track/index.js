@@ -36,5 +36,9 @@ export default function (json) {
     payload.addedBy = json.addedBy
   }
 
+  if (json.metrics) {
+    payload.metrics = json.metrics
+  }
+
   return { track: payload }
 }

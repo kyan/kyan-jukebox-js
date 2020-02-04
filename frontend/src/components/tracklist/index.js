@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { List, Image } from 'semantic-ui-react'
+import { List, Image, Label } from 'semantic-ui-react'
 import { millisToMinutesAndSeconds } from 'utils/time'
 import defaultImage from 'components/current-track/default-artwork.png'
 import AddedBy from 'components/added-by'
+import VotedBy from 'components/voted-by'
 import './index.css'
 
 const isCurrentTrack = (currentTrack, track) => {
@@ -23,8 +24,9 @@ const trackImage = ({ image, isCurrent, onClick, hasBeenPlayed }) => {
 
   return (
     <Image
+      bordered
       className={klass}
-      size={hasBeenPlayed ? 'tiny' : 'mini'}
+      size={hasBeenPlayed ? 'small' : 'tiny'}
       src={image}
       title={title}
       onClick={onClick}
@@ -48,9 +50,7 @@ const imageChooser = (disabled, track, isCurrent, onRemoveTrack, hasBeenPlayed) 
   })
 }
 
-const trackHeading = (track) => (
-  <List.Header as='h4'>{track.name}</List.Header>
-)
+const trackHeading = (track) => <List.Header as='h4'>{track.name}</List.Header>
 
 const trackDescription = (track) => (
   <List.Description>
@@ -63,9 +63,12 @@ const listItems = (disabled, tracks, currentTrack, onRemoveTrack) => {
 
   return tracks.map((track, index) => {
     const isCurrent = isCurrentTrack(currentTrack, track)
+    const { addedBy = [] } = track
+    const averageVote = track.metrics.votesAverage
+    const playCount = track.metrics.plays
     if (time) time += track.length
     if (isCurrent) time = Date.now()
-    const { addedBy } = track
+
     return (
       <List.Item
         className={classnames({ 'current-track': isCurrent })}
@@ -77,6 +80,11 @@ const listItems = (disabled, tracks, currentTrack, onRemoveTrack) => {
         >
           {trackHeading(track)}
           {trackDescription(track)}
+          <VotedBy total={averageVote} />
+          <Label className='track-label' size='tiny'>
+            Played
+            <Label.Detail>{playCount}</Label.Detail>
+          </Label>
           <AddedBy users={addedBy} />
         </List.Content>
       </List.Item>
@@ -88,7 +96,7 @@ const Tracklist = ({ disabled, tracks, currentTrack, onRemoveTrack }) => {
   if (!tracks) { return null }
 
   return (
-    <List relaxed>
+    <List relaxed='very' divided>
       {listItems(disabled, tracks, currentTrack, onRemoveTrack)}
     </List>
   )

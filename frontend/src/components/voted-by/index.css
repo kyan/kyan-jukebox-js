@@ -1,0 +1,5 @@
+.ui.card .ui.avatar.voted_by_avatar_image,
+.ui.avatar.voted_by_avatar_image {
+  width: 16px;
+  height: 16px;
+}
