@@ -2,6 +2,7 @@ import settings from 'utils/local-storage'
 import SettingsConsts from 'constants/settings'
 import MessageType from 'constants/message'
 import EventLogger from 'utils/event-logger'
+import MopidyConstants from 'constants/mopidy'
 import logger from 'config/winston'
 import ImageCache from 'utils/image-cache'
 import SpotifyWebApi from 'spotify-web-api-node'
@@ -44,7 +45,10 @@ const searchTracks = (params) => {
     setupSpotify((api) => {
       const options = { ...defaultOptions, ...params.options }
       api.searchTracks(params.query, options)
-        .then((data) => resolve(data.body))
+        .then((data) => {
+          ImageCache.addAll(getImageFromSpotifyTracks(data.body.tracks.items))
+          return resolve(data.body)
+        })
         .catch((error) => logger.error(`searchTracks: ${error.message}`))
     })
   })
@@ -56,7 +60,11 @@ const getTracks = (uris) => {
 
     setupSpotify((api) => {
       api.getTracks(trackUris, defaultOptions)
-        .then((data) => resolve(data.body))
+        .then((data) => {
+          ImageCache.addAll(getImageFromSpotifyTracks(data.body.tracks)).then(() => {
+            return resolve(data.body)
+          })
+        })
         .catch((error) => logger.error(`getTracks: ${error.message}`))
     })
   })
@@ -102,7 +110,7 @@ const getRecommendations = (uris, mopidy) => {
               if (response) {
                 const payload = {
                   ...{ user },
-                  ...{ key: 'mopidy.tracklist.add' },
+                  ...{ key: MopidyConstants.TRACKLIST_ADD },
                   ...{ data: suitableTracks },
                   ...{ response }
                 }
@@ -116,7 +124,8 @@ const getRecommendations = (uris, mopidy) => {
 
             ImageCache.addAll(images).then(() => {
               addTracks(suitableTracks).then((data) => {
-                mopidy.tracklist.add({ uris: data.uris }).then(successHandler(data.user), failureHandler)
+                mopidy.tracklist.add({ uris: data.uris })
+                  .then(successHandler(data.user), failureHandler)
               })
             })
           }
@@ -154,13 +163,11 @@ const SpotifyService = {
 
       getTracks([uri]).then((response) => {
         const track = response.tracks[0]
-        ImageCache.addAll(getImageFromSpotifyTracks([track])).then(() => {
-          if (track.explicit) {
-            const message = `Not suitable. Is there a radio mix? - ${track.name}`
-            return reject(new Error(message))
-          }
-          return resolve(true)
-        })
+        if (track.explicit) {
+          const message = `Not suitable. Is there a radio mix? - ${track.name}`
+          return reject(new Error(message))
+        }
+        return resolve(true)
       })
     })
   },
