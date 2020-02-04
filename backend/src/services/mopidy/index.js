@@ -4,7 +4,7 @@ import EventLogger from 'utils/event-logger'
 import MopidyConstants from 'constants/mopidy'
 import MessageType from 'constants/message'
 import Settings from 'constants/settings'
-import Transform from 'utils/transformer'
+import Decorator from 'decorators/mopidy'
 import trackListTrimmer from 'services/mopidy/tracklist-trimmer'
 import Payload from 'utils/payload'
 import storage from 'utils/local-storage'
@@ -59,10 +59,10 @@ const MopidyService = (broadcastToAll, mopidyState, cbAllowConnections) => {
 
     mopidy.on(key, message => {
       const headers = { encoded_key: encodedKey }
-      EventLogger(headers, null, message, MessageType.INCOMING_CORE)
+      EventLogger.info(MessageType.INCOMING_CORE, { key, data: message })
 
       const packAndSend = (head, data, messageType) => {
-        Transform[messageType](head, data, mopidy).then(unifiedMessage => {
+        Decorator[messageType](head, data, mopidy).then(unifiedMessage => {
           broadcastToAll(head.encoded_key, unifiedMessage)
         })
       }
@@ -70,7 +70,7 @@ const MopidyService = (broadcastToAll, mopidyState, cbAllowConnections) => {
       if (encodedKey === MopidyConstants.CORE_EVENTS.TRACKLIST_CHANGED) {
         mopidy.tracklist.getTracks()
           .then(tracks => {
-            packAndSend({ encoded_key: MopidyConstants.GET_TRACKS }, tracks, 'message')
+            packAndSend({ encoded_key: MopidyConstants.GET_TRACKS }, tracks, 'parse')
             cacheTrackUris(tracks)
             trackListTrimmer(mopidy)
           })

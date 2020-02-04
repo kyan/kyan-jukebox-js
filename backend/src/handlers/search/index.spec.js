@@ -1,15 +1,14 @@
 import Spotify from 'services/spotify'
+import Broadcaster from 'utils/broadcaster'
+import Decorator from 'decorators/search'
 import SearchHandler from './index'
-jest.mock('config/winston')
+jest.mock('utils/event-logger')
 jest.mock('services/spotify')
-jest.mock('services/mopidy/tracklist-trimmer')
+jest.mock('utils/broadcaster')
+jest.mock('decorators/search')
 
 describe('SearchHandler', () => {
   const ws = jest.fn()
-  const broadcastMock = jest.fn()
-  const broadcasterMock = {
-    to: broadcastMock
-  }
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -23,16 +22,17 @@ describe('SearchHandler', () => {
       data: 'search'
     }
     Spotify.search.mockResolvedValue('tracks')
+    Decorator.parse.mockResolvedValue('unifiedMessage')
 
-    SearchHandler(payload, ws, broadcasterMock)
+    SearchHandler(payload, ws)
 
     setTimeout(() => {
       try {
         expect(Spotify.search).toHaveBeenCalledWith('search')
-        expect(broadcastMock).toHaveBeenCalledWith(
+        expect(Broadcaster.toClient).toHaveBeenCalledWith(
           ws,
           { data: 'search', encoded_key: 'search::search::getTracks', key: 'search::getTracks' },
-          'tracks',
+          'unifiedMessage',
           'search'
         )
         done()
@@ -50,16 +50,17 @@ describe('SearchHandler', () => {
       data: 'search'
     }
     Spotify.search.mockRejectedValue(new Error('booom'))
+    Decorator.parse.mockResolvedValue('unifiedMessage')
 
-    SearchHandler(payload, ws, broadcasterMock)
+    SearchHandler(payload, ws)
 
     setTimeout(() => {
       try {
         expect(Spotify.search).toHaveBeenCalledWith('search')
-        expect(broadcastMock).toHaveBeenCalledWith(
+        expect(Broadcaster.toClient).toHaveBeenCalledWith(
           ws,
           { data: 'search', encoded_key: 'mopidy::validationError', key: 'search::getTracks' },
-          'booom',
+          'unifiedMessage',
           'search'
         )
         done()

@@ -1,17 +1,12 @@
 import MopidyService from './index'
 import Mopidy from 'mopidy'
 import logger from 'config/winston'
+import Decorator from 'decorators/mopidy'
 import storage from 'utils/local-storage'
 import EventLogger from 'utils/event-logger'
-import Transformer from 'utils/transformer'
+jest.mock('decorators/mopidy')
 jest.mock('mopidy')
 jest.mock('utils/event-logger')
-jest.mock('utils/transformer', () => {
-  return {
-    mopidyCoreMessage: jest.fn().mockImplementation(data => Promise.resolve(data)),
-    message: jest.fn().mockImplementation(data => Promise.resolve(data))
-  }
-})
 jest.mock('utils/local-storage')
 jest.mock('config/winston')
 jest.mock('services/mopidy/tracklist-trimmer')
@@ -26,6 +21,9 @@ describe('MopidyService', () => {
   })
 
   it('handles call the global events', () => {
+    Decorator.parse.mockResolvedValue('unifiedMessage')
+    Decorator.mopidyCoreMessage.mockResolvedValue('unifiedMopidyMessage')
+
     MopidyService(broadcastMock, mopidyStateMock, allowConnectionMock)
 
     const instance = Mopidy.mock.instances[0]
@@ -64,24 +62,16 @@ describe('MopidyService', () => {
     expect(instance.on.mock.calls[6][0]).toEqual('event:tracklistChanged')
     instance.on.mock.calls[6][1]()
 
-    expect(EventLogger.mock.calls[0]).toEqual([
-      { encoded_key: 'mopidy::event:tracklistChanged' },
-      null,
-      undefined,
-      'INCOMING MOPIDY [CORE]'
+    expect(EventLogger.info.mock.calls[0]).toEqual([
+      'INCOMING MOPIDY [CORE]',
+      { key: 'event:tracklistChanged', data: undefined }
     ])
 
     expect(instance.on.mock.calls[7][0]).toEqual('event:volumeChanged')
     instance.on.mock.calls[7][1]({ volume: '10' })
-    expect(EventLogger.mock.calls[1]).toEqual([
-      { encoded_key: 'mopidy::event:volumeChanged' },
-      null,
-      { 'volume': '10' },
-      'INCOMING MOPIDY [CORE]'
+    expect(EventLogger.info.mock.calls[1]).toEqual([
+      'INCOMING MOPIDY [CORE]',
+      { key: 'event:volumeChanged', data: { volume: '10' } }
     ])
-    expect(Transformer.mopidyCoreMessage.mock.calls[0][0])
-      .toEqual({ encoded_key: 'mopidy::event:volumeChanged' })
-    expect(Transformer.mopidyCoreMessage.mock.calls[0][1]).toEqual({ volume: '10' })
-    expect(Transformer.mopidyCoreMessage.mock.calls[0][2]).toEqual(instance)
   })
 })

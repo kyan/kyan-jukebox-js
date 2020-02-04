@@ -28,6 +28,8 @@ export default {
     'mopidy::playback.stop',
     'mopidy::playback.next',
     'mopidy::playback.previous',
-    'mopidy::mixer.setVolume'
+    'mopidy::mixer.setVolume',
+    'vote::castVote',
+    'search::getTracks'
   ]
 }

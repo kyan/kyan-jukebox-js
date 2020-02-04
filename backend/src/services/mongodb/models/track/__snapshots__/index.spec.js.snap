@@ -15,6 +15,12 @@ Object {
 exports[`test mongoose Track model #updateTrackPlaycount does not set the playedAt: playedAt data filled in 1`] = `
 Object {
   "addedBy": Array [],
+  "metrics": Object {
+    "plays": 0,
+    "votes": 0,
+    "votesAverage": 0,
+    "votesTotal": 0,
+  },
 }
 `;
 
@@ -22,8 +28,64 @@ exports[`test mongoose Track model #updateTrackPlaycount sets the playedAt: play
 Object {
   "addedBy": Array [
     Object {
-      "playedAt": 1970-04-06T12:00:00.000Z,
+      "played": Array [
+        Object {
+          "at": 1970-04-06T12:00:00.000Z,
+        },
+      ],
+      "votes": Array [],
     },
   ],
+  "metrics": Object {
+    "plays": 1,
+    "votes": 0,
+    "votesAverage": 0,
+    "votesTotal": 0,
+  },
+}
+`;
+
+exports[`test mongoose Track model #updateTrackVote adds a vote when there is a matching track 1`] = `
+Object {
+  "addedBy": CoreDocumentArray [
+    Object {
+      "played": Array [],
+      "votes": Array [
+        Object {
+          "at": 1970-04-06T12:00:00.000Z,
+          "user": "user999",
+          "vote": 120,
+        },
+      ],
+    },
+  ],
+  "metrics": Object {
+    "plays": 0,
+    "votes": 1,
+    "votesAverage": 120,
+    "votesTotal": 120,
+  },
+  "uri": "uri123",
+}
+`;
+
+exports[`test mongoose Track model #updateTrackVote does not vote when there is no matching track 1`] = `
+Object {
+  "addedBy": CoreDocumentArray [],
+  "metrics": Object {
+    "plays": 0,
+    "votes": 0,
+    "votesAverage": 0,
+    "votesTotal": 0,
+  },
+  "uri": "uri123",
+}
+`;
+
+exports[`test mongoose Track model #updateTrackVote updates a vote when there is a matching track 1`] = `
+Object {
+  "addedBy": "addedBy",
+  "metrics": "metrics",
+  "uri": "123",
 }
 `;

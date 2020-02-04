@@ -1,11 +1,12 @@
 import settings from 'utils/local-storage'
 import SettingsConsts from 'constants/settings'
+import MessageType from 'constants/message'
 import EventLogger from 'utils/event-logger'
 import logger from 'config/winston'
 import ImageCache from 'utils/image-cache'
 import SpotifyWebApi from 'spotify-web-api-node'
 import { addTracks } from 'services/mongodb/models/track'
-import _ from 'lodash'
+import { sampleSize } from 'lodash'
 
 const countryCode = 'GB'
 const defaultOptions = { market: countryCode }
@@ -64,7 +65,7 @@ const getTracks = (uris) => {
 const filterSuitableTracksUris = (tracks) => {
   const currentTrackList = settings.getItem(SettingsConsts.TRACKLIST_CURRENT)
 
-  return _.sampleSize(
+  return sampleSize(
     tracks
       .filter(track => !track.explicit)
       .filter(track => !currentTrackList.includes(track.uri))
@@ -97,14 +98,15 @@ const getRecommendations = (uris, mopidy) => {
           const suitableTracks = filterSuitableTracksUris(tracks)
 
           if (suitableTracks.length > 0) {
-            const successHandler = response => {
+            const successHandler = user => response => {
               if (response) {
-                EventLogger(
-                  { encoded_key: 'mopidy.tracklist.add' },
-                  { uris: suitableTracks },
-                  response,
-                  'APIRequest'
-                )
+                const payload = {
+                  ...{ user },
+                  ...{ key: 'mopidy.tracklist.add' },
+                  ...{ data: suitableTracks },
+                  ...{ response }
+                }
+                EventLogger.info(MessageType.INCOMING_MOPIDY, payload, true)
               }
             }
 
@@ -113,8 +115,8 @@ const getRecommendations = (uris, mopidy) => {
             }
 
             ImageCache.addAll(images).then(() => {
-              addTracks(suitableTracks).then((uris) => {
-                mopidy.tracklist.add({ uris }).then(successHandler, failureHandler)
+              addTracks(suitableTracks).then((data) => {
+                mopidy.tracklist.add({ uris: data.uris }).then(successHandler(data.user), failureHandler)
               })
             })
           }
