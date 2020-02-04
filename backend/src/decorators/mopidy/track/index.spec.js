@@ -8,11 +8,13 @@ describe('TransformerTrack', () => {
     it('transforms the track', () => {
       const albumTrack = payload[0]
       albumTrack.addedBy = 'duncan'
+      albumTrack.metrics = 'metrics'
       albumTrack.image = 'http://path/to/image'
 
       expect(TransformerTrack(albumTrack)).toEqual({
         track: {
           addedBy: 'duncan',
+          metrics: 'metrics',
           album: {
             name: 'London 0 Hull 4',
             uri: 'spotify:album:13gokJcmO1Dbc9cbHM93jO',
@@ -38,6 +40,7 @@ describe('TransformerTrack', () => {
       expect(TransformerTrack(albumTrack)).toEqual({
         track: {
           addedBy: 'duncan',
+          metrics: 'metrics',
           artist: {
             name: 'The Housemartins',
             uri: 'spotify:artist:77D38RDgCtlYNLpayStftL'

@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tracklist ADD_TRACKS handles default state 1`] = `Array []`;
+
+exports[`tracklist ADD_TRACKS handles empty tracklist 1`] = `
+Array [
+  Object {
+    "addedBy": null,
+    "album": Object {
+      "name": "album1",
+    },
+    "artist": Object {
+      "name": "artist1",
+    },
+    "metrics": null,
+    "name": "track1",
+    "uri": "t1",
+  },
+]
+`;
+
+exports[`tracklist ADD_TRACKS handles when some new tracks added 1`] = `
+Array [
+  Object {
+    "addedBy": null,
+    "album": Object {
+      "name": "album2",
+    },
+    "artist": Object {
+      "name": "artist2",
+    },
+    "metrics": null,
+    "name": "track2",
+    "uri": "t2",
+  },
+  Object {
+    "addedBy": null,
+    "artist": Object {
+      "name": "artist3",
+    },
+    "composer": Object {
+      "name": "composer3",
+    },
+    "metrics": null,
+    "name": "track3",
+    "uri": "t3",
+  },
+]
+`;
+
+exports[`tracklist ADD_TRACKS handles when some tracks removed 1`] = `
+Array [
+  Object {
+    "addedBy": null,
+    "album": Object {
+      "name": "album2",
+    },
+    "artist": Object {
+      "name": "artist2",
+    },
+    "metrics": null,
+    "name": "track2",
+    "uri": "t2",
+  },
+  Object {
+    "addedBy": null,
+    "artist": Object {
+      "name": "artist3",
+    },
+    "composer": Object {
+      "name": "composer3",
+    },
+    "metrics": null,
+    "name": "track3",
+    "uri": "t3",
+  },
+]
+`;
+
+exports[`tracklist SYNC_SOCIAL_DATA handles a change 1`] = `
+Array [
+  Object {
+    "addedBy": "duncan",
+    "album": Object {
+      "name": "album2",
+    },
+    "artist": Object {
+      "name": "artist2",
+    },
+    "metrics": "metrics",
+    "name": "track2",
+    "uri": "t2",
+  },
+  Object {
+    "addedBy": null,
+    "artist": Object {
+      "name": "artist3",
+    },
+    "composer": Object {
+      "name": "composer3",
+    },
+    "metrics": null,
+    "name": "track3",
+    "uri": "t3",
+  },
+]
+`;
+
+exports[`tracklist SYNC_SOCIAL_DATA handles no change 1`] = `
+Array [
+  Object {
+    "addedBy": null,
+    "album": Object {
+      "name": "album1",
+    },
+    "artist": Object {
+      "name": "artist1",
+    },
+    "metrics": null,
+    "name": "track1",
+    "uri": "t1",
+  },
+]
+`;

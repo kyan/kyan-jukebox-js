@@ -2,6 +2,7 @@ import io from 'socket.io-client'
 import configureMockStore from 'redux-mock-store'
 import Constants from 'constants/common'
 import Search from 'search/constants'
+import VoteConstant from 'votes/constants'
 import onMessageHandler from 'utils/on-message-handler'
 import { trackProgressTimer } from 'utils/time'
 import JukeboxMiddleware from './index'
@@ -166,7 +167,7 @@ describe('JukeboxMiddleware', () => {
       ])
     })
 
-    it('should dispatch search message', () => {
+    it('should dispatch a search message', () => {
       io.mockImplementation(() => ({ on: mockOn, emit: mockEmit, close: mockClose }))
       const store = mockStore({
         settings: { token: 'token' }
@@ -181,6 +182,24 @@ describe('JukeboxMiddleware', () => {
       expect(mockEmit).toHaveBeenCalledWith(
         'search',
         '{"jwt":"token","key":"search::getTracks","data":"params"}'
+      )
+    })
+
+    it('should dispatch a vote message', () => {
+      io.mockImplementation(() => ({ on: mockOn, emit: mockEmit, close: mockClose }))
+      const store = mockStore({
+        settings: { token: 'token' }
+      })
+      JukeboxMiddleware(store)(next)({
+        type: VoteConstant.VOTE,
+        key: 'vote::castVote',
+        params: '12'
+      })
+      const actions = store.getActions()
+      expect(actions).toEqual([])
+      expect(mockEmit).toHaveBeenCalledWith(
+        'vote',
+        '{"jwt":"token","key":"vote::castVote","data":"12"}'
       )
     })
   })

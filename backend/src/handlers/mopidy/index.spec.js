@@ -1,16 +1,16 @@
 import logger from 'config/winston'
 import Spotify from 'services/spotify'
 import MopidyHandler from './index'
+import Broadcaster from 'utils/broadcaster'
+import Decorator from 'decorators/mopidy'
+jest.mock('decorators/mopidy')
+jest.mock('utils/broadcaster')
 jest.mock('config/winston')
 jest.mock('services/spotify')
 jest.mock('services/mopidy/tracklist-trimmer')
 
 describe('MopidyHandler', () => {
   const ws = jest.fn()
-  const broadcastMock = jest.fn()
-  const broadcasterMock = {
-    to: broadcastMock
-  }
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -30,17 +30,18 @@ describe('MopidyHandler', () => {
       data: [['12']]
     }
     const trackMock = jest.fn().mockResolvedValue()
-    jest.spyOn(Spotify, 'validateTrack').mockImplementation(trackMock)
+    Spotify.validateTrack.mockImplementation(trackMock)
+    Decorator.parse.mockResolvedValue('unifiedMessage')
 
-    MopidyHandler(payload, ws, broadcasterMock, mopidy)
+    MopidyHandler(payload, ws, mopidy)
 
     setTimeout(() => {
       try {
         expect(Spotify.validateTrack).not.toHaveBeenCalled()
-        expect(broadcastMock).toHaveBeenCalledWith(
+        expect(Broadcaster.toClient).toHaveBeenCalledWith(
           ws,
           { data: [['12']], encoded_key: 'mopidy::tracklist.setVolume', key: 'tracklist.setVolume' },
-          null
+          'unifiedMessage'
         )
         done()
       } catch (err) {
@@ -62,11 +63,11 @@ describe('MopidyHandler', () => {
       encoded_key: 'mopidy::tracklist.setVolume',
       data: [['12']]
     }
-    MopidyHandler(payload, ws, broadcasterMock, mopidy)
+    MopidyHandler(payload, ws, mopidy)
 
     setTimeout(() => {
       try {
-        expect(broadcastMock).not.toHaveBeenCalled()
+        expect(Broadcaster.toClient).not.toHaveBeenCalled()
         expect(logger.error).toHaveBeenCalledWith('Mopidy API Failure: API Broke')
         done()
       } catch (err) {
@@ -88,17 +89,18 @@ describe('MopidyHandler', () => {
       encoded_key: 'mopidy::tracklist.setVolume'
     }
     const trackMock = jest.fn().mockResolvedValue()
-    jest.spyOn(Spotify, 'validateTrack').mockImplementation(trackMock)
+    Spotify.validateTrack.mockImplementation(trackMock)
+    Decorator.parse.mockResolvedValue('unifiedMessage')
 
-    MopidyHandler(payload, ws, broadcasterMock, mopidy)
+    MopidyHandler(payload, ws, mopidy)
 
     setTimeout(() => {
       try {
         expect(Spotify.validateTrack).not.toHaveBeenCalled()
-        expect(broadcastMock).toHaveBeenCalledWith(
+        expect(Broadcaster.toClient).toHaveBeenCalledWith(
           ws,
           { encoded_key: 'mopidy::tracklist.setVolume', key: 'tracklist.setVolume' },
-          null
+          'unifiedMessage'
         )
         done()
       } catch (err) {
@@ -112,13 +114,13 @@ describe('MopidyHandler', () => {
     const mopidy = 'mopidy'
     const trackMock = jest.fn().mockRejectedValue(new Error('naughty-naughty'))
     const payload = { encoded_key: 'mopidy::tracklist.add', data: [['12345zsdf23456']] }
-    jest.spyOn(Spotify, 'validateTrack').mockImplementation(trackMock)
+    Spotify.validateTrack.mockImplementation(trackMock)
 
-    MopidyHandler(payload, ws, broadcasterMock, mopidy)
+    MopidyHandler(payload, ws, mopidy)
 
     setTimeout(() => {
       try {
-        expect(broadcastMock).toHaveBeenCalledWith(
+        expect(Broadcaster.toClient).toHaveBeenCalledWith(
           ws,
           { data: [['12345zsdf23456']], encoded_key: 'mopidy::validationError' },
           'naughty-naughty'

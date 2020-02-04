@@ -1,16 +1,15 @@
 import { OAuth2Client } from 'google-auth-library'
+import Broadcaster from 'utils/broadcaster'
 import User from 'services/mongodb/models/user'
 import logger from 'config/winston'
 import AuthenticateHandler from './index'
 jest.mock('google-auth-library')
 jest.mock('config/winston')
+jest.mock('utils/broadcaster')
+jest.mock('services/mongodb/models/user')
 
 describe('AuthenticateHandler', () => {
   const wsMock = jest.fn()
-  const broadcastMock = jest.fn()
-  const broadcasterMock = {
-    to: broadcastMock
-  }
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -33,16 +32,16 @@ describe('AuthenticateHandler', () => {
             getPayload: jest.fn().mockImplementationOnce(() => ({
               sub: 'abcdefg123456',
               name: 'Duncan Robotson',
+              picture: 'a/beautiful/image',
               hd: 'kyanmedia.com'
             }))
           })
       }
     })
 
-    jest.spyOn(User, 'findOneAndUpdate')
-      .mockImplementation(() => Promise.resolve(true))
+    User.findOneAndUpdate.mockResolvedValue(true)
 
-    AuthenticateHandler(payload, wsMock, broadcasterMock)
+    AuthenticateHandler(payload, wsMock)
       .then((response) => {
         setTimeout(() => {
           try {
@@ -50,17 +49,17 @@ describe('AuthenticateHandler', () => {
               data: ['12'],
               encoded_key: 'mopidy::mixer.setVolume',
               key: 'mixer.setVolume',
-              token: 'somevalidjwttoken',
               user: {
                 _id: 'abcdefg123456',
-                fullname: 'Duncan Robotson'
+                fullname: 'Duncan Robotson',
+                picture: 'a/beautiful/image'
               }
             })
-            expect(broadcastMock.mock.calls.length).toBe(0)
+            expect(Broadcaster.toClient).not.toHaveBeenCalled()
             expect(User.findOneAndUpdate.mock.calls[0]).toEqual([
               { _id: 'abcdefg123456' },
-              { _id: 'abcdefg123456', 'fullname': 'Duncan Robotson' },
-              { new: true, 'setDefaultsOnInsert': true, 'upsert': true }])
+              { _id: 'abcdefg123456', fullname: 'Duncan Robotson', picture: 'a/beautiful/image' },
+              { new: true, setDefaultsOnInsert: true, upsert: true }])
             done()
           } catch (err) {
             done.fail(err)
@@ -70,7 +69,7 @@ describe('AuthenticateHandler', () => {
   })
 
   it('handles verify error', done => {
-    expect.assertions(4)
+    expect.assertions(2)
 
     const payload = {
       encoded_key: 'mopidy::mixer.setVolume',
@@ -86,13 +85,15 @@ describe('AuthenticateHandler', () => {
       }
     })
 
-    AuthenticateHandler(payload, wsMock, broadcasterMock)
+    AuthenticateHandler(payload, wsMock)
     setTimeout(() => {
       try {
         expect(User.findOneAndUpdate).not.toHaveBeenCalled()
-        expect(broadcastMock.mock.calls[0][0]).toEqual(wsMock)
-        expect(broadcastMock.mock.calls[0][1]).toEqual(payload)
-        expect(broadcastMock.mock.calls[0][2]).toEqual({ error: 'authError' })
+        expect(Broadcaster.toClient).toHaveBeenCalledWith(
+          wsMock,
+          payload,
+          { error: 'authError' }
+        )
         done()
       } catch (err) {
         done.fail(err)
@@ -101,7 +102,7 @@ describe('AuthenticateHandler', () => {
   })
 
   it('handles incorrect domain', done => {
-    expect.assertions(4)
+    expect.assertions(2)
 
     const payload = {
       encoded_key: 'mopidy::mixer.setVolume',
@@ -125,13 +126,15 @@ describe('AuthenticateHandler', () => {
 
     jest.spyOn(User, 'findOneAndUpdate')
 
-    AuthenticateHandler(payload, wsMock, broadcasterMock)
+    AuthenticateHandler(payload, wsMock)
     setTimeout(() => {
       try {
         expect(User.findOneAndUpdate).not.toHaveBeenCalled()
-        expect(broadcastMock.mock.calls[0][0]).toEqual(wsMock)
-        expect(broadcastMock.mock.calls[0][1]).toEqual(payload)
-        expect(broadcastMock.mock.calls[0][2]).toEqual({ error: 'Invalid domain: madeup.com' })
+        expect(Broadcaster.toClient).toHaveBeenCalledWith(
+          wsMock,
+          payload,
+          { error: 'Invalid domain: madeup.com' }
+        )
         done()
       } catch (err) {
         done.fail(err)
@@ -148,14 +151,14 @@ describe('AuthenticateHandler', () => {
       data: ['12']
     }
 
-    AuthenticateHandler(payload, wsMock, broadcasterMock)
+    AuthenticateHandler(payload, wsMock)
       .then((response) => {
         expect(response).toEqual({
           data: ['12'],
           encoded_key: 'mopidy::somenonauthtask',
           key: 'somenonauthtask'
         })
-        expect(broadcastMock.mock.calls.length).toBe(0)
+        expect(Broadcaster.toClient).not.toHaveBeenCalled()
       })
   })
 
@@ -182,17 +185,16 @@ describe('AuthenticateHandler', () => {
       }
     })
 
-    jest.spyOn(User, 'findOneAndUpdate')
-      .mockImplementation(() => Promise.reject(new Error('bang')))
+    User.findOneAndUpdate.mockRejectedValue(new Error('bang'))
 
-    AuthenticateHandler(payload, wsMock, broadcasterMock)
+    AuthenticateHandler(payload, wsMock)
     setTimeout(() => {
       try {
         expect(User.findOneAndUpdate.mock.calls[0]).toEqual([
           { _id: 'abcdefg123456' },
           { _id: 'abcdefg123456', 'fullname': 'Fred Spanner' },
           { new: true, 'setDefaultsOnInsert': true, 'upsert': true }])
-        expect(broadcastMock).not.toHaveBeenCalled()
+        expect(Broadcaster.toClient).not.toHaveBeenCalled()
         expect(logger.error.mock.calls).toEqual([['Error checking user', { error: 'bang' }]])
         done()
       } catch (err) {

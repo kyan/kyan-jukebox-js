@@ -1,17 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CurrentTrackContainer render just the app without redux renders as expected 1`] = `
-<CurrentTrack
-  progress={50}
-  track={
-    Object {
-      "track": null,
-    }
-  }
-/>
-`;
-
-exports[`CurrentTrackContainer render the connected app renders as expected 1`] = `
+exports[`CurrentTrackContainer render the connected app renders something even when no track is available 1`] = `
 <Provider
   store={
     Object {
@@ -24,53 +13,51 @@ exports[`CurrentTrackContainer render the connected app renders as expected 1`] 
     }
   }
 >
-  <Connect(CurrentTrackContainer)>
-    <CurrentTrackContainer
-      dispatch={[Function]}
-      progress={0}
+  <CurrentTrackContainer>
+    <CurrentTrack
+      onVote={[Function]}
+      progress={80}
+      remaining={700}
+      userID="duncan123"
     >
-      <CurrentTrack
-        progress={0}
-      >
-        <Card>
-          <div
-            className="ui card"
-            onClick={[Function]}
+      <Card>
+        <div
+          className="ui card"
+          onClick={[Function]}
+        >
+          <Image
+            as="img"
+            src="default-artwork.png"
+            ui={true}
           >
-            <Image
-              as="img"
+            <img
+              className="ui image"
               src="default-artwork.png"
-              ui={true}
+            />
+          </Image>
+          <CardContent>
+            <div
+              className="content"
             >
-              <img
-                className="ui image"
-                src="default-artwork.png"
-              />
-            </Image>
-            <CardContent>
-              <div
-                className="content"
-              >
-                <CardHeader>
-                  <div
-                    className="header"
-                  >
-                    Nothing playing
-                  </div>
-                </CardHeader>
-                <CardDescription>
-                  <div
-                    className="description"
-                  >
-                    Drag some music here or press play.
-                  </div>
-                </CardDescription>
-              </div>
-            </CardContent>
-          </div>
-        </Card>
-      </CurrentTrack>
-    </CurrentTrackContainer>
-  </Connect(CurrentTrackContainer)>
+              <CardHeader>
+                <div
+                  className="header"
+                >
+                  Nothing playing
+                </div>
+              </CardHeader>
+              <CardDescription>
+                <div
+                  className="description"
+                >
+                  Drag some music here or press play.
+                </div>
+              </CardDescription>
+            </div>
+          </CardContent>
+        </div>
+      </Card>
+    </CurrentTrack>
+  </CurrentTrackContainer>
 </Provider>
 `;

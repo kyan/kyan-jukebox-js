@@ -1,4 +1,4 @@
-import TransformTrack from 'utils/transformer/transformers/mopidy/track'
+import TransformTrack from 'decorators/mopidy/track'
 
 const SearchResults = (json) => {
   return json.map(track => {

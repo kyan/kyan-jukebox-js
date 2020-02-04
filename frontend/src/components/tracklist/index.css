@@ -4,19 +4,45 @@
 }
 
 .ui.list>.item .track-info .header {
-  font-size: 0.8em;
+  font-size: 0.9em;
   margin-bottom: 0.2em;
 }
 
-.ui.list>.item .track-info .description,
-.ui.list>.item .track-info .added-by {
-  font-size: 0.8em;
+.ui.list>.item .header {
+  font-size: 1.3em;
+  margin-bottom: 0.2em;
 }
 
 .ui.list>.item .track-info .description {
-  font-size: 0.8em;
+  font-size: 0.9em;
+  margin-bottom: 0.5em;
+}
+
+.ui.list>.item .description {
+  font-size: 1em;
+  margin-bottom: 0.5em;
 }
 
 .ui.list>.item .remove-image {
   cursor: pointer;
+}
+
+.ui.tiny.inline.image {
+  width: 70px;
+}
+
+.ui.small.inline.image {
+  width: 110px;
+}
+
+.ui.label.track-label {
+  margin-right: 6px;
+}
+
+.current-track {
+  background-color: #f7f7f7;
+}
+
+.rating-container .vote-track-label {
+  float: right;
 }

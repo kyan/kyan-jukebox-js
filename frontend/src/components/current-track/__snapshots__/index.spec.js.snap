@@ -1,10 +1,858 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CurrentTrack render album renders track 1`] = `
+<CurrentTrack
+  onVote={[MockFunction]}
+  progress={25}
+  remaining={5}
+  track={
+    Object {
+      "addedBy": Array [
+        Object {
+          "addedAt": "2020-01-27T20:19:49.207Z",
+          "played": Array [
+            Object {
+              "at": "2020-01-27T20:20:48.148Z",
+            },
+            Object {
+              "at": "2020-01-27T20:20:44.403Z",
+            },
+            Object {
+              "at": "2020-01-27T20:20:41.006Z",
+            },
+          ],
+          "user": Object {
+            "__v": 0,
+            "_id": "1117795953801840xxxxx",
+            "fullname": "Duncan Robertson",
+            "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+          },
+          "votes": Array [
+            Object {
+              "at": "2020-01-27T20:20:50.355Z",
+              "user": Object {
+                "__v": 0,
+                "_id": "1117795953801840xxxxx",
+                "fullname": "Duncan Robertson",
+                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+              },
+              "vote": 40,
+            },
+          ],
+        },
+      ],
+      "album": Object {
+        "name": "Chicken Song",
+        "uri": "spotify:album:1Ozoc3hrpvwEpwnFkTNOGR",
+      },
+      "artist": Object {
+        "name": "3 Shades",
+        "uri": "spotify:artist:5YGwWwsOsMAwDN8mH0hn7M",
+      },
+      "image": "https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b",
+      "length": 60000,
+      "metrics": Object {
+        "plays": 3,
+        "votes": 1,
+        "votesAverage": 40,
+        "votesTotal": 40,
+      },
+      "name": "Chicken Song",
+      "uri": "spotify:track:6BitwTrBfUrTdztRrQiw52",
+      "year": "2019",
+    }
+  }
+  userID="1117795953801840xxxxx"
+>
+  <Card>
+    <div
+      className="ui card"
+      onClick={[Function]}
+    >
+      <Image
+        as="img"
+        label={
+          <VotedBy
+            ribbon={true}
+            total={40}
+          />
+        }
+        src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
+        ui={true}
+      >
+        <div
+          className="ui image"
+        >
+          <VotedBy
+            ribbon={true}
+            total={40}
+          >
+            <Label
+              className="track-label vote-track-label"
+              color="red"
+              content={-1}
+              icon="thumbs down"
+              ribbon="right"
+              size="tiny"
+            >
+              <div
+                className="ui red tiny right ribbon label track-label vote-track-label"
+                onClick={[Function]}
+              >
+                <Icon
+                  as="i"
+                  name="thumbs down"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="thumbs down icon"
+                    onClick={[Function]}
+                  />
+                </Icon>
+                -1
+              </div>
+            </Label>
+          </VotedBy>
+          <img
+            src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
+          />
+        </div>
+      </Image>
+      <CardContent>
+        <div
+          className="content"
+        >
+          <div
+            className="progress-container"
+          >
+            <span
+              className="remaining-text"
+            >
+              0:00
+            </span>
+            <span
+              className="track-length"
+            >
+              1:00
+            </span>
+            <Progress
+              className=""
+              percent={25}
+              prefixCls="rc-progress"
+              strokeColor="#2db7f5"
+              strokeLinecap="round"
+              strokeWidth={1}
+              style={Object {}}
+              trailColor="#D9D9D9"
+              trailWidth={1}
+            >
+              <svg
+                className="rc-progress-line "
+                preserveAspectRatio="none"
+                style={Object {}}
+                viewBox="0 0 100 1"
+              >
+                <path
+                  className="rc-progress-line-trail"
+                  d="M 0.5,0.5
+           L 99.5,0.5"
+                  fillOpacity="0"
+                  stroke="#D9D9D9"
+                  strokeLinecap="round"
+                  strokeWidth={1}
+                />
+                <path
+                  className="rc-progress-line-path"
+                  d="M 0.5,0.5
+           L 99.5,0.5"
+                  fillOpacity="0"
+                  key="0"
+                  stroke="#2db7f5"
+                  strokeLinecap="round"
+                  strokeWidth={1}
+                  style={
+                    Object {
+                      "strokeDasharray": "25px, 100px",
+                      "strokeDashoffset": "-0px",
+                      "transition": "stroke-dashoffset 0.3s ease 0s, stroke-dasharray .3s ease 0s, stroke 0.3s linear",
+                    }
+                  }
+                />
+              </svg>
+            </Progress>
+          </div>
+          <CardHeader>
+            <div
+              className="header"
+            >
+              Chicken Song
+            </div>
+          </CardHeader>
+          <CardMeta>
+            <div
+              className="meta"
+            >
+              3 Shades
+            </div>
+          </CardMeta>
+          <CardDescription>
+            <div
+              className="description"
+            >
+              Chicken Song
+            </div>
+          </CardDescription>
+        </div>
+      </CardContent>
+      <CardContent
+        className="rating-container"
+        extra={true}
+      >
+        <div
+          className="extra content rating-container"
+        >
+          <Rating
+            clearable="auto"
+            disabled={false}
+            maxRating={10}
+            onRate={[Function]}
+            rating={4}
+          >
+            <div
+              className="ui rating"
+              onMouseLeave={[Function]}
+              role="radiogroup"
+              tabIndex={-1}
+            >
+              <RatingIcon
+                active={true}
+                aria-checked={false}
+                aria-posinset={1}
+                aria-setsize={10}
+                as="i"
+                index={0}
+                key="0"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                selected={false}
+                tabIndex={0}
+              >
+                <i
+                  aria-checked={false}
+                  aria-posinset={1}
+                  aria-setsize={10}
+                  className="active icon"
+                  onClick={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseEnter={[Function]}
+                  role="radio"
+                  tabIndex={0}
+                />
+              </RatingIcon>
+              <RatingIcon
+                active={true}
+                aria-checked={false}
+                aria-posinset={2}
+                aria-setsize={10}
+                as="i"
+                index={1}
+                key="1"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                selected={false}
+                tabIndex={0}
+              >
+                <i
+                  aria-checked={false}
+                  aria-posinset={2}
+                  aria-setsize={10}
+                  className="active icon"
+                  onClick={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseEnter={[Function]}
+                  role="radio"
+                  tabIndex={0}
+                />
+              </RatingIcon>
+              <RatingIcon
+                active={true}
+                aria-checked={false}
+                aria-posinset={3}
+                aria-setsize={10}
+                as="i"
+                index={2}
+                key="2"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                selected={false}
+                tabIndex={0}
+              >
+                <i
+                  aria-checked={false}
+                  aria-posinset={3}
+                  aria-setsize={10}
+                  className="active icon"
+                  onClick={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseEnter={[Function]}
+                  role="radio"
+                  tabIndex={0}
+                />
+              </RatingIcon>
+              <RatingIcon
+                active={true}
+                aria-checked={true}
+                aria-posinset={4}
+                aria-setsize={10}
+                as="i"
+                index={3}
+                key="3"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                selected={false}
+                tabIndex={0}
+              >
+                <i
+                  aria-checked={true}
+                  aria-posinset={4}
+                  aria-setsize={10}
+                  className="active icon"
+                  onClick={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseEnter={[Function]}
+                  role="radio"
+                  tabIndex={0}
+                />
+              </RatingIcon>
+              <RatingIcon
+                active={false}
+                aria-checked={false}
+                aria-posinset={5}
+                aria-setsize={10}
+                as="i"
+                index={4}
+                key="4"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                selected={false}
+                tabIndex={0}
+              >
+                <i
+                  aria-checked={false}
+                  aria-posinset={5}
+                  aria-setsize={10}
+                  className="icon"
+                  onClick={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseEnter={[Function]}
+                  role="radio"
+                  tabIndex={0}
+                />
+              </RatingIcon>
+              <RatingIcon
+                active={false}
+                aria-checked={false}
+                aria-posinset={6}
+                aria-setsize={10}
+                as="i"
+                index={5}
+                key="5"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                selected={false}
+                tabIndex={0}
+              >
+                <i
+                  aria-checked={false}
+                  aria-posinset={6}
+                  aria-setsize={10}
+                  className="icon"
+                  onClick={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseEnter={[Function]}
+                  role="radio"
+                  tabIndex={0}
+                />
+              </RatingIcon>
+              <RatingIcon
+                active={false}
+                aria-checked={false}
+                aria-posinset={7}
+                aria-setsize={10}
+                as="i"
+                index={6}
+                key="6"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                selected={false}
+                tabIndex={0}
+              >
+                <i
+                  aria-checked={false}
+                  aria-posinset={7}
+                  aria-setsize={10}
+                  className="icon"
+                  onClick={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseEnter={[Function]}
+                  role="radio"
+                  tabIndex={0}
+                />
+              </RatingIcon>
+              <RatingIcon
+                active={false}
+                aria-checked={false}
+                aria-posinset={8}
+                aria-setsize={10}
+                as="i"
+                index={7}
+                key="7"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                selected={false}
+                tabIndex={0}
+              >
+                <i
+                  aria-checked={false}
+                  aria-posinset={8}
+                  aria-setsize={10}
+                  className="icon"
+                  onClick={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseEnter={[Function]}
+                  role="radio"
+                  tabIndex={0}
+                />
+              </RatingIcon>
+              <RatingIcon
+                active={false}
+                aria-checked={false}
+                aria-posinset={9}
+                aria-setsize={10}
+                as="i"
+                index={8}
+                key="8"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                selected={false}
+                tabIndex={0}
+              >
+                <i
+                  aria-checked={false}
+                  aria-posinset={9}
+                  aria-setsize={10}
+                  className="icon"
+                  onClick={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseEnter={[Function]}
+                  role="radio"
+                  tabIndex={0}
+                />
+              </RatingIcon>
+              <RatingIcon
+                active={false}
+                aria-checked={false}
+                aria-posinset={10}
+                aria-setsize={10}
+                as="i"
+                index={9}
+                key="9"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                selected={false}
+                tabIndex={0}
+              >
+                <i
+                  aria-checked={false}
+                  aria-posinset={10}
+                  aria-setsize={10}
+                  className="icon"
+                  onClick={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseEnter={[Function]}
+                  role="radio"
+                  tabIndex={0}
+                />
+              </RatingIcon>
+            </div>
+          </Rating>
+          <VotedBy
+            total={40}
+            votes={
+              Array [
+                Object {
+                  "at": "2020-01-27T20:20:50.355Z",
+                  "user": Object {
+                    "__v": 0,
+                    "_id": "1117795953801840xxxxx",
+                    "fullname": "Duncan Robertson",
+                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                  },
+                  "vote": 40,
+                },
+              ]
+            }
+          >
+            <Popup
+              content={
+                <List>
+                  <ListItem>
+                    <Image
+                      as="img"
+                      avatar={true}
+                      className="voted_by_avatar_image"
+                      src="https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c"
+                      ui={true}
+                    />
+                    <ListContent>
+                      <ListDescription>
+                        <strong>
+                          27 Jan 2020 @ 8:20 pm
+                        </strong>
+                         - 
+                        Duncan Robertson
+                         
+                        <Label
+                          circular={true}
+                          size="mini"
+                        >
+                          -1
+                        </Label>
+                      </ListDescription>
+                    </ListContent>
+                  </ListItem>
+                </List>
+              }
+              disabled={false}
+              eventsEnabled={true}
+              offset={0}
+              on={
+                Array [
+                  "click",
+                  "hover",
+                ]
+              }
+              pinned={false}
+              position="top left"
+              trigger={
+                <Label
+                  className="track-label vote-track-label"
+                  color="red"
+                  content={-1}
+                  icon="thumbs down"
+                  ribbon={null}
+                  size="tiny"
+                />
+              }
+              wide="very"
+            >
+              <Portal
+                closeOnDocumentClick={true}
+                closeOnEscape={true}
+                closeOnTriggerClick={true}
+                closeOnTriggerMouseLeave={true}
+                eventPool="default"
+                mouseEnterDelay={50}
+                mouseLeaveDelay={70}
+                onClose={[Function]}
+                onMount={[Function]}
+                onOpen={[Function]}
+                onUnmount={[Function]}
+                openOnTriggerClick={true}
+                openOnTriggerMouseEnter={true}
+                trigger={
+                  <Label
+                    className="track-label vote-track-label"
+                    color="red"
+                    content={-1}
+                    icon="thumbs down"
+                    ribbon={null}
+                    size="tiny"
+                  />
+                }
+                triggerRef={
+                  Object {
+                    "current": <div
+                      class="ui red tiny label track-label vote-track-label"
+                    >
+                      <i
+                        aria-hidden="true"
+                        class="thumbs down icon"
+                      />
+                      -1
+                    </div>,
+                  }
+                }
+              >
+                <Ref
+                  innerRef={[Function]}
+                >
+                  <RefFindNode
+                    innerRef={[Function]}
+                  >
+                    <Label
+                      className="track-label vote-track-label"
+                      color="red"
+                      content={-1}
+                      icon="thumbs down"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseEnter={[Function]}
+                      onMouseLeave={[Function]}
+                      ribbon={null}
+                      size="tiny"
+                    >
+                      <div
+                        className="ui red tiny label track-label vote-track-label"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                      >
+                        <Icon
+                          as="i"
+                          name="thumbs down"
+                        >
+                          <i
+                            aria-hidden="true"
+                            className="thumbs down icon"
+                            onClick={[Function]}
+                          />
+                        </Icon>
+                        -1
+                      </div>
+                    </Label>
+                  </RefFindNode>
+                </Ref>
+              </Portal>
+            </Popup>
+          </VotedBy>
+        </div>
+      </CardContent>
+      <CardContent
+        extra={true}
+      >
+        <div
+          className="extra content"
+        >
+          <Label
+            size="mini"
+          >
+            <div
+              className="ui mini label"
+              onClick={[Function]}
+            >
+              Added
+              <LabelDetail>
+                <div
+                  className="detail"
+                >
+                  1
+                </div>
+              </LabelDetail>
+            </div>
+          </Label>
+          <Label
+            size="mini"
+          >
+            <div
+              className="ui mini label"
+              onClick={[Function]}
+            >
+              Played
+              <LabelDetail>
+                <div
+                  className="detail"
+                >
+                  3
+                </div>
+              </LabelDetail>
+            </div>
+          </Label>
+        </div>
+      </CardContent>
+      <CardContent
+        extra={true}
+      >
+        <div
+          className="extra content"
+        >
+          <AddedBy
+            users={
+              Array [
+                Object {
+                  "addedAt": "2020-01-27T20:19:49.207Z",
+                  "played": Array [
+                    Object {
+                      "at": "2020-01-27T20:20:48.148Z",
+                    },
+                    Object {
+                      "at": "2020-01-27T20:20:44.403Z",
+                    },
+                    Object {
+                      "at": "2020-01-27T20:20:41.006Z",
+                    },
+                  ],
+                  "user": Object {
+                    "__v": 0,
+                    "_id": "1117795953801840xxxxx",
+                    "fullname": "Duncan Robertson",
+                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                  },
+                  "votes": Array [
+                    Object {
+                      "at": "2020-01-27T20:20:50.355Z",
+                      "user": Object {
+                        "__v": 0,
+                        "_id": "1117795953801840xxxxx",
+                        "fullname": "Duncan Robertson",
+                        "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                      },
+                      "vote": 40,
+                    },
+                  ],
+                },
+              ]
+            }
+          >
+            <Popup
+              content={
+                <List>
+                  <ListItem>
+                    <Image
+                      as="img"
+                      avatar={true}
+                      className="added_by_avatar_image"
+                      src="https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c"
+                      ui={true}
+                    />
+                    <ListContent>
+                      <ListDescription>
+                        <strong>
+                          27 Jan 2020 @ 8:19 pm
+                        </strong>
+                         - 
+                        Duncan Robertson
+                      </ListDescription>
+                    </ListContent>
+                  </ListItem>
+                </List>
+              }
+              disabled={false}
+              eventsEnabled={true}
+              offset={0}
+              on={
+                Array [
+                  "click",
+                  "hover",
+                ]
+              }
+              pinned={false}
+              position="top left"
+              trigger={
+                <Image
+                  as="img"
+                  avatar={true}
+                  className="added_by_avatar_image"
+                  src="https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c"
+                  ui={true}
+                />
+              }
+              wide={true}
+            >
+              <Portal
+                closeOnDocumentClick={true}
+                closeOnEscape={true}
+                closeOnTriggerClick={true}
+                closeOnTriggerMouseLeave={true}
+                eventPool="default"
+                mouseEnterDelay={50}
+                mouseLeaveDelay={70}
+                onClose={[Function]}
+                onMount={[Function]}
+                onOpen={[Function]}
+                onUnmount={[Function]}
+                openOnTriggerClick={true}
+                openOnTriggerMouseEnter={true}
+                trigger={
+                  <Image
+                    as="img"
+                    avatar={true}
+                    className="added_by_avatar_image"
+                    src="https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c"
+                    ui={true}
+                  />
+                }
+                triggerRef={
+                  Object {
+                    "current": <img
+                      class="ui avatar image added_by_avatar_image"
+                      src="https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c"
+                    />,
+                  }
+                }
+              >
+                <Ref
+                  innerRef={[Function]}
+                >
+                  <RefFindNode
+                    innerRef={[Function]}
+                  >
+                    <Image
+                      as="img"
+                      avatar={true}
+                      className="added_by_avatar_image"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseEnter={[Function]}
+                      onMouseLeave={[Function]}
+                      src="https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c"
+                      ui={true}
+                    >
+                      <img
+                        className="ui avatar image added_by_avatar_image"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                        src="https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c"
+                      />
+                    </Image>
+                  </RefFindNode>
+                </Ref>
+              </Portal>
+            </Popup>
+          </AddedBy>
+          <a
+            className="track-uri"
+            href="https://open.spotify.com/track/6BitwTrBfUrTdztRrQiw52"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            spotify:track:6BitwTrBfUrTdztRrQiw52
+          </a>
+        </div>
+      </CardContent>
+    </div>
+  </Card>
+</CurrentTrack>
+`;
+
+exports[`CurrentTrack when missing data renders defaults 1`] = `
 <Card>
   <Image
     as="img"
-    src="http://path/to/cool/image.png"
+    label={
+      <VotedBy
+        ribbon={true}
+        total={0}
+      />
+    }
+    src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
     ui={true}
   />
   <CardContent>
@@ -19,7 +867,7 @@ exports[`CurrentTrack render album renders track 1`] = `
       <span
         className="track-length"
       >
-        4:06
+        4:14
       </span>
       <Progress
         className=""
@@ -34,81 +882,74 @@ exports[`CurrentTrack render album renders track 1`] = `
       />
     </div>
     <CardHeader>
-      No Time for Caution
+      I Know Him So Well
     </CardHeader>
     <CardMeta>
-      Hans Zimmer
+      Geraldine McQueen
     </CardMeta>
-    <CardDescription>
-      Interstellar: Original Motion Picture Soundtrack (Deluxe Digital Version)
-       (2014)
-    </CardDescription>
+  </CardContent>
+  <CardContent
+    className="rating-container"
+    extra={true}
+  >
+    <Rating
+      clearable="auto"
+      disabled={true}
+      maxRating={10}
+      onRate={[Function]}
+      rating={0}
+    />
+    <VotedBy
+      total={0}
+      votes={Array []}
+    />
   </CardContent>
   <CardContent
     extra={true}
   >
-    <AddedBy
-      users={
-        Array [
-          Object {
-            "_id": "123",
-            "addedAt": "2019-12-17T13:11:37.316Z",
-            "fullname": "Big Rainbowhead",
-          },
-        ]
-      }
-    />
-  </CardContent>
-</Card>
-`;
-
-exports[`CurrentTrack render composer renders track 1`] = `
-<Card>
-  <Image
-    as="img"
-    src="default-artwork.png"
-    ui={true}
-  />
-  <CardContent>
-    <div
-      className="progress-container"
+    <Label
+      size="mini"
     >
-      <span
-        className="remaining-text"
-      >
-        NaN:NaN
-      </span>
-      <span
-        className="track-length"
-      >
-        2:04
-      </span>
-      <Progress
-        className=""
-        percent={25}
-        prefixCls="rc-progress"
-        strokeColor="#2db7f5"
-        strokeLinecap="round"
-        strokeWidth={1}
-        style={Object {}}
-        trailColor="#D9D9D9"
-        trailWidth={1}
-      />
-    </div>
-    <CardHeader>
-      Silent Running
-    </CardHeader>
-    <CardMeta>
-      Joan Baez
-    </CardMeta>
-    <CardDescription>
-      Peter Schickele
-    </CardDescription>
+      Added
+      <LabelDetail>
+        0
+      </LabelDetail>
+    </Label>
+    <Label
+      size="mini"
+    >
+      Played
+      <LabelDetail>
+        2
+      </LabelDetail>
+    </Label>
   </CardContent>
   <CardContent
     extra={true}
   >
     <AddedBy />
+    <a
+      className="track-uri"
+      href="https://open.spotify.com/track/6hp4DW1Z1RInKvO5ijj9nW"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      spotify:track:6hp4DW1Z1RInKvO5ijj9nW
+    </a>
   </CardContent>
 </Card>
+`;
+
+exports[`CurrentTrack when no image renders default image 1`] = `
+<Image
+  as="img"
+  label={
+    <VotedBy
+      ribbon={true}
+      total={80}
+    />
+  }
+  src="default-artwork.png"
+  ui={true}
+/>
 `;

@@ -1,4 +1,4 @@
-import logger from 'config/winston'
+import EventLogger from 'utils/event-logger'
 import Image from 'services/mongodb/models/image'
 
 const expiresDate = () => {
@@ -36,7 +36,7 @@ const ImageCache = {
     return new Promise((resolve, reject) => {
       Image.find({ _id: { $in: uris } })
         .then(images => {
-          if (images.length > 0) logger.info('FOUND CACHED IMAGES', { keys: uris })
+          if (images.length > 0) EventLogger.info('FOUND CACHED IMAGES', { data: uris })
           return resolve(images)
         })
         .catch(err => reject(err))

@@ -1,0 +1,290 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VotedBy when no user data does nothing 1`] = `
+<Popup
+  content={
+    <List>
+      <ListItem>
+        <ListContent>
+          <ListDescription>
+            <strong>
+              19 Dec 2019 @ 1:11 pm
+            </strong>
+             - 
+            User unknown
+             
+            <Label
+              circular={true}
+              size="mini"
+            >
+              3
+            </Label>
+          </ListDescription>
+        </ListContent>
+      </ListItem>
+    </List>
+  }
+  disabled={false}
+  eventsEnabled={true}
+  offset={0}
+  on={
+    Array [
+      "click",
+      "hover",
+    ]
+  }
+  pinned={false}
+  position="top left"
+  trigger={
+    <Label
+      className="track-label vote-track-label"
+      color="red"
+      content={-4}
+      icon="thumbs down"
+      ribbon={null}
+      size="tiny"
+    />
+  }
+  wide="very"
+/>
+`;
+
+exports[`VotedBy when no votes are provided does nothing 1`] = `
+<Label
+  className="track-label vote-track-label"
+  color="red"
+  content={-3}
+  icon="thumbs down"
+  ribbon={null}
+  size="tiny"
+/>
+`;
+
+exports[`VotedBy when the vote count is 0 does not show a label 1`] = `
+<Popup
+  content={
+    <List>
+      <ListItem>
+        <ListContent>
+          <ListDescription>
+            <strong>
+              14 Dec 2019 @ 1:11 pm
+            </strong>
+             - 
+            User unknown
+             
+            <Label
+              circular={true}
+              size="mini"
+            >
+              -5
+            </Label>
+          </ListDescription>
+        </ListContent>
+      </ListItem>
+      <ListItem>
+        <ListContent>
+          <ListDescription>
+            <strong>
+              19 Dec 2019 @ 1:11 pm
+            </strong>
+             - 
+            User unknown
+             
+            <Label
+              circular={true}
+              size="mini"
+            >
+              -5
+            </Label>
+          </ListDescription>
+        </ListContent>
+      </ListItem>
+    </List>
+  }
+  disabled={false}
+  eventsEnabled={true}
+  offset={0}
+  on={
+    Array [
+      "click",
+      "hover",
+    ]
+  }
+  pinned={false}
+  position="top left"
+  trigger={
+    <Label
+      className="track-label vote-track-label"
+      color="red"
+      content={-4}
+      icon="thumbs down"
+      ribbon={null}
+      size="tiny"
+    />
+  }
+  wide="very"
+/>
+`;
+
+exports[`VotedBy when votes information is provided and a ribbon prop is set displays the correct information 1`] = `
+<Popup
+  content={
+    <List>
+      <ListItem>
+        <Image
+          as="img"
+          avatar={true}
+          className="voted_by_avatar_image"
+          src="link/to/image"
+          ui={true}
+        />
+        <ListContent>
+          <ListDescription>
+            <strong>
+              17 Dec 2019 @ 1:11 pm
+            </strong>
+             - 
+            Big Rainbowhead
+             
+            <Label
+              circular={true}
+              size="mini"
+            >
+              -3
+            </Label>
+          </ListDescription>
+        </ListContent>
+      </ListItem>
+      <ListItem>
+        <Image
+          as="img"
+          avatar={true}
+          className="voted_by_avatar_image"
+          src="link/to/duncan/image"
+          ui={true}
+        />
+        <ListContent>
+          <ListDescription>
+            <strong>
+              19 Dec 2019 @ 1:11 pm
+            </strong>
+             - 
+            Duncan
+             
+            <Label
+              circular={true}
+              size="mini"
+            >
+              3
+            </Label>
+          </ListDescription>
+        </ListContent>
+      </ListItem>
+    </List>
+  }
+  disabled={false}
+  eventsEnabled={true}
+  offset={0}
+  on={
+    Array [
+      "click",
+      "hover",
+    ]
+  }
+  pinned={false}
+  position="top left"
+  trigger={
+    <Label
+      className="track-label vote-track-label"
+      color="red"
+      content={-4}
+      icon="thumbs down"
+      ribbon="right"
+      size="tiny"
+    />
+  }
+  wide="very"
+/>
+`;
+
+exports[`VotedBy when votes information is provided and no ribbon prop displays the correct information 1`] = `
+<Popup
+  content={
+    <List>
+      <ListItem>
+        <Image
+          as="img"
+          avatar={true}
+          className="voted_by_avatar_image"
+          src="link/to/image"
+          ui={true}
+        />
+        <ListContent>
+          <ListDescription>
+            <strong>
+              17 Dec 2019 @ 1:11 pm
+            </strong>
+             - 
+            Big Rainbowhead
+             
+            <Label
+              circular={true}
+              size="mini"
+            >
+              -3
+            </Label>
+          </ListDescription>
+        </ListContent>
+      </ListItem>
+      <ListItem>
+        <Image
+          as="img"
+          avatar={true}
+          className="voted_by_avatar_image"
+          src="link/to/duncan/image"
+          ui={true}
+        />
+        <ListContent>
+          <ListDescription>
+            <strong>
+              19 Dec 2019 @ 1:11 pm
+            </strong>
+             - 
+            Duncan
+             
+            <Label
+              circular={true}
+              size="mini"
+            >
+              3
+            </Label>
+          </ListDescription>
+        </ListContent>
+      </ListItem>
+    </List>
+  }
+  disabled={false}
+  eventsEnabled={true}
+  offset={0}
+  on={
+    Array [
+      "click",
+      "hover",
+    ]
+  }
+  pinned={false}
+  position="top left"
+  trigger={
+    <Label
+      className="track-label vote-track-label"
+      color="red"
+      content={-3}
+      icon="thumbs down"
+      ribbon={null}
+      size="tiny"
+    />
+  }
+  wide="very"
+/>
+`;

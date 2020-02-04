@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { DropTarget } from 'react-dnd'
+import './index.css'
 
 const boxTarget = {
   drop (props, monitor) {
@@ -12,16 +13,23 @@ const boxTarget = {
 
 const boxHandler = (connect, monitor) => {
   return {
-    connectDropTarget: connect.dropTarget()
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
   }
+}
+
+const dropTrack = (show) => {
+  if (!show) return null
+  return <div className='drag-is-over'><p>Drop da track</p></div>
 }
 
 class UrlDropArea extends Component {
   render () {
-    const { connectDropTarget } = this.props
+    const { connectDropTarget, isOver } = this.props
 
     return connectDropTarget(
-      <div title='Drag in Spotify tracks to add to playlist'>
+      <div>
+        { dropTrack(isOver) }
         { this.props.children }
       </div>
     )

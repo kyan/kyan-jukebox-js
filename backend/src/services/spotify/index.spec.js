@@ -90,7 +90,7 @@ describe('SpotifyService', () => {
             .mockImplementationOnce(() => Promise.resolve('track added OK'))
         }
       }
-      addTracks.mockImplementation(() => Promise.resolve('uris'))
+      addTracks.mockImplementation(() => Promise.resolve({ user: 'duncan' }))
       ImageCache.addAll.mockImplementation(() => Promise.resolve())
 
       SpotifyService.canRecommend(mopidy)
@@ -107,15 +107,19 @@ describe('SpotifyService', () => {
               setTimeout(() => {
                 try {
                   expect(result).toBeUndefined()
-                  expect(EventLogger).toHaveBeenCalledWith(
-                    { encoded_key: 'mopidy.tracklist.add' },
-                    { uris: [
-                      'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt',
-                      'spotify:track:7LzeKqmOtpKVKJ1dmalkC0',
-                      'spotify:track:1Ut1A8UaNqGuwsHgWq75PW'
-                    ] },
-                    'track added OK',
-                    'APIRequest'
+                  expect(EventLogger.info).toHaveBeenCalledWith(
+                    'INCOMING MOPIDY',
+                    {
+                      data: [
+                        'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt',
+                        'spotify:track:7LzeKqmOtpKVKJ1dmalkC0',
+                        'spotify:track:1Ut1A8UaNqGuwsHgWq75PW'
+                      ],
+                      key: 'mopidy.tracklist.add',
+                      response: 'track added OK',
+                      user: 'duncan'
+                    },
+                    true
                   )
                   done()
                 } catch (err) {
