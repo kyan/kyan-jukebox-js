@@ -47,7 +47,7 @@ jest.mock('spotify-web-api-node', () => {
         .mockImplementationOnce(() => Promise.resolve({ body: { tracks: [{ explicit: false }] } }))
         .mockImplementationOnce(() => Promise.reject(new Error('bang!'))),
       searchTracks: jest.fn()
-        .mockImplementationOnce(() => Promise.resolve({ body: 'search results' }))
+        .mockImplementationOnce(() => Promise.resolve({ body: { tracks: { items: [] } } }))
         .mockImplementationOnce(() => Promise.reject(new Error('search bang!')))
     }
   }
@@ -115,7 +115,7 @@ describe('SpotifyService', () => {
                         'spotify:track:7LzeKqmOtpKVKJ1dmalkC0',
                         'spotify:track:1Ut1A8UaNqGuwsHgWq75PW'
                       ],
-                      key: 'mopidy.tracklist.add',
+                      key: 'mopidy::tracklist.add',
                       response: 'track added OK',
                       user: 'duncan'
                     },
@@ -215,9 +215,10 @@ describe('SpotifyService', () => {
   describe('search', () => {
     it('should resolve search', done => {
       expect.assertions(1)
+      ImageCache.addAll.mockResolvedValue()
       SpotifyService.search('hello', {})
         .then((result) => {
-          expect(result).toEqual('search results')
+          expect(result).toEqual({ tracks: { items: [] } })
           done()
         })
     })
