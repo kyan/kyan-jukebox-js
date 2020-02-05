@@ -26,7 +26,6 @@ describe('MopidyHandler', () => {
     }
     const payload = {
       key: 'tracklist.setVolume',
-      encoded_key: 'mopidy::tracklist.setVolume',
       data: [['12']]
     }
     const trackMock = jest.fn().mockResolvedValue()
@@ -40,7 +39,7 @@ describe('MopidyHandler', () => {
         expect(Spotify.validateTrack).not.toHaveBeenCalled()
         expect(Broadcaster.toClient).toHaveBeenCalledWith(
           ws,
-          { data: [['12']], encoded_key: 'mopidy::tracklist.setVolume', key: 'tracklist.setVolume' },
+          { data: [['12']], key: 'tracklist.setVolume' },
           'unifiedMessage'
         )
         done()
@@ -60,7 +59,6 @@ describe('MopidyHandler', () => {
     }
     const payload = {
       key: 'tracklist.setVolume',
-      encoded_key: 'mopidy::tracklist.setVolume',
       data: [['12']]
     }
     MopidyHandler(payload, ws, mopidy)
@@ -84,10 +82,7 @@ describe('MopidyHandler', () => {
         setVolume: mopidyVolumeMock
       }
     }
-    const payload = {
-      key: 'tracklist.setVolume',
-      encoded_key: 'mopidy::tracklist.setVolume'
-    }
+    const payload = { key: 'tracklist.setVolume' }
     const trackMock = jest.fn().mockResolvedValue()
     Spotify.validateTrack.mockImplementation(trackMock)
     Decorator.parse.mockResolvedValue('unifiedMessage')
@@ -99,7 +94,7 @@ describe('MopidyHandler', () => {
         expect(Spotify.validateTrack).not.toHaveBeenCalled()
         expect(Broadcaster.toClient).toHaveBeenCalledWith(
           ws,
-          { encoded_key: 'mopidy::tracklist.setVolume', key: 'tracklist.setVolume' },
+          { key: 'tracklist.setVolume' },
           'unifiedMessage'
         )
         done()
@@ -113,7 +108,7 @@ describe('MopidyHandler', () => {
     expect.assertions(1)
     const mopidy = 'mopidy'
     const trackMock = jest.fn().mockRejectedValue(new Error('naughty-naughty'))
-    const payload = { encoded_key: 'mopidy::tracklist.add', data: [['12345zsdf23456']] }
+    const payload = { key: 'tracklist.add', data: [['12345zsdf23456']] }
     Spotify.validateTrack.mockImplementation(trackMock)
 
     MopidyHandler(payload, ws, mopidy)
@@ -122,7 +117,7 @@ describe('MopidyHandler', () => {
       try {
         expect(Broadcaster.toClient).toHaveBeenCalledWith(
           ws,
-          { data: [['12345zsdf23456']], encoded_key: 'mopidy::validationError' },
+          { data: [['12345zsdf23456']], key: 'validationError' },
           'naughty-naughty'
         )
         done()

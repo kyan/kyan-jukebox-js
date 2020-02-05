@@ -21,13 +21,13 @@ describe('VolumeButtons', () => {
     it('handles a volume down click', () => {
       volMock.mockClear()
       wrapper.find('.jb-volume-down').simulate('click')
-      expect(volMock.mock.calls[0][0]).toEqual(43)
+      expect(volMock.mock.calls[0][0]).toEqual(42)
     })
 
     it('handles a volume up click', () => {
       volMock.mockClear()
       wrapper.find('.jb-volume-up').simulate('click')
-      expect(volMock.mock.calls[0][0]).toEqual(45)
+      expect(volMock.mock.calls[0][0]).toEqual(46)
     })
 
     it('handles a volume down click when min is reached', () => {

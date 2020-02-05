@@ -17,13 +17,13 @@ const persistUser = (user) => {
 }
 
 const AuthenticateHandler = (payload, socket) => {
-  if (!isAuthorisedRequest(payload.encoded_key)) {
-    delete (payload.jwt_token)
+  if (!isAuthorisedRequest(payload.key)) {
+    delete (payload.jwt)
     return Promise.resolve(payload)
   }
 
   return new Promise((resolve) => {
-    const token = payload.jwt_token
+    const token = payload.jwt
     const client = new OAuth2Client(process.env.CLIENT_ID)
 
     const broadcastTo = (headers, message) => {
@@ -36,7 +36,6 @@ const AuthenticateHandler = (payload, socket) => {
         const responsePayload = {
           data: payload.data,
           key: payload.key,
-          encoded_key: payload.encoded_key,
           user: {
             _id: data['sub'],
             fullname: data['name'],
@@ -50,7 +49,7 @@ const AuthenticateHandler = (payload, socket) => {
             .catch((err) => logger.error('Error checking user', { error: err.message }))
         }
 
-        payload.encoded_key = AuthConsts.AUTHENTICATION_TOKEN_INVALID
+        payload.key = AuthConsts.AUTHENTICATION_TOKEN_INVALID
         broadcastTo(payload, { error: `Invalid domain: ${data['hd']}` })
       })
       .catch(err => {

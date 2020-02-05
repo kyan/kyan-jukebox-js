@@ -9,7 +9,7 @@ describe('SearchDecorator', () => {
 
   it('should handle skipping', () => {
     expect.assertions(1)
-    const header = { encoded_key: 'keynotused' }
+    const header = { key: 'keynotused' }
     const data = {}
 
     return SearchDecorator.parse(header, data).then((results) => {
@@ -19,7 +19,7 @@ describe('SearchDecorator', () => {
 
   it('should handle SEARCH_GET_TRACKS', () => {
     expect.assertions(1)
-    const header = { encoded_key: 'search::getTracks' }
+    const header = { key: 'searchGetTracks' }
     const data = {
       tracks: {
         items: ['result']
