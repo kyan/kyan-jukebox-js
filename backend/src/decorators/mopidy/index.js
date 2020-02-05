@@ -17,7 +17,7 @@ let recommendTimer
 const MopidyDecorator = {
   mopidyCoreMessage: (headers, data, mopidy) => {
     return new Promise((resolve) => {
-      const { encoded_key: key } = headers
+      const { key } = headers
 
       switch (key) {
         case Mopidy.CORE_EVENTS.PLAYBACK_STARTED:
@@ -55,7 +55,7 @@ const MopidyDecorator = {
   },
   parse: (headers, data) => {
     return new Promise((resolve) => {
-      const { encoded_key: key, user } = headers
+      const { key, user } = headers
 
       switch (key) {
         case Mopidy.GET_CURRENT_TRACK:
@@ -84,7 +84,6 @@ const MopidyDecorator = {
           if (data && data.length > 0) return resolve(DecorateTrack(data[0].track))
           return resolve()
         case Mopidy.TRACKLIST_CLEAR:
-        case Mopidy.CONNECTION_ERROR:
         case Mopidy.MIXER_GET_VOLUME:
         case Mopidy.MIXER_SET_VOLUME:
         case Mopidy.PLAYBACK_GET_TIME_POSITION:

@@ -17,8 +17,7 @@ describe('SearchHandler', () => {
   it('should handle a valid search', done => {
     expect.assertions(2)
     const payload = {
-      key: 'search::getTracks',
-      encoded_key: 'search::search::getTracks',
+      key: 'searchGetTracks',
       data: 'search'
     }
     Spotify.search.mockResolvedValue('tracks')
@@ -31,7 +30,7 @@ describe('SearchHandler', () => {
         expect(Spotify.search).toHaveBeenCalledWith('search')
         expect(Broadcaster.toClient).toHaveBeenCalledWith(
           ws,
-          { data: 'search', encoded_key: 'search::search::getTracks', key: 'search::getTracks' },
+          { data: 'search', key: 'searchGetTracks' },
           'unifiedMessage',
           'search'
         )
@@ -45,8 +44,7 @@ describe('SearchHandler', () => {
   it('should handle an invalid search', done => {
     expect.assertions(2)
     const payload = {
-      key: 'search::getTracks',
-      encoded_key: 'search::search::getTracks',
+      key: 'searchGetTracks',
       data: 'search'
     }
     Spotify.search.mockRejectedValue(new Error('booom'))
@@ -59,7 +57,7 @@ describe('SearchHandler', () => {
         expect(Spotify.search).toHaveBeenCalledWith('search')
         expect(Broadcaster.toClient).toHaveBeenCalledWith(
           ws,
-          { data: 'search', encoded_key: 'mopidy::validationError', key: 'search::getTracks' },
+          { data: 'search', key: 'validationError' },
           'unifiedMessage',
           'search'
         )

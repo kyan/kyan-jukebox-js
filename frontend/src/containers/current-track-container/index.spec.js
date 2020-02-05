@@ -28,7 +28,7 @@ describe('CurrentTrackContainer', () => {
       wrapper.find('CurrentTrack').prop('onVote')('uri123', 99)
       expect(store.getActions()).toEqual([{
         type: 'actionVote',
-        key: 'vote::castVote',
+        key: 'castVote',
         params: {
           uri: 'uri123',
           vote: 99

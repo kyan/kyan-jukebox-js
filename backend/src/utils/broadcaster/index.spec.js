@@ -16,19 +16,17 @@ describe('Broadcaster', () => {
         id: '12345',
         emit: sendMock
       }
-      const payload = {
-        encoded_key: 'mopidy::playback.next'
-      }
+      const payload = { key: 'playback.next' }
       const message = 'hello mum'
 
       await broadcaster.toClient(clientMock, payload, message)
       expect(sendMock).toHaveBeenCalledWith(
         'message',
-        '{"key":"mopidy::playback.next","data":"hello mum"}'
+        '{"key":"playback.next","data":"hello mum"}'
       )
       expect(EventLogger.info).toHaveBeenCalledWith(
         'OUTGOING API',
-        { data: 'hello mum', key: 'mopidy::playback.next' }
+        { data: 'hello mum', key: 'playback.next' }
       )
     })
 
@@ -39,7 +37,7 @@ describe('Broadcaster', () => {
         emit: sendMock
       }
       const payload = {
-        encoded_key: 'mopidy::playback.next',
+        key: 'playback.next',
         user: 'duncan'
       }
       const message = 'hello mum'
@@ -47,11 +45,11 @@ describe('Broadcaster', () => {
       await broadcaster.toClient(clientMock, payload, message)
       expect(sendMock).toHaveBeenCalledWith(
         'message',
-        '{"key":"mopidy::playback.next","data":"hello mum","user":"duncan"}'
+        '{"key":"playback.next","data":"hello mum","user":"duncan"}'
       )
       expect(EventLogger.info).toHaveBeenCalledWith(
         'OUTGOING API [AUTHED]',
-        { data: 'hello mum', key: 'mopidy::playback.next' }
+        { data: 'hello mum', key: 'playback.next' }
       )
     })
 
@@ -62,7 +60,7 @@ describe('Broadcaster', () => {
         emit: sendMock
       }
       const payload = {
-        encoded_key: 'mopidy::playback.next',
+        key: 'playback.next',
         user: 'duncan'
       }
       const message = 'hello mum'
@@ -78,17 +76,17 @@ describe('Broadcaster', () => {
       const socketMock = {
         emit: sendMock
       }
-      const key = 'mopidy::playback.next'
+      const key = 'playback.next'
       const message = 'hello mum'
 
       broadcaster.toAll(socketMock, key, message)
       expect(sendMock.mock.calls.length).toEqual(1)
       expect(sendMock.mock.calls[0][0]).toEqual('message')
-      expect(sendMock.mock.calls[0][1]).toEqual('{"key":"mopidy::playback.next","data":"hello mum"}')
+      expect(sendMock.mock.calls[0][1]).toEqual('{"key":"playback.next","data":"hello mum"}')
 
       expect(EventLogger.info).toHaveBeenCalledWith(
         'OUTGOING API BROADCAST',
-        { data: 'hello mum', key: 'mopidy::playback.next' }
+        { data: 'hello mum', key: 'playback.next' }
       )
     })
 
@@ -97,11 +95,11 @@ describe('Broadcaster', () => {
       const socketMock = {
         emit: sendMock
       }
-      const key = 'mopidy::playback.next'
+      const key = 'playback.next'
       const message = 'hello mum'
 
       broadcaster.toAll(socketMock, key, message)
-      expect(sendMock.mock.calls[0]).toEqual(['message', '{"key":"mopidy::playback.next","data":"hello mum"}'])
+      expect(sendMock.mock.calls[0]).toEqual(['message', '{"key":"playback.next","data":"hello mum"}'])
       expect(logger.error.mock.calls[0][0]).toEqual('Broadcaster#toAll')
       expect(logger.error.mock.calls[0][1]).toEqual({ message: 'oops' })
     })
