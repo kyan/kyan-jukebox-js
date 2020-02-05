@@ -7,7 +7,7 @@ Array [
     "type": "actionToggleSearchSidebar",
   },
   Object {
-    "key": "search::getTracks",
+    "key": "searchGetTracks",
     "params": Object {
       "options": Object {
         "limit": 20,
@@ -22,7 +22,7 @@ Array [
     "uri": "track1",
   },
   Object {
-    "key": "mopidy::tracklist.add",
+    "key": "tracklist.add",
     "params": Object {
       "uri": null,
     },
@@ -33,7 +33,7 @@ Array [
     "type": "actionStoreSearchQuery",
   },
   Object {
-    "key": "search::getTracks",
+    "key": "searchGetTracks",
     "params": Object {
       "options": Object {
         "limit": 20,

@@ -18,7 +18,7 @@ const SearchHandler = (payload, socket) => {
   Spotify.search(data).then((tracks) => {
     broadcastTo(payload, tracks)
   }).catch((err) => {
-    payload.encoded_key = MopidyConst.VALIDATION_ERROR
+    payload.key = MopidyConst.VALIDATION_ERROR
     broadcastTo(payload, err.message)
   })
 }

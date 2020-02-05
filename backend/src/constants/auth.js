@@ -1,3 +1,3 @@
 export default {
-  AUTHENTICATION_TOKEN_INVALID: 'auth::authenticationTokenInvalid'
+  AUTHENTICATION_TOKEN_INVALID: 'authenticationTokenInvalid'
 }

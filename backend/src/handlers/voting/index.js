@@ -16,7 +16,7 @@ const VoteHandler = (payload, socket, socketio) => {
   updateTrackVote(data.uri, user, data.vote).then((track) => {
     Broadcaster.toAll(socketio, VoteConstant.VOTE_CASTED, track, MessageType.VOTE)
   }).catch((err) => {
-    payload.encoded_key = MopidyConst.VALIDATION_ERROR
+    payload.key = MopidyConst.VALIDATION_ERROR
     broadcastTo(payload, err.message)
   })
 }

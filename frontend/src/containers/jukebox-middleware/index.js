@@ -17,7 +17,7 @@ const JukeboxMiddleware = (() => {
     const getJWT = () => store.getState().settings.token
     const packMessage = () => Payload.encodeToJson(getJWT(store), action.key, action.params)
 
-    const mopidyStateChange = data => {
+    const onMopidyStateChange = data => {
       if (JSON.parse(data).online) {
         store.dispatch(actions.mopidyConnected())
         return State.loadInitial(store)
@@ -37,7 +37,7 @@ const JukeboxMiddleware = (() => {
       socket = io(url, { transports: ['websocket'] })
       socket.on('vote', onVote)
       socket.on('search', onSearchResults)
-      socket.on('mopidy', mopidyStateChange)
+      socket.on('mopidy', onMopidyStateChange)
       socket.on('message', onMessage)
       socket.on('connect', onOpen)
       socket.on('disconnect', onClose)

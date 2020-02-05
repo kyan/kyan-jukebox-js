@@ -32,7 +32,7 @@ const MopidyHandler = (payload, socket, mopidy) => {
   }
 
   isValidTrack(
-    payload.encoded_key, data
+    payload.key, data
   ).then(() => {
     const apiCall = StrToFunction(mopidy, key)
     EventLogger.info(MessageType.OUTGOING_MOPIDY, payload)
@@ -46,7 +46,7 @@ const MopidyHandler = (payload, socket, mopidy) => {
       .then(successHandler)
       .catch((err) => logger.error(`Mopidy API Failure: ${err.message}`))
   }).catch((err) => {
-    payload.encoded_key = Mopidy.VALIDATION_ERROR
+    payload.key = Mopidy.VALIDATION_ERROR
     Broadcaster.toClient(socket, payload, err.message)
   })
 }

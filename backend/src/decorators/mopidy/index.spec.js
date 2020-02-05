@@ -21,9 +21,7 @@ describe('MopidyDecorator', () => {
   })
 
   const h = (key) => {
-    return {
-      encoded_key: key
-    }
+    return { key }
   }
 
   describe('playback.getCurrentTrack', () => {
@@ -31,7 +29,7 @@ describe('MopidyDecorator', () => {
       const data = 'data'
       expect.assertions(2)
       DecorateTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123 } }])
-      return MopidyDecorator.parse(h('mopidy::playback.getCurrentTrack'), data).then(() => {
+      return MopidyDecorator.parse(h('playback.getCurrentTrack'), data).then(() => {
         expect(DecorateTracklist).toHaveBeenCalledWith([data])
         expect(settings.setItem).toHaveBeenCalledWith(
           'track.current',
@@ -42,7 +40,7 @@ describe('MopidyDecorator', () => {
 
     it('does not transform when we have no data', () => {
       expect.assertions(1)
-      return MopidyDecorator.parse(h('mopidy::playback.getCurrentTrack'), null)
+      return MopidyDecorator.parse(h('playback.getCurrentTrack'), null)
         .then(() => expect(DecorateTrack).not.toHaveBeenCalled())
     })
   })
@@ -51,7 +49,7 @@ describe('MopidyDecorator', () => {
     it('returns the data that was passed in', () => {
       const data = 'data'
       expect.assertions(1)
-      return MopidyDecorator.parse(h('mopidy::playback.getTimePosition'), data)
+      return MopidyDecorator.parse(h('playback.getTimePosition'), data)
         .then(returnData => expect(returnData).toEqual(data))
     })
   })
@@ -61,7 +59,7 @@ describe('MopidyDecorator', () => {
       const data = 'data'
       expect.assertions(3)
       DecorateTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123 } }])
-      return MopidyDecorator.parse(h('mopidy::tracklist.getTracks'), data).then((returnData) => {
+      return MopidyDecorator.parse(h('tracklist.getTracks'), data).then((returnData) => {
         expect(DecorateTracklist).toHaveBeenCalledWith(data)
         expect(settings.setItem).toHaveBeenCalledWith('tracklist.current', ['123'])
         expect(returnData).toEqual([{ track: { uri: '123', length: 2820123 } }])
@@ -79,7 +77,7 @@ describe('MopidyDecorator', () => {
       DecorateTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123 } }])
       Spotify.canRecommend.mockResolvedValue('functionName')
 
-      return MopidyDecorator.mopidyCoreMessage(h('mopidy::event:trackPlaybackStarted'), data, mopidyMock).then((response) => {
+      return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackStarted'), data, mopidyMock).then((response) => {
         expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')
         expect(settings.addToUniqueArray).toHaveBeenCalledWith(
           'tracklist.last_played',
@@ -117,7 +115,7 @@ describe('MopidyDecorator', () => {
       DecorateTracklist.mockResolvedValue([{ track: { uri: '123' } }])
       Spotify.canRecommend.mockResolvedValue(null)
 
-      return MopidyDecorator.mopidyCoreMessage(h('mopidy::event:trackPlaybackStarted'), data, mopidyMock).then((response) => {
+      return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackStarted'), data, mopidyMock).then((response) => {
         expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')
         expect(settings.addToUniqueArray).toHaveBeenCalledWith(
           'tracklist.last_played',
@@ -145,7 +143,7 @@ describe('MopidyDecorator', () => {
     it('returns the data passed in', () => {
       expect.assertions(1)
       const data = 'data'
-      return MopidyDecorator.mopidyCoreMessage(h('mopidy::event:tracklistChanged'), data)
+      return MopidyDecorator.mopidyCoreMessage(h('event:tracklistChanged'), data)
         .then(returnData => expect(returnData).toEqual(data))
     })
   })
@@ -154,7 +152,7 @@ describe('MopidyDecorator', () => {
     it('returns the volume data passed in', () => {
       const data = { volume: 99 }
       expect.assertions(1)
-      return MopidyDecorator.mopidyCoreMessage(h('mopidy::event:volumeChanged'), data)
+      return MopidyDecorator.mopidyCoreMessage(h('event:volumeChanged'), data)
         .then(returnData => expect(returnData).toEqual(data.volume))
     })
   })
@@ -163,7 +161,7 @@ describe('MopidyDecorator', () => {
     it('returns the playback state data passed in', () => {
       const data = { new_state: 'playing' }
       expect.assertions(1)
-      return MopidyDecorator.mopidyCoreMessage(h('mopidy::event:playbackStateChanged'), data)
+      return MopidyDecorator.mopidyCoreMessage(h('event:playbackStateChanged'), data)
         .then(returnData => expect(returnData).toEqual(data.new_state))
     })
   })
@@ -174,7 +172,7 @@ describe('MopidyDecorator', () => {
         track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
       }]
       expect.assertions(2)
-      return MopidyDecorator.parse(h('mopidy::tracklist.remove'), data).then(returnData => {
+      return MopidyDecorator.parse(h('tracklist.remove'), data).then(returnData => {
         expect(returnData).toEqual(data)
         expect(settings.removeFromArray.mock.calls[0])
           .toEqual(['tracklist.last_played', 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG'])
@@ -186,7 +184,7 @@ describe('MopidyDecorator', () => {
     it('returns the data passed in', () => {
       expect.assertions(1)
       const data = 'data'
-      return MopidyDecorator.parse(h('mopidy::tracklist.clear'), data)
+      return MopidyDecorator.parse(h('tracklist.clear'), data)
         .then(returnData => expect(returnData).toEqual(data))
     })
   })
@@ -195,7 +193,7 @@ describe('MopidyDecorator', () => {
     it('returns the data passed in', () => {
       expect.assertions(1)
       const data = 'data'
-      return MopidyDecorator.parse(h('mopidy::mixer.getVolume'), data)
+      return MopidyDecorator.parse(h('mixer.getVolume'), data)
         .then(returnData => expect(returnData).toEqual(data))
     })
   })
@@ -204,7 +202,7 @@ describe('MopidyDecorator', () => {
     it('returns the data passed in', () => {
       expect.assertions(1)
       const data = 'data'
-      return MopidyDecorator.parse(h('mopidy::mixer.setVolume'), data)
+      return MopidyDecorator.parse(h('mixer.setVolume'), data)
         .then(returnData => expect(returnData).toEqual(data))
     })
   })
@@ -213,7 +211,7 @@ describe('MopidyDecorator', () => {
     it('returns the data passed in', () => {
       expect.assertions(4)
       const data = [{ track: 'track' }]
-      let headers = h('mopidy::tracklist.add')
+      let headers = h('tracklist.add')
       headers.data = { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
       headers.user = 'user'
       DecorateTrack.mockResolvedValue('result')
@@ -231,7 +229,7 @@ describe('MopidyDecorator', () => {
     it('returns nothing if no data', () => {
       expect.assertions(3)
       const data = []
-      let headers = h('mopidy::tracklist.add')
+      let headers = h('tracklist.add')
       headers.data = { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
       headers.user = 'user'
       addTracks.mockResolvedValue()
@@ -253,14 +251,14 @@ describe('MopidyDecorator', () => {
       }]
       DecorateTrack.mockResolvedValue('result')
 
-      return MopidyDecorator.parse(h('mopidy::playback.next'), data)
+      return MopidyDecorator.parse(h('playback.next'), data)
         .then(returnData => expect(returnData).toEqual('result'))
     })
 
     it('returns null if no data', () => {
       expect.assertions(1)
 
-      return MopidyDecorator.parse(h('mopidy::playback.next'), [])
+      return MopidyDecorator.parse(h('playback.next'), [])
         .then(returnData => expect(returnData).toBeUndefined())
     })
   })
@@ -273,13 +271,13 @@ describe('MopidyDecorator', () => {
       }]
       DecorateTrack.mockResolvedValue('result')
 
-      return MopidyDecorator.parse(h('mopidy::playback.previous'), data)
+      return MopidyDecorator.parse(h('playback.previous'), data)
         .then(returnData => expect(returnData).toEqual('result'))
     })
 
     it('returns null if no data', () => {
       expect.assertions(1)
-      return MopidyDecorator.parse(h('mopidy::playback.previous'), [])
+      return MopidyDecorator.parse(h('playback.previous'), [])
         .then(returnData => expect(returnData).toBeUndefined())
     })
   })

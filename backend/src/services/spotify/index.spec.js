@@ -115,7 +115,7 @@ describe('SpotifyService', () => {
                         'spotify:track:7LzeKqmOtpKVKJ1dmalkC0',
                         'spotify:track:1Ut1A8UaNqGuwsHgWq75PW'
                       ],
-                      key: 'mopidy::tracklist.add',
+                      key: 'tracklist.add',
                       response: 'track added OK',
                       user: 'duncan'
                     },

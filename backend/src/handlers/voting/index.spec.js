@@ -33,7 +33,7 @@ describe('VoteHandler', () => {
         )
         expect(Broadcaster.toAll).toHaveBeenCalledWith(
           socketio,
-          'vote::voteCasted',
+          'voteCasted',
           'track',
           'vote'
         )
@@ -69,8 +69,7 @@ describe('VoteHandler', () => {
               uri: 'uri123',
               vote: 'vote'
             },
-            encoded_key: 'mopidy::validationError',
-            key: 'castVote',
+            key: 'validationError',
             user: 'user'
           },
           'boom',

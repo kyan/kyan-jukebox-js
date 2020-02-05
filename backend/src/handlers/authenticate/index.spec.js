@@ -19,10 +19,9 @@ describe('AuthenticateHandler', () => {
     expect.assertions(3)
 
     const payload = {
-      encoded_key: 'mopidy::mixer.setVolume',
       key: 'mixer.setVolume',
       data: ['12'],
-      jwt_token: 'somevalidjwttoken'
+      jwt: 'somevalidjwttoken'
     }
 
     OAuth2Client.mockImplementation(() => {
@@ -47,7 +46,6 @@ describe('AuthenticateHandler', () => {
           try {
             expect(response).toEqual({
               data: ['12'],
-              encoded_key: 'mopidy::mixer.setVolume',
               key: 'mixer.setVolume',
               user: {
                 _id: 'abcdefg123456',
@@ -72,10 +70,9 @@ describe('AuthenticateHandler', () => {
     expect.assertions(2)
 
     const payload = {
-      encoded_key: 'mopidy::mixer.setVolume',
       key: 'mixer.setVolume',
       data: ['12'],
-      jwt_token: 'somevalidjwttoken'
+      jwt: 'somevalidjwttoken'
     }
 
     OAuth2Client.mockImplementation(() => {
@@ -105,10 +102,9 @@ describe('AuthenticateHandler', () => {
     expect.assertions(2)
 
     const payload = {
-      encoded_key: 'mopidy::mixer.setVolume',
       key: 'mixer.setVolume',
       data: ['12'],
-      jwt_token: 'somevalidjwttoken'
+      jwt: 'somevalidjwttoken'
     }
 
     OAuth2Client.mockImplementation(() => {
@@ -146,7 +142,6 @@ describe('AuthenticateHandler', () => {
     expect.assertions(2)
 
     const payload = {
-      encoded_key: 'mopidy::somenonauthtask',
       key: 'somenonauthtask',
       data: ['12']
     }
@@ -155,7 +150,6 @@ describe('AuthenticateHandler', () => {
       .then((response) => {
         expect(response).toEqual({
           data: ['12'],
-          encoded_key: 'mopidy::somenonauthtask',
           key: 'somenonauthtask'
         })
         expect(Broadcaster.toClient).not.toHaveBeenCalled()
@@ -166,10 +160,9 @@ describe('AuthenticateHandler', () => {
     expect.assertions(3)
 
     const payload = {
-      encoded_key: 'mopidy::mixer.setVolume',
       key: 'mixer.setVolume',
       data: ['12'],
-      jwt_token: 'somevalidjwttoken'
+      jwt: 'somevalidjwttoken'
     }
 
     OAuth2Client.mockImplementation(() => {
