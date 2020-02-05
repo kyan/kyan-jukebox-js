@@ -6,7 +6,6 @@ import MessageType from 'constants/message'
 import Settings from 'constants/settings'
 import Decorator from 'decorators/mopidy'
 import trackListTrimmer from 'services/mopidy/tracklist-trimmer'
-import Payload from 'utils/payload'
 import storage from 'utils/local-storage'
 
 const mopidyUrl = process.env.WS_MOPIDY_URL
@@ -54,28 +53,25 @@ const MopidyService = (broadcastToAll, mopidyState, cbAllowConnections) => {
     initCurrentTrackState(mopidy)
   })
 
-  Object.values(MopidyConstants.CORE_EVENTS).forEach(encodedKey => {
-    const key = Payload.decodeKey(encodedKey).pop()
-
+  Object.values(MopidyConstants.CORE_EVENTS).forEach(key => {
     mopidy.on(key, message => {
-      const headers = { encoded_key: encodedKey }
       EventLogger.info(MessageType.INCOMING_CORE, { key, data: message })
 
-      const packAndSend = (head, data, messageType) => {
-        Decorator[messageType](head, data, mopidy).then(unifiedMessage => {
-          broadcastToAll(head.encoded_key, unifiedMessage)
+      const packAndSend = (headers, data, messageType) => {
+        Decorator[messageType](headers, data, mopidy).then(unifiedMessage => {
+          broadcastToAll(headers.key, unifiedMessage)
         })
       }
 
-      if (encodedKey === MopidyConstants.CORE_EVENTS.TRACKLIST_CHANGED) {
+      if (key === MopidyConstants.CORE_EVENTS.TRACKLIST_CHANGED) {
         mopidy.tracklist.getTracks()
           .then(tracks => {
-            packAndSend({ encoded_key: MopidyConstants.GET_TRACKS }, tracks, 'parse')
+            packAndSend({ key: MopidyConstants.GET_TRACKS }, tracks, 'parse')
             cacheTrackUris(tracks)
             trackListTrimmer(mopidy)
           })
       } else {
-        packAndSend(headers, message, 'mopidyCoreMessage')
+        packAndSend({ key }, message, 'mopidyCoreMessage')
       }
     })
   })

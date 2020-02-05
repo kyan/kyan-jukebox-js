@@ -66,20 +66,20 @@ describe('JukeboxMiddleware', () => {
       expect(actions).toEqual([
         { type: 'actionDisconnected' },
         { type: 'actionMopidyConnected' },
-        { key: 'mopidy::playback.getCurrentTrack', type: 'actionSend' },
-        { key: 'mopidy::playback.getTimePosition', type: 'actionSend' },
-        { key: 'mopidy::playback.getState', type: 'actionSend' },
-        { key: 'mopidy::tracklist.getTracks', type: 'actionSend' },
-        { key: 'mopidy::mixer.getVolume', type: 'actionSend' },
+        { key: 'playback.getCurrentTrack', type: 'actionSend' },
+        { key: 'playback.getTimePosition', type: 'actionSend' },
+        { key: 'playback.getState', type: 'actionSend' },
+        { key: 'tracklist.getTracks', type: 'actionSend' },
+        { key: 'mixer.getVolume', type: 'actionSend' },
         { type: 'actionConnected' },
         { type: 'actionDisconnect' },
         { type: 'actionConnecting' },
         { type: 'actionMopidyConnected' },
-        { key: 'mopidy::playback.getCurrentTrack', type: 'actionSend' },
-        { key: 'mopidy::playback.getTimePosition', type: 'actionSend' },
-        { key: 'mopidy::playback.getState', type: 'actionSend' },
-        { key: 'mopidy::tracklist.getTracks', type: 'actionSend' },
-        { key: 'mopidy::mixer.getVolume', type: 'actionSend' },
+        { key: 'playback.getCurrentTrack', type: 'actionSend' },
+        { key: 'playback.getTimePosition', type: 'actionSend' },
+        { key: 'playback.getState', type: 'actionSend' },
+        { key: 'tracklist.getTracks', type: 'actionSend' },
+        { key: 'mixer.getVolume', type: 'actionSend' },
         { type: 'actionConnected' },
         { type: 'actionDisconnect' },
         { type: 'actionConnecting' }
@@ -94,11 +94,11 @@ describe('JukeboxMiddleware', () => {
       const actions = store.getActions()
       expect(actions).toEqual([
         { type: 'actionMopidyConnected' },
-        { key: 'mopidy::playback.getCurrentTrack', type: 'actionSend' },
-        { key: 'mopidy::playback.getTimePosition', type: 'actionSend' },
-        { key: 'mopidy::playback.getState', type: 'actionSend' },
-        { key: 'mopidy::tracklist.getTracks', type: 'actionSend' },
-        { key: 'mopidy::mixer.getVolume', type: 'actionSend' },
+        { key: 'playback.getCurrentTrack', type: 'actionSend' },
+        { key: 'playback.getTimePosition', type: 'actionSend' },
+        { key: 'playback.getState', type: 'actionSend' },
+        { key: 'tracklist.getTracks', type: 'actionSend' },
+        { key: 'mixer.getVolume', type: 'actionSend' },
         { type: 'actionConnected' },
         { type: 'actionDisconnect' },
         { type: 'actionConnecting' },
@@ -119,11 +119,11 @@ describe('JukeboxMiddleware', () => {
       actions = store.getActions()
       expect(actions).toEqual([
         { type: 'actionMopidyConnected' },
-        { key: 'mopidy::playback.getCurrentTrack', type: 'actionSend' },
-        { key: 'mopidy::playback.getTimePosition', type: 'actionSend' },
-        { key: 'mopidy::playback.getState', type: 'actionSend' },
-        { key: 'mopidy::tracklist.getTracks', type: 'actionSend' },
-        { key: 'mopidy::mixer.getVolume', type: 'actionSend' },
+        { key: 'playback.getCurrentTrack', type: 'actionSend' },
+        { key: 'playback.getTimePosition', type: 'actionSend' },
+        { key: 'playback.getState', type: 'actionSend' },
+        { key: 'tracklist.getTracks', type: 'actionSend' },
+        { key: 'mixer.getVolume', type: 'actionSend' },
         { type: 'actionConnected' },
         { type: 'actionDisconnect' },
         { type: 'actionConnecting' }
@@ -174,14 +174,14 @@ describe('JukeboxMiddleware', () => {
       })
       JukeboxMiddleware(store)(next)({
         type: Search.SEARCH,
-        key: 'search::getTracks',
+        key: 'search.getTracks',
         params: 'params'
       })
       const actions = store.getActions()
       expect(actions).toEqual([])
       expect(mockEmit).toHaveBeenCalledWith(
         'search',
-        '{"jwt":"token","key":"search::getTracks","data":"params"}'
+        '{"jwt":"token","key":"search.getTracks","data":"params"}'
       )
     })
 
@@ -192,14 +192,14 @@ describe('JukeboxMiddleware', () => {
       })
       JukeboxMiddleware(store)(next)({
         type: VoteConstant.VOTE,
-        key: 'vote::castVote',
+        key: 'castVote',
         params: '12'
       })
       const actions = store.getActions()
       expect(actions).toEqual([])
       expect(mockEmit).toHaveBeenCalledWith(
         'vote',
-        '{"jwt":"token","key":"vote::castVote","data":"12"}'
+        '{"jwt":"token","key":"castVote","data":"12"}'
       )
     })
   })
