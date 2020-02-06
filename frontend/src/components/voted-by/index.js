@@ -4,7 +4,7 @@ import dateFormat from 'dateformat'
 import { List, Popup, Image, Label } from 'semantic-ui-react'
 import './index.css'
 
-const voteNormaliser = (v) => Math.round((v / 10) - 5) // 100 is max a user can vote per play, 0 is minimum
+const voteNormaliser = (v) => Math.round((v / 10) - 5) // 100 is max a user can vote per play
 
 const votedByContent = (votes) => (
   <List>

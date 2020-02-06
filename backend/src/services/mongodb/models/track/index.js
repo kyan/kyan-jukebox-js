@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
-import { flatten, mean, sumBy } from 'lodash'
 import User from 'services/mongodb/models/user'
 import EventLogger from 'utils/event-logger'
 import logger from 'config/winston'
+import VotingHelper from 'utils/voting'
 
 const trackSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.String,
@@ -36,9 +36,6 @@ const brh = {
   fullname: 'BRH',
   picture: 'https://cdn-images-1.medium.com/fit/c/200/200/1*bFBXYvskkPFI9nPx6Elwxg.png'
 }
-
-// This is what we times the vote by to get a nice big value to store
-const voteConstant = 10
 
 const findTracks = (uris) => {
   return new Promise((resolve, reject) => {
@@ -100,19 +97,6 @@ const updateTrackPlaycount = (uri) => {
   })
 }
 
-const calcVoteCount = (data) => {
-  return sumBy(data, i => i.votes.length)
-}
-
-const calcVoteTotal = (data) => {
-  return sumBy(data, i => sumBy(i.votes, v => v.vote))
-}
-
-const calcVoteAverage = (data) => {
-  const votes = data.map(i => i.votes.map(j => j.vote))
-  return mean(flatten(votes))
-}
-
 const updateTrackVote = (uri, user, vote) => {
   return new Promise((resolve) => {
     findOrUseBRH(user).then((returnUser) => {
@@ -121,7 +105,7 @@ const updateTrackVote = (uri, user, vote) => {
         .populate({ path: 'addedBy.votes.user' })
         .then((track) => {
           if (track && track.addedBy[0]) {
-            const currentVote = vote * voteConstant
+            const currentVote = VotingHelper.voteNormalised(vote)
             const currentVoteData = { _id: false, at: new Date(), vote: currentVote, user: returnUser }
             const votes = track.addedBy[0].votes
             const currentVoteIndex = votes.findIndex(vote => vote.user._id === returnUser._id)
@@ -130,10 +114,10 @@ const updateTrackVote = (uri, user, vote) => {
               votes[currentVoteIndex].vote = currentVote
             } else {
               votes.unshift(currentVoteData)
-              track.metrics.votes = calcVoteCount(track.addedBy)
+              track.metrics.votes = VotingHelper.calcVoteCount(track.addedBy)
             }
-            track.metrics.votesTotal = calcVoteTotal(track.addedBy)
-            track.metrics.votesAverage = calcVoteAverage(track.addedBy)
+            track.metrics.votesTotal = VotingHelper.calcVoteTotal(track.addedBy)
+            track.metrics.votesAverage = VotingHelper.calcVoteAverage(track.addedBy)
 
             return track.save()
           }
