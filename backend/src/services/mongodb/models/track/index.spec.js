@@ -232,7 +232,7 @@ describe('test mongoose Track model', () => {
       mockingoose(Track).toReturn(payload, 'findOne')
       jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
 
-      return updateTrackVote(payload._id, user, 12).then((track) => {
+      return updateTrackVote(payload._id, user, 2).then((track) => {
         expect(track).toMatchSnapshot()
       })
     })

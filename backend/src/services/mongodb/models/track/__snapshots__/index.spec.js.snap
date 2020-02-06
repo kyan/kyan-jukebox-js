@@ -54,7 +54,7 @@ Object {
         Object {
           "at": 1970-04-06T12:00:00.000Z,
           "user": "user999",
-          "vote": 120,
+          "vote": 20,
         },
       ],
     },
@@ -62,8 +62,8 @@ Object {
   "metrics": Object {
     "plays": 0,
     "votes": 1,
-    "votesAverage": 120,
-    "votesTotal": 120,
+    "votesAverage": 20,
+    "votesTotal": 20,
   },
   "uri": "uri123",
 }
