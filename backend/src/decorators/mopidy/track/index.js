@@ -40,5 +40,9 @@ export default function (json) {
     payload.metrics = json.metrics
   }
 
+  if (json.explicit) {
+    payload.explicit = json.explicit
+  }
+
   return { track: payload }
 }

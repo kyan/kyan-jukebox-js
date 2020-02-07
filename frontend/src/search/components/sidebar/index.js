@@ -1,36 +1,45 @@
 import React, { useRef } from 'react'
-import { func, bool, array, number } from 'prop-types'
+import classnames from 'classnames'
+import { string, func, bool, array, number } from 'prop-types'
 import { Sidebar, Button, Form, List, Header, Divider, Image, Pagination } from 'semantic-ui-react'
 import './index.css'
 
+const SearchItem = (props) => (
+  <div
+    className={classnames('search-list-item', { 'disabled': props.track.explicit })}
+    onClick={props.track.explicit ? undefined : props.onClick}
+  >
+    <Image
+      floated='left'
+      src={props.track.image}
+      size='mini'
+      title={`Click to add - ${props.track.name} - ${props.track.artist.name}`}
+      className='search-list-item__image'
+      disabled={props.track.explicit}
+    />
+    <List.Content>
+      <div className='search-list-item__header'>{props.track.name} - {props.track.artist.name}</div>
+      <div className='search-list-item__content'>{props.track.album.name}</div>
+    </List.Content>
+  </div>
+)
+
+const SearchItems = (props) => (
+  props.tracks.map(item => (
+    <SearchItem
+      key={item.track.uri}
+      track={item.track}
+      onClick={() => props.onAddTrack(item.track.uri)}
+    />
+  ))
+)
+
 const Search = (props) => {
   const {
-    visible, onClose, results, onSubmit,
+    visible, onClose, results, onSubmit, query,
     onQueryChange, onAddTrack, totalPages, onPageChange
   } = props
   const inputEl = useRef(null)
-
-  const addTrack = (uri) => () => {
-    onAddTrack(uri)
-  }
-
-  const SearchItems = () => (
-    results.map((item) => (
-      <div className='search-list-item' key={item.track.uri} onClick={addTrack(item.track.uri)}>
-        <Image
-          floated='left'
-          src={item.track.image}
-          size='mini'
-          title={`Click to add - ${item.track.name} - ${item.track.artist.name}`}
-          className='search-list-item__image'
-        />
-        <List.Content>
-          <div className='search-list-item__header'>{item.track.name} - {item.track.artist.name}</div>
-          <div className='search-list-item__content'>{item.track.album.name}</div>
-        </List.Content>
-      </div>
-    ))
-  )
 
   return (
     <Sidebar.Pushable>
@@ -52,6 +61,7 @@ const Search = (props) => {
               ref={inputEl}
               placeholder='track, artist or album'
               onChange={onQueryChange}
+              value={query}
             />
           </Form.Field>
           <Button type='submit' fluid>Submit</Button>
@@ -72,7 +82,7 @@ const Search = (props) => {
           />
         }
         <List divided relaxed inverted size='tiny'>
-          <SearchItems />
+          <SearchItems tracks={results} onAddTrack={onAddTrack} />
         </List>
       </Sidebar>
       <Sidebar.Pusher
@@ -93,7 +103,8 @@ Search.propTypes = {
   onPageChange: func.isRequired,
   visible: bool.isRequired,
   results: array.isRequired,
-  totalPages: number.isRequired
+  totalPages: number.isRequired,
+  query: string
 }
 
 export default Search

@@ -19,6 +19,13 @@ export const DashboardContainer = () => {
   const refreshTokenTimeoutID = useRef()
   const hasTokenChanged = (token) => token !== googleTokenId.current
 
+  const onSearch = (query) => {
+    const searchOptions = { offset: 0 }
+    dispatch(searchActions.search(query, searchOptions))
+    dispatch(searchActions.storeSearchQuery(query, searchOptions))
+    dispatch(searchActions.toggleSearchSidebar(true))
+  }
+
   useEffect(() => {
     dispatch(actions.wsConnect())
 
@@ -70,6 +77,7 @@ export const DashboardContainer = () => {
         /* istanbul ignore next */
         (evt) => dispatch(actions.removeFromTracklist(evt))
       }
+      onArtistSearch={query => _ => onSearch(query)}
     />
   )
 }
