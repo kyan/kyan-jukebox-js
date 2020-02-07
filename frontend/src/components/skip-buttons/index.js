@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 
-const previousButton = (cb, disabled) => (
+const PreviousButton = (props) => (
   <Button
-    onClick={cb}
+    onClick={props.onClick}
     animated='vertical'
     className='jb-previous-button'
-    disabled={disabled}
+    disabled={props.disabled}
   >
     <Button.Content hidden>Prev</Button.Content>
     <Button.Content visible>
@@ -16,12 +16,12 @@ const previousButton = (cb, disabled) => (
   </Button>
 )
 
-const nextButton = (cb, disabled) => (
+const NextButton = (props) => (
   <Button
-    onClick={cb}
+    onClick={props.onClick}
     animated='vertical'
     className='jb-next-button'
-    disabled={disabled}
+    disabled={props.disabled}
   >
     <Button.Content hidden>Next</Button.Content>
     <Button.Content visible>
@@ -31,10 +31,10 @@ const nextButton = (cb, disabled) => (
 )
 
 const SkipButtons = ({ disabled, onPrevious, onNext }) => (
-  <span>
-    {previousButton(onPrevious, disabled)}
-    {nextButton(onNext, disabled)}
-  </span>
+  <>
+    <PreviousButton onClick={onPrevious} disabled={disabled} />
+    <NextButton onClick={onNext} disabled={disabled} />
+  </>
 )
 
 SkipButtons.propTypes = {

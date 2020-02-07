@@ -1,23 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { List, Image, Label } from 'semantic-ui-react'
+import { List, Image, Label, Item } from 'semantic-ui-react'
 import { millisToMinutesAndSeconds } from 'utils/time'
 import defaultImage from 'components/current-track/default-artwork.png'
 import AddedBy from 'components/added-by'
 import VotedBy from 'components/voted-by'
 import './index.css'
 
-const isCurrentTrack = (currentTrack, track) => {
-  if (!currentTrack) return false
-  return currentTrack.uri === track.uri
-}
-
-const trackImage = ({ image, isCurrent, onClick, hasBeenPlayed }) => {
+const TrackImage = (props) => {
   let klass, title
 
-  if (isCurrent) klass = 'current-image'
-  if (onClick && !isCurrent) {
+  if (props.isCurrent) klass = 'current-image'
+  if (props.onClick && !props.isCurrent) {
     title = 'Click to remove from playlist'
     klass = 'remove-image'
   }
@@ -26,60 +21,73 @@ const trackImage = ({ image, isCurrent, onClick, hasBeenPlayed }) => {
     <Image
       bordered
       className={klass}
-      size={hasBeenPlayed ? 'small' : 'tiny'}
-      src={image}
+      size={props.hasBeenPlayed ? 'small' : 'tiny'}
+      src={props.src}
       title={title}
-      onClick={onClick}
+      onClick={props.onClick}
       inline
     />
   )
 }
 
-const removeTrack = (uri, cb) => {
-  return () => cb(uri)
+const ImageChooser = (props) => {
+  const removeTrack = (uri, cb) => () => cb(uri)
+  const image = props.image ? props.image : defaultImage
+  const onClick = (!props.disabled && !props.isCurrent) ? removeTrack(props.uri, props.onClick) : undefined
+
+  return (
+    <TrackImage
+      src={image}
+      isCurrent={props.isCurrent}
+      onClick={onClick}
+      hasBeenPlayed={props.hasBeenPlayed}
+    />
+  )
 }
 
-const imageChooser = (disabled, track, isCurrent, onRemoveTrack, hasBeenPlayed) => {
-  const image = track.image ? track.image : defaultImage
+const TrackHeading = (props) => <List.Header as='h4'>{props.name}</List.Header>
 
-  return trackImage({
-    image,
-    hasBeenPlayed,
-    isCurrent,
-    onClick: (!disabled && !isCurrent) ? removeTrack(track.uri, onRemoveTrack) : undefined
-  })
-}
-
-const trackHeading = (track) => <List.Header as='h4'>{track.name}</List.Header>
-
-const trackDescription = (track) => (
+const TrackDescription = (props) => (
   <List.Description>
-    {track.artist.name} <small>({millisToMinutesAndSeconds(track.length)})</small>
+    <Item as='a' className='track-search-link' onClick={props.onClick}>
+      {props.artistName}
+    </Item> <small>({millisToMinutesAndSeconds(props.trackLength)})</small>
   </List.Description>
 )
 
-const listItems = (disabled, tracks, currentTrack, onRemoveTrack) => {
-  let time
+const ListItems = (props) => {
+  let beenPlayed = false
+  const isCurrentTrack = (current, uri) => current && current.uri === uri
 
-  return tracks.map((track, index) => {
-    const isCurrent = isCurrentTrack(currentTrack, track)
-    const { addedBy = [] } = track
+  return props.tracks.map((track, i) => {
+    const { addedBy } = track
+    const isCurrent = isCurrentTrack(props.current, track.uri)
     const averageVote = track.metrics.votesAverage
     const playCount = track.metrics.plays
-    if (time) time += track.length
-    if (isCurrent) time = Date.now()
+    if (isCurrent) beenPlayed = beenPlayed || true
 
     return (
       <List.Item
         className={classnames({ 'current-track': isCurrent })}
-        key={`${index}-${track.uri}`}
+        key={`${i}${track.uri}`}
       >
-        { imageChooser(disabled, track, isCurrent, onRemoveTrack, time) }
+        <ImageChooser
+          disable={props.disabled}
+          uri={track.uri}
+          image={track.image}
+          isCurrent={isCurrent}
+          onClick={props.onRemove}
+          hasBeenPlayed={beenPlayed}
+        />
         <List.Content
-          className={classnames({ 'track-info': !time })}
+          className={classnames({ 'track-info': !beenPlayed })}
         >
-          {trackHeading(track)}
-          {trackDescription(track)}
+          <TrackHeading name={track.name} />
+          <TrackDescription
+            artistName={track.artist.name}
+            trackLength={track.length}
+            onClick={props.onArtistSearch(track.artist.name)}
+          />
           <VotedBy total={averageVote} />
           <Label className='track-label' size='tiny'>
             Played
@@ -92,12 +100,18 @@ const listItems = (disabled, tracks, currentTrack, onRemoveTrack) => {
   })
 }
 
-const Tracklist = ({ disabled, tracks, currentTrack, onRemoveTrack }) => {
+const Tracklist = ({ disabled, tracks, currentTrack, onRemoveTrack, onArtistSearch }) => {
   if (!tracks) { return null }
 
   return (
     <List relaxed='very' divided>
-      {listItems(disabled, tracks, currentTrack, onRemoveTrack)}
+      <ListItems
+        disabled={disabled}
+        tracks={tracks}
+        current={currentTrack}
+        onRemove={onRemoveTrack}
+        onArtistSearch={onArtistSearch}
+      />
     </List>
   )
 }
@@ -106,7 +120,8 @@ Tracklist.propTypes = {
   disabled: PropTypes.bool,
   tracks: PropTypes.array,
   currentTrack: PropTypes.object,
-  onRemoveTrack: PropTypes.func.isRequired
+  onRemoveTrack: PropTypes.func.isRequired,
+  onArtistSearch: PropTypes.func.isRequired
 }
 
 export default Tracklist

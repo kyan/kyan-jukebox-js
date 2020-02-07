@@ -9,12 +9,12 @@ const voteNormaliser = (v) => Math.round((v / 10) - 5) // 100 is max a user can 
 const votedByContent = (votes) => (
   <List>
     {
-      votes.map(data => {
+      votes.map((data, i) => {
         const fullName = data.user ? data.user.fullname : 'User unknown'
         const voteScore = <Label circular size='mini'>{voteNormaliser(data.vote)}</Label>
 
         return (
-          <List.Item key={data.at}>
+          <List.Item key={i}>
             {userPicture(data)}
             <List.Content>
               <List.Description>

@@ -30,6 +30,7 @@ describe('Search', () => {
       }
       const track2 = {
         track: {
+          explicit: true,
           name: 'Track name 2',
           uri: 'track2',
           artist: {

@@ -12,6 +12,7 @@ describe('Dashboard', () => {
   const onDropMock = jest.fn().mockName('onDropMock')
   const onTracklistClearMock = jest.fn().mockName('onTracklistClearMock')
   const onRemoveTrackMock = jest.fn().mockName('onRemoveTrackMock')
+  const onArtistSearch = jest.fn().mockName('onArtistSearch')
   const onSearchClickMock = jest.fn().mockName('onSearchClickMock')
 
   beforeEach(() => {
@@ -34,6 +35,7 @@ describe('Dashboard', () => {
         onDrop: onDropMock,
         onTracklistClear: onTracklistClearMock,
         onRemoveTrack: onRemoveTrackMock,
+        onArtistSearch: onArtistSearch,
         onSearchClick: onSearchClickMock,
         trackListImages: {},
         tracklist: ['track1', 'track2'],

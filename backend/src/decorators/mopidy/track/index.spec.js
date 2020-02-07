@@ -75,7 +75,8 @@ describe('TransformerTrack', () => {
           'length': 120066,
           'name':
           'Happiness',
-          'uri': 'spotify:track:6idaUJ1KK1mWyxQziMefhU'
+          'uri': 'spotify:track:6idaUJ1KK1mWyxQziMefhU',
+          'explicit': true
         }
       })
     })
