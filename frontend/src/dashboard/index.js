@@ -28,7 +28,8 @@ const Dashboard = (props) => {
     onSearchClick,
     tracklist,
     currentTrack,
-    onRemoveTrack
+    onRemoveTrack,
+    onArtistSearch
   } = props
 
   return (
@@ -78,6 +79,7 @@ const Dashboard = (props) => {
                   tracks={tracklist}
                   currentTrack={currentTrack}
                   onRemoveTrack={onRemoveTrack}
+                  onArtistSearch={onArtistSearch}
                 />
               </Grid.Column>
             </Grid>

@@ -30,6 +30,7 @@ exports[`Search render valid props renders as expected 1`] = `
           "artist": Object {
             "name": "Artist name 2",
           },
+          "explicit": true,
           "image": "image2",
           "name": "Track name 2",
           "uri": "track2",
@@ -98,6 +99,7 @@ exports[`Search render valid props renders as expected 1`] = `
                     </label>
                     <input
                       placeholder="track, artist or album"
+                      value=""
                     />
                   </div>
                   <button
@@ -194,10 +196,10 @@ exports[`Search render valid props renders as expected 1`] = `
                     </div>
                   </div>
                   <div
-                    class="search-list-item"
+                    class="search-list-item disabled"
                   >
                     <img
-                      class="ui mini left floated image search-list-item__image"
+                      class="ui mini disabled left floated image search-list-item__image"
                       src="image2"
                       title="Click to add - Track name 2 - Artist name 2"
                     />
@@ -245,6 +247,7 @@ exports[`Search render valid props renders as expected 1`] = `
                       </label>
                       <input
                         placeholder="track, artist or album"
+                        value=""
                       />
                     </div>
                     <button
@@ -341,10 +344,10 @@ exports[`Search render valid props renders as expected 1`] = `
                       </div>
                     </div>
                     <div
-                      class="search-list-item"
+                      class="search-list-item disabled"
                     >
                       <img
-                        class="ui mini left floated image search-list-item__image"
+                        class="ui mini disabled left floated image search-list-item__image"
                         src="image2"
                         title="Click to add - Track name 2 - Artist name 2"
                       />
@@ -650,85 +653,153 @@ exports[`Search render valid props renders as expected 1`] = `
                   className="ui tiny divided inverted relaxed list"
                   role="list"
                 >
-                  <SearchItems>
-                    <div
-                      className="search-list-item"
+                  <SearchItems
+                    onAddTrack={[MockFunction onAddTrackMock]}
+                    tracks={
+                      Array [
+                        Object {
+                          "track": Object {
+                            "album": Object {
+                              "name": "Album name 1",
+                            },
+                            "artist": Object {
+                              "name": "Artist name 1",
+                            },
+                            "image": "image1",
+                            "name": "Track name 1",
+                            "uri": "track1",
+                          },
+                        },
+                        Object {
+                          "track": Object {
+                            "album": Object {
+                              "name": "Album name 2",
+                            },
+                            "artist": Object {
+                              "name": "Artist name 2",
+                            },
+                            "explicit": true,
+                            "image": "image2",
+                            "name": "Track name 2",
+                            "uri": "track2",
+                          },
+                        },
+                      ]
+                    }
+                  >
+                    <SearchItem
                       key="track1"
                       onClick={[Function]}
+                      track={
+                        Object {
+                          "album": Object {
+                            "name": "Album name 1",
+                          },
+                          "artist": Object {
+                            "name": "Artist name 1",
+                          },
+                          "image": "image1",
+                          "name": "Track name 1",
+                          "uri": "track1",
+                        }
+                      }
                     >
-                      <Image
-                        as="img"
-                        className="search-list-item__image"
-                        floated="left"
-                        size="mini"
-                        src="image1"
-                        title="Click to add - Track name 1 - Artist name 1"
-                        ui={true}
+                      <div
+                        className="search-list-item"
+                        onClick={[Function]}
                       >
-                        <img
-                          className="ui mini left floated image search-list-item__image"
+                        <Image
+                          as="img"
+                          className="search-list-item__image"
+                          floated="left"
+                          size="mini"
                           src="image1"
                           title="Click to add - Track name 1 - Artist name 1"
-                        />
-                      </Image>
-                      <ListContent>
-                        <div
-                          className="content"
+                          ui={true}
                         >
+                          <img
+                            className="ui mini left floated image search-list-item__image"
+                            src="image1"
+                            title="Click to add - Track name 1 - Artist name 1"
+                          />
+                        </Image>
+                        <ListContent>
                           <div
-                            className="search-list-item__header"
+                            className="content"
                           >
-                            Track name 1
-                             - 
-                            Artist name 1
+                            <div
+                              className="search-list-item__header"
+                            >
+                              Track name 1
+                               - 
+                              Artist name 1
+                            </div>
+                            <div
+                              className="search-list-item__content"
+                            >
+                              Album name 1
+                            </div>
                           </div>
-                          <div
-                            className="search-list-item__content"
-                          >
-                            Album name 1
-                          </div>
-                        </div>
-                      </ListContent>
-                    </div>
-                    <div
-                      className="search-list-item"
+                        </ListContent>
+                      </div>
+                    </SearchItem>
+                    <SearchItem
                       key="track2"
                       onClick={[Function]}
+                      track={
+                        Object {
+                          "album": Object {
+                            "name": "Album name 2",
+                          },
+                          "artist": Object {
+                            "name": "Artist name 2",
+                          },
+                          "explicit": true,
+                          "image": "image2",
+                          "name": "Track name 2",
+                          "uri": "track2",
+                        }
+                      }
                     >
-                      <Image
-                        as="img"
-                        className="search-list-item__image"
-                        floated="left"
-                        size="mini"
-                        src="image2"
-                        title="Click to add - Track name 2 - Artist name 2"
-                        ui={true}
+                      <div
+                        className="search-list-item disabled"
                       >
-                        <img
-                          className="ui mini left floated image search-list-item__image"
+                        <Image
+                          as="img"
+                          className="search-list-item__image"
+                          disabled={true}
+                          floated="left"
+                          size="mini"
                           src="image2"
                           title="Click to add - Track name 2 - Artist name 2"
-                        />
-                      </Image>
-                      <ListContent>
-                        <div
-                          className="content"
+                          ui={true}
                         >
+                          <img
+                            className="ui mini disabled left floated image search-list-item__image"
+                            src="image2"
+                            title="Click to add - Track name 2 - Artist name 2"
+                          />
+                        </Image>
+                        <ListContent>
                           <div
-                            className="search-list-item__header"
+                            className="content"
                           >
-                            Track name 2
-                             - 
-                            Artist name 2
+                            <div
+                              className="search-list-item__header"
+                            >
+                              Track name 2
+                               - 
+                              Artist name 2
+                            </div>
+                            <div
+                              className="search-list-item__content"
+                            >
+                              Album name 2
+                            </div>
                           </div>
-                          <div
-                            className="search-list-item__content"
-                          >
-                            Album name 2
-                          </div>
-                        </div>
-                      </ListContent>
-                    </div>
+                        </ListContent>
+                      </div>
+                    </SearchItem>
                   </SearchItems>
                 </div>
               </List>

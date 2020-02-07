@@ -46,3 +46,7 @@
 .rating-container .vote-track-label {
   float: right;
 }
+
+.track-search-link {
+  color: #555;
+}
