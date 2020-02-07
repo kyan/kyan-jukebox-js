@@ -31,6 +31,7 @@ export const SearchContainer = (props) => {
       onPageChange={(_, data) => onSearch(data)}
       results={search.results}
       totalPages={Math.round(search.total / search.limit)}
+      query={search.query}
     >
       { props.children }
     </SearchSidebar>

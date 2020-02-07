@@ -7,11 +7,11 @@ import './index.css'
 const addedByContent = (users) => (
   <List>
     {
-      users.map(data => {
+      users.map((data, i) => {
         const fullName = data.user ? data.user.fullname : 'User unknown'
 
         return (
-          <List.Item key={data.addedAt}>
+          <List.Item key={i}>
             {userPicture(data)}
             <List.Content>
               <List.Description>

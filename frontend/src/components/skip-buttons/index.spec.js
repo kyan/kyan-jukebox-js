@@ -1,5 +1,5 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import SkipButtons from './index'
 
 describe('SkipButtons', () => {
@@ -8,7 +8,7 @@ describe('SkipButtons', () => {
   let wrapper
 
   describe('render', () => {
-    wrapper = shallow(
+    wrapper = mount(
       <SkipButtons
         onPrevious={prevMock}
         onNext={nextMock}
@@ -21,14 +21,14 @@ describe('SkipButtons', () => {
 
     it('handles a prev click', () => {
       prevMock.mockClear()
-      wrapper.find('.jb-previous-button').simulate('click')
-      expect(prevMock.mock.calls.length).toEqual(1)
+      wrapper.find('PreviousButton').simulate('click')
+      expect(prevMock).toHaveBeenCalled()
     })
 
     it('handles a next click', () => {
       nextMock.mockClear()
-      wrapper.find('.jb-next-button').simulate('click')
-      expect(nextMock.mock.calls.length).toEqual(1)
+      wrapper.find('NextButton').simulate('click')
+      expect(nextMock).toHaveBeenCalled()
     })
   })
 })

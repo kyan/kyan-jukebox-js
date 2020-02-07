@@ -17,6 +17,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
     <DashboardContainer>
       <Dashboard
         disabled={true}
+        onArtistSearch={[Function]}
         onDrop={[Function]}
         onNext={[Function]}
         onPause={[Function]}
@@ -112,6 +113,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                     </label>
                                     <input
                                       placeholder="track, artist or album"
+                                      value=""
                                     />
                                   </div>
                                   <button
@@ -160,6 +162,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                       </label>
                                       <input
                                         placeholder="track, artist or album"
+                                        value=""
                                       />
                                     </div>
                                     <button
@@ -285,7 +288,10 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                   className="ui tiny divided inverted relaxed list"
                                   role="list"
                                 >
-                                  <SearchItems />
+                                  <SearchItems
+                                    onAddTrack={[Function]}
+                                    tracks={Array []}
+                                  />
                                 </div>
                               </List>
                             </div>
@@ -578,7 +584,10 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                     onNext={[Function]}
                                     onPrevious={[Function]}
                                   >
-                                    <span>
+                                    <PreviousButton
+                                      disabled={true}
+                                      onClick={[Function]}
+                                    >
                                       <Button
                                         animated="vertical"
                                         as="button"
@@ -673,6 +682,11 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                           </RefFindNode>
                                         </Ref>
                                       </Button>
+                                    </PreviousButton>
+                                    <NextButton
+                                      disabled={true}
+                                      onClick={[Function]}
+                                    >
                                       <Button
                                         animated="vertical"
                                         as="button"
@@ -767,7 +781,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                           </RefFindNode>
                                         </Ref>
                                       </Button>
-                                    </span>
+                                    </NextButton>
                                   </SkipButtons>
                                   <Button
                                     active={true}
@@ -1160,6 +1174,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                       </Header>
                                       <Tracklist
                                         disabled={true}
+                                        onArtistSearch={[Function]}
                                         onRemoveTrack={[Function]}
                                         tracks={Array []}
                                       >
@@ -1170,7 +1185,14 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                           <div
                                             className="ui divided very relaxed list"
                                             role="list"
-                                          />
+                                          >
+                                            <ListItems
+                                              disabled={true}
+                                              onArtistSearch={[Function]}
+                                              onRemove={[Function]}
+                                              tracks={Array []}
+                                            />
+                                          </div>
                                         </List>
                                       </Tracklist>
                                     </div>
@@ -1211,6 +1233,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
     <DashboardContainer>
       <Dashboard
         disabled={true}
+        onArtistSearch={[Function]}
         onDrop={[Function]}
         onNext={[Function]}
         onPause={[Function]}
@@ -1306,6 +1329,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                     </label>
                                     <input
                                       placeholder="track, artist or album"
+                                      value=""
                                     />
                                   </div>
                                   <button
@@ -1354,6 +1378,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                       </label>
                                       <input
                                         placeholder="track, artist or album"
+                                        value=""
                                       />
                                     </div>
                                     <button
@@ -1479,7 +1504,10 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                   className="ui tiny divided inverted relaxed list"
                                   role="list"
                                 >
-                                  <SearchItems />
+                                  <SearchItems
+                                    onAddTrack={[Function]}
+                                    tracks={Array []}
+                                  />
                                 </div>
                               </List>
                             </div>
@@ -1812,7 +1840,10 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                     onNext={[Function]}
                                     onPrevious={[Function]}
                                   >
-                                    <span>
+                                    <PreviousButton
+                                      disabled={true}
+                                      onClick={[Function]}
+                                    >
                                       <Button
                                         animated="vertical"
                                         as="button"
@@ -1907,6 +1938,11 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                           </RefFindNode>
                                         </Ref>
                                       </Button>
+                                    </PreviousButton>
+                                    <NextButton
+                                      disabled={true}
+                                      onClick={[Function]}
+                                    >
                                       <Button
                                         animated="vertical"
                                         as="button"
@@ -2001,7 +2037,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                           </RefFindNode>
                                         </Ref>
                                       </Button>
-                                    </span>
+                                    </NextButton>
                                   </SkipButtons>
                                   <Button
                                     active={true}
@@ -2395,6 +2431,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                       </Header>
                                       <Tracklist
                                         disabled={true}
+                                        onArtistSearch={[Function]}
                                         onRemoveTrack={[Function]}
                                         tracks={Array []}
                                       >
@@ -2405,7 +2442,14 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                           <div
                                             className="ui divided very relaxed list"
                                             role="list"
-                                          />
+                                          >
+                                            <ListItems
+                                              disabled={true}
+                                              onArtistSearch={[Function]}
+                                              onRemove={[Function]}
+                                              tracks={Array []}
+                                            />
+                                          </div>
                                         </List>
                                       </Tracklist>
                                     </div>

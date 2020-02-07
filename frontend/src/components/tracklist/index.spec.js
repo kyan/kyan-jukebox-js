@@ -6,6 +6,7 @@ import MockTrackListJson from '__mockData__/api'
 describe('Tracklist', () => {
   let tracks = MockTrackListJson()
   const onRemoveMock = jest.fn()
+  const onSearchMock = jest.fn()
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -21,6 +22,7 @@ describe('Tracklist', () => {
           tracks={tracks.map(item => item.track)}
           currentTrack={tracks[0].track}
           onRemoveTrack={onRemoveMock}
+          onArtistSearch={onSearchMock}
         />
       )
 
@@ -36,6 +38,7 @@ describe('Tracklist', () => {
           tracks={tracks.map(item => item.track)}
           currentTrack={tracks[0].track}
           onRemoveTrack={onRemoveMock}
+          onArtistSearch={onSearchMock}
         />
       )
 
@@ -50,12 +53,26 @@ describe('Tracklist', () => {
           tracks={tracks.map(item => item.track)}
           currentTrack={tracks[0].track}
           onRemoveTrack={onRemoveMock}
+          onArtistSearch={onSearchMock}
         />
       )
 
-      wrapper.find('.item > .remove-image').at(1).simulate('click')
-      expect(onRemoveMock.mock.calls.length).toEqual(1)
-      expect(onRemoveMock.mock.calls[0][0]).toEqual('spotify:track:6hp4DW1Z1RInKvO5ijj9nW')
+      wrapper.find('TrackImage').at(1).simulate('click')
+      expect(onRemoveMock).toHaveBeenCalledWith('spotify:track:6BitwTrBfUrTdztRrQiw52')
+    })
+
+    it('searches for an artist', () => {
+      const wrapper = mount(
+        <Tracklist
+          tracks={tracks.map(item => item.track)}
+          currentTrack={tracks[1].track}
+          onRemoveTrack={onRemoveMock}
+          onArtistSearch={onSearchMock}
+        />
+      )
+
+      wrapper.find('TrackDescription').at(1).simulate('click')
+      expect(onSearchMock).toHaveBeenCalledWith('Ken Dodd')
     })
   })
 
@@ -64,6 +81,7 @@ describe('Tracklist', () => {
       const wrapper = shallow(
         <Tracklist
           onRemoveTrack={onRemoveMock}
+          onArtistSearch={onSearchMock}
         />
       )
 
@@ -77,6 +95,7 @@ describe('Tracklist', () => {
         <Tracklist
           tracks={tracks.map(item => item.track)}
           onRemoveTrack={onRemoveMock}
+          onArtistSearch={onSearchMock}
         />
       )
       expect(wrapper).toMatchSnapshot()
@@ -92,6 +111,7 @@ describe('Tracklist', () => {
         <Tracklist
           tracks={[track]}
           onRemoveTrack={onRemoveMock}
+          onArtistSearch={onSearchMock}
         />
       )
       expect(wrapper).toMatchSnapshot()
