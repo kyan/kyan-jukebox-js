@@ -100,17 +100,17 @@ const ListItems = (props) => {
   })
 }
 
-const Tracklist = ({ disabled, tracks, currentTrack, onRemoveTrack, onArtistSearch }) => {
-  if (!tracks) { return null }
+const Tracklist = (props) => {
+  if (!props.tracks) { return null }
 
   return (
     <List relaxed='very' divided>
       <ListItems
-        disabled={disabled}
-        tracks={tracks}
-        current={currentTrack}
-        onRemove={onRemoveTrack}
-        onArtistSearch={onArtistSearch}
+        disabled={props.disabled}
+        tracks={props.tracks}
+        current={props.currentTrack}
+        onRemove={props.onRemoveTrack}
+        onArtistSearch={props.onArtistSearch}
       />
     </List>
   )

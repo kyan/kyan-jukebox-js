@@ -1,5 +1,7 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { Provider } from 'react-redux'
+import { mount } from 'enzyme'
+import configureMockStore from 'redux-mock-store'
 import MopidyApi from 'constants/mopidy-api'
 import Controls from './index'
 
@@ -11,111 +13,165 @@ describe('Controls', () => {
   const onNextMock = jest.fn()
 
   describe('render', () => {
+    const mockStore = configureMockStore()
+    const buildControl = (store, props) => (
+      mount(
+        <Provider store={store}>
+          <Controls
+            onPlay={onPlayMock}
+            onStop={onStopMock}
+            onPause={onPauseMock}
+            onPrevious={onPrevMock}
+            onNext={onNextMock}
+            disabled={false}
+            {...props}
+          />
+        </Provider>
+      )
+    )
+
     beforeEach(() => {
       jest.clearAllMocks()
     })
 
-    describe('when paused', () => {
-      const wrapper = shallow(
-        <Controls
-          playbackState={MopidyApi.PAUSED}
-          disabled={false}
-          onPlay={onPlayMock}
-          onStop={onStopMock}
-          onPause={onPauseMock}
-          onPrevious={onPrevMock}
-          onNext={onNextMock}
-        />
-      )
+    describe('state when paused', () => {
+      it('you can play', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.PAUSED } })
+        const wrapper = buildControl(store)
 
-      it('renders as expected', () => {
-        expect(wrapper).toMatchSnapshot()
-      })
-    })
-
-    describe('when stopped', () => {
-      const wrapper = shallow(
-        <Controls
-          playbackState={MopidyApi.STOPPED}
-          disabled={false}
-          onPlay={onPlayMock}
-          onStop={onStopMock}
-          onPause={onPauseMock}
-          onPrevious={onPrevMock}
-          onNext={onNextMock}
-        />
-      )
-
-      it('renders as expected', () => {
-        expect(wrapper).toMatchSnapshot()
-      })
-    })
-
-    describe('when disabled', () => {
-      const wrapper = shallow(
-        <Controls
-          playbackState={MopidyApi.PLAYING}
-          disabled
-          onPlay={onPlayMock}
-          onStop={onStopMock}
-          onPause={onPauseMock}
-          onPrevious={onPrevMock}
-          onNext={onNextMock}
-        />
-      )
-
-      it('renders as expected', () => {
-        expect(wrapper).toMatchSnapshot()
-      })
-    })
-
-    describe('when no playstate', () => {
-      const wrapper = shallow(
-        <Controls
-          disabled={false}
-          onPlay={onPlayMock}
-          onStop={onStopMock}
-          onPause={onPauseMock}
-          onPrevious={onPrevMock}
-          onNext={onNextMock}
-        />
-      )
-
-      it('renders as expected', () => {
-        expect(wrapper).toMatchSnapshot()
-      })
-    })
-
-    describe('when playing', () => {
-      const wrapper = shallow(
-        <Controls
-          playbackState={MopidyApi.PLAYING}
-          disabled={false}
-          onPlay={onPlayMock}
-          onStop={onStopMock}
-          onPause={onPauseMock}
-          onPrevious={onPrevMock}
-          onNext={onNextMock}
-        />
-      )
-
-      it('renders as expected', () => {
-        expect(wrapper).toMatchSnapshot()
-      })
-
-      it('handles a play click', () => {
-        wrapper.find('.jb-play-button').simulate('click')
+        wrapper.find('PlayButton').simulate('click')
         expect(onPlayMock).toHaveBeenCalled()
       })
 
-      it('handles a stop click', () => {
-        wrapper.find('.jb-stop-button').simulate('click')
+      it('you can stop', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.PAUSED } })
+        const wrapper = buildControl(store)
+
+        wrapper.find('StopButton').simulate('click')
         expect(onStopMock).toHaveBeenCalled()
       })
 
-      it('handles a pause click', () => {
-        wrapper.find('.jb-pause-button').simulate('click')
+      it('you cannot pause again', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.PAUSED } })
+        const wrapper = buildControl(store)
+
+        wrapper.find('PauseButton').simulate('click')
+        expect(onPauseMock).not.toHaveBeenCalled()
+      })
+
+      it('you can skip', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.PAUSED } })
+        const wrapper = buildControl(store)
+
+        wrapper.find('SkipButtons').prop('onPrevious')()
+        expect(onPrevMock).toHaveBeenCalled()
+        wrapper.find('SkipButtons').prop('onNext')()
+        expect(onNextMock).toHaveBeenCalled()
+      })
+    })
+
+    describe('state when stopped', () => {
+      it('you can play', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.STOPPED } })
+        const wrapper = buildControl(store)
+
+        wrapper.find('PlayButton').simulate('click')
+        expect(onPlayMock).toHaveBeenCalled()
+      })
+
+      it('you cannot stop again', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.STOPPED } })
+        const wrapper = buildControl(store)
+
+        wrapper.find('StopButton').simulate('click')
+        expect(onStopMock).not.toHaveBeenCalled()
+      })
+
+      it('you cannot pause again', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.STOPPED } })
+        const wrapper = buildControl(store)
+
+        wrapper.find('PauseButton').simulate('click')
+        expect(onPauseMock).not.toHaveBeenCalled()
+      })
+
+      it('you can skip', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.STOPPED } })
+        const wrapper = buildControl(store)
+
+        wrapper.find('SkipButtons').prop('onPrevious')()
+        expect(onPrevMock).toHaveBeenCalled()
+        wrapper.find('SkipButtons').prop('onNext')()
+        expect(onNextMock).toHaveBeenCalled()
+      })
+    })
+
+    describe('state when playing', () => {
+      it('you cannot play again', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.PLAYING } })
+        const wrapper = buildControl(store)
+
+        wrapper.find('PlayButton').simulate('click')
+        expect(onPlayMock).not.toHaveBeenCalled()
+      })
+
+      it('you can stop', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.PLAYING } })
+        const wrapper = buildControl(store)
+
+        wrapper.find('StopButton').simulate('click')
+        expect(onStopMock).toHaveBeenCalled()
+      })
+
+      it('you can pause', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.PLAYING } })
+        const wrapper = buildControl(store)
+
+        wrapper.find('PauseButton').simulate('click')
         expect(onPauseMock).toHaveBeenCalled()
+      })
+
+      it('you can skip', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.PLAYING } })
+        const wrapper = buildControl(store)
+
+        wrapper.find('SkipButtons').prop('onPrevious')()
+        expect(onPrevMock).toHaveBeenCalled()
+        wrapper.find('SkipButtons').prop('onNext')()
+        expect(onNextMock).toHaveBeenCalled()
+      })
+    })
+
+    describe('state when disabled', () => {
+      it('you cannot play', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.STOPPED } })
+        const wrapper = buildControl(store, { disabled: true })
+
+        wrapper.find('PlayButton').simulate('click')
+        expect(onPlayMock).not.toHaveBeenCalled()
+      })
+
+      it('you cannot stop', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.STOPPED } })
+        const wrapper = buildControl(store, { disabled: true })
+
+        wrapper.find('StopButton').simulate('click')
+        expect(onStopMock).not.toHaveBeenCalled()
+      })
+
+      it('you cannot pause', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.STOPPED } })
+        const wrapper = buildControl(store, { disabled: true })
+
+        wrapper.find('PauseButton').simulate('click')
+        expect(onPauseMock).not.toHaveBeenCalled()
+      })
+
+      it('you cannot skip', () => {
+        const store = mockStore({ jukebox: { playbackState: MopidyApi.STOPPED } })
+        const wrapper = buildControl(store, { disabled: true })
+
+        expect(wrapper.find('SkipButtons').prop('disabled')).toEqual(true)
       })
     })
   })

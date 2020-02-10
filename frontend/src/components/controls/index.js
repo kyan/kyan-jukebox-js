@@ -1,15 +1,16 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import SkipButtons from 'components/skip-buttons'
 import MopidyApi from 'constants/mopidy-api'
 import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 
-const playButton = (cb, playbackState, disabled) => (
+const PlayButton = (props) => (
   <Button
-    onClick={cb}
+    onClick={props.onClick}
     animated='vertical'
-    disabled={(playbackState === MopidyApi.PLAYING || disabled)}
-    active={(playbackState === MopidyApi.PLAYING)}
+    disabled={(props.state === MopidyApi.PLAYING || props.disabled)}
+    active={(props.state === MopidyApi.PLAYING)}
     className='jb-play-button'
   >
     <Button.Content hidden>Play</Button.Content>
@@ -19,12 +20,12 @@ const playButton = (cb, playbackState, disabled) => (
   </Button>
 )
 
-const pauseButton = (cb, playbackState, disabled) => (
+const PauseButton = (props) => (
   <Button
-    onClick={cb}
+    onClick={props.onClick}
     animated='vertical'
-    disabled={(playbackState === MopidyApi.PAUSED || playbackState === MopidyApi.STOPPED || disabled)}
-    active={(playbackState === MopidyApi.PAUSED)}
+    disabled={(props.state === MopidyApi.PAUSED || props.state === MopidyApi.STOPPED || props.disabled)}
+    active={(props.state === MopidyApi.PAUSED)}
     className='jb-pause-button'
   >
     <Button.Content hidden>Pause</Button.Content>
@@ -34,12 +35,12 @@ const pauseButton = (cb, playbackState, disabled) => (
   </Button>
 )
 
-const stopButton = (cb, playbackState, disabled) => (
+const StopButton = (props) => (
   <Button
-    onClick={cb}
+    onClick={props.onClick}
     animated='vertical'
-    disabled={(playbackState === MopidyApi.STOPPED || disabled)}
-    active={(playbackState === MopidyApi.STOPPED)}
+    disabled={(props.state === MopidyApi.STOPPED || props.disabled)}
+    active={(props.state === MopidyApi.STOPPED)}
     className='jb-stop-button'
   >
     <Button.Content hidden>Stop</Button.Content>
@@ -50,7 +51,9 @@ const stopButton = (cb, playbackState, disabled) => (
 )
 
 const Controls = (props) => {
-  const { disabled, playbackState, onPlay, onPause, onStop, onPrevious, onNext } = props
+  const jukebox = useSelector(state => state.jukebox)
+  const { disabled, onPlay, onPause, onStop, onPrevious, onNext } = props
+
   return (
     <span>
       <SkipButtons
@@ -58,16 +61,27 @@ const Controls = (props) => {
         onPrevious={onPrevious}
         onNext={onNext}
       />
-      {playButton(onPlay, playbackState, disabled)}
-      {pauseButton(onPause, playbackState, disabled)}
-      {stopButton(onStop, playbackState, disabled)}
+      <PlayButton
+        onClick={onPlay}
+        state={jukebox.playbackState}
+        disabled={disabled}
+      />
+      <PauseButton
+        onClick={onPause}
+        state={jukebox.playbackState}
+        disabled={disabled}
+      />
+      <StopButton
+        onClick={onStop}
+        state={jukebox.playbackState}
+        disabled={disabled}
+      />
     </span>
   )
 }
 
 Controls.propTypes = {
   disabled: PropTypes.bool,
-  playbackState: PropTypes.string,
   onPlay: PropTypes.func.isRequired,
   onPause: PropTypes.func.isRequired,
   onStop: PropTypes.func.isRequired,

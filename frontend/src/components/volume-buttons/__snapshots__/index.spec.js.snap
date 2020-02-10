@@ -1,31 +1,140 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`VolumeButtons render renders the as expected 1`] = `
-<ButtonGroup
-  floated="right"
+exports[`VolumeButtons render render 1`] = `
+<VolumeButtons
+  disabled={false}
+  onVolumeChange={[MockFunction]}
 >
-  <Button
-    as="button"
-    className="jb-volume-down"
-    onClick={[Function]}
+  <ButtonGroup
+    floated="right"
   >
-    <Icon
-      as="i"
-      name="volume down"
-    />
-  </Button>
-  <ButtonOr
-    text={44}
-  />
-  <Button
-    as="button"
-    className="jb-volume-up"
-    onClick={[Function]}
-  >
-    <Icon
-      as="i"
-      name="volume up"
-    />
-  </Button>
-</ButtonGroup>
+    <div
+      className="ui right floated buttons"
+    >
+      <VolumeDownButton
+        disabled={false}
+        onChange={[MockFunction]}
+        volume={0}
+      >
+        <Button
+          as="button"
+          className="jb-volume-down"
+          disabled={false}
+        >
+          <Ref
+            innerRef={
+              Object {
+                "current": <button
+                  class="ui button jb-volume-down"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="volume down icon"
+                  />
+                </button>,
+              }
+            }
+          >
+            <RefFindNode
+              innerRef={
+                Object {
+                  "current": <button
+                    class="ui button jb-volume-down"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="volume down icon"
+                    />
+                  </button>,
+                }
+              }
+            >
+              <button
+                className="ui button jb-volume-down"
+                onClick={[Function]}
+              >
+                <Icon
+                  as="i"
+                  name="volume down"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="volume down icon"
+                    onClick={[Function]}
+                  />
+                </Icon>
+              </button>
+            </RefFindNode>
+          </Ref>
+        </Button>
+      </VolumeDownButton>
+      <ButtonOr
+        text={0}
+      >
+        <div
+          className="or"
+          data-text={0}
+        />
+      </ButtonOr>
+      <VolumeUpButton
+        disabled={false}
+        onChange={[MockFunction]}
+        volume={0}
+      >
+        <Button
+          as="button"
+          className="jb-volume-up"
+          disabled={false}
+          onClick={[Function]}
+        >
+          <Ref
+            innerRef={
+              Object {
+                "current": <button
+                  class="ui button jb-volume-up"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="volume up icon"
+                  />
+                </button>,
+              }
+            }
+          >
+            <RefFindNode
+              innerRef={
+                Object {
+                  "current": <button
+                    class="ui button jb-volume-up"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="volume up icon"
+                    />
+                  </button>,
+                }
+              }
+            >
+              <button
+                className="ui button jb-volume-up"
+                onClick={[Function]}
+              >
+                <Icon
+                  as="i"
+                  name="volume up"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="volume up icon"
+                    onClick={[Function]}
+                  />
+                </Icon>
+              </button>
+            </RefFindNode>
+          </Ref>
+        </Button>
+      </VolumeUpButton>
+    </div>
+  </ButtonGroup>
+</VolumeButtons>
 `;

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 
@@ -24,29 +25,48 @@ const volumeDown = (volume, cb) => {
   }
 }
 
-const VolumeButtons = ({ disabled, volume, onVolumeChange }) => (
-  <Button.Group floated='right'>
-    <Button
-      className='jb-volume-down'
-      onClick={volumeDown(volume, onVolumeChange)}
-      disabled={disabled}
-    >
-      <Icon name='volume down' />
-    </Button>
-    <Button.Or text={volume} />
-    <Button
-      className='jb-volume-up'
-      onClick={volumeUp(volume, onVolumeChange)}
-      disabled={disabled}
-    >
-      <Icon name='volume up' />
-    </Button>
-  </Button.Group>
+const VolumeDownButton = (props) => (
+  <Button
+    className='jb-volume-down'
+    onClick={volumeDown(props.volume, props.onChange)}
+    disabled={props.disabled}
+  >
+    <Icon name='volume down' />
+  </Button>
 )
+
+const VolumeUpButton = (props) => (
+  <Button
+    className='jb-volume-up'
+    onClick={volumeUp(props.volume, props.onChange)}
+    disabled={props.disabled}
+  >
+    <Icon name='volume up' />
+  </Button>
+)
+
+const VolumeButtons = ({ disabled, onVolumeChange }) => {
+  const jukebox = useSelector(state => state.jukebox)
+
+  return (
+    <Button.Group floated='right'>
+      <VolumeDownButton
+        volume={jukebox.volume}
+        onChange={onVolumeChange}
+        disabled={disabled}
+      />
+      <Button.Or text={jukebox.volume} />
+      <VolumeUpButton
+        volume={jukebox.volume}
+        onChange={onVolumeChange}
+        disabled={disabled}
+      />
+    </Button.Group>
+  )
+}
 
 VolumeButtons.propTypes = {
   disabled: PropTypes.bool,
-  volume: PropTypes.number,
   onVolumeChange: PropTypes.func.isRequired
 }
 

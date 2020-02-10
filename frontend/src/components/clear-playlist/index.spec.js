@@ -5,10 +5,9 @@ import ClearPlaylist from './index'
 
 describe('ClearPlaylist', () => {
   const onClearMock = jest.fn()
-  let wrapper
 
   describe('render', () => {
-    wrapper = shallow(
+    const wrapper = shallow(
       <ClearPlaylist
         onClear={onClearMock}
       />
@@ -24,24 +23,37 @@ describe('ClearPlaylist', () => {
       })
 
       it('it shows when the button is pressed', () => {
-        wrapper.find('.jb-clear-button').simulate('click')
+        wrapper.find('Label').simulate('click')
         expect(wrapper.find(Confirm).prop('open')).toEqual(true)
       })
     })
 
     describe('callbacks', () => {
       it('calls the onConfirm callback', () => {
-        wrapper.find('.jb-clear-button').simulate('click')
-        expect(wrapper.instance().state.open).toEqual(true)
+        wrapper.find('Label').simulate('click')
+        expect(wrapper.find('Confirm').prop('open')).toEqual(true)
         wrapper.find(Confirm).prop('onConfirm')()
-        expect(onClearMock.mock.calls.length).toEqual(1)
+        expect(onClearMock).toHaveBeenCalled()
       })
 
       it('calls the onCancel callback', () => {
-        wrapper.find('.jb-clear-button').simulate('click')
+        wrapper.find('Label').simulate('click')
         wrapper.find(Confirm).prop('onCancel')()
-        expect(wrapper.instance().state.open).toEqual(false)
+        expect(wrapper.find('Confirm').prop('open')).toEqual(false)
       })
+    })
+  })
+
+  describe('when disabled', () => {
+    const wrapper = shallow(
+      <ClearPlaylist
+        onClear={onClearMock}
+        disabled
+      />
+    )
+
+    it('renders the as expected', () => {
+      expect(wrapper).toMatchSnapshot()
     })
   })
 })

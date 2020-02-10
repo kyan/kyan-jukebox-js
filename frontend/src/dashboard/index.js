@@ -15,8 +15,6 @@ const Dashboard = (props) => {
   const {
     online,
     disabled,
-    volume,
-    playbackState,
     onPlay,
     onStop,
     onPause,
@@ -46,7 +44,6 @@ const Dashboard = (props) => {
             <Settings />
             <VolumeButtons
               disabled={disabled}
-              volume={volume}
               onVolumeChange={onVolumeChange}
             />
             <SearchButton
@@ -55,7 +52,6 @@ const Dashboard = (props) => {
             />
             <Controls
               disabled={disabled}
-              playbackState={playbackState}
               onPlay={onPlay}
               onStop={onStop}
               onPause={onPause}
