@@ -1,57 +1,67 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { Provider } from 'react-redux'
+import configureMockStore from 'redux-mock-store'
+import { mount } from 'enzyme'
 import VolumeButtons from './index'
 
 describe('VolumeButtons', () => {
   const volMock = jest.fn()
-  let wrapper
+  const mockStore = configureMockStore()
+  const buildWrapper = (store, props) => (
+    mount(
+      <Provider store={store}>
+        <VolumeButtons
+          {...props}
+          onVolumeChange={volMock}
+        />
+      </Provider>
+    ).find('VolumeButtons')
+  )
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
 
   describe('render', () => {
-    wrapper = shallow(
-      <VolumeButtons
-        volume={44}
-        onVolumeChange={volMock}
-      />
-    )
-
-    it('renders the as expected', () => {
+    it('render', () => {
+      const store = mockStore({ jukebox: { volume: 0 } })
+      const wrapper = buildWrapper(store, { disabled: false })
       expect(wrapper).toMatchSnapshot()
     })
 
     it('handles a volume down click', () => {
-      volMock.mockClear()
-      wrapper.find('.jb-volume-down').simulate('click')
-      expect(volMock.mock.calls[0][0]).toEqual(42)
-    })
-
-    it('handles a volume up click', () => {
-      volMock.mockClear()
-      wrapper.find('.jb-volume-up').simulate('click')
-      expect(volMock.mock.calls[0][0]).toEqual(46)
+      const store = mockStore({ jukebox: { volume: 32 } })
+      const wrapper = buildWrapper(store, { disabled: false })
+      wrapper.find('VolumeDownButton').simulate('click')
+      expect(volMock).toHaveBeenCalledWith(30)
     })
 
     it('handles a volume down click when min is reached', () => {
-      volMock.mockClear()
-      wrapper = shallow(
-        <VolumeButtons
-          volume={0}
-          onVolumeChange={volMock}
-        />
-      )
-      wrapper.find('.jb-volume-down').simulate('click')
-      expect(volMock.mock.calls.length).toEqual(0)
+      const store = mockStore({ jukebox: { volume: 0 } })
+      const wrapper = buildWrapper(store, { disabled: false })
+      wrapper.find('VolumeDownButton').simulate('click')
+      expect(volMock).not.toHaveBeenCalled()
+    })
+
+    it('handles a volume up click', () => {
+      const store = mockStore({ jukebox: { volume: 32 } })
+      const wrapper = buildWrapper(store, { disabled: false })
+      wrapper.find('VolumeUpButton').simulate('click')
+      expect(volMock).toHaveBeenCalledWith(34)
     })
 
     it('handles a volume up click when max is reached', () => {
-      volMock.mockClear()
-      wrapper = shallow(
-        <VolumeButtons
-          volume={100}
-          onVolumeChange={volMock}
-        />
-      )
-      wrapper.find('.jb-volume-up').simulate('click')
-      expect(volMock.mock.calls.length).toEqual(0)
+      const store = mockStore({ jukebox: { volume: 100 } })
+      const wrapper = buildWrapper(store, { disabled: false })
+      wrapper.find('VolumeUpButton').simulate('click')
+      expect(volMock).not.toHaveBeenCalled()
+    })
+
+    it('handles a button being disabled', () => {
+      const store = mockStore({ jukebox: { volume: 32 } })
+      const wrapper = buildWrapper(store, { disabled: true })
+      wrapper.find('VolumeUpButton').simulate('click')
+      expect(volMock).not.toHaveBeenCalled()
     })
   })
 })

@@ -18,7 +18,6 @@ exports[`Dashboard render renders the happy path correctly 1`] = `
         <VolumeButtons
           disabled={false}
           onVolumeChange={[MockFunction onVolumeChangeMock]}
-          volume={23}
         />
         <SearchButton
           disabled={false}
@@ -31,7 +30,6 @@ exports[`Dashboard render renders the happy path correctly 1`] = `
           onPlay={[MockFunction onPlayMock]}
           onPrevious={[MockFunction onPreviousMock]}
           onStop={[MockFunction onStopMock]}
-          playbackState="playing"
         />
       </Container>
       <Divider />
