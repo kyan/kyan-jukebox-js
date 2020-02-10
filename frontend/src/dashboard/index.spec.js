@@ -24,8 +24,6 @@ describe('Dashboard', () => {
       const props = {
         online: true,
         disabled: false,
-        volume: 23,
-        playbackState: 'playing',
         onPlay: onPlayMock,
         onStop: onStopMock,
         onPause: onPauseMock,
