@@ -4,6 +4,7 @@ import settings from 'utils/local-storage'
 import Spotify from 'services/spotify'
 import NowPlaying from 'handlers/now-playing'
 import { addTracks, updateTrackPlaycount } from 'services/mongodb/models/track'
+import trackListTrimmer from 'services/mopidy/tracklist-trimmer'
 import MopidyDecorator from './index'
 
 jest.mock('utils/local-storage')
@@ -12,6 +13,7 @@ jest.mock('handlers/now-playing')
 jest.mock('decorators/mopidy/track')
 jest.mock('decorators/mopidy/tracklist')
 jest.mock('services/mongodb/models/track')
+jest.mock('services/mopidy/tracklist-trimmer')
 
 jest.useFakeTimers()
 
@@ -76,6 +78,7 @@ describe('MopidyDecorator', () => {
       updateTrackPlaycount.mockResolvedValue()
       DecorateTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123 } }])
       Spotify.canRecommend.mockResolvedValue('functionName')
+      trackListTrimmer.mockResolvedValue()
 
       return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackStarted'), data, mopidyMock).then((response) => {
         expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')

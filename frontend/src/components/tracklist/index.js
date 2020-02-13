@@ -62,8 +62,8 @@ const ListItems = (props) => {
   return props.tracks.map((track, i) => {
     const { addedBy } = track
     const isCurrent = isCurrentTrack(props.current, track.uri)
-    const averageVote = track.metrics.votesAverage
-    const playCount = track.metrics.plays
+    const averageVote = track.metrics && track.metrics.votesAverage
+    const playCount = track.metrics && track.metrics.plays
     if (isCurrent) beenPlayed = beenPlayed || true
 
     return (

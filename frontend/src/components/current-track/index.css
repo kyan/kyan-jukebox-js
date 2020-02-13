@@ -26,3 +26,8 @@
   font-weight: bold;
   float: right;
 }
+
+.track-rating-container {
+  width: 233px;
+  margin: 10px auto 20px auto;
+}

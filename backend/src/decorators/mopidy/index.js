@@ -5,6 +5,7 @@ import DecorateTracklist from 'decorators/mopidy/tracklist'
 import NowPlaying from 'handlers/now-playing'
 import settings from 'utils/local-storage'
 import Spotify from 'services/spotify'
+import trackListTrimmer from 'services/mopidy/tracklist-trimmer'
 import { addTracks, updateTrackPlaycount } from 'services/mongodb/models/track'
 
 const clearSetTimeout = (timeout) => {
@@ -39,7 +40,7 @@ const MopidyDecorator = {
                   }
                 })
               NowPlaying.addTrack(track)
-              return resolve(payload)
+              trackListTrimmer(mopidy).then(() => resolve(payload))
             })
         case Mopidy.CORE_EVENTS.VOLUME_CHANGED:
           return resolve(data.volume)

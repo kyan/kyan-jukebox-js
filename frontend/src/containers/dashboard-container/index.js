@@ -28,8 +28,8 @@ export const DashboardContainer = () => {
     }
   }, [dispatch])
 
-  if (isSignedIn && hasTokenChanged(googleUser.Zi.id_token)) {
-    googleTokenId.current = googleUser.Zi.id_token
+  if (isSignedIn && hasTokenChanged(googleUser.tokenId)) {
+    googleTokenId.current = googleUser.tokenId
     refreshTokenTimeoutID.current = SignInToken.refresh(googleUser, (token) => {
       dispatch(actions.updateToken(token))
     })

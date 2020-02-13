@@ -29,28 +29,28 @@ const allowSocketConnections = (mopidy) => {
   Scheduler.scheduleAutoPlayback({ stop: () => mopidy.playback.stop() })
 
   socketio.on('connection', socket => {
-    Broadcaster.stateChange(socketio, { online: true })
+    Broadcaster.stateChange(socketio.binary(false), { online: true })
     SocketErrorsHandler(socket)
 
     socket.on(MessageType.GENERIC, data => {
       const payload = Payload.decode(data)
 
       AuthenticateHandler(payload, socket)
-        .then((updatedPayload) => MopidyHandler(updatedPayload, socket, mopidy))
+        .then((updatedPayload) => MopidyHandler(updatedPayload, socket.binary(false), mopidy))
     })
 
     socket.on(MessageType.SEARCH, data => {
       const payload = Payload.decode(data)
 
       AuthenticateHandler(payload, socket)
-        .then((updatedPayload) => SearchHandler(updatedPayload, socket))
+        .then((updatedPayload) => SearchHandler(updatedPayload, socket.binary(false)))
     })
 
     socket.on(MessageType.VOTE, data => {
       const payload = Payload.decode(data)
 
       AuthenticateHandler(payload, socket)
-        .then((updatedPayload) => VoteHandler(updatedPayload, socket, socketio))
+        .then((updatedPayload) => VoteHandler(updatedPayload, socket.binary(false), socketio.binary(false)))
     })
   })
 

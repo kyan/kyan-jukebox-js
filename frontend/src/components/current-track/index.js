@@ -1,23 +1,39 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Image, Label, Rating } from 'semantic-ui-react'
-import { Line } from 'rc-progress'
+import { Card, Image, Label, Icon } from 'semantic-ui-react'
+import Slider from 'rc-slider'
 import AddedBy from 'components/added-by'
 import VotedBy from 'components/voted-by'
+import ProgressBar from 'components/progress-bar'
 import defaultImage from './default-artwork.png'
 import { flatten, mean } from 'lodash'
-import { millisToMinutesAndSeconds } from 'utils/time'
+import 'rc-slider/assets/index.css'
 import './index.css'
+
+const marks = {
+  0: {
+    style: {
+      color: 'red'
+    },
+    label: <Icon name='thumbs down' color='red' />
+  },
+  50: <Icon name='handshake' />,
+  100: {
+    style: {
+      color: 'green'
+    },
+    label: <Icon name='thumbs up' color='green' />
+  }
+}
 
 const spotifyLink = (uri) => {
   const code = uri.split(':').pop()
   return `https://open.spotify.com/track/${code}`
 }
 
-const albumDescription = album => {
-  if (!album) return null
-  const year = album.year ? ` (${album.year})` : null
-  return <Card.Description>{album.name}{year}</Card.Description>
+const AlbumDescription = (props) => {
+  const year = ` (${props.album.year})`
+  return <Card.Description>{props.album.name}{year}</Card.Description>
 }
 
 const noTrack = () => (
@@ -36,17 +52,23 @@ const calcVoteAverage = (data) => {
   return mean(flatten(votes))
 }
 
+const voteHandleColor = (total) => {
+  if (total > 50) return '#21ba45'
+  if (total < 50) return 'red'
+  return 'gray'
+}
+
 const CurrentTrack = (props) => {
-  const { track, progress, remaining, onVote, userID } = props
+  const { track, onVote, userID } = props
   if (!track) { return noTrack() }
   const maxRating = 10
   const { addedBy = [] } = track
   const votes = (addedBy[0] && addedBy[0].votes) || []
-  const playCount = track.metrics.plays
-  const averageVote = track.metrics.votesAverage
+  const playCount = track.metrics && track.metrics.plays
+  const averageVote = track.metrics && track.metrics.votesAverage
   const currentUserVoter = votes.find(u => u.user._id === userID)
-  const currentUserVote = currentUserVoter ? (currentUserVoter.vote / maxRating) : 0
-  const doVote = (uri) => (_, data) => onVote(uri, data.rating)
+  const currentUserVote = currentUserVoter ? (currentUserVoter.vote) : null
+  const doVote = (uri) => (rating) => onVote(uri, rating / maxRating)
 
   return (
     <Card>
@@ -55,23 +77,27 @@ const CurrentTrack = (props) => {
         label={<VotedBy total={averageVote} ribbon />}
       />
       <Card.Content>
-        <div className='progress-container'>
-          <span className='remaining-text'>{millisToMinutesAndSeconds(remaining)}</span>
-          <span className='track-length'>{millisToMinutesAndSeconds(track.length)}</span>
-          <Line percent={progress} />
-        </div>
+        <ProgressBar />
         <Card.Header>{track.name}</Card.Header>
         <Card.Meta>{track.artist.name}</Card.Meta>
-        { albumDescription(track.album) }
+        <AlbumDescription album={track.album} />
       </Card.Content>
-      <Card.Content className='rating-container' extra>
-        <Rating
-          disabled={!userID}
-          maxRating={maxRating}
-          rating={currentUserVote}
-          onRate={doVote(track.uri)}
-        />
-        <VotedBy total={calcVoteAverage(votes)} votes={votes} />
+      <Card.Content extra>
+        <div className='track-rating-container'>
+          <Slider
+            disabled={!userID}
+            dots
+            value={currentUserVote}
+            included={false}
+            marks={marks}
+            step={maxRating}
+            onChange={doVote(track.uri)}
+            handleStyle={{
+              borderColor: voteHandleColor(currentUserVote),
+              backgroundColor: voteHandleColor(currentUserVote)
+            }}
+          />
+        </div>
       </Card.Content>
       <Card.Content extra>
         <Label size='mini'>
@@ -82,6 +108,7 @@ const CurrentTrack = (props) => {
           Played
           <Label.Detail>{playCount}</Label.Detail>
         </Label>
+        <VotedBy size='mini' total={calcVoteAverage(votes)} votes={votes} />
       </Card.Content>
       <Card.Content extra>
         <AddedBy users={track.addedBy} />
@@ -99,8 +126,6 @@ const CurrentTrack = (props) => {
 CurrentTrack.propTypes = {
   userID: PropTypes.string,
   track: PropTypes.object,
-  progress: PropTypes.number,
-  remaining: PropTypes.number,
   onVote: PropTypes.func
 }
 

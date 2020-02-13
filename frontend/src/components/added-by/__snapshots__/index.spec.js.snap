@@ -3,7 +3,9 @@
 exports[`AddedBy when addedBy information provided and it is the first play displays a current user icon with a popup message 1`] = `
 <Popup
   content={
-    <List>
+    <List
+      className="added-by-list"
+    >
       <ListItem>
         <Image
           as="img"
@@ -51,7 +53,9 @@ exports[`AddedBy when addedBy information provided and it is the first play disp
 exports[`AddedBy when addedBy information provided and there is play history displays a current user icon with a popup message containing previous  1`] = `
 <Popup
   content={
-    <List>
+    <List
+      className="added-by-list"
+    >
       <ListItem>
         <Image
           as="img"
@@ -73,8 +77,7 @@ exports[`AddedBy when addedBy information provided and there is play history dis
       <ListItem>
         <Icon
           as="i"
-          color="green"
-          name="spotify"
+          name="user"
         />
         <ListContent>
           <ListDescription>
@@ -89,8 +92,7 @@ exports[`AddedBy when addedBy information provided and there is play history dis
       <ListItem>
         <Icon
           as="i"
-          color="green"
-          name="spotify"
+          name="user"
         />
         <ListContent>
           <ListDescription>
@@ -131,7 +133,6 @@ exports[`AddedBy when addedBy information provided and there is play history dis
 exports[`AddedBy when no addedBy information provided displays a spotify icon 1`] = `
 <Icon
   as="i"
-  color="green"
-  name="spotify"
+  name="user"
 />
 `;
