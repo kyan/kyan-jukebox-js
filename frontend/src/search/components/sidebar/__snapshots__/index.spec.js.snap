@@ -11,29 +11,167 @@ exports[`Search render valid props renders as expected 1`] = `
     Array [
       Object {
         "track": Object {
+          "addedBy": Array [
+            Object {
+              "addedAt": "2020-01-27T20:19:27.965Z",
+              "played": Array [
+                Object {
+                  "at": "2020-01-27T20:20:34.422Z",
+                },
+              ],
+              "user": Object {
+                "__v": 0,
+                "_id": "1117795953801840xxxxx",
+                "fullname": "Duncan Robertson",
+                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+              },
+              "votes": Array [
+                Object {
+                  "at": "2020-01-27T20:20:37.904Z",
+                  "user": Object {
+                    "__v": 0,
+                    "_id": "1117795953801840xxxxx",
+                    "fullname": "Duncan Robertson",
+                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                  },
+                  "vote": 80,
+                },
+              ],
+            },
+          ],
           "album": Object {
-            "name": "Album name 1",
+            "name": "Ken Dodd",
+            "uri": "spotify:album:1D7E2EHMoQM3nP9drEwv7o",
+            "year": "1991",
           },
           "artist": Object {
-            "name": "Artist name 1",
+            "name": "Ken Dodd",
+            "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
           },
-          "image": "image1",
-          "name": "Track name 1",
-          "uri": "track1",
+          "explicit": true,
+          "length": 120000,
+          "metrics": Object {
+            "plays": 1,
+            "votes": 1,
+            "votesAverage": 80,
+            "votesTotal": 80,
+          },
+          "name": "Happiness",
+          "uri": "spotify:track:1WaBuuaXGwrU4sFvxAjnkf",
+          "year": "1991",
         },
       },
       Object {
         "track": Object {
+          "addedBy": Array [
+            Object {
+              "addedAt": "2020-01-27T20:19:49.207Z",
+              "played": Array [
+                Object {
+                  "at": "2020-01-27T20:20:48.148Z",
+                },
+                Object {
+                  "at": "2020-01-27T20:20:44.403Z",
+                },
+                Object {
+                  "at": "2020-01-27T20:20:41.006Z",
+                },
+              ],
+              "user": Object {
+                "__v": 0,
+                "_id": "1117795953801840xxxxx",
+                "fullname": "Duncan Robertson",
+                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+              },
+              "votes": Array [
+                Object {
+                  "at": "2020-01-27T20:20:50.355Z",
+                  "user": Object {
+                    "__v": 0,
+                    "_id": "1117795953801840xxxxx",
+                    "fullname": "Duncan Robertson",
+                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                  },
+                  "vote": 40,
+                },
+              ],
+            },
+          ],
           "album": Object {
-            "name": "Album name 2",
+            "name": "Chicken Song",
+            "uri": "spotify:album:1Ozoc3hrpvwEpwnFkTNOGR",
+            "year": "2019",
           },
           "artist": Object {
-            "name": "Artist name 2",
+            "name": "3 Shades",
+            "uri": "spotify:artist:5YGwWwsOsMAwDN8mH0hn7M",
           },
-          "explicit": true,
-          "image": "image2",
-          "name": "Track name 2",
-          "uri": "track2",
+          "image": "https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b",
+          "length": 60000,
+          "metrics": Object {
+            "plays": 3,
+            "votes": 1,
+            "votesAverage": 40,
+            "votesTotal": 40,
+          },
+          "name": "Chicken Song",
+          "uri": "spotify:track:6BitwTrBfUrTdztRrQiw52",
+          "year": "2019",
+        },
+      },
+      Object {
+        "track": Object {
+          "addedBy": Array [
+            Object {
+              "addedAt": "2020-01-27T20:20:27.606Z",
+              "played": Array [
+                Object {
+                  "at": "2020-01-27T20:20:46.330Z",
+                },
+                Object {
+                  "at": "2020-01-27T20:20:42.593Z",
+                },
+              ],
+              "user": Object {
+                "__v": 0,
+                "_id": "1117795953801840xxxxx",
+                "fullname": "Duncan Robertson",
+                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+              },
+              "votes": Array [
+                Object {
+                  "at": "2020-01-27T20:20:37.904Z",
+                  "user": Object {
+                    "__v": 0,
+                    "_id": "1117795953801840xxxxx",
+                    "fullname": "Duncan Robertson",
+                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                  },
+                  "vote": 50,
+                },
+              ],
+            },
+          ],
+          "album": Object {
+            "name": "I Know Him So Well",
+            "uri": "spotify:album:0IZ5JFCiYgS5C4T4GrvHoO",
+            "year": "2011",
+          },
+          "artist": Object {
+            "name": "Geraldine McQueen",
+            "uri": "spotify:artist:6Q6StrY5Cnns1tXe8rGipt",
+          },
+          "image": "https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee",
+          "length": 254000,
+          "metrics": Object {
+            "plays": 2,
+            "votes": 0,
+            "votesAverage": 50,
+            "votesTotal": 100,
+          },
+          "name": "I Know Him So Well",
+          "uri": "spotify:track:6hp4DW1Z1RInKvO5ijj9nW",
+          "year": "2011",
         },
       },
     ]
@@ -171,12 +309,11 @@ exports[`Search render valid props renders as expected 1`] = `
                   role="list"
                 >
                   <div
-                    class="search-list-item"
+                    class="search-list-item disabled"
                   >
                     <img
-                      class="ui mini left floated image search-list-item__image"
-                      src="image1"
-                      title="Click to add - Track name 1 - Artist name 1"
+                      class="ui tiny disabled left floated image search-list-item__image"
+                      title="Click to add - Happiness - Ken Dodd"
                     />
                     <div
                       class="content"
@@ -184,24 +321,33 @@ exports[`Search render valid props renders as expected 1`] = `
                       <div
                         class="search-list-item__header"
                       >
-                        Track name 1
+                        Happiness
                          - 
-                        Artist name 1
+                        Ken Dodd
                       </div>
                       <div
                         class="search-list-item__content"
                       >
-                        Album name 1
+                        Ken Dodd
+                      </div>
+                      <div
+                        class="ui green mini label track-label vote-track-label"
+                      >
+                        <i
+                          aria-hidden="true"
+                          class="thumbs up icon"
+                        />
+                        3
                       </div>
                     </div>
                   </div>
                   <div
-                    class="search-list-item disabled"
+                    class="search-list-item"
                   >
                     <img
-                      class="ui mini disabled left floated image search-list-item__image"
-                      src="image2"
-                      title="Click to add - Track name 2 - Artist name 2"
+                      class="ui tiny left floated image search-list-item__image"
+                      src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
+                      title="Click to add - Chicken Song - 3 Shades"
                     />
                     <div
                       class="content"
@@ -209,14 +355,57 @@ exports[`Search render valid props renders as expected 1`] = `
                       <div
                         class="search-list-item__header"
                       >
-                        Track name 2
+                        Chicken Song
                          - 
-                        Artist name 2
+                        3 Shades
                       </div>
                       <div
                         class="search-list-item__content"
                       >
-                        Album name 2
+                        Chicken Song
+                      </div>
+                      <div
+                        class="ui red mini label track-label vote-track-label"
+                      >
+                        <i
+                          aria-hidden="true"
+                          class="thumbs down icon"
+                        />
+                        -1
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="search-list-item"
+                  >
+                    <img
+                      class="ui tiny left floated image search-list-item__image"
+                      src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
+                      title="Click to add - I Know Him So Well - Geraldine McQueen"
+                    />
+                    <div
+                      class="content"
+                    >
+                      <div
+                        class="search-list-item__header"
+                      >
+                        I Know Him So Well
+                         - 
+                        Geraldine McQueen
+                      </div>
+                      <div
+                        class="search-list-item__content"
+                      >
+                        I Know Him So Well
+                      </div>
+                      <div
+                        class="ui green mini label track-label vote-track-label"
+                      >
+                        <i
+                          aria-hidden="true"
+                          class="thumbs up icon"
+                        />
+                        0
                       </div>
                     </div>
                   </div>
@@ -319,12 +508,11 @@ exports[`Search render valid props renders as expected 1`] = `
                     role="list"
                   >
                     <div
-                      class="search-list-item"
+                      class="search-list-item disabled"
                     >
                       <img
-                        class="ui mini left floated image search-list-item__image"
-                        src="image1"
-                        title="Click to add - Track name 1 - Artist name 1"
+                        class="ui tiny disabled left floated image search-list-item__image"
+                        title="Click to add - Happiness - Ken Dodd"
                       />
                       <div
                         class="content"
@@ -332,24 +520,33 @@ exports[`Search render valid props renders as expected 1`] = `
                         <div
                           class="search-list-item__header"
                         >
-                          Track name 1
+                          Happiness
                            - 
-                          Artist name 1
+                          Ken Dodd
                         </div>
                         <div
                           class="search-list-item__content"
                         >
-                          Album name 1
+                          Ken Dodd
+                        </div>
+                        <div
+                          class="ui green mini label track-label vote-track-label"
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="thumbs up icon"
+                          />
+                          3
                         </div>
                       </div>
                     </div>
                     <div
-                      class="search-list-item disabled"
+                      class="search-list-item"
                     >
                       <img
-                        class="ui mini disabled left floated image search-list-item__image"
-                        src="image2"
-                        title="Click to add - Track name 2 - Artist name 2"
+                        class="ui tiny left floated image search-list-item__image"
+                        src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
+                        title="Click to add - Chicken Song - 3 Shades"
                       />
                       <div
                         class="content"
@@ -357,14 +554,57 @@ exports[`Search render valid props renders as expected 1`] = `
                         <div
                           class="search-list-item__header"
                         >
-                          Track name 2
+                          Chicken Song
                            - 
-                          Artist name 2
+                          3 Shades
                         </div>
                         <div
                           class="search-list-item__content"
                         >
-                          Album name 2
+                          Chicken Song
+                        </div>
+                        <div
+                          class="ui red mini label track-label vote-track-label"
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="thumbs down icon"
+                          />
+                          -1
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="search-list-item"
+                    >
+                      <img
+                        class="ui tiny left floated image search-list-item__image"
+                        src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
+                        title="Click to add - I Know Him So Well - Geraldine McQueen"
+                      />
+                      <div
+                        class="content"
+                      >
+                        <div
+                          class="search-list-item__header"
+                        >
+                          I Know Him So Well
+                           - 
+                          Geraldine McQueen
+                        </div>
+                        <div
+                          class="search-list-item__content"
+                        >
+                          I Know Him So Well
+                        </div>
+                        <div
+                          class="ui green mini label track-label vote-track-label"
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="thumbs up icon"
+                          />
+                          0
                         </div>
                       </div>
                     </div>
@@ -659,105 +899,225 @@ exports[`Search render valid props renders as expected 1`] = `
                       Array [
                         Object {
                           "track": Object {
+                            "addedBy": Array [
+                              Object {
+                                "addedAt": "2020-01-27T20:19:27.965Z",
+                                "played": Array [
+                                  Object {
+                                    "at": "2020-01-27T20:20:34.422Z",
+                                  },
+                                ],
+                                "user": Object {
+                                  "__v": 0,
+                                  "_id": "1117795953801840xxxxx",
+                                  "fullname": "Duncan Robertson",
+                                  "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                                },
+                                "votes": Array [
+                                  Object {
+                                    "at": "2020-01-27T20:20:37.904Z",
+                                    "user": Object {
+                                      "__v": 0,
+                                      "_id": "1117795953801840xxxxx",
+                                      "fullname": "Duncan Robertson",
+                                      "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                                    },
+                                    "vote": 80,
+                                  },
+                                ],
+                              },
+                            ],
                             "album": Object {
-                              "name": "Album name 1",
+                              "name": "Ken Dodd",
+                              "uri": "spotify:album:1D7E2EHMoQM3nP9drEwv7o",
+                              "year": "1991",
                             },
                             "artist": Object {
-                              "name": "Artist name 1",
+                              "name": "Ken Dodd",
+                              "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
                             },
-                            "image": "image1",
-                            "name": "Track name 1",
-                            "uri": "track1",
+                            "explicit": true,
+                            "length": 120000,
+                            "metrics": Object {
+                              "plays": 1,
+                              "votes": 1,
+                              "votesAverage": 80,
+                              "votesTotal": 80,
+                            },
+                            "name": "Happiness",
+                            "uri": "spotify:track:1WaBuuaXGwrU4sFvxAjnkf",
+                            "year": "1991",
                           },
                         },
                         Object {
                           "track": Object {
+                            "addedBy": Array [
+                              Object {
+                                "addedAt": "2020-01-27T20:19:49.207Z",
+                                "played": Array [
+                                  Object {
+                                    "at": "2020-01-27T20:20:48.148Z",
+                                  },
+                                  Object {
+                                    "at": "2020-01-27T20:20:44.403Z",
+                                  },
+                                  Object {
+                                    "at": "2020-01-27T20:20:41.006Z",
+                                  },
+                                ],
+                                "user": Object {
+                                  "__v": 0,
+                                  "_id": "1117795953801840xxxxx",
+                                  "fullname": "Duncan Robertson",
+                                  "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                                },
+                                "votes": Array [
+                                  Object {
+                                    "at": "2020-01-27T20:20:50.355Z",
+                                    "user": Object {
+                                      "__v": 0,
+                                      "_id": "1117795953801840xxxxx",
+                                      "fullname": "Duncan Robertson",
+                                      "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                                    },
+                                    "vote": 40,
+                                  },
+                                ],
+                              },
+                            ],
                             "album": Object {
-                              "name": "Album name 2",
+                              "name": "Chicken Song",
+                              "uri": "spotify:album:1Ozoc3hrpvwEpwnFkTNOGR",
+                              "year": "2019",
                             },
                             "artist": Object {
-                              "name": "Artist name 2",
+                              "name": "3 Shades",
+                              "uri": "spotify:artist:5YGwWwsOsMAwDN8mH0hn7M",
                             },
-                            "explicit": true,
-                            "image": "image2",
-                            "name": "Track name 2",
-                            "uri": "track2",
+                            "image": "https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b",
+                            "length": 60000,
+                            "metrics": Object {
+                              "plays": 3,
+                              "votes": 1,
+                              "votesAverage": 40,
+                              "votesTotal": 40,
+                            },
+                            "name": "Chicken Song",
+                            "uri": "spotify:track:6BitwTrBfUrTdztRrQiw52",
+                            "year": "2019",
+                          },
+                        },
+                        Object {
+                          "track": Object {
+                            "addedBy": Array [
+                              Object {
+                                "addedAt": "2020-01-27T20:20:27.606Z",
+                                "played": Array [
+                                  Object {
+                                    "at": "2020-01-27T20:20:46.330Z",
+                                  },
+                                  Object {
+                                    "at": "2020-01-27T20:20:42.593Z",
+                                  },
+                                ],
+                                "user": Object {
+                                  "__v": 0,
+                                  "_id": "1117795953801840xxxxx",
+                                  "fullname": "Duncan Robertson",
+                                  "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                                },
+                                "votes": Array [
+                                  Object {
+                                    "at": "2020-01-27T20:20:37.904Z",
+                                    "user": Object {
+                                      "__v": 0,
+                                      "_id": "1117795953801840xxxxx",
+                                      "fullname": "Duncan Robertson",
+                                      "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                                    },
+                                    "vote": 50,
+                                  },
+                                ],
+                              },
+                            ],
+                            "album": Object {
+                              "name": "I Know Him So Well",
+                              "uri": "spotify:album:0IZ5JFCiYgS5C4T4GrvHoO",
+                              "year": "2011",
+                            },
+                            "artist": Object {
+                              "name": "Geraldine McQueen",
+                              "uri": "spotify:artist:6Q6StrY5Cnns1tXe8rGipt",
+                            },
+                            "image": "https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee",
+                            "length": 254000,
+                            "metrics": Object {
+                              "plays": 2,
+                              "votes": 0,
+                              "votesAverage": 50,
+                              "votesTotal": 100,
+                            },
+                            "name": "I Know Him So Well",
+                            "uri": "spotify:track:6hp4DW1Z1RInKvO5ijj9nW",
+                            "year": "2011",
                           },
                         },
                       ]
                     }
                   >
                     <SearchItem
-                      key="track1"
+                      key="spotify:track:1WaBuuaXGwrU4sFvxAjnkf"
                       onClick={[Function]}
                       track={
                         Object {
+                          "addedBy": Array [
+                            Object {
+                              "addedAt": "2020-01-27T20:19:27.965Z",
+                              "played": Array [
+                                Object {
+                                  "at": "2020-01-27T20:20:34.422Z",
+                                },
+                              ],
+                              "user": Object {
+                                "__v": 0,
+                                "_id": "1117795953801840xxxxx",
+                                "fullname": "Duncan Robertson",
+                                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                              },
+                              "votes": Array [
+                                Object {
+                                  "at": "2020-01-27T20:20:37.904Z",
+                                  "user": Object {
+                                    "__v": 0,
+                                    "_id": "1117795953801840xxxxx",
+                                    "fullname": "Duncan Robertson",
+                                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                                  },
+                                  "vote": 80,
+                                },
+                              ],
+                            },
+                          ],
                           "album": Object {
-                            "name": "Album name 1",
+                            "name": "Ken Dodd",
+                            "uri": "spotify:album:1D7E2EHMoQM3nP9drEwv7o",
+                            "year": "1991",
                           },
                           "artist": Object {
-                            "name": "Artist name 1",
-                          },
-                          "image": "image1",
-                          "name": "Track name 1",
-                          "uri": "track1",
-                        }
-                      }
-                    >
-                      <div
-                        className="search-list-item"
-                        onClick={[Function]}
-                      >
-                        <Image
-                          as="img"
-                          className="search-list-item__image"
-                          floated="left"
-                          size="mini"
-                          src="image1"
-                          title="Click to add - Track name 1 - Artist name 1"
-                          ui={true}
-                        >
-                          <img
-                            className="ui mini left floated image search-list-item__image"
-                            src="image1"
-                            title="Click to add - Track name 1 - Artist name 1"
-                          />
-                        </Image>
-                        <ListContent>
-                          <div
-                            className="content"
-                          >
-                            <div
-                              className="search-list-item__header"
-                            >
-                              Track name 1
-                               - 
-                              Artist name 1
-                            </div>
-                            <div
-                              className="search-list-item__content"
-                            >
-                              Album name 1
-                            </div>
-                          </div>
-                        </ListContent>
-                      </div>
-                    </SearchItem>
-                    <SearchItem
-                      key="track2"
-                      onClick={[Function]}
-                      track={
-                        Object {
-                          "album": Object {
-                            "name": "Album name 2",
-                          },
-                          "artist": Object {
-                            "name": "Artist name 2",
+                            "name": "Ken Dodd",
+                            "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
                           },
                           "explicit": true,
-                          "image": "image2",
-                          "name": "Track name 2",
-                          "uri": "track2",
+                          "length": 120000,
+                          "metrics": Object {
+                            "plays": 1,
+                            "votes": 1,
+                            "votesAverage": 80,
+                            "votesTotal": 80,
+                          },
+                          "name": "Happiness",
+                          "uri": "spotify:track:1WaBuuaXGwrU4sFvxAjnkf",
+                          "year": "1991",
                         }
                       }
                     >
@@ -769,15 +1129,13 @@ exports[`Search render valid props renders as expected 1`] = `
                           className="search-list-item__image"
                           disabled={true}
                           floated="left"
-                          size="mini"
-                          src="image2"
-                          title="Click to add - Track name 2 - Artist name 2"
+                          size="tiny"
+                          title="Click to add - Happiness - Ken Dodd"
                           ui={true}
                         >
                           <img
-                            className="ui mini disabled left floated image search-list-item__image"
-                            src="image2"
-                            title="Click to add - Track name 2 - Artist name 2"
+                            className="ui tiny disabled left floated image search-list-item__image"
+                            title="Click to add - Happiness - Ken Dodd"
                           />
                         </Image>
                         <ListContent>
@@ -787,15 +1145,304 @@ exports[`Search render valid props renders as expected 1`] = `
                             <div
                               className="search-list-item__header"
                             >
-                              Track name 2
+                              Happiness
                                - 
-                              Artist name 2
+                              Ken Dodd
                             </div>
                             <div
                               className="search-list-item__content"
                             >
-                              Album name 2
+                              Ken Dodd
                             </div>
+                            <VotedBy
+                              size="mini"
+                              total={80}
+                            >
+                              <Label
+                                className="track-label vote-track-label"
+                                color="green"
+                                content={3}
+                                icon="thumbs up"
+                                ribbon={null}
+                                size="mini"
+                              >
+                                <div
+                                  className="ui green mini label track-label vote-track-label"
+                                  onClick={[Function]}
+                                >
+                                  <Icon
+                                    as="i"
+                                    name="thumbs up"
+                                  >
+                                    <i
+                                      aria-hidden="true"
+                                      className="thumbs up icon"
+                                      onClick={[Function]}
+                                    />
+                                  </Icon>
+                                  3
+                                </div>
+                              </Label>
+                            </VotedBy>
+                          </div>
+                        </ListContent>
+                      </div>
+                    </SearchItem>
+                    <SearchItem
+                      key="spotify:track:6BitwTrBfUrTdztRrQiw52"
+                      onClick={[Function]}
+                      track={
+                        Object {
+                          "addedBy": Array [
+                            Object {
+                              "addedAt": "2020-01-27T20:19:49.207Z",
+                              "played": Array [
+                                Object {
+                                  "at": "2020-01-27T20:20:48.148Z",
+                                },
+                                Object {
+                                  "at": "2020-01-27T20:20:44.403Z",
+                                },
+                                Object {
+                                  "at": "2020-01-27T20:20:41.006Z",
+                                },
+                              ],
+                              "user": Object {
+                                "__v": 0,
+                                "_id": "1117795953801840xxxxx",
+                                "fullname": "Duncan Robertson",
+                                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                              },
+                              "votes": Array [
+                                Object {
+                                  "at": "2020-01-27T20:20:50.355Z",
+                                  "user": Object {
+                                    "__v": 0,
+                                    "_id": "1117795953801840xxxxx",
+                                    "fullname": "Duncan Robertson",
+                                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                                  },
+                                  "vote": 40,
+                                },
+                              ],
+                            },
+                          ],
+                          "album": Object {
+                            "name": "Chicken Song",
+                            "uri": "spotify:album:1Ozoc3hrpvwEpwnFkTNOGR",
+                            "year": "2019",
+                          },
+                          "artist": Object {
+                            "name": "3 Shades",
+                            "uri": "spotify:artist:5YGwWwsOsMAwDN8mH0hn7M",
+                          },
+                          "image": "https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b",
+                          "length": 60000,
+                          "metrics": Object {
+                            "plays": 3,
+                            "votes": 1,
+                            "votesAverage": 40,
+                            "votesTotal": 40,
+                          },
+                          "name": "Chicken Song",
+                          "uri": "spotify:track:6BitwTrBfUrTdztRrQiw52",
+                          "year": "2019",
+                        }
+                      }
+                    >
+                      <div
+                        className="search-list-item"
+                        onClick={[Function]}
+                      >
+                        <Image
+                          as="img"
+                          className="search-list-item__image"
+                          floated="left"
+                          size="tiny"
+                          src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
+                          title="Click to add - Chicken Song - 3 Shades"
+                          ui={true}
+                        >
+                          <img
+                            className="ui tiny left floated image search-list-item__image"
+                            src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
+                            title="Click to add - Chicken Song - 3 Shades"
+                          />
+                        </Image>
+                        <ListContent>
+                          <div
+                            className="content"
+                          >
+                            <div
+                              className="search-list-item__header"
+                            >
+                              Chicken Song
+                               - 
+                              3 Shades
+                            </div>
+                            <div
+                              className="search-list-item__content"
+                            >
+                              Chicken Song
+                            </div>
+                            <VotedBy
+                              size="mini"
+                              total={40}
+                            >
+                              <Label
+                                className="track-label vote-track-label"
+                                color="red"
+                                content={-1}
+                                icon="thumbs down"
+                                ribbon={null}
+                                size="mini"
+                              >
+                                <div
+                                  className="ui red mini label track-label vote-track-label"
+                                  onClick={[Function]}
+                                >
+                                  <Icon
+                                    as="i"
+                                    name="thumbs down"
+                                  >
+                                    <i
+                                      aria-hidden="true"
+                                      className="thumbs down icon"
+                                      onClick={[Function]}
+                                    />
+                                  </Icon>
+                                  -1
+                                </div>
+                              </Label>
+                            </VotedBy>
+                          </div>
+                        </ListContent>
+                      </div>
+                    </SearchItem>
+                    <SearchItem
+                      key="spotify:track:6hp4DW1Z1RInKvO5ijj9nW"
+                      onClick={[Function]}
+                      track={
+                        Object {
+                          "addedBy": Array [
+                            Object {
+                              "addedAt": "2020-01-27T20:20:27.606Z",
+                              "played": Array [
+                                Object {
+                                  "at": "2020-01-27T20:20:46.330Z",
+                                },
+                                Object {
+                                  "at": "2020-01-27T20:20:42.593Z",
+                                },
+                              ],
+                              "user": Object {
+                                "__v": 0,
+                                "_id": "1117795953801840xxxxx",
+                                "fullname": "Duncan Robertson",
+                                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                              },
+                              "votes": Array [
+                                Object {
+                                  "at": "2020-01-27T20:20:37.904Z",
+                                  "user": Object {
+                                    "__v": 0,
+                                    "_id": "1117795953801840xxxxx",
+                                    "fullname": "Duncan Robertson",
+                                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                                  },
+                                  "vote": 50,
+                                },
+                              ],
+                            },
+                          ],
+                          "album": Object {
+                            "name": "I Know Him So Well",
+                            "uri": "spotify:album:0IZ5JFCiYgS5C4T4GrvHoO",
+                            "year": "2011",
+                          },
+                          "artist": Object {
+                            "name": "Geraldine McQueen",
+                            "uri": "spotify:artist:6Q6StrY5Cnns1tXe8rGipt",
+                          },
+                          "image": "https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee",
+                          "length": 254000,
+                          "metrics": Object {
+                            "plays": 2,
+                            "votes": 0,
+                            "votesAverage": 50,
+                            "votesTotal": 100,
+                          },
+                          "name": "I Know Him So Well",
+                          "uri": "spotify:track:6hp4DW1Z1RInKvO5ijj9nW",
+                          "year": "2011",
+                        }
+                      }
+                    >
+                      <div
+                        className="search-list-item"
+                        onClick={[Function]}
+                      >
+                        <Image
+                          as="img"
+                          className="search-list-item__image"
+                          floated="left"
+                          size="tiny"
+                          src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
+                          title="Click to add - I Know Him So Well - Geraldine McQueen"
+                          ui={true}
+                        >
+                          <img
+                            className="ui tiny left floated image search-list-item__image"
+                            src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
+                            title="Click to add - I Know Him So Well - Geraldine McQueen"
+                          />
+                        </Image>
+                        <ListContent>
+                          <div
+                            className="content"
+                          >
+                            <div
+                              className="search-list-item__header"
+                            >
+                              I Know Him So Well
+                               - 
+                              Geraldine McQueen
+                            </div>
+                            <div
+                              className="search-list-item__content"
+                            >
+                              I Know Him So Well
+                            </div>
+                            <VotedBy
+                              size="mini"
+                              total={50}
+                            >
+                              <Label
+                                className="track-label vote-track-label"
+                                color="green"
+                                content={0}
+                                icon="thumbs up"
+                                ribbon={null}
+                                size="mini"
+                              >
+                                <div
+                                  className="ui green mini label track-label vote-track-label"
+                                  onClick={[Function]}
+                                >
+                                  <Icon
+                                    as="i"
+                                    name="thumbs up"
+                                  >
+                                    <i
+                                      aria-hidden="true"
+                                      className="thumbs up icon"
+                                      onClick={[Function]}
+                                    />
+                                  </Icon>
+                                  0
+                                </div>
+                              </Label>
+                            </VotedBy>
                           </div>
                         </ListContent>
                       </div>

@@ -6,10 +6,10 @@ import './index.css'
 
 const voteNormaliser = (v) => Math.round((v / 10) - 5) // 100 is max a user can vote per play
 
-const votedByContent = (votes) => (
+const votedByContent = (props) => (
   <List>
     {
-      votes.map((data, i) => {
+      props.votes.map((data, i) => {
         const fullName = data.user ? data.user.fullname : 'User unknown'
         const voteScore = <Label circular size='mini'>{voteNormaliser(data.vote)}</Label>
 
@@ -33,10 +33,10 @@ const userPicture = data => {
   return null
 }
 
-const voteLabel = (total, ribbon) => {
+const voteLabel = (props) => {
   let color = 'green'
   let icon = 'thumbs up'
-  const normalisedTotal = voteNormaliser(total)
+  const normalisedTotal = voteNormaliser(props.total)
 
   if (normalisedTotal < 0) icon = 'thumbs down'
   if (normalisedTotal < 0) color = 'red'
@@ -44,25 +44,25 @@ const voteLabel = (total, ribbon) => {
   return (
     <Label
       className='track-label vote-track-label'
-      size='tiny'
+      size={props.size || 'tiny'}
       color={color}
       icon={icon}
       content={normalisedTotal}
-      ribbon={ribbon ? 'right' : null}
+      ribbon={props.ribbon ? 'right' : null}
     />
   )
 }
 
-const VotedBy = ({ total, votes, ribbon }) => {
-  const voteCount = votes ? votes.length : 0
-  if (total < 1) return null
-  if (voteCount < 1) return voteLabel(total, ribbon)
+const VotedBy = (props) => {
+  const voteCount = props.votes ? props.votes.length : 0
+  if (!props.total || props.total < 1) return null
+  if (voteCount < 1) return voteLabel(props)
 
   return (
     <Popup
       wide='very'
-      content={votedByContent(votes)}
-      trigger={voteLabel(total, ribbon)}
+      content={votedByContent(props)}
+      trigger={voteLabel(props)}
     />
   )
 }
@@ -70,7 +70,8 @@ const VotedBy = ({ total, votes, ribbon }) => {
 VotedBy.propTypes = {
   ribbon: PropTypes.bool,
   votes: PropTypes.array,
-  total: PropTypes.number.isRequired
+  total: PropTypes.number,
+  size: PropTypes.string
 }
 
 export default VotedBy

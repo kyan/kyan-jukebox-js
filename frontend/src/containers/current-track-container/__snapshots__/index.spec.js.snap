@@ -16,8 +16,6 @@ exports[`CurrentTrackContainer render the connected app renders something even w
   <CurrentTrackContainer>
     <CurrentTrack
       onVote={[Function]}
-      progress={80}
-      remaining={700}
       userID="duncan123"
     >
       <Card>

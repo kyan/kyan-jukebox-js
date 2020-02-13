@@ -1136,7 +1136,6 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                       <CurrentTrackContainer>
                                         <CurrentTrack
                                           onVote={[Function]}
-                                          progress={0}
                                         >
                                           <Card>
                                             <div
@@ -2418,7 +2417,6 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                       <CurrentTrackContainer>
                                         <CurrentTrack
                                           onVote={[Function]}
-                                          progress={0}
                                           userID={null}
                                         >
                                           <Card>
