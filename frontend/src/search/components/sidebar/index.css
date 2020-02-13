@@ -15,15 +15,15 @@
 }
 
 .search-list-item__header {
-  font-size: 1.2em;
-  line-height: 16px;
+  font-size: 1.3em;
+  line-height: 18px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .search-list-item__content {
-  font-size: 90%;
+  font-size: 95%;
   margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
@@ -38,4 +38,8 @@
   color: white !important;
   font-weight: bold !important;
   border-color: tomato !important;
+}
+
+.ui.tiny.image.search-list-item__image {
+  width: 70px;
 }

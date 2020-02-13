@@ -9,9 +9,12 @@ const SearchDecorator = {
       switch (key) {
         case SearchConst.SEARCH_GET_TRACKS:
           const searchResults = data
-          const searchTracks = DecorateSearchResults(data.tracks.items)
-          searchResults.tracks.items = searchTracks
-          return resolve(searchResults)
+
+          return DecorateSearchResults(data.tracks.items)
+            .then((data) => {
+              searchResults.tracks.items = data
+              return resolve(searchResults)
+            })
         default:
           return resolve(`skippedSearchDecoratorDecoration: ${key}`)
       }

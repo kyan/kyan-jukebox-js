@@ -45,6 +45,7 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
           "name": "Ken Dodd",
           "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
         },
+        "explicit": true,
         "length": 120000,
         "metrics": Object {
           "plays": 1,
@@ -100,6 +101,7 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
             "name": "Ken Dodd",
             "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
           },
+          "explicit": true,
           "length": 120000,
           "metrics": Object {
             "plays": 1,
@@ -185,7 +187,18 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
                 "fullname": "Duncan Robertson",
                 "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
               },
-              "votes": Array [],
+              "votes": Array [
+                Object {
+                  "at": "2020-01-27T20:20:37.904Z",
+                  "user": Object {
+                    "__v": 0,
+                    "_id": "1117795953801840xxxxx",
+                    "fullname": "Duncan Robertson",
+                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                  },
+                  "vote": 50,
+                },
+              ],
             },
           ],
           "album": Object {
@@ -202,8 +215,8 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
           "metrics": Object {
             "plays": 2,
             "votes": 0,
-            "votesAverage": 0,
-            "votesTotal": 0,
+            "votesAverage": 50,
+            "votesTotal": 100,
           },
           "name": "I Know Him So Well",
           "uri": "spotify:track:6hp4DW1Z1RInKvO5ijj9nW",
@@ -260,6 +273,7 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
           "name": "Ken Dodd",
           "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
         },
+        "explicit": true,
         "length": 120000,
         "metrics": Object {
           "plays": 1,
@@ -315,6 +329,7 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
             "name": "Ken Dodd",
             "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
           },
+          "explicit": true,
           "length": 120000,
           "metrics": Object {
             "plays": 1,
@@ -400,7 +415,18 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
                 "fullname": "Duncan Robertson",
                 "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
               },
-              "votes": Array [],
+              "votes": Array [
+                Object {
+                  "at": "2020-01-27T20:20:37.904Z",
+                  "user": Object {
+                    "__v": 0,
+                    "_id": "1117795953801840xxxxx",
+                    "fullname": "Duncan Robertson",
+                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                  },
+                  "vote": 50,
+                },
+              ],
             },
           ],
           "album": Object {
@@ -417,8 +443,8 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
           "metrics": Object {
             "plays": 2,
             "votes": 0,
-            "votesAverage": 0,
-            "votesTotal": 0,
+            "votesAverage": 50,
+            "votesTotal": 100,
           },
           "name": "I Know Him So Well",
           "uri": "spotify:track:6hp4DW1Z1RInKvO5ijj9nW",
@@ -478,6 +504,7 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
             "name": "Ken Dodd",
             "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
           },
+          "explicit": true,
           "length": 120000,
           "metrics": Object {
             "plays": 1,
@@ -563,7 +590,18 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
                 "fullname": "Duncan Robertson",
                 "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
               },
-              "votes": Array [],
+              "votes": Array [
+                Object {
+                  "at": "2020-01-27T20:20:37.904Z",
+                  "user": Object {
+                    "__v": 0,
+                    "_id": "1117795953801840xxxxx",
+                    "fullname": "Duncan Robertson",
+                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
+                  },
+                  "vote": 50,
+                },
+              ],
             },
           ],
           "album": Object {
@@ -580,8 +618,8 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
           "metrics": Object {
             "plays": 2,
             "votes": 0,
-            "votesAverage": 0,
-            "votesTotal": 0,
+            "votesAverage": 50,
+            "votesTotal": 100,
           },
           "name": "I Know Him So Well",
           "uri": "spotify:track:6hp4DW1Z1RInKvO5ijj9nW",
@@ -613,6 +651,7 @@ exports[`Tracklist tracklist has track with no addedBy data does nothing 1`] = `
             "name": "Ken Dodd",
             "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
           },
+          "explicit": true,
           "length": 120000,
           "metrics": Object {
             "plays": 1,

@@ -5,7 +5,7 @@ import dateFormat from 'dateformat'
 import './index.css'
 
 const addedByContent = (users) => (
-  <List>
+  <List className='added-by-list'>
     {
       users.map((data, i) => {
         const fullName = data.user ? data.user.fullname : 'User unknown'
@@ -27,7 +27,7 @@ const addedByContent = (users) => (
 
 const userPicture = data => {
   if (data && data.user && data.user.picture) return <Image avatar className='added_by_avatar_image' src={data.user.picture} />
-  return <Icon name='spotify' color='green' />
+  return <Icon name='user' />
 }
 
 const AddedBy = ({ users = [] }) => {

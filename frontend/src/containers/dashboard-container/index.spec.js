@@ -82,9 +82,7 @@ describe('DashboardContainer', () => {
         const mockGoogle = {
           isSignedIn: true,
           googleUser: {
-            Zi: {
-              id_token: 'googlejwttoken123'
-            },
+            tokenId: 'googlejwttoken123',
             profileObj: {
               name: 'Fred Spanner',
               imageUrl: 'myImage123'
