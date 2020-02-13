@@ -1,5 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
+import MockTrackListJson from '__mockData__/api'
 import Search from './index'
 
 describe('Search', () => {
@@ -15,33 +16,7 @@ describe('Search', () => {
     const onPageChangeMock = jest.fn().mockName('onPageChangeMock')
 
     describe('valid props', () => {
-      const track1 = {
-        track: {
-          name: 'Track name 1',
-          uri: 'track1',
-          artist: {
-            name: 'Artist name 1'
-          },
-          album: {
-            name: 'Album name 1'
-          },
-          image: 'image1'
-        }
-      }
-      const track2 = {
-        track: {
-          explicit: true,
-          name: 'Track name 2',
-          uri: 'track2',
-          artist: {
-            name: 'Artist name 2'
-          },
-          album: {
-            name: 'Album name 2'
-          },
-          image: 'image2'
-        }
-      }
+      let tracks = MockTrackListJson()
       const wrapper = mount(
         <Search
           onClose={onCloseMock}
@@ -49,7 +24,7 @@ describe('Search', () => {
           onQueryChange={onQueryChangeMock}
           onAddTrack={onAddTrackMock}
           onPageChange={onPageChangeMock}
-          results={[track1, track2]}
+          results={tracks}
           totalPages={2}
           visible
         />
@@ -66,10 +41,16 @@ describe('Search', () => {
         expect(input.get(0).ref.current).toEqual(document.activeElement)
       })
 
-      it('adds a track', () => {
-        const track = wrapper.find('.search-list-item').first()
+      it('does not add a disabled track', () => {
+        const track = wrapper.find('SearchItem').first()
         track.simulate('click')
-        expect(onAddTrackMock).toHaveBeenCalledWith('track1')
+        expect(onAddTrackMock).not.toHaveBeenCalled()
+      })
+
+      it('does add a track', () => {
+        const track = wrapper.find('SearchItem').at(1)
+        track.simulate('click')
+        expect(onAddTrackMock).toHaveBeenCalledWith('spotify:track:6BitwTrBfUrTdztRrQiw52')
       })
 
       it('closes the sidebar', () => {
@@ -86,7 +67,7 @@ describe('Search', () => {
             onQueryChange={onQueryChangeMock}
             onAddTrack={onAddTrackMock}
             onPageChange={onPageChangeMock}
-            results={[track1, track2]}
+            results={tracks}
             totalPages={2}
             visible={false}
           />

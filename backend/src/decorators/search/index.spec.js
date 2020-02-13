@@ -17,18 +17,19 @@ describe('SearchDecorator', () => {
     })
   })
 
-  it('should handle SEARCH_GET_TRACKS', () => {
-    expect.assertions(1)
-    const header = { key: 'searchGetTracks' }
-    const data = {
-      tracks: {
-        items: ['result']
+  describe('SEARCH_GET_TRACKS', () => {
+    it('calls the DecorateSearchResults function', () => {
+      const header = { key: 'searchGetTracks' }
+      const data = {
+        tracks: {
+          items: ['result']
+        }
       }
-    }
-    DecorateSearchResults.mockImplementation(() => ['result1', 'result2'])
-
-    return SearchDecorator.parse(header, data).then((results) => {
-      expect(results).toEqual({ tracks: { items: ['result1', 'result2'] } })
+      expect.assertions(1)
+      DecorateSearchResults.mockResolvedValue('tracks')
+      return SearchDecorator.parse(header, data).then((returnData) => {
+        expect(returnData).toEqual({ tracks: { items: 'tracks' } })
+      })
     })
   })
 })

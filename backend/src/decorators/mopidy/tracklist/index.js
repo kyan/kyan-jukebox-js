@@ -2,7 +2,7 @@ import DecorateTrack from 'decorators/mopidy/track'
 import { findTracks } from 'services/mongodb/models/track'
 import ImageCache from 'utils/image-cache'
 
-const TransformerTracklist = (json) => {
+const DecorateTracklist = (json) => {
   return new Promise((resolve) => {
     const trackUris = json.map(data => data.uri)
     const imageUris = json.filter(data => data.album).map(data => data.album.uri)
@@ -32,4 +32,4 @@ const TransformerTracklist = (json) => {
   })
 }
 
-export default TransformerTracklist
+export default DecorateTracklist

@@ -4,7 +4,7 @@ jest.mock('config/winston')
 jest.mock('utils/local-storage')
 
 describe('tracklistTrimmer', () => {
-  const removeMock = jest.fn()
+  const removeMock = jest.fn().mockResolvedValue()
   const mopidy = {
     tracklist: {
       remove: removeMock
@@ -17,6 +17,7 @@ describe('tracklistTrimmer', () => {
 
   describe('when we have various track amounts', () => {
     it('returns the correct tracks pos #1', () => {
+      expect.assertions(1)
       const tracks = [
         'track1', 'track2', 'track3',
         'track4', 'track5', 'track6',
@@ -26,12 +27,13 @@ describe('tracklistTrimmer', () => {
         .mockReturnValueOnce('track8')
         .mockReturnValueOnce(tracks)
 
-      tracklistTrimmer(mopidy)
-      expect(removeMock.mock.calls[0][0])
-        .toEqual({uri: ['track1', 'track2', 'track3']})
+      return tracklistTrimmer(mopidy).then(() => {
+        expect(removeMock).toBeCalledWith({uri: ['track1', 'track2', 'track3']})
+      })
     })
 
     it('returns the correct tracks pos #2', () => {
+      expect.assertions(1)
       const tracks = [
         'track1', 'track2', 'track3',
         'track4', 'track5', 'track6',
@@ -43,16 +45,18 @@ describe('tracklistTrimmer', () => {
         .mockReturnValueOnce('track14')
         .mockReturnValueOnce(tracks)
 
-      tracklistTrimmer(mopidy)
-      expect(removeMock.mock.calls[0][0])
-        .toEqual({uri: [
-          'track1', 'track2', 'track3',
-          'track4', 'track5', 'track6',
-          'track7', 'track8', 'track9'
-        ]})
+      return tracklistTrimmer(mopidy).then(() => {
+        expect(removeMock.mock.calls[0][0])
+          .toEqual({uri: [
+            'track1', 'track2', 'track3',
+            'track4', 'track5', 'track6',
+            'track7', 'track8', 'track9'
+          ]})
+      })
     })
 
     it('returns the correct tracks pos #3', () => {
+      expect.assertions(1)
       const tracks = [
         'track1', 'track2', 'track3',
         'track4', 'track5', 'track6'
@@ -61,11 +65,13 @@ describe('tracklistTrimmer', () => {
         .mockReturnValueOnce('track5')
         .mockReturnValueOnce(tracks)
 
-      tracklistTrimmer(mopidy)
-      expect(removeMock).not.toBeCalled()
+      return tracklistTrimmer(mopidy).then(() => {
+        expect(removeMock).not.toBeCalled()
+      })
     })
 
     it('returns the correct tracks pos #4', () => {
+      expect.assertions(1)
       const tracks = [
         'track1', 'track2', 'track3',
         'track4', 'track5', 'track6'
@@ -74,8 +80,9 @@ describe('tracklistTrimmer', () => {
         .mockReturnValueOnce('track1')
         .mockReturnValueOnce(tracks)
 
-      tracklistTrimmer(mopidy)
-      expect(removeMock).not.toBeCalled()
+      return tracklistTrimmer(mopidy).then(() => {
+        expect(removeMock).not.toBeCalled()
+      })
     })
   })
 })

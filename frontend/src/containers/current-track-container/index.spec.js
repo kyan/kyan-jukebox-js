@@ -9,9 +9,7 @@ describe('CurrentTrackContainer', () => {
   let wrapper
 
   describe('render the connected app', () => {
-    const store = configureMockStore()({
-      timer: { duration: 10000, position: 8000, remaining: 700 }
-    })
+    const store = configureMockStore()({})
     const mockGoogle = {
       googleUser: { googleId: 'duncan123' }
     }
