@@ -1,6 +1,14 @@
 import VotingHelper from './index'
 
 describe('VotingHelper', () => {
+  beforeEach(() => {
+    jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('voteNormalised', () => {
     it('should handle data', () => {
       expect(VotingHelper.voteNormalised(2)).toEqual(20)
@@ -91,7 +99,7 @@ describe('VotingHelper', () => {
         }
       ]
 
-      expect(VotingHelper.calcWeightedMean(data)).toEqual(43)
+      expect(VotingHelper.calcWeightedMean(data)).toEqual(44)
     })
 
     it('should handle no data', () => {

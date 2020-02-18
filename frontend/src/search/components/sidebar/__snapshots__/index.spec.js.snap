@@ -50,12 +50,7 @@ exports[`Search render valid props renders as expected 1`] = `
           },
           "explicit": true,
           "length": 120000,
-          "metrics": Object {
-            "plays": 1,
-            "votes": 1,
-            "votesAverage": 80,
-            "votesTotal": 80,
-          },
+          "metrics": null,
           "name": "Happiness",
           "uri": "spotify:track:1WaBuuaXGwrU4sFvxAjnkf",
           "year": "1991",
@@ -330,15 +325,6 @@ exports[`Search render valid props renders as expected 1`] = `
                       >
                         Ken Dodd
                       </div>
-                      <div
-                        class="ui green mini label track-label vote-track-label"
-                      >
-                        <i
-                          aria-hidden="true"
-                          class="thumbs up icon"
-                        />
-                        3
-                      </div>
                     </div>
                   </div>
                   <div
@@ -397,15 +383,6 @@ exports[`Search render valid props renders as expected 1`] = `
                         class="search-list-item__content"
                       >
                         I Know Him So Well
-                      </div>
-                      <div
-                        class="ui green mini label track-label vote-track-label"
-                      >
-                        <i
-                          aria-hidden="true"
-                          class="thumbs up icon"
-                        />
-                        0
                       </div>
                     </div>
                   </div>
@@ -529,15 +506,6 @@ exports[`Search render valid props renders as expected 1`] = `
                         >
                           Ken Dodd
                         </div>
-                        <div
-                          class="ui green mini label track-label vote-track-label"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="thumbs up icon"
-                          />
-                          3
-                        </div>
                       </div>
                     </div>
                     <div
@@ -596,15 +564,6 @@ exports[`Search render valid props renders as expected 1`] = `
                           class="search-list-item__content"
                         >
                           I Know Him So Well
-                        </div>
-                        <div
-                          class="ui green mini label track-label vote-track-label"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="thumbs up icon"
-                          />
-                          0
                         </div>
                       </div>
                     </div>
@@ -938,12 +897,7 @@ exports[`Search render valid props renders as expected 1`] = `
                             },
                             "explicit": true,
                             "length": 120000,
-                            "metrics": Object {
-                              "plays": 1,
-                              "votes": 1,
-                              "votesAverage": 80,
-                              "votesTotal": 80,
-                            },
+                            "metrics": null,
                             "name": "Happiness",
                             "uri": "spotify:track:1WaBuuaXGwrU4sFvxAjnkf",
                             "year": "1991",
@@ -1109,12 +1063,7 @@ exports[`Search render valid props renders as expected 1`] = `
                           },
                           "explicit": true,
                           "length": 120000,
-                          "metrics": Object {
-                            "plays": 1,
-                            "votes": 1,
-                            "votesAverage": 80,
-                            "votesTotal": 80,
-                          },
+                          "metrics": null,
                           "name": "Happiness",
                           "uri": "spotify:track:1WaBuuaXGwrU4sFvxAjnkf",
                           "year": "1991",
@@ -1154,36 +1103,9 @@ exports[`Search render valid props renders as expected 1`] = `
                             >
                               Ken Dodd
                             </div>
-                            <VotedBy
-                              size="mini"
-                              total={80}
-                            >
-                              <Label
-                                className="track-label vote-track-label"
-                                color="green"
-                                content={3}
-                                icon="thumbs up"
-                                ribbon={null}
-                                size="mini"
-                              >
-                                <div
-                                  className="ui green mini label track-label vote-track-label"
-                                  onClick={[Function]}
-                                >
-                                  <Icon
-                                    as="i"
-                                    name="thumbs up"
-                                  >
-                                    <i
-                                      aria-hidden="true"
-                                      className="thumbs up icon"
-                                      onClick={[Function]}
-                                    />
-                                  </Icon>
-                                  3
-                                </div>
-                              </Label>
-                            </VotedBy>
+                            <VoteInfo
+                              metrics={null}
+                            />
                           </div>
                         </ListContent>
                       </div>
@@ -1285,36 +1207,48 @@ exports[`Search render valid props renders as expected 1`] = `
                             >
                               Chicken Song
                             </div>
-                            <VotedBy
-                              size="mini"
-                              total={40}
+                            <VoteInfo
+                              metrics={
+                                Object {
+                                  "plays": 3,
+                                  "votes": 1,
+                                  "votesAverage": 40,
+                                  "votesTotal": 40,
+                                }
+                              }
                             >
-                              <Label
-                                className="track-label vote-track-label"
-                                color="red"
-                                content={-1}
-                                icon="thumbs down"
-                                ribbon={null}
+                              <VotedBy
+                                show={true}
                                 size="mini"
+                                total={40}
                               >
-                                <div
-                                  className="ui red mini label track-label vote-track-label"
-                                  onClick={[Function]}
+                                <Label
+                                  className="track-label vote-track-label"
+                                  color="red"
+                                  content={-1}
+                                  icon="thumbs down"
+                                  ribbon={null}
+                                  size="mini"
                                 >
-                                  <Icon
-                                    as="i"
-                                    name="thumbs down"
+                                  <div
+                                    className="ui red mini label track-label vote-track-label"
+                                    onClick={[Function]}
                                   >
-                                    <i
-                                      aria-hidden="true"
-                                      className="thumbs down icon"
-                                      onClick={[Function]}
-                                    />
-                                  </Icon>
-                                  -1
-                                </div>
-                              </Label>
-                            </VotedBy>
+                                    <Icon
+                                      as="i"
+                                      name="thumbs down"
+                                    >
+                                      <i
+                                        aria-hidden="true"
+                                        className="thumbs down icon"
+                                        onClick={[Function]}
+                                      />
+                                    </Icon>
+                                    -1
+                                  </div>
+                                </Label>
+                              </VotedBy>
+                            </VoteInfo>
                           </div>
                         </ListContent>
                       </div>
@@ -1413,36 +1347,22 @@ exports[`Search render valid props renders as expected 1`] = `
                             >
                               I Know Him So Well
                             </div>
-                            <VotedBy
-                              size="mini"
-                              total={50}
+                            <VoteInfo
+                              metrics={
+                                Object {
+                                  "plays": 2,
+                                  "votes": 0,
+                                  "votesAverage": 50,
+                                  "votesTotal": 100,
+                                }
+                              }
                             >
-                              <Label
-                                className="track-label vote-track-label"
-                                color="green"
-                                content={0}
-                                icon="thumbs up"
-                                ribbon={null}
+                              <VotedBy
+                                show={false}
                                 size="mini"
-                              >
-                                <div
-                                  className="ui green mini label track-label vote-track-label"
-                                  onClick={[Function]}
-                                >
-                                  <Icon
-                                    as="i"
-                                    name="thumbs up"
-                                  >
-                                    <i
-                                      aria-hidden="true"
-                                      className="thumbs up icon"
-                                      onClick={[Function]}
-                                    />
-                                  </Icon>
-                                  0
-                                </div>
-                              </Label>
-                            </VotedBy>
+                                total={50}
+                              />
+                            </VoteInfo>
                           </div>
                         </ListContent>
                       </div>

@@ -19,6 +19,7 @@ describe('CurrentTrack', () => {
       it('renders track', () => {
         const voteMock = jest.fn()
         track = MockTrackListJson()[1].track
+        track.metrics = null
         const store = configureMockStore()({
           timer: { duration: 10000, position: 8000, remaining: 700 },
           track

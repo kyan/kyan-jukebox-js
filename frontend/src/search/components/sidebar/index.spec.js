@@ -17,6 +17,8 @@ describe('Search', () => {
 
     describe('valid props', () => {
       let tracks = MockTrackListJson()
+      tracks[0].track.metrics = null
+
       const wrapper = mount(
         <Search
           onClose={onCloseMock}

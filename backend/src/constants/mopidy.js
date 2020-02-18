@@ -1,6 +1,7 @@
 export default {
   CORE_EVENTS: {
     PLAYBACK_STARTED: 'event:trackPlaybackStarted',
+    PLAYBACK_ENDED: 'event:trackPlaybackEnded',
     PLAYBACK_STATE_CHANGED: 'event:playbackStateChanged',
     PLAYBACK_RESUMED: 'event:trackPlaybackResumed',
     TRACKLIST_CHANGED: 'event:tracklistChanged',

@@ -8,6 +8,22 @@ const DecorateSearchResults = (json) => {
       findTracks(trackUris)
     ]
 
+    const compare = (a, b) => {
+      let comparison = 0
+      let votesA = a.track.metrics && a.track.metrics.votesAverage
+      let votesB = b.track.metrics && b.track.metrics.votesAverage
+      if (votesA === undefined) votesA = -1
+      if (votesB === undefined) votesB = -1
+
+      if (votesA < votesB) {
+        comparison = 1
+      } else if (votesA > votesB) {
+        comparison = -1
+      }
+
+      return comparison
+    }
+
     Promise.all(requests).then((responses) => {
       const tracks = responses[0]
       const decoratedTracks = json.map(data => {
@@ -21,7 +37,7 @@ const DecorateSearchResults = (json) => {
         return DecorateTrack(data)
       })
 
-      return resolve(decoratedTracks)
+      return resolve(decoratedTracks.sort(compare))
     })
   })
 }
