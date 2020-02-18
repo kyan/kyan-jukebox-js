@@ -5,30 +5,31 @@ import VotedBy from 'components/voted-by'
 import { Sidebar, Button, Form, List, Header, Divider, Image, Pagination } from 'semantic-ui-react'
 import './index.css'
 
-const SearchItem = (props) => {
-  const votesAverage = props.track.metrics && props.track.metrics.votesAverage
-
-  return (
-    <div
-      className={classnames('search-list-item', { 'disabled': props.track.explicit })}
-      onClick={props.track.explicit ? undefined : props.onClick}
-    >
-      <Image
-        floated='left'
-        src={props.track.image}
-        size='tiny'
-        title={`Click to add - ${props.track.name} - ${props.track.artist.name}`}
-        className='search-list-item__image'
-        disabled={props.track.explicit}
-      />
-      <List.Content>
-        <div className='search-list-item__header'>{props.track.name} - {props.track.artist.name}</div>
-        <div className='search-list-item__content'>{props.track.album.name}</div>
-        <VotedBy size='mini' total={votesAverage} />
-      </List.Content>
-    </div>
-  )
+const VoteInfo = (props) => {
+  if (!props.metrics) return null
+  return <VotedBy size='mini' total={props.metrics.votesAverage} show={props.metrics.votes > 0} />
 }
+
+const SearchItem = (props) => (
+  <div
+    className={classnames('search-list-item', { 'disabled': props.track.explicit })}
+    onClick={props.track.explicit ? undefined : props.onClick}
+  >
+    <Image
+      floated='left'
+      src={props.track.image}
+      size='tiny'
+      title={`Click to add - ${props.track.name} - ${props.track.artist.name}`}
+      className='search-list-item__image'
+      disabled={props.track.explicit}
+    />
+    <List.Content>
+      <div className='search-list-item__header'>{props.track.name} - {props.track.artist.name}</div>
+      <div className='search-list-item__content'>{props.track.album.name}</div>
+      <VoteInfo metrics={props.track.metrics} />
+    </List.Content>
+  </div>
+)
 
 const SearchItems = (props) => (
   props.tracks.map(item => (

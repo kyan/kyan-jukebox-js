@@ -5,6 +5,8 @@ import MockTrackListJson from '__mockData__/api'
 
 describe('Tracklist', () => {
   let tracks = MockTrackListJson()
+  tracks[0].track.metrics = null
+
   const onRemoveMock = jest.fn()
   const onSearchMock = jest.fn()
 

@@ -13,6 +13,11 @@ const clearSetTimeout = (timeout) => {
   timeout = null
 }
 
+const addTrackToLastPlayedList = (track) => {
+  if (track.metrics && track.metrics.votesAverage < 20) return
+  settings.addToUniqueArray(Settings.TRACKLIST_LAST_PLAYED, track.uri, 10)
+}
+
 let recommendTimer
 
 const MopidyDecorator = {
@@ -21,13 +26,18 @@ const MopidyDecorator = {
       const { key } = headers
 
       switch (key) {
+        case Mopidy.CORE_EVENTS.PLAYBACK_ENDED:
+          return DecorateTracklist([data.tl_track.track])
+            .then(data => {
+              addTrackToLastPlayedList(data[0].track)
+              return resolve(data[0].track.uri)
+            })
         case Mopidy.CORE_EVENTS.PLAYBACK_STARTED:
           return updateTrackPlaycount(data.tl_track.track.uri)
             .then(() => DecorateTracklist([data.tl_track.track]))
             .then(data => {
               const payload = data[0]
               const { track } = payload
-              settings.addToUniqueArray(Settings.TRACKLIST_LAST_PLAYED, track.uri, 10)
               settings.setItem(Settings.TRACK_CURRENT, track.uri)
               Spotify.canRecommend(mopidy)
                 .then((recommend) => {
@@ -46,9 +56,6 @@ const MopidyDecorator = {
           return resolve(data.volume)
         case Mopidy.CORE_EVENTS.PLAYBACK_STATE_CHANGED:
           return resolve(data.new_state)
-        case Mopidy.CORE_EVENTS.TRACKLIST_CHANGED:
-          clearSetTimeout(recommendTimer)
-          return resolve(data)
         default:
           return resolve(`mopidySkippedTransform: ${key}`)
       }
@@ -61,7 +68,6 @@ const MopidyDecorator = {
       switch (key) {
         case Mopidy.GET_CURRENT_TRACK:
           if (!data) return resolve()
-
           return DecorateTracklist([data]).then(TransformedData => {
             const trackInfo = TransformedData[0]
             settings.setItem(Settings.TRACK_CURRENT, trackInfo.track.uri)

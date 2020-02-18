@@ -55,7 +55,7 @@ const voteLabel = (props) => {
 
 const VotedBy = (props) => {
   const voteCount = props.votes ? props.votes.length : 0
-  if (!props.total || props.total < 1) return null
+  if (!props.show) return null
   if (voteCount < 1) return voteLabel(props)
 
   return (
@@ -68,6 +68,7 @@ const VotedBy = (props) => {
 }
 
 VotedBy.propTypes = {
+  show: PropTypes.bool,
   ribbon: PropTypes.bool,
   votes: PropTypes.array,
   total: PropTypes.number,

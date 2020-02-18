@@ -855,12 +855,7 @@ exports[`CurrentTrack render album renders track 1`] = `
         },
         "image": "https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b",
         "length": 60000,
-        "metrics": Object {
-          "plays": 3,
-          "votes": 1,
-          "votesAverage": 40,
-          "votesTotal": 40,
-        },
+        "metrics": null,
         "name": "Chicken Song",
         "uri": "spotify:track:6BitwTrBfUrTdztRrQiw52",
         "year": "2019",
@@ -876,9 +871,8 @@ exports[`CurrentTrack render album renders track 1`] = `
         <Image
           as="img"
           label={
-            <VotedBy
-              ribbon={true}
-              total={40}
+            <TrackVotes
+              metrics={null}
             />
           }
           src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
@@ -887,36 +881,9 @@ exports[`CurrentTrack render album renders track 1`] = `
           <div
             className="ui image"
           >
-            <VotedBy
-              ribbon={true}
-              total={40}
-            >
-              <Label
-                className="track-label vote-track-label"
-                color="red"
-                content={-1}
-                icon="thumbs down"
-                ribbon="right"
-                size="tiny"
-              >
-                <div
-                  className="ui red tiny right ribbon label track-label vote-track-label"
-                  onClick={[Function]}
-                >
-                  <Icon
-                    as="i"
-                    name="thumbs down"
-                  >
-                    <i
-                      aria-hidden="true"
-                      className="thumbs down icon"
-                      onClick={[Function]}
-                    />
-                  </Icon>
-                  -1
-                </div>
-              </Label>
-            </VotedBy>
+            <TrackVotes
+              metrics={null}
+            />
             <img
               src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
             />
@@ -1455,13 +1422,12 @@ exports[`CurrentTrack render album renders track 1`] = `
                 <LabelDetail>
                   <div
                     className="detail"
-                  >
-                    3
-                  </div>
+                  />
                 </LabelDetail>
               </div>
             </Label>
             <VotedBy
+              show={true}
               size="mini"
               total={40}
               votes={
@@ -1794,9 +1760,15 @@ exports[`CurrentTrack when missing data renders defaults 1`] = `
   <Image
     as="img"
     label={
-      <VotedBy
-        ribbon={true}
-        total={50}
+      <TrackVotes
+        metrics={
+          Object {
+            "plays": 2,
+            "votes": 0,
+            "votesAverage": 50,
+            "votesTotal": 100,
+          }
+        }
       />
     }
     src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
@@ -1899,6 +1871,7 @@ exports[`CurrentTrack when missing data renders defaults 1`] = `
       </LabelDetail>
     </Label>
     <VotedBy
+      show={false}
       size="mini"
       total={0}
       votes={Array []}
@@ -1924,9 +1897,15 @@ exports[`CurrentTrack when no image renders default image 1`] = `
 <Image
   as="img"
   label={
-    <VotedBy
-      ribbon={true}
-      total={80}
+    <TrackVotes
+      metrics={
+        Object {
+          "plays": 1,
+          "votes": 1,
+          "votesAverage": 80,
+          "votesTotal": 80,
+        }
+      }
     />
   }
   src="default-artwork.png"
