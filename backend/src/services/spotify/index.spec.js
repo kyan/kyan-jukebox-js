@@ -2,7 +2,7 @@ import SpotifyService from './index'
 import EventLogger from 'utils/event-logger'
 import ImageCache from 'utils/image-cache'
 import logger from 'config/winston'
-import { addTracks } from 'services/mongodb/models/track'
+import Track, { addTracks } from 'services/mongodb/models/track'
 
 jest.mock('utils/image-cache')
 jest.mock('services/mongodb/models/track')
@@ -92,6 +92,7 @@ describe('SpotifyService', () => {
       }
       addTracks.mockImplementation(() => Promise.resolve({ user: 'duncan' }))
       ImageCache.addAll.mockImplementation(() => Promise.resolve())
+      Track.find.mockImplementation(() => ({ select: jest.fn().mockResolvedValue([{ _id: 'meh' }]) }))
 
       SpotifyService.canRecommend(mopidy)
         .then((result) => {

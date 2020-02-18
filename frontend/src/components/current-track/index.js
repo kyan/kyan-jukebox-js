@@ -58,6 +58,11 @@ const voteHandleColor = (total) => {
   return 'gray'
 }
 
+const TrackVotes = (props) => {
+  if (!props.metrics) return null
+  return <VotedBy total={props.metrics.votesAverage} show={props.metrics.votes > 0} ribbon />
+}
+
 const CurrentTrack = (props) => {
   const { track, onVote, userID } = props
   if (!track) { return noTrack() }
@@ -65,7 +70,6 @@ const CurrentTrack = (props) => {
   const { addedBy = [] } = track
   const votes = (addedBy[0] && addedBy[0].votes) || []
   const playCount = track.metrics && track.metrics.plays
-  const averageVote = track.metrics && track.metrics.votesAverage
   const currentUserVoter = votes.find(u => u.user._id === userID)
   const currentUserVote = currentUserVoter ? (currentUserVoter.vote) : null
   const doVote = (uri) => (rating) => onVote(uri, rating / maxRating)
@@ -74,7 +78,7 @@ const CurrentTrack = (props) => {
     <Card>
       <Image
         src={track.image || defaultImage}
-        label={<VotedBy total={averageVote} ribbon />}
+        label={<TrackVotes metrics={track.metrics} />}
       />
       <Card.Content>
         <ProgressBar />
@@ -108,7 +112,7 @@ const CurrentTrack = (props) => {
           Played
           <Label.Detail>{playCount}</Label.Detail>
         </Label>
-        <VotedBy size='mini' total={calcVoteAverage(votes)} votes={votes} />
+        <VotedBy size='mini' show={votes.length > 0} total={calcVoteAverage(votes)} votes={votes} />
       </Card.Content>
       <Card.Content extra>
         <AddedBy users={track.addedBy} />

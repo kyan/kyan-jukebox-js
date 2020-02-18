@@ -23,7 +23,7 @@ const VotingHelper = {
 
   calcWeightedMean: (data) => {
     if (data.length < 1) return 0
-    const today = (new Date()).getTime()
+    const today = (new Date(Date.now())).getTime()
     const diffInMonths = (e, s) => Math.round(Math.abs(e - s) / (2e3 * 3600 * 365.25))
     const votes = flatten(data.map(i => i.votes.map(vote => vote)))
     const arrWeights = votes.map(v => {

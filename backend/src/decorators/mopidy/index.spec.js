@@ -69,9 +69,52 @@ describe('MopidyDecorator', () => {
     })
   })
 
+  describe('event:trackPlaybackEnded', () => {
+    it('adds to last played list when no metrics', () => {
+      expect.assertions(1)
+      const data = { tl_track: { track: 'track' } }
+      const mopidyMock = jest.fn()
+      DecorateTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123 } }])
+
+      return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackEnded'), data, mopidyMock).then(() => {
+        expect(settings.addToUniqueArray).toHaveBeenCalledWith(
+          'tracklist.last_played',
+          '123',
+          10
+        )
+      })
+    })
+
+    it('adds to last played list when averagevote > 20', () => {
+      expect.assertions(1)
+      const data = { tl_track: { track: 'track' } }
+      const mopidyMock = jest.fn()
+      DecorateTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123, metrics: { votesAverage: 50 } } }])
+
+      return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackEnded'), data, mopidyMock).then(() => {
+        expect(settings.addToUniqueArray).toHaveBeenCalledWith(
+          'tracklist.last_played',
+          '123',
+          10
+        )
+      })
+    })
+
+    it('does not add to last played list when averagevote < 20', () => {
+      expect.assertions(1)
+      const data = { tl_track: { track: 'track' } }
+      const mopidyMock = jest.fn()
+      DecorateTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123, metrics: { votesAverage: 10 } } }])
+
+      return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackEnded'), data, mopidyMock).then(() => {
+        expect(settings.addToUniqueArray).not.toHaveBeenCalled()
+      })
+    })
+  })
+
   describe('event:trackPlaybackStarted', () => {
     it('does recommend if there are recomendations', () => {
-      expect.assertions(6)
+      expect.assertions(5)
       const recomendMock = jest.fn()
       const data = { tl_track: { track: { uri: 'uri123' } } }
       const mopidyMock = jest.fn()
@@ -82,11 +125,6 @@ describe('MopidyDecorator', () => {
 
       return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackStarted'), data, mopidyMock).then((response) => {
         expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')
-        expect(settings.addToUniqueArray).toHaveBeenCalledWith(
-          'tracklist.last_played',
-          '123',
-          10
-        )
         expect(settings.setItem).toHaveBeenCalledWith(
           'track.current',
           '123'
@@ -111,7 +149,7 @@ describe('MopidyDecorator', () => {
     })
 
     it('does not recommend if there are no recomendation', () => {
-      expect.assertions(6)
+      expect.assertions(5)
       const data = { tl_track: { track: { uri: 'uri123' } } }
       const mopidyMock = jest.fn()
       updateTrackPlaycount.mockResolvedValue()
@@ -120,11 +158,6 @@ describe('MopidyDecorator', () => {
 
       return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackStarted'), data, mopidyMock).then((response) => {
         expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')
-        expect(settings.addToUniqueArray).toHaveBeenCalledWith(
-          'tracklist.last_played',
-          '123',
-          10
-        )
         expect(settings.setItem).toHaveBeenCalledWith(
           'track.current',
           '123'
@@ -139,15 +172,6 @@ describe('MopidyDecorator', () => {
           }
         })
       })
-    })
-  })
-
-  describe('event:tracklistChanged', () => {
-    it('returns the data passed in', () => {
-      expect.assertions(1)
-      const data = 'data'
-      return MopidyDecorator.mopidyCoreMessage(h('event:tracklistChanged'), data)
-        .then(returnData => expect(returnData).toEqual(data))
     })
   })
 
