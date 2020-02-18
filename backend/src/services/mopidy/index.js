@@ -64,8 +64,6 @@ const MopidyService = (broadcastToAll, mopidyState, cbAllowConnections) => {
       }
 
       if (key === MopidyConstants.CORE_EVENTS.TRACKLIST_CHANGED) {
-        Decorator.mopidyCoreMessage({ key }, {}, mopidy)
-
         mopidy.tracklist.getTracks()
           .then(tracks => {
             packAndSend({ key: MopidyConstants.GET_TRACKS }, tracks, 'parse')

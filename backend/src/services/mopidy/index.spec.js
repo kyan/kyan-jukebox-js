@@ -56,19 +56,20 @@ describe('MopidyService', () => {
     expect(logger.info.mock.calls[1][0]).toEqual('Mopidy Online')
 
     expect(instance.on.mock.calls[3][0]).toEqual('event:trackPlaybackStarted')
-    expect(instance.on.mock.calls[4][0]).toEqual('event:playbackStateChanged')
-    expect(instance.on.mock.calls[5][0]).toEqual('event:trackPlaybackResumed')
+    expect(instance.on.mock.calls[4][0]).toEqual('event:trackPlaybackEnded')
+    expect(instance.on.mock.calls[5][0]).toEqual('event:playbackStateChanged')
+    expect(instance.on.mock.calls[6][0]).toEqual('event:trackPlaybackResumed')
 
-    expect(instance.on.mock.calls[6][0]).toEqual('event:tracklistChanged')
-    instance.on.mock.calls[6][1]()
+    expect(instance.on.mock.calls[7][0]).toEqual('event:tracklistChanged')
+    instance.on.mock.calls[7][1]()
 
     expect(EventLogger.info.mock.calls[0]).toEqual([
       'INCOMING MOPIDY [CORE]',
       { key: 'event:tracklistChanged', data: undefined }
     ])
 
-    expect(instance.on.mock.calls[7][0]).toEqual('event:volumeChanged')
-    instance.on.mock.calls[7][1]({ volume: '10' })
+    expect(instance.on.mock.calls[8][0]).toEqual('event:volumeChanged')
+    instance.on.mock.calls[8][1]({ volume: '10' })
     expect(EventLogger.info.mock.calls[1]).toEqual([
       'INCOMING MOPIDY [CORE]',
       { key: 'event:volumeChanged', data: { volume: '10' } }

@@ -25,9 +25,26 @@ const vote2 = {
 describe('VotedBy', () => {
   let wrapper
 
+  describe('when show is false', () => {
+    it('shows nothing', () => {
+      wrapper = shallow(<VotedBy show={false} />)
+      expect(wrapper).toMatchSnapshot()
+    })
+  })
+
   describe('when no votes are provided', () => {
-    it('does nothing', () => {
-      wrapper = shallow(<VotedBy total={21} />)
+    it('just shows a label with -3 vote', () => {
+      wrapper = shallow(<VotedBy show total={21} />)
+      expect(wrapper).toMatchSnapshot()
+    })
+
+    it('just shows a label with 0 vote', () => {
+      wrapper = shallow(<VotedBy show total={50} />)
+      expect(wrapper).toMatchSnapshot()
+    })
+
+    it('just shows a label with +5 vote', () => {
+      wrapper = shallow(<VotedBy show total={100} />)
       expect(wrapper).toMatchSnapshot()
     })
   })
@@ -37,14 +54,14 @@ describe('VotedBy', () => {
 
     describe('and no ribbon prop', () => {
       it('displays the correct information', () => {
-        wrapper = shallow(<VotedBy total={22} votes={votes} />)
+        wrapper = shallow(<VotedBy show total={22} votes={votes} />)
         expect(wrapper).toMatchSnapshot()
       })
     })
 
     describe('and a ribbon prop is set', () => {
       it('displays the correct information', () => {
-        wrapper = shallow(<VotedBy total={11} votes={votes} ribbon />)
+        wrapper = shallow(<VotedBy show total={11} votes={votes} ribbon />)
         expect(wrapper.find('Popup')).toMatchSnapshot()
       })
     })
@@ -56,18 +73,7 @@ describe('VotedBy', () => {
         at: '2019-12-19T13:11:37.316Z',
         vote: 75
       }
-      wrapper = shallow(<VotedBy total={10} votes={[vote]} />)
-      expect(wrapper).toMatchSnapshot()
-    })
-  })
-
-  describe('when the vote count is 0', () => {
-    it('does not show a label', () => {
-      const votes = [
-        { at: '2019-12-14T13:11:37.316Z', vote: 0 },
-        { at: '2019-12-19T13:11:37.316Z', vote: 0 }
-      ]
-      wrapper = shallow(<VotedBy total={5} votes={votes} />)
+      wrapper = shallow(<VotedBy show total={10} votes={[vote]} />)
       expect(wrapper).toMatchSnapshot()
     })
   })

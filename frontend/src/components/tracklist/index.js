@@ -55,6 +55,16 @@ const TrackDescription = (props) => (
   </List.Description>
 )
 
+const CurrentVote = (props) => {
+  if (!props.metrics) return null
+  return <VotedBy total={props.metrics.votesAverage} show={props.metrics.votes > 0} />
+}
+
+const CurrentPlays = (props) => {
+  if (!props.metrics) return null
+  return <Label className='track-label' size='tiny'>Played <Label.Detail>{props.metrics.plays}</Label.Detail></Label>
+}
+
 const ListItems = (props) => {
   let beenPlayed = false
   const isCurrentTrack = (current, uri) => current && current.uri === uri
@@ -62,8 +72,6 @@ const ListItems = (props) => {
   return props.tracks.map((track, i) => {
     const { addedBy } = track
     const isCurrent = isCurrentTrack(props.current, track.uri)
-    const averageVote = track.metrics && track.metrics.votesAverage
-    const playCount = track.metrics && track.metrics.plays
     if (isCurrent) beenPlayed = beenPlayed || true
 
     return (
@@ -88,11 +96,8 @@ const ListItems = (props) => {
             trackLength={track.length}
             onClick={props.onArtistSearch(track.artist.name)}
           />
-          <VotedBy total={averageVote} />
-          <Label className='track-label' size='tiny'>
-            Played
-            <Label.Detail>{playCount}</Label.Detail>
-          </Label>
+          <CurrentVote metrics={track.metrics} />
+          <CurrentPlays metrics={track.metrics} />
           <AddedBy users={addedBy} />
         </List.Content>
       </List.Item>

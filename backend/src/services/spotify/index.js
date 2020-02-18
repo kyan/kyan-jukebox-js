@@ -6,7 +6,7 @@ import MopidyConstants from 'constants/mopidy'
 import logger from 'config/winston'
 import ImageCache from 'utils/image-cache'
 import SpotifyWebApi from 'spotify-web-api-node'
-import { addTracks } from 'services/mongodb/models/track'
+import Track, { addTracks } from 'services/mongodb/models/track'
 import { sampleSize } from 'lodash'
 
 const countryCode = 'GB'
@@ -70,16 +70,29 @@ const getTracks = (uris) => {
   })
 }
 
-const filterSuitableTracksUris = (tracks) => {
-  const currentTrackList = settings.getItem(SettingsConsts.TRACKLIST_CURRENT)
+const extractSuitableData = (tracks) => {
+  return new Promise((resolve) => {
+    const currentTrackList = settings.getItem(SettingsConsts.TRACKLIST_CURRENT)
+    const images = getImageFromSpotifyTracks(tracks)
 
-  return sampleSize(
-    tracks
-      .filter(track => !track.explicit)
-      .filter(track => !currentTrackList.includes(track.uri))
-      .map(track => track.uri),
-    newTracksAddedLimit
-  )
+    Track.find({
+      _id: { $in: tracks.map(t => t.uri) },
+      'metrics.votesAverage': { $lt: 20 },
+      'metrics.votes': { $gt: 0 }
+    }).select('_id').then(results => {
+      const urisToIgnore = results.map(r => r._id)
+      const uris = sampleSize(
+        tracks
+          .filter(track => !track.explicit)
+          .filter(track => !currentTrackList.includes(track.uri))
+          .filter(track => !urisToIgnore.includes(track.uri))
+          .map(track => track.uri),
+        newTracksAddedLimit
+      )
+
+      resolve({ images, uris })
+    })
+  })
 }
 
 const stripServiceFromUris = (uris) => uris.map(uri => uri.split(':').slice(-1)[0])
@@ -98,20 +111,19 @@ const getRecommendations = (uris, mopidy) => {
     }
     const options = { ...defaultOptions, ...seedOptions }
 
-    setupSpotify((api) => {
-      api.getRecommendations(options).then(
-        function (data) {
-          const tracks = data.body.tracks
-          const images = getImageFromSpotifyTracks(tracks)
-          const suitableTracks = filterSuitableTracksUris(tracks)
+    setupSpotify(api => {
+      api.getRecommendations(options)
+        .then(data => extractSuitableData(data.body.tracks))
+        .then(data => {
+          const { images, uris } = data
 
-          if (suitableTracks.length > 0) {
+          if (uris.length > 0) {
             const successHandler = user => response => {
               if (response) {
                 const payload = {
                   ...{ user },
                   ...{ key: MopidyConstants.TRACKLIST_ADD },
-                  ...{ data: suitableTracks },
+                  ...{ data: uris },
                   ...{ response }
                 }
                 EventLogger.info(MessageType.INCOMING_MOPIDY, payload, true)
@@ -123,7 +135,7 @@ const getRecommendations = (uris, mopidy) => {
             }
 
             ImageCache.addAll(images).then(() => {
-              addTracks(suitableTracks).then((data) => {
+              addTracks(uris).then((data) => {
                 mopidy.tracklist.add({ uris: data.uris })
                   .then(successHandler(data.user), failureHandler)
               })
@@ -131,11 +143,11 @@ const getRecommendations = (uris, mopidy) => {
           }
 
           resolve()
-        }
-      ).catch(function (error) {
-        logger.error(`getRecommendations: ${error.message}`)
-        reject(error)
-      })
+        })
+        .catch(function (error) {
+          logger.error(`getRecommendations: ${error.message}`)
+          reject(error)
+        })
     })
   })
 }
