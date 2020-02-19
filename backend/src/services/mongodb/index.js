@@ -3,12 +3,15 @@ import logger from 'config/winston'
 
 const mongodbUrl = process.env.MONGODB_URL
 const options = {
+  useNewUrlParser: true,
   useFindAndModify: false,
   reconnectTries: Number.MAX_VALUE,
   reconnectInterval: 500,
   poolSize: 10,
+  keepAlive: 120,
   bufferMaxEntries: 0,
-  keepAlive: 120
+  useUnifiedTopology: true,
+  useCreateIndex: true
 }
 
 const MongodbService = () => {
