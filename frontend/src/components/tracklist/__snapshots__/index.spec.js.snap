@@ -203,7 +203,7 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
           "image": "https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee",
           "length": 254000,
           "metrics": Object {
-            "plays": 2,
+            "plays": 0,
             "votes": 0,
             "votesAverage": 50,
             "votesTotal": 100,
@@ -421,7 +421,7 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
           "image": "https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee",
           "length": 254000,
           "metrics": Object {
-            "plays": 2,
+            "plays": 0,
             "votes": 0,
             "votesAverage": 50,
             "votesTotal": 100,
@@ -591,7 +591,7 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
           "image": "https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee",
           "length": 254000,
           "metrics": Object {
-            "plays": 2,
+            "plays": 0,
             "votes": 0,
             "votesAverage": 50,
             "votesTotal": 100,

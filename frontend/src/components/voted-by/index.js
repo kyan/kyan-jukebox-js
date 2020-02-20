@@ -34,18 +34,27 @@ const userPicture = data => {
 }
 
 const voteLabel = (props) => {
-  let color = 'green'
+  let basic = true
+  let color = 'grey'
   let icon = 'thumbs up'
   const normalisedTotal = voteNormaliser(props.total)
 
   if (normalisedTotal < 0) icon = 'thumbs down'
-  if (normalisedTotal < 0) color = 'red'
+  if (normalisedTotal > 4) {
+    color = 'green'
+    basic = false
+  }
+  if (normalisedTotal < -4) {
+    color = 'red'
+    basic = false
+  }
 
   return (
     <Label
       className='track-label vote-track-label'
       size={props.size || 'tiny'}
       color={color}
+      basic={basic}
       icon={icon}
       content={normalisedTotal}
       ribbon={props.ribbon ? 'right' : null}
