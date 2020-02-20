@@ -6,16 +6,17 @@ import MopidyConstants from 'constants/mopidy'
 import logger from 'config/winston'
 import ImageCache from 'utils/image-cache'
 import SpotifyWebApi from 'spotify-web-api-node'
-import Track, { addTracks } from 'services/mongodb/models/track'
-import { sampleSize } from 'lodash'
+import Recommend from 'utils/recommendations'
+import { addTracks } from 'services/mongodb/models/track'
 
 const countryCode = 'GB'
 const defaultOptions = { market: countryCode }
-const newTracksAddedLimit = process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_ID,
   clientSecret: process.env.SPOTIFY_SECRET
 })
+
+const stripServiceFromUris = (uris) => uris.map(uri => uri.split(':').slice(-1)[0])
 
 /* istanbul ignore next */
 const setupSpotify = (callback) => {
@@ -34,19 +35,13 @@ const setupSpotify = (callback) => {
   })
 }
 
-const getImageFromSpotifyTracks = (tracks) => {
-  const albumTracks = tracks.filter((track) => track.album)
-  const images = albumTracks.map(track => ({ [track.album.uri]: track.album.images[0].url }))
-  return Object.assign({}, ...images)
-}
-
 const searchTracks = (params) => {
   return new Promise((resolve) => {
     setupSpotify((api) => {
       const options = { ...defaultOptions, ...params.options }
       api.searchTracks(params.query, options)
         .then((data) => {
-          ImageCache.addAll(getImageFromSpotifyTracks(data.body.tracks.items))
+          ImageCache.addAll(Recommend.getImageFromSpotifyTracks(data.body.tracks.items))
           return resolve(data.body)
         })
         .catch((error) => logger.error(`searchTracks: ${error.message}`))
@@ -61,7 +56,7 @@ const getTracks = (uris) => {
     setupSpotify((api) => {
       api.getTracks(trackUris, defaultOptions)
         .then((data) => {
-          ImageCache.addAll(getImageFromSpotifyTracks(data.body.tracks)).then(() => {
+          ImageCache.addAll(Recommend.getImageFromSpotifyTracks(data.body.tracks)).then(() => {
             return resolve(data.body)
           })
         })
@@ -69,33 +64,6 @@ const getTracks = (uris) => {
     })
   })
 }
-
-const extractSuitableData = (tracks) => {
-  return new Promise((resolve) => {
-    const currentTrackList = settings.getItem(SettingsConsts.TRACKLIST_CURRENT)
-    const images = getImageFromSpotifyTracks(tracks)
-
-    Track.find({
-      _id: { $in: tracks.map(t => t.uri) },
-      'metrics.votesAverage': { $lt: 20 },
-      'metrics.votes': { $gt: 0 }
-    }).select('_id').then(results => {
-      const urisToIgnore = results.map(r => r._id)
-      const uris = sampleSize(
-        tracks
-          .filter(track => !track.explicit)
-          .filter(track => !currentTrackList.includes(track.uri))
-          .filter(track => !urisToIgnore.includes(track.uri))
-          .map(track => track.uri),
-        newTracksAddedLimit
-      )
-
-      resolve({ images, uris })
-    })
-  })
-}
-
-const stripServiceFromUris = (uris) => uris.map(uri => uri.split(':').slice(-1)[0])
 
 /* istanbul ignore next */
 const getRecommendations = (uris, mopidy) => {
@@ -113,7 +81,8 @@ const getRecommendations = (uris, mopidy) => {
 
     setupSpotify(api => {
       api.getRecommendations(options)
-        .then(data => extractSuitableData(data.body.tracks))
+        .then(data => Recommend.extractSuitableData(data.body.tracks))
+        .then(data => Recommend.addRandomUris(data))
         .then(data => {
           const { images, uris } = data
 
