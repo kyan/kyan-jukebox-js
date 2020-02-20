@@ -75,6 +75,7 @@ describe('MopidyDecorator', () => {
       const data = { tl_track: { track: 'track' } }
       const mopidyMock = jest.fn()
       DecorateTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123 } }])
+      trackListTrimmer.mockResolvedValue()
 
       return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackEnded'), data, mopidyMock).then(() => {
         expect(settings.addToUniqueArray).toHaveBeenCalledWith(
@@ -90,6 +91,7 @@ describe('MopidyDecorator', () => {
       const data = { tl_track: { track: 'track' } }
       const mopidyMock = jest.fn()
       DecorateTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123, metrics: { votesAverage: 50 } } }])
+      trackListTrimmer.mockResolvedValue()
 
       return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackEnded'), data, mopidyMock).then(() => {
         expect(settings.addToUniqueArray).toHaveBeenCalledWith(
@@ -105,6 +107,7 @@ describe('MopidyDecorator', () => {
       const data = { tl_track: { track: 'track' } }
       const mopidyMock = jest.fn()
       DecorateTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123, metrics: { votesAverage: 10 } } }])
+      trackListTrimmer.mockResolvedValue()
 
       return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackEnded'), data, mopidyMock).then(() => {
         expect(settings.addToUniqueArray).not.toHaveBeenCalled()
@@ -121,7 +124,6 @@ describe('MopidyDecorator', () => {
       updateTrackPlaycount.mockResolvedValue()
       DecorateTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123 } }])
       Spotify.canRecommend.mockResolvedValue('functionName')
-      trackListTrimmer.mockResolvedValue()
 
       return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackStarted'), data, mopidyMock).then((response) => {
         expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')
