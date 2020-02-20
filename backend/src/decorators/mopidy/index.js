@@ -30,7 +30,7 @@ const MopidyDecorator = {
           return DecorateTracklist([data.tl_track.track])
             .then(data => {
               addTrackToLastPlayedList(data[0].track)
-              return resolve(data[0].track.uri)
+              return trackListTrimmer(mopidy).then(() => resolve(data[0].track.uri))
             })
         case Mopidy.CORE_EVENTS.PLAYBACK_STARTED:
           return updateTrackPlaycount(data.tl_track.track.uri)
@@ -50,7 +50,7 @@ const MopidyDecorator = {
                   }
                 })
               NowPlaying.addTrack(track)
-              trackListTrimmer(mopidy).then(() => resolve(payload))
+              return resolve(payload)
             })
         case Mopidy.CORE_EVENTS.VOLUME_CHANGED:
           return resolve(data.volume)
