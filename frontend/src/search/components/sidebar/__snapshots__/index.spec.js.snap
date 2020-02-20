@@ -159,7 +159,7 @@ exports[`Search render valid props renders as expected 1`] = `
           "image": "https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee",
           "length": 254000,
           "metrics": Object {
-            "plays": 2,
+            "plays": 0,
             "votes": 0,
             "votesAverage": 50,
             "votesTotal": 100,
@@ -351,7 +351,7 @@ exports[`Search render valid props renders as expected 1`] = `
                         Chicken Song
                       </div>
                       <div
-                        class="ui red mini label track-label vote-track-label"
+                        class="ui grey mini basic label track-label vote-track-label"
                       >
                         <i
                           aria-hidden="true"
@@ -532,7 +532,7 @@ exports[`Search render valid props renders as expected 1`] = `
                           Chicken Song
                         </div>
                         <div
-                          class="ui red mini label track-label vote-track-label"
+                          class="ui grey mini basic label track-label vote-track-label"
                         >
                           <i
                             aria-hidden="true"
@@ -1006,7 +1006,7 @@ exports[`Search render valid props renders as expected 1`] = `
                             "image": "https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee",
                             "length": 254000,
                             "metrics": Object {
-                              "plays": 2,
+                              "plays": 0,
                               "votes": 0,
                               "votesAverage": 50,
                               "votesTotal": 100,
@@ -1223,15 +1223,16 @@ exports[`Search render valid props renders as expected 1`] = `
                                 total={40}
                               >
                                 <Label
+                                  basic={true}
                                   className="track-label vote-track-label"
-                                  color="red"
+                                  color="grey"
                                   content={-1}
                                   icon="thumbs down"
                                   ribbon={null}
                                   size="mini"
                                 >
                                   <div
-                                    className="ui red mini label track-label vote-track-label"
+                                    className="ui grey mini basic label track-label vote-track-label"
                                     onClick={[Function]}
                                   >
                                     <Icon
@@ -1301,7 +1302,7 @@ exports[`Search render valid props renders as expected 1`] = `
                           "image": "https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee",
                           "length": 254000,
                           "metrics": Object {
-                            "plays": 2,
+                            "plays": 0,
                             "votes": 0,
                             "votesAverage": 50,
                             "votesTotal": 100,
@@ -1350,7 +1351,7 @@ exports[`Search render valid props renders as expected 1`] = `
                             <VoteInfo
                               metrics={
                                 Object {
-                                  "plays": 2,
+                                  "plays": 0,
                                   "votes": 0,
                                   "votesAverage": 50,
                                   "votesTotal": 100,

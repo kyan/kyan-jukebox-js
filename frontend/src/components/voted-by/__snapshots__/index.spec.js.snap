@@ -37,8 +37,9 @@ exports[`VotedBy when no user data does nothing 1`] = `
   position="top left"
   trigger={
     <Label
+      basic={true}
       className="track-label vote-track-label"
-      color="red"
+      color="grey"
       content={-4}
       icon="thumbs down"
       ribbon={null}
@@ -51,6 +52,7 @@ exports[`VotedBy when no user data does nothing 1`] = `
 
 exports[`VotedBy when no votes are provided just shows a label with +5 vote 1`] = `
 <Label
+  basic={false}
   className="track-label vote-track-label"
   color="green"
   content={5}
@@ -62,8 +64,9 @@ exports[`VotedBy when no votes are provided just shows a label with +5 vote 1`] 
 
 exports[`VotedBy when no votes are provided just shows a label with -3 vote 1`] = `
 <Label
+  basic={true}
   className="track-label vote-track-label"
-  color="red"
+  color="grey"
   content={-3}
   icon="thumbs down"
   ribbon={null}
@@ -73,10 +76,23 @@ exports[`VotedBy when no votes are provided just shows a label with -3 vote 1`] 
 
 exports[`VotedBy when no votes are provided just shows a label with 0 vote 1`] = `
 <Label
+  basic={true}
   className="track-label vote-track-label"
-  color="green"
+  color="grey"
   content={0}
   icon="thumbs up"
+  ribbon={null}
+  size="tiny"
+/>
+`;
+
+exports[`VotedBy when no votes are provided just shows a label with 0 vote 2`] = `
+<Label
+  basic={false}
+  className="track-label vote-track-label"
+  color="red"
+  content={-5}
+  icon="thumbs down"
   ribbon={null}
   size="tiny"
 />
@@ -153,8 +169,9 @@ exports[`VotedBy when votes information is provided and a ribbon prop is set dis
   position="top left"
   trigger={
     <Label
+      basic={true}
       className="track-label vote-track-label"
-      color="red"
+      color="grey"
       content={-4}
       icon="thumbs down"
       ribbon="right"
@@ -234,8 +251,9 @@ exports[`VotedBy when votes information is provided and no ribbon prop displays 
   position="top left"
   trigger={
     <Label
+      basic={true}
       className="track-label vote-track-label"
-      color="red"
+      color="grey"
       content={-3}
       icon="thumbs down"
       ribbon={null}
