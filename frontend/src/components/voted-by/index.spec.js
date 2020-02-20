@@ -47,6 +47,11 @@ describe('VotedBy', () => {
       wrapper = shallow(<VotedBy show total={100} />)
       expect(wrapper).toMatchSnapshot()
     })
+
+    it('just shows a label with 0 vote', () => {
+      wrapper = shallow(<VotedBy show total={0} />)
+      expect(wrapper).toMatchSnapshot()
+    })
   })
 
   describe('when votes information is provided', () => {

@@ -19,7 +19,7 @@ const Recommendations = {
 
       Track.find({
         _id: { $in: tracks.map(t => t.uri) },
-        'metrics.votesAverage': { $lt: 20 },
+        'metrics.votesAverage': { $lt: 50 },
         'metrics.votes': { $gt: 0 }
       }).select('_id').then(results => {
         const urisToIgnore = results.map(r => r._id)

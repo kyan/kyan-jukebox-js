@@ -1488,8 +1488,9 @@ exports[`CurrentTrack render album renders track 1`] = `
                 position="top left"
                 trigger={
                   <Label
+                    basic={true}
                     className="track-label vote-track-label"
-                    color="red"
+                    color="grey"
                     content={-1}
                     icon="thumbs down"
                     ribbon={null}
@@ -1514,8 +1515,9 @@ exports[`CurrentTrack render album renders track 1`] = `
                   openOnTriggerMouseEnter={true}
                   trigger={
                     <Label
+                      basic={true}
                       className="track-label vote-track-label"
-                      color="red"
+                      color="grey"
                       content={-1}
                       icon="thumbs down"
                       ribbon={null}
@@ -1525,7 +1527,7 @@ exports[`CurrentTrack render album renders track 1`] = `
                   triggerRef={
                     Object {
                       "current": <div
-                        class="ui red mini label track-label vote-track-label"
+                        class="ui grey mini basic label track-label vote-track-label"
                       >
                         <i
                           aria-hidden="true"
@@ -1543,8 +1545,9 @@ exports[`CurrentTrack render album renders track 1`] = `
                       innerRef={[Function]}
                     >
                       <Label
+                        basic={true}
                         className="track-label vote-track-label"
-                        color="red"
+                        color="grey"
                         content={-1}
                         icon="thumbs down"
                         onBlur={[Function]}
@@ -1556,7 +1559,7 @@ exports[`CurrentTrack render album renders track 1`] = `
                         size="mini"
                       >
                         <div
-                          className="ui red mini label track-label vote-track-label"
+                          className="ui grey mini basic label track-label vote-track-label"
                           onBlur={[Function]}
                           onClick={[Function]}
                           onFocus={[Function]}
@@ -1763,7 +1766,7 @@ exports[`CurrentTrack when missing data renders defaults 1`] = `
       <TrackVotes
         metrics={
           Object {
-            "plays": 2,
+            "plays": 0,
             "votes": 0,
             "votesAverage": 50,
             "votesTotal": 100,
@@ -1867,7 +1870,7 @@ exports[`CurrentTrack when missing data renders defaults 1`] = `
     >
       Played
       <LabelDetail>
-        2
+        0
       </LabelDetail>
     </Label>
     <VotedBy

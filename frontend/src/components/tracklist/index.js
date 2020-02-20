@@ -61,8 +61,23 @@ const CurrentVote = (props) => {
 }
 
 const CurrentPlays = (props) => {
+  let basic = true
+  let color = 'grey'
   if (!props.metrics) return null
-  return <Label className='track-label' size='tiny'>Played <Label.Detail>{props.metrics.plays}</Label.Detail></Label>
+  if (props.metrics.plays > 0) {
+    basic = false
+    color = null
+  }
+
+  return (
+    <Label
+      className='track-label'
+      size='tiny'
+      color={color}
+      basic={basic}
+    >Played <Label.Detail>{props.metrics.plays}</Label.Detail>
+    </Label>
+  )
 }
 
 const ListItems = (props) => {
