@@ -16,7 +16,7 @@ const tracklistTrimmer = function (mopidy) {
       logger.info(`Trimming tracklist: ${tracksToTrim}`)
 
       storage.setItem(Settings.TRACKLIST_CURRENT, currentTracklist.slice(indexToDeleteTo))
-      mopidy.tracklist.remove({ uri: tracksToTrim }).then(() => resolve())
+      return mopidy.tracklist.remove({ uri: tracksToTrim }).then(() => resolve())
     }
 
     return resolve()
