@@ -1,7 +1,10 @@
 [Unit]
 Description=Kyan Jukebox API
+Documentation=https://github.com/kyan/jukebox-js
+After=network.target
 
 [Service]
+Type=simple
 ExecStart=/usr/bin/node /home/jukebox/app/current/dist/index.js
 # Required on some systems
 #WorkingDirectory=/opt/nodeserver

@@ -11,7 +11,6 @@ import Setting, {
   getTracklist
 } from './index'
 jest.mock('config/winston')
-jest.mock('utils/event-logger')
 
 describe('test mongoose Settings model', () => {
   afterEach(() => {

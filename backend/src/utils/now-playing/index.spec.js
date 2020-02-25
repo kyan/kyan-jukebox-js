@@ -1,42 +1,75 @@
+import Setting from 'services/mongodb/models/setting'
+import logger from 'config/winston'
 import NowPlaying from './index'
-import HttpService from 'services/http'
+jest.mock('config/winston')
 
 describe('NowPlaying', () => {
   describe('addTrack', () => {
-    const httpMock = jest.fn()
-    const title = 'Seasons (Waiting On You)'
-    const artist = 'Future Islands'
-    const album = 'Singles'
     const trackObject = {
-      name: title,
-      artist: { name: artist },
-      album: { name: album }
+      name: 'Seasons (Waiting On You)',
+      year: '1983',
+      image: 'the-album-art.jpg',
+      artist: {
+        name: 'Future Islands'
+      },
+      album: {
+        name: 'Singles'
+      },
+      metrics: {
+        votesAverage: 80,
+        votes: 2,
+        plays: 2
+      },
+      addedBy: [
+        {
+          user: {
+            fullname: 'Duncan'
+          },
+          addedAt: new Date(1582010703141)
+        },
+        {
+          user: {
+            fullname: 'BRH'
+          },
+          addedAt: new Date(1582000703141)
+        }
+      ]
     }
-    beforeAll(() => {
-      jest.spyOn(HttpService, 'post').mockImplementation(httpMock)
-    })
-    afterEach(() => {
-      jest.resetAllMocks()
-      delete process.env.NOW_PLAYING_URL
+
+    it('returns the correct payload when full data', () => {
+      jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue()
+      jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
+
+      return NowPlaying.addTrack(trackObject)
+        .then(payload => {
+          expect(payload).toMatchSnapshot()
+        })
     })
 
-    it('when the NOW_PLAYING_URL is set it calls to the HTTP service', () => {
-      process.env.NOW_PLAYING_URL = 'addthetrack.com'
+    it('returns the correct payload when full data 1', () => {
+      jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue()
+      jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
+      trackObject.metrics.plays = 1
+      delete trackObject.addedBy[1]
+
+      return NowPlaying.addTrack(trackObject)
+        .then(payload => {
+          expect(payload).toMatchSnapshot()
+        })
+    })
+
+    it('handles errors', done => {
+      jest.spyOn(Setting, 'findOneAndUpdate').mockRejectedValue(new Error('oooops'))
       NowPlaying.addTrack(trackObject)
-      expect(httpMock).toHaveBeenCalledWith({
-        url: 'addthetrack.com',
-        data: {
-          added_by: 'Jukebox JS',
-          title,
-          artist,
-          album
+
+      setTimeout(() => {
+        try {
+          expect(logger.error).toHaveBeenCalledWith('NowPlaying.addTrack: oooops')
+          done()
+        } catch (err) {
+          done.fail(err)
         }
       })
-    })
-
-    it('when the NOW_PLAYING_URL is not set it does nothing', () => {
-      NowPlaying.addTrack(trackObject)
-      expect(httpMock).not.toHaveBeenCalled()
     })
   })
 })

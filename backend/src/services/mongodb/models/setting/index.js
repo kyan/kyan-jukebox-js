@@ -5,11 +5,7 @@ const HOW_MANY_PREVIOUS_TRACKS_IN_PLAYLIST = 4
 
 const settingSchema = mongoose.Schema({
   key: mongoose.Schema.Types.String,
-  value: {
-    currentTrack: { type: mongoose.Schema.Types.String, default: null },
-    currentTracklist: { type: Array, default: [] },
-    trackSeeds: { type: Array, default: [] }
-  }
+  value: mongoose.Schema.Types.Mixed
 })
 const Setting = mongoose.model('Setting', settingSchema)
 const stateFind = { key: 'state' }

@@ -44,7 +44,7 @@ const onMessageHandler = (store, payload, progressTimer) => {
 
   switch (key) {
     case AuthApi.AUTHENTICATION_TOKEN_INVALID:
-      console.log(`AUTHENTICATION_TOKEN_INVALID: ${data.error}`)
+      console.error(`AUTHENTICATION_TOKEN_INVALID: ${data.error}`)
       store.dispatch(actions.clearToken())
       break
     case MopidyApi.PLAYBACK_GET_CURRENT_TRACK:
@@ -88,7 +88,6 @@ const onMessageHandler = (store, payload, progressTimer) => {
       notify.warning(data)
       break
     default:
-      console.log(`Unknown message: ${key} body: ${data}`)
       break
   }
 }
