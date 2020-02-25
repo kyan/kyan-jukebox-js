@@ -22,7 +22,7 @@ describe('onMessageHandler', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    spyOn(console, 'log')
+    spyOn(console, 'error')
   })
 
   describe('MESSAGE_NOT_HANDLED', () => {
@@ -30,7 +30,6 @@ describe('onMessageHandler', () => {
       const payload = { key: 'message_not_handled' }
       const store = mockStore({})
       onMessageHandler(store, JSON.stringify(payload), progress)
-      expect(console.log).toHaveBeenCalled()
     })
   })
 
@@ -261,7 +260,7 @@ describe('onMessageHandler', () => {
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
       expect(actions).toEqual([{ type: 'actionClearStoreToken' }])
-      expect(console.log).toHaveBeenCalledWith('AUTHENTICATION_TOKEN_INVALID: boom')
+      expect(console.error).toHaveBeenCalledWith('AUTHENTICATION_TOKEN_INVALID: boom')
       store.clearActions()
     })
   })
