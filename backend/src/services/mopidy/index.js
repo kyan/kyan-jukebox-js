@@ -3,10 +3,13 @@ import logger from 'config/winston'
 import EventLogger from 'utils/event-logger'
 import MopidyConstants from 'constants/mopidy'
 import MessageType from 'constants/message'
-import Settings from 'constants/settings'
 import Decorator from 'decorators/mopidy'
-import trackListTrimmer from 'services/mopidy/tracklist-trimmer'
-import storage from 'utils/local-storage'
+import {
+  clearState,
+  initializeState,
+  trimTracklist,
+  updateTracklist
+} from 'services/mongodb/models/setting'
 
 const mopidyUrl = process.env.WS_MOPIDY_URL
 const mopidyPort = process.env.WS_MOPIDY_PORT
@@ -18,34 +21,29 @@ const MopidyService = (broadcastToAll, mopidyState, cbAllowConnections) => {
     callingConvention: 'by-position-or-by-name'
   })
 
-  const cacheTrackUris = (tracks) => (
-    storage.setItem(Settings.TRACKLIST_CURRENT, tracks.map(track => track.uri))
-  )
-
   const initCurrentTrackState = (mopidy) => {
     Promise.all([
       mopidy.playback.getCurrentTrack(),
       mopidy.tracklist.getTracks()
     ]).then(responses => {
-      storage.clearCurrent()
-      if (responses[0]) storage.setItem(Settings.TRACK_CURRENT, responses[0].uri)
-      cacheTrackUris(responses[1])
-      trackListTrimmer(mopidy)
-
-      firstTime ? mopidyState(true) : cbAllowConnections(mopidy)
-      firstTime = true
+      return initializeState(responses[0], responses[1])
+        .then(() => trimTracklist(mopidy))
+        .then(() => {
+          firstTime ? mopidyState(true) : cbAllowConnections(mopidy)
+          firstTime = true
+        })
     })
   }
 
   mopidy.on('websocket:error', (err) => {
     logger.error(`Mopidy Error: ${err.message}`, { url: `${mopidyUrl}:${mopidyPort}` })
-    storage.clearCurrent()
+    clearState()
   })
 
   mopidy.on('state:offline', () => {
     logger.info('Mopidy Offline', { url: `${mopidyUrl}:${mopidyPort}` })
     mopidyState(false)
-    storage.clearCurrent()
+    clearState()
   })
 
   mopidy.on('state:online', () => {
@@ -66,8 +64,8 @@ const MopidyService = (broadcastToAll, mopidyState, cbAllowConnections) => {
       if (key === MopidyConstants.CORE_EVENTS.TRACKLIST_CHANGED) {
         mopidy.tracklist.getTracks()
           .then(tracks => {
-            packAndSend({ key: MopidyConstants.GET_TRACKS }, tracks, 'parse')
-            cacheTrackUris(tracks)
+            return updateTracklist(tracks.map(track => track.uri))
+              .then(() => packAndSend({ key: MopidyConstants.GET_TRACKS }, tracks, 'parse'))
           })
       } else {
         packAndSend({ key }, message, 'mopidyCoreMessage')

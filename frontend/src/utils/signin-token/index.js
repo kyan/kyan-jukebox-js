@@ -6,7 +6,10 @@ const SignInToken = {
   refresh: (googleApi, success) => {
     return workerTimers.setTimeout(() => {
       googleApi.reloadAuthResponse().then(
-        (response) => success(response.id_token),
+        (response) => {
+          console.info('Token refreshed OK')
+          return success(response.id_token)
+        },
         (err) => console.warn('Token un-refreshable: ', err.message))
     }, checkForTokenInMilliseconds)
   },

@@ -7,7 +7,6 @@ jest.mock('decorators/mopidy')
 jest.mock('utils/broadcaster')
 jest.mock('config/winston')
 jest.mock('services/spotify')
-jest.mock('services/mopidy/tracklist-trimmer')
 
 describe('MopidyHandler', () => {
   const ws = jest.fn()
