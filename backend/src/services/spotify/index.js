@@ -1,5 +1,3 @@
-import settings from 'utils/local-storage'
-import SettingsConsts from 'constants/settings'
 import MessageType from 'constants/message'
 import EventLogger from 'utils/event-logger'
 import MopidyConstants from 'constants/mopidy'
@@ -8,6 +6,7 @@ import ImageCache from 'utils/image-cache'
 import SpotifyWebApi from 'spotify-web-api-node'
 import Recommend from 'utils/recommendations'
 import { addTracks } from 'services/mongodb/models/track'
+import { getTracklist } from 'services/mongodb/models/setting'
 
 const countryCode = 'GB'
 const defaultOptions = { market: countryCode }
@@ -111,11 +110,11 @@ const getRecommendations = (uris, mopidy) => {
             })
           }
 
-          resolve()
+          return resolve()
         })
         .catch(function (error) {
           logger.error(`getRecommendations: ${error.message}`)
-          reject(error)
+          return reject(error)
         })
     })
   })
@@ -124,7 +123,7 @@ const getRecommendations = (uris, mopidy) => {
 const SpotifyService = {
   canRecommend: (mopidy) => {
     return new Promise((resolve) => {
-      mopidy.tracklist.nextTrack([null])
+      return mopidy.tracklist.nextTrack([null])
         .then((data) => {
           if (!data) return resolve(getRecommendations)
           return resolve()
@@ -134,22 +133,23 @@ const SpotifyService = {
   },
 
   validateTrack: (uri) => {
-    const tracklist = settings.getItem(SettingsConsts.TRACKLIST_CURRENT)
-
     return new Promise((resolve, reject) => {
-      if (tracklist.includes(uri)) {
-        const message = `Already in tracklist: ${uri}`
-        return reject(new Error(message))
-      }
+      return getTracklist()
+        .then(uris => {
+          if (uris.includes(uri)) {
+            const message = `Already in tracklist: ${uri}`
+            return reject(new Error(message))
+          }
 
-      getTracks([uri]).then((response) => {
-        const track = response.tracks[0]
-        if (track.explicit) {
-          const message = `Not suitable. Is there a radio mix? - ${track.name}`
-          return reject(new Error(message))
-        }
-        return resolve(true)
-      })
+          return getTracks([uri]).then((response) => {
+            const track = response.tracks[0]
+            if (track.explicit) {
+              const message = `Not suitable. Is there a radio mix? - ${track.name}`
+              return reject(new Error(message))
+            }
+            return resolve(true)
+          })
+        })
     })
   },
 

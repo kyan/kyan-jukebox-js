@@ -1,9 +1,13 @@
 import SpotifyService from './index'
 import EventLogger from 'utils/event-logger'
 import ImageCache from 'utils/image-cache'
+import Recommend from 'utils/recommendations'
 import logger from 'config/winston'
 import Track, { addTracks } from 'services/mongodb/models/track'
+import { getTracklist } from 'services/mongodb/models/setting'
 
+jest.mock('utils/recommendations')
+jest.mock('services/mongodb/models/setting')
 jest.mock('utils/image-cache')
 jest.mock('services/mongodb/models/track')
 jest.mock('utils/event-logger')
@@ -40,7 +44,7 @@ jest.mock('spotify-web-api-node', () => {
       clientCredentialsGrant: jest.fn()
         .mockImplementation(() => Promise.resolve({ body: {} })),
       getRecommendations: jest.fn()
-        .mockImplementationOnce(() => Promise.resolve({ body: { tracks } })),
+        .mockResolvedValue({ body: { tracks } }),
       setAccessToken: jest.fn(),
       getTracks: jest.fn()
         .mockImplementationOnce(() => Promise.resolve({ body: { tracks: [{ explicit: true, name: 'Naughty' }] } }))
@@ -52,9 +56,6 @@ jest.mock('spotify-web-api-node', () => {
     }
   }
 })
-jest.mock('utils/local-storage', () => ({
-  getItem: () => ['spotify:track:03fT3OHB9KyMtGMt2zwqCT', 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3']
-}))
 jest.mock('lodash', () => ({
   sampleSize: (list) => list
 }))
@@ -85,24 +86,26 @@ describe('SpotifyService', () => {
       const mopidy = {
         tracklist: {
           nextTrack: jest.fn()
-            .mockImplementationOnce(() => Promise.resolve(null)),
+            .mockResolvedValue(null),
           add: jest.fn()
-            .mockImplementationOnce(() => Promise.resolve('track added OK'))
+            .mockResolvedValue('track added OK')
         }
       }
+      const uris = [
+        'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt',
+        'spotify:track:7LzeKqmOtpKVKJ1dmalkC0',
+        'spotify:track:1Ut1A8UaNqGuwsHgWq75PW'
+      ]
+      Recommend.extractSuitableData.mockResolvedValue()
+      Recommend.addRandomUris.mockResolvedValue({ images: 'images', uris })
       addTracks.mockImplementation(() => Promise.resolve({ user: 'duncan' }))
-      ImageCache.addAll.mockImplementation(() => Promise.resolve())
+      ImageCache.addAll.mockResolvedValue()
       Track.find.mockImplementation(() => ({ select: jest.fn().mockResolvedValue([{ _id: 'meh' }]) }))
 
       SpotifyService.canRecommend(mopidy)
         .then((result) => {
           expect(result).toEqual(jasmine.any(Function))
 
-          const uris = [
-            'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt',
-            'spotify:track:7LzeKqmOtpKVKJ1dmalkC0',
-            'spotify:track:1Ut1A8UaNqGuwsHgWq75PW'
-          ]
           result(uris, mopidy)
             .then((result) => {
               setTimeout(() => {
@@ -174,6 +177,7 @@ describe('SpotifyService', () => {
   describe('validateTrack', () => {
     it('should reject if track is already in tracklist', done => {
       expect.assertions(1)
+      getTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT', 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3'])
       SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMt2zwqCT')
         .catch((error) => {
           expect(error.message).toEqual('Already in tracklist: spotify:track:03fT3OHB9KyMtGMt2zwqCT')
@@ -183,6 +187,7 @@ describe('SpotifyService', () => {
 
     it('should reject if track is explicit', done => {
       expect.assertions(1)
+      getTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT', 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3'])
       SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW')
         .catch((error) => {
           expect(error.message).toEqual('Not suitable. Is there a radio mix? - Naughty')
@@ -190,17 +195,18 @@ describe('SpotifyService', () => {
         })
     })
 
-    it('should resolve if track is valid', done => {
+    it('should resolve if track is valid', () => {
       expect.assertions(1)
-      SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW')
+      getTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT', 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3'])
+      return SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW')
         .then((result) => {
           expect(result).toEqual(true)
-          done()
         })
     })
 
     it('should log if track is broken', done => {
       expect.assertions(1)
+      getTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT', 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3'])
       SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW')
       setTimeout(() => {
         try {
