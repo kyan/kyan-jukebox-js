@@ -1394,38 +1394,33 @@ exports[`CurrentTrack render album renders track 1`] = `
           <div
             className="extra content"
           >
-            <Label
-              size="mini"
+            <AddLabel
+              count={1}
             >
-              <div
-                className="ui mini label"
-                onClick={[Function]}
+              <Label
+                size="mini"
               >
-                Added
-                <LabelDetail>
-                  <div
-                    className="detail"
-                  >
-                    1
-                  </div>
-                </LabelDetail>
-              </div>
-            </Label>
-            <Label
-              size="mini"
-            >
-              <div
-                className="ui mini label"
-                onClick={[Function]}
-              >
-                Played
-                <LabelDetail>
-                  <div
-                    className="detail"
-                  />
-                </LabelDetail>
-              </div>
-            </Label>
+                <div
+                  className="ui mini label"
+                  onClick={[Function]}
+                >
+                  Added
+                  <LabelDetail>
+                    <div
+                      className="detail"
+                    >
+                      1
+                    </div>
+                  </LabelDetail>
+                </div>
+              </Label>
+            </AddLabel>
+            <PlayLabel
+              metrics={null}
+            />
+            <VoteLabel
+              metrics={null}
+            />
             <VotedBy
               show={true}
               size="mini"
@@ -1857,22 +1852,29 @@ exports[`CurrentTrack when missing data renders defaults 1`] = `
   <CardContent
     extra={true}
   >
-    <Label
-      size="mini"
-    >
-      Added
-      <LabelDetail>
-        0
-      </LabelDetail>
-    </Label>
-    <Label
-      size="mini"
-    >
-      Played
-      <LabelDetail>
-        0
-      </LabelDetail>
-    </Label>
+    <AddLabel
+      count={0}
+    />
+    <PlayLabel
+      metrics={
+        Object {
+          "plays": 0,
+          "votes": 0,
+          "votesAverage": 50,
+          "votesTotal": 100,
+        }
+      }
+    />
+    <VoteLabel
+      metrics={
+        Object {
+          "plays": 0,
+          "votes": 0,
+          "votesAverage": 50,
+          "votesTotal": 100,
+        }
+      }
+    />
     <VotedBy
       show={false}
       size="mini"

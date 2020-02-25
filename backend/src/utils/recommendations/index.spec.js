@@ -1,12 +1,17 @@
-import mockingoose from 'mockingoose'
-import settings from 'utils/local-storage'
+import { getTracklist } from 'services/mongodb/models/setting'
 import Track from 'services/mongodb/models/track'
 import Recommend from './index'
-jest.mock('utils/local-storage')
+jest.mock('services/mongodb/models/track')
+jest.mock('services/mongodb/models/setting')
 
 describe('Recommend', () => {
+  beforeEach(() => {
+    process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT = 4
+  })
+
   afterEach(() => {
     jest.clearAllMocks()
+    delete process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT
   })
 
   describe('getImageFromSpotifyTracks', () => {
@@ -29,8 +34,8 @@ describe('Recommend', () => {
       ]
       const resultsToIgnore = [{ _id: 'track1' }]
       const currentUrisToIgnore = ['track3']
-      mockingoose(Track).toReturn(resultsToIgnore, 'find')
-      settings.getItem.mockImplementation(() => currentUrisToIgnore)
+      Track.find.mockImplementation(() => ({ select: jest.fn().mockResolvedValue(resultsToIgnore) }))
+      getTracklist.mockResolvedValue(currentUrisToIgnore)
 
       return Recommend.extractSuitableData(tracks).then((data) => {
         expect(data).toEqual({
@@ -70,8 +75,8 @@ describe('Recommend', () => {
         { _id: 'track3' }
       ]
       const currentUrisToIgnore = ['track3']
-      mockingoose(Track).toReturn(results, 'aggregate')
-      settings.getItem.mockImplementation(() => currentUrisToIgnore)
+      Track.aggregate.mockResolvedValue(results)
+      getTracklist.mockResolvedValue(currentUrisToIgnore)
 
       return Recommend.addRandomUris(initialData).then((data) => {
         expect(data).toEqual({ images: ['images'], uris: ['track1', 'track2'] })

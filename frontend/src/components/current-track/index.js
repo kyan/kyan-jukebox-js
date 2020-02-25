@@ -63,13 +63,43 @@ const TrackVotes = (props) => {
   return <VotedBy total={props.metrics.votesAverage} show={props.metrics.votes > 0} ribbon />
 }
 
+const AddLabel = (props) => {
+  return (
+    <Label size='mini'>
+      Added
+      <Label.Detail>{props.count}</Label.Detail>
+    </Label>
+  )
+}
+
+const PlayLabel = (props) => {
+  if (!props.metrics) return null
+
+  return (
+    <Label size='mini'>
+      Played
+      <Label.Detail>{props.metrics.plays}</Label.Detail>
+    </Label>
+  )
+}
+
+const VoteLabel = (props) => {
+  if (!props.metrics) return null
+
+  return (
+    <Label size='mini'>
+      Activity
+      <Label.Detail>{props.metrics.votes}</Label.Detail>
+    </Label>
+  )
+}
+
 const CurrentTrack = (props) => {
   const { track, onVote, userID } = props
   if (!track) { return noTrack() }
   const maxRating = 10
   const { addedBy = [] } = track
   const votes = (addedBy[0] && addedBy[0].votes) || []
-  const playCount = track.metrics && track.metrics.plays
   const currentUserVoter = votes.find(u => u.user._id === userID)
   const currentUserVote = currentUserVoter ? (currentUserVoter.vote) : null
   const doVote = (uri) => (rating) => onVote(uri, rating / maxRating)
@@ -104,14 +134,9 @@ const CurrentTrack = (props) => {
         </div>
       </Card.Content>
       <Card.Content extra>
-        <Label size='mini'>
-          Added
-          <Label.Detail>{addedBy.length}</Label.Detail>
-        </Label>
-        <Label size='mini'>
-          Played
-          <Label.Detail>{playCount}</Label.Detail>
-        </Label>
+        <AddLabel count={addedBy.length} />
+        <PlayLabel metrics={track.metrics} />
+        <VoteLabel metrics={track.metrics} />
         <VotedBy size='mini' show={votes.length > 0} total={calcVoteAverage(votes)} votes={votes} />
       </Card.Content>
       <Card.Content extra>

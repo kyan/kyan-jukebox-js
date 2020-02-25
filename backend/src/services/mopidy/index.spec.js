@@ -2,14 +2,18 @@ import MopidyService from './index'
 import Mopidy from 'mopidy'
 import logger from 'config/winston'
 import Decorator from 'decorators/mopidy'
-import storage from 'utils/local-storage'
 import EventLogger from 'utils/event-logger'
+import {
+  clearState,
+  initializeState,
+  trimTracklist,
+  updateTracklist
+} from 'services/mongodb/models/setting'
 jest.mock('decorators/mopidy')
 jest.mock('mopidy')
 jest.mock('utils/event-logger')
-jest.mock('utils/local-storage')
 jest.mock('config/winston')
-jest.mock('services/mopidy/tracklist-trimmer')
+jest.mock('services/mongodb/models/setting')
 
 describe('MopidyService', () => {
   const broadcastMock = jest.fn()
@@ -23,6 +27,9 @@ describe('MopidyService', () => {
   it('handles call the global events', () => {
     Decorator.parse.mockResolvedValue('unifiedMessage')
     Decorator.mopidyCoreMessage.mockResolvedValue('unifiedMopidyMessage')
+    initializeState.mockResolvedValue()
+    trimTracklist.mockResolvedValue()
+    updateTracklist.mockResolvedValue()
 
     MopidyService(broadcastMock, mopidyStateMock, allowConnectionMock)
 
@@ -42,13 +49,14 @@ describe('MopidyService', () => {
     expect(instance.on.mock.calls[0][0]).toEqual('websocket:error')
     instance.on.mock.calls[0][1]({ message: 'boooooooom!' })
     expect(logger.error.mock.calls[0][0]).toEqual('Mopidy Error: boooooooom!')
-    expect(storage.clearCurrent.mock.calls[0]).not.toBeUndefined()
+    expect(clearState).toHaveBeenCalled()
+    clearState.mockClear()
 
     expect(instance.on.mock.calls[1][0]).toEqual('state:offline')
     instance.on.mock.calls[1][1]()
     expect(logger.info.mock.calls[0][0]).toEqual('Mopidy Offline')
     expect(mopidyStateMock.mock.calls[0][0]).toEqual(false)
-    expect(storage.clearCurrent.mock.calls[1]).not.toBeUndefined()
+    expect(clearState).toHaveBeenCalled()
 
     expect(instance.on.mock.calls[2][0]).toEqual('state:online')
     instance.on.mock.calls[2][1]()

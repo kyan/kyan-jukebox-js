@@ -18,12 +18,13 @@ describe('SignInToken', () => {
 
   describe('.refresh', () => {
     it('returns a token', done => {
-      expect.assertions(2)
+      expect.assertions(3)
       const mockGoogle = {
         reloadAuthResponse: jest.fn()
           .mockImplementation(() => Promise.resolve({ id_token: 'new_token' }))
       }
       const mockSuccess = jest.fn()
+      spyOn(console, 'info')
       spyOn(console, 'warn')
 
       SignInToken.refresh(mockGoogle, mockSuccess)
@@ -31,6 +32,7 @@ describe('SignInToken', () => {
       setTimeout(() => {
         try {
           expect(mockSuccess).toHaveBeenCalledWith('new_token')
+          expect(console.info).toHaveBeenCalled()
           expect(console.warn).not.toHaveBeenCalled()
           done()
         } catch (err) {
@@ -40,18 +42,20 @@ describe('SignInToken', () => {
     })
 
     it('errors to the console', done => {
-      expect.assertions(2)
+      expect.assertions(3)
       const mockGoogle = {
         reloadAuthResponse: jest.fn()
           .mockImplementation(() => Promise.reject(new Error('bang')))
       }
       const mockSuccess = jest.fn()
+      spyOn(console, 'info')
       spyOn(console, 'warn')
 
       SignInToken.refresh(mockGoogle, mockSuccess)
 
       setTimeout(() => {
         try {
+          expect(console.info).not.toHaveBeenCalled()
           expect(console.warn).toHaveBeenCalledWith('Token un-refreshable: ', 'bang')
           expect(mockSuccess).not.toHaveBeenCalled()
           done()
