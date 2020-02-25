@@ -21,6 +21,7 @@
     "node-cron": "^2.0.3",
     "socket.io": "^2.2.0",
     "spotify-web-api-node": "^4.0.0",
+    "time-ago": "^0.2.1",
     "uuid": "^3.3.0",
     "winston": "^3.0.0"
   },
