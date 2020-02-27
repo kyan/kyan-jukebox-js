@@ -1203,13 +1203,11 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                         onRemoveTrack={[Function]}
                                         tracks={Array []}
                                       >
-                                        <List
-                                          divided={true}
-                                          relaxed="very"
+                                        <CommentGroup
+                                          size="small"
                                         >
                                           <div
-                                            className="ui divided very relaxed list"
-                                            role="list"
+                                            className="ui small comments"
                                           >
                                             <ListItems
                                               disabled={true}
@@ -1218,7 +1216,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                               tracks={Array []}
                                             />
                                           </div>
-                                        </List>
+                                        </CommentGroup>
                                       </Tracklist>
                                     </div>
                                   </GridColumn>
@@ -2485,13 +2483,11 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                         onRemoveTrack={[Function]}
                                         tracks={Array []}
                                       >
-                                        <List
-                                          divided={true}
-                                          relaxed="very"
+                                        <CommentGroup
+                                          size="small"
                                         >
                                           <div
-                                            className="ui divided very relaxed list"
-                                            role="list"
+                                            className="ui small comments"
                                           >
                                             <ListItems
                                               disabled={true}
@@ -2500,7 +2496,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                               tracks={Array []}
                                             />
                                           </div>
-                                        </List>
+                                        </CommentGroup>
                                       </Tracklist>
                                     </div>
                                   </GridColumn>
