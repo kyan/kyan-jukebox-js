@@ -1,9 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tracklist render when disabled renders the as expected 1`] = `
-<List
-  divided={true}
-  relaxed="very"
+<CommentGroup
+  size="small"
 >
   <ListItems
     current={
@@ -215,13 +214,12 @@ exports[`Tracklist render when disabled renders the as expected 1`] = `
       ]
     }
   />
-</List>
+</CommentGroup>
 `;
 
 exports[`Tracklist render when enabled renders the as expected 1`] = `
-<List
-  divided={true}
-  relaxed="very"
+<CommentGroup
+  size="small"
 >
   <ListItems
     current={
@@ -433,13 +431,12 @@ exports[`Tracklist render when enabled renders the as expected 1`] = `
       ]
     }
   />
-</List>
+</CommentGroup>
 `;
 
 exports[`Tracklist tracklist but nothing cued up does not mark anything as current 1`] = `
-<List
-  divided={true}
-  relaxed="very"
+<CommentGroup
+  size="small"
 >
   <ListItems
     onArtistSearch={[MockFunction]}
@@ -603,13 +600,12 @@ exports[`Tracklist tracklist but nothing cued up does not mark anything as curre
       ]
     }
   />
-</List>
+</CommentGroup>
 `;
 
 exports[`Tracklist tracklist has track with no addedBy data does nothing 1`] = `
-<List
-  divided={true}
-  relaxed="very"
+<CommentGroup
+  size="small"
 >
   <ListItems
     onArtistSearch={[MockFunction]}
@@ -636,5 +632,5 @@ exports[`Tracklist tracklist has track with no addedBy data does nothing 1`] = `
       ]
     }
   />
-</List>
+</CommentGroup>
 `;
