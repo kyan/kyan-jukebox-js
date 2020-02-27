@@ -1,5 +1,4 @@
 import Mopidy from 'constants/mopidy'
-import DecorateTrack from 'decorators/mopidy/track'
 import DecorateTracklist from 'decorators/mopidy/tracklist'
 import NowPlaying from 'utils/now-playing'
 import Spotify from 'services/spotify'
@@ -88,12 +87,15 @@ const MopidyDecorator = {
           return removeFromSeeds(data[0].track.uri).then(() => resolve(data))
         case Mopidy.TRACKLIST_ADD:
           const { data: track } = headers
-          addTracks([track.uri], user)
-        /* falls through */
+          return addTracks([track.uri], user)
+            .then(() => DecorateTracklist([data[0].track]))
+            .then((response) => {
+              clearSetTimeout(recommendTimer)
+              return resolve(response[0])
+            })
         case Mopidy.PLAYBACK_NEXT:
         case Mopidy.PLAYBACK_PREVIOUS:
           clearSetTimeout(recommendTimer)
-          if (data && data.length > 0) return resolve(DecorateTrack(data[0].track))
           return resolve()
         case Mopidy.TRACKLIST_CLEAR:
           return clearState().then(() => resolve(data))

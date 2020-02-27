@@ -216,48 +216,21 @@ describe('MopidyDecorator', () => {
       let headers = h('tracklist.add')
       headers.data = { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
       headers.user = 'user'
-      DecorateTrack.mockResolvedValue('result')
+      DecorateTracklist.mockResolvedValue(['result'])
       addTracks.mockResolvedValue()
 
       return MopidyDecorator.parse(headers, data)
         .then(returnData => {
           expect(addTracks).toHaveBeenCalledWith(['spotify:track:43xy5ZmjM9tdzmrXu1pmSG'], 'user')
-          expect(DecorateTrack).toHaveBeenCalledWith('track')
+          expect(DecorateTracklist).toHaveBeenCalledWith(['track'])
           expect(returnData).toEqual('result')
-          expect(DecorateTrack).toHaveBeenCalledWith(data[0].track)
-        })
-    })
-
-    it('returns nothing if no data', () => {
-      expect.assertions(3)
-      const data = []
-      let headers = h('tracklist.add')
-      headers.data = { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
-      headers.user = 'user'
-      addTracks.mockResolvedValue()
-
-      return MopidyDecorator.parse(headers, data)
-        .then(returnData => {
-          expect(addTracks).toHaveBeenCalledWith(['spotify:track:43xy5ZmjM9tdzmrXu1pmSG'], 'user')
-          expect(DecorateTrack).not.toHaveBeenCalled()
-          expect(returnData).toBeUndefined()
+          expect(DecorateTracklist).toHaveBeenCalledWith([data[0].track])
         })
     })
   })
 
   describe('playback.next', () => {
-    it('returns a transformed track', () => {
-      expect.assertions(1)
-      const data = [{
-        track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
-      }]
-      DecorateTrack.mockResolvedValue('result')
-
-      return MopidyDecorator.parse(h('playback.next'), data)
-        .then(returnData => expect(returnData).toEqual('result'))
-    })
-
-    it('returns null if no data', () => {
+    it('returns null', () => {
       expect.assertions(1)
 
       return MopidyDecorator.parse(h('playback.next'), [])
@@ -266,18 +239,7 @@ describe('MopidyDecorator', () => {
   })
 
   describe('playback.previous', () => {
-    it('returns a transformed track', () => {
-      expect.assertions(1)
-      const data = [{
-        track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
-      }]
-      DecorateTrack.mockResolvedValue('result')
-
-      return MopidyDecorator.parse(h('playback.previous'), data)
-        .then(returnData => expect(returnData).toEqual('result'))
-    })
-
-    it('returns null if no data', () => {
+    it('returns null', () => {
       expect.assertions(1)
       return MopidyDecorator.parse(h('playback.previous'), [])
         .then(returnData => expect(returnData).toBeUndefined())

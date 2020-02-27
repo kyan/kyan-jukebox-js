@@ -115,6 +115,7 @@ describe('test mongoose Settings model', () => {
         value: {
           trackSeeds: []
         },
+        markModified: jest.fn(),
         save: jest.fn().mockResolvedValue()
       })
       const track = {

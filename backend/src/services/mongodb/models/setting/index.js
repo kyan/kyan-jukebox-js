@@ -21,7 +21,7 @@ const addToTrackSeedList = (track) => {
         const seeds = new Set(state.value.trackSeeds)
         seeds.add(track.uri)
         state.value.trackSeeds = Array.from(seeds)
-
+        state.markModified('value.trackSeeds')
         return state.save()
       })
       .then(() => resolve(track.uri))
