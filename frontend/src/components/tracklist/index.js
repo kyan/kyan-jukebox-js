@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { List, Image, Label, Item } from 'semantic-ui-react'
+import { Comment, Label, Item } from 'semantic-ui-react'
 import { millisToMinutesAndSeconds } from 'utils/time'
 import defaultImage from 'components/current-track/default-artwork.png'
 import AddedBy from 'components/added-by'
@@ -14,18 +14,15 @@ const TrackImage = (props) => {
   if (props.isCurrent) klass = 'current-image'
   if (props.onClick && !props.isCurrent) {
     title = 'Click to remove from playlist'
-    klass = 'remove-image'
+    klass = `remove-image ${props.hasBeenPlayed ? 'small' : 'tiny'}`
   }
 
   return (
-    <Image
-      bordered
+    <Comment.Avatar
       className={klass}
-      size={props.hasBeenPlayed ? 'small' : 'tiny'}
       src={props.src}
       title={title}
       onClick={props.onClick}
-      inline
     />
   )
 }
@@ -45,19 +42,28 @@ const ImageChooser = (props) => {
   )
 }
 
-const TrackHeading = (props) => <List.Header as='h4'>{props.name}</List.Header>
+const TrackHeading = (props) => (
+  <Comment.Author>{props.name}</Comment.Author>
+)
 
 const TrackDescription = (props) => (
-  <List.Description>
+  <Comment.Text>
     <Item as='a' className='track-search-link' onClick={props.onClick}>
       {props.artistName}
     </Item> <small>({millisToMinutesAndSeconds(props.trackLength)})</small>
-  </List.Description>
+  </Comment.Text>
 )
 
 const CurrentVote = (props) => {
   if (!props.metrics) return null
-  return <VotedBy total={props.metrics.votesAverage} show={props.metrics.votes > 0} />
+  const show = props.metrics.votes > 0
+  if (!show) return null
+
+  return (
+    <Comment.Action as='span'>
+      <VotedBy total={props.metrics.votesAverage} show={show} />
+    </Comment.Action>
+  )
 }
 
 const CurrentPlays = (props) => {
@@ -70,13 +76,15 @@ const CurrentPlays = (props) => {
   }
 
   return (
-    <Label
-      className='track-label'
-      size='tiny'
-      color={color}
-      basic={basic}
-    >Played <Label.Detail>{props.metrics.plays}</Label.Detail>
-    </Label>
+    <Comment.Action as='span'>
+      <Label
+        className='track-label'
+        size='tiny'
+        color={color}
+        basic={basic}
+      >Played <Label.Detail>{props.metrics.plays}</Label.Detail>
+      </Label>
+    </Comment.Action>
   )
 }
 
@@ -90,7 +98,7 @@ const ListItems = (props) => {
     if (isCurrent) beenPlayed = beenPlayed || true
 
     return (
-      <List.Item
+      <Comment
         className={classnames({ 'current-track': isCurrent })}
         key={`${i}${track.uri}`}
       >
@@ -102,20 +110,26 @@ const ListItems = (props) => {
           onClick={props.onRemove}
           hasBeenPlayed={beenPlayed}
         />
-        <List.Content
+        <Comment.Content
           className={classnames({ 'track-info': !beenPlayed })}
         >
-          <TrackHeading name={track.name} />
+          <TrackHeading
+            name={track.name}
+          />
           <TrackDescription
             artistName={track.artist.name}
             trackLength={track.length}
             onClick={props.onArtistSearch(track.artist.name)}
           />
-          <CurrentVote metrics={track.metrics} />
-          <CurrentPlays metrics={track.metrics} />
-          <AddedBy users={addedBy} />
-        </List.Content>
-      </List.Item>
+          <Comment.Actions>
+            <CurrentVote metrics={track.metrics} />
+            <CurrentPlays metrics={track.metrics} />
+            <Comment.Action>
+              <AddedBy users={addedBy} />
+            </Comment.Action>
+          </Comment.Actions>
+        </Comment.Content>
+      </Comment>
     )
   })
 }
@@ -124,7 +138,7 @@ const Tracklist = (props) => {
   if (!props.tracks) { return null }
 
   return (
-    <List relaxed='very' divided>
+    <Comment.Group size='small'>
       <ListItems
         disabled={props.disabled}
         tracks={props.tracks}
@@ -132,7 +146,7 @@ const Tracklist = (props) => {
         onRemove={props.onRemoveTrack}
         onArtistSearch={props.onArtistSearch}
       />
-    </List>
+    </Comment.Group>
   )
 }
 

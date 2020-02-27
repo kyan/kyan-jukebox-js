@@ -1,46 +1,40 @@
-.ui.list>.item .header {
-  font-size: 1.3em;
-  margin-bottom: 0.1em;
+.ui.comments .comment {
+  margin-bottom: 25px;
 }
 
-.ui.list>.item .track-info .header {
-  font-size: 0.9em;
-  margin-bottom: 0.2em;
-}
-
-.ui.list>.item .header {
-  font-size: 1.3em;
-  margin-bottom: 0.2em;
-}
-
-.ui.list>.item .track-info .description {
-  font-size: 0.9em;
-  margin-bottom: 0.5em;
-}
-
-.ui.list>.item .description {
-  font-size: 1em;
-  margin-bottom: 0.5em;
+.ui.comments .comment .author {
+  font-size: 1.1em;
+  margin-bottom: 2px;
 }
 
 .ui.list>.item .remove-image {
   cursor: pointer;
 }
 
-.ui.tiny.inline.image {
+.ui.comments .comment .avatar {
   width: 70px;
+  margin: 0 1em 0 0;
 }
 
-.ui.small.inline.image {
+.comment .avatar .small img {
   width: 110px;
 }
 
-.ui.label.track-label {
-  margin-right: 6px;
+.ui.comments .comment.current-track {
+  background-color: #f7f7f7;
+  padding-bottom: .5em;
+  padding: 1em;
 }
 
-.current-track {
-  background-color: #f7f7f7;
+.ui.comments .ui.avatar.image.added_by_avatar_image {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: 6px;
+}
+
+.ui.label.track-label {
+  margin-right: 8px;
 }
 
 .rating-container .vote-track-label {
@@ -48,5 +42,6 @@
 }
 
 .track-search-link {
+  cursor: pointer;
   color: #555;
 }
