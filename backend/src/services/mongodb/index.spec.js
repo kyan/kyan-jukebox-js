@@ -11,7 +11,7 @@ describe('MongodbService', () => {
     return MongodbService().then(() => {
       expect(logger.info).toHaveBeenCalledWith(
         'Mongodb Connected',
-        { url: "mongodb://mongodb:27017/jb-dev" }
+        { url: 'mongodb://mongodb:27017/jb-dev' }
       )
     })
   })
@@ -27,7 +27,7 @@ describe('MongodbService', () => {
         try {
           expect(logger.error).toHaveBeenCalledWith(
             'Mongodb: Error: bang!',
-            { url: "mongodb://mongodb:27017/jb-dev" }
+            { url: 'mongodb://mongodb:27017/jb-dev' }
           )
           done()
         } catch (err) {

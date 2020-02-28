@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 
-const VOLUME_INC = 2
+const VOLUME_INC = 5
 const VOLUME_MAX = 100
 const VOLUME_MIN = 0
 
