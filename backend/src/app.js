@@ -64,10 +64,7 @@ const allowSocketConnections = (mopidy) => {
 }
 
 MongodbService()
-MopidyService(
-  broadcastToAll,
-  broadcastMopidyStateChange,
-  allowSocketConnections
-)
+  .then(() => MopidyService(broadcastToAll, broadcastMopidyStateChange))
+  .then(allowSocketConnections)
 
 export default server
