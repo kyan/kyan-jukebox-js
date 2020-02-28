@@ -59,8 +59,8 @@ describe('Tracklist', () => {
         />
       )
 
-      wrapper.find('TrackImage').at(1).simulate('click')
-      expect(onRemoveMock).toHaveBeenCalledWith('spotify:track:6BitwTrBfUrTdztRrQiw52')
+      wrapper.find('ActionRemove').at(2).childAt(0).props().onClick()
+      expect(onRemoveMock).toHaveBeenCalled()
     })
 
     it('searches for an artist', () => {
