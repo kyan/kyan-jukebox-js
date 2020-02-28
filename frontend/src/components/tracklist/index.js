@@ -6,38 +6,23 @@ import { millisToMinutesAndSeconds } from 'utils/time'
 import defaultImage from 'components/current-track/default-artwork.png'
 import AddedBy from 'components/added-by'
 import VotedBy from 'components/voted-by'
+import RemoveTrack from 'components/remove-track'
 import './index.css'
 
-const TrackImage = (props) => {
-  let klass, title
-
-  if (props.isCurrent) klass = 'current-image'
-  if (props.onClick && !props.isCurrent) {
-    title = 'Click to remove from playlist'
-    klass = `remove-image ${props.hasBeenPlayed ? 'small' : 'tiny'}`
-  }
-
-  return (
-    <Comment.Avatar
-      className={klass}
-      src={props.src}
-      title={title}
-      onClick={props.onClick}
-    />
-  )
-}
+const TrackImage = (props) => (
+  <Comment.Avatar
+    className={props.isCurrent ? 'current-image' : null}
+    src={props.src}
+  />
+)
 
 const ImageChooser = (props) => {
-  const removeTrack = (uri, cb) => () => cb(uri)
   const image = props.image ? props.image : defaultImage
-  const onClick = (!props.disabled && !props.isCurrent) ? removeTrack(props.uri, props.onClick) : undefined
 
   return (
     <TrackImage
       src={image}
       isCurrent={props.isCurrent}
-      onClick={onClick}
-      hasBeenPlayed={props.hasBeenPlayed}
     />
   )
 }
@@ -63,6 +48,19 @@ const CurrentVote = (props) => {
     <Comment.Action as='span'>
       <VotedBy total={props.metrics.votesAverage} show={show} />
     </Comment.Action>
+  )
+}
+
+const ActionRemove = (props) => {
+  if (props.isCurrent || props.disabled) return null
+  const removeTrack = (uri, cb) => () => cb(uri)
+
+  return (
+    <RemoveTrack
+      uri={props.uri}
+      name={props.name}
+      onClick={removeTrack(props.uri, props.onClick)}
+    />
   )
 }
 
@@ -103,12 +101,8 @@ const ListItems = (props) => {
         key={`${i}${track.uri}`}
       >
         <ImageChooser
-          disable={props.disabled}
-          uri={track.uri}
           image={track.image}
           isCurrent={isCurrent}
-          onClick={props.onRemove}
-          hasBeenPlayed={beenPlayed}
         />
         <Comment.Content
           className={classnames({ 'track-info': !beenPlayed })}
@@ -127,6 +121,13 @@ const ListItems = (props) => {
             <Comment.Action>
               <AddedBy users={addedBy} />
             </Comment.Action>
+            <ActionRemove
+              uri={track.uri}
+              name={track.name}
+              disabled={props.disabled}
+              isCurrent={isCurrent}
+              onClick={props.onRemove}
+            />
           </Comment.Actions>
         </Comment.Content>
       </Comment>
