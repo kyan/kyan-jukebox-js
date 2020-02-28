@@ -157,6 +157,15 @@ describe('MopidyDecorator', () => {
     })
   })
 
+  describe('event:playbackResumed', () => {
+    it('returns the seek position', () => {
+      const data = { time_position: 99 }
+      expect.assertions(1)
+      return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackResumed'), data)
+        .then(returnData => expect(returnData).toEqual(data.time_position))
+    })
+  })
+
   describe('event:playbackStateChanged', () => {
     it('returns the playback state data passed in', () => {
       const data = { new_state: 'playing' }
