@@ -61,6 +61,8 @@ const MopidyDecorator = {
           return resolve(data.volume)
         case Mopidy.CORE_EVENTS.PLAYBACK_STATE_CHANGED:
           return resolve(data.new_state)
+        case Mopidy.CORE_EVENTS.PLAYBACK_RESUMED:
+          return resolve(data.time_position)
         default:
           return resolve(`mopidySkippedTransform: ${key}`)
       }

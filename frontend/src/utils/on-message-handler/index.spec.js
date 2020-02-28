@@ -221,6 +221,22 @@ describe('onMessageHandler', () => {
     })
   })
 
+  describe('EVENT_PLAYBACK_STATE_RESUMED', () => {
+    it('handles resolving', () => {
+      const payload = {
+        data: 4567,
+        key: MopidyApi.EVENT_PLAYBACK_STATE_RESUMED
+      }
+      const store = mockStore({})
+      const progMock = jest.fn()
+      const progSetMock = { set: progMock }
+      onMessageHandler(store, JSON.stringify(payload), progSetMock)
+      expect(progMock.mock.calls.length).toEqual(1)
+      expect(progMock.mock.calls[0][0]).toEqual(payload.data)
+      store.clearActions()
+    })
+  })
+
   describe('GET_VOLUME', () => {
     it('gets the volume', () => {
       const payload = {

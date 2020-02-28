@@ -87,6 +87,9 @@ const onMessageHandler = (store, payload, progressTimer) => {
     case MopidyApi.VALIDATION_ERROR:
       notify.warning(data)
       break
+    case MopidyApi.EVENT_PLAYBACK_STATE_RESUMED:
+      progressTimer.set(data)
+      break
     default:
       break
   }

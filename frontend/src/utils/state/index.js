@@ -4,10 +4,10 @@ const State = {
   loadInitial: (store) => {
     [
       'getCurrentTrack',
-      'getTimePosition',
       'getState',
       'getTrackList',
-      'getVolume'
+      'getVolume',
+      'getTimePosition'
     ].forEach(action => {
       store.dispatch(actions[action]())
     })
