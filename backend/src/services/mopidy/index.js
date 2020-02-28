@@ -15,61 +15,63 @@ const mopidyUrl = process.env.WS_MOPIDY_URL
 const mopidyPort = process.env.WS_MOPIDY_PORT
 let firstTime = false
 
-const MopidyService = (broadcastToAll, mopidyState, cbAllowConnections) => {
-  const mopidy = new Mopidy({
-    webSocketUrl: `ws://${mopidyUrl}:${mopidyPort}/mopidy/ws/`,
-    callingConvention: 'by-position-or-by-name'
-  })
-
-  const initCurrentTrackState = (mopidy) => {
-    Promise.all([
-      mopidy.playback.getCurrentTrack(),
-      mopidy.tracklist.getTracks()
-    ]).then(responses => {
-      return initializeState(responses[0], responses[1])
-        .then(() => trimTracklist(mopidy))
-        .then(() => {
-          firstTime ? mopidyState(true) : cbAllowConnections(mopidy)
-          firstTime = true
-        })
+const MopidyService = (broadcastToAll, mopidyState) => {
+  return new Promise((resolve) => {
+    const mopidy = new Mopidy({
+      webSocketUrl: `ws://${mopidyUrl}:${mopidyPort}/mopidy/ws/`,
+      callingConvention: 'by-position-or-by-name'
     })
-  }
 
-  mopidy.on('websocket:error', (err) => {
-    logger.error(`Mopidy Error: ${err.message}`, { url: `${mopidyUrl}:${mopidyPort}` })
-    clearState()
-  })
-
-  mopidy.on('state:offline', () => {
-    logger.info('Mopidy Offline', { url: `${mopidyUrl}:${mopidyPort}` })
-    mopidyState(false)
-    clearState()
-  })
-
-  mopidy.on('state:online', () => {
-    logger.info('Mopidy Online', { url: `${mopidyUrl}:${mopidyPort}` })
-    initCurrentTrackState(mopidy)
-  })
-
-  Object.values(MopidyConstants.CORE_EVENTS).forEach(key => {
-    mopidy.on(key, message => {
-      EventLogger.info(MessageType.INCOMING_CORE, { key, data: message })
-
-      const packAndSend = (headers, data, messageType) => {
-        Decorator[messageType](headers, data, mopidy).then(unifiedMessage => {
-          broadcastToAll(headers.key, unifiedMessage)
-        })
-      }
-
-      if (key === MopidyConstants.CORE_EVENTS.TRACKLIST_CHANGED) {
+    const initCurrentTrackState = (mopidy) => {
+      Promise.all([
+        mopidy.playback.getCurrentTrack(),
         mopidy.tracklist.getTracks()
-          .then(tracks => {
-            return updateTracklist(tracks.map(track => track.uri))
-              .then(() => packAndSend({ key: MopidyConstants.GET_TRACKS }, tracks, 'parse'))
+      ]).then(responses => {
+        return initializeState(responses[0], responses[1])
+          .then(() => trimTracklist(mopidy))
+          .then(() => {
+            firstTime ? mopidyState(true) : resolve(mopidy)
+            firstTime = true
           })
-      } else {
-        packAndSend({ key }, message, 'mopidyCoreMessage')
-      }
+      })
+    }
+
+    mopidy.on('websocket:error', (err) => {
+      logger.error(`Mopidy Error: ${err.message}`, { url: `${mopidyUrl}:${mopidyPort}` })
+      clearState()
+    })
+
+    mopidy.on('state:offline', () => {
+      logger.info('Mopidy Offline', { url: `${mopidyUrl}:${mopidyPort}` })
+      mopidyState(false)
+      clearState()
+    })
+
+    mopidy.on('state:online', () => {
+      logger.info('Mopidy Online', { url: `${mopidyUrl}:${mopidyPort}` })
+      initCurrentTrackState(mopidy)
+    })
+
+    Object.values(MopidyConstants.CORE_EVENTS).forEach(key => {
+      mopidy.on(key, message => {
+        EventLogger.info(MessageType.INCOMING_CORE, { key, data: message })
+
+        const packAndSend = (headers, data, messageType) => {
+          Decorator[messageType](headers, data, mopidy).then(unifiedMessage => {
+            broadcastToAll(headers.key, unifiedMessage)
+          })
+        }
+
+        if (key === MopidyConstants.CORE_EVENTS.TRACKLIST_CHANGED) {
+          mopidy.tracklist.getTracks()
+            .then(tracks => {
+              return updateTracklist(tracks.map(track => track.uri))
+                .then(() => packAndSend({ key: MopidyConstants.GET_TRACKS }, tracks, 'parse'))
+            })
+        } else {
+          packAndSend({ key }, message, 'mopidyCoreMessage')
+        }
+      })
     })
   })
 }

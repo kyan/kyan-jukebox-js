@@ -30,10 +30,10 @@ describe('VolumeButtons', () => {
     })
 
     it('handles a volume down click', () => {
-      const store = mockStore({ jukebox: { volume: 32 } })
+      const store = mockStore({ jukebox: { volume: 30 } })
       const wrapper = buildWrapper(store, { disabled: false })
       wrapper.find('VolumeDownButton').simulate('click')
-      expect(volMock).toHaveBeenCalledWith(30)
+      expect(volMock).toHaveBeenCalledWith(25)
     })
 
     it('handles a volume down click when min is reached', () => {
@@ -44,10 +44,10 @@ describe('VolumeButtons', () => {
     })
 
     it('handles a volume up click', () => {
-      const store = mockStore({ jukebox: { volume: 32 } })
+      const store = mockStore({ jukebox: { volume: 30 } })
       const wrapper = buildWrapper(store, { disabled: false })
       wrapper.find('VolumeUpButton').simulate('click')
-      expect(volMock).toHaveBeenCalledWith(34)
+      expect(volMock).toHaveBeenCalledWith(35)
     })
 
     it('handles a volume up click when max is reached', () => {
