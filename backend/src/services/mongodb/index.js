@@ -13,13 +13,15 @@ const options = {
 }
 
 const MongodbService = () => {
-  mongoose.connect(mongodbUrl, options).then(() => {
-    logger.info(`Mongodb Connected`, { url: process.env.MONGODB_URL })
-  }).catch(err => {
-    logger.error(`Mongodb: ${err}`, { url: process.env.MONGODB_URL })
+  return new Promise((resolve, reject) => {
+    return mongoose.connect(mongodbUrl, options).then(() => {
+      logger.info(`Mongodb Connected`, { url: process.env.MONGODB_URL })
+      return resolve(true)
+    }).catch(err => {
+      logger.error(`Mongodb: ${err}`, { url: process.env.MONGODB_URL })
+      return reject(new Error('MongoDB failed to connect!'))
+    })
   })
-
-  return mongoose
 }
 
 export default MongodbService
