@@ -1,5 +1,6 @@
 import EventLogger from 'utils/event-logger'
 import Image from 'services/mongodb/models/image'
+import logger from 'config/winston'
 
 const expiresDate = () => {
   const day = 12 * 3600 * 1000
@@ -9,8 +10,8 @@ const expiresDate = () => {
 
 // Expects an imageData structure like:
 //   {
-//     'spotify:album:10jsW2NYd9blCrDITMh2zS': 'https://i.scdn.co/image/ab67616d00001e02627434487365cb0af24ec15f',
-//     'spotify:album:10jsW2NYd9blCrDITMh2zG': 'https://i.scdn.co/image/ab67616d00001e02627434487365cb0af24ec15d'
+//     'spotify:track:10jsW2NYd9blCrDITMh2zS': 'https://i.scdn.co/image/ab67616d00001e02627434487365cb0af24ec15f',
+//     'spotify:track:10jsW2NYd9blCrDITMh2zG': 'https://i.scdn.co/image/ab67616d00001e02627434487365cb0af24ec15d'
 //   }
 const storeImages = (imageData) => {
   if (!imageData) return Promise.resolve(imageData)
@@ -27,13 +28,15 @@ const storeImages = (imageData) => {
       ).exec()
     })
 
-    Promise.all(requests).then(response => resolve(response))
+    Promise.all(requests)
+      .then(responses => resolve(responses))
+      .catch((error) => logger.error('storeImages:Image.findOneAndUpdate', { message: error.message }))
   })
 }
 
 const ImageCache = {
-  findAll: (uris) => {
-    return new Promise((resolve, reject) => {
+  findAll: (uris) => (
+    new Promise((resolve, reject) => {
       Image.find({ _id: { $in: uris } })
         .then(images => {
           if (images.length > 0) EventLogger.info('FOUND CACHED IMAGES', { data: uris })
@@ -41,7 +44,7 @@ const ImageCache = {
         })
         .catch(err => reject(err))
     })
-  },
+  ),
 
   addAll: (imageData) => storeImages(imageData)
 }
