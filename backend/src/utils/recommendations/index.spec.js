@@ -20,7 +20,7 @@ describe('Recommend', () => {
         { uri: 'track1', album: { uri: 'uri1', images: [{ url: 'image1' }] } },
         { uri: 'track2', album: { uri: 'uri2', images: [{ url: 'image2' }] } }
       ]
-      expect(Recommend.getImageFromSpotifyTracks(tracks)).toEqual({ uri1: 'image1', uri2: 'image2' })
+      expect(Recommend.getImageFromSpotifyTracks(tracks)).toEqual({ track1: 'image1', track2: 'image2' })
     })
   })
 
@@ -40,9 +40,9 @@ describe('Recommend', () => {
       return Recommend.extractSuitableData(tracks).then((data) => {
         expect(data).toEqual({
           images: {
-            uri1: 'image1',
-            uri2: 'image2',
-            uri3: 'image3'
+            track1: 'image1',
+            track2: 'image2',
+            track3: 'image3'
           },
           uris: ['track2']
         })
