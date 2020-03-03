@@ -29,7 +29,7 @@ const secondTrack = {
   __v: 0
 }
 const firstImage = {
-  _id: 'spotify:album:13gokJcmO1Dbc9cbHM93jO',
+  _id: 'spotify:track:6IZWJhXyk1Z0rtWNxIi4o7',
   url: 'path/to/image/1'
 }
 const mockTrackData = [firstTrack, secondTrack]

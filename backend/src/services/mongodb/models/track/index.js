@@ -37,18 +37,18 @@ const brh = {
   picture: 'https://cdn-images-1.medium.com/fit/c/200/200/1*bFBXYvskkPFI9nPx6Elwxg.png'
 }
 
-const findTracks = (uris) => {
-  return new Promise((resolve, reject) => {
+const findTracks = (uris) => (
+  new Promise((resolve, reject) => {
     Track.find({ _id: { $in: uris } })
       .populate({ path: 'addedBy.user' })
       .populate({ path: 'addedBy.votes.user' })
       .then(tracks => {
         if (tracks.length > 0) EventLogger.info('FOUND CACHED TRACKS', { data: uris })
-        return resolve(tracks)
+        resolve(tracks)
       })
       .catch(err => reject(err))
   })
-}
+)
 
 const findOrUseBRH = (user) => {
   if (user) return Promise.resolve(user)
@@ -60,8 +60,8 @@ const findOrUseBRH = (user) => {
   )
 }
 
-const addTracks = (uris, user) => {
-  return new Promise((resolve) => {
+const addTracks = (uris, user) => (
+  new Promise((resolve) => {
     findOrUseBRH(user).then((returnUser) => {
       const requests = uris.map((uri) => (
         Track.findOneAndUpdate(
@@ -76,10 +76,10 @@ const addTracks = (uris, user) => {
         .catch((error) => logger.error('addTracks:Track.updateOne', { message: error.message }))
     }).catch((error) => logger.error('addTracks:findOrUseBRH', { message: error.message }))
   })
-}
+)
 
-const updateTrackPlaycount = (uri) => {
-  return new Promise((resolve) => {
+const updateTrackPlaycount = (uri) => (
+  new Promise((resolve) => {
     Track.findById(uri)
       .populate({ path: 'addedBy.user' })
       .populate({ path: 'addedBy.votes.user' })
@@ -95,10 +95,10 @@ const updateTrackPlaycount = (uri) => {
       .then((track) => resolve(track))
       .catch((error) => logger.error('updateTrackPlaycount', { message: error.message }))
   })
-}
+)
 
-const updateTrackVote = (uri, user, vote) => {
-  return new Promise((resolve) => {
+const updateTrackVote = (uri, user, vote) => (
+  new Promise((resolve) => {
     findOrUseBRH(user).then((returnUser) => {
       Track.findById(uri)
         .populate({ path: 'addedBy.user' })
@@ -128,7 +128,7 @@ const updateTrackVote = (uri, user, vote) => {
         .catch((error) => logger.error('updateTrackVote:findById', { message: error.message }))
     }).catch((error) => logger.error('updateTrackVote:findOrUseBRH', { message: error.message }))
   })
-}
+)
 
 export default Track
 export { findTracks, addTracks, updateTrackPlaycount, updateTrackVote }

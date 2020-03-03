@@ -1,7 +1,9 @@
 import EventLogger from 'utils/event-logger'
 import mockingoose from 'mockingoose'
 import ImageCache from './index'
+import logger from 'config/winston'
 jest.mock('utils/event-logger')
+jest.mock('config/winston')
 
 describe('ImageCache', () => {
   beforeEach(() => {
@@ -42,13 +44,12 @@ describe('ImageCache', () => {
         })
     })
 
-    it('handles errors', done => {
+    it('handles errors', () => {
       expect.assertions(1)
 
-      ImageCache.findAll('xxx')
+      return ImageCache.findAll('xxx')
         .catch((error) => {
           expect(error.message).toEqual("Cannot read property 'length' of undefined")
-          done()
         })
     })
   })
@@ -70,13 +71,30 @@ describe('ImageCache', () => {
         })
     })
 
-    it('handles errors', done => {
+    it('handles mongo errors', done => {
+      expect.assertions(1)
+      mockingoose.Image.toReturn(new Error('boom'), 'findOneAndUpdate')
+      ImageCache.addAll({ 'spotify123': 'path/to/image' })
+
+      setTimeout(() => {
+        try {
+          expect(logger.error).toHaveBeenCalledWith(
+            'storeImages:Image.findOneAndUpdate',
+            { message: 'boom' }
+          )
+          done()
+        } catch (err) {
+          done.fail(err)
+        }
+      })
+    })
+
+    it('handles misformatted image data', () => {
       expect.assertions(1)
 
-      ImageCache.addAll({ 'xxx': null })
+      return ImageCache.addAll({ 'xxx': null })
         .catch((error) => {
           expect(error.message).toEqual('storeImages: Bad data')
-          done()
         })
     })
   })
