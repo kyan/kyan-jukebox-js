@@ -7,12 +7,12 @@ const newTracksAddedLimit = process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT
 const Recommendations = {
   getImageFromSpotifyTracks: (tracks) => {
     const albumTracks = tracks.filter((track) => track.album)
-    const images = albumTracks.map(track => ({ [track.album.uri]: track.album.images[0].url }))
+    const images = albumTracks.map(track => ({ [track.uri]: track.album.images[0].url }))
     return Object.assign({}, ...images)
   },
 
-  extractSuitableData: (tracks) => {
-    return new Promise((resolve) => {
+  extractSuitableData: (tracks) => (
+    new Promise((resolve) => {
       getTracklist()
         .then(currentTrackListUris => {
           const images = Recommendations.getImageFromSpotifyTracks(tracks)
@@ -37,7 +37,7 @@ const Recommendations = {
           })
         })
     })
-  },
+  ),
 
   addRandomUris: (data) => {
     if (data.uris.length > 0) return Promise.resolve(data)
