@@ -18,7 +18,7 @@ const StrToFunction = (obj, methodStr) => {
 
 const isValidTrack = (key, data) => {
   if (key !== Mopidy.TRACKLIST_ADD) return Promise.resolve()
-  return Spotify.validateTrack(data.uri)
+  return Spotify.validateTrack(data.uris[0])
 }
 
 const MopidyHandler = (payload, socket, mopidy) => {

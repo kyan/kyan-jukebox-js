@@ -18,7 +18,7 @@ describe('actions', () => {
     const expectedAction = {
       type: Types.SEND,
       key: MopidyApi.TRACKLIST_ADD_TRACK,
-      params: { uri: 'spotify:track:0c41pMosF5Kqwwegcps8ES' }
+      params: { uris: ['spotify:track:0c41pMosF5Kqwwegcps8ES'] }
     }
     expect(actions.addNewTrack(url)).toEqual(expectedAction)
   })
@@ -46,7 +46,7 @@ describe('actions', () => {
     const expectedAction = {
       type: Types.SEND,
       key: MopidyApi.TRACKLIST_REMOVE_TRACK,
-      params: { uri: ['spotify:track:0c41pMosF5Kqwwegcps8ES'] }
+      params: { criteria: { uri: ['spotify:track:0c41pMosF5Kqwwegcps8ES'] } }
     }
     expect(actions.removeFromTracklist(uri)).toEqual(expectedAction)
   })

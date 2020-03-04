@@ -19,12 +19,6 @@ RUN set -ex \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         mopidy \
         mopidy-spotify \
- && curl -L https://bootstrap.pypa.io/get-pip.py | python - \
- && pip install -U six pyasn1 requests[security] cryptography \
- && pip install \
-        Mopidy-Iris \
-        pyopenssl \
-    # Clean-up
  && apt-get purge --auto-remove -y \
         curl \
         gcc \
