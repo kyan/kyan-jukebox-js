@@ -21,7 +21,7 @@ export const addNewTrack = url => {
   return {
     type: Types.SEND,
     key: MopidyApi.TRACKLIST_ADD_TRACK,
-    params: { 'uri': uri }
+    params: { 'uris': [uri] }
   }
 }
 
@@ -50,7 +50,7 @@ export const removeFromTracklist = uri => {
   return {
     type: Types.SEND,
     key: MopidyApi.TRACKLIST_REMOVE_TRACK,
-    params: { 'uri': [uri] }
+    params: { 'criteria': { 'uri': [uri] } }
   }
 }
 

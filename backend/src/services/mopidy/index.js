@@ -18,8 +18,7 @@ let firstTime = false
 const MopidyService = (broadcastToAll, mopidyState) => {
   return new Promise((resolve) => {
     const mopidy = new Mopidy({
-      webSocketUrl: `ws://${mopidyUrl}:${mopidyPort}/mopidy/ws/`,
-      callingConvention: 'by-position-or-by-name'
+      webSocketUrl: `ws://${mopidyUrl}:${mopidyPort}/mopidy/ws/`
     })
 
     const initCurrentTrackState = (mopidy) => {

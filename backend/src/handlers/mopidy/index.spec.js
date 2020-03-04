@@ -107,7 +107,7 @@ describe('MopidyHandler', () => {
     expect.assertions(1)
     const mopidy = 'mopidy'
     const trackMock = jest.fn().mockRejectedValue(new Error('naughty-naughty'))
-    const payload = { key: 'tracklist.add', data: [['12345zsdf23456']] }
+    const payload = { key: 'tracklist.add', data: { uris: ['12345zsdf23456'] } }
     Spotify.validateTrack.mockImplementation(trackMock)
 
     MopidyHandler(payload, ws, mopidy)
@@ -116,7 +116,7 @@ describe('MopidyHandler', () => {
       try {
         expect(Broadcaster.toClient).toHaveBeenCalledWith(
           ws,
-          { data: [['12345zsdf23456']], key: 'validationError' },
+          { data: { uris: ['12345zsdf23456'] }, key: 'validationError' },
           'naughty-naughty'
         )
         done()

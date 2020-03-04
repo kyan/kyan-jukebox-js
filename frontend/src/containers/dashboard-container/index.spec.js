@@ -141,7 +141,7 @@ describe('DashboardContainer', () => {
         store.clearActions()
         wrapper.find('Dashboard').prop('onRemoveTrack')('uri123')
         mockActions = store.getActions()
-        expect(mockActions).toEqual([{ key: 'tracklist.remove', type: 'actionSend', params: { uri: ['uri123'] } }])
+        expect(mockActions).toEqual([{ key: 'tracklist.remove', type: 'actionSend', params: { criteria: { uri: ['uri123'] } } }])
 
         store.clearActions()
         const dashboard = wrapper.find('Dashboard')
