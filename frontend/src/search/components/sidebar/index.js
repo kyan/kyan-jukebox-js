@@ -12,8 +12,8 @@ const VoteInfo = (props) => {
 
 const SearchItem = (props) => (
   <div
-    className={classnames('search-list-item', { 'disabled': props.track.explicit })}
-    onClick={props.track.explicit ? undefined : props.onClick}
+    className={classnames('search-list-item')}
+    onClick={props.onClick}
   >
     <Image
       floated='left'
@@ -21,7 +21,6 @@ const SearchItem = (props) => (
       size='tiny'
       title={`Click to add - ${props.track.name} - ${props.track.artist.name}`}
       className='search-list-item__image'
-      disabled={props.track.explicit}
     />
     <List.Content>
       <div className='search-list-item__header'>{props.track.name} - {props.track.artist.name}</div>

@@ -304,10 +304,10 @@ exports[`Search render valid props renders as expected 1`] = `
                   role="list"
                 >
                   <div
-                    class="search-list-item disabled"
+                    class="search-list-item"
                   >
                     <img
-                      class="ui tiny disabled left floated image search-list-item__image"
+                      class="ui tiny left floated image search-list-item__image"
                       title="Click to add - Happiness - Ken Dodd"
                     />
                     <div
@@ -485,10 +485,10 @@ exports[`Search render valid props renders as expected 1`] = `
                     role="list"
                   >
                     <div
-                      class="search-list-item disabled"
+                      class="search-list-item"
                     >
                       <img
-                        class="ui tiny disabled left floated image search-list-item__image"
+                        class="ui tiny left floated image search-list-item__image"
                         title="Click to add - Happiness - Ken Dodd"
                       />
                       <div
@@ -1071,19 +1071,19 @@ exports[`Search render valid props renders as expected 1`] = `
                       }
                     >
                       <div
-                        className="search-list-item disabled"
+                        className="search-list-item"
+                        onClick={[Function]}
                       >
                         <Image
                           as="img"
                           className="search-list-item__image"
-                          disabled={true}
                           floated="left"
                           size="tiny"
                           title="Click to add - Happiness - Ken Dodd"
                           ui={true}
                         >
                           <img
-                            className="ui tiny disabled left floated image search-list-item__image"
+                            className="ui tiny left floated image search-list-item__image"
                             title="Click to add - Happiness - Ken Dodd"
                           />
                         </Image>

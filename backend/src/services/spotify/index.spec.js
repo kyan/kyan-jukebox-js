@@ -47,7 +47,6 @@ jest.mock('spotify-web-api-node', () => {
         .mockResolvedValue({ body: { tracks } }),
       setAccessToken: jest.fn(),
       getTracks: jest.fn()
-        .mockImplementationOnce(() => Promise.resolve({ body: { tracks: [{ explicit: true, name: 'Naughty' }] } }))
         .mockImplementationOnce(() => Promise.resolve({ body: { tracks: [{ explicit: false }] } }))
         .mockImplementationOnce(() => Promise.reject(new Error('bang!'))),
       searchTracks: jest.fn()
@@ -181,16 +180,6 @@ describe('SpotifyService', () => {
       SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMt2zwqCT')
         .catch((error) => {
           expect(error.message).toEqual('Already in tracklist: spotify:track:03fT3OHB9KyMtGMt2zwqCT')
-          done()
-        })
-    })
-
-    it('should reject if track is explicit', done => {
-      expect.assertions(1)
-      getTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT', 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3'])
-      SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW')
-        .catch((error) => {
-          expect(error.message).toEqual('Not suitable. Is there a radio mix? - Naughty')
           done()
         })
     })

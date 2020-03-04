@@ -43,12 +43,6 @@ describe('Search', () => {
         expect(input.get(0).ref.current).toEqual(document.activeElement)
       })
 
-      it('does not add a disabled track', () => {
-        const track = wrapper.find('SearchItem').first()
-        track.simulate('click')
-        expect(onAddTrackMock).not.toHaveBeenCalled()
-      })
-
       it('does add a track', () => {
         const track = wrapper.find('SearchItem').at(1)
         track.simulate('click')

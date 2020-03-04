@@ -141,14 +141,7 @@ const SpotifyService = {
             return reject(new Error(message))
           }
 
-          return getTracks([uri]).then((response) => {
-            const track = response.tracks[0]
-            if (track.explicit) {
-              const message = `Not suitable. Is there a radio mix? - ${track.name}`
-              return reject(new Error(message))
-            }
-            return resolve(true)
-          })
+          return getTracks([uri]).then(() => resolve(true))
         })
     })
   },
