@@ -8,13 +8,14 @@ const Recommendations = {
   getImageFromSpotifyTracks: (tracks) => {
     const albumTracks = tracks.filter((track) => track.album)
     const images = albumTracks.map(track => {
-      let uri = track.uri
-
       if (track.linked_from && track.linked_from.type === 'track') {
-        uri = track.linked_from.uri
+        return {
+          [track.uri]: track.album.images[0].url,
+          [track.linked_from.uri]: track.album.images[0].url
+        }
       }
 
-      return { [uri]: track.album.images[0].url }
+      return { [track.uri]: track.album.images[0].url }
     })
     return Object.assign({}, ...images)
   },
