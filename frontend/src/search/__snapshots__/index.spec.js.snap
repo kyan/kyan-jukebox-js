@@ -24,7 +24,9 @@ Array [
   Object {
     "key": "tracklist.add",
     "params": Object {
-      "uri": null,
+      "uris": Array [
+        null,
+      ],
     },
     "type": "actionSend",
   },
