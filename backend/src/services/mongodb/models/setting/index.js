@@ -68,7 +68,7 @@ const trimTracklist = (mopidy) => {
           return Setting.findOneAndUpdate(stateFind, updateValue, options)
             .then(() => {
               logger.info(`trimTracklist: ${tracksToTrim}`)
-              return mopidy.tracklist.remove({ uri: tracksToTrim }).then(() => resolve(true))
+              return mopidy.tracklist.remove({ criteria: { uri: tracksToTrim } }).then(() => resolve(true))
             })
         }
 
