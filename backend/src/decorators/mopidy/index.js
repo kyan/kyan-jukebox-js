@@ -89,7 +89,7 @@ const MopidyDecorator = {
           return removeFromSeeds(data[0].track.uri).then(() => resolve(data))
         case Mopidy.TRACKLIST_ADD:
           const { data: track } = headers
-          return addTracks([track.uri], user)
+          return addTracks([track.uris[0]], user)
             .then(() => DecorateTracklist([data[0].track]))
             .then((response) => {
               clearSetTimeout(recommendTimer)
