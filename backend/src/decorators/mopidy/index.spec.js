@@ -223,7 +223,7 @@ describe('MopidyDecorator', () => {
       expect.assertions(4)
       const data = [{ track: 'track' }]
       let headers = h('tracklist.add')
-      headers.data = { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
+      headers.data = { uris: ['spotify:track:43xy5ZmjM9tdzmrXu1pmSG'] }
       headers.user = 'user'
       DecorateTracklist.mockResolvedValue(['result'])
       addTracks.mockResolvedValue()
