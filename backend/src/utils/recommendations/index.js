@@ -7,7 +7,15 @@ const newTracksAddedLimit = process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT
 const Recommendations = {
   getImageFromSpotifyTracks: (tracks) => {
     const albumTracks = tracks.filter((track) => track.album)
-    const images = albumTracks.map(track => ({ [track.uri]: track.album.images[0].url }))
+    const images = albumTracks.map(track => {
+      let uri = track.uri
+
+      if (track.linked_from && track.linked_from.type === 'track') {
+        uri = track.linked_from.uri
+      }
+
+      return { [uri]: track.album.images[0].url }
+    })
     return Object.assign({}, ...images)
   },
 
