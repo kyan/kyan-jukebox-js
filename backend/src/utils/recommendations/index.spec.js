@@ -28,7 +28,11 @@ describe('Recommend', () => {
         { uri: 'track1', album: { uri: 'uri1', images: [{ url: 'image1' }] }, linked_from: { type: 'track', uri: 'linked1' } },
         { uri: 'track2', album: { uri: 'uri2', images: [{ url: 'image2' }] } }
       ]
-      expect(Recommend.getImageFromSpotifyTracks(tracks)).toEqual({ linked1: 'image1', track2: 'image2' })
+      expect(Recommend.getImageFromSpotifyTracks(tracks)).toEqual({
+        linked1: 'image1',
+        track1: 'image1',
+        track2: 'image2'
+      })
     })
   })
 
