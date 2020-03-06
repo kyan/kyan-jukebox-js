@@ -29,7 +29,7 @@ const MopidyService = (broadcastToAll, mopidyState) => {
         return initializeState(responses[0], responses[1])
           .then(() => trimTracklist(mopidy))
           .then(() => {
-            firstTime ? mopidyState(true) : resolve(mopidy)
+            firstTime ? mopidyState({ online: true }) : resolve(mopidy)
             firstTime = true
           })
       })
@@ -42,7 +42,7 @@ const MopidyService = (broadcastToAll, mopidyState) => {
 
     mopidy.on('state:offline', () => {
       logger.info('Mopidy Offline', { url: `${mopidyUrl}:${mopidyPort}` })
-      mopidyState(false)
+      mopidyState({ online: false })
       clearState()
     })
 
@@ -57,7 +57,7 @@ const MopidyService = (broadcastToAll, mopidyState) => {
 
         const packAndSend = (headers, data, messageType) => {
           Decorator[messageType](headers, data, mopidy).then(unifiedMessage => {
-            broadcastToAll(headers.key, unifiedMessage)
+            broadcastToAll({ headers: { key: headers.key }, message: unifiedMessage })
           })
         }
 

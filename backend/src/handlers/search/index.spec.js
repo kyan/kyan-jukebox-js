@@ -8,7 +8,7 @@ jest.mock('utils/broadcaster')
 jest.mock('decorators/search')
 
 describe('SearchHandler', () => {
-  const ws = jest.fn()
+  const socket = jest.fn()
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -23,44 +23,17 @@ describe('SearchHandler', () => {
     Spotify.search.mockResolvedValue('tracks')
     Decorator.parse.mockResolvedValue('unifiedMessage')
 
-    SearchHandler(payload, ws)
+    SearchHandler({ payload, socket })
 
     setTimeout(() => {
       try {
         expect(Spotify.search).toHaveBeenCalledWith('search')
-        expect(Broadcaster.toClient).toHaveBeenCalledWith(
-          ws,
-          { data: 'search', key: 'searchGetTracks' },
-          'unifiedMessage',
-          'search'
-        )
-        done()
-      } catch (err) {
-        done.fail(err)
-      }
-    })
-  })
-
-  it('should handle an invalid search', done => {
-    expect.assertions(2)
-    const payload = {
-      key: 'searchGetTracks',
-      data: 'search'
-    }
-    Spotify.search.mockRejectedValue(new Error('booom'))
-    Decorator.parse.mockResolvedValue('unifiedMessage')
-
-    SearchHandler(payload, ws)
-
-    setTimeout(() => {
-      try {
-        expect(Spotify.search).toHaveBeenCalledWith('search')
-        expect(Broadcaster.toClient).toHaveBeenCalledWith(
-          ws,
-          { data: 'search', key: 'validationError' },
-          'unifiedMessage',
-          'search'
-        )
+        expect(Broadcaster.toClient).toHaveBeenCalledWith({
+          socket,
+          headers: payload,
+          message: 'unifiedMessage',
+          type: 'search'
+        })
         done()
       } catch (err) {
         done.fail(err)

@@ -55,7 +55,7 @@ describe('MopidyService', () => {
     expect(instance.on.mock.calls[1][0]).toEqual('state:offline')
     instance.on.mock.calls[1][1]()
     expect(logger.info.mock.calls[0][0]).toEqual('Mopidy Offline')
-    expect(mopidyStateMock.mock.calls[0][0]).toEqual(false)
+    expect(mopidyStateMock.mock.calls[0][0]).toEqual({ online: false })
     expect(clearState).toHaveBeenCalled()
 
     expect(instance.on.mock.calls[2][0]).toEqual('state:online')

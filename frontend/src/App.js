@@ -1,14 +1,15 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
-import Notifications from 'react-notify-toast'
+import ReactNotification from 'react-notifications-component'
 import { useGoogleLogin } from 'react-use-googlelogin'
 import ErrorBoundary from 'components/error-boundary'
 import GoogleAuthContext from 'contexts/google'
-import jukeboxMiddleware from 'containers/jukebox-middleware'
+import jukeboxMiddleware from 'middleware/jukebox-middleware'
 import jukeboxApp from 'reducers'
 import { Container } from 'semantic-ui-react'
 import DashboardContainer from 'containers/dashboard-container'
+import 'react-notifications-component/dist/theme.css'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(jukeboxApp, composeEnhancers(applyMiddleware(jukeboxMiddleware)))
@@ -21,10 +22,10 @@ const App = () => {
 
   return (
     <Provider store={store}>
+      <ReactNotification />
       <Container fluid>
         <GoogleAuthContext.Provider value={googleAuth}>
           <ErrorBoundary>
-            <Notifications />
             <DashboardContainer />
           </ErrorBoundary>
         </GoogleAuthContext.Provider>

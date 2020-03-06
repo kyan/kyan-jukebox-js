@@ -153,7 +153,7 @@ describe('MopidyDecorator', () => {
       const data = { volume: 99 }
       expect.assertions(1)
       return MopidyDecorator.mopidyCoreMessage(h('event:volumeChanged'), data)
-        .then(returnData => expect(returnData).toEqual(data.volume))
+        .then(returnData => expect(returnData).toEqual({ volume: 99 }))
     })
   })
 
@@ -180,10 +180,15 @@ describe('MopidyDecorator', () => {
       const data = [{
         track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
       }]
+      const response = [{ track: { name: 'track', artist: { name: 'artist' } } }]
       expect.assertions(2)
+      DecorateTracklist.mockResolvedValue(response)
       removeFromSeeds.mockResolvedValue()
       return MopidyDecorator.parse(h('tracklist.remove'), data).then(returnData => {
-        expect(returnData).toEqual(data)
+        expect(returnData).toEqual({
+          message: 'track by artist',
+          toAll: true
+        })
         expect(removeFromSeeds)
           .toHaveBeenCalledWith('spotify:track:43xy5ZmjM9tdzmrXu1pmSG')
       })
@@ -203,37 +208,43 @@ describe('MopidyDecorator', () => {
   describe('mixer.getVolume', () => {
     it('returns the data passed in', () => {
       expect.assertions(1)
-      const data = 'data'
+      const data = 12
       return MopidyDecorator.parse(h('mixer.getVolume'), data)
-        .then(returnData => expect(returnData).toEqual(data))
+        .then(returnData => expect(returnData).toEqual({ volume: 12 }))
     })
   })
 
   describe('mixer.setVolume', () => {
     it('returns the data passed in', () => {
       expect.assertions(1)
+      let headers = h('mixer.setVolume')
+      headers.data = [12]
       const data = 'data'
-      return MopidyDecorator.parse(h('mixer.setVolume'), data)
-        .then(returnData => expect(returnData).toEqual(data))
+      return MopidyDecorator.parse(headers, data)
+        .then(returnData => {
+          expect(returnData).toEqual({
+            toAll: true,
+            volume: 12
+          })
+        })
     })
   })
 
   describe('tracklist.add', () => {
     it('returns the data passed in', () => {
-      expect.assertions(4)
-      const data = [{ track: 'track' }]
+      expect.assertions(3)
+      const data = [{ track: { name: 'track', artist: { name: 'artist' } } }]
       let headers = h('tracklist.add')
       headers.data = { uris: ['spotify:track:43xy5ZmjM9tdzmrXu1pmSG'] }
       headers.user = 'user'
-      DecorateTracklist.mockResolvedValue(['result'])
+      DecorateTracklist.mockResolvedValue(data)
       addTracks.mockResolvedValue()
 
       return MopidyDecorator.parse(headers, data)
         .then(returnData => {
           expect(addTracks).toHaveBeenCalledWith(['spotify:track:43xy5ZmjM9tdzmrXu1pmSG'], 'user')
-          expect(DecorateTracklist).toHaveBeenCalledWith(['track'])
-          expect(returnData).toEqual('result')
           expect(DecorateTracklist).toHaveBeenCalledWith([data[0].track])
+          expect(returnData).toEqual({ message: 'track by artist', toAll: true })
         })
     })
   })
