@@ -180,11 +180,15 @@ describe('MopidyDecorator', () => {
       const data = [{
         track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
       }]
+      const response = [{ track: { name: 'track', artist: { name: 'artist' } } }]
       expect.assertions(2)
-      DecorateTracklist.mockResolvedValue(['response'])
+      DecorateTracklist.mockResolvedValue(response)
       removeFromSeeds.mockResolvedValue()
       return MopidyDecorator.parse(h('tracklist.remove'), data).then(returnData => {
-        expect(returnData).toEqual('response')
+        expect(returnData).toEqual({
+          message: 'track by artist',
+          toAll: true
+        })
         expect(removeFromSeeds)
           .toHaveBeenCalledWith('spotify:track:43xy5ZmjM9tdzmrXu1pmSG')
       })
