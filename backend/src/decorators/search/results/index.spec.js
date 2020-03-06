@@ -7,6 +7,10 @@ jest.mock('services/mongodb/models/track')
 describe('SearchResults', () => {
   const payload = JSON.parse(fs.readFileSync('./src/__mockData__/searchResults.json', 'utf8'))
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('when passed search results of votes', () => {
     const tracks = [
       {
@@ -115,6 +119,10 @@ describe('SearchResults', () => {
   })
 
   describe('when passed results with no votes', () => {
+    afterEach(() => {
+      process.env.EXPLICIT_CONTENT = 'true'
+    })
+
     const tracks = [
       {
         _id: 'spotify:track:1WaBuuaXGwrU4sFvxAjnkf',
@@ -152,6 +160,7 @@ describe('SearchResults', () => {
     ]
 
     it('renders', () => {
+      process.env.EXPLICIT_CONTENT = 'false'
       findTracks.mockResolvedValue(tracks)
 
       SearchResults(payload.tracks.items).then(transformedPayload => {

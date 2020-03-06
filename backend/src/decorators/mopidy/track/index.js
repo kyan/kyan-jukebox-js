@@ -40,8 +40,8 @@ export default function (json) {
     payload.metrics = json.metrics
   }
 
-  if (json.explicit) {
-    payload.explicit = json.explicit
+  if (process.env.EXPLICIT_CONTENT === 'false' && json.explicit) {
+    payload.explicit = true
   }
 
   return { track: payload }

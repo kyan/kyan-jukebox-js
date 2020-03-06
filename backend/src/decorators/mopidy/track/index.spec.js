@@ -56,7 +56,13 @@ describe('TransformerTrack', () => {
   })
 
   describe('when passed a Spotify payload', () => {
+    afterEach(() => {
+      jest.clearAllMocks()
+      process.env.EXPLICIT_CONTENT = 'true'
+    })
+
     it('transforms the track', () => {
+      process.env.EXPLICIT_CONTENT = 'false'
       const payload = JSON.parse(fs.readFileSync('./src/__mockData__/searchResults.json', 'utf8')).tracks.items
       const track = payload[1]
 
