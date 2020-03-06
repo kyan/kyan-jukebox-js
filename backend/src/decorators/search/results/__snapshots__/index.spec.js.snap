@@ -46,7 +46,6 @@ Array [
         "name": "Ken Dodd",
         "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
       },
-      "explicit": true,
       "image": "https://i.scdn.co/image/ab67616d0000b27368b6e0998ac2c1726839bdcd",
       "length": 120066,
       "name": "Happiness",
@@ -211,7 +210,6 @@ Array [
         "name": "Ken Dodd",
         "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
       },
-      "explicit": true,
       "image": "https://i.scdn.co/image/ab67616d0000b27368b6e0998ac2c1726839bdcd",
       "length": 120066,
       "metrics": Object {
@@ -298,7 +296,6 @@ Array [
         "name": "Ken Dodd",
         "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
       },
-      "explicit": true,
       "image": "https://i.scdn.co/image/ab67616d0000b27368b6e0998ac2c1726839bdcd",
       "length": 120066,
       "metrics": Object {

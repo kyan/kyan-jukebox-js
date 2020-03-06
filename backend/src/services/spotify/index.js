@@ -59,7 +59,6 @@ const getTracks = (uris) => {
             return resolve(data.body)
           })
         })
-        .catch((error) => logger.error(`getTracks: ${error.message}`))
     })
   })
 }
@@ -141,19 +140,23 @@ const SpotifyService = {
             return reject(new Error(message))
           }
 
-          return getTracks([uri]).then((response) => {
-            const track = response.tracks[0]
-            if (track.explicit) {
-              const message = `Not suitable. Is there a radio mix? - ${track.name}`
-              return reject(new Error(message))
-            }
-            return resolve(true)
-          })
+          return SpotifyService.getTracks([uri])
+            .then((response) => {
+              const track = response.tracks[0]
+
+              if (track.explicit && process.env.EXPLICIT_CONTENT === 'false') {
+                const message = `Not suitable. Is there a radio mix? - ${track.name}`
+                return reject(new Error(message))
+              }
+              return resolve(true)
+            })
+            .catch((error) => logger.error(`getTracks: ${error.message}`))
         })
     })
   },
 
-  search: (params) => searchTracks(params)
+  search: params => searchTracks(params),
+  getTracks: uris => getTracks(uris)
 }
 
 export default SpotifyService
