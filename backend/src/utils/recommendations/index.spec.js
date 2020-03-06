@@ -5,13 +5,8 @@ jest.mock('services/mongodb/models/track')
 jest.mock('services/mongodb/models/setting')
 
 describe('Recommend', () => {
-  beforeEach(() => {
-    process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT = 4
-  })
-
   afterEach(() => {
     jest.clearAllMocks()
-    delete process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT
   })
 
   describe('getImageFromSpotifyTracks', () => {

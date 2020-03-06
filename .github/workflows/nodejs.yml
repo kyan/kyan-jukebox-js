@@ -45,3 +45,4 @@ jobs:
         WS_MOPIDY_URL: mopidy-prod.local
         WS_MOPIDY_PORT: 6680
         CLIENT_ID: abcdefg
+        EXPLICIT_CONTENT: true
