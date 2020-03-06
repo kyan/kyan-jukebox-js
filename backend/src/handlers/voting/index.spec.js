@@ -6,7 +6,6 @@ jest.mock('utils/broadcaster')
 jest.mock('services/mongodb/models/track')
 
 describe('VoteHandler', () => {
-  const socket = jest.fn()
   const socketio = jest.fn()
 
   beforeEach(() => {
@@ -22,7 +21,7 @@ describe('VoteHandler', () => {
     }
     updateTrackVote.mockResolvedValue('track')
 
-    VoteHandler(payload, socket, socketio)
+    VoteHandler({ payload, socketio })
 
     setTimeout(() => {
       try {
@@ -31,50 +30,12 @@ describe('VoteHandler', () => {
           payload.user,
           payload.data.vote
         )
-        expect(Broadcaster.toAll).toHaveBeenCalledWith(
+        expect(Broadcaster.toAll).toHaveBeenCalledWith({
           socketio,
-          'voteCasted',
-          'track',
-          'vote'
-        )
-        done()
-      } catch (err) {
-        done.fail(err)
-      }
-    })
-  })
-
-  it('should handle invalid vote', done => {
-    expect.assertions(2)
-    const payload = {
-      key: 'castVote',
-      user: 'user',
-      data: { uri: 'uri123', vote: 'vote' }
-    }
-    updateTrackVote.mockRejectedValue(new Error('boom'))
-
-    VoteHandler(payload, socket, socketio)
-
-    setTimeout(() => {
-      try {
-        expect(updateTrackVote).toHaveBeenCalledWith(
-          payload.data.uri,
-          payload.user,
-          payload.data.vote
-        )
-        expect(Broadcaster.toClient).toHaveBeenCalledWith(
-          socket,
-          {
-            data: {
-              uri: 'uri123',
-              vote: 'vote'
-            },
-            key: 'validationError',
-            user: 'user'
-          },
-          'boom',
-          'vote'
-        )
+          headers: { key: 'voteCasted', user: payload.user },
+          message: 'track',
+          type: 'vote'
+        })
         done()
       } catch (err) {
         done.fail(err)

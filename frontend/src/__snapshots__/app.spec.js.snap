@@ -12,14 +12,15 @@ exports[`App renders without crashing 1`] = `
     }
   }
 >
+  <ReactNotificationComponent
+    breakpoint={768}
+    isMobile={true}
+  />
   <Container
     fluid={true}
   >
     <ContextProvider>
       <ErrorBoundary>
-        <_default
-          options={Object {}}
-        />
         <DragDropContext(DashboardContainer) />
       </ErrorBoundary>
     </ContextProvider>

@@ -5,7 +5,7 @@ import MopidyApi from 'constants/mopidy-api'
 import SearchConst from 'search/constants'
 import VoteConst from 'votes/constants'
 import Payload from 'utils/payload'
-import notify from 'utils/notify'
+import Notify from 'utils/notify'
 
 const updatePlaybackState = (store, state) => {
   store.dispatch(actions.updatePlaybackState(state))
@@ -17,7 +17,6 @@ const playBackChanged = (store, state, progress) => {
     case MopidyApi.STOPPED:
       updatePlaybackState(store, state)
       progress.stop()
-      notify.success('Jukebox Halted')
       break
     case MopidyApi.PLAYING:
       updatePlaybackState(store, state)
@@ -40,7 +39,7 @@ const addTrackList = (tracklist, store) => {
 }
 
 const onMessageHandler = (store, payload, progressTimer) => {
-  const { key, data } = Payload.decode(payload)
+  const { key, data, user } = Payload.decode(payload)
 
   switch (key) {
     case AuthApi.AUTHENTICATION_TOKEN_INVALID:
@@ -58,20 +57,25 @@ const onMessageHandler = (store, payload, progressTimer) => {
     case MopidyApi.TRACKLIST_GET_TRACKS:
       addTrackList(data, store)
       break
-    case MopidyApi.TRACKLIST_ADD_TRACK:
-      const track = data.track
-      notify.success(`Adding: ${track.name} / ${track.album.name} by ${track.artist.name}`)
-      break
     case MopidyApi.PLAYBACK_NEXT:
     case MopidyApi.PLAYBACK_BACK:
       store.dispatch(actions.getCurrentTrack())
       break
-    case MopidyApi.GET_VOLUME:
-      store.dispatch(actions.updateVolume(data))
+    case MopidyApi.SET_VOLUME:
+      Notify.info({
+        title: 'Volume Updated',
+        message: `${user.fullname} changed it to ${data.volume}`
+      })
       break
+    case MopidyApi.TRACKLIST_ADD_TRACK:
+      Notify.info({
+        title: 'New Track',
+        message: `${user.fullname} added: ${data.message}`
+      })
+      break
+    case MopidyApi.GET_VOLUME:
     case MopidyApi.EVENT_VOLUME_CHANGED:
-      store.dispatch(actions.updateVolume(data))
-      notify.success('Volume Changed')
+      store.dispatch(actions.updateVolume(data.volume))
       break
     case MopidyApi.PLAYBACK_GET_TIME_POSITION:
       progressTimer.set(data)
@@ -84,11 +88,14 @@ const onMessageHandler = (store, payload, progressTimer) => {
         store.dispatch(actions.syncSocialData(data))
       }
       break
-    case MopidyApi.VALIDATION_ERROR:
-      notify.warning(data)
-      break
     case MopidyApi.EVENT_PLAYBACK_STATE_RESUMED:
       progressTimer.set(data)
+      break
+    case MopidyApi.VALIDATION_ERROR:
+      Notify.warning({
+        title: 'Oops',
+        message: data.message
+      })
       break
     default:
       break
