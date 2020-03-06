@@ -180,7 +180,7 @@ describe('SpotifyService', () => {
       getTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT', 'spotify:track:1yzSSn5Sj1azuo7RgwvDb3'])
       SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMt2zwqCT')
         .catch((error) => {
-          expect(error.message).toEqual('Already in tracklist: spotify:track:03fT3OHB9KyMtGMt2zwqCT')
+          expect(error.message).toEqual("You've already added: spotify:track:03fT3OHB9KyMtGMt2zwqCT")
           done()
         })
     })

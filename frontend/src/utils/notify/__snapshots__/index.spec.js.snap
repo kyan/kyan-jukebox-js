@@ -1,19 +1,154 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`notify calls the info toast interface 1`] = `
+Array [
+  Object {
+    "animationIn": Array [],
+    "animationOut": Array [],
+    "container": "bottom-left",
+    "dismiss": Object {
+      "click": true,
+      "duration": 3000,
+      "onScreen": false,
+      "showIcon": false,
+      "touch": true,
+      "waitForAnimation": false,
+    },
+    "id": "123",
+    "insert": "top",
+    "message": "this is a vote",
+    "onRemoval": [Function],
+    "slidingEnter": Object {
+      "delay": 0,
+      "duration": 600,
+      "timingFunction": "linear",
+    },
+    "slidingExit": Object {
+      "delay": 0,
+      "duration": 600,
+      "timingFunction": "linear",
+    },
+    "title": "Voting",
+    "touchRevert": Object {
+      "delay": 0,
+      "duration": 600,
+      "timingFunction": "linear",
+    },
+    "touchSlidingExit": Object {
+      "fade": Object {
+        "delay": 0,
+        "duration": 300,
+        "timingFunction": "linear",
+      },
+      "swipe": Object {
+        "delay": 0,
+        "duration": 600,
+        "timingFunction": "linear",
+      },
+    },
+    "type": "info",
+  },
+]
+`;
+
 exports[`notify calls the success toast interface 1`] = `
 Array [
-  "A message",
-  "success",
-  3000,
-  Object {},
+  Object {
+    "animationIn": Array [],
+    "animationOut": Array [],
+    "container": "bottom-left",
+    "dismiss": Object {
+      "click": true,
+      "duration": 3000,
+      "onScreen": false,
+      "showIcon": false,
+      "touch": true,
+      "waitForAnimation": false,
+    },
+    "id": "123",
+    "insert": "top",
+    "message": "this is a vote",
+    "onRemoval": [Function],
+    "slidingEnter": Object {
+      "delay": 0,
+      "duration": 600,
+      "timingFunction": "linear",
+    },
+    "slidingExit": Object {
+      "delay": 0,
+      "duration": 600,
+      "timingFunction": "linear",
+    },
+    "title": "Voting",
+    "touchRevert": Object {
+      "delay": 0,
+      "duration": 600,
+      "timingFunction": "linear",
+    },
+    "touchSlidingExit": Object {
+      "fade": Object {
+        "delay": 0,
+        "duration": 300,
+        "timingFunction": "linear",
+      },
+      "swipe": Object {
+        "delay": 0,
+        "duration": 600,
+        "timingFunction": "linear",
+      },
+    },
+    "type": "success",
+  },
 ]
 `;
 
 exports[`notify calls the warning toast interface 1`] = `
 Array [
-  "A message",
-  "warning",
-  3000,
-  Object {},
+  Object {
+    "animationIn": Array [],
+    "animationOut": Array [],
+    "container": "bottom-left",
+    "dismiss": Object {
+      "click": true,
+      "duration": 5000,
+      "onScreen": false,
+      "showIcon": false,
+      "touch": true,
+      "waitForAnimation": false,
+    },
+    "id": "123",
+    "insert": "top",
+    "message": "this is a vote",
+    "onRemoval": [Function],
+    "slidingEnter": Object {
+      "delay": 0,
+      "duration": 600,
+      "timingFunction": "linear",
+    },
+    "slidingExit": Object {
+      "delay": 0,
+      "duration": 600,
+      "timingFunction": "linear",
+    },
+    "title": "Voting",
+    "touchRevert": Object {
+      "delay": 0,
+      "duration": 600,
+      "timingFunction": "linear",
+    },
+    "touchSlidingExit": Object {
+      "fade": Object {
+        "delay": 0,
+        "duration": 300,
+        "timingFunction": "linear",
+      },
+      "swipe": Object {
+        "delay": 0,
+        "duration": 600,
+        "timingFunction": "linear",
+      },
+    },
+    "type": "warning",
+  },
 ]
 `;

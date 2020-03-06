@@ -137,7 +137,7 @@ const SpotifyService = {
       return getTracklist()
         .then(uris => {
           if (uris.includes(uri)) {
-            const message = `Already in tracklist: ${uri}`
+            const message = `You've already added: ${uri}`
             return reject(new Error(message))
           }
 

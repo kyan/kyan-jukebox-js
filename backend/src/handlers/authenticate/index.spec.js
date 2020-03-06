@@ -86,11 +86,17 @@ describe('AuthenticateHandler', () => {
     setTimeout(() => {
       try {
         expect(User.findOneAndUpdate).not.toHaveBeenCalled()
-        expect(Broadcaster.toClient).toHaveBeenCalledWith(
-          wsMock,
-          payload,
-          { error: 'authError' }
-        )
+        expect(Broadcaster.toClient).toHaveBeenCalledWith({
+          headers: {
+            data: ['12'],
+            jwt: 'somevalidjwttoken',
+            key: 'mixer.setVolume'
+          },
+          message: {
+            error: 'authError'
+          },
+          socket: wsMock
+        })
         done()
       } catch (err) {
         done.fail(err)
@@ -126,11 +132,17 @@ describe('AuthenticateHandler', () => {
     setTimeout(() => {
       try {
         expect(User.findOneAndUpdate).not.toHaveBeenCalled()
-        expect(Broadcaster.toClient).toHaveBeenCalledWith(
-          wsMock,
-          payload,
-          { error: 'Invalid domain: madeup.com' }
-        )
+        expect(Broadcaster.toClient).toHaveBeenCalledWith({
+          headers: {
+            data: ['12'],
+            jwt: 'somevalidjwttoken',
+            key: 'authenticationTokenInvalid'
+          },
+          message: {
+            error: 'Invalid domain: madeup.com'
+          },
+          socket: wsMock
+        })
         done()
       } catch (err) {
         done.fail(err)

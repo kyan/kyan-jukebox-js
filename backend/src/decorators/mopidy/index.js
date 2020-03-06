@@ -58,7 +58,7 @@ const MopidyDecorator = {
                 })
             })
         case Mopidy.CORE_EVENTS.VOLUME_CHANGED:
-          return resolve(data.volume)
+          return resolve({ volume: data.volume })
         case Mopidy.CORE_EVENTS.PLAYBACK_STATE_CHANGED:
           return resolve(data.new_state)
         case Mopidy.CORE_EVENTS.PLAYBACK_RESUMED:
@@ -69,7 +69,7 @@ const MopidyDecorator = {
     })
   },
   parse: (headers, data) => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const { key, user } = headers
 
       switch (key) {
@@ -86,14 +86,19 @@ const MopidyDecorator = {
               .then(() => resolve(tracks))
           })
         case Mopidy.TRACKLIST_REMOVE:
-          return removeFromSeeds(data[0].track.uri).then(() => resolve(data))
+          return removeFromSeeds(data[0].track.uri)
+            .then(() => DecorateTracklist([data[0].track]))
+            .then((response) => resolve(response[0]))
         case Mopidy.TRACKLIST_ADD:
           const { data: track } = headers
           return addTracks([track.uris[0]], user)
             .then(() => DecorateTracklist([data[0].track]))
             .then((response) => {
               clearSetTimeout(recommendTimer)
-              return resolve(response[0])
+              return resolve({
+                message: `${response[0].track.name} by ${response[0].track.artist.name}`,
+                toAll: true
+              })
             })
         case Mopidy.PLAYBACK_NEXT:
         case Mopidy.PLAYBACK_PREVIOUS:
@@ -101,8 +106,13 @@ const MopidyDecorator = {
           return resolve()
         case Mopidy.TRACKLIST_CLEAR:
           return clearState().then(() => resolve(data))
-        case Mopidy.MIXER_GET_VOLUME:
         case Mopidy.MIXER_SET_VOLUME:
+          return resolve({
+            volume: headers.data[0],
+            toAll: true
+          })
+        case Mopidy.MIXER_GET_VOLUME:
+          return resolve({ volume: data })
         case Mopidy.PLAYBACK_GET_TIME_POSITION:
         case Mopidy.PLAYBACK_GET_STATE:
         case Mopidy.VALIDATION_ERROR:
