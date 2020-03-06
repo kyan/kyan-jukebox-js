@@ -23,34 +23,48 @@ app.use(morgan('combined', { stream: logger.stream }))
 const server = http.createServer(app)
 const socketio = io(server, { pingTimeout: 30000 })
 
-const broadcastToAll = (key, message) => Broadcaster.toAll(socketio, key, message)
-const broadcastMopidyStateChange = (online) => Broadcaster.stateChange(socketio, { online })
+const broadcastToAll = (options) => Broadcaster.toAll({ socketio, ...options })
+const broadcastMopidyStateChange = (message) => Broadcaster.stateChange({ socket: socketio, message })
 const allowSocketConnections = (mopidy) => {
   Scheduler.scheduleAutoPlayback({ stop: () => mopidy.playback.stop() })
 
   socketio.on('connection', socket => {
-    Broadcaster.stateChange(socket.binary(false), { online: true })
+    Broadcaster.stateChange({
+      socket: socket.binary(false),
+      message: { online: true }
+    })
     SocketErrorsHandler(socket)
 
     socket.on(MessageType.GENERIC, data => {
       const payload = Payload.decode(data)
 
       AuthenticateHandler(payload, socket)
-        .then((updatedPayload) => MopidyHandler(updatedPayload, socket.binary(false), mopidy))
+        .then((updatedPayload) => MopidyHandler({
+          payload: updatedPayload,
+          socketio: socketio.binary(false),
+          socket: socket.binary(false),
+          mopidy
+        }))
     })
 
     socket.on(MessageType.SEARCH, data => {
       const payload = Payload.decode(data)
 
       AuthenticateHandler(payload, socket)
-        .then((updatedPayload) => SearchHandler(updatedPayload, socket.binary(false)))
+        .then((updatedPayload) => SearchHandler({
+          payload: updatedPayload,
+          socket: socket.binary(false)
+        }))
     })
 
     socket.on(MessageType.VOTE, data => {
       const payload = Payload.decode(data)
 
       AuthenticateHandler(payload, socket)
-        .then((updatedPayload) => VoteHandler(updatedPayload, socket.binary(false), socketio.binary(false)))
+        .then((updatedPayload) => VoteHandler({
+          payload: updatedPayload,
+          socketio: socketio.binary(false)
+        }))
     })
   })
 

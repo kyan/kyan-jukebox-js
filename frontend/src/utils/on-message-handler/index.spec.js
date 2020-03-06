@@ -240,7 +240,7 @@ describe('onMessageHandler', () => {
   describe('GET_VOLUME', () => {
     it('gets the volume', () => {
       const payload = {
-        data: 32,
+        data: { volume: 32 },
         key: MopidyApi.GET_VOLUME
       }
       const store = mockStore({})
@@ -251,17 +251,52 @@ describe('onMessageHandler', () => {
     })
   })
 
+  describe('TRACKLIST_REMOVE_TRACK', () => {
+    it('sets the volume', () => {
+      const payload = {
+        data: {
+          message: 'Some pop tune'
+        },
+        user: { fullname: 'Fred Spanner' },
+        key: MopidyApi.TRACKLIST_REMOVE_TRACK
+      }
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      expect(notify.warning).toHaveBeenCalledWith({
+        message: 'Fred Spanner removed: Some pop tune',
+        title: 'Track Removed'
+      })
+      store.clearActions()
+    })
+  })
+
+  describe('SET_VOLUME', () => {
+    it('sets the volume', () => {
+      const payload = {
+        data: { volume: 32 },
+        user: { fullname: 'Fred Spanner' },
+        key: MopidyApi.SET_VOLUME
+      }
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      expect(notify.info).toHaveBeenCalledWith({
+        message: 'Fred Spanner changed it to 32',
+        title: 'Volume Updated'
+      })
+      store.clearActions()
+    })
+  })
+
   describe('EVENT_VOLUME_CHANGED', () => {
     it('tests when the volume is changed', () => {
       const payload = {
-        data: 32,
+        data: { volume: 32 },
         key: MopidyApi.EVENT_VOLUME_CHANGED
       }
       const store = mockStore({})
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
       expect(actions).toEqual([{ type: 'actionUpdateVolume', volume: 32 }])
-      expect(notify.success.mock.calls.length).toEqual(1)
       store.clearActions()
     })
   })
@@ -310,12 +345,15 @@ describe('onMessageHandler', () => {
   describe('VALIDATION_ERROR', () => {
     it('handles the rude', () => {
       const payload = {
-        data: 'Is there a radio mix? - Boy - Naughty',
+        data: { message: 'Is there a radio mix? - Boy - Naughty' },
         key: MopidyApi.VALIDATION_ERROR
       }
       const store = mockStore({})
       onMessageHandler(store, JSON.stringify(payload), progress)
-      expect(notify.warning.mock.calls).toEqual([['Is there a radio mix? - Boy - Naughty']])
+      expect(notify.warning).toHaveBeenCalledWith({
+        message: 'Is there a radio mix? - Boy - Naughty',
+        title: 'Oops'
+      })
       store.clearActions()
     })
   })
@@ -324,22 +362,19 @@ describe('onMessageHandler', () => {
     it('lets us know a track has been added', () => {
       const payload = {
         key: MopidyApi.TRACKLIST_ADD_TRACK,
+        user: {
+          fullname: 'Fred Spanner'
+        },
         data: {
-          track: {
-            name: 'track name',
-            album: {
-              name: 'album name'
-            },
-            artist: {
-              name: 'artist name'
-            }
-          }
+          message: 'Some pop tune'
         }
       }
       const store = mockStore({})
       onMessageHandler(store, JSON.stringify(payload), progress)
-      expect(notify.success)
-        .toHaveBeenCalledWith('Adding: track name / album name by artist name')
+      expect(notify.success).toHaveBeenCalledWith({
+        message: 'Fred Spanner added: Some pop tune',
+        title: 'New Track'
+      })
       store.clearActions()
     })
   })

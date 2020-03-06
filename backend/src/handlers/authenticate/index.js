@@ -27,7 +27,7 @@ const AuthenticateHandler = (payload, socket) => {
     const client = new OAuth2Client(process.env.CLIENT_ID)
 
     const broadcastTo = (headers, message) => {
-      Broadcaster.toClient(socket, headers, message)
+      Broadcaster.toClient({ socket, headers, message })
     }
 
     client.verifyIdToken({ idToken: token, audience: process.env.CLIENT_ID })

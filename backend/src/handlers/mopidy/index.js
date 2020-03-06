@@ -1,6 +1,6 @@
 import logger from 'config/winston'
 import Broadcaster from 'utils/broadcaster'
-import Decorator from 'decorators/mopidy'
+import MopidyDecorator from 'decorators/mopidy'
 import EventLogger from 'utils/event-logger'
 import MessageType from 'constants/message'
 import Mopidy from 'constants/mopidy'
@@ -8,11 +8,7 @@ import Spotify from 'services/spotify'
 
 const StrToFunction = (obj, methodStr) => {
   let context = obj
-
-  methodStr.split('.').forEach(function (mthd) {
-    context = context[mthd]
-  })
-
+  methodStr.split('.').forEach(function (mthd) { context = context[mthd] })
   return context
 }
 
@@ -21,33 +17,38 @@ const isValidTrack = (key, data) => {
   return Spotify.validateTrack(data.uris[0])
 }
 
-const MopidyHandler = (payload, socket, mopidy) => {
+const MopidyHandler = ({ payload, socketio, socket, mopidy }) => {
   const { key, data } = payload
   EventLogger.info(MessageType.INCOMING_CLIENT, payload)
 
-  const broadcastTo = (headers, message) => {
-    Decorator.parse(headers, message).then(unifiedMessage => {
-      Broadcaster.toClient(socket, headers, unifiedMessage)
-    })
-  }
+  const broadcastTo = ({ headers, data }) => (
+    MopidyDecorator.parse(headers, data)
+      .then(response => {
+        if (response && response.toAll) {
+          delete (response.toAll)
+          return Broadcaster.toAll({ socketio, headers, message: response })
+        }
+
+        Broadcaster.toClient({ socket, headers, message: response })
+      })
+  )
 
   isValidTrack(
     payload.key, data
   ).then(() => {
-    const apiCall = StrToFunction(mopidy, key)
     EventLogger.info(MessageType.OUTGOING_MOPIDY, payload)
 
     const successHandler = response => {
       EventLogger.info(MessageType.INCOMING_MOPIDY, { ...payload, ...{ response } }, true)
-      broadcastTo(payload, response)
+      broadcastTo({ headers: payload, data: response })
     }
 
-    (data ? apiCall(data) : apiCall())
+    return (data ? StrToFunction(mopidy, key)(data) : StrToFunction(mopidy, key)())
       .then(successHandler)
       .catch((err) => logger.error(`Mopidy API Failure: ${err.message}`))
   }).catch((err) => {
     payload.key = Mopidy.VALIDATION_ERROR
-    Broadcaster.toClient(socket, payload, err.message)
+    broadcastTo({ headers: payload, data: { message: err.message } })
   })
 }
 

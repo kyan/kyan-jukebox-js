@@ -9,13 +9,14 @@ jest.mock('config/winston')
 jest.mock('services/spotify')
 
 describe('MopidyHandler', () => {
-  const ws = jest.fn()
+  const socket = jest.fn()
+  const socketio = jest.fn()
 
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  it('should handle the full happy path API call with args', done => {
+  it('should happy path API call with defaults', done => {
     expect.assertions(2)
     const mopidyVolumeMock = jest.fn().mockResolvedValue(null)
     const mopidy = {
@@ -25,22 +26,61 @@ describe('MopidyHandler', () => {
     }
     const payload = {
       key: 'tracklist.setVolume',
-      data: [['12']]
+      data: 'data'
     }
     const trackMock = jest.fn().mockResolvedValue()
     Spotify.validateTrack.mockImplementation(trackMock)
     Decorator.parse.mockResolvedValue('unifiedMessage')
-
-    MopidyHandler(payload, ws, mopidy)
+    MopidyHandler({ payload, socket, socketio, mopidy })
 
     setTimeout(() => {
       try {
         expect(Spotify.validateTrack).not.toHaveBeenCalled()
-        expect(Broadcaster.toClient).toHaveBeenCalledWith(
-          ws,
-          { data: [['12']], key: 'tracklist.setVolume' },
-          'unifiedMessage'
-        )
+        expect(Broadcaster.toClient).toHaveBeenCalledWith({
+          socket,
+          headers: {
+            data: 'data',
+            key: 'tracklist.setVolume'
+          },
+          message: 'unifiedMessage'
+        })
+        done()
+      } catch (err) {
+        done.fail(err)
+      }
+    })
+  })
+
+  it('should happy path API call with arg to send to all', done => {
+    expect.assertions(2)
+    const mopidyVolumeMock = jest.fn().mockResolvedValue(null)
+    const mopidy = {
+      tracklist: {
+        setVolume: mopidyVolumeMock
+      }
+    }
+    const payload = {
+      key: 'tracklist.setVolume',
+      data: 'data'
+    }
+    const trackMock = jest.fn().mockResolvedValue()
+    Spotify.validateTrack.mockImplementation(trackMock)
+    Decorator.parse.mockResolvedValue({ message: 'message', toAll: true })
+    MopidyHandler({ payload, socket, socketio, mopidy })
+
+    setTimeout(() => {
+      try {
+        expect(Spotify.validateTrack).not.toHaveBeenCalled()
+        expect(Broadcaster.toAll).toHaveBeenCalledWith({
+          socketio,
+          headers: {
+            data: 'data',
+            key: 'tracklist.setVolume'
+          },
+          message: {
+            message: 'message'
+          }
+        })
         done()
       } catch (err) {
         done.fail(err)
@@ -60,7 +100,7 @@ describe('MopidyHandler', () => {
       key: 'tracklist.setVolume',
       data: [['12']]
     }
-    MopidyHandler(payload, ws, mopidy)
+    MopidyHandler({ payload, socket, socketio, mopidy })
 
     setTimeout(() => {
       try {
@@ -85,17 +125,16 @@ describe('MopidyHandler', () => {
     const trackMock = jest.fn().mockResolvedValue()
     Spotify.validateTrack.mockImplementation(trackMock)
     Decorator.parse.mockResolvedValue('unifiedMessage')
-
-    MopidyHandler(payload, ws, mopidy)
+    MopidyHandler({ payload, socket, socketio, mopidy })
 
     setTimeout(() => {
       try {
         expect(Spotify.validateTrack).not.toHaveBeenCalled()
-        expect(Broadcaster.toClient).toHaveBeenCalledWith(
-          ws,
-          { key: 'tracklist.setVolume' },
-          'unifiedMessage'
-        )
+        expect(Broadcaster.toClient).toHaveBeenCalledWith({
+          socket,
+          headers: { key: 'tracklist.setVolume' },
+          message: 'unifiedMessage'
+        })
         done()
       } catch (err) {
         done.fail(err)
@@ -109,16 +148,18 @@ describe('MopidyHandler', () => {
     const trackMock = jest.fn().mockRejectedValue(new Error('naughty-naughty'))
     const payload = { key: 'tracklist.add', data: { uris: ['12345zsdf23456'] } }
     Spotify.validateTrack.mockImplementation(trackMock)
-
-    MopidyHandler(payload, ws, mopidy)
+    MopidyHandler({ payload, socket, socketio, mopidy })
 
     setTimeout(() => {
       try {
-        expect(Broadcaster.toClient).toHaveBeenCalledWith(
-          ws,
-          { data: { uris: ['12345zsdf23456'] }, key: 'validationError' },
-          'naughty-naughty'
-        )
+        expect(Broadcaster.toClient).toHaveBeenCalledWith({
+          headers: {
+            data: { uris: ['12345zsdf23456'] },
+            key: 'validationError'
+          },
+          message: 'unifiedMessage',
+          socket
+        })
         done()
       } catch (err) {
         done.fail(err)
