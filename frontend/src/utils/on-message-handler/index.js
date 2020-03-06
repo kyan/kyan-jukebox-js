@@ -67,8 +67,14 @@ const onMessageHandler = (store, payload, progressTimer) => {
         message: `${user.fullname} changed it to ${data.volume}`
       })
       break
+    case MopidyApi.TRACKLIST_REMOVE_TRACK:
+      Notify.warning({
+        title: 'Track Removed',
+        message: `${user.fullname} removed: ${data.message}`
+      })
+      break
     case MopidyApi.TRACKLIST_ADD_TRACK:
-      Notify.info({
+      Notify.success({
         title: 'New Track',
         message: `${user.fullname} added: ${data.message}`
       })

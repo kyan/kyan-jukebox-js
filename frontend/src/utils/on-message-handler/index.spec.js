@@ -251,6 +251,25 @@ describe('onMessageHandler', () => {
     })
   })
 
+  describe('TRACKLIST_REMOVE_TRACK', () => {
+    it('sets the volume', () => {
+      const payload = {
+        data: {
+          message: 'Some pop tune'
+        },
+        user: { fullname: 'Fred Spanner' },
+        key: MopidyApi.TRACKLIST_REMOVE_TRACK
+      }
+      const store = mockStore({})
+      onMessageHandler(store, JSON.stringify(payload), progress)
+      expect(notify.warning).toHaveBeenCalledWith({
+        message: 'Fred Spanner removed: Some pop tune',
+        title: 'Track Removed'
+      })
+      store.clearActions()
+    })
+  })
+
   describe('SET_VOLUME', () => {
     it('sets the volume', () => {
       const payload = {
@@ -352,7 +371,7 @@ describe('onMessageHandler', () => {
       }
       const store = mockStore({})
       onMessageHandler(store, JSON.stringify(payload), progress)
-      expect(notify.info).toHaveBeenCalledWith({
+      expect(notify.success).toHaveBeenCalledWith({
         message: 'Fred Spanner added: Some pop tune',
         title: 'New Track'
       })

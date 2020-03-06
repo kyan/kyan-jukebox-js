@@ -88,7 +88,12 @@ const MopidyDecorator = {
         case Mopidy.TRACKLIST_REMOVE:
           return removeFromSeeds(data[0].track.uri)
             .then(() => DecorateTracklist([data[0].track]))
-            .then((response) => resolve(response[0]))
+            .then((response) => {
+              return resolve({
+                message: `${response[0].track.name} by ${response[0].track.artist.name}`,
+                toAll: true
+              })
+            })
         case Mopidy.TRACKLIST_ADD:
           const { data: track } = headers
           return addTracks([track.uris[0]], user)
