@@ -46,6 +46,7 @@ services:
       - SPOTIFY_SECRET=${SPOTIFY_SECRET}
       - SPOTIFY_NEW_TRACKS_ADDED_LIMIT=3
       - CLIENT_ID=${CLIENT_ID}
+      - EXPLICIT_CONTENT=${EXPLICIT_CONTENT}
   mongodb:
     image: mongo:4.2-bionic
     container_name: mongodb
