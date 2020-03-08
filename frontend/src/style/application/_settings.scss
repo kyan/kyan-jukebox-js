@@ -35,98 +35,104 @@ $breakpoints: (
 // 1. Color
 // --------
 // Brand Colors
-$brand-persimmon: #f46040;
-$brand-peacock: #0785ba;
-$brand-caribbean: #32d7ed;
-$brand-water: #b2cee3;
-$brand-sky: #c2e1f8;
-$brand-grenadier: #d92700;
-$brand-persian: #00b987;
-
-$brand-charcoal: #293338;
-$brand-midnight: #3d4e55;
-$brand-smoke: #485b63;
-$brand-dove: #a3adb1;
-$brand-moonlight: #f4f4f3;
-
-$brand-olive: #b6c5a2;
-$brand-mustard: #e0d98a;
-$brand-oatmeal: #d6d6c6;
+$brand-turquoise: #57cccb;
+$brand-pink: #f7b5bc;
+$brand-yellow: #FED572;
 
 $brand-white: #ffffff;
-$brand-black: #000000;
-$brand-grey1: #f3f5f8;
-$brand-grey2: #d5d7da;
-$brand-grey3: #858f93;
-$brand-grey4: #dae3f1;
-
-// Scope colours to settings
-$primary: $brand-persimmon;
-$secondary: $brand-midnight;
-$tertiary: $brand-charcoal;
+$brand-black: #121416;
+$brand-grey1: #848585;
+$brand-grey2: #FAFCFC;
+// $brand-grey3: #858f93;
+// $brand-grey4: #dae3f1;
 
 // Palette map - useful for looping through to generate modifiers.
 $palette: (
-  'primary': $primary,
-  'secondary': $secondary,
-  'tertiary': $tertiary,
-  'persimmon': $brand-persimmon,
-  'peacock': $brand-peacock,
-  'caribbean': $brand-caribbean,
-  'water': $brand-water,
-  'sky': $brand-sky,
-  'grenadier': $brand-grenadier,
-  'persian': $brand-persian,
-  'charcoal': $brand-charcoal,
-  'midnight': $brand-midnight,
-  'smoke': $brand-smoke,
-  'dove': $brand-dove,
-  'moonlight': $brand-moonlight,
-  'olive': $brand-olive,
-  'mustard': $brand-mustard,
-  'oatmeal': $brand-oatmeal,
+  'turquoise': $brand-turquoise,
+  'pink': $brand-pink,
+  'yellow': $brand-yellow,
   'white': $brand-white,
   'black': $brand-black,
   'grey1': $brand-grey1,
   'grey2': $brand-grey2,
-  'grey3': $brand-grey3,
-  'grey4': $brand-grey4,
+  // 'grey3': $brand-grey3,
+  // 'grey4': $brand-grey4,
 );
 
 // 2. Background Color
 // -------------------
 $color-background: $brand-white; // Default background color for the whole app.
-$color-background-alt: $brand-grey1; // Second default background color for the app.
-$color-background-inverse: $brand-midnight; // Alternative background color for dark portions of the app.
+$color-background-alt: $brand-grey2; // Second default background color for the app.
+$color-background-inverse: $brand-black; // Alternative background color for dark portions of the app.
 
 // 3. Text Color
 // -------------
 $color-text-body: $brand-black; // Body text color.
 $color-text-heading: $brand-black; // Heading text color.
-$color-text-special: $brand-persian; // Highlighted text color.
-$color-text-search: $brand-dove; // Search text color.
-$color-text-weak: $brand-grey3; // Text purposefully de-emphasized to create visual hierarchy.
+// $color-text-special: $brand-persian; // Highlighted text color.
+// $color-text-search: $brand-dove; // Search text color.
+$color-text-weak: $brand-grey1; // Text purposefully de-emphasized to create visual hierarchy.
 $color-text-link: $brand-black; // Text link color.
-$color-text-link-hover: $brand-persimmon; // Text link hover color.
+$color-text-link-hover: $brand-black; // Text link hover color.
 $color-text-link-inverse: $brand-white; // Alt link text link color for dark portions of the app.
-$color-text-link-inverse-hover: $brand-persimmon; // Alt link text link hover color
+$color-text-link-inverse-hover: $brand-grey2; // Alt link text link hover color
 
 // 4. Border Color
 // ---------------
-$color-border: $brand-grey2; // Default border color for UI elements.
-$color-border-light: $brand-grey4; // Lighter border color for UI elements.
-$color-border-inverse: $brand-charcoal; // Alternative border color for dark portions of the app.
+$color-border: $brand-grey1; // Default border color for UI elements.
+$color-border-light: $brand-grey1; // Lighter border color for UI elements.
+$color-border-inverse: $brand-grey1; // Alternative border color for dark portions of the app.
 
 // 5. Font
 // -------
-@import url('https://fonts.googleapis.com/css?family=Lato:300,700&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,700&display=swap');
+// Biotif Light
+@font-face {
+  font-family: 'Biotif';
+  font-style: normal;
+  font-weight: 300;
+  src:  url('fonts/Biotif-Light.woff2') format('woff2'),
+        url('fonts/Biotif-Light.woff') format('woff');
+}
 
-$font-family-heading: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-  Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+// Biotif Light Italic
+@font-face {
+  font-family: 'Biotif';
+  font-style: italic;
+  font-weight: 300;
+  src:  url('fonts/Biotif-LightItalic.woff2') format('woff2'),
+        url('fonts/Biotif-LightItalic.woff') format('woff');
+}
+
+// Biotif Regular
+@font-face {
+  font-family: 'Biotif';
+  font-style: normal;
+  font-weight: 400;
+  src:  url('fonts/Biotif-Regular.woff2') format('woff2'),
+        url('fonts/Biotif-Regular.woff') format('woff');
+}
+
+// Biotif Semibold
+@font-face {
+  font-family: 'Biotif';
+  font-style: normal;
+  font-weight: 500;
+  src:  url('fonts/Biotif-SemiBold.woff2') format('woff2'),
+        url('fonts/Biotif-SemiBold.woff') format('woff');
+}
+
+// Biotif Bold
+@font-face {
+  font-family: 'Biotif';
+  font-style: normal;
+  font-weight: 700;
+  src:  url('fonts/Biotif-Bold.woff2') format('woff2'),
+        url('fonts/Biotif-Bold.woff') format('woff');
+}
+
+$font-family-heading: Biotif, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
   'Segoe UI Symbol';
-$font-family-body: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-  Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+$font-family-body: Biotif, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
   'Segoe UI Symbol';
 
 $font-weight-light: 300; // Used for headings only.
