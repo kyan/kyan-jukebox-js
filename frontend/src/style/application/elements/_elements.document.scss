@@ -2,6 +2,7 @@
 // =======================
 
 html {
+  font-size: 62.5%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -14,28 +15,4 @@ body {
   font-size: $font-size-body;
   font-weight: $font-weight-regular;
   background-color: $color-background;
-
-  &.is-locked {
-    overflow: hidden;
-
-    @supports (-webkit-overflow-scrolling: touch) {
-      position: fixed;
-      height: 100%;
-    }
-  }
-}
-
-.grid-container {
-  padding-right: $gutter-default;
-  padding-left: $gutter-default;
-
-  @include breakpoint(medium) {
-    padding-right: $gutter-medium;
-    padding-left: $gutter-medium;
-  }
-
-  @include breakpoint(xlarge) {
-    padding-right: $gutter-large;
-    padding-left: $gutter-large;
-  }
 }

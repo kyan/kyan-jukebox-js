@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dimmer, Divider, Grid, Header, Container } from 'semantic-ui-react'
+import { Dimmer, Divider, Grid, Container } from 'semantic-ui-react'
 import Controls from 'components/controls'
 import DragInTrack from 'components/drag-in-track'
 import CurrentTrackContainer from 'containers/current-track-container'
@@ -51,13 +51,13 @@ const Dashboard = props => {
           <Container className='body-wrapper' fluid>
             <Grid stackable columns={2} className='dashboard-grid'>
               <Grid.Column width={4}>
-                <Header size='small'>Current Track</Header>
+                <h3 size='small'>Current Track</h3>
                 <CurrentTrackContainer />
               </Grid.Column>
               <Grid.Column width={8}>
-                <Header size='small'>
+                <h3>
                   Playlist <ClearPlaylist disabled={disabled} onClear={onTracklistClear} />
-                </Header>
+                </h3>
                 <TrackList
                   disabled={disabled}
                   tracks={tracklist}

@@ -6,14 +6,12 @@
 // ========
 // Used with preprocessors and contain font, colors definitions, etc.
 // Already included in `core.css`, but has been replicated here for added clarity of layering.
-
 // @import 'settings';                             // Import all settings.
 
 // Tools
 // =====
 // Globally used mixins and functions.
 // It's important not to output any CSS in the first 2 layers.
-
 @import 'tools/tools.override'; // Chain classes together for a greater specificity.
 @import 'tools/tools.mixins'; // Can be broken out into separate files if this gets unwieldy.
 
@@ -21,29 +19,20 @@
 // =======
 // Reset and/or normalize styles, box-sizing definition, etc.
 // This is the first layer which generates actual CSS.
-
 @import 'generic/generic.shared'; // Shared global commonalities.
 
 // Elements
 // ========
 // Styling for bare HTML elements (like H1, A, etc.).
 // These come with default styling from the browser so we can redefine them here.
-
 @import 'elements/elements.document'; // Page-level styles (HTML, body etc).
-// @import 'elements/elements.forms'; // Form inputs, textareas.
 // @import 'elements/elements.links'; // Hyperlinks.
-// @import 'elements/elements.lists'; // Lists.
-// @import 'elements/elements.media'; // Media elements, img, svg, video, etc.
-// @import 'elements/elements.quotes'; // Blockquotes, cite, etc.
-// @import 'elements/elements.tables'; // Table element styles.
 @import 'elements/elements.type'; // All type styles.
-// @import 'elements/elements.dividers'; // Styled <hr> elements.
 
 // Objects
 // =======
 // Class-based selectors which define undecorated design patterns.
 // An examples of an object would be the XY Grid.
-
 // @import 'objects/objects.icon'; // Icon.
 // @import 'objects/objects.form'; // Form.
 
@@ -51,30 +40,12 @@
 // ==========
 // Specific UI components.
 // This is where majority of our work takes place and our UI components are often composed of Objects and Components.
-
 // @import 'components/component.table'; // table components.
-// @import 'components/component.form'; // form components.
-// @import 'components/component.inline_icon'; // inline icon component.
-// @import 'components/component.richtextelement'; // RichTextElement component.
-// @import 'components/component.toast'; // Toast component.
-// @import 'partials/partials.contact_5k'; // Contact form block.
-// @import 'partials/partials.collapsiblearea_5a'; // Collapsible areas.
 
 // Templates
 // =========
 // Ideally kept to a minimum, but where some hooks are required outside of components at template level, this is where they live.
-
 // @import 'templates/templates.sign_in'; // Sign in.
-// @import 'templates/templates.admin'; // Admin.
-// @import 'templates/templates.quote_cart'; // Quote cart.
-// @import 'templates/templates.quote_checkout'; // Quote checkout.
-// @import 'templates/templates.search_results'; // Search Results.
-// @import 'templates/templates.manufacturer_detail'; // Manufacturer detail.
-// @import 'templates/templates.manage_users'; // Manage users.
-// @import 'templates/templates.edit_user'; // Edit user.
-// @import 'templates/templates.checkout_access'; //Checkout access.
-// @import 'templates/templates.order_detail'; // Order detail.
-// @import 'templates/templates.checkout_confirmation'; //Checkout confirmation.
 
 // Utilities
 // =========
