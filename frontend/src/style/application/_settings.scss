@@ -61,21 +61,21 @@ $palette: (
 
 // 2. Background Color
 // -------------------
-$color-background: $brand-white; // Default background color for the whole app.
+$color-background: $brand-black; // Default background color for the whole app.
 $color-background-alt: $brand-grey2; // Second default background color for the app.
 $color-background-inverse: $brand-black; // Alternative background color for dark portions of the app.
 
 // 3. Text Color
 // -------------
-$color-text-body: $brand-black; // Body text color.
-$color-text-heading: $brand-black; // Heading text color.
+$color-text-body: $brand-white; // Body text color.
+$color-text-heading: $brand-white; // Heading text color.
 // $color-text-special: $brand-persian; // Highlighted text color.
 // $color-text-search: $brand-dove; // Search text color.
 $color-text-weak: $brand-grey1; // Text purposefully de-emphasized to create visual hierarchy.
-$color-text-link: $brand-black; // Text link color.
-$color-text-link-hover: $brand-black; // Text link hover color.
+$color-text-link: $brand-white; // Text link color.
+$color-text-link-hover: $brand-turquoise; // Text link hover color.
 $color-text-link-inverse: $brand-white; // Alt link text link color for dark portions of the app.
-$color-text-link-inverse-hover: $brand-grey2; // Alt link text link hover color
+$color-text-link-inverse-hover: $brand-turquoise; // Alt link text link hover color
 
 // 4. Border Color
 // ---------------
