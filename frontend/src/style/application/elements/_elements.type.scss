@@ -1,0 +1,153 @@
+// Type element styles
+// ===================
+
+h1,
+.h1 {
+  font-family: $font-family-heading;
+  color: $color-text-heading;
+  font-weight: $font-weight-light;
+  line-height: $line-height-heading;
+  font-size: $font-size-2;
+  margin: 0;
+  @include breakpoint(medium) {
+    font-size: $spacing-small;
+  }
+  @include breakpoint(xxlarge) {
+    font-size: $font-size-1;
+  }
+}
+
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  font-family: $font-family-body;
+  color: $color-text-heading;
+  line-height: $line-height-heading;
+  margin: 0;
+}
+
+h2,
+.h2 {
+  font-weight: $font-weight-light;
+  font-size: $font-size-3;
+  @include breakpoint(medium) {
+    font-size: $font-size-2;
+  }
+}
+
+h3,
+.h3 {
+  font-weight: $font-weight-bold;
+  font-size: $font-size-4;
+  @include breakpoint(medium) {
+    font-size: $font-size-3;
+  }
+}
+
+h4,
+.h4 {
+  font-weight: $font-weight-bold;
+  font-size: $font-size-body;
+  @include breakpoint(medium) {
+    font-size: $font-size-4;
+  }
+}
+
+h5,
+.h5 {
+  font-weight: $font-weight-regular;
+  font-size: $font-size-5;
+}
+
+h6,
+.h6 {
+  font-weight: $font-weight-bold;
+  font-size: $font-size-body;
+  & + p {
+    margin-top: $spacing-xxxsmall;
+  }
+}
+
+p {
+  margin: $spacing-reset;
+  font-size: $font-size-body;
+  line-height: $line-height-body;
+
+  @include breakpoint(xxlarge) {
+    font-size: 1.7rem;
+  }
+
+  &.weak {
+    color: $color-text-weak;
+  }
+
+  &.small {
+    font-size: $font-size-small;
+    line-height: $line-height-body-small;
+
+    @include breakpoint(xxlarge) {
+      font-size: 1.5rem;
+    }
+  }
+
+  &.smallest {
+    font-size: $font-size-smallest;
+
+    @include breakpoint(xxlarge) {
+      font-size: 1.3rem;
+    }
+  }
+
+  // If p + p - add a margin-top.
+  & + p,
+  & + blockquote {
+    margin-top: $spacing-xxxsmall;
+  }
+
+  // If heading + p - add a margin-top.
+  & + h1,
+  & + .h1,
+  & + h2,
+  & + .h2,
+  & + h3,
+  & + .h3,
+  & + h4,
+  & + .h4,
+  & + h5,
+  & + .h5,
+  & + h6,
+  & + .h6 {
+    margin-top: $spacing-xxxsmall;
+  }
+
+  &:empty {
+    display: none;
+  }
+}
+
+.break {
+  word-break: break-all;
+}
+
+.noBreak {
+  white-space: nowrap;
+}
+
+code {
+  display: inline-block;
+  color: inherit;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+address {
+  font-style: normal;
+}

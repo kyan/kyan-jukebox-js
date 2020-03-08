@@ -1,0 +1,265 @@
+//  Design Tokens
+//  -----------------------------
+//
+//  Table of Contents:
+//
+//   0. Breakpoints
+//   1. Color
+//   2. Background Color
+//   3. Text Color
+//   4. Border Color
+//   5. Font
+//   6. Font Size
+//   7. Line Height
+//   8. Opacity
+//   9. Spacing
+//  10. Radius
+//  11. Sizing
+//  12. Shadow
+//  13. Media Query
+//  14. Z-index
+//  15. Animation
+//  16. Grid / Gutters
+
+// 0. Breakpoints
+// --------
+$breakpoints: (
+  'small': 320px,
+  'medium': 640px,
+  'large': 1024px,
+  'xlarge': 1200px,
+  'xxlarge': 1440px,
+  'xxxlarge': 1660px,
+);
+
+// 1. Color
+// --------
+// Brand Colors
+$brand-persimmon: #f46040;
+$brand-peacock: #0785ba;
+$brand-caribbean: #32d7ed;
+$brand-water: #b2cee3;
+$brand-sky: #c2e1f8;
+$brand-grenadier: #d92700;
+$brand-persian: #00b987;
+
+$brand-charcoal: #293338;
+$brand-midnight: #3d4e55;
+$brand-smoke: #485b63;
+$brand-dove: #a3adb1;
+$brand-moonlight: #f4f4f3;
+
+$brand-olive: #b6c5a2;
+$brand-mustard: #e0d98a;
+$brand-oatmeal: #d6d6c6;
+
+$brand-white: #ffffff;
+$brand-black: #000000;
+$brand-grey1: #f3f5f8;
+$brand-grey2: #d5d7da;
+$brand-grey3: #858f93;
+$brand-grey4: #dae3f1;
+
+// Scope colours to settings
+$primary: $brand-persimmon;
+$secondary: $brand-midnight;
+$tertiary: $brand-charcoal;
+
+// Palette map - useful for looping through to generate modifiers.
+$palette: (
+  'primary': $primary,
+  'secondary': $secondary,
+  'tertiary': $tertiary,
+  'persimmon': $brand-persimmon,
+  'peacock': $brand-peacock,
+  'caribbean': $brand-caribbean,
+  'water': $brand-water,
+  'sky': $brand-sky,
+  'grenadier': $brand-grenadier,
+  'persian': $brand-persian,
+  'charcoal': $brand-charcoal,
+  'midnight': $brand-midnight,
+  'smoke': $brand-smoke,
+  'dove': $brand-dove,
+  'moonlight': $brand-moonlight,
+  'olive': $brand-olive,
+  'mustard': $brand-mustard,
+  'oatmeal': $brand-oatmeal,
+  'white': $brand-white,
+  'black': $brand-black,
+  'grey1': $brand-grey1,
+  'grey2': $brand-grey2,
+  'grey3': $brand-grey3,
+  'grey4': $brand-grey4,
+);
+
+// 2. Background Color
+// -------------------
+$color-background: $brand-white; // Default background color for the whole app.
+$color-background-alt: $brand-grey1; // Second default background color for the app.
+$color-background-inverse: $brand-midnight; // Alternative background color for dark portions of the app.
+
+// 3. Text Color
+// -------------
+$color-text-body: $brand-black; // Body text color.
+$color-text-heading: $brand-black; // Heading text color.
+$color-text-special: $brand-persian; // Highlighted text color.
+$color-text-search: $brand-dove; // Search text color.
+$color-text-weak: $brand-grey3; // Text purposefully de-emphasized to create visual hierarchy.
+$color-text-link: $brand-black; // Text link color.
+$color-text-link-hover: $brand-persimmon; // Text link hover color.
+$color-text-link-inverse: $brand-white; // Alt link text link color for dark portions of the app.
+$color-text-link-inverse-hover: $brand-persimmon; // Alt link text link hover color
+
+// 4. Border Color
+// ---------------
+$color-border: $brand-grey2; // Default border color for UI elements.
+$color-border-light: $brand-grey4; // Lighter border color for UI elements.
+$color-border-inverse: $brand-charcoal; // Alternative border color for dark portions of the app.
+
+// 5. Font
+// -------
+@import url('https://fonts.googleapis.com/css?family=Lato:300,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,700&display=swap');
+
+$font-family-heading: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+  Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+  'Segoe UI Symbol';
+$font-family-body: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+  Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+  'Segoe UI Symbol';
+
+$font-weight-light: 300; // Used for headings only.
+$font-weight-regular: 400; // Used for body only.
+$font-weight-medium: 500; // Used for body only.
+$font-weight-bold: 700; // Used for headings and body.
+
+// Weight map - useful for looping through to generate modifiers.
+$weights: (
+  'light': $font-weight-light,
+  'regular': $font-weight-regular,
+  'medium': $font-weight-medium,
+  'bold': $font-weight-bold,
+);
+
+// 6. Font Size
+// ------------
+$font-size-1: 4rem; // Constant typography token for font size 1.
+$font-size-2: 2.6rem; // Constant typography token for font size 2.
+$font-size-3: 2.4rem; // Constant typography token for font size 3.
+$font-size-4: 2rem; // Constant typography token for font size 4.
+$font-size-5: 2rem; // Constant typography token for font size 5.
+
+$font-size-body: 1.6rem; // Constant typography token for body copy font size.
+$font-size-small: 1.4rem; // Constant typography token for small copy.
+$font-size-smallest: 1.3rem; // Constant typography token for smallest copy.
+
+$font-size-button: 1.5rem; // Constant typography token for button text size.
+$font-size-button-large: 1.8rem; // Constant typography token for large button text size.
+
+// 7. Line Height
+// --------------
+$line-height-heading: 1.2; // H1 - H6 line height.
+$line-height-reset: 1; // Remove extra leading.
+$line-height-body: 1.6; // Body copy line height.
+$line-height-body-small: 1.4; // Small body copy line height.
+
+// 8. Opacity
+// ----------
+$opacity-4: 0.4; // 40% transparency of an element.
+$opacity-5: 0.5; // 50% transparency of an element.
+
+// Opacity map - useful for looping through to generate modifiers.
+$opacities: (
+  '4': $opacity-4,
+  '5': $opacity-5,
+);
+
+// 9. Spacing
+// ----------
+$border-width: 0.1rem; // Global divider & border width.
+$spacing-reset: 0;
+$spacing-xlarge: 12rem;
+$spacing-large: 6.4rem;
+$spacing-medium: 4rem;
+$spacing-small: 3.2rem;
+$spacing-xsmall: 2.4rem;
+$spacing-xxsmall: 1.6rem;
+$spacing-xxxsmall: 1rem;
+
+// Spacing map - useful for looping through to generate modifiers.
+$spaces: (
+  'reset': $spacing-reset,
+  'xlarge': $spacing-xlarge,
+  'large': $spacing-large,
+  'medium': $spacing-medium,
+  'small': $spacing-small,
+  'xsmall': $spacing-xsmall,
+  'xxsmall': $spacing-xxsmall,
+  'xxxsmall': $spacing-xxxsmall,
+);
+
+// 10. Radius
+// ----------
+$border-radius: 0.2rem; // Global border radius setting.
+$border-radius-large: 0.4rem; // Larger border radius setting.
+
+// 11. Sizing
+// ----------
+$size-icon-xsmall: 1.2rem;
+$size-icon-small: 2rem;
+$size-icon-medium: 3rem;
+$size-icon-large: 4rem;
+$size-icon-xlarge: 10rem;
+
+// 12. Shadow
+// ----------
+$shadow-default: 0 0 30px 0 rgba(0, 0, 0, 0.1); // Global box-shadow style.
+$shadow-hover: 0 5px 15px 0 rgba(0, 0, 0, 0.15); // Button / link object hover shadow style.
+
+// 13. Media Query
+// ---------------
+
+// 14. Z-index
+// -----------
+$z-index-deepdive: -99999; // Deep dive.
+$z-index-default: 1; // Default.
+$z-index-dialog: 6000; // Dialog.
+$z-index-docked: 4; // Docked.
+$z-index-dropdown: 7000; // Dropdown.
+$z-index-modal: 9000; // Modal.
+$z-index-overlay: 8000; // Overlay.
+$z-index-popup: 5000; // Popup.
+$z-index-megamenu: 5500; // Megamenu.
+$z-index-reminder: 8500; // Notifications under modals.
+$z-index-spinner: 9050; // Spinner.
+$z-index-sticky: 100; // Stickied element.
+$z-index-cookies: 9500; // Cookie banner.
+$z-index-toast: 10000; // Toasts.
+
+// z-index - useful for looping through to generate modifiers.
+$zindexes: (
+  'deepdive': $z-index-deepdive,
+  'default': $z-index-default,
+  'dialog': $z-index-dialog,
+  'docked': $z-index-docked,
+  'dropdown': $z-index-dropdown,
+  'modal': $z-index-modal,
+  'overlay': $z-index-overlay,
+  'popup': $z-index-popup,
+  'reminder': $z-index-reminder,
+  'spinner': $z-index-spinner,
+  'sticky': $z-index-sticky,
+  'toast': $z-index-toast,
+);
+
+// 15. Animation
+// -------------
+$transition-timing: 0.2s; // Default transition timing.
+$transition-easing: ease-in-out; // Default transition easing.
+
+// 16. Grid / Gutters
+// ------------------
+$gutter-default: 2rem; // Default gutter size.
+$gutter-medium: 4rem; // Medium gutter size.
+$gutter-large: 8rem; // Large gutter size.
