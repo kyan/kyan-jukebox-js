@@ -1,0 +1,16 @@
+// styled <hr> elements
+// =====================================
+
+hr {
+  max-width: none;
+  border-bottom: $border-width solid $color-border;
+  margin: $spacing-small 0;
+
+  &.inverse {
+    border-bottom: $border-width solid $color-border-inverse;
+  }
+
+  &.no-margin {
+    margin: 0;
+  }
+}

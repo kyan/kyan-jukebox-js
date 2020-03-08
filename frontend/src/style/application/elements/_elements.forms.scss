@@ -1,0 +1,494 @@
+// Form element styles
+// ===================
+
+[type='text'],
+[type='password'],
+[type='date'],
+[type='datetime'],
+[type='datetime-local'],
+[type='month'],
+[type='week'],
+[type='email'],
+[type='number'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='url'],
+[type='color'],
+textarea {
+  display: flex;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: $border-width solid $color-border;
+  border-radius: 0;
+  box-shadow: none;
+  padding: $spacing-xxxsmall 0;
+  height: auto;
+  margin: 0;
+  font-size: $font-size-body;
+
+  // Disable autofill styling
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  &::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: $brand-grey3;
+  }
+
+  &::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: $brand-grey3;
+  }
+
+  &:-moz-placeholder {
+    /* Mozilla Firefox 18- */
+    color: $brand-grey3;
+  }
+
+  &:-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: $brand-grey3;
+  }
+
+  &:focus {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: $border-width solid $brand-black;
+    box-shadow: none;
+
+    ~ label {
+      opacity: 1;
+    }
+
+    &::-webkit-input-placeholder {
+      /* Chrome/Opera/Safari */
+      color: inherit;
+      opacity: 0;
+    }
+
+    &::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      color: inherit;
+      opacity: 0;
+    }
+
+    &:-moz-placeholder {
+      /* Mozilla Firefox 18- */
+      color: inherit;
+      opacity: 0;
+    }
+
+    &:-ms-input-placeholder {
+      /* Internet Explorer 10+ */
+      color: inherit;
+      opacity: 0;
+    }
+  }
+
+  &:not(:placeholder-shown) {
+    ~ label {
+      opacity: 1;
+    }
+  }
+
+  &.error {
+    border-bottom: $border-width solid $brand-grenadier;
+  }
+
+  &.boxed {
+    border: $border-width solid $color-border;
+    border-radius: $border-radius;
+    padding: $spacing-xxxsmall;
+  }
+
+  &.special {
+    border-radius: $border-radius-large;
+    padding: $spacing-xxxsmall;
+  }
+
+  ~ label {
+    user-select: none;
+    pointer-events: none;
+    position: absolute;
+    display: inline-block;
+    color: $brand-grey3;
+    font-size: $font-size-smallest;
+    transition: all $transition-timing $transition-easing;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    line-height: $line-height-reset;
+
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      opacity: 1;
+    }
+  }
+
+  // Disabled state
+  &:disabled {
+    user-select: none;
+    opacity: $opacity-5;
+    background-color: transparent;
+    font-style: normal;
+  }
+}
+
+[required] ~ label::after,
+[data-required] ~ label::after {
+  content: ' *';
+  opacity: 0.5;
+}
+
+select {
+  display: flex;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: $border-width solid $color-border;
+  border-radius: 0;
+  box-shadow: none;
+  padding: $spacing-xxxsmall $spacing-xsmall $spacing-xxxsmall 0;
+  height: auto;
+  margin: 0;
+  -webkit-appearance: none;
+  background: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='9' height='6' viewBox='0 0 9 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.5 6L9 0H0z' fill='%23000' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  cursor: pointer;
+  font-size: $font-size-body;
+
+  // Disable autofill styling
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  &:invalid,
+  &.is-default {
+    color: $brand-grey3;
+  }
+
+  // Disabled state
+  &:disabled {
+    user-select: none;
+    opacity: $opacity-5;
+    background-color: transparent;
+    font-style: normal;
+  }
+
+  &.is-default ~ label {
+    opacity: 1;
+  }
+
+  // IE11 - Remove dropdown arrow
+  &::-ms-expand {
+    display: none;
+  }
+
+  &:focus {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: $border-width solid $brand-black;
+    box-shadow: none;
+    background-color: transparent;
+
+    ~ label {
+      opacity: 1;
+    }
+
+    &::-webkit-input-placeholder {
+      /* Chrome/Opera/Safari */
+      color: inherit;
+      opacity: 0;
+    }
+
+    &::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      color: inherit;
+      opacity: 0;
+    }
+
+    &:-moz-placeholder {
+      /* Mozilla Firefox 18- */
+      color: inherit;
+      opacity: 0;
+    }
+
+    &:-ms-input-placeholder {
+      /* Internet Explorer 10+ */
+      color: inherit;
+      opacity: 0;
+    }
+  }
+
+  &[required] ~ label::after,
+  &[data-required] ~ label::after {
+    content: ' *';
+    opacity: $opacity-5;
+  }
+
+  &.error {
+    border-bottom: $border-width solid $brand-grenadier;
+  }
+
+  &.boxed {
+    border: $border-width solid $color-border;
+    border-radius: $border-radius;
+    padding: $spacing-xxxsmall $spacing-xsmall $spacing-xxxsmall
+      $spacing-xxxsmall;
+
+    &:focus {
+      border: $border-width solid $brand-black;
+    }
+
+    ~ label {
+      transform: translateY(-0.8rem);
+    }
+  }
+
+  &.special {
+    border-radius: $border-radius-large;
+    padding: $spacing-xxxsmall;
+  }
+
+  ~ label {
+    user-select: none;
+    pointer-events: none;
+    position: absolute;
+    display: inline-block;
+    color: $brand-grey3;
+    font-size: $font-size-smallest;
+    transition: all $transition-timing $transition-easing;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    line-height: $line-height-reset;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      opacity: 1;
+    }
+  }
+}
+
+textarea {
+  margin-top: 1.5rem;
+  padding: 0 0 $spacing-xxxsmall;
+  height: 4.2rem;
+  min-height: 4.2rem;
+}
+
+fieldset legend {
+  padding-top: $spacing-xsmall;
+  color: $brand-grey3;
+}
+
+// Checkboxes & Radios
+
+[type='checkbox'],
+[type='radio'] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  width: 0;
+  height: 0;
+
+  &:focus + label::before,
+  &:focus + label::after {
+    box-shadow: 0 0 0 2px $brand-white, 0 0 0 3px $brand-grey3;
+  }
+
+  & + label {
+    margin: 0 $spacing-medium 0 0;
+    padding-left: 3rem;
+    color: inherit;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 2rem;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      overflow: hidden;
+    }
+
+    &::before {
+      left: 0;
+      border: 0.2rem solid currentcolor;
+    }
+
+    &::after {
+      left: 0;
+      background-color: currentColor;
+      background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3.935 10.144a.806.806 0 0 0-.53.197.827.827 0 0 0-.128 1.19l2.979 3.575c.13.175.392.298.637.298.235 0 .45-.072.64-.213l9.148-9.19a.826.826 0 0 0 0-1.193.842.842 0 0 0-.596-.254c-.22 0-.431.09-.596.254l-8.51 8.51-2.383-2.85a.833.833 0 0 0-.661-.324' fill='%23FFF' fill-rule='evenodd'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center center;
+      opacity: 1;
+      display: none;
+    }
+  }
+
+  &:checked + label::before {
+    border: none;
+  }
+
+  &:checked + label::after {
+    display: block;
+  }
+}
+
+[type='radio'] + label::before,
+[type='radio'] + label::after {
+  border-radius: 50%;
+}
+
+[type='radio'] + label::after {
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.458 12.291l5.667-5.666a.823.823 0 0 1 .583-.25c.459 0 .834.375.834.833 0 .25-.084.417-.25.583l-6.25 6.25a.805.805 0 0 1-1.167 0L5.042 11.25a.824.824 0 0 1-.25-.583c0-.459.375-.834.833-.834.209 0 .417.084.583.25l2.25 2.208z' fill='%23FFF' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+[type='checkbox'] + label::before,
+[type='checkbox'] + label::after {
+  border-radius: $border-radius;
+}
+
+// On Dark BG
+.c-form--darkBg {
+  [type='text'],
+  [type='password'],
+  [type='date'],
+  [type='datetime'],
+  [type='datetime-local'],
+  [type='month'],
+  [type='week'],
+  [type='email'],
+  [type='number'],
+  [type='search'],
+  [type='tel'],
+  [type='time'],
+  [type='url'],
+  [type='color'],
+  textarea {
+    border-bottom: $border-width solid $brand-grey3;
+    color: $brand-white;
+    background-color: $brand-midnight;
+
+    // Disable autofill styling
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
+    &:-internal-autofill-selected {
+      color: $brand-white !important;
+      -webkit-text-fill-color: #fff;
+    }
+
+    &::-webkit-input-placeholder {
+      /* Chrome/Opera/Safari */
+      color: $brand-grey3;
+    }
+
+    &::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      color: $brand-grey3;
+    }
+
+    &:-moz-placeholder {
+      /* Mozilla Firefox 18- */
+      color: $brand-grey3;
+    }
+
+    &:-ms-input-placeholder {
+      /* Internet Explorer 10+ */
+      color: $brand-grey3;
+    }
+
+    &:focus {
+      border-bottom: $border-width solid $brand-white;
+
+      ~ label {
+        opacity: 1;
+      }
+
+      &::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color: inherit;
+        opacity: 0;
+      }
+
+      &::-moz-placeholder {
+        /* Mozilla Firefox 19+ */
+        color: inherit;
+        opacity: 0;
+      }
+
+      &:-moz-placeholder {
+        /* Mozilla Firefox 18- */
+        color: inherit;
+        opacity: 0;
+      }
+
+      &:-ms-input-placeholder {
+        /* Internet Explorer 10+ */
+        color: inherit;
+        opacity: 0;
+      }
+    }
+
+    &:not(:placeholder-shown) {
+      ~ label {
+        opacity: 1;
+      }
+    }
+
+    &.error {
+      border-bottom: $border-width solid $brand-grenadier;
+    }
+
+    &.boxed {
+      border: $border-width solid $color-border;
+    }
+
+    ~ label {
+      color: $brand-grey1;
+    }
+  }
+
+  [type='checkbox'],
+  [type='radio'] {
+    &:focus + label::before,
+    &:focus + label::after {
+      box-shadow: 0 0 0 2px $brand-grey2, 0 0 0 3px $brand-grey3;
+    }
+
+    & + label {
+      color: $brand-grey1;
+
+      &::before {
+        border: 0.2rem solid currentcolor;
+      }
+
+      &::after {
+        background-color: $brand-dove;
+      }
+    }
+  }
+}
