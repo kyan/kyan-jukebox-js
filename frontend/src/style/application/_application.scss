@@ -30,22 +30,22 @@
 // These come with default styling from the browser so we can redefine them here.
 
 @import 'elements/elements.document'; // Page-level styles (HTML, body etc).
-@import 'elements/elements.forms'; // Form inputs, textareas.
-@import 'elements/elements.links'; // Hyperlinks.
-@import 'elements/elements.lists'; // Lists.
-@import 'elements/elements.media'; // Media elements, img, svg, video, etc.
-@import 'elements/elements.quotes'; // Blockquotes, cite, etc.
-@import 'elements/elements.tables'; // Table element styles.
+// @import 'elements/elements.forms'; // Form inputs, textareas.
+// @import 'elements/elements.links'; // Hyperlinks.
+// @import 'elements/elements.lists'; // Lists.
+// @import 'elements/elements.media'; // Media elements, img, svg, video, etc.
+// @import 'elements/elements.quotes'; // Blockquotes, cite, etc.
+// @import 'elements/elements.tables'; // Table element styles.
 @import 'elements/elements.type'; // All type styles.
-@import 'elements/elements.dividers'; // Styled <hr> elements.
+// @import 'elements/elements.dividers'; // Styled <hr> elements.
 
 // Objects
 // =======
 // Class-based selectors which define undecorated design patterns.
 // An examples of an object would be the XY Grid.
 
-@import 'objects/objects.icon'; // Icon.
-@import 'objects/objects.form'; // Form.
+// @import 'objects/objects.icon'; // Icon.
+// @import 'objects/objects.form'; // Form.
 
 // Components
 // ==========
