@@ -3,7 +3,6 @@
 //
 //  Table of Contents:
 //
-//   0. Breakpoints
 //   1. Color
 //   2. Background Color
 //   3. Text Color
@@ -19,18 +18,6 @@
 //  13. Media Query
 //  14. Z-index
 //  15. Animation
-//  16. Grid / Gutters
-
-// 0. Breakpoints
-// --------
-$breakpoints: (
-  'small': 320px,
-  'medium': 640px,
-  'large': 1024px,
-  'xlarge': 1200px,
-  'xxlarge': 1440px,
-  'xxxlarge': 1660px,
-);
 
 // 1. Color
 // --------
@@ -43,8 +30,6 @@ $brand-white: #ffffff;
 $brand-black: #121416;
 $brand-grey1: #848585;
 $brand-grey2: #FAFCFC;
-// $brand-grey3: #858f93;
-// $brand-grey4: #dae3f1;
 
 // Palette map - useful for looping through to generate modifiers.
 $palette: (
@@ -55,8 +40,6 @@ $palette: (
   'black': $brand-black,
   'grey1': $brand-grey1,
   'grey2': $brand-grey2,
-  // 'grey3': $brand-grey3,
-  // 'grey4': $brand-grey4,
 );
 
 // 2. Background Color
@@ -69,8 +52,6 @@ $color-background-inverse: $brand-black; // Alternative background color for dar
 // -------------
 $color-text-body: $brand-white; // Body text color.
 $color-text-heading: $brand-white; // Heading text color.
-// $color-text-special: $brand-persian; // Highlighted text color.
-// $color-text-search: $brand-dove; // Search text color.
 $color-text-weak: $brand-grey1; // Text purposefully de-emphasized to create visual hierarchy.
 $color-text-link: $brand-white; // Text link color.
 $color-text-link-hover: $brand-turquoise; // Text link hover color.
@@ -186,7 +167,6 @@ $opacities: (
 // ----------
 $border-width: 0.1rem; // Global divider & border width.
 $spacing-reset: 0;
-$spacing-xlarge: 12rem;
 $spacing-large: 6.4rem;
 $spacing-medium: 4rem;
 $spacing-small: 3.2rem;
@@ -197,7 +177,6 @@ $spacing-xxxsmall: 1rem;
 // Spacing map - useful for looping through to generate modifiers.
 $spaces: (
   'reset': $spacing-reset,
-  'xlarge': $spacing-xlarge,
   'large': $spacing-large,
   'medium': $spacing-medium,
   'small': $spacing-small,
@@ -226,6 +205,14 @@ $shadow-hover: 0 5px 15px 0 rgba(0, 0, 0, 0.15); // Button / link object hover s
 
 // 13. Media Query
 // ---------------
+$breakpoints: (
+  'small': 320px,
+  'medium': 640px,
+  'large': 1024px,
+  'xlarge': 1200px,
+  'xxlarge': 1440px,
+  'xxxlarge': 1660px,
+);
 
 // 14. Z-index
 // -----------
@@ -264,9 +251,3 @@ $zindexes: (
 // -------------
 $transition-timing: 0.2s; // Default transition timing.
 $transition-easing: ease-in-out; // Default transition easing.
-
-// 16. Grid / Gutters
-// ------------------
-$gutter-default: 2rem; // Default gutter size.
-$gutter-medium: 4rem; // Medium gutter size.
-$gutter-large: 8rem; // Large gutter size.
