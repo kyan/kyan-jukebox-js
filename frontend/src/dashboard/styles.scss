@@ -1,0 +1,31 @@
+@import '../style/application/settings';
+
+.c-header {
+  height: 6.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: $border-width solid $color-border;
+}
+
+.c-main {
+  display: flex;
+  height: calc(100vh - 6.4rem);
+
+  &__nowPlaying {
+    // .c-main__nowPlaying
+    flex-shrink: 1;
+    border-right: $border-width solid $color-border;
+    padding: $spacing-xxsmall;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  &__trackList {
+    // .c-main__trackList
+    flex-grow: 1;
+    padding: $spacing-xxsmall;
+    height: 100%;
+    overflow: hidden;
+  }
+}

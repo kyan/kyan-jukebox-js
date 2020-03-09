@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dimmer, Divider, Grid, Container } from 'semantic-ui-react'
+import { Dimmer } from 'semantic-ui-react'
 import Controls from 'components/controls'
 import DragInTrack from 'components/drag-in-track'
 import CurrentTrackContainer from 'containers/current-track-container'
@@ -9,7 +9,7 @@ import SearchButton from 'search/components/button'
 import VolumeButtons from 'components/volume-buttons'
 import ClearPlaylist from 'components/clear-playlist'
 import SearchContainer from 'search'
-import './index.css'
+import './styles.scss'
 
 const Dashboard = (props) => {
   const {
@@ -40,16 +40,7 @@ const Dashboard = (props) => {
         onDrop={onDrop}
       >
         <SearchContainer>
-          <Container className='header-wrapper' fluid>
-            <Settings />
-            <VolumeButtons
-              disabled={disabled}
-              onVolumeChange={onVolumeChange}
-            />
-            <SearchButton
-              onClick={onSearchClick}
-              disabled={disabled}
-            />
+          <div className='c-header'>
             <Controls
               disabled={disabled}
               onPlay={onPlay}
@@ -58,28 +49,37 @@ const Dashboard = (props) => {
               onNext={onNext}
               onPrevious={onPrevious}
             />
-          </Container>
-          <Divider />
-          <Container className='body-wrapper' fluid>
-            <Grid stackable columns={2} className='dashboard-grid'>
-              <Grid.Column width={4}>
-                <h3 size='small'>Current Track</h3>
-                <CurrentTrackContainer />
-              </Grid.Column>
-              <Grid.Column width={8}>
-                <h3>
-                  Playlist <ClearPlaylist disabled={disabled} onClear={onTracklistClear} />
-                </h3>
-                <TrackList
-                  disabled={disabled}
-                  tracks={tracklist}
-                  currentTrack={currentTrack}
-                  onRemoveTrack={onRemoveTrack}
-                  onArtistSearch={onArtistSearch}
-                />
-              </Grid.Column>
-            </Grid>
-          </Container>
+
+            <div>
+              <SearchButton
+                onClick={onSearchClick}
+                disabled={disabled}
+              />
+              <VolumeButtons
+                disabled={disabled}
+                onVolumeChange={onVolumeChange}
+              />
+              <Settings />
+            </div>
+          </div>
+          <div className='c-main'>
+            <div className='c-main__nowPlaying'>
+              <h6 size='small'>Now playing</h6>
+              <CurrentTrackContainer />
+            </div>
+            <div className='c-main__trackList'>
+              <h6>
+                Tracklist <ClearPlaylist disabled={disabled} onClear={onTracklistClear} />
+              </h6>
+              <TrackList
+                disabled={disabled}
+                tracks={tracklist}
+                currentTrack={currentTrack}
+                onRemoveTrack={onRemoveTrack}
+                onArtistSearch={onArtistSearch}
+              />
+            </div>
+          </div>
         </SearchContainer>
       </DragInTrack>
     </Dimmer.Dimmable>
