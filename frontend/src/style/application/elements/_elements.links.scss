@@ -2,108 +2,12 @@
 // ===================
 
 a {
-  color: $brand-black;
+  color: $brand-white;
   transition: color $transition-timing $transition-easing;
 
   &:hover,
   &:active,
   &:focus {
-    color: $brand-persimmon;
-  }
-
-  &.secondary {
-    color: $brand-persimmon;
-
-    &:hover,
-    &:active,
-    &:focus {
-      color: $brand-white;
-    }
-  }
-
-  &.tertiary {
-    color: $brand-peacock;
-
-    &:hover,
-    &:active,
-    &:focus {
-      color: $brand-black;
-    }
-  }
-}
-
-.tag {
-  background: $brand-grey1;
-  font-size: $font-size-small;
-  font-weight: $font-weight-medium;
-  display: inline-block;
-  padding: 0.4rem 0.8rem;
-  margin: 0.4rem 0.8rem 0.4rem 0;
-  color: $brand-black;
-  transition: color $transition-timing $transition-easing;
-
-  &:not(.disabledTag) {
-    &:hover,
-    &:active,
-    &:focus {
-      color: $brand-persimmon;
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-}
-
-.roundTag {
-  border-radius: 100rem;
-  border: $border-width solid $color-border;
-  font-size: $font-size-small;
-  padding: 0.4rem 1.5rem;
-  margin: 0.4rem 0.8rem 0.4rem 0;
-  display: inline-block;
-  color: $brand-black;
-  transition: color $transition-timing $transition-easing;
-
-  &:not(.disabledTag) {
-    &:hover,
-    &:active,
-    &:focus {
-      color: $brand-persimmon;
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-}
-
-.fatTag {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 7rem;
-  height: calc(100% - #{$spacing-xxsmall});
-  padding: $spacing-xxsmall;
-  margin-bottom: $spacing-xxsmall;
-  background: $brand-grey1;
-  font-size: $font-size-small;
-  font-weight: $font-weight-medium;
-  text-align: center;
-  color: $brand-black;
-  transition: color $transition-timing $transition-easing;
-
-  &:hover,
-  &:active,
-  &:focus {
-    color: $brand-persimmon;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  @include breakpoint(xxlarge) {
-    font-size: 1.5rem;
+    color: $brand-turquoise;
   }
 }

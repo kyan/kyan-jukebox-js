@@ -7,10 +7,13 @@ import defaultImage from 'components/current-track/default-artwork.png'
 import AddedBy from 'components/added-by'
 import VotedBy from 'components/voted-by'
 import RemoveTrack from 'components/remove-track'
-import './index.css'
+import './styles.scss'
 
-const TrackImage = props => (
-  <Comment.Avatar className={props.isCurrent ? 'current-image' : null} src={props.src} />
+const TrackImage = (props) => (
+  <Comment.Avatar
+    src={props.src}
+    className={classnames('c-tracklist__image', { 'c-tracklist__image--current': props.isCurrent })}
+  />
 )
 
 const ImageChooser = props => {
@@ -19,15 +22,19 @@ const ImageChooser = props => {
   return <TrackImage src={image} isCurrent={props.isCurrent} />
 }
 
-const TrackHeading = props => <Comment.Author>{props.name}</Comment.Author>
+const TrackTitle = (props) => (
+  <span className="c-tracklist__title">{props.name}</span>
+)
 
-const TrackDescription = props => (
-  <Comment.Text>
-    <Item as='a' className='track-search-link' onClick={props.onClick}>
-      {props.artistName}
-    </Item>{' '}
-    <small>({millisToMinutesAndSeconds(props.trackLength)})</small>
-  </Comment.Text>
+const TrackInfo = (props) => (
+  <React.Fragment>
+    <span className="c-tracklist__artist">
+      <Item as='a' className='track-search-link' onClick={props.onClick}>
+        {props.artistName}
+      </Item>
+    </span>
+    <span className="c-tracklist__trackLength">{millisToMinutesAndSeconds(props.trackLength)}</span>
+  </React.Fragment>
 )
 
 const CurrentVote = props => {
@@ -83,11 +90,21 @@ const ListItems = props => {
     if (isCurrent) beenPlayed = beenPlayed || true
 
     return (
-      <Comment className={classnames({ 'current-track': isCurrent })} key={`${i}${track.uri}`}>
-        <ImageChooser image={track.image} isCurrent={isCurrent} />
-        <Comment.Content className={classnames({ 'track-info': !beenPlayed })}>
-          <TrackHeading name={track.name} />
-          <TrackDescription
+      <div
+        className={classnames('c-tracklist__item', { 'c-tracklist__item--current': isCurrent })}
+        key={`${i}${track.uri}`}
+      >
+        <ImageChooser
+          image={track.image}
+          isCurrent={isCurrent}
+        />
+        <div
+          className={classnames({ 'c-tracklist__info': !beenPlayed })}
+        >
+          <TrackTitle
+            name={track.name}
+          />
+          <TrackInfo
             artistName={track.artist.name}
             trackLength={track.length}
             onClick={props.onArtistSearch(track.artist.name)}
@@ -106,8 +123,8 @@ const ListItems = props => {
               onClick={props.onRemove}
             />
           </Comment.Actions>
-        </Comment.Content>
-      </Comment>
+        </div>
+      </div>
     )
   })
 }
@@ -118,7 +135,7 @@ const Tracklist = props => {
   }
 
   return (
-    <Comment.Group size='small'>
+    <div className="c-tracklist">
       <ListItems
         disabled={props.disabled}
         tracks={props.tracks}
@@ -126,7 +143,7 @@ const Tracklist = props => {
         onRemove={props.onRemoveTrack}
         onArtistSearch={props.onArtistSearch}
       />
-    </Comment.Group>
+    </div>
   )
 }
 
