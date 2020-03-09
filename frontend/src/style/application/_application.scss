@@ -26,7 +26,7 @@
 // Styling for bare HTML elements (like H1, A, etc.).
 // These come with default styling from the browser so we can redefine them here.
 @import 'elements/elements.document'; // Page-level styles (HTML, body etc).
-// @import 'elements/elements.links'; // Hyperlinks.
+@import 'elements/elements.links'; // Hyperlinks.
 @import 'elements/elements.type'; // All type styles.
 
 // Objects
