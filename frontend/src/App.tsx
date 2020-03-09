@@ -8,7 +8,6 @@ import ErrorBoundary from 'components/error-boundary'
 import GoogleAuthContext from 'contexts/google'
 import jukeboxMiddleware from 'middleware/jukebox-middleware'
 import jukeboxApp from 'reducers'
-import { Container } from 'semantic-ui-react'
 import DashboardContainer from 'containers/dashboard-container'
 import 'react-notifications-component/dist/theme.css'
 
@@ -23,13 +22,13 @@ const App = () => {
   return (
     <Provider store={store}>
       <ReactNotification />
-      <Container fluid>
+      <div className="c-app">
         <GoogleAuthContext.Provider value={googleAuth}>
           <ErrorBoundary>
             <DashboardContainer />
           </ErrorBoundary>
         </GoogleAuthContext.Provider>
-      </Container>
+      </div>
     </Provider>
   )
 }

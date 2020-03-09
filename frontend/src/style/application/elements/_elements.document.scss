@@ -16,3 +16,9 @@ body {
   font-weight: $font-weight-regular;
   background-color: $color-background;
 }
+
+.c-app {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}

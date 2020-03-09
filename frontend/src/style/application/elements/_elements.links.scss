@@ -11,3 +11,45 @@ a {
     color: $brand-turquoise;
   }
 }
+
+.c-button {
+  background-color: $brand-grey3;
+  border: none;
+  color: $brand-white;
+  transition: color $transition-timing $transition-easing;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: $brand-turquoise;
+    cursor: pointer;
+  }
+
+  &--disabled {
+    // .c-button--disabled
+    color: rgba($brand-white, $opacity-3);
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: rgba($brand-white, $opacity-3);
+      cursor: not-allowed;
+    }
+  }
+
+  &--active {
+    // .c-button--disabled
+    color: $brand-turquoise;
+    background: rgb(48,76,82);
+background: radial-gradient(circle, rgba(48,76,82,1) 0%, rgba(32,39,46,1) 100%);
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: $brand-turquoise;
+    }
+  }
+}

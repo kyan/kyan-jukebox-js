@@ -30,6 +30,7 @@ $brand-white: #ffffff;
 $brand-black: #121416;
 $brand-grey1: #848585;
 $brand-grey2: #FAFCFC;
+$brand-grey3: #20272E;
 
 // Palette map - useful for looping through to generate modifiers.
 $palette: (
@@ -40,6 +41,7 @@ $palette: (
   'black': $brand-black,
   'grey1': $brand-grey1,
   'grey2': $brand-grey2,
+  'grey3': $brand-grey3,
 );
 
 // 2. Background Color
@@ -60,9 +62,9 @@ $color-text-link-inverse-hover: $brand-turquoise; // Alt link text link hover co
 
 // 4. Border Color
 // ---------------
-$color-border: $brand-grey1; // Default border color for UI elements.
+$color-border: $brand-grey3; // Default border color for UI elements.
 $color-border-light: $brand-grey1; // Lighter border color for UI elements.
-$color-border-inverse: $brand-grey1; // Alternative border color for dark portions of the app.
+$color-border-inverse: $brand-black; // Alternative border color for dark portions of the app.
 
 // 5. Font
 // -------
@@ -154,11 +156,13 @@ $line-height-body-small: 1.4; // Small body copy line height.
 
 // 8. Opacity
 // ----------
+$opacity-3: 0.3; // 30% transparency of an element.
 $opacity-4: 0.4; // 40% transparency of an element.
 $opacity-5: 0.5; // 50% transparency of an element.
 
 // Opacity map - useful for looping through to generate modifiers.
 $opacities: (
+  '3': $opacity-3,
   '4': $opacity-4,
   '5': $opacity-5,
 );
