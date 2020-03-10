@@ -5,7 +5,6 @@
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  border-bottom: $border-width solid $color-border;
 
   &__actions {
     // .c-header__actions
@@ -28,8 +27,9 @@
   &__nowPlaying {
     // .c-main__nowPlaying
     flex-shrink: 1;
-    border-right: $border-width solid $color-border;
-    padding: $spacing-xxsmall;
+    border-right: $border-width solid $brand-black;
+    background-color: rgba($brand-grey3, 0.5);
+    padding: $spacing-xxsmall 1.25rem 0;
     height: 100%;
     overflow: hidden;
   }

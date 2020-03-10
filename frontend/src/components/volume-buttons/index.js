@@ -64,7 +64,7 @@ const VolumeButtons = ({ disabled, onVolumeChange }) => {
         onChange={onVolumeChange}
         disabled={disabled}
       />
-      <div className="c-volumeControls__indicator">10{jukebox.volume}</div>
+      <div className="c-volumeControls__indicator">{jukebox.volume}</div>
     </div>
   )
 }
