@@ -3,9 +3,22 @@
 .c-header {
   height: 6.4rem;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   border-bottom: $border-width solid $color-border;
+
+  &__actions {
+    // .c-header__actions
+    display: flex;
+  }
+
+  // overrides
+
+  .c-button {
+    margin: 0.1rem 0.1rem 0 0;
+    height: calc(100% - 0.2rem);
+    width: 6.2rem;
+  }
 }
 
 .c-main {

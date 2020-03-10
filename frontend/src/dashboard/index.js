@@ -44,16 +44,16 @@ const Dashboard = props => {
               onPrevious={onPrevious}
             />
 
-            <div>
-              <SearchButton
-                onClick={onSearchClick}
-                disabled={disabled}
-              />
+            <div className='c-header__actions'>
+              <Settings />
               <VolumeButtons
                 disabled={disabled}
                 onVolumeChange={onVolumeChange}
               />
-              <Settings />
+              <SearchButton
+                onClick={onSearchClick}
+                disabled={disabled}
+              />
             </div>
           </div>
           <div className='c-main'>

@@ -1,30 +1,30 @@
 import React, { useContext } from 'react'
-import { Button, Image } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 import GoogleAuthContext from 'contexts/google'
-import './index.css'
 
 export const Settings = () => {
   const { googleUser, signIn, signOut } = useContext(GoogleAuthContext)
 
   let avatar = (
-    <Button
-      icon='power off'
-      floated='right'
+    <button
       onClick={() => signIn()}
-      className='jb-settings-toggle'
-      title='Login using Google'
-    />
+      className="c-button"
+    >
+      <Icon name='power off' />
+    </button>
   )
   if (googleUser && googleUser.profileObj) {
     avatar = (
-      <Image
-        rounded
-        size='mini'
-        floated='right'
-        title={googleUser.profileObj.name}
-        src={googleUser.profileObj.imageUrl}
+      <button
         onClick={() => signOut()}
-      />
+        className="c-button c-button--image"
+      >
+        <img
+          title={googleUser.profileObj.name}
+          src={googleUser.profileObj.imageUrl}
+        />
+      </button>
+
     )
   }
 

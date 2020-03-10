@@ -16,40 +16,72 @@ a {
   background-color: $brand-grey3;
   border: none;
   color: $brand-white;
-  transition: color $transition-timing $transition-easing;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
+  &:focus {
+    outline: none;
+  }
 
   &:hover,
   &:active,
   &:focus {
     color: $brand-turquoise;
     cursor: pointer;
+
+    i {
+      filter: drop-shadow(0 0 7px rgba($brand-turquoise, 0.4));
+    }
+  }
+
+  i {
+    transition: all $transition-timing $transition-easing;
+    filter: drop-shadow(0 0 7px rgba($brand-white, 0.4));
   }
 
   &--disabled {
     // .c-button--disabled
-    color: rgba($brand-white, $opacity-3);
+    color: $brand-black;
 
     &:hover,
     &:active,
     &:focus {
-      color: rgba($brand-white, $opacity-3);
+      color: $brand-black;
       cursor: not-allowed;
+
+      i {
+        filter: drop-shadow(0 0 7px rgba($brand-white, 0));
+      }
+    }
+
+    i {
+      filter: drop-shadow(0 0 7px rgba($brand-white, 0));
     }
   }
 
   &--active {
-    // .c-button--disabled
+    // .c-button--active
     color: $brand-turquoise;
-    background: rgb(48,76,82);
-    background: radial-gradient(circle, rgba(48,76,82,1) 0%, rgba(32,39,46,1) 85%);
 
     &:hover,
     &:active,
     &:focus {
       color: $brand-turquoise;
+
+      i {
+        filter: drop-shadow(0 0 7px rgba($brand-turquoise, 0.4));
+      }
     }
+
+    i {
+      filter: drop-shadow(0 0 7px rgba($brand-turquoise, 0.4));
+    }
+  }
+
+  &--image {
+    // .c-button--image
+    overflow: hidden;
+    padding: 0;
   }
 }
