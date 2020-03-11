@@ -1,3 +1,29 @@
+@import '../../style/application/settings';
+
+.c-nowPlaying {
+
+  &__trackInfo {
+    // .c-nowPlaying__trackInfo
+    padding: $spacing-xxsmall
+  }
+
+  // overrides
+
+  h6 {
+    color: rgba($brand-white, 0.4);
+    margin-bottom: $spacing-xxxsmall;
+  }
+
+  h4 {
+    margin-bottom: $spacing-xxxsmall;
+  }
+
+  p {
+    font-size: $font-size-small;
+    color: $brand-grey1;
+  }
+}
+
 .progress-container {
   position: relative;
   margin-bottom: 10px;

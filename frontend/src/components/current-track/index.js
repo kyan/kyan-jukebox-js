@@ -8,7 +8,7 @@ import ProgressBar from 'components/progress-bar'
 import defaultImage from './default-artwork.png'
 import { flatten, mean } from 'lodash'
 import 'rc-slider/assets/index.css'
-import './index.css'
+import './styles.scss'
 
 const marks = {
   0: {
@@ -33,22 +33,17 @@ const spotifyLink = uri => {
 
 const AlbumDescription = props => {
   const year = ` (${props.album.year})`
-  return (
-    <Card.Description>
-      {props.album.name}
-      {year}
-    </Card.Description>
-  )
+  return <p>{props.album.name}{year}</p>
 }
 
 const noTrack = () => (
-  <Card>
-    <Image src={defaultImage} />
+  <div className="c-nowPlaying">
+    <img src={defaultImage} />
     <Card.Content>
       <Card.Header>Nothing playing</Card.Header>
       <Card.Description>Drag some music here or press play.</Card.Description>
     </Card.Content>
-  </Card>
+  </div>
 )
 
 const calcVoteAverage = data => {
@@ -112,14 +107,18 @@ const CurrentTrack = props => {
   const doVote = uri => rating => onVote(uri, rating / maxRating)
 
   return (
-    <Card>
-      <Image src={track.image || defaultImage} label={<TrackVotes metrics={track.metrics} />} />
-      <Card.Content>
-        <ProgressBar />
-        <Card.Header>{track.name}</Card.Header>
-        <Card.Meta>{track.artist.name}</Card.Meta>
+    <div className="c-nowPlaying">
+      <img
+        src={track.image || defaultImage}
+        //label={<TrackVotes metrics={track.metrics} />}
+      />
+      <div className="c-nowPlaying__trackInfo">
+        <h6>Now playing</h6>
+        <h4>{track.name}</h4>
+        <p>{track.artist.name}</p>
         <AlbumDescription album={track.album} />
-      </Card.Content>
+        <ProgressBar />
+      </div>
       <Card.Content extra>
         <div className='track-rating-container'>
           <Slider
@@ -154,7 +153,7 @@ const CurrentTrack = props => {
           {track.uri}
         </a>
       </Card.Content>
-    </Card>
+    </div>
   )
 }
 

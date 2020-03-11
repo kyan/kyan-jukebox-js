@@ -69,7 +69,9 @@ h5,
 h6,
 .h6 {
   font-weight: $font-weight-bold;
-  font-size: $font-size-body;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
   & + p {
     margin-top: $spacing-xxxsmall;
   }
@@ -93,7 +95,7 @@ p {
     line-height: $line-height-body-small;
 
     @include breakpoint(xxlarge) {
-      font-size: 1.5rem;
+      font-size: 1.3rem;
     }
   }
 
@@ -101,7 +103,7 @@ p {
     font-size: $font-size-smallest;
 
     @include breakpoint(xxlarge) {
-      font-size: 1.3rem;
+      font-size: 1.1rem;
     }
   }
 
