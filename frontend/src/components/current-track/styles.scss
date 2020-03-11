@@ -41,7 +41,7 @@
     // rc-slide style overrides
 
     .rc-slider-rail {
-      background-color: rgba($brand-grey1, 0.5);
+      background-color: rgba($brand-grey1, 0.3);
       height: 0.2rem;
       border-radius: 0;
     }
@@ -64,6 +64,26 @@
 
     .rc-slider-handle {
       margin-top: -0.6rem;
+    }
+  }
+
+  &__metaWrapper {
+    // .c-nowPlaying__metaWrapper
+    padding: 0 $spacing-xxsmall;
+    margin: 0 0 $spacing-xsmall;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__metaItem {
+    // .c-nowPlaying__metaItem
+    text-align: center;
+    font-size: $font-size-small;
+
+    // overrides
+
+    h6 {
+      margin-bottom: 0.5rem !important;
     }
   }
 
