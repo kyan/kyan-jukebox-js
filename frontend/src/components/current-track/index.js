@@ -144,8 +144,10 @@ const CurrentTrack = props => {
           <AddLabel count={addedBy.length} />
           <PlayLabel metrics={track.metrics} />
           <VoteLabel metrics={track.metrics} />
-          <VotedBy size='mini' show={votes.length > 0} total={calcVoteAverage(votes)} votes={votes} />
+        </div>
+        <div className='c-nowPlaying__footer'>
           <AddedBy users={track.addedBy} />
+          <VotedBy size='mini' show={votes.length > 0} total={calcVoteAverage(votes)} votes={votes} />
         </div>
       </div>
     </div>

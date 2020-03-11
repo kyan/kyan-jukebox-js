@@ -36,7 +36,7 @@
   &__trackList {
     // .c-main__trackList
     flex-grow: 1;
-    padding: $spacing-xxsmall;
+    padding: $spacing-xsmall $spacing-large;
     height: 100%;
     overflow: hidden;
   }
