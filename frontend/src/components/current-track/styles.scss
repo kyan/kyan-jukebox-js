@@ -70,7 +70,7 @@
   &__metaWrapper {
     // .c-nowPlaying__metaWrapper
     padding: 0 $spacing-xxsmall;
-    margin: 0 0 $spacing-xsmall;
+    margin: 0 0 $spacing-xxsmall;
     display: flex;
     justify-content: space-between;
   }
@@ -83,7 +83,32 @@
     // overrides
 
     h6 {
-      margin-bottom: 0.5rem !important;
+      margin-bottom: 0.2rem !important;
+    }
+  }
+
+  &__footer {
+    // .c-nowPlaying__footer
+    border-top: $border-width solid rgba($brand-white, 0.1);
+    margin: 0 $spacing-xxsmall $spacing-xsmall;
+    padding-top: $spacing-xxsmall;
+    display: flex;
+    justify-content: space-between;
+
+    // overrides
+
+    .ui.mini.label {
+      font-size: 1rem;
+      margin-right: 0;
+    }
+
+    .ui.basic.grey.label {
+      border: none
+    }
+
+    .ui.avatar.added_by_avatar_image {
+      width: 2.4rem;
+      height: 2.4rem;
     }
   }
 
