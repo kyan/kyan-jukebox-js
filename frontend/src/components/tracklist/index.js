@@ -28,17 +28,17 @@ const ImageChooser = (props) => {
 }
 
 const TrackTitle = (props) => (
-  <span className="c-tracklist__title">{props.name}</span>
+  <span className='c-tracklist__title'>{props.name}</span>
 )
 
 const TrackInfo = (props) => (
   <React.Fragment>
-    <span className="c-tracklist__artist">
+    <span className='c-tracklist__artist'>
       <Item as='a' className='track-search-link' onClick={props.onClick}>
         {props.artistName}
       </Item>
     </span>
-    <span className="c-tracklist__trackLength">{millisToMinutesAndSeconds(props.trackLength)}</span>
+    <span className='c-tracklist__trackLength'>{millisToMinutesAndSeconds(props.trackLength)}</span>
   </React.Fragment>
 )
 
@@ -142,7 +142,7 @@ const Tracklist = (props) => {
   if (!props.tracks) { return null }
 
   return (
-    <div className="c-tracklist">
+    <div className='c-tracklist'>
       <ListItems
         disabled={props.disabled}
         tracks={props.tracks}

@@ -6,6 +6,7 @@ import classnames from 'classnames'
 const SearchButton = ({ onClick, disabled }) => (
   <button
     onClick={onClick}
+    disabled={disabled}
     className={classnames('c-button', {
       'c-button--disabled': disabled
     })}

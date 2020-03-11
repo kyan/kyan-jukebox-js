@@ -8,7 +8,7 @@ export const Settings = () => {
   let avatar = (
     <button
       onClick={() => signIn()}
-      className="c-button"
+      className='c-button'
     >
       <Icon name='power off' />
     </button>
@@ -17,7 +17,7 @@ export const Settings = () => {
     avatar = (
       <button
         onClick={() => signOut()}
-        className="c-button c-button--image"
+        className='c-button c-button--image'
       >
         <img
           title={googleUser.profileObj.name}

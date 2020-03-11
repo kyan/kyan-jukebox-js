@@ -6,6 +6,7 @@ import { Icon } from 'semantic-ui-react'
 const PreviousButton = (props) => (
   <button
     onClick={props.onClick}
+    disabled={props.disabled}
     className={classnames('c-button', {
       'c-button--disabled': props.disabled
     })}
@@ -17,6 +18,7 @@ const PreviousButton = (props) => (
 const NextButton = (props) => (
   <button
     onClick={props.onClick}
+    disabled={props.disabled}
     className={classnames('c-button', {
       'c-button--disabled': props.disabled
     })}

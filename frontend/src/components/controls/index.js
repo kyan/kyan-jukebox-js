@@ -10,6 +10,7 @@ import './styles.scss'
 const PlayButton = (props) => (
   <button
     onClick={props.onClick}
+    disabled={(props.state === MopidyApi.PLAYING || props.disabled)}
     className={classnames('c-button', {
       'c-button--disabled': (props.state === MopidyApi.PLAYING || props.disabled),
       'c-button--active': (props.state === MopidyApi.PLAYING)
@@ -22,6 +23,7 @@ const PlayButton = (props) => (
 const PauseButton = (props) => (
   <button
     onClick={props.onClick}
+    disabled={(props.state === MopidyApi.PAUSED || props.state === MopidyApi.STOPPED || props.disabled)}
     className={classnames('c-button', {
       'c-button--disabled': (props.state === MopidyApi.PAUSED || props.state === MopidyApi.STOPPED || props.disabled),
       'c-button--active': (props.state === MopidyApi.PAUSED)
@@ -34,6 +36,7 @@ const PauseButton = (props) => (
 const StopButton = (props) => (
   <button
     onClick={props.onClick}
+    disabled={(props.state === MopidyApi.STOPPED || props.disabled)}
     className={classnames('c-button', {
       'c-button--disabled': (props.state === MopidyApi.STOPPED || props.disabled),
       'c-button--active': (props.state === MopidyApi.STOPPED)
@@ -48,7 +51,7 @@ const Controls = (props) => {
   const { disabled, onPlay, onPause, onStop, onPrevious, onNext } = props
 
   return (
-    <span className="c-controls">
+    <span className='c-controls'>
       <SkipButtons
         disabled={disabled}
         onPrevious={onPrevious}
