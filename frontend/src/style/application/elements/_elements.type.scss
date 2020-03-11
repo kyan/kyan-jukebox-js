@@ -110,7 +110,7 @@ p {
   // If p + p - add a margin-top.
   & + p,
   & + blockquote {
-    margin-top: $spacing-xxxsmall;
+    margin-top: $spacing-xxxsmall / 3;
   }
 
   // If heading + p - add a margin-top.
@@ -126,7 +126,7 @@ p {
   & + .h5,
   & + h6,
   & + .h6 {
-    margin-top: $spacing-xxxsmall;
+    margin-top: $spacing-xxxsmall / 3;
   }
 
   &:empty {
