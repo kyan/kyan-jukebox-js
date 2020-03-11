@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Label, Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 import Slider from 'rc-slider'
 import AddedBy from 'components/added-by'
 import VotedBy from 'components/voted-by'
@@ -68,32 +68,28 @@ const TrackVotes = props => {
 
 const AddLabel = props => {
   return (
-    <Label size='mini'>
-      Added
-      <Label.Detail>{props.count}</Label.Detail>
-    </Label>
+    <div className="c-nowPlaying__metaItem">
+      <h6>Added</h6>
+      {props.count}
+    </div>
   )
 }
 
-const PlayLabel = props => {
-  if (!props.metrics) return null
-
+const PlayLabel = (props) => {
   return (
-    <Label size='mini'>
-      Played
-      <Label.Detail>{props.metrics.plays}</Label.Detail>
-    </Label>
+    <div className="c-nowPlaying__metaItem">
+      <h6>Played</h6>
+      {props.metrics && props.metrics.plays}
+    </div>
   )
 }
 
-const VoteLabel = props => {
-  if (!props.metrics) return null
-
+const VoteLabel = (props) => {
   return (
-    <Label size='mini'>
-      Activity
-      <Label.Detail>{props.metrics.votes}</Label.Detail>
-    </Label>
+    <div className="c-nowPlaying__metaItem">
+      <h6>Votes</h6>
+      {props.metrics && props.metrics.votes}
+    </div>
   )
 }
 
@@ -144,15 +140,13 @@ const CurrentTrack = props => {
           />
         </div>
 
-        <Card.Content extra>
+        <div className='c-nowPlaying__metaWrapper'>
           <AddLabel count={addedBy.length} />
           <PlayLabel metrics={track.metrics} />
           <VoteLabel metrics={track.metrics} />
           <VotedBy size='mini' show={votes.length > 0} total={calcVoteAverage(votes)} votes={votes} />
-        </Card.Content>
-        <Card.Content extra>
           <AddedBy users={track.addedBy} />
-        </Card.Content>
+        </div>
       </div>
     </div>
   )
