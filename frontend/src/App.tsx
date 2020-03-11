@@ -22,7 +22,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <ReactNotification />
-      <div className="c-app">
+      <div className='c-app'>
         <GoogleAuthContext.Provider value={googleAuth}>
           <ErrorBoundary>
             <DashboardContainer />

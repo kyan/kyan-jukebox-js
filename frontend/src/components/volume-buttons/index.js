@@ -30,6 +30,7 @@ const volumeDown = (volume, cb) => {
 const VolumeDownButton = (props) => (
   <button
     onClick={volumeDown(props.volume, props.onChange)}
+    disabled={props.disabled}
     className={classnames('c-button', {
       'c-button--disabled': props.disabled
     })}
@@ -41,6 +42,7 @@ const VolumeDownButton = (props) => (
 const VolumeUpButton = (props) => (
   <button
     onClick={volumeUp(props.volume, props.onChange)}
+    disabled={props.disabled}
     className={classnames('c-button', {
       'c-button--disabled': props.disabled
     })}
@@ -53,7 +55,7 @@ const VolumeButtons = ({ disabled, onVolumeChange }) => {
   const jukebox = useSelector(state => state.jukebox)
 
   return (
-    <div className="c-volumeControls">
+    <div className='c-volumeControls'>
       <VolumeDownButton
         volume={jukebox.volume}
         onChange={onVolumeChange}
@@ -64,7 +66,7 @@ const VolumeButtons = ({ disabled, onVolumeChange }) => {
         onChange={onVolumeChange}
         disabled={disabled}
       />
-      <div className="c-volumeControls__indicator">{jukebox.volume}</div>
+      <div className='c-volumeControls__indicator'>{jukebox.volume}</div>
     </div>
   )
 }

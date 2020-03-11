@@ -37,10 +37,10 @@ const AlbumDescription = props => {
 }
 
 const noTrack = () => (
-  <div className="c-nowPlaying">
+  <div className='c-nowPlaying'>
     <div>
-      <img className="c-nowPlaying__image" src={defaultImage} />
-      <div className="c-nowPlaying__trackInfo">
+      <img className='c-nowPlaying__image' src={defaultImage} />
+      <div className='c-nowPlaying__trackInfo'>
         <h6>Now playing</h6>
         <h4>-</h4>
         <p>Drag some music here or press play.</p>
@@ -68,7 +68,7 @@ const TrackVotes = props => {
 
 const AddLabel = props => {
   return (
-    <div className="c-nowPlaying__metaItem">
+    <div className='c-nowPlaying__metaItem'>
       <h6>Added</h6>
       {props.count}
     </div>
@@ -77,7 +77,7 @@ const AddLabel = props => {
 
 const PlayLabel = (props) => {
   return (
-    <div className="c-nowPlaying__metaItem">
+    <div className='c-nowPlaying__metaItem'>
       <h6>Played</h6>
       {props.metrics && props.metrics.plays}
     </div>
@@ -86,7 +86,7 @@ const PlayLabel = (props) => {
 
 const VoteLabel = (props) => {
   return (
-    <div className="c-nowPlaying__metaItem">
+    <div className='c-nowPlaying__metaItem'>
       <h6>Votes</h6>
       {props.metrics && props.metrics.votes}
     </div>
@@ -106,16 +106,16 @@ const CurrentTrack = props => {
   const doVote = uri => rating => onVote(uri, rating / maxRating)
 
   return (
-    <div className="c-nowPlaying">
+    <div className='c-nowPlaying'>
       <div>
         <img
           src={track.image || defaultImage}
-          className="c-nowPlaying__image"
+          className='c-nowPlaying__image'
         />
-        <div className="c-nowPlaying__trackInfo">
-          <div className="c-nowPlaying__rating"><TrackVotes metrics={track.metrics} /></div>
+        <div className='c-nowPlaying__trackInfo'>
+          <div className='c-nowPlaying__rating'><TrackVotes metrics={track.metrics} /></div>
           <h6>Now playing</h6>
-          <a className="h4" href={spotifyLink(track.uri)}
+          <a className='h4' href={spotifyLink(track.uri)}
             target='_blank'
             rel='noopener noreferrer'>{track.name}</a>
           <p>{track.artist.name}</p>
