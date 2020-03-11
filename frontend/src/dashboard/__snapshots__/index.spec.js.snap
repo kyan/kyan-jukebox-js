@@ -10,19 +10,9 @@ exports[`Dashboard render renders the happy path correctly 1`] = `
     onDrop={[MockFunction onDropMock]}
   >
     <SearchContainer>
-      <Container
-        className="header-wrapper"
-        fluid={true}
+      <div
+        className="c-header"
       >
-        <Settings />
-        <VolumeButtons
-          disabled={false}
-          onVolumeChange={[MockFunction onVolumeChangeMock]}
-        />
-        <SearchButton
-          disabled={false}
-          onClick={[MockFunction onSearchClickMock]}
-        />
         <Controls
           disabled={false}
           onNext={[MockFunction onNextMock]}
@@ -31,58 +21,56 @@ exports[`Dashboard render renders the happy path correctly 1`] = `
           onPrevious={[MockFunction onPreviousMock]}
           onStop={[MockFunction onStopMock]}
         />
-      </Container>
-      <Divider />
-      <Container
-        className="body-wrapper"
-        fluid={true}
-      >
-        <Grid
-          className="dashboard-grid"
-          columns={2}
-          stackable={true}
+        <div
+          className="c-header__actions"
         >
-          <GridColumn
-            width={4}
-          >
-            <Header
-              size="small"
-            >
-              Current Track
-            </Header>
-            <CurrentTrackContainer />
-          </GridColumn>
-          <GridColumn
-            width={8}
-          >
-            <Header
-              size="small"
-            >
-              Playlist 
-              <ClearPlaylist
-                disabled={false}
-                onClear={[MockFunction onTracklistClearMock]}
-              />
-            </Header>
-            <Tracklist
-              currentTrack={
-                Object {
-                  "title": "track1",
-                }
-              }
+          <SearchButton
+            disabled={false}
+            onClick={[MockFunction onSearchClickMock]}
+          />
+          <VolumeButtons
+            disabled={false}
+            onVolumeChange={[MockFunction onVolumeChangeMock]}
+          />
+          <Settings />
+        </div>
+      </div>
+      <div
+        className="c-main"
+      >
+        <div
+          className="c-main__nowPlaying"
+        >
+          <CurrentTrackContainer />
+        </div>
+        <div
+          className="c-main__trackList"
+        >
+          <h6>
+            Tracklist 
+            <ClearPlaylist
               disabled={false}
-              onArtistSearch={[MockFunction onArtistSearch]}
-              onRemoveTrack={[MockFunction onRemoveTrackMock]}
-              tracks={
-                Array [
-                  "track1",
-                  "track2",
-                ]
-              }
+              onClear={[MockFunction onTracklistClearMock]}
             />
-          </GridColumn>
-        </Grid>
-      </Container>
+          </h6>
+          <Tracklist
+            currentTrack={
+              Object {
+                "title": "track1",
+              }
+            }
+            disabled={false}
+            onArtistSearch={[MockFunction onArtistSearch]}
+            onRemoveTrack={[MockFunction onRemoveTrackMock]}
+            tracks={
+              Array [
+                "track1",
+                "track2",
+              ]
+            }
+          />
+        </div>
+      </div>
     </SearchContainer>
   </DragInTrack>
 </DimmerDimmable>
