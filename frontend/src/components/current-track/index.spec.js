@@ -1,7 +1,6 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Provider } from 'react-redux'
-import { Image } from 'semantic-ui-react'
 import keyCode from 'rc-util/lib/KeyCode'
 import configureMockStore from 'redux-mock-store'
 import MockTrackListJson from '__mockData__/api'
@@ -64,7 +63,7 @@ describe('CurrentTrack', () => {
           </Provider>
         )
 
-        expect(wrapper.find('.track-rating-container')).toMatchSnapshot()
+        expect(wrapper.find('.c-nowPlaying__votingWrapper')).toMatchSnapshot()
       })
 
       it('renders and average vote that was 0', () => {
@@ -87,7 +86,7 @@ describe('CurrentTrack', () => {
           </Provider>
         )
 
-        expect(wrapper.find('.track-rating-container')).toMatchSnapshot()
+        expect(wrapper.find('.c-nowPlaying__votingWrapper')).toMatchSnapshot()
       })
     })
   })
@@ -105,7 +104,7 @@ describe('CurrentTrack', () => {
       track = MockTrackListJson()[0].track
       wrapper = shallow(<CurrentTrack track={track} progress={25} />)
 
-      expect(wrapper.find(Image)).toMatchSnapshot()
+      expect(wrapper.find('img')).toMatchSnapshot()
     })
   })
 
