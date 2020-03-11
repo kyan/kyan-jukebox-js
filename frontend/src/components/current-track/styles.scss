@@ -13,7 +13,58 @@
 
   &__trackInfo {
     // .c-nowPlaying__trackInfo
-    padding: $spacing-xxsmall
+    padding: $spacing-xxsmall;
+  }
+
+  &__rating {
+    // .c-nowPlaying__rating
+    position: absolute;
+    right: $spacing-xxxsmall;
+    top: 4.2rem;
+
+    // overrides
+
+    .ui.tiny.label {
+      font-size: 1rem;
+    }
+
+    .ui.basic.grey.label {
+      border: 0;
+    }
+  }
+
+  &__votingWrapper {
+    // .c-nowPlaying__votingWrapper
+    padding: $spacing-xsmall;
+    margin: $spacing-medium 0;
+
+    // rc-slide style overrides
+
+    .rc-slider-rail {
+      background-color: rgba($brand-grey1, 0.5);
+      height: 0.2rem;
+      border-radius: 0;
+    }
+
+    .rc-slider-step {
+      height: 0.3rem;
+    }
+
+    .rc-slider-dot {
+      background-color: $brand-grey1;
+      border: 0;
+      transition: all $transition-timing $transition-easing;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: $brand-white;
+      }
+    }
+
+    .rc-slider-handle {
+      margin-top: -0.6rem;
+    }
   }
 
   // overrides
@@ -26,15 +77,11 @@
   h4, .h4 {
     margin-bottom: $spacing-xxsmall;
     display: inline-block;
+    margin-right: $spacing-medium;
   }
 
   p {
     font-size: $font-size-small;
     color: $brand-grey4;
-  }
-
-  .track-rating-container {
-    width: 233px;
-    margin: 10px auto 20px auto;
   }
 }
