@@ -115,9 +115,9 @@ const CurrentTrack = props => {
         <img
           src={track.image || defaultImage}
           className="c-nowPlaying__image"
-          label={<TrackVotes metrics={track.metrics} />}
         />
         <div className="c-nowPlaying__trackInfo">
+          <div className="c-nowPlaying__rating"><TrackVotes metrics={track.metrics} /></div>
           <h6>Now playing</h6>
           <a className="h4" href={spotifyLink(track.uri)}
             target='_blank'
@@ -128,23 +128,22 @@ const CurrentTrack = props => {
         </div>
       </div>
       <div>
-        <Card.Content extra>
-          <div className='track-rating-container'>
-            <Slider
-              disabled={!userID}
-              dots
-              value={currentUserVote}
-              included={false}
-              marks={marks}
-              step={maxRating}
-              onChange={doVote(track.uri)}
-              handleStyle={{
-                borderColor: voteHandleColor(currentUserVote),
-                backgroundColor: voteHandleColor(currentUserVote)
-              }}
-            />
-          </div>
-        </Card.Content>
+        <div className='c-nowPlaying__votingWrapper'>
+          <Slider
+            disabled={!userID}
+            dots
+            value={currentUserVote}
+            included={false}
+            marks={marks}
+            step={maxRating}
+            onChange={doVote(track.uri)}
+            handleStyle={{
+              borderColor: voteHandleColor(currentUserVote),
+              backgroundColor: voteHandleColor(currentUserVote)
+            }}
+          />
+        </div>
+
         <Card.Content extra>
           <AddLabel count={addedBy.length} />
           <PlayLabel metrics={track.metrics} />
