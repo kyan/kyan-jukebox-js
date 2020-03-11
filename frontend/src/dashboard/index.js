@@ -51,20 +51,19 @@ const Dashboard = (props) => {
             />
 
             <div className='c-header__actions'>
-              <Settings />
-              <VolumeButtons
-                disabled={disabled}
-                onVolumeChange={onVolumeChange}
-              />
               <SearchButton
                 onClick={onSearchClick}
                 disabled={disabled}
               />
+              <VolumeButtons
+                disabled={disabled}
+                onVolumeChange={onVolumeChange}
+              />
+              <Settings />
             </div>
           </div>
           <div className='c-main'>
             <div className='c-main__nowPlaying'>
-              <h6 size='small'>Now playing</h6>
               <CurrentTrackContainer />
             </div>
             <div className='c-main__trackList'>
