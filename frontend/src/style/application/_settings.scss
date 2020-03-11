@@ -31,6 +31,7 @@ $brand-black: #121416;
 $brand-grey1: #848585;
 $brand-grey2: #FAFCFC;
 $brand-grey3: #20272E;
+$brand-grey4: #c2c2c2;
 
 // Palette map - useful for looping through to generate modifiers.
 $palette: (
@@ -42,6 +43,7 @@ $palette: (
   'grey1': $brand-grey1,
   'grey2': $brand-grey2,
   'grey3': $brand-grey3,
+  'grey4': $brand-grey4,
 );
 
 // 2. Background Color
@@ -52,7 +54,7 @@ $color-background-inverse: $brand-black; // Alternative background color for dar
 
 // 3. Text Color
 // -------------
-$color-text-body: $brand-white; // Body text color.
+$color-text-body: $brand-grey4; // Body text color.
 $color-text-heading: $brand-white; // Heading text color.
 $color-text-weak: $brand-grey1; // Text purposefully de-emphasized to create visual hierarchy.
 $color-text-link: $brand-white; // Text link color.

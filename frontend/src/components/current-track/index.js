@@ -38,11 +38,14 @@ const AlbumDescription = (props) => {
 
 const noTrack = () => (
   <div className="c-nowPlaying">
-    <img src={defaultImage} />
-    <Card.Content>
-      <Card.Header>Nothing playing</Card.Header>
-      <Card.Description>Drag some music here or press play.</Card.Description>
-    </Card.Content>
+    <div>
+      <img className="c-nowPlaying__image" src={defaultImage} />
+      <div className="c-nowPlaying__trackInfo">
+        <h6>Now playing</h6>
+        <h4>-</h4>
+        <p>Drag some music here or press play.</p>
+      </div>
+    </div>
   </div>
 )
 
@@ -106,49 +109,50 @@ const CurrentTrack = (props) => {
 
   return (
     <div className="c-nowPlaying">
-      <img
-        src={track.image || defaultImage}
-        //label={<TrackVotes metrics={track.metrics} />}
-      />
-      <div className="c-nowPlaying__trackInfo">
-        <h6>Now playing</h6>
-        <h4>{track.name}</h4>
-        <p>{track.artist.name}</p>
-        <AlbumDescription album={track.album} />
-        <ProgressBar />
-      </div>
-      <Card.Content extra>
-        <div className='track-rating-container'>
-          <Slider
-            disabled={!userID}
-            dots
-            value={currentUserVote}
-            included={false}
-            marks={marks}
-            step={maxRating}
-            onChange={doVote(track.uri)}
-            handleStyle={{
-              borderColor: voteHandleColor(currentUserVote),
-              backgroundColor: voteHandleColor(currentUserVote)
-            }}
-          />
+      <div>
+        <img
+          src={track.image || defaultImage}
+          className="c-nowPlaying__image"
+          //label={<TrackVotes metrics={track.metrics} />}
+        />
+        <div className="c-nowPlaying__trackInfo">
+          <h6>Now playing</h6>
+          <a className="h4" href={spotifyLink(track.uri)}
+            target='_blank'
+            rel='noopener noreferrer'>{track.name}</a>
+          <p>{track.artist.name}</p>
+          <AlbumDescription album={track.album} />
+          <ProgressBar />
         </div>
-      </Card.Content>
-      <Card.Content extra>
-        <AddLabel count={addedBy.length} />
-        <PlayLabel metrics={track.metrics} />
-        <VoteLabel metrics={track.metrics} />
-        <VotedBy size='mini' show={votes.length > 0} total={calcVoteAverage(votes)} votes={votes} />
-      </Card.Content>
-      <Card.Content extra>
-        <AddedBy users={track.addedBy} />
-        <a
-          className='track-uri'
-          href={spotifyLink(track.uri)}
-          target='_blank'
-          rel='noopener noreferrer'
-        >{track.uri}</a>
-      </Card.Content>
+      </div>
+      <div>
+        <Card.Content extra>
+          <div className='track-rating-container'>
+            <Slider
+              disabled={!userID}
+              dots
+              value={currentUserVote}
+              included={false}
+              marks={marks}
+              step={maxRating}
+              onChange={doVote(track.uri)}
+              handleStyle={{
+                borderColor: voteHandleColor(currentUserVote),
+                backgroundColor: voteHandleColor(currentUserVote)
+              }}
+            />
+          </div>
+        </Card.Content>
+        <Card.Content extra>
+          <AddLabel count={addedBy.length} />
+          <PlayLabel metrics={track.metrics} />
+          <VoteLabel metrics={track.metrics} />
+          <VotedBy size='mini' show={votes.length > 0} total={calcVoteAverage(votes)} votes={votes} />
+        </Card.Content>
+        <Card.Content extra>
+          <AddedBy users={track.addedBy} />
+        </Card.Content>
+      </div>
     </div>
   )
 }
