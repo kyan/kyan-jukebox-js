@@ -23,6 +23,7 @@ exports[`CurrentTrackContainer render the connected app renders something even w
       >
         <div>
           <img
+            alt="Kyan Limited Edition Collectors Vinyl"
             className="c-nowPlaying__image"
             src="default-artwork.png"
           />

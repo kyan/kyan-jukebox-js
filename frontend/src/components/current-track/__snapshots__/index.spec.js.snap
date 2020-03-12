@@ -868,6 +868,7 @@ exports[`CurrentTrack render album renders track 1`] = `
     >
       <div>
         <img
+          alt="Chicken Song"
           className="c-nowPlaying__image"
           src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
         />
@@ -1727,6 +1728,7 @@ exports[`CurrentTrack when missing data renders defaults 1`] = `
 >
   <div>
     <img
+      alt="I Know Him So Well"
       className="c-nowPlaying__image"
       src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
     />
@@ -1873,6 +1875,7 @@ exports[`CurrentTrack when missing data renders defaults 1`] = `
 
 exports[`CurrentTrack when no image renders default image 1`] = `
 <img
+  alt="Happiness"
   className="c-nowPlaying__image"
   src="default-artwork.png"
 />

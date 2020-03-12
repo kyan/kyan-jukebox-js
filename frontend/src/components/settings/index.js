@@ -22,6 +22,7 @@ export const Settings = () => {
         <img
           title={googleUser.profileObj.name}
           src={googleUser.profileObj.imageUrl}
+          alt={googleUser.profileObj.name}
         />
       </button>
 

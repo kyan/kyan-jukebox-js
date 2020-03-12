@@ -39,7 +39,7 @@ const AlbumDescription = (props) => {
 const noTrack = () => (
   <div className='c-nowPlaying'>
     <div>
-      <img className='c-nowPlaying__image' src={defaultImage} />
+      <img className='c-nowPlaying__image' src={defaultImage} alt='Kyan Limited Edition Collectors Vinyl' />
       <div className='c-nowPlaying__trackInfo'>
         <h6>Now playing</h6>
         <h4>-</h4>
@@ -109,6 +109,7 @@ const CurrentTrack = (props) => {
         <img
           src={track.image || defaultImage}
           className='c-nowPlaying__image'
+          alt={(track.name || 'Kyan Limited Edition Collectors Vinyl')}
         />
         <div className='c-nowPlaying__trackInfo'>
           <div className='c-nowPlaying__rating'><TrackVotes metrics={track.metrics} /></div>
