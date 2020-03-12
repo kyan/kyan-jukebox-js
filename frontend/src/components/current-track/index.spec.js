@@ -104,7 +104,8 @@ describe('CurrentTrack', () => {
       track = MockTrackListJson()[0].track
       wrapper = shallow(<CurrentTrack track={track} progress={25} />)
 
-      expect(wrapper.find('img')).toMatchSnapshot()
+      expect(wrapper.find('img')).toMatchSnapshot();
+      expect(wrapper.find('img').prop('alt')).toMatchSnapshot()
     })
   })
 
