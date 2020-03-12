@@ -531,6 +531,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                   onClick={[Function]}
                                 >
                                   <img
+                                    alt="Fred Spanner"
                                     src="myImage123"
                                     title="Fred Spanner"
                                   />
@@ -553,6 +554,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                   >
                                     <div>
                                       <img
+                                        alt="Kyan Limited Edition Collectors Vinyl"
                                         className="c-nowPlaying__image"
                                         src="default-artwork.png"
                                       />
@@ -1178,6 +1180,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                   >
                                     <div>
                                       <img
+                                        alt="Kyan Limited Edition Collectors Vinyl"
                                         className="c-nowPlaying__image"
                                         src="default-artwork.png"
                                       />
