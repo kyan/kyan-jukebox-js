@@ -1722,6 +1722,8 @@ exports[`CurrentTrack render album renders track 1`] = `
 </Provider>
 `;
 
+exports[`CurrentTrack render album renders track 2`] = `"Chicken Song"`;
+
 exports[`CurrentTrack when missing data renders defaults 1`] = `
 <div
   className="c-nowPlaying"

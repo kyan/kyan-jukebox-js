@@ -37,6 +37,7 @@ describe('CurrentTrack', () => {
         )
 
         expect(wrapper).toMatchSnapshot()
+        expect(wrapper.find('.c-nowPlaying__image').prop('alt')).toMatchSnapshot()
         const handler = wrapper.find('.rc-slider-handle').at(1)
         wrapper.simulate('focus')
         handler.simulate('keyDown', { keyCode: keyCode.UP })
