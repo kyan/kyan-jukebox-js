@@ -111,7 +111,7 @@ const CurrentTrack = props => {
         <img
           src={track.image || defaultImage}
           className='c-nowPlaying__image'
-          alt={(track.name || 'Kyan Limited Edition Collectors Vinyl')}
+          alt={(track.image ? track.name : 'Kyan Limited Edition Collectors Vinyl')}
         />
         <div className='c-nowPlaying__trackInfo'>
           <div className='c-nowPlaying__rating'><TrackVotes metrics={track.metrics} /></div>
