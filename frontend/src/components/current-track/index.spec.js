@@ -111,7 +111,7 @@ describe('CurrentTrack', () => {
         />
       )
 
-      expect(wrapper.find('img')).toMatchSnapshot();
+      expect(wrapper.find('img')).toMatchSnapshot()
       expect(wrapper.find('img').prop('alt')).toMatchSnapshot()
     })
   })
