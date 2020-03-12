@@ -1,0 +1,92 @@
+// Spacing helpers
+// ================
+
+@each $name,
+$space in $spaces {
+
+  // Padding
+
+  #{override('.u-pad-' + $name)} {
+    // .u-pad-large.u-pad-large
+    padding: $space;
+  }
+
+  #{override('.u-pad-v-' + $name)} {
+    // vertical padding
+    padding-top: $space;
+    padding-bottom: $space;
+  }
+
+  #{override('.u-pad-h-' + $name)} {
+    // vertical padding
+    padding-left: $space;
+    padding-right: $space;
+  }
+
+  #{override('.u-pad-t-' + $name)} {
+    // padding top
+    padding-top: $space;
+  }
+
+  #{override('.u-pad-r-' + $name)} {
+    // padding right
+    padding-right: $space;
+  }
+
+  #{override('.u-pad-b-' + $name)} {
+    // padding bottom
+    padding-bottom: $space;
+  }
+
+  #{override('.u-pad-l-' + $name)} {
+    // padding bottom
+    padding-left: $space;
+  }
+
+
+  // Margin
+
+  #{override('.u-margin-' + $name)} {
+    // .u-margin-large.u-margin-large
+    margin: $space;
+  }
+
+  #{override('.u-margin-v-' + $name)} {
+    // vertical margin
+    margin-top: $space;
+    margin-bottom: $space;
+  }
+
+  #{override('.u-margin-h-' + $name)} {
+    // horizontal margin
+    margin-right: $space;
+    margin-left: $space;
+  }
+
+  #{override('.u-margin-h-minus-' + $name)} {
+    // minus horizontal margin
+    margin-right: -$space;
+    margin-left: -$space;
+  }
+
+  #{override('.u-margin-t-' + $name)} {
+    // margin top
+    margin-top: $space;
+  }
+
+  #{override('.u-margin-r-' + $name)} {
+    // margin right
+    margin-right: $space;
+  }
+
+  #{override('.u-margin-b-' + $name)} {
+    // margin bottom
+    margin-bottom: $space;
+  }
+
+  #{override('.u-margin-l-' + $name)} {
+    // margin bottom
+    margin-left: $space;
+  }
+
+}

@@ -1,53 +1,49 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import classnames from 'classnames'
 import SkipButtons from 'components/skip-buttons'
 import MopidyApi from 'constants/mopidy-api'
 import PropTypes from 'prop-types'
-import { Button, Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
+import './styles.scss'
 
 const PlayButton = (props) => (
-  <Button
+  <button
     onClick={props.onClick}
-    animated='vertical'
     disabled={(props.state === MopidyApi.PLAYING || props.disabled)}
-    active={(props.state === MopidyApi.PLAYING)}
-    className='jb-play-button'
+    className={classnames('c-button', {
+      'c-button--disabled': (props.state === MopidyApi.PLAYING || props.disabled),
+      'c-button--active': (props.state === MopidyApi.PLAYING)
+    })}
   >
-    <Button.Content hidden>Play</Button.Content>
-    <Button.Content visible>
-      <Icon name='play' />
-    </Button.Content>
-  </Button>
+    <Icon name='play' />
+  </button>
 )
 
 const PauseButton = (props) => (
-  <Button
+  <button
     onClick={props.onClick}
-    animated='vertical'
     disabled={(props.state === MopidyApi.PAUSED || props.state === MopidyApi.STOPPED || props.disabled)}
-    active={(props.state === MopidyApi.PAUSED)}
-    className='jb-pause-button'
+    className={classnames('c-button', {
+      'c-button--disabled': (props.state === MopidyApi.PAUSED || props.state === MopidyApi.STOPPED || props.disabled),
+      'c-button--active': (props.state === MopidyApi.PAUSED)
+    })}
   >
-    <Button.Content hidden>Pause</Button.Content>
-    <Button.Content visible>
-      <Icon name='pause' />
-    </Button.Content>
-  </Button>
+    <Icon name='pause' />
+  </button>
 )
 
 const StopButton = (props) => (
-  <Button
+  <button
     onClick={props.onClick}
-    animated='vertical'
     disabled={(props.state === MopidyApi.STOPPED || props.disabled)}
-    active={(props.state === MopidyApi.STOPPED)}
-    className='jb-stop-button'
+    className={classnames('c-button', {
+      'c-button--disabled': (props.state === MopidyApi.STOPPED || props.disabled),
+      'c-button--active': (props.state === MopidyApi.STOPPED)
+    })}
   >
-    <Button.Content hidden>Stop</Button.Content>
-    <Button.Content visible>
-      <Icon name='stop' />
-    </Button.Content>
-  </Button>
+    <Icon name='stop' />
+  </button>
 )
 
 const Controls = (props) => {
@@ -55,7 +51,7 @@ const Controls = (props) => {
   const { disabled, onPlay, onPause, onStop, onPrevious, onNext } = props
 
   return (
-    <span>
+    <span className='c-controls'>
       <SkipButtons
         disabled={disabled}
         onPrevious={onPrevious}

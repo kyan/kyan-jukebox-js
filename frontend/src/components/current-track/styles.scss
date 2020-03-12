@@ -1,0 +1,132 @@
+@import '../../style/application/settings';
+
+.c-nowPlaying {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  &__image {
+    // .c-nowPlaying__image
+    width: 100%;
+  }
+
+  &__trackInfo {
+    // .c-nowPlaying__trackInfo
+    padding: $spacing-xxsmall;
+  }
+
+  &__rating {
+    // .c-nowPlaying__rating
+    position: absolute;
+    right: $spacing-xxxsmall;
+    top: 4.2rem;
+
+    // overrides
+
+    .ui.tiny.label {
+      font-size: 1rem;
+    }
+
+    .ui.basic.grey.label {
+      border: 0;
+    }
+  }
+
+  &__votingWrapper {
+    // .c-nowPlaying__votingWrapper
+    padding: $spacing-xsmall;
+    margin: $spacing-medium 0;
+
+    // rc-slide style overrides
+
+    .rc-slider-rail {
+      background-color: rgba($brand-grey1, 0.3);
+      height: 0.2rem;
+      border-radius: 0;
+    }
+
+    .rc-slider-step {
+      height: 0.3rem;
+    }
+
+    .rc-slider-dot {
+      background-color: $brand-grey1;
+      border: 0;
+      transition: all $transition-timing $transition-easing;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: $brand-white;
+      }
+    }
+
+    .rc-slider-handle {
+      margin-top: -0.6rem;
+    }
+  }
+
+  &__metaWrapper {
+    // .c-nowPlaying__metaWrapper
+    padding: 0 $spacing-xxsmall;
+    margin: 0 0 $spacing-xxsmall;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__metaItem {
+    // .c-nowPlaying__metaItem
+    text-align: center;
+    font-size: $font-size-small;
+
+    // overrides
+
+    h6 {
+      margin-bottom: 0.2rem !important;
+    }
+  }
+
+  &__footer {
+    // .c-nowPlaying__footer
+    border-top: $border-width solid rgba($brand-white, 0.1);
+    margin: 0 $spacing-xxsmall $spacing-xsmall;
+    padding-top: $spacing-xxsmall;
+    display: flex;
+    justify-content: space-between;
+
+    // overrides
+
+    .ui.mini.label {
+      font-size: 1rem;
+      margin-right: 0;
+    }
+
+    .ui.basic.grey.label {
+      border: none
+    }
+
+    .ui.avatar.added_by_avatar_image {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+  }
+
+  // overrides
+
+  h6 {
+    color: rgba($brand-white, 0.4);
+    margin-bottom: $spacing-xxsmall;
+  }
+
+  h4, .h4 {
+    margin-bottom: $spacing-xxsmall;
+    display: inline-block;
+    margin-right: $spacing-medium;
+  }
+
+  p {
+    font-size: $font-size-small;
+    color: $brand-grey4;
+  }
+}

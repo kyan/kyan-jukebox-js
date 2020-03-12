@@ -1,0 +1,40 @@
+// Shared element styles
+// =====================
+
+// ----------------------------------------------------------------------------
+//  1. Set background size to cover in all browsers (opinionated).
+//  2. Remove repeating backgrounds in all browsers (opinionated).
+//  3. Set background position to center apart from to pseudos (opinionated).
+//  4. Add box sizing inheritence in all browsers (opinionated).
+//  5. Add relative positioning (opinionated).
+// ----------------------------------------------------------------------------
+
+* {
+  background-size: cover;                         /* 1 */
+  position: relative;
+}
+
+*,
+::before,
+::after {
+  background-repeat: no-repeat;                   /* 2 */
+  background-position: center;                    /* 3 */
+  box-sizing: inherit;                            /* 4 */
+  position: relative;                             /* 5 */
+}
+
+
+// ----------------------------------------------------------------------------
+//  1. Add text decoration inheritance in all browsers (opinionated).
+//  2. Add vertical alignment inheritence in all browsers (opinionated).
+// ----------------------------------------------------------------------------
+
+::before,
+::after {
+  text-decoration: inherit;   /* 1 */
+  vertical-align: inherit;    /* 2 */
+}
+
+img {
+  max-width: 100%;
+}

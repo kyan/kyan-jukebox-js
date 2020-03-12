@@ -1,0 +1,51 @@
+// Borders
+// =======
+
+#{override('.u-border')} {
+  border: $border-width solid $color-border;
+}
+
+#{override('.u-border-b')} {
+  border-bottom: $border-width solid $color-border;
+}
+
+#{override('.u-border-t')} {
+  border-top: $border-width solid $color-border;
+}
+
+#{override('.u-border-l')} {
+  border-left: $border-width solid $color-border;
+}
+
+#{override('.u-border-r')} {
+  border-right: $border-width solid $color-border;
+}
+
+#{override('.u-border-inverse')} {
+  border: $border-width solid $color-border-inverse;
+}
+
+#{override('.u-border-b-inverse')} {
+  border-bottom: $border-width solid $color-border-inverse;
+}
+
+#{override('.u-border-t-inverse')} {
+  border-top: $border-width solid $color-border-inverse;
+}
+
+#{override('.u-border-l-inverse')} {
+  border-left: $border-width solid $color-border-inverse;
+}
+
+#{override('.u-border-b-right')} {
+  border-right: $border-width solid $color-border-inverse;
+}
+
+#{override('.u-radius')} {
+  border-radius: $border-radius;
+}
+
+#{override('.u-radius-large')} {
+  border-radius: $border-radius-large;
+}
+

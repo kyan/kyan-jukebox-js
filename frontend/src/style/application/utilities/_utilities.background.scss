@@ -1,0 +1,29 @@
+// Background
+// ==========
+
+@each $name, $colour in $palette {
+  #{override('.u-bg-' + $name)} {
+    // .u-bg-red.u-bg-red
+    background-color: $colour;
+
+    // Determine if the background is dark, if so, set the colour to $white.
+    @if (lightness($colour) < 50) {
+      color: $brand-white;
+      //set headings to white
+      h1,
+      .h1,
+      h2,
+      .h2,
+      h3,
+      .h3,
+      h4,
+      .h4,
+      h5,
+      .h5,
+      h6,
+      .h6 {
+        color: $brand-white;
+      }
+    }
+  }
+}

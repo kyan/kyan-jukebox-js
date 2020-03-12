@@ -1,0 +1,64 @@
+// Application
+// ===========
+// Import all project specific styles.
+
+// Settings
+// ========
+// Used with preprocessors and contain font, colors definitions, etc.
+// Already included in `core.css`, but has been replicated here for added clarity of layering.
+// @import 'settings';                             // Import all settings.
+
+// Tools
+// =====
+// Globally used mixins and functions.
+// It's important not to output any CSS in the first 2 layers.
+@import 'tools/tools.override'; // Chain classes together for a greater specificity.
+@import 'tools/tools.mixins'; // Can be broken out into separate files if this gets unwieldy.
+
+// Generic
+// =======
+// Reset and/or normalize styles, box-sizing definition, etc.
+// This is the first layer which generates actual CSS.
+@import 'generic/generic.shared'; // Shared global commonalities.
+
+// Elements
+// ========
+// Styling for bare HTML elements (like H1, A, etc.).
+// These come with default styling from the browser so we can redefine them here.
+@import 'elements/elements.document'; // Page-level styles (HTML, body etc).
+@import 'elements/elements.links'; // Hyperlinks.
+@import 'elements/elements.type'; // All type styles.
+
+// Objects
+// =======
+// Class-based selectors which define undecorated design patterns.
+// An examples of an object would be the XY Grid.
+// @import 'objects/objects.icon'; // Icon.
+// @import 'objects/objects.form'; // Form.
+
+// Components
+// ==========
+// Specific UI components.
+// This is where majority of our work takes place and our UI components are often composed of Objects and Components.
+// @import 'components/component.table'; // table components.
+
+// Templates
+// =========
+// Ideally kept to a minimum, but where some hooks are required outside of components at template level, this is where they live.
+// @import 'templates/templates.sign_in'; // Sign in.
+
+// Utilities
+// =========
+// Utilities and helper classes with ability to override anything which goes before in the triangle, eg. hide helper class.
+
+@import 'utilities/utilities.type'; // Generate type helper classes.
+@import 'utilities/utilities.colours'; // Colour helpers for setting background colour and text colour.
+@import 'utilities/utilities.spacing'; // Spacing helpers for standardised padding/margins etc.
+@import 'utilities/utilities.border'; // Border helpers.
+@import 'utilities/utilities.display'; // Display helpers.
+@import 'utilities/utilities.shadow'; // Shadow helpers.
+@import 'utilities/utilities.opacity'; // Opacity helpers.
+@import 'utilities/utilities.background'; // Background helpers.
+@import 'utilities/utilities.objectfit'; // Object Fit helpers.
+@import 'utilities/utilities.position'; // Position helpers.
+@import 'utilities/utilities.zindex'; // Z-index helpers.

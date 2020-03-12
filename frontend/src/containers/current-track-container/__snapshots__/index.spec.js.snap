@@ -18,43 +18,30 @@ exports[`CurrentTrackContainer render the connected app renders something even w
       onVote={[Function]}
       userID="duncan123"
     >
-      <Card>
-        <div
-          className="ui card"
-          onClick={[Function]}
-        >
-          <Image
-            as="img"
+      <div
+        className="c-nowPlaying"
+      >
+        <div>
+          <img
+            alt="Kyan Limited Edition Collectors Vinyl"
+            className="c-nowPlaying__image"
             src="default-artwork.png"
-            ui={true}
+          />
+          <div
+            className="c-nowPlaying__trackInfo"
           >
-            <img
-              className="ui image"
-              src="default-artwork.png"
-            />
-          </Image>
-          <CardContent>
-            <div
-              className="content"
-            >
-              <CardHeader>
-                <div
-                  className="header"
-                >
-                  Nothing playing
-                </div>
-              </CardHeader>
-              <CardDescription>
-                <div
-                  className="description"
-                >
-                  Drag some music here or press play.
-                </div>
-              </CardDescription>
-            </div>
-          </CardContent>
+            <h6>
+              Now playing
+            </h6>
+            <h4>
+              -
+            </h4>
+            <p>
+              Drag some music here or press play.
+            </p>
+          </div>
         </div>
-      </Card>
+      </div>
     </CurrentTrack>
   </CurrentTrackContainer>
 </Provider>

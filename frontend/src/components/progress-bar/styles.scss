@@ -1,0 +1,37 @@
+@import '../../style/application/settings';
+
+.c-progressBar {
+  position: relative;
+  margin: $spacing-xxxsmall 0 0;
+
+  &__trackLength,
+  &__remainingTime {
+    // .c-progressBar__trackLength
+    // .c-progressBar__remainingTime
+    position: absolute;
+    top: 0;
+    font-size: $font-size-smallest;
+    transform: translateY(2rem);
+  }
+
+  &__trackLength {
+    // .c-progressBar__trackLength
+    left: 0;
+  }
+
+  &__remainingTime {
+    // .c-progressBar__remainingTime
+    right: 0;
+  }
+
+  // rc-progress style overrides
+
+  .rc-progress-line-trail {
+    stroke: rgba($brand-grey1, 0.5);
+  }
+
+  .rc-progress-line-path {
+    stroke: $brand-turquoise;
+    filter: drop-shadow(0 0 7px rgba($brand-turquoise, 0.4));
+  }
+}

@@ -1,0 +1,57 @@
+// Icon object styles
+// ===================
+
+.o-icon {
+  display: inline-flex;
+  align-items: center;
+  fill: currentColor;
+
+  svg,
+  img {
+    flex-shrink: 0;
+  }
+
+  svg ~ span,
+  img ~ span,
+  span ~ svg,
+  span ~ img,
+  span ~ span {
+    margin-left: 1rem;
+  }
+
+  &--xsmall {
+    width: $size-icon-xsmall;
+    height: $size-icon-xsmall;
+  }
+
+  &--small {
+    width: $size-icon-small;
+    height: $size-icon-small;
+  }
+
+  &--medium {
+    width: $size-icon-medium;
+    height: $size-icon-medium;
+  }
+
+  &--large {
+    width: $size-icon-large;
+    height: $size-icon-large;
+  }
+
+  &--xlarge {
+    width: $size-icon-xlarge;
+    height: $size-icon-xlarge;
+  }
+
+  &--mobileNav {
+    width: 3.3rem;
+    height: 2.6rem;
+  }
+
+  &--clickable {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

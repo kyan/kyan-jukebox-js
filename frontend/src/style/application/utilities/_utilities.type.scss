@@ -1,0 +1,33 @@
+// Type helpers
+// ================
+
+@for $i from 1 through 6 {
+  .u-h#{$i} {
+    // eg. .u-h1
+    @extend h#{$i}; // eg. @extend h1
+  }
+}
+
+@each $name,
+$weight in $weights {
+  #{override('.u-weight-' + $name)} {
+    // .u-weight-bold.u-weight-bold
+    font-weight: $weight;
+  }
+}
+
+#{override('.u-lineheight-reset')} {
+  line-height: $line-height-reset;
+}
+
+#{override('.u-caps')} {
+  text-transform: uppercase;
+}
+
+#{override('.u-text-center')} {
+  text-align: center;
+}
+
+#{override('.u-text-right')} {
+  text-align: right;
+}
