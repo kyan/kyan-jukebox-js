@@ -32,7 +32,7 @@ describe('Settinsg', () => {
       })
 
       it('handles signing out', () => {
-        wrapper.find('Image').simulate('click')
+        wrapper.find('img').simulate('click')
         expect(signOutMock).toHaveBeenCalled()
       })
     })
@@ -55,7 +55,7 @@ describe('Settinsg', () => {
       })
 
       it('handles signing in', () => {
-        wrapper.find('Button').simulate('click')
+        wrapper.find('button').simulate('click')
         expect(signInMock).toHaveBeenCalled()
       })
     })

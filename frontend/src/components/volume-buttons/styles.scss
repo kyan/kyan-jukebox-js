@@ -1,0 +1,20 @@
+@import '../../style/application/settings';
+
+.c-volumeControls {
+  position: relative;
+
+  &__indicator {
+    // .c-volumeControls__indicator
+    align-self: stretch;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 10rem;
+    background: $brand-black;
+    font-size: 1.1rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1;
+  }
+}

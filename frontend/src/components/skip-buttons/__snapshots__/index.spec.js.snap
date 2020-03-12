@@ -8,184 +8,40 @@ exports[`SkipButtons render renders the as expected 1`] = `
   <PreviousButton
     onClick={[MockFunction]}
   >
-    <Button
-      animated="vertical"
-      as="button"
-      className="jb-previous-button"
+    <button
+      className="c-button"
       onClick={[MockFunction]}
     >
-      <Ref
-        innerRef={
-          Object {
-            "current": <button
-              class="ui vertical animated button jb-previous-button"
-            >
-              <div
-                class="hidden content"
-              >
-                Prev
-              </div>
-              <div
-                class="visible content"
-              >
-                <i
-                  aria-hidden="true"
-                  class="step backward icon"
-                />
-              </div>
-            </button>,
-          }
-        }
+      <Icon
+        as="i"
+        name="step backward"
       >
-        <RefFindNode
-          innerRef={
-            Object {
-              "current": <button
-                class="ui vertical animated button jb-previous-button"
-              >
-                <div
-                  class="hidden content"
-                >
-                  Prev
-                </div>
-                <div
-                  class="visible content"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="step backward icon"
-                  />
-                </div>
-              </button>,
-            }
-          }
-        >
-          <button
-            className="ui vertical animated button jb-previous-button"
-            onClick={[Function]}
-          >
-            <ButtonContent
-              hidden={true}
-            >
-              <div
-                className="hidden content"
-              >
-                Prev
-              </div>
-            </ButtonContent>
-            <ButtonContent
-              visible={true}
-            >
-              <div
-                className="visible content"
-              >
-                <Icon
-                  as="i"
-                  name="step backward"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="step backward icon"
-                    onClick={[Function]}
-                  />
-                </Icon>
-              </div>
-            </ButtonContent>
-          </button>
-        </RefFindNode>
-      </Ref>
-    </Button>
+        <i
+          aria-hidden="true"
+          className="step backward icon"
+          onClick={[Function]}
+        />
+      </Icon>
+    </button>
   </PreviousButton>
   <NextButton
     onClick={[MockFunction]}
   >
-    <Button
-      animated="vertical"
-      as="button"
-      className="jb-next-button"
+    <button
+      className="c-button"
       onClick={[MockFunction]}
     >
-      <Ref
-        innerRef={
-          Object {
-            "current": <button
-              class="ui vertical animated button jb-next-button"
-            >
-              <div
-                class="hidden content"
-              >
-                Next
-              </div>
-              <div
-                class="visible content"
-              >
-                <i
-                  aria-hidden="true"
-                  class="step forward icon"
-                />
-              </div>
-            </button>,
-          }
-        }
+      <Icon
+        as="i"
+        name="step forward"
       >
-        <RefFindNode
-          innerRef={
-            Object {
-              "current": <button
-                class="ui vertical animated button jb-next-button"
-              >
-                <div
-                  class="hidden content"
-                >
-                  Next
-                </div>
-                <div
-                  class="visible content"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="step forward icon"
-                  />
-                </div>
-              </button>,
-            }
-          }
-        >
-          <button
-            className="ui vertical animated button jb-next-button"
-            onClick={[Function]}
-          >
-            <ButtonContent
-              hidden={true}
-            >
-              <div
-                className="hidden content"
-              >
-                Next
-              </div>
-            </ButtonContent>
-            <ButtonContent
-              visible={true}
-            >
-              <div
-                className="visible content"
-              >
-                <Icon
-                  as="i"
-                  name="step forward"
-                >
-                  <i
-                    aria-hidden="true"
-                    className="step forward icon"
-                    onClick={[Function]}
-                  />
-                </Icon>
-              </div>
-            </ButtonContent>
-          </button>
-        </RefFindNode>
-      </Ref>
-    </Button>
+        <i
+          aria-hidden="true"
+          className="step forward icon"
+          onClick={[Function]}
+        />
+      </Icon>
+    </button>
   </NextButton>
 </SkipButtons>
 `;

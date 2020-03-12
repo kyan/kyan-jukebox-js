@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Image, Label, Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 import Slider from 'rc-slider'
 import AddedBy from 'components/added-by'
 import VotedBy from 'components/voted-by'
@@ -8,7 +8,7 @@ import ProgressBar from 'components/progress-bar'
 import defaultImage from './default-artwork.png'
 import { flatten, mean } from 'lodash'
 import 'rc-slider/assets/index.css'
-import './index.css'
+import './styles.scss'
 
 const marks = {
   0: {
@@ -33,17 +33,20 @@ const spotifyLink = (uri) => {
 
 const AlbumDescription = (props) => {
   const year = ` (${props.album.year})`
-  return <Card.Description>{props.album.name}{year}</Card.Description>
+  return <p>{props.album.name}{year}</p>
 }
 
 const noTrack = () => (
-  <Card>
-    <Image src={defaultImage} />
-    <Card.Content>
-      <Card.Header>Nothing playing</Card.Header>
-      <Card.Description>Drag some music here or press play.</Card.Description>
-    </Card.Content>
-  </Card>
+  <div className='c-nowPlaying'>
+    <div>
+      <img className='c-nowPlaying__image' src={defaultImage} alt='Kyan Limited Edition Collectors Vinyl' />
+      <div className='c-nowPlaying__trackInfo'>
+        <h6>Now playing</h6>
+        <h4>-</h4>
+        <p>Drag some music here or press play.</p>
+      </div>
+    </div>
+  </div>
 )
 
 const calcVoteAverage = (data) => {
@@ -65,32 +68,28 @@ const TrackVotes = (props) => {
 
 const AddLabel = (props) => {
   return (
-    <Label size='mini'>
-      Added
-      <Label.Detail>{props.count}</Label.Detail>
-    </Label>
+    <div className='c-nowPlaying__metaItem'>
+      <h6>Added</h6>
+      {props.count}
+    </div>
   )
 }
 
 const PlayLabel = (props) => {
-  if (!props.metrics) return null
-
   return (
-    <Label size='mini'>
-      Played
-      <Label.Detail>{props.metrics.plays}</Label.Detail>
-    </Label>
+    <div className='c-nowPlaying__metaItem'>
+      <h6>Played</h6>
+      {props.metrics && props.metrics.plays}
+    </div>
   )
 }
 
 const VoteLabel = (props) => {
-  if (!props.metrics) return null
-
   return (
-    <Label size='mini'>
-      Activity
-      <Label.Detail>{props.metrics.votes}</Label.Detail>
-    </Label>
+    <div className='c-nowPlaying__metaItem'>
+      <h6>Votes</h6>
+      {props.metrics && props.metrics.votes}
+    </div>
   )
 }
 
@@ -105,19 +104,26 @@ const CurrentTrack = (props) => {
   const doVote = (uri) => (rating) => onVote(uri, rating / maxRating)
 
   return (
-    <Card>
-      <Image
-        src={track.image || defaultImage}
-        label={<TrackVotes metrics={track.metrics} />}
-      />
-      <Card.Content>
-        <ProgressBar />
-        <Card.Header>{track.name}</Card.Header>
-        <Card.Meta>{track.artist.name}</Card.Meta>
-        <AlbumDescription album={track.album} />
-      </Card.Content>
-      <Card.Content extra>
-        <div className='track-rating-container'>
+    <div className='c-nowPlaying'>
+      <div>
+        <img
+          src={track.image || defaultImage}
+          className='c-nowPlaying__image'
+          alt={(track.image ? track.name : 'Kyan Limited Edition Collectors Vinyl')}
+        />
+        <div className='c-nowPlaying__trackInfo'>
+          <div className='c-nowPlaying__rating'><TrackVotes metrics={track.metrics} /></div>
+          <h6>Now playing</h6>
+          <a className='h4' href={spotifyLink(track.uri)}
+            target='_blank'
+            rel='noopener noreferrer'>{track.name}</a>
+          <p>{track.artist.name}</p>
+          <AlbumDescription album={track.album} />
+          <ProgressBar />
+        </div>
+      </div>
+      <div>
+        <div className='c-nowPlaying__votingWrapper'>
           <Slider
             disabled={!userID}
             dots
@@ -132,23 +138,18 @@ const CurrentTrack = (props) => {
             }}
           />
         </div>
-      </Card.Content>
-      <Card.Content extra>
-        <AddLabel count={addedBy.length} />
-        <PlayLabel metrics={track.metrics} />
-        <VoteLabel metrics={track.metrics} />
-        <VotedBy size='mini' show={votes.length > 0} total={calcVoteAverage(votes)} votes={votes} />
-      </Card.Content>
-      <Card.Content extra>
-        <AddedBy users={track.addedBy} />
-        <a
-          className='track-uri'
-          href={spotifyLink(track.uri)}
-          target='_blank'
-          rel='noopener noreferrer'
-        >{track.uri}</a>
-      </Card.Content>
-    </Card>
+
+        <div className='c-nowPlaying__metaWrapper'>
+          <AddLabel count={addedBy.length} />
+          <PlayLabel metrics={track.metrics} />
+          <VoteLabel metrics={track.metrics} />
+        </div>
+        <div className='c-nowPlaying__footer'>
+          <AddedBy users={track.addedBy} />
+          <VotedBy size='mini' show={votes.length > 0} total={calcVoteAverage(votes)} votes={votes} />
+        </div>
+      </div>
+    </div>
   )
 }
 
