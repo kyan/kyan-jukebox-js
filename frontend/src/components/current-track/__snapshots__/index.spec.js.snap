@@ -1875,10 +1875,10 @@ exports[`CurrentTrack when missing data renders defaults 1`] = `
 
 exports[`CurrentTrack when no image renders default image 1`] = `
 <img
-  alt="Happiness"
+  alt="Kyan Limited Edition Collectors Vinyl"
   className="c-nowPlaying__image"
   src="default-artwork.png"
 />
 `;
 
-exports[`CurrentTrack when no image renders default image 2`] = `"Happiness"`;
+exports[`CurrentTrack when no image renders default image 2`] = `"Kyan Limited Edition Collectors Vinyl"`;
