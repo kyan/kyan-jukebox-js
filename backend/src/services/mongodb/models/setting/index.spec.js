@@ -122,7 +122,8 @@ describe('test mongoose Settings model', () => {
         uri: 'uri123',
         metrics: {
           votesAverage: 50,
-          votes: 10
+          votes: 10,
+          plays: 10
         }
       }
 
@@ -132,13 +133,14 @@ describe('test mongoose Settings model', () => {
       })
     })
 
-    it('returns when average < 20', () => {
+    it('returns when average < 0', () => {
       expect.assertions(1)
       const track = {
         uri: 'uri123',
         metrics: {
           votesAverage: 10,
-          votes: 10
+          votes: 10,
+          plays: 10
         }
       }
 
@@ -153,7 +155,8 @@ describe('test mongoose Settings model', () => {
         uri: 'uri123',
         metrics: {
           votesAverage: 50,
-          votes: 0
+          votes: 0,
+          plays: 10
         }
       }
 

@@ -1,6 +1,6 @@
-import { sampleSize } from 'lodash'
 import Track from 'services/mongodb/models/track'
 import { getTracklist } from 'services/mongodb/models/setting'
+import SpotifyService from 'services/spotify'
 
 const newTracksAddedLimit = process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT
 
@@ -33,14 +33,13 @@ const Recommendations = {
             'metrics.votes': { $gt: 0 }
           }).select('_id').then(results => {
             const urisToIgnore = results.map(r => r._id)
-            const uris = sampleSize(
-              tracks
-                .filter(track => !track.explicit)
-                .filter(track => !currentTrackList.includes(track.uri))
-                .filter(track => !urisToIgnore.includes(track.uri))
-                .map(track => track.uri),
-              newTracksAddedLimit
-            )
+            const uris = tracks
+              .filter(track => !track.explicit)
+              .filter(track => !currentTrackList.includes(track.uri))
+              .filter(track => !urisToIgnore.includes(track.uri))
+              .sort((a, b) => a.popularity - b.popularity)
+              .slice(-newTracksAddedLimit)
+              .map(track => track.uri)
 
             return resolve({ images, uris })
           })
@@ -50,11 +49,12 @@ const Recommendations = {
 
   addRandomUris: (data) => {
     if (data.uris.length > 0) return Promise.resolve(data)
+    const images = data.images
 
     return new Promise((resolve) => {
       getTracklist()
-        .then(uris => {
-          const tracklist = uris
+        .then(currentTrackListUris => {
+          const currentTrackList = currentTrackListUris
 
           return Track.aggregate([
             { $match: { 'metrics.votesAverage': { $gte: 70 } } },
@@ -62,10 +62,9 @@ const Recommendations = {
             { $project: { _id: 1 } }
           ]).then(results => {
             const uris = results
-              .filter(result => !tracklist.includes(result._id))
+              .filter(result => !currentTrackList.includes(result._id))
               .map(r => r._id)
-
-            return resolve({ ...data, uris })
+            return SpotifyService.getTracks(uris).then(() => resolve({ images, uris }))
           })
         })
     })
