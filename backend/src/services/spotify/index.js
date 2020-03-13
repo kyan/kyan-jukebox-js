@@ -48,7 +48,7 @@ const searchTracks = (params) => {
   })
 }
 
-const getTracks = (uris) => {
+const getSpotifyTracks = (uris) => {
   return new Promise((resolve) => {
     const trackUris = stripServiceFromUris(uris)
 
@@ -70,10 +70,12 @@ const getRecommendations = (uris, mopidy) => {
   return new Promise((resolve, reject) => {
     const seedTracks = stripServiceFromUris(uris.slice(-5))
     const seedOptions = {
-      min_popularity: 20,
       seed_tracks: seedTracks,
-      valence: 0.7,
-      liveness: 0.0
+      min_popularity: 30,
+      min_valence: 0.5,
+      max_liveness: 0.2,
+      max_duration_ms: 480000,
+      max_speechiness: 0.4
     }
     const options = { ...defaultOptions, ...seedOptions }
 
@@ -156,7 +158,7 @@ const SpotifyService = {
   },
 
   search: params => searchTracks(params),
-  getTracks: uris => getTracks(uris)
+  getTracks: uris => getSpotifyTracks(uris)
 }
 
 export default SpotifyService
