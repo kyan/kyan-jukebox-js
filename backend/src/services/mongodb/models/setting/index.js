@@ -12,8 +12,8 @@ const stateFind = { key: 'state' }
 const options = { upsert: true, runValidators: true, setDefaultsOnInsert: true }
 
 const addToTrackSeedList = (track) => {
-  if (track.metrics && track.metrics.votesAverage < 20) return Promise.resolve()
-  if (track.metrics && track.metrics.votes < 1) return Promise.resolve()
+  if (track.metrics && track.metrics.votes > 1 && track.metrics.votesAverage < 50) return Promise.resolve()
+  if (track.metrics && track.metrics.plays > 2 && track.metrics.votes < 1) return Promise.resolve()
 
   return new Promise((resolve) => {
     return Setting.findOne(stateFind)
