@@ -46,3 +46,4 @@ jobs:
         WS_MOPIDY_PORT: 6680
         CLIENT_ID: abcdefg
         EXPLICIT_CONTENT: true
+        SPOTIFY_NEW_TRACKS_ADDED_LIMIT: 3
