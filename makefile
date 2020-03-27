@@ -1,32 +1,48 @@
+files = -f docker-compose.yml -f docker-compose.mongo.yml
+
 help:
 	@echo "How to use:"
 	@echo
-	@echo "  $$ make build            builds images excluding local mopidy"
-	@echo "  $$ make build-all        builds images including local mopidy"
-	@echo "  $$ make serve            start the local development environment excluding local mopidy"
-	@echo "  $$ make serve-all        start the local development environment including local mopidy"
-	@echo "  $$ make stop-all         stop the local development environment including local mopidy"
-	@echo "  $$ make test-frontend    runs client specs"
-	@echo "  $$ make test-backend     runs api specs"
+	@echo "  $$ make build              build Client and API images"
+	@echo "  $$ make build-all          build Client, API and Mopidy images"
+	@echo "  $$ make serve              start the local development environment with Client and API"
+	@echo "  $$ make serve-all          start the local development environment with Client, API and Mopidy"
+	@echo "  $$ make stop-all           stop all local development environment"
+	@echo "  $$ make test-client        runs client specs."
+	@echo "  $$ make coverage-client    runs client specs including coverage"
+	@echo "  $$ make test-api           runs api specs"
+	@echo "  $$ make coverage-api       runs api specs including coverage"
+	@echo "  $$ make test               runs all tests (same as on CI)"
 
 build:
-	docker-compose down
-	docker-compose build
+	docker-compose $(files) down
+	docker-compose $(files) build
 
 build-all:
-	docker-compose -f docker-compose.yml -f docker-compose-mopidy.yml build
+	docker-compose $(files) -f docker-compose-mopidy.yml down
+	docker-compose $(files) -f docker-compose-mopidy.yml build
 
 serve:
-	docker-compose up
+	docker-compose $(files) up
 
 serve-all:
-	docker-compose -f docker-compose.yml -f docker-compose-mopidy.yml up
+	docker-compose $(files) -f docker-compose-mopidy.yml up
 
 stop-all:
-	docker-compose -f docker-compose.yml -f docker-compose-mopidy.yml down
+	docker-compose $(files) -f docker-compose-mopidy.yml down
 
-test-frontend:
-	./scripts/specs-client.sh
+test-client:
+	docker-compose run --rm jukebox-client npm test
 
-test-backend:
-	./scripts/specs-api.sh
+coverage-client:
+	docker-compose run --rm jukebox-client npm run coverage
+
+test-api:
+	docker-compose run --rm jukebox-api npm run watch
+
+coverage-api:
+	docker-compose run --rm jukebox-api npm run coverage
+
+test:
+	docker-compose run -e CI=true --rm jukebox-client npm test -- --coverage --runInBand
+	docker-compose run -e CI=true --rm jukebox-api npm test -- --coverage --runInBand
