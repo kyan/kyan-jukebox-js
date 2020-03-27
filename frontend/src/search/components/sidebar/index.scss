@@ -1,3 +1,5 @@
+@import '../../../style/application/_settings.scss';
+
 .sidebar-search {
   background-color: rgb(71, 71, 71);
   padding: 25px;
@@ -15,7 +17,6 @@
 }
 
 .search-list-item__header {
-  font-size: 1.3em;
   line-height: 18px;
   white-space: nowrap;
   overflow: hidden;
@@ -23,7 +24,6 @@
 }
 
 .search-list-item__content {
-  font-size: 95%;
   margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
@@ -42,4 +42,10 @@
 
 .ui.tiny.image.search-list-item__image {
   width: 64px;
+}
+
+.ui.button,
+.ui.form,
+.ui.form .field>label {
+  font-size: $font-size-small
 }

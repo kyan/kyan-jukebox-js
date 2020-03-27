@@ -43,7 +43,7 @@ const AuthenticateHandler = (payload, socket) => {
           }
         }
 
-        if (data['hd'] === 'kyanmedia.com') {
+        if (process.env.GOOGLE_AUTH_DOMAIN && data['hd'] === process.env.GOOGLE_AUTH_DOMAIN) {
           return persistUser(responsePayload.user)
             .then(() => resolve(responsePayload))
             .catch((err) => logger.error('Error checking user', { error: err.message }))
