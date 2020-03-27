@@ -12,24 +12,55 @@ This is a work-in-progress replacement for our [existing office JukeBox](https:/
 
 The Jukebox re-imagined still uses `Mopidy` but has been split into parts, Client and API, Both of which are written in `JavaScript`. It also uses smaller events messages passed back and forth over a websocket. Currently both the client and API live in this one repo, but in the future it will likely split into it's component parts.
 
+## Why not use an existing Mopidy frontend
+
+We have extra requirements for our office Jukebox to make it more interactive and office friendly, Mopidy just handles playing music. This projects adds some of these extra features:
+
+* Information about who added a track to the playlist
+* Ability for other users to rate the current track playling
+* An auto track chooser that adds music when the playlist runs out
+* Auto switch off
+* Search for music ordered by previous vote popularity
+
 ## Requirements
+
+A machine that can run `nodejs`, a `Google` account and a premium `Spotify` account.
 
 ```
 $ git clone https://github.com/kyan/jukebox-js
 $ cd jukebox-js
 ```
 
+## Environment
+
+Runing the app locally requires some enviroment variables in order to be able to connect to Spotify and also to allow user authentication with Google.
+
+First, copy the [`.env.example`](.env.example) file into a new `.env` file and fill in the missing information. Links are provided in the file.
+
 ## Development
 
-### Environment
+The app uses `make`, so if you run `make help` you will see all the commands you can run against the app with a simple explaination.
 
-First, create a `.env` file in the root directory. Example vars can be found in the [`.env.example`](.env.example) file. At a minimum `WS_MOPIDY_URL`, `WS_MOPIDY_PORT` and `CLIENT_ID` values need to be defined.
+### Running the tests
 
-`WS_MOPIDY_URL` must point to an instance of Mopidy, for example [running locally on a Raspberry Pi](docs/mopidy_install.md), [or within Docker](docs/mopidy_docker.md).
+There is currently 100% test coverage throughout the app as well as linting via StandardSJ.
 
-`CLIENT_ID` must be set to a valid Google app ID in order for any interaction with the app to be possible.
+Run all the tests for the Client and the API (This is what will be run on Github) using:
+```
+$ make test
+```
 
-The backend also uses the Spotify API directly for some tasks. If you need this you will need to copy the `SPOTIFY_ID` and `SPOTIFY_SECRET` vars from the `.env.example` file to `.env` and [update the creds to your own](https://developer.spotify.com/dashboard/applications).
+Run just the tests for the client using:
+```
+$ make test-client
+$ make coverage-client # as above but with coverage
+```
+
+Run just the tests for the api using:
+```
+$ make test-api
+$ make coverage-api # as above but with coverage
+```
 
 ### Running the app
 
@@ -56,22 +87,6 @@ If you want to run your own copy of Mopidy, you can buy yourself a Raspberry Pi 
 
 Alternatively, it is possible to run Mopidy from [within Docker](docs/mopidy_docker.md), although this currently does not support audio playback.
 
-### Specs
-
-There is currently 100% test coverage and linting plumbed in. You can run the `frontend` specs with:
-
-```
-$ ./scripts/specs-client.sh
-```
-this will also start a watcher looking for code changes and re-running the specs.
-
-You can run the `backend` specs with:
-
-```
-$ ./scripts/specs-api.sh
-```
-
-You can add `--coverage` or/and `--watchAll` to the end for other options.
 
 ### Client
 
