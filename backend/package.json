@@ -4,10 +4,13 @@
   "private": true,
   "main": "dist/index.js",
   "scripts": {
-    "start": "nodemon src/index.js --exec \"node -r @babel/register\" --inspect=0.0.0.0:9229",
+    "node": "node -r @babel/register",
+    "start": "nodemon --watch src --exec 'npm run node' src/index.js",
     "build": "rm -rf dist && mkdir -p dist && babel src -s -D -d dist",
     "fix": "standard --fix",
-    "test": "standard && jest"
+    "test": "standard && jest",
+    "watch": "standard && jest --watchAll",
+    "coverage": "standard && jest --watchAll --coverage"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
