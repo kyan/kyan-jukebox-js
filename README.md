@@ -64,29 +64,26 @@ $ make coverage-api # as above but with coverage
 
 ### Running the app
 
-From there, you can run everything in `Docker`. From the root of the repo, you just need to run:
-
-```
-$ make build
-$ make serve
-```
-
-Or to run with local Mopidy:
+There are two ways to run the app in `Docker`. You either run it using a Docker version of Mopidy. You don't get any sound but it's by far the easiest way. You just need to run:
 
 ```
 $ make build-all
 $ make serve-all
 ```
 
-This will give you a working client and API plus the persistence layer. The client is available at http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart.
+or you can run it using Mopidy running somewhere else. In this case you will need to change the `WS_MOPIDY_URL` to point to your own running version. You can then start things with:
+
+```
+$ make build
+$ make serve
+```
+
+Either way. this will give you a working client and API plus the persistence layer. The client is available at http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart.
 
 
 ### Mopidy
 
-If you want to run your own copy of Mopidy, you can buy yourself a Raspberry Pi and follow [these instructions](docs/mopidy_install.md).
-
-Alternatively, it is possible to run Mopidy from [within Docker](docs/mopidy_docker.md), although this currently does not support audio playback.
-
+If you so want to run your own copy of Mopidy, you can buy yourself a Raspberry Pi and follow [these instructions](docs/mopidy_install.md).
 
 ### Client
 
