@@ -16,7 +16,7 @@ const store = createStore(jukeboxApp, composeEnhancers(applyMiddleware(jukeboxMi
 const App = () => {
   const googleAuth = useGoogleLogin({
     clientId: process.env.REACT_APP_CLIENT_ID,
-    hostedDomain: 'kyanmedia.com'
+    hostedDomain: process.env.GOOGLE_AUTH_DOMAIN
   })
 
   return (
