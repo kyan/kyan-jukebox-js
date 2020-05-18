@@ -1,5 +1,5 @@
 # base image
-FROM node:10.15.0-alpine
+FROM node:12-alpine
 
 # create app dir
 RUN mkdir -p /opt/app
