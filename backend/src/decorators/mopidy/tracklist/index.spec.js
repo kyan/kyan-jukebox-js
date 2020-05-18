@@ -1,7 +1,6 @@
 import TransformerTracklist from './index'
 import ImageCache from 'utils/image-cache'
 import fs from 'fs'
-import lolex from 'lolex'
 jest.mock('config/winston')
 
 const firstTrack = {
@@ -40,16 +39,7 @@ jest.mock('services/mongodb/models/track', () => ({
 }))
 
 describe('TransformerTracklist', () => {
-  let clock
   const payload = JSON.parse(fs.readFileSync('./src/__mockData__/tracklist.json', 'utf8'))
-
-  beforeEach(() => {
-    clock = lolex.install()
-  })
-
-  afterEach(() => {
-    clock = clock.uninstall()
-  })
 
   describe('when passed a tracklist', () => {
     it('transforms it', () => {

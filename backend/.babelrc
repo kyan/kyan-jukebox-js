@@ -10,7 +10,6 @@
     ]
   ],
   "plugins": [
-    ["@babel/proposal-object-rest-spread"],
     [
       "module-resolver",
       {
