@@ -4,8 +4,8 @@
   "private": true,
   "main": "dist/index.js",
   "scripts": {
+    "build": "babel src --out-dir dist --ignore 'src/**/*.spec.js'",
     "start": "nodemon src/index.js",
-    "build": "rm -rf dist && mkdir -p dist && babel src -s -D -d dist",
     "fix": "standard --fix",
     "test": "standard && jest",
     "watch": "standard && jest --watchAll",
