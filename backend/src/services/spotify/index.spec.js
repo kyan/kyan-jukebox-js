@@ -2,7 +2,7 @@ import SpotifyService from './index'
 import EventLogger from 'utils/event-logger'
 import ImageCache from 'utils/image-cache'
 import Recommend from 'utils/recommendations'
-import logger from 'config/winston'
+import logger from 'config/logger'
 import Track, { addTracks } from 'services/mongodb/models/track'
 import { getTracklist } from 'services/mongodb/models/setting'
 
@@ -11,7 +11,7 @@ jest.mock('services/mongodb/models/setting')
 jest.mock('utils/image-cache')
 jest.mock('services/mongodb/models/track')
 jest.mock('utils/event-logger')
-jest.mock('config/winston')
+jest.mock('config/logger')
 jest.mock('spotify-web-api-node', () => {
   return function () {
     const tracks = [

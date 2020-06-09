@@ -1,4 +1,4 @@
-import logger from 'config/winston'
+import logger from 'config/logger'
 
 function error (e) {
   // Handle non connection errors

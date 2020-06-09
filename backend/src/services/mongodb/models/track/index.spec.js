@@ -1,9 +1,9 @@
 import mockingoose from 'mockingoose'
 import User from 'services/mongodb/models/user'
 import EventLogger from 'utils/event-logger'
-import logger from 'config/winston'
+import logger from 'config/logger'
 import Track, { findTracks, addTracks, updateTrackPlaycount, updateTrackVote } from './index'
-jest.mock('config/winston')
+jest.mock('config/logger')
 jest.mock('utils/event-logger')
 
 describe('test mongoose Track model', () => {

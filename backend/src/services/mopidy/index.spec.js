@@ -1,6 +1,6 @@
 import MopidyService from './index'
 import Mopidy from 'mopidy'
-import logger from 'config/winston'
+import logger from 'config/logger'
 import Decorator from 'decorators/mopidy'
 import EventLogger from 'utils/event-logger'
 import {
@@ -12,7 +12,7 @@ import {
 jest.mock('decorators/mopidy')
 jest.mock('mopidy')
 jest.mock('utils/event-logger')
-jest.mock('config/winston')
+jest.mock('config/logger')
 jest.mock('services/mongodb/models/setting')
 
 describe('MopidyService', () => {

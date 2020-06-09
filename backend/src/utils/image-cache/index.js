@@ -1,6 +1,6 @@
 import EventLogger from 'utils/event-logger'
 import Image from 'services/mongodb/models/image'
-import logger from 'config/winston'
+import logger from 'config/logger'
 
 const expiresDate = () => {
   const day = 12 * 3600 * 1000

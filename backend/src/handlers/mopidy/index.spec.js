@@ -1,11 +1,11 @@
-import logger from 'config/winston'
+import logger from 'config/logger'
 import Spotify from 'services/spotify'
 import MopidyHandler from './index'
 import Broadcaster from 'utils/broadcaster'
 import Decorator from 'decorators/mopidy'
 jest.mock('decorators/mopidy')
 jest.mock('utils/broadcaster')
-jest.mock('config/winston')
+jest.mock('config/logger')
 jest.mock('services/spotify')
 
 describe('MopidyHandler', () => {

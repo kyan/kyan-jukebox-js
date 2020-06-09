@@ -1,4 +1,4 @@
-import logger from 'config/winston'
+import logger from 'config/logger'
 import MessageType from 'constants/message'
 import EventLogger from 'utils/event-logger'
 import Payload from 'utils/payload'

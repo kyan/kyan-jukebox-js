@@ -1,7 +1,7 @@
 import TransformerTracklist from './index'
 import ImageCache from 'utils/image-cache'
 import fs from 'fs'
-jest.mock('config/winston')
+jest.mock('config/logger')
 
 const firstTrack = {
   _id: 'spotify:track:6IZWJhXyk1Z0rtWNxIi4o7',

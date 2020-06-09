@@ -1,5 +1,5 @@
 import Scheduler from './index'
-import logger from 'config/winston'
+import logger from 'config/logger'
 const cron = require('node-cron')
 
 describe('Scheduler', () => {

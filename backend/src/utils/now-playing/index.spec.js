@@ -1,7 +1,7 @@
 import Setting from 'services/mongodb/models/setting'
-import logger from 'config/winston'
+import logger from 'config/logger'
 import NowPlaying from './index'
-jest.mock('config/winston')
+jest.mock('config/logger')
 
 describe('NowPlaying', () => {
   describe('addTrack', () => {

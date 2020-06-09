@@ -1,9 +1,9 @@
 import EventLogger from 'utils/event-logger'
 import mockingoose from 'mockingoose'
 import ImageCache from './index'
-import logger from 'config/winston'
+import logger from 'config/logger'
 jest.mock('utils/event-logger')
-jest.mock('config/winston')
+jest.mock('config/logger')
 
 describe('ImageCache', () => {
   beforeEach(() => {

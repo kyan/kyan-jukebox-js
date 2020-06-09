@@ -2,7 +2,7 @@ import { OAuth2Client } from 'google-auth-library'
 import Broadcaster from 'utils/broadcaster'
 import AuthConsts from 'constants/auth'
 import MopidyConsts from 'constants/mopidy'
-import logger from 'config/winston'
+import logger from 'config/logger'
 import User from 'services/mongodb/models/user'
 
 const isAuthorisedRequest = (key) => {

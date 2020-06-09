@@ -1,5 +1,5 @@
 import { request } from 'gaxios'
-import logger from 'config/winston'
+import logger from 'config/logger'
 
 const HttpService = {
   post: ({ url, data }) => {

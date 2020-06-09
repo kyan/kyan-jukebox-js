@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-import logger from 'config/winston'
+import logger from 'config/logger'
 import MongodbService from './index'
-jest.mock('config/winston')
+jest.mock('config/logger')
 
 describe('MongodbService', () => {
   it('it should handle a connection success', () => {

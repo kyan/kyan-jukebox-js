@@ -1,6 +1,6 @@
-import logger from 'config/winston'
+import logger from 'config/logger'
 import ErrorsHandler from './index'
-jest.mock('config/winston')
+jest.mock('config/logger')
 
 jest.useFakeTimers()
 

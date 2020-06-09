@@ -1,4 +1,4 @@
-import logger from 'config/winston'
+import logger from 'config/logger'
 import Setting, {
   addToTrackSeedList,
   initializeState,
@@ -10,7 +10,7 @@ import Setting, {
   getSeedTracks,
   getTracklist
 } from './index'
-jest.mock('config/winston')
+jest.mock('config/logger')
 
 describe('test mongoose Settings model', () => {
   afterEach(() => {

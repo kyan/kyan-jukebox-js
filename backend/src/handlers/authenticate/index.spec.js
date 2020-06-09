@@ -1,10 +1,10 @@
 import { OAuth2Client } from 'google-auth-library'
 import Broadcaster from 'utils/broadcaster'
 import User from 'services/mongodb/models/user'
-import logger from 'config/winston'
+import logger from 'config/logger'
 import AuthenticateHandler from './index'
 jest.mock('google-auth-library')
-jest.mock('config/winston')
+jest.mock('config/logger')
 jest.mock('utils/broadcaster')
 jest.mock('services/mongodb/models/user')
 

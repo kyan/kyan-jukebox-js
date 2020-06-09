@@ -1,7 +1,7 @@
 import EventLogger from './index'
 import Event from 'services/mongodb/models/event'
-import logger from 'config/winston'
-jest.mock('config/winston')
+import logger from 'config/logger'
+jest.mock('config/logger')
 jest.mock('services/mongodb/models/event')
 
 describe('EventLogger', () => {

@@ -1,7 +1,7 @@
 import HttpService from './index'
 import { request } from 'gaxios'
-import logger from 'config/winston'
-jest.mock('config/winston')
+import logger from 'config/logger'
+jest.mock('config/logger')
 jest.mock('gaxios', () => {
   return {
     request: jest.fn()

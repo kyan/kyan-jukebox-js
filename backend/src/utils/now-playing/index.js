@@ -1,5 +1,5 @@
 import Setting from 'services/mongodb/models/setting'
-import logger from 'config/winston'
+import logger from 'config/logger'
 import ta from 'time-ago'
 
 const slackFind = { key: 'slack' }

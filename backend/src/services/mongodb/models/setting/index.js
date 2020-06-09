@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import logger from 'config/winston'
+import logger from 'config/logger'
 
 const HOW_MANY_PREVIOUS_TRACKS_IN_PLAYLIST = 4
 

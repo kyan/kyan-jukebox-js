@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import User from 'services/mongodb/models/user'
 import EventLogger from 'utils/event-logger'
-import logger from 'config/winston'
+import logger from 'config/logger'
 import VotingHelper from 'utils/voting'
 
 const trackSchema = mongoose.Schema({
