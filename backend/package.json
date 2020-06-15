@@ -2,14 +2,16 @@
   "name": "jukebox-backend",
   "version": "1.0.0",
   "private": true,
-  "main": "dist/index.js",
   "scripts": {
-    "build": "babel src --out-dir dist --ignore 'src/**/*.spec.js'",
-    "start": "nodemon src/index.js",
+    "build": "tsc",
+    "start": "ts-node-dev --respawn --transpileOnly src/index.js",
+    "start:prod": "node dist/index.js",
     "fix": "standard --fix",
-    "test": "standard && jest",
-    "watch": "standard && jest --watchAll",
-    "coverage": "standard && jest --watchAll --coverage"
+    "test": "standard && npm run jest",
+    "test:watch": "standard && npm run jest -- --watchAll",
+    "test:coverage": "standard npm run jest -- --watchAll --coverage",
+    "test:ci": "standard && npm run jest -- --runInBand --coverage",
+    "jest": "jest --forceExit --detectOpenHandles --verbose"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -28,40 +30,15 @@
     "uuid": "^3.3.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "@babel/register": "^7.4.4",
-    "babel-eslint": "^10.0.1",
-    "babel-jest": "^24.8.0",
-    "babel-plugin-module-resolver": "^3.2.0",
-    "jest": "^24.8.0",
+    "@types/node": "^14.0.13",
+    "jest": "^26.0.1",
     "mockingoose": "2.13.2",
-    "nodemon": "^2.0.4",
-    "standard": "^11.0.1"
-  },
-  "jest": {
-    "clearMocks": true,
-    "testEnvironment": "node",
-    "collectCoverageFrom": [
-      "src/**/*.js",
-      "!<rootDir>/dist/",
-      "!src/index.js",
-      "!src/app.js",
-      "!src/constants/*.js",
-      "!src/config/*.js"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 100,
-        "functions": 100,
-        "lines": 100,
-        "statements": 100
-      }
-    }
+    "standard": "^11.0.1",
+    "ts-jest": "^26.1.0",
+    "ts-node-dev": "^1.0.0-pre.48",
+    "typescript": "^3.9.5"
   },
   "standard": {
-    "parser": "babel-eslint",
     "globals": [
       "describe",
       "context",

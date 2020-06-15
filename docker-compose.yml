@@ -29,7 +29,7 @@ services:
     volumes:
       - ./backend:/opt/app:delegated
       - /opt/app/node_modules
-    command: npm start
+    command: npm run start
     ports:
       - "8080:8080"
       - "5858:5858"

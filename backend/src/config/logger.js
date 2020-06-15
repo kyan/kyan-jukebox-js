@@ -1,5 +1,5 @@
 import { Logger } from 'tslog'
 
-const logger = new Logger()
+const logStuff = new Logger()
 
-export default logger
+export default logStuff
