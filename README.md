@@ -52,15 +52,20 @@ $ make test
 
 Run just the tests for the client using:
 ```
-$ make test-client
-$ make coverage-client # as above but with coverage
+$ make client-test
 ```
 
 Run just the tests for the api using:
 ```
-$ make test-api
-$ make coverage-api # as above but with coverage
+$ make api-test
 ```
+
+You can also run:
+```
+$ make api-client
+$ make api-console
+```
+If you just want a console that you can run commands yourself.
 
 ### Running the app
 
@@ -78,20 +83,29 @@ $ make build
 $ make serve
 ```
 
-Either way. this will give you a working client and API plus the persistence layer. The client is available at http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart.
+Either way. this will give you a working client and API plus the persistence layer. The client is available
+at http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart.
 
 
 ### Mopidy
 
-If you so want to run your own copy of Mopidy, you can buy yourself a Raspberry Pi and follow [these instructions](docs/mopidy_install.md).
+If you so want to run your own version of Mopidy for running in production, you can buy yourself a Raspberry Pi and follow [these instructions](docs/mopidy_install.md).
 
 ### Client
 
-You can find more information on the client via it's README in the `frontend` folder.
+A ReactJS application that communicates with the JukeBox API.
 
 ### API
 
-You can find more information on the api via it's README in the `backend` folder.
+A NodeJS + Express application that communicates with `Mongodb` and the `Mopidy` Websocket interface.
+
+##### TypeScript
+
+TypeScript support has now been added and is encouraged. In order to use Intellisense and TypeChecking in VSCode you will need to connect VSCode to the source running in the `API` container as that's where all the node modules are installed. To do this you need to have the `VSCode Remote - Containers` extension installed.
+
+You would then start the app via `make serve` or via `make api-console` to start the api service. The in VSCode you run `Remote Containers - Attach to running container...` and choose the jukebox api container that you started and want to connect to. This should then start a new window connecting to the container where you can edit your code. You should now get all the Intellisense and TypeChecking working in that window.
+
+Once you have done this once, the next time when you start the container, you should see an entry in the `Remote Exporer` containers section where you can attach again from there. You can also edit the configuration so you can install in extension you want when you are editing.
 
 ### MongoDB
 
@@ -120,7 +134,7 @@ This would install the new package as well as updating the `package-local.json` 
 $ doc build
 ```
 
-You can then start all the containers again `doc up`
+You can then start all the containers again `docker-compose up`
 
 ## Deployment
 
