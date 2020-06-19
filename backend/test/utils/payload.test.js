@@ -20,7 +20,7 @@ describe('Payload', () => {
   })
 
   it('it should encode to json', () => {
-    expect(Payload.encodeToJson(key, data)).toEqual(
+    expect(Payload.encodeToJson({ key, data })).toEqual(
       '{"key":"letsdothis","data":{"wotcha":"son"}}'
     )
   })

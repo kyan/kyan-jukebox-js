@@ -108,7 +108,7 @@ const removeFromSeeds = (uri) => {
 const getSeedTracks = () => {
   return new Promise((resolve) => {
     return Setting.findOne(stateFind)
-      .then(state => resolve(state.value.trackSeeds))
+      .then(state => resolve(state.value.trackSeeds || []))
       .catch((error) => logger.error(`getSeedTracks: ${error.message}`))
   })
 }
@@ -116,7 +116,7 @@ const getSeedTracks = () => {
 const getTracklist = () => {
   return new Promise((resolve) => {
     return Setting.findOne(stateFind)
-      .then(state => resolve(state.value.currentTracklist))
+      .then(state => resolve(state.value.currentTracklist || []))
       .catch((error) => logger.error(`getTracklist: ${error.message}`))
   })
 }

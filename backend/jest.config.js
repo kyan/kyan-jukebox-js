@@ -15,6 +15,10 @@ module.exports = {
   testMatch: [
     '**/test/**/*.test.(ts|js)'
   ],
+  watchPlugins: [
+    'jest-watch-typeahead/filename',
+    'jest-watch-typeahead/testname'
+  ],
   testEnvironment: 'node',
   clearMocks: true,
   coverageThreshold: {

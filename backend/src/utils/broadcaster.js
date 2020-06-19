@@ -6,7 +6,11 @@ import Payload from '../utils/payload'
 const Broadcaster = {
   toClient: ({ socket, headers, message, type = MessageType.GENERIC }) => {
     try {
-      const payload = Payload.encodeToJson(headers.key, message, headers.user)
+      const payload = Payload.encodeToJson({
+        key: headers.key,
+        data: message,
+        user: headers.user
+      })
       const context = headers.user ? MessageType.OUTGOING_API_AUTH : MessageType.OUTGOING_API
 
       EventLogger.info(context, { key: headers.key, data: message })
@@ -18,7 +22,11 @@ const Broadcaster = {
 
   toAll: ({ socketio, headers, message, type = MessageType.GENERIC }) => {
     try {
-      const payload = Payload.encodeToJson(headers.key, message, headers.user)
+      const payload = Payload.encodeToJson({
+        key: headers.key,
+        data: message,
+        user: headers.user
+      })
 
       EventLogger.info(MessageType.OUTGOING_ALL, { key: headers.key, data: message })
       socketio.emit(type, payload)

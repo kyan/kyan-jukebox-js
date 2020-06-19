@@ -399,6 +399,22 @@ describe('test mongoose Settings model', () => {
       })
     })
 
+    it('handles no results', () => {
+      expect.assertions(2)
+      jest.spyOn(Setting, 'findOne').mockResolvedValue({
+        value: {
+          trackSeeds: null
+        }
+      })
+
+      return getSeedTracks().then((response) => {
+        expect(Setting.findOne).toHaveBeenCalledWith(
+          { key: 'state' }
+        )
+        expect(response).toEqual([])
+      })
+    })
+
     it('handles errors', done => {
       expect.assertions(2)
       jest.spyOn(Setting, 'findOne').mockRejectedValue(new Error('boom'))
@@ -433,6 +449,22 @@ describe('test mongoose Settings model', () => {
           { key: 'state' }
         )
         expect(response).toEqual(['uri123'])
+      })
+    })
+
+    it('handles no result', () => {
+      expect.assertions(2)
+      jest.spyOn(Setting, 'findOne').mockResolvedValue({
+        value: {
+          currentTracklist: null
+        }
+      })
+
+      return getTracklist().then((response) => {
+        expect(Setting.findOne).toHaveBeenCalledWith(
+          { key: 'state' }
+        )
+        expect(response).toEqual([])
       })
     })
 
