@@ -1,12 +1,12 @@
 import invariant from 'invariant'
 
-export interface ErrorHandlerSettings {
+export interface ErrorHandlerInterface {
   expect: boolean
   message: string
 }
 
 const ErrorHandler = {
-  expectationThatThrows: (args: ErrorHandlerSettings) => {
+  expectationThatThrows: (args: ErrorHandlerInterface) => {
     invariant(args.expect, args.message)
   }
 }

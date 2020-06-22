@@ -1,6 +1,6 @@
 import ErrorHandler from '../handlers/errors'
 
-export interface Payload {
+export interface PayloadInterface {
   jwt?: string
   key: boolean
   data: object
@@ -8,9 +8,9 @@ export interface Payload {
 }
 
 const Payload = {
-  toJsonString: (payload: Payload): string => JSON.stringify(payload),
+  toJsonString: (payload: PayloadInterface): string => JSON.stringify(payload),
 
-  decode: (payloadStr: string): Payload => {
+  decode: (payloadStr: string): PayloadInterface => {
     const { jwt, key, data } = JSON.parse(payloadStr)
 
     ErrorHandler.expectationThatThrows({
@@ -20,7 +20,7 @@ const Payload = {
     return { jwt, key, data }
   },
 
-  encodeToJson: (payload: Payload): string => {
+  encodeToJson: (payload: PayloadInterface): string => {
     ErrorHandler.expectationThatThrows({
       expect: payload.key, message: '[Payload.encodeToJson] No key provided!'
     })
