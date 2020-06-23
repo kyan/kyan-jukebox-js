@@ -2,18 +2,18 @@ import express from 'express'
 import http from 'http'
 import io from 'socket.io'
 import morgan from 'morgan'
-import logger from 'config/winston'
-import MessageType from 'constants/message'
-import Broadcaster from 'utils/broadcaster'
-import Scheduler from 'utils/scheduler'
-import Payload from 'utils/payload'
-import MopidyService from 'services/mopidy'
-import MongodbService from 'services/mongodb'
-import SocketErrorsHandler from 'handlers/socket-errors'
-import MopidyHandler from 'handlers/mopidy'
-import SearchHandler from 'handlers/search'
-import VoteHandler from 'handlers/voting'
-import AuthenticateHandler from 'handlers/authenticate'
+import logger from './config/logger'
+import MessageType from './constants/message'
+import Broadcaster from './utils/broadcaster'
+import Scheduler from './utils/scheduler'
+import Payload from './utils/payload'
+import MopidyService from './services/mopidy'
+import MongodbService from './services/mongodb'
+import SocketErrorsHandler from './handlers/socket-errors'
+import MopidyHandler from './handlers/mopidy'
+import SearchHandler from './handlers/search'
+import VoteHandler from './handlers/voting'
+import AuthenticateHandler from './handlers/authenticate'
 
 const app = express()
 app.disable('x-powered-by')
@@ -23,10 +23,11 @@ app.use(morgan('combined', { stream: logger.stream }))
 const server = http.createServer(app)
 const socketio = io(server, { pingTimeout: 30000 })
 
+const isProduction = () => process.env.NODE_ENV === 'production'
 const broadcastToAll = (options) => Broadcaster.toAll({ socketio, ...options })
 const broadcastMopidyStateChange = (message) => Broadcaster.stateChange({ socket: socketio, message })
 const allowSocketConnections = (mopidy) => {
-  Scheduler.scheduleAutoPlayback({ stop: () => mopidy.playback.stop() })
+  if (isProduction()) Scheduler.scheduleAutoPlayback({ stop: () => mopidy.playback.stop() })
 
   socketio.on('connection', socket => {
     Broadcaster.stateChange({
