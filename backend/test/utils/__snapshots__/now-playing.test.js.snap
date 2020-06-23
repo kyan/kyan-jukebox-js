@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NowPlaying addTrack returns the correct payload when full data 1`] = `
+Object {
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Now Playing:",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+    Object {
+      "type": "divider",
+    },
+    Object {
+      "accessory": Object {
+        "alt_text": "Future Islands",
+        "image_url": "the-album-art.jpg",
+        "type": "image",
+      },
+      "block_id": "section1",
+      "text": Object {
+        "text": "*Seasons (Waiting On You)*
+ Future Islands
+ Singles (1983)",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+    Object {
+      "type": "divider",
+    },
+    Object {
+      "block_id": "section2",
+      "fields": Array [
+        Object {
+          "text": "*Rating:* 3",
+          "type": "mrkdwn",
+        },
+        Object {
+          "text": "*Voted by:* 2 users",
+          "type": "mrkdwn",
+        },
+        Object {
+          "text": "*Played:* 2 times",
+          "type": "mrkdwn",
+        },
+        Object {
+          "text": "*Last Played:* 6 hours ago",
+          "type": "mrkdwn",
+        },
+      ],
+      "type": "section",
+    },
+    Object {
+      "elements": Array [
+        Object {
+          "text": "Added by Duncan 3 hours ago",
+          "type": "mrkdwn",
+        },
+      ],
+      "type": "context",
+    },
+  ],
+}
+`;
+
+exports[`NowPlaying addTrack returns the correct payload when full data 1 1`] = `
+Object {
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Now Playing:",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+    Object {
+      "type": "divider",
+    },
+    Object {
+      "accessory": Object {
+        "alt_text": "Future Islands",
+        "image_url": "the-album-art.jpg",
+        "type": "image",
+      },
+      "block_id": "section1",
+      "text": Object {
+        "text": "*Seasons (Waiting On You)*
+ Future Islands
+ Singles (1983)",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+    Object {
+      "type": "divider",
+    },
+    Object {
+      "block_id": "section2",
+      "fields": Array [
+        Object {
+          "text": "*Rating:* 3",
+          "type": "mrkdwn",
+        },
+        Object {
+          "text": "*Voted by:* 2 users",
+          "type": "mrkdwn",
+        },
+        Object {
+          "text": "*Played:* 1 time",
+          "type": "mrkdwn",
+        },
+      ],
+      "type": "section",
+    },
+    Object {
+      "elements": Array [
+        Object {
+          "text": "Added by Duncan 3 hours ago",
+          "type": "mrkdwn",
+        },
+      ],
+      "type": "context",
+    },
+  ],
+}
+`;

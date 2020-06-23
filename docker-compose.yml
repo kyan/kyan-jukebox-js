@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3'
 
 services:
   jukebox-client:
@@ -9,10 +9,10 @@ services:
         - NODE_ENV=development
     command: npm start
     volumes:
-      - ./frontend:/opt/app:delegated
-      - /opt/app/node_modules
+      - ./frontend:/usr/src/app:cached
+      - /usr/src/app/node_modules
     ports:
-      - '3001:3001'
+      - 3001:3001
     environment:
       - NODE_ENV=development
       - PORT=3001
@@ -27,13 +27,12 @@ services:
       args:
         - NODE_ENV=development
     volumes:
-      - ./backend:/opt/app:delegated
-      - /opt/app/node_modules
+      - ./backend:/usr/src/app:cached
+      - /usr/src/app/node_modules
     command: npm start
     ports:
-      - "8080:8080"
-      - "5858:5858"
-      - "9229:9229"
+      - 8080:8080
+      - 9229:9229
     environment:
       - NODE_ENV=development
       - PORT=8080
@@ -47,3 +46,16 @@ services:
       - CLIENT_ID=${CLIENT_ID}
       - EXPLICIT_CONTENT=${EXPLICIT_CONTENT}
       - GOOGLE_AUTH_DOMAIN=${GOOGLE_AUTH_DOMAIN}
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:4.2-bionic
+    container_name: mongodb
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+      - MONGO_INITDB_DATABASE=jb-dev
+    volumes:
+      - ./mongodb-data/db:/data/db:delegated
+    ports:
+      - 27017:27017
