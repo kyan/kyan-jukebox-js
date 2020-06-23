@@ -2,15 +2,16 @@
   "name": "jukebox-backend",
   "version": "1.0.0",
   "private": true,
-  "main": "dist/index.js",
   "scripts": {
-    "node": "node -r @babel/register",
-    "start": "nodemon --watch src --exec 'npm run node' src/index.js",
-    "build": "rm -rf dist && mkdir -p dist && babel src -s -D -d dist",
+    "build": "tsc",
+    "start": "ts-node-dev --respawn --transpileOnly src/index.js",
+    "start:prod": "node dist/index.js",
     "fix": "standard --fix",
-    "test": "standard && jest",
-    "watch": "standard && jest --watchAll",
-    "coverage": "standard && jest --watchAll --coverage"
+    "test": "standard && npm run jest",
+    "test:watch": "standard && npm run jest -- --watchAll",
+    "test:coverage": "standard && npm run jest -- --watchAll --coverage",
+    "test:ci": "standard && npm run jest -- --runInBand --coverage",
+    "jest": "jest --forceExit --detectOpenHandles --verbose"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -25,46 +26,21 @@
     "socket.io": "^2.2.0",
     "spotify-web-api-node": "^4.0.0",
     "time-ago": "^0.2.1",
-    "uuid": "^3.3.0",
-    "winston": "^3.0.0"
+    "tslog": "^2.2.0",
+    "uuid": "^3.3.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.5",
-    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
-    "@babel/preset-env": "^7.4.5",
-    "@babel/register": "^7.4.4",
-    "babel-eslint": "^10.0.1",
-    "babel-jest": "^24.8.0",
-    "babel-plugin-module-resolver": "^3.2.0",
-    "jest": "^24.8.0",
-    "lolex": "^2.3.2",
+    "@types/invariant": "^2.2.33",
+    "@types/node": "^14.0.13",
+    "jest": "^26.0.1",
+    "jest-watch-typeahead": "^0.6.0",
     "mockingoose": "2.13.2",
-    "nodemon": "^2.0.1",
-    "standard": "^11.0.1"
-  },
-  "jest": {
-    "clearMocks": true,
-    "testEnvironment": "node",
-    "collectCoverageFrom": [
-      "src/**/*.js",
-      "!<rootDir>/dist/",
-      "!src/index.js",
-      "!src/app.js",
-      "!src/constants/*.js",
-      "!src/config/*.js"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 100,
-        "functions": 100,
-        "lines": 100,
-        "statements": 100
-      }
-    }
+    "standard": "^11.0.1",
+    "ts-jest": "^26.1.0",
+    "ts-node-dev": "^1.0.0-pre.48",
+    "typescript": "^3.9.5"
   },
   "standard": {
-    "parser": "babel-eslint",
     "globals": [
       "describe",
       "context",
