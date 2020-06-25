@@ -10,9 +10,19 @@ exports[`Dashboard render renders the happy path correctly 1`] = `
     onDrop={[MockFunction onDropMock]}
   >
     <SearchContainer>
-      <div
-        className="c-header"
+      <Container
+        className="header-wrapper"
+        fluid={true}
       >
+        <Settings />
+        <VolumeButtons
+          disabled={false}
+          onVolumeChange={[MockFunction onVolumeChangeMock]}
+        />
+        <SearchButton
+          disabled={false}
+          onClick={[MockFunction onSearchClickMock]}
+        />
         <Controls
           disabled={false}
           onNext={[MockFunction onNextMock]}
@@ -21,56 +31,58 @@ exports[`Dashboard render renders the happy path correctly 1`] = `
           onPrevious={[MockFunction onPreviousMock]}
           onStop={[MockFunction onStopMock]}
         />
-        <div
-          className="c-header__actions"
-        >
-          <SearchButton
-            disabled={false}
-            onClick={[MockFunction onSearchClickMock]}
-          />
-          <VolumeButtons
-            disabled={false}
-            onVolumeChange={[MockFunction onVolumeChangeMock]}
-          />
-          <Settings />
-        </div>
-      </div>
-      <div
-        className="c-main"
+      </Container>
+      <Divider />
+      <Container
+        className="body-wrapper"
+        fluid={true}
       >
-        <div
-          className="c-main__nowPlaying"
+        <Grid
+          className="dashboard-grid"
+          columns={2}
+          stackable={true}
         >
-          <CurrentTrackContainer />
-        </div>
-        <div
-          className="c-main__trackList"
-        >
-          <h6>
-            Tracklist 
-            <ClearPlaylist
-              disabled={false}
-              onClear={[MockFunction onTracklistClearMock]}
-            />
-          </h6>
-          <Tracklist
-            currentTrack={
-              Object {
-                "title": "track1",
+          <GridColumn
+            width={4}
+          >
+            <Header
+              size="small"
+            >
+              Current Track
+            </Header>
+            <CurrentTrackContainer />
+          </GridColumn>
+          <GridColumn
+            width={8}
+          >
+            <Header
+              size="small"
+            >
+              Playlist 
+              <ClearPlaylist
+                disabled={false}
+                onClear={[MockFunction onTracklistClearMock]}
+              />
+            </Header>
+            <Tracklist
+              currentTrack={
+                Object {
+                  "title": "track1",
+                }
               }
-            }
-            disabled={false}
-            onArtistSearch={[MockFunction onArtistSearch]}
-            onRemoveTrack={[MockFunction onRemoveTrackMock]}
-            tracks={
-              Array [
-                "track1",
-                "track2",
-              ]
-            }
-          />
-        </div>
-      </div>
+              disabled={false}
+              onArtistSearch={[MockFunction onArtistSearch]}
+              onRemoveTrack={[MockFunction onRemoveTrackMock]}
+              tracks={
+                Array [
+                  "track1",
+                  "track2",
+                ]
+              }
+            />
+          </GridColumn>
+        </Grid>
+      </Container>
     </SearchContainer>
   </DragInTrack>
 </DimmerDimmable>

@@ -16,14 +16,14 @@ exports[`App renders without crashing 1`] = `
     breakpoint={768}
     isMobile={true}
   />
-  <div
-    className="c-app"
+  <Container
+    fluid={true}
   >
     <ContextProvider>
       <ErrorBoundary>
         <DragDropContext(DashboardContainer) />
       </ErrorBoundary>
     </ContextProvider>
-  </div>
+  </Container>
 </Provider>
 `;

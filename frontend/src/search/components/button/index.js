@@ -1,18 +1,19 @@
 import React from 'react'
 import { func, bool } from 'prop-types'
-import { Icon } from 'semantic-ui-react'
-import classnames from 'classnames'
+import { Button, Icon } from 'semantic-ui-react'
 
 const SearchButton = ({ onClick, disabled }) => (
-  <button
+  <Button
+    animated='vertical'
+    floated='right'
     onClick={onClick}
     disabled={disabled}
-    className={classnames('c-button', {
-      'c-button--disabled': disabled
-    })}
   >
-    <Icon name='search' />
-  </button>
+    <Button.Content hidden>Search</Button.Content>
+    <Button.Content visible>
+      <Icon name='search' />
+    </Button.Content>
+  </Button>
 )
 
 SearchButton.propTypes = {
