@@ -8,3 +8,4 @@ A ReactJS application that communicates with the JukeBox API.
 $ cd jukebox-js/frontend
 $ npm install
 ```
+x
