@@ -1,9 +1,0 @@
-// Opacity
-// =======
-
-@each $name, $opacity in $opacities {
-
-  #{override('.u-opacity-' + $name)} {
-    opacity: $opacity;
-  }
-}

@@ -1,9 +1,0 @@
-// Colours
-// =======
-
-@each $name, $colour in $palette {
-
-  #{override('.u-color-' + $name)} { // .u-color-red.u-color-red
-    color: $colour;
-  }
-}

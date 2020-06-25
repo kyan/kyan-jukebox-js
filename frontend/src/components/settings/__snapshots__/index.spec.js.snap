@@ -2,35 +2,84 @@
 
 exports[`Settinsg render when authorised user renders as expected 1`] = `
 <Settings>
-  <button
-    className="c-button c-button--image"
+  <Image
+    as="img"
+    floated="right"
     onClick={[Function]}
+    rounded={true}
+    size="mini"
+    src="myImage123"
+    title="Fred Spanner"
+    ui={true}
   >
     <img
-      alt="Fred Spanner"
+      className="ui mini rounded right floated image"
+      onClick={[Function]}
       src="myImage123"
       title="Fred Spanner"
     />
-  </button>
+  </Image>
 </Settings>
 `;
 
 exports[`Settinsg render when nonauthorised user renders as expected 1`] = `
 <Settings>
-  <button
-    className="c-button"
+  <Button
+    as="button"
+    className="jb-settings-toggle"
+    floated="right"
+    icon="power off"
     onClick={[Function]}
+    title="Login using Google"
   >
-    <Icon
-      as="i"
-      name="power off"
+    <Ref
+      innerRef={
+        Object {
+          "current": <button
+            class="ui icon right floated button jb-settings-toggle"
+            title="Login using Google"
+          >
+            <i
+              aria-hidden="true"
+              class="power off icon"
+            />
+          </button>,
+        }
+      }
     >
-      <i
-        aria-hidden="true"
-        className="power off icon"
-        onClick={[Function]}
-      />
-    </Icon>
-  </button>
+      <RefFindNode
+        innerRef={
+          Object {
+            "current": <button
+              class="ui icon right floated button jb-settings-toggle"
+              title="Login using Google"
+            >
+              <i
+                aria-hidden="true"
+                class="power off icon"
+              />
+            </button>,
+          }
+        }
+      >
+        <button
+          className="ui icon right floated button jb-settings-toggle"
+          onClick={[Function]}
+          title="Login using Google"
+        >
+          <Icon
+            as="i"
+            name="power off"
+          >
+            <i
+              aria-hidden="true"
+              className="power off icon"
+              onClick={[Function]}
+            />
+          </Icon>
+        </button>
+      </RefFindNode>
+    </Ref>
+  </Button>
 </Settings>
 `;

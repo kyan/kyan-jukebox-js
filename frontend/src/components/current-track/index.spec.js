@@ -1,6 +1,7 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Provider } from 'react-redux'
+import { Image } from 'semantic-ui-react'
 import keyCode from 'rc-util/lib/KeyCode'
 import configureMockStore from 'redux-mock-store'
 import MockTrackListJson from '__mockData__/api'
@@ -37,7 +38,6 @@ describe('CurrentTrack', () => {
         )
 
         expect(wrapper).toMatchSnapshot()
-        expect(wrapper.find('.c-nowPlaying__image').prop('alt')).toMatchSnapshot()
         const handler = wrapper.find('.rc-slider-handle').at(1)
         wrapper.simulate('focus')
         handler.simulate('keyDown', { keyCode: keyCode.UP })
@@ -64,7 +64,7 @@ describe('CurrentTrack', () => {
           </Provider>
         )
 
-        expect(wrapper.find('.c-nowPlaying__votingWrapper')).toMatchSnapshot()
+        expect(wrapper.find('.track-rating-container')).toMatchSnapshot()
       })
 
       it('renders and average vote that was 0', () => {
@@ -87,7 +87,7 @@ describe('CurrentTrack', () => {
           </Provider>
         )
 
-        expect(wrapper.find('.c-nowPlaying__votingWrapper')).toMatchSnapshot()
+        expect(wrapper.find('.track-rating-container')).toMatchSnapshot()
       })
     })
   })
@@ -112,8 +112,7 @@ describe('CurrentTrack', () => {
         />
       )
 
-      expect(wrapper.find('img')).toMatchSnapshot()
-      expect(wrapper.find('img').prop('alt')).toMatchSnapshot()
+      expect(wrapper.find(Image)).toMatchSnapshot()
     })
   })
 

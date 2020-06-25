@@ -17,7 +17,6 @@
     "create-react-app": "^3.0.1",
     "dateformat": "^3.0.3",
     "media-progress-timer": "^3.0.0",
-    "node-sass": "^4.13.1",
     "rc-progress": "^2.3.0",
     "rc-slider": "^9.2.1",
     "react": "^16.8.6",

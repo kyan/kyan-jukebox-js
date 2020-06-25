@@ -5,57 +5,136 @@ exports[`VolumeButtons render render 1`] = `
   disabled={false}
   onVolumeChange={[MockFunction]}
 >
-  <div
-    className="c-volumeControls"
+  <ButtonGroup
+    floated="right"
   >
-    <VolumeDownButton
-      disabled={false}
-      onChange={[MockFunction]}
-      volume={0}
-    >
-      <button
-        className="c-button"
-        disabled={false}
-      >
-        <Icon
-          as="i"
-          name="volume down"
-        >
-          <i
-            aria-hidden="true"
-            className="volume down icon"
-            onClick={[Function]}
-          />
-        </Icon>
-      </button>
-    </VolumeDownButton>
-    <VolumeUpButton
-      disabled={false}
-      onChange={[MockFunction]}
-      volume={0}
-    >
-      <button
-        className="c-button"
-        disabled={false}
-        onClick={[Function]}
-      >
-        <Icon
-          as="i"
-          name="volume up"
-        >
-          <i
-            aria-hidden="true"
-            className="volume up icon"
-            onClick={[Function]}
-          />
-        </Icon>
-      </button>
-    </VolumeUpButton>
     <div
-      className="c-volumeControls__indicator"
+      className="ui right floated buttons"
     >
-      0
+      <VolumeDownButton
+        disabled={false}
+        onChange={[MockFunction]}
+        volume={0}
+      >
+        <Button
+          as="button"
+          className="jb-volume-down"
+          disabled={false}
+        >
+          <Ref
+            innerRef={
+              Object {
+                "current": <button
+                  class="ui button jb-volume-down"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="volume down icon"
+                  />
+                </button>,
+              }
+            }
+          >
+            <RefFindNode
+              innerRef={
+                Object {
+                  "current": <button
+                    class="ui button jb-volume-down"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="volume down icon"
+                    />
+                  </button>,
+                }
+              }
+            >
+              <button
+                className="ui button jb-volume-down"
+                onClick={[Function]}
+              >
+                <Icon
+                  as="i"
+                  name="volume down"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="volume down icon"
+                    onClick={[Function]}
+                  />
+                </Icon>
+              </button>
+            </RefFindNode>
+          </Ref>
+        </Button>
+      </VolumeDownButton>
+      <ButtonOr
+        text={0}
+      >
+        <div
+          className="or"
+          data-text={0}
+        />
+      </ButtonOr>
+      <VolumeUpButton
+        disabled={false}
+        onChange={[MockFunction]}
+        volume={0}
+      >
+        <Button
+          as="button"
+          className="jb-volume-up"
+          disabled={false}
+          onClick={[Function]}
+        >
+          <Ref
+            innerRef={
+              Object {
+                "current": <button
+                  class="ui button jb-volume-up"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="volume up icon"
+                  />
+                </button>,
+              }
+            }
+          >
+            <RefFindNode
+              innerRef={
+                Object {
+                  "current": <button
+                    class="ui button jb-volume-up"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="volume up icon"
+                    />
+                  </button>,
+                }
+              }
+            >
+              <button
+                className="ui button jb-volume-up"
+                onClick={[Function]}
+              >
+                <Icon
+                  as="i"
+                  name="volume up"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="volume up icon"
+                    onClick={[Function]}
+                  />
+                </Icon>
+              </button>
+            </RefFindNode>
+          </Ref>
+        </Button>
+      </VolumeUpButton>
     </div>
-  </div>
+  </ButtonGroup>
 </VolumeButtons>
 `;
