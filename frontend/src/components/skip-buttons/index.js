@@ -1,30 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import { Icon } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
 
 const PreviousButton = (props) => (
-  <button
+  <Button
     onClick={props.onClick}
+    animated='vertical'
+    className='jb-previous-button'
     disabled={props.disabled}
-    className={classnames('c-button', {
-      'c-button--disabled': props.disabled
-    })}
   >
-    <Icon name='step backward' />
-  </button>
+    <Button.Content hidden>Prev</Button.Content>
+    <Button.Content visible>
+      <Icon name='step backward' />
+    </Button.Content>
+  </Button>
 )
 
 const NextButton = (props) => (
-  <button
+  <Button
     onClick={props.onClick}
+    animated='vertical'
+    className='jb-next-button'
     disabled={props.disabled}
-    className={classnames('c-button', {
-      'c-button--disabled': props.disabled
-    })}
   >
-    <Icon name='step forward' />
-  </button>
+    <Button.Content hidden>Next</Button.Content>
+    <Button.Content visible>
+      <Icon name='step forward' />
+    </Button.Content>
+  </Button>
 )
 
 const SkipButtons = ({ disabled, onPrevious, onNext }) => (

@@ -73,7 +73,7 @@ describe('Tracklist', () => {
         />
       )
 
-      wrapper.find('.track-search-link').at(1).simulate('click')
+      wrapper.find('TrackDescription').at(1).simulate('click')
       expect(onSearchMock).toHaveBeenCalledWith('Ken Dodd')
     })
   })

@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { string, func, bool, array, number } from 'prop-types'
 import VotedBy from 'components/voted-by'
 import { Sidebar, Button, Form, List, Header, Divider, Image, Pagination } from 'semantic-ui-react'
-import './index.scss'
+import './index.css'
 
 const VoteInfo = (props) => {
   if (!props.metrics) return null

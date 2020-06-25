@@ -1,0 +1,33 @@
+.progress-container {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.track-length {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 6px;
+  font-size: 12px;
+  color: #bbb;
+}
+
+.remaining-text {
+  position: absolute;
+  top: 0;
+  right: 0;
+  line-height: 6px;
+  font-size: 12px;
+  color: #bbb;
+}
+
+.track-uri {
+  font-size: 10px;
+  font-weight: bold;
+  float: right;
+}
+
+.track-rating-container {
+  width: 233px;
+  margin: 10px auto 20px auto;
+}
