@@ -1,15 +1,16 @@
 import ErrorHandler from '../handlers/errors'
+import { JBUserInterface } from '../models/user'
+
+
 
 export interface PayloadInterface {
   jwt?: string
-  key: boolean
-  data: object
-  user?: object
+  key: string
+  data: any
+  user?: JBUserInterface
 }
 
 const Payload = {
-  toJsonString: (payload: PayloadInterface): string => JSON.stringify(payload),
-
   decode: (payloadStr: string): PayloadInterface => {
     const { jwt, key, data } = JSON.parse(payloadStr)
 
@@ -25,7 +26,7 @@ const Payload = {
       expect: payload.key, message: '[Payload.encodeToJson] No key provided!'
     })
 
-    return Payload.toJsonString(payload)
+    return JSON.stringify(payload)
   }
 }
 

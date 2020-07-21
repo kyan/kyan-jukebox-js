@@ -111,7 +111,7 @@ describe('Broadcaster', () => {
   })
 
   describe('#stateChange', () => {
-    it('handles call', () => {
+    it('handles call to user', () => {
       const sendMock = jest.fn()
       const socket = {
         emit: sendMock
@@ -119,6 +119,24 @@ describe('Broadcaster', () => {
       const message = { online: false }
 
       broadcaster.stateChange({ socket, message })
+      expect(sendMock).toHaveBeenCalledWith(
+        'mopidy',
+        '{"online":false}'
+      )
+      expect(EventLogger.info).toHaveBeenCalledWith(
+        'OUTGOING STATE CHANGE',
+        { data: { online: false }, key: 'state' }
+      )
+    })
+
+    it('handles call to ', () => {
+      const sendMock = jest.fn()
+      const socket = {
+        emit: sendMock
+      }
+      const message = { online: false }
+
+      broadcaster.stateChange({ socketio: socket, message })
       expect(sendMock).toHaveBeenCalledWith(
         'mopidy',
         '{"online":false}'

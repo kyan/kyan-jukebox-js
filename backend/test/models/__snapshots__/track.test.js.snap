@@ -30,7 +30,7 @@ Object {
     Object {
       "played": Array [
         Object {
-          "at": 1970-04-06T12:00:00.000Z,
+          "at": 1998-02-23T16:26:40.000Z,
         },
       ],
       "votes": Array [],
@@ -52,7 +52,7 @@ Object {
       "played": Array [],
       "votes": Array [
         Object {
-          "at": 1970-04-06T12:00:00.000Z,
+          "at": 1998-02-23T16:26:40.000Z,
           "user": "user999",
           "vote": 20,
         },

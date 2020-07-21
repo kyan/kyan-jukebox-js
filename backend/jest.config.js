@@ -30,11 +30,12 @@ module.exports = {
     }
   },
   collectCoverageFrom: [
-    'src/**/*.js',
+    'src/**/*.(js|ts)',
     '!<rootDir>/dist/',
-    '!src/index.js',
-    '!src/app.js',
-    '!src/constants/*.js',
-    '!src/config/*.js'
+    '!src/index.ts',
+    '!src/app.ts',
+    '!src/constants/*',
+    '!src/types/*.d.ts',
+    '!src/config/*.ts'
   ]
 }
