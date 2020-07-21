@@ -92,7 +92,10 @@ const getRecommendations = (uris: string[], mopidy: Mopidy): Promise<void> => {
 
     setupSpotify((api: SpotifyWebApi) => {
       api.getRecommendations(options)
-        .then(data => Recommend.extractSuitableData(data.body.tracks))
+        .then(data => {
+          const tracks = data.body.tracks as SpotifyApi.TrackObjectFull[]
+          return Recommend.extractSuitableData(tracks)
+        })
         .then(data => Recommend.addRandomUris(data))
         .then(data => {
           const { images, uris }: SuitableDataInterface = data
