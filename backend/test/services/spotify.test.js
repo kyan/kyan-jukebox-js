@@ -79,8 +79,8 @@ describe('SpotifyService', () => {
       expect.assertions(1)
       const mopidy = {
         tracklist: {
-          nextTrack: jest.fn()
-            .mockImplementationOnce(() => Promise.resolve('somedata'))
+          getNextTlid: jest.fn()
+            .mockImplementationOnce(() => Promise.resolve(123))
         }
       }
       SpotifyService.canRecommend(mopidy)
@@ -94,7 +94,7 @@ describe('SpotifyService', () => {
       expect.assertions(3)
       const mopidy = {
         tracklist: {
-          nextTrack: jest.fn()
+          getNextTlid: jest.fn()
             .mockResolvedValue(null),
           add: jest.fn()
             .mockResolvedValue('track added OK')
@@ -147,7 +147,7 @@ describe('SpotifyService', () => {
       expect.assertions(2)
       const mopidy = {
         tracklist: {
-          nextTrack: jest.fn()
+          getNextTlid: jest.fn()
             .mockImplementationOnce(() => Promise.resolve(null))
         }
       }
@@ -164,17 +164,17 @@ describe('SpotifyService', () => {
         })
     })
 
-    it('should log an error if nextTrack bails', done => {
+    it('should log an error if getNextTlid bails', done => {
       expect.assertions(1)
       const mopidy = {
         tracklist: {
-          nextTrack: jest.fn().mockRejectedValue(new Error('nextTrack broke'))
+          getNextTlid: jest.fn().mockRejectedValue(new Error('getNextTlid broke'))
         }
       }
       SpotifyService.canRecommend(mopidy)
       setTimeout(() => {
         try {
-          expect(logger.error).toHaveBeenCalledWith('nextTrack: nextTrack broke')
+          expect(logger.error).toHaveBeenCalledWith('nextTrack: getNextTlid broke')
           done()
         } catch (err) {
           done.fail(err)

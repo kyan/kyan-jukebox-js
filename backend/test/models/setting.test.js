@@ -20,12 +20,12 @@ describe('test mongoose Settings model', () => {
   describe('initializeState', () => {
     it('sets state as expected', () => {
       expect.assertions(1)
-      jest.spyOn(Setting, 'findOneAndReplace').mockResolvedValue()
+      jest.spyOn(Setting.collection, 'findOneAndReplace').mockResolvedValue()
       const currentTrack = { uri: 'uri123' }
       const currentTracklist = [currentTrack]
 
       return initializeState(currentTrack, currentTracklist).then(() => {
-        expect(Setting.findOneAndReplace).toHaveBeenCalledWith(
+        expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
           { key: 'state' },
           { key: 'state', value: { currentTrack: 'uri123', currentTracklist: ['uri123'], trackSeeds: [] } },
           { runValidators: true, setDefaultsOnInsert: true, upsert: true }
@@ -35,12 +35,12 @@ describe('test mongoose Settings model', () => {
 
     it('handles no current track', () => {
       expect.assertions(1)
-      jest.spyOn(Setting, 'findOneAndReplace').mockResolvedValue()
+      jest.spyOn(Setting.collection, 'findOneAndReplace').mockResolvedValue()
       const currentTrack = null
       const currentTracklist = []
 
       return initializeState(currentTrack, currentTracklist).then(() => {
-        expect(Setting.findOneAndReplace).toHaveBeenCalledWith(
+        expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
           { key: 'state' },
           { key: 'state', value: { currentTrack: null, currentTracklist: [], trackSeeds: [] } },
           { runValidators: true, setDefaultsOnInsert: true, upsert: true }
@@ -50,7 +50,7 @@ describe('test mongoose Settings model', () => {
 
     it('handles errors', done => {
       expect.assertions(2)
-      jest.spyOn(Setting, 'findOneAndReplace').mockRejectedValue(new Error('boom'))
+      jest.spyOn(Setting.collection, 'findOneAndReplace').mockRejectedValue(new Error('boom'))
       const currentTrack = { uri: 'uri123' }
       const currentTracklist = [currentTrack]
 
@@ -58,7 +58,7 @@ describe('test mongoose Settings model', () => {
 
       setTimeout(() => {
         try {
-          expect(Setting.findOneAndReplace).toHaveBeenCalledWith(
+          expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
             { key: 'state' },
             { key: 'state', value: { currentTrack: 'uri123', currentTracklist: ['uri123'], trackSeeds: [] } },
             { runValidators: true, setDefaultsOnInsert: true, upsert: true }
@@ -75,10 +75,10 @@ describe('test mongoose Settings model', () => {
   describe('clearState', () => {
     it('sets state as expected', () => {
       expect.assertions(1)
-      jest.spyOn(Setting, 'findOneAndReplace').mockResolvedValue()
+      jest.spyOn(Setting.collection, 'findOneAndReplace').mockResolvedValue()
 
       return clearState().then(() => {
-        expect(Setting.findOneAndReplace).toHaveBeenCalledWith(
+        expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
           { key: 'state' },
           { key: 'state' },
           { runValidators: true, setDefaultsOnInsert: true, upsert: true }
@@ -88,13 +88,13 @@ describe('test mongoose Settings model', () => {
 
     it('handles errors', done => {
       expect.assertions(2)
-      jest.spyOn(Setting, 'findOneAndReplace').mockRejectedValue(new Error('boom'))
+      jest.spyOn(Setting.collection, 'findOneAndReplace').mockRejectedValue(new Error('boom'))
 
       clearState()
 
       setTimeout(() => {
         try {
-          expect(Setting.findOneAndReplace).toHaveBeenCalledWith(
+          expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
             { key: 'state' },
             { key: 'state' },
             { runValidators: true, setDefaultsOnInsert: true, upsert: true }

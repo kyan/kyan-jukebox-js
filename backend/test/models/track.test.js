@@ -65,7 +65,7 @@ describe('test mongoose Track model', () => {
 
   describe('#addTracks', () => {
     const trackObject = { trackUri: '123' }
-    const fakeDate = new Date(8251200000)
+    const fakeDate = new Date(888251200000)
 
     it('returns the uris uses the user', () => {
       expect.assertions(1)
@@ -137,7 +137,7 @@ describe('test mongoose Track model', () => {
   })
 
   describe('#updateTrackPlaycount', () => {
-    const fakeDate = new Date(8251200000)
+    const fakeDate = new Date(888251200000)
 
     it('sets the playedAt', () => {
       expect.assertions(1)
@@ -182,7 +182,7 @@ describe('test mongoose Track model', () => {
   })
 
   describe('#updateTrackVote', () => {
-    const fakeDate = new Date(8251200000)
+    const fakeDate = new Date(888251200000)
     const user = { _id: 'user999', fullname: 'Fred Spanner' }
 
     it('does not vote when there is no matching track', () => {
@@ -197,7 +197,6 @@ describe('test mongoose Track model', () => {
     it('handles an error with Track.findById', done => {
       expect.assertions(1)
       const track = { _id: 'uri123', addedBy: [{ votes: [] }] }
-      jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
       mockingoose(Track).toReturn(new Error('boom!'), 'findOne')
       updateTrackVote(track._id, user, 12)
       setTimeout(() => {
@@ -213,7 +212,6 @@ describe('test mongoose Track model', () => {
     it('handles an error with findOrUseBRH', done => {
       expect.assertions(1)
       const track = { _id: 'uri123', addedBy: [{ votes: [] }] }
-      jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
       mockingoose(User).toReturn(new Error('boom!'), 'findOneAndUpdate')
       updateTrackVote(track._id, null, 12)
       setTimeout(() => {
@@ -229,8 +227,8 @@ describe('test mongoose Track model', () => {
     it('adds a vote when there is a matching track', () => {
       expect.assertions(1)
       const payload = { _id: 'uri123', addedBy: [{ votes: [] }] }
-      mockingoose(Track).toReturn(payload, 'findOne')
       jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
+      mockingoose(Track).toReturn(payload, 'findOne')
 
       return updateTrackVote(payload._id, user, 2).then((track) => {
         expect(track).toMatchSnapshot()
@@ -239,10 +237,11 @@ describe('test mongoose Track model', () => {
 
     it('updates a vote when there is a matching track', done => {
       expect.assertions(1)
+      const vote = { user, vote: 10, at: new Date(888451200000) }
       const track = {
         _id: 'uri123',
         id: 'uri123',
-        addedBy: [{ votes: [{ user: { _id: 'user999' }, vote: 10 }] }],
+        addedBy: [{ votes: [vote] }],
         metrics: {},
         save: () => Promise.resolve({
           id: '123',
@@ -250,7 +249,7 @@ describe('test mongoose Track model', () => {
           metrics: 'metrics'
         })
       }
-      jest.spyOn(Track, 'findById').mockImplementation(() => {
+      jest.spyOn(Track, 'findOne').mockImplementation(() => {
         return {
           populate: () => {
             return {
