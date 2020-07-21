@@ -11,7 +11,7 @@ export interface SuitableDataInterface {
 const newTracksAddedLimit = process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT
 
 const Recommendations = {
-  getImageFromSpotifyTracks: (tracks: any[]): ImageCacheInterface => {
+  getImageFromSpotifyTracks: (tracks: SpotifyApi.TrackObjectFull[]): ImageCacheInterface => {
     const albumTracks = tracks.filter((track) => track.album)
     const images = albumTracks.map(track => {
       if (track.linked_from && track.linked_from.type === 'track') {
@@ -26,7 +26,7 @@ const Recommendations = {
     return Object.assign({}, ...images)
   },
 
-  extractSuitableData: (tracks: any[]): Promise<SuitableDataInterface> => (
+  extractSuitableData: (tracks: SpotifyApi.TrackObjectFull[]): Promise<SuitableDataInterface> => (
     new Promise((resolve) => {
       getTracklist()
         .then(currentTrackListUris => {
