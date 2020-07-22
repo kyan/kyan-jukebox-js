@@ -5,9 +5,11 @@ import { JBTrackPayloadInterface } from '../decorators/track'
 import { DBTrackInterface, JBTrackInterface } from '../models/track'
 import { DBImageInterface } from '../models/image'
 
-const DecorateTracklist = (json: JBTrackInterface[]): Promise<JBTrackPayloadInterface[]> => (
+const DecorateTracklist = (
+  json: JBTrackInterface[]
+): Promise<JBTrackPayloadInterface[]> => (
   new Promise((resolve) => {
-    const uris: string[] = json.map(data => data.uri)
+    const uris: ReadonlyArray<string> = json.map(data => data.uri)
     const requests: [
       Promise<DBTrackInterface[]>,
       Promise<DBImageInterface[]>

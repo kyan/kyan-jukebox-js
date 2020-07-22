@@ -93,7 +93,7 @@ const brh = {
   picture: 'https://cdn-images-1.medium.com/fit/c/200/200/1*bFBXYvskkPFI9nPx6Elwxg.png'
 }
 
-const findTracks = (uris: string[]): Promise<DBTrackInterface[]> => (
+const findTracks = (uris: ReadonlyArray<string>): Promise<DBTrackInterface[]> => (
   new Promise((resolve, reject) => {
     Track.find({ _id: { $in: uris } })
       .populate({ path: 'addedBy.user' })
@@ -116,7 +116,7 @@ const findOrUseBRH = (user?: JBUserInterface): PromiseLikeDBUser => {
   )
 }
 
-const addTracks = (uris: string[], user?: DBUserInterface): Promise<any> => (
+const addTracks = (uris: ReadonlyArray<string>, user?: DBUserInterface): Promise<any> => (
   new Promise((resolve) => {
     findOrUseBRH(user).then((returnUser) => {
       const requests = uris.map((uri) => (

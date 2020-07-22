@@ -30,10 +30,7 @@ const allowSocketConnections = (mopidy: Mopidy) => {
   if (isProduction()) Scheduler.scheduleAutoPlayback({ stop: () => mopidy.playback.stop() })
 
   socketio.on('connection', socket => {
-    Broadcaster.stateChange({
-      socket: socket,
-      message: { online: true }
-    })
+    Broadcaster.stateChange({ socket: socket, message: { online: true } })
     SocketErrorsHandler(socket)
 
     socket.on(MessageType.GENERIC, data => {

@@ -40,7 +40,7 @@ const storeImages = (imageData: ImageCacheInterface): Promise<any> => {
 }
 
 const ImageCache = {
-  findAll: (uris: string[]): Promise<DBImageInterface[]> => (
+  findAll: (uris: ReadonlyArray<string>): Promise<DBImageInterface[]> => (
     new Promise((resolve, reject) => {
       Image.find({ _id: { $in: uris } })
         .then(images => {

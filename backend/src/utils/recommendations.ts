@@ -5,7 +5,7 @@ import SpotifyService from '../services/spotify'
 
 export interface SuitableDataInterface {
   images: ImageCacheInterface
-  uris: string[]
+  uris: ReadonlyArray<string>
 }
 
 const newTracksAddedLimit = process.env.SPOTIFY_NEW_TRACKS_ADDED_LIMIT

@@ -26,7 +26,9 @@ const spotifyApi = new SpotifyWebApi({
   clientSecret: process.env.SPOTIFY_SECRET
 })
 
-const stripServiceFromUris = (uris: string[]) => uris.map(uri => uri.split(':').slice(-1)[0])
+const stripServiceFromUris = (uris: ReadonlyArray<string>) => {
+  return uris.map(uri => uri.split(':').slice(-1)[0])
+}
 
 /* istanbul ignore next */
 const setupSpotify = (callback: (api: SpotifyWebApi) => void): void => {
@@ -59,7 +61,9 @@ const searchTracks = (params: SearchInterface): Promise<any> => {
   })
 }
 
-const getSpotifyTracks = (uris: string[]): Promise<SpotifyApi.MultipleTracksResponse> => {
+const getSpotifyTracks = (
+  uris: ReadonlyArray<string>
+): Promise<SpotifyApi.MultipleTracksResponse> => {
   return new Promise((resolve) => {
     const trackUris = stripServiceFromUris(uris)
 
@@ -75,7 +79,10 @@ const getSpotifyTracks = (uris: string[]): Promise<SpotifyApi.MultipleTracksResp
 }
 
 /* istanbul ignore next */
-const getRecommendations = (uris: string[], mopidy: Mopidy): Promise<void> => {
+const getRecommendations = (
+  uris: ReadonlyArray<string>,
+  mopidy: Mopidy
+): Promise<void> => {
   if (uris.length < 1) return Promise.resolve()
 
   return new Promise((resolve, reject) => {
@@ -172,7 +179,7 @@ const SpotifyService = {
   },
 
   search: (params: SearchInterface) => searchTracks(params),
-  getTracks: (uris: string[]) => getSpotifyTracks(uris)
+  getTracks: (uris: ReadonlyArray<string>) => getSpotifyTracks(uris)
 }
 
 export default SpotifyService
