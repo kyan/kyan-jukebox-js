@@ -10,12 +10,19 @@ import {
   trimTracklist,
   updateTracklist
 } from '../models/setting'
+import { StateChangeMessageInterface } from '../utils/broadcaster'
+
+type BroadcastToAllType = (options: any) => void
+type BroadcastStateChangeType = (message: StateChangeMessageInterface) => void
 
 const mopidyUrl = process.env.WS_MOPIDY_URL
 const mopidyPort = process.env.WS_MOPIDY_PORT
 let firstTime = false
 
-const MopidyService = (broadcastToAll: Function, mopidyState: Function) => {
+const MopidyService = (
+  broadcastToAll: BroadcastToAllType,
+  broadcastStateChange: BroadcastStateChangeType
+) => {
   return new Promise((resolve) => {
     const mopidy = new Mopidy({
       webSocketUrl: `ws://${mopidyUrl}:${mopidyPort}/mopidy/ws/`
@@ -28,7 +35,7 @@ const MopidyService = (broadcastToAll: Function, mopidyState: Function) => {
       ]).then(async responses => {
         await initializeState(responses[0], responses[1])
         await trimTracklist(mopidy)
-        firstTime ? mopidyState({ online: true }) : resolve(mopidy)
+        firstTime ? broadcastStateChange({ online: true }) : resolve(mopidy)
         firstTime = true
       })
     }
@@ -40,7 +47,7 @@ const MopidyService = (broadcastToAll: Function, mopidyState: Function) => {
 
     mopidy.on('state:offline', () => {
       logger.info('Mopidy Offline', { url: `${mopidyUrl}:${mopidyPort}` })
-      mopidyState({ online: false })
+      broadcastStateChange({ online: false })
       clearState()
     })
 

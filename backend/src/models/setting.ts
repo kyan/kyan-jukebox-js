@@ -80,12 +80,17 @@ const trimTracklist = (mopidy: Mopidy): Promise<boolean> => {
         if (currentTrackIndex > HOW_MANY_PREVIOUS_TRACKS_IN_PLAYLIST) {
           const indexToDeleteTo = currentTrackIndex - HOW_MANY_PREVIOUS_TRACKS_IN_PLAYLIST
           const tracksToTrim = currentTracklist.slice(0, indexToDeleteTo)
-          const updateValue = { $set: { 'value.currentTracklist': currentTracklist.slice(indexToDeleteTo) } }
+          const updateValue = {
+            $set: {
+              'value.currentTracklist': currentTracklist.slice(indexToDeleteTo)
+            }
+          }
 
           return Setting.findOneAndUpdate(stateFind, updateValue, options)
             .then(() => {
               logger.info(`trimTracklist: ${tracksToTrim}`)
-              return mopidy.tracklist.remove({ criteria: { uri: tracksToTrim } }).then(() => resolve(true))
+              return mopidy.tracklist.remove({ criteria: { uri: tracksToTrim } })
+                .then(() => resolve(true))
             })
         }
 
@@ -104,7 +109,7 @@ const updateCurrentTrack = (uri: string): Promise<string> => {
   })
 }
 
-const updateTracklist = (uris: string[]): Promise<string[]> => {
+const updateTracklist = (uris: ReadonlyArray<string>): Promise<ReadonlyArray<string>> => {
   return new Promise((resolve) => {
     const updateValue = { $set: { 'value.currentTracklist': uris } }
     return Setting.findOneAndUpdate(stateFind, updateValue, options)
