@@ -33,7 +33,7 @@ describe('MopidyHandler', () => {
     Decorator.parse.mockResolvedValue('unifiedMessage')
     MopidyHandler({ payload, socket, socketio, mopidy })
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         expect(Spotify.validateTrack).not.toHaveBeenCalled()
         expect(Broadcaster.toClient).toHaveBeenCalledWith({
@@ -66,7 +66,7 @@ describe('MopidyHandler', () => {
     Decorator.parse.mockResolvedValue({ message: 'message', toAll: true })
     MopidyHandler({ payload, socket, socketio, mopidy })
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         expect(Spotify.validateTrack).not.toHaveBeenCalled()
         expect(Broadcaster.toAll).toHaveBeenCalledWith({
@@ -98,7 +98,7 @@ describe('MopidyHandler', () => {
     }
     MopidyHandler({ payload, socket, socketio, mopidy })
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         expect(Broadcaster.toClient).not.toHaveBeenCalled()
         expect(logger.error).toHaveBeenCalledWith('Mopidy API Failure: API Broke')
@@ -121,7 +121,7 @@ describe('MopidyHandler', () => {
     Decorator.parse.mockResolvedValue('unifiedMessage')
     MopidyHandler({ payload, socket, socketio, mopidy })
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         expect(Spotify.validateTrack).not.toHaveBeenCalled()
         expect(Broadcaster.toClient).toHaveBeenCalledWith({
@@ -142,7 +142,7 @@ describe('MopidyHandler', () => {
     Spotify.validateTrack.mockImplementation(trackMock)
     MopidyHandler({ payload, socket, socketio, mopidy })
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         expect(Broadcaster.toClient).toHaveBeenCalledWith({
           headers: {

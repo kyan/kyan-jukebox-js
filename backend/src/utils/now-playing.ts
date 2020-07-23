@@ -8,7 +8,7 @@ TimeAgo.addLocale(en)
 
 const slackFind = { key: 'slack' }
 const options = { upsert: true, runValidators: true, setDefaultsOnInsert: true }
-const voteNormaliser = (v: number) => Math.round((v / 10) - 5) // 100 is max a user can vote per play
+const voteNormaliser = (v: number) => Math.round(v / 10 - 5) // 100 is max a user can vote per play
 const simplePluralize = (count: number, noun: string, suffix = 's') => {
   return `${count} ${noun}${count !== 1 ? suffix : ''}`
 }
@@ -78,7 +78,9 @@ const NowPlaying = {
             elements: [
               {
                 type: 'mrkdwn',
-                text: `Added by ${track.addedBy[0].user.fullname} ${timeAgo.format(track.addedBy[0].addedAt)}`
+                text: `Added by ${track.addedBy[0].user.fullname} ${timeAgo.format(
+                  track.addedBy[0].addedAt
+                )}`
               }
             ]
           }

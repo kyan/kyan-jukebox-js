@@ -10,15 +10,13 @@ describe('test mongoose Event model', () => {
     const _doc = {
       _id: '507f191e810c19729de860ea',
       key: 'mopidy::library.getTracks',
-      payload: { 'spotifyuri123456789': [] }
+      payload: { spotifyuri123456789: [] }
     }
 
     mockingoose.Event.toReturn(_doc, 'findOne')
 
-    return model
-      .findById({ _id: '507f191e810c19729de860ea' })
-      .then(doc => {
-        expect(JSON.parse(JSON.stringify(doc))).toMatchObject(_doc)
-      })
+    return model.findById({ _id: '507f191e810c19729de860ea' }).then((doc) => {
+      expect(JSON.parse(JSON.stringify(doc))).toMatchObject(_doc)
+    })
   })
 })

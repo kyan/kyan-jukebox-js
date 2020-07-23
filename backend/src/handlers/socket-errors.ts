@@ -1,6 +1,6 @@
 import logger from '../config/logger'
 
-function error (e: any) {
+function error(e: any) {
   // Handle non connection errors
   if (!['ECONNREFUSED', 'ECONNRESET'].includes(e.code)) {
     throw e

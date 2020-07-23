@@ -22,7 +22,7 @@ const AuthenticateHandler = (
   socket: SocketIO.Socket
 ): Promise<PayloadInterface> => {
   if (!isAuthorisedRequest(payload.key)) {
-    delete (payload.jwt)
+    delete payload.jwt
     return Promise.resolve(payload)
   }
 
@@ -34,7 +34,8 @@ const AuthenticateHandler = (
       Broadcaster.toClient({ socket, headers, message })
     }
 
-    client.verifyIdToken({ idToken: token, audience: process.env.CLIENT_ID })
+    client
+      .verifyIdToken({ idToken: token, audience: process.env.CLIENT_ID })
       .then((ticket) => {
         const data = ticket.getPayload()
         const responsePayload: PayloadInterface = {
@@ -47,16 +48,21 @@ const AuthenticateHandler = (
           }
         }
 
-        if (process.env.GOOGLE_AUTH_DOMAIN && data['hd'] === process.env.GOOGLE_AUTH_DOMAIN) {
+        if (
+          process.env.GOOGLE_AUTH_DOMAIN &&
+          data['hd'] === process.env.GOOGLE_AUTH_DOMAIN
+        ) {
           return persistUser(responsePayload.user)
             .then(() => resolve(responsePayload))
-            .catch((err: any) => logger.error('Error checking user', { error: err.message }))
+            .catch((err: any) =>
+              logger.error('Error checking user', { error: err.message })
+            )
         }
 
         payload.key = AuthConsts.AUTHENTICATION_TOKEN_INVALID
         broadcastTo(payload, { error: `Invalid domain: ${data['hd']}` })
       })
-      .catch(err => {
+      .catch((err) => {
         broadcastTo(payload, { error: err.message })
       })
   })

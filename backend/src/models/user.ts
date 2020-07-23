@@ -8,11 +8,14 @@ export interface JBUserInterface {
 
 export interface DBUserInterface extends JBUserInterface, Document {}
 
-const userSchema = new Schema({
-  _id: Schema.Types.String,
-  fullname: Schema.Types.String,
-  picture: Schema.Types.String
-}, { _id: false })
+const userSchema = new Schema(
+  {
+    _id: Schema.Types.String,
+    fullname: Schema.Types.String,
+    picture: Schema.Types.String
+  },
+  { _id: false }
+)
 const User = model<DBUserInterface>('User', userSchema)
 
 export default User

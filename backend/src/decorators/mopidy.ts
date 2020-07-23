@@ -29,8 +29,8 @@ const recommendTracks = (
 ): void => {
   if (!recommendFunc) return
 
-  getSeedTracks().then(uris => {
-    const waitToRecommend = trackLength / 4 * 3
+  getSeedTracks().then((uris) => {
+    const waitToRecommend = (trackLength / 4) * 3
     clearSetTimeout(recommendTimer)
     recommendTimer = setTimeout(recommendFunc, waitToRecommend, uris, mopidy)
   })
@@ -43,16 +43,15 @@ const MopidyDecorator = {
 
       switch (key) {
         case Constants.CORE_EVENTS.PLAYBACK_ENDED:
-          return DecorateTracklist([data.tl_track.track])
-            .then(data => {
-              return addToTrackSeedList(data[0].track)
-                .then(() => trimTracklist(mopidy))
-                .then(() => resolve(data[0].track.uri))
-            })
+          return DecorateTracklist([data.tl_track.track]).then((data) => {
+            return addToTrackSeedList(data[0].track)
+              .then(() => trimTracklist(mopidy))
+              .then(() => resolve(data[0].track.uri))
+          })
         case Constants.CORE_EVENTS.PLAYBACK_STARTED:
           return updateTrackPlaycount(data.tl_track.track.uri)
             .then(() => DecorateTracklist([data.tl_track.track]))
-            .then(async data => {
+            .then(async (data) => {
               const payload = data[0]
               NowPlaying.addTrack(payload.track)
 
@@ -73,21 +72,21 @@ const MopidyDecorator = {
     })
   },
   parse: (headers: any, data: any): Promise<any> => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const { key, user } = headers
 
       switch (key) {
         case Constants.GET_CURRENT_TRACK:
           if (!data) return resolve()
-          return DecorateTracklist([data])
-            .then(TransformedData => {
-              const trackInfo = TransformedData[0]
-              return updateCurrentTrack(trackInfo.track.uri).then(() => resolve(trackInfo))
-            })
+          return DecorateTracklist([data]).then((TransformedData) => {
+            const trackInfo = TransformedData[0]
+            return updateCurrentTrack(trackInfo.track.uri).then(() => resolve(trackInfo))
+          })
         case Constants.GET_TRACKS:
-          return DecorateTracklist(data).then(tracks => {
-            return updateTracklist(tracks.map(data => data.track.uri))
-              .then(() => resolve(tracks))
+          return DecorateTracklist(data).then((tracks) => {
+            return updateTracklist(tracks.map((data) => data.track.uri)).then(() =>
+              resolve(tracks)
+            )
           })
         case Constants.TRACKLIST_REMOVE:
           return removeFromSeeds(data[0].track.uri)

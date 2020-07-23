@@ -14,18 +14,17 @@ const VoteHandler = ({ socketio, payload }: VoteHandlerInterface) => {
   const { user, data } = payload
   EventLogger.info('CAST_VOTE', payload, true)
 
-  updateTrackVote(data.uri, user, data.vote)
-    .then(track => {
-      Broadcaster.toAll({
-        socketio,
-        headers: {
-          key: VoteConstant.VOTE_CASTED,
-          user
-        },
-        message: track,
-        type: MessageType.VOTE
-      })
+  updateTrackVote(data.uri, user, data.vote).then((track) => {
+    Broadcaster.toAll({
+      socketio,
+      headers: {
+        key: VoteConstant.VOTE_CASTED,
+        user
+      },
+      message: track,
+      type: MessageType.VOTE
     })
+  })
 }
 
 export default VoteHandler

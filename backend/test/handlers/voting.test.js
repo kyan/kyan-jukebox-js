@@ -23,7 +23,7 @@ describe('VoteHandler', () => {
 
     VoteHandler({ payload, socketio })
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         expect(updateTrackVote).toHaveBeenCalledWith(
           payload.data.uri,

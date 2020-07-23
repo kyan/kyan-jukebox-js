@@ -27,7 +27,14 @@ describe('test mongoose Settings model', () => {
       return initializeState(currentTrack, currentTracklist).then(() => {
         expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
           { key: 'state' },
-          { key: 'state', value: { currentTrack: 'uri123', currentTracklist: ['uri123'], trackSeeds: [] } },
+          {
+            key: 'state',
+            value: {
+              currentTrack: 'uri123',
+              currentTracklist: ['uri123'],
+              trackSeeds: []
+            }
+          },
           { runValidators: true, setDefaultsOnInsert: true, upsert: true }
         )
       })
@@ -42,7 +49,10 @@ describe('test mongoose Settings model', () => {
       return initializeState(currentTrack, currentTracklist).then(() => {
         expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
           { key: 'state' },
-          { key: 'state', value: { currentTrack: null, currentTracklist: [], trackSeeds: [] } },
+          {
+            key: 'state',
+            value: { currentTrack: null, currentTracklist: [], trackSeeds: [] }
+          },
           { runValidators: true, setDefaultsOnInsert: true, upsert: true }
         )
       })
@@ -50,17 +60,26 @@ describe('test mongoose Settings model', () => {
 
     it('handles errors', () => {
       expect.assertions(2)
-      jest.spyOn(Setting.collection, 'findOneAndReplace').mockRejectedValue(new Error('boom'))
+      jest
+        .spyOn(Setting.collection, 'findOneAndReplace')
+        .mockRejectedValue(new Error('boom'))
       const currentTrack = { uri: 'uri123' }
       const currentTracklist = [currentTrack]
 
       initializeState(currentTrack, currentTracklist)
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
             { key: 'state' },
-            { key: 'state', value: { currentTrack: 'uri123', currentTracklist: ['uri123'], trackSeeds: [] } },
+            {
+              key: 'state',
+              value: {
+                currentTrack: 'uri123',
+                currentTracklist: ['uri123'],
+                trackSeeds: []
+              }
+            },
             { runValidators: true, setDefaultsOnInsert: true, upsert: true }
           )
           expect(logger.error).toHaveBeenCalledWith('initializeState: boom')
@@ -86,11 +105,13 @@ describe('test mongoose Settings model', () => {
 
     it('handles errors', () => {
       expect.assertions(2)
-      jest.spyOn(Setting.collection, 'findOneAndReplace').mockRejectedValue(new Error('boom'))
+      jest
+        .spyOn(Setting.collection, 'findOneAndReplace')
+        .mockRejectedValue(new Error('boom'))
 
       clearState()
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
             { key: 'state' },
@@ -174,7 +195,7 @@ describe('test mongoose Settings model', () => {
 
       addToTrackSeedList(track)
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
           expect(logger.error).toHaveBeenCalledWith('addToTrackSeedList: boom')
@@ -193,15 +214,7 @@ describe('test mongoose Settings model', () => {
         }
       }
       const currentTrack = 'uri123'
-      const currentTracklist = [
-        'uri1',
-        'uri2',
-        'uri3',
-        'uri4',
-        'uri5',
-        'uri123',
-        'uri6'
-      ]
+      const currentTracklist = ['uri1', 'uri2', 'uri3', 'uri4', 'uri5', 'uri123', 'uri6']
       const state = { value: { currentTrack, currentTracklist } }
       jest.spyOn(Setting, 'findOne').mockResolvedValue(state)
       jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue()
@@ -210,7 +223,11 @@ describe('test mongoose Settings model', () => {
         expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
         expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
           { key: 'state' },
-          { $set: { 'value.currentTracklist': ['uri2', 'uri3', 'uri4', 'uri5', 'uri123', 'uri6'] } },
+          {
+            $set: {
+              'value.currentTracklist': ['uri2', 'uri3', 'uri4', 'uri5', 'uri123', 'uri6']
+            }
+          },
           { runValidators: true, setDefaultsOnInsert: true, upsert: true }
         )
       })
@@ -224,12 +241,7 @@ describe('test mongoose Settings model', () => {
         }
       }
       const currentTrack = 'uri123'
-      const currentTracklist = [
-        'uri1',
-        'uri5',
-        'uri123',
-        'uri6'
-      ]
+      const currentTracklist = ['uri1', 'uri5', 'uri123', 'uri6']
       const state = { value: { currentTrack, currentTracklist } }
       jest.spyOn(Setting, 'findOne').mockResolvedValue(state)
       jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue()
@@ -247,7 +259,7 @@ describe('test mongoose Settings model', () => {
 
       trimTracklist(mopidyMock)
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
           expect(logger.error).toHaveBeenCalledWith('trimTracklist: boom')
@@ -280,7 +292,7 @@ describe('test mongoose Settings model', () => {
 
       updateCurrentTrack(uri)
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
             { key: 'state' },
@@ -317,7 +329,7 @@ describe('test mongoose Settings model', () => {
 
       updateTracklist(uris)
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
             { key: 'state' },
@@ -354,7 +366,7 @@ describe('test mongoose Settings model', () => {
 
       removeFromSeeds(uri)
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
             { key: 'state' },
@@ -378,9 +390,7 @@ describe('test mongoose Settings model', () => {
       })
 
       return getSeedTracks().then((response) => {
-        expect(Setting.findOne).toHaveBeenCalledWith(
-          { key: 'state' }
-        )
+        expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
         expect(response).toEqual(['uri123'])
       })
     })
@@ -394,9 +404,7 @@ describe('test mongoose Settings model', () => {
       })
 
       return getSeedTracks().then((response) => {
-        expect(Setting.findOne).toHaveBeenCalledWith(
-          { key: 'state' }
-        )
+        expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
         expect(response).toEqual([])
       })
     })
@@ -407,11 +415,9 @@ describe('test mongoose Settings model', () => {
 
       getSeedTracks()
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
-          expect(Setting.findOne).toHaveBeenCalledWith(
-            { key: 'state' }
-          )
+          expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
           expect(logger.error).toHaveBeenCalledWith('getSeedTracks: boom')
           resolve()
         }, 0)
@@ -429,9 +435,7 @@ describe('test mongoose Settings model', () => {
       })
 
       return getTracklist().then((response) => {
-        expect(Setting.findOne).toHaveBeenCalledWith(
-          { key: 'state' }
-        )
+        expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
         expect(response).toEqual(['uri123'])
       })
     })
@@ -445,9 +449,7 @@ describe('test mongoose Settings model', () => {
       })
 
       return getTracklist().then((response) => {
-        expect(Setting.findOne).toHaveBeenCalledWith(
-          { key: 'state' }
-        )
+        expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
         expect(response).toEqual([])
       })
     })
@@ -458,11 +460,9 @@ describe('test mongoose Settings model', () => {
 
       getTracklist()
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
-          expect(Setting.findOne).toHaveBeenCalledWith(
-            { key: 'state' }
-          )
+          expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
           expect(logger.error).toHaveBeenCalledWith('getTracklist: boom')
           resolve()
         }, 0)

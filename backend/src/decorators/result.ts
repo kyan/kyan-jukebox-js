@@ -3,10 +3,8 @@ import { findTracks, JBTrackInterface } from '../models/track'
 
 const DecorateSearchResults = (json: JBTrackInterface[]) => {
   return new Promise((resolve) => {
-    const trackUris = json.map(data => data.uri)
-    const requests = [
-      findTracks(trackUris)
-    ]
+    const trackUris = json.map((data) => data.uri)
+    const requests = [findTracks(trackUris)]
 
     const compare = (a: any, b: any): number => {
       let comparison = 0
@@ -26,8 +24,8 @@ const DecorateSearchResults = (json: JBTrackInterface[]) => {
 
     Promise.all(requests).then((responses: any[]) => {
       const tracks: any[] = responses[0]
-      const decoratedTracks = json.map(data => {
-        const trackData = tracks.find(track => track._id === data.uri)
+      const decoratedTracks = json.map((data) => {
+        const trackData = tracks.find((track) => track._id === data.uri)
 
         if (trackData) {
           data.addedBy = trackData.addedBy
