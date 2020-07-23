@@ -117,7 +117,7 @@ declare namespace Mopidy {
      * If set, this object will be used to log errors from Mopidy.js. This is
      * mostly useful for testing Mopidy.js. Defaults to console.
      */
-    console?: Object;
+    console?: Console;
     /**
      * An existing WebSocket object to be used instead of creating a new
      * WebSocket. Defaults to undefined.
@@ -794,7 +794,7 @@ declare namespace Mopidy {
         /**
          * (dict, of (string, list) pairs) – one or more rules to match by
          */
-        criteria: Object
+        criteria: { [key: string]: string[] }
       }): Promise<models.TlTrack[]>;
 
       /**
@@ -923,7 +923,7 @@ declare namespace Mopidy {
         /**
          * (dict, of (string, list) pairs) – one or more rules to match by
          */
-        criteria: Object
+        criteria: { [key: string]: string[] }
       }): Promise<models.TlTrack[]>;
 
       // ----------------- FUTURE STATE -----------------

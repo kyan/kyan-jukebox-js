@@ -8,22 +8,22 @@ const AVERAGE_WEIGHT_DECIMALIZER = 10.0
 const MAX_SCORE = 100
 
 const VotingHelper = {
-  voteNormalised: (vote: number) => vote * VOTE_NORMALISER,
+  voteNormalised: (vote: number): number => vote * VOTE_NORMALISER,
 
-  calcVoteCount: (data: JBAddedByInterface[]) => {
+  calcVoteCount: (data: JBAddedByInterface[]): number => {
     return sumBy(data, i => i.votes.length)
   },
 
-  calcVoteTotal: (data: JBAddedByInterface[]) => {
+  calcVoteTotal: (data: JBAddedByInterface[]): number => {
     return sumBy(data, i => sumBy(i.votes, v => v.vote))
   },
 
-  calcVoteAverage: (data: JBAddedByInterface[]) => {
+  calcVoteAverage: (data: JBAddedByInterface[]): number => {
     const votes = data.map(i => i.votes.map(j => j.vote))
     return (votes.length > 0) ? mean(flatten(votes)) : 0
   },
 
-  calcWeightedMean: (data: JBAddedByInterface[]) => {
+  calcWeightedMean: (data: JBAddedByInterface[]): number => {
     if (data.length < 1) return 0
     const today = new Date().getTime()
     const diffInMonths = (e: number, s: number) => Math.round(Math.abs(e - s) / (2e3 * 3600 * 365.25))

@@ -58,17 +58,15 @@ describe('NowPlaying', () => {
         })
     })
 
-    it('handles errors', done => {
+    it('handles errors', () => {
       jest.spyOn(Setting, 'findOneAndUpdate').mockRejectedValue(new Error('oooops'))
       NowPlaying.addTrack(trackObject)
 
-      setTimeout(() => {
-        try {
+      return new Promise(resolve => {
+        setTimeout(() => {
           expect(logger.error).toHaveBeenCalledWith('NowPlaying.addTrack: oooops')
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+          resolve()
+        }, 0)
       })
     })
   })

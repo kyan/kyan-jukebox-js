@@ -103,35 +103,18 @@ describe('test mongoose Track model', () => {
       })
     })
 
-    it('errors when calling findOrUseBRH', done => {
+    it('errors when calling findOrUseBRH', () => {
       expect.assertions(1)
       mockingoose(User).toReturn(new Error('updateOne BRH Fail'), 'findOneAndUpdate')
       const demoUris = ['123', '456']
       jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
       addTracks(demoUris)
-      setTimeout(() => {
-        try {
-          expect(logger.error).toHaveBeenCalledWith('addTracks:findOrUseBRH', { message: 'updateOne BRH Fail' })
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
-      })
-    })
 
-    it('errors when calling findOrUseBRH', done => {
-      expect.assertions(1)
-      mockingoose(Track).toReturn(new Error('updateOne Track Fail'), 'findOneAndUpdate')
-      const demoUris = ['123', '456']
-      jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
-      addTracks(demoUris)
-      setTimeout(() => {
-        try {
-          expect(logger.error).toHaveBeenCalledWith('addTracks:Track.updateOne', { message: 'updateOne Track Fail' })
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+      return new Promise(resolve => {
+        setTimeout(() => {
+          expect(logger.error).toHaveBeenCalledWith('addTracks:findOrUseBRH', { message: 'updateOne BRH Fail' })
+          resolve()
+        }, 0)
       })
     })
   })
@@ -165,18 +148,17 @@ describe('test mongoose Track model', () => {
       })
     })
 
-    it('handles an error', done => {
+    it('handles an error', () => {
       expect.assertions(1)
       jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
       mockingoose(Track).toReturn(new Error('boom!'), 'findOne')
       updateTrackPlaycount('123')
-      setTimeout(() => {
-        try {
+
+      return new Promise(resolve => {
+        setTimeout(() => {
           expect(logger.error).toHaveBeenCalledWith('updateTrackPlaycount', { message: 'boom!' })
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+          resolve()
+        }, 0)
       })
     })
   })
@@ -194,33 +176,31 @@ describe('test mongoose Track model', () => {
       })
     })
 
-    it('handles an error with Track.findById', done => {
+    it('handles an error with Track.findById', () => {
       expect.assertions(1)
       const track = { _id: 'uri123', addedBy: [{ votes: [] }] }
       mockingoose(Track).toReturn(new Error('boom!'), 'findOne')
       updateTrackVote(track._id, user, 12)
-      setTimeout(() => {
-        try {
+
+      return new Promise(resolve => {
+        setTimeout(() => {
           expect(logger.error).toHaveBeenCalledWith('updateTrackVote:findById', { message: 'boom!' })
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+          resolve()
+        }, 0)
       })
     })
 
-    it('handles an error with findOrUseBRH', done => {
+    it('handles an error with findOrUseBRH', () => {
       expect.assertions(1)
       const track = { _id: 'uri123', addedBy: [{ votes: [] }] }
       mockingoose(User).toReturn(new Error('boom!'), 'findOneAndUpdate')
       updateTrackVote(track._id, null, 12)
-      setTimeout(() => {
-        try {
+
+      return new Promise(resolve => {
+        setTimeout(() => {
           expect(logger.error).toHaveBeenCalledWith('updateTrackVote:findOrUseBRH', { message: 'boom!' })
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+          resolve()
+        }, 0)
       })
     })
 
@@ -235,7 +215,7 @@ describe('test mongoose Track model', () => {
       })
     })
 
-    it('updates a vote when there is a matching track', done => {
+    it('updates a vote when there is a matching track', () => {
       expect.assertions(1)
       const vote = { user, vote: 10, at: new Date(888451200000) }
       const track = {
@@ -261,14 +241,7 @@ describe('test mongoose Track model', () => {
       jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
 
       return updateTrackVote(track._id, user, 12).then((result) => {
-        setTimeout(() => {
-          try {
-            expect(result).toMatchSnapshot()
-            done()
-          } catch (err) {
-            done.fail(err)
-          }
-        })
+        expect(result).toMatchSnapshot()
       })
     })
   })

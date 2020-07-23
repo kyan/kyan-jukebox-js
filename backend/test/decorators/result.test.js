@@ -56,7 +56,7 @@ describe('SearchResults', () => {
     it('renders', () => {
       findTracks.mockResolvedValue(tracks)
 
-      SearchResults(payload.tracks.items).then(transformedPayload => {
+      return SearchResults(payload.tracks.items).then(transformedPayload => {
         expect(transformedPayload).toMatchSnapshot()
       })
     })
@@ -111,7 +111,7 @@ describe('SearchResults', () => {
     it('renders', () => {
       findTracks.mockResolvedValue(tracks)
 
-      SearchResults(payload.tracks.items).then(transformedPayload => {
+      return SearchResults(payload.tracks.items).then(transformedPayload => {
         expect(transformedPayload).toMatchSnapshot()
       })
     })
@@ -162,7 +162,7 @@ describe('SearchResults', () => {
       process.env.EXPLICIT_CONTENT = 'false'
       findTracks.mockResolvedValue(tracks)
 
-      SearchResults(payload.tracks.items).then(transformedPayload => {
+      return SearchResults(payload.tracks.items).then(transformedPayload => {
         expect(transformedPayload).toMatchSnapshot()
       })
     })
@@ -174,7 +174,7 @@ describe('SearchResults', () => {
     it('renders', () => {
       findTracks.mockResolvedValue(tracks)
 
-      SearchResults(payload.tracks.items).then(transformedPayload => {
+      return SearchResults(payload.tracks.items).then(transformedPayload => {
         expect(transformedPayload).toMatchSnapshot()
       })
     })

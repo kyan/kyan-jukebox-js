@@ -6,13 +6,13 @@
     "build": "tsc",
     "start": "ts-node-dev --respawn --transpileOnly src/index.ts",
     "start:prod": "node dist/index.js",
-    "fix": "standard --fix",
+    "fix": "eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "npm run lint && npm run jest",
     "test:watch": "npm run lint && npm run jest -- --watchAll",
     "test:coverage": "npm run lint && npm run jest -- --watchAll --coverage",
     "test:ci": "npm run lint && npm run jest -- --runInBand --coverage",
     "jest": "jest --forceExit --detectOpenHandles --verbose",
-    "lint": "tsc --noEmit && standard"
+    "lint": "tsc --noEmit && eslint . --ext .js,.ts"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -41,29 +41,15 @@
     "@types/node-cron": "^2.0.3",
     "@types/socket.io": "^2.1.8",
     "@types/spotify-web-api-node": "^4.0.1",
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "@typescript-eslint/parser": "^3.7.0",
+    "eslint": "^7.5.0",
+    "eslint-plugin-jest": "^23.18.0",
     "jest": "^26.0.1",
     "jest-watch-typeahead": "^0.6.0",
     "mockingoose": "2.13.2",
-    "standard": "^11.0.1",
     "ts-jest": "^26.1.0",
     "ts-node-dev": "^1.0.0-pre.48",
-    "typescript": "^3.9.5"
-  },
-  "standard": {
-    "globals": [
-      "describe",
-      "context",
-      "before",
-      "beforeAll",
-      "beforeEach",
-      "after",
-      "afterEach",
-      "it",
-      "expect",
-      "jest",
-      "spyOn",
-      "jasmine",
-      "WebSocket"
-    ]
+    "typescript": "^3.9.7"
   }
 }

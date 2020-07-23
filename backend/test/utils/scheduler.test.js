@@ -1,6 +1,6 @@
 import Scheduler from '../../src/utils/scheduler'
 import logger from '../../src/config/logger'
-const cron = require('node-cron')
+import cron from 'node-cron'
 
 describe('Scheduler', () => {
   const mockStop = jest.fn()

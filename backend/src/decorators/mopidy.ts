@@ -13,13 +13,20 @@ import {
   getSeedTracks
 } from '../models/setting'
 import { addTracks, updateTrackPlaycount } from '../models/track'
+import { GetRecommendationsInterface } from '../services/spotify'
 
-const clearSetTimeout = (timeout: number) => {
+let recommendTimer: NodeJS.Timeout | null
+
+const clearSetTimeout = (timeout: NodeJS.Timeout) => {
   clearTimeout(timeout)
   timeout = null
 }
 
-const recommendTracks = (recommendFunc: Function, trackLength: number, mopidy: Mopidy) => {
+const recommendTracks = (
+  recommendFunc: GetRecommendationsInterface,
+  trackLength: number,
+  mopidy: Mopidy
+): void => {
   if (!recommendFunc) return
 
   getSeedTracks().then(uris => {
@@ -28,8 +35,6 @@ const recommendTracks = (recommendFunc: Function, trackLength: number, mopidy: M
     recommendTimer = setTimeout(recommendFunc, waitToRecommend, uris, mopidy)
   })
 }
-
-let recommendTimer: number
 
 const MopidyDecorator = {
   mopidyCoreMessage: (headers: any, data: any, mopidy: Mopidy): Promise<any> => {
@@ -54,7 +59,7 @@ const MopidyDecorator = {
               await updateCurrentTrack(payload.track.uri)
               const recommend = await Spotify.canRecommend(mopidy)
               recommendTracks(recommend, payload.track.length, mopidy)
-              return resolve(payload)
+              resolve(payload)
             })
         case Constants.CORE_EVENTS.VOLUME_CHANGED:
           return resolve({ volume: data.volume })
@@ -88,18 +93,17 @@ const MopidyDecorator = {
           return removeFromSeeds(data[0].track.uri)
             .then(() => DecorateTracklist([data[0].track]))
             .then((response) => {
-              return resolve({
+              resolve({
                 message: `${response[0].track.name} by ${response[0].track.artist.name}`,
                 toAll: true
               })
             })
         case Constants.TRACKLIST_ADD:
-          const { data: track } = headers
-          return addTracks([track.uris[0]], user)
+          return addTracks([headers.data.uris[0]], user)
             .then(() => DecorateTracklist([data[0].track]))
             .then((response) => {
               clearSetTimeout(recommendTimer)
-              return resolve({
+              resolve({
                 message: `${response[0].track.name} by ${response[0].track.artist.name}`,
                 toAll: true
               })

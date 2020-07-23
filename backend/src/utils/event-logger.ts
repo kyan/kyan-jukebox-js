@@ -1,11 +1,21 @@
 import jsonStringifySafe from 'json-stringify-safe'
+import lodash from 'lodash'
 import Event from '../models/event'
 import logger from '../config/logger'
-import { PayloadInterface } from '../utils/payload'
+import { JBUserInterface } from '../models/user'
+
+interface LoggerPayloadInterface {
+  key: string
+  user: JBUserInterface
+  data: any
+}
+
+const { pick } = lodash
 
 const EventLogger = {
   info: (label: string, payload: any, createEvent?: boolean): void => {
-    const data = (({ key, user, data, response }) => ({ key, user, data, response }))(payload)
+    const data: LoggerPayloadInterface = pick(payload, ['key', 'user', 'data'])
+
     logger.info(label, { args: jsonStringifySafe(data) })
 
     if (data.user && createEvent) {
