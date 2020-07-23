@@ -3,18 +3,18 @@ import MessageType from '../constants/message'
 import EventLogger from '../utils/event-logger'
 import Payload from '../utils/payload'
 
-export interface ToClientInterface {
-  socket: SocketIO.Socket
+export interface BaseBroadcastInterface {
   headers: any
   message: any
   type?: string
 }
 
-export interface ToAllInterface {
+export interface ToClientInterface extends BaseBroadcastInterface {
+  socket: SocketIO.Socket
+}
+
+export interface ToAllInterface extends BaseBroadcastInterface {
   socketio: SocketIO.Server
-  headers: any
-  message: any
-  type?: string
 }
 
 export interface StateChangeMessageInterface {

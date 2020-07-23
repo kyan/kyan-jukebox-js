@@ -10,9 +10,9 @@ import {
   trimTracklist,
   updateTracklist
 } from '../models/setting'
-import { StateChangeMessageInterface } from '../utils/broadcaster'
+import { StateChangeMessageInterface, BaseBroadcastInterface } from '../utils/broadcaster'
 
-type BroadcastToAllType = (options: any) => void
+type BroadcastToAllType = (options: BaseBroadcastInterface) => void
 type BroadcastStateChangeType = (message: StateChangeMessageInterface) => void
 
 const mopidyUrl = process.env.WS_MOPIDY_URL
@@ -62,7 +62,7 @@ const MopidyService = (
 
         const packAndSend = (
           headers: { [index: string]: string },
-          data: any,
+          data: unknown,
           funcStr: 'parse' | 'mopidyCoreMessage'
         ) => {
           Decorator[funcStr](headers, data, mopidy).then(unifiedMessage => {
