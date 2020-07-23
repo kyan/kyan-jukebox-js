@@ -25,7 +25,7 @@ describe('SearchHandler', () => {
 
     SearchHandler({ payload, socket })
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         expect(Spotify.search).toHaveBeenCalledWith('search')
         expect(Broadcaster.toClient).toHaveBeenCalledWith({

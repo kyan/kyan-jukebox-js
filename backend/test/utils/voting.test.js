@@ -17,9 +17,7 @@ describe('VotingHelper', () => {
 
   describe('calcVoteCount', () => {
     it('should handle data', () => {
-      const data = [
-        { votes: [1, 2, 3, 4, 5] }
-      ]
+      const data = [{ votes: [1, 2, 3, 4, 5] }]
 
       expect(VotingHelper.calcVoteCount(data)).toEqual(5)
     })
@@ -35,12 +33,7 @@ describe('VotingHelper', () => {
     it('should handle data', () => {
       const data = [
         {
-          votes: [
-            { vote: 10 },
-            { vote: 20 },
-            { vote: 30 },
-            { vote: 40 }
-          ]
+          votes: [{ vote: 10 }, { vote: 20 }, { vote: 30 }, { vote: 40 }]
         }
       ]
 
@@ -58,12 +51,7 @@ describe('VotingHelper', () => {
     it('should handle data', () => {
       const data = [
         {
-          votes: [
-            { vote: 10 },
-            { vote: 20 },
-            { vote: 30 },
-            { vote: 40 }
-          ]
+          votes: [{ vote: 10 }, { vote: 20 }, { vote: 30 }, { vote: 40 }]
         }
       ]
 

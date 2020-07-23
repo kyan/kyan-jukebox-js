@@ -9,10 +9,9 @@ describe('MongodbService', () => {
     mongoose.connect = jest.fn(() => Promise.resolve())
 
     return MongodbService().then(() => {
-      expect(logger.info).toHaveBeenCalledWith(
-        'Mongodb Connected',
-        { url: 'mongodb://mongodb:27017/jb-dev' }
-      )
+      expect(logger.info).toHaveBeenCalledWith('Mongodb Connected', {
+        url: 'mongodb://mongodb:27017/jb-dev'
+      })
     })
   })
 
@@ -23,12 +22,11 @@ describe('MongodbService', () => {
     return MongodbService().catch((error) => {
       expect(error.message).toEqual('MongoDB failed to connect!')
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
-          expect(logger.error).toHaveBeenCalledWith(
-            'Mongodb: Error: bang!',
-            { url: 'mongodb://mongodb:27017/jb-dev' }
-          )
+          expect(logger.error).toHaveBeenCalledWith('Mongodb: Error: bang!', {
+            url: 'mongodb://mongodb:27017/jb-dev'
+          })
           resolve()
         }, 0)
       })

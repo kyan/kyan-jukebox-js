@@ -15,8 +15,13 @@ const SearchHandler = ({ socket, payload }: SearchHandlerInterface) => {
   EventLogger.info('SEARCH', payload, true)
 
   const broadcastTo = (headers: PayloadInterface, message: any) => {
-    Decorator.parse(headers, message).then(unifiedMessage => {
-      Broadcaster.toClient({ socket, headers, message: unifiedMessage, type: MessageType.SEARCH })
+    Decorator.parse(headers, message).then((unifiedMessage) => {
+      Broadcaster.toClient({
+        socket,
+        headers,
+        message: unifiedMessage,
+        type: MessageType.SEARCH
+      })
     })
   }
 

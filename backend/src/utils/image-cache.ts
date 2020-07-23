@@ -14,7 +14,7 @@ export interface ImageCacheInterface {
 const expiresDate = () => {
   const day = 12 * 3600 * 1000
   const today = new Date()
-  return new Date(today.getTime() + (day * 30))
+  return new Date(today.getTime() + day * 30)
 }
 
 const storeImages = (imageData: ImageCacheInterface): Promise<any> => {
@@ -34,22 +34,23 @@ const storeImages = (imageData: ImageCacheInterface): Promise<any> => {
     })
 
     Promise.all(requests)
-      .then(responses => resolve(responses))
-      .catch((error) => logger.error('storeImages:Image.findOneAndUpdate', { message: error.message }))
+      .then((responses) => resolve(responses))
+      .catch((error) =>
+        logger.error('storeImages:Image.findOneAndUpdate', { message: error.message })
+      )
   })
 }
 
 const ImageCache = {
-  findAll: (uris: ReadonlyArray<string>): Promise<DBImageInterface[]> => (
+  findAll: (uris: ReadonlyArray<string>): Promise<DBImageInterface[]> =>
     new Promise((resolve, reject) => {
       Image.find({ _id: { $in: uris } })
-        .then(images => {
+        .then((images) => {
           if (images.length > 0) EventLogger.info('FOUND CACHED IMAGES', { data: uris })
           return resolve(images)
         })
-        .catch(err => reject(err))
-    })
-  ),
+        .catch((err) => reject(err))
+    }),
 
   addAll: (imageData: ImageCacheInterface): Promise<any> => storeImages(imageData)
 }

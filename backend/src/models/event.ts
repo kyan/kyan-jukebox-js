@@ -1,4 +1,4 @@
-import { Schema, Document, model} from 'mongoose'
+import { Schema, Document, model } from 'mongoose'
 import { DBUserInterface } from './user'
 
 export interface DBEventInterface extends Document {

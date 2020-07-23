@@ -52,7 +52,9 @@ interface DBMetricsInterface {
   votesAverage: number
 }
 
-type PromiseLikeDBUser = Promise<DBUserInterface> | DocumentQuery<DBUserInterface, DBUserInterface>
+type PromiseLikeDBUser =
+  | Promise<DBUserInterface>
+  | DocumentQuery<DBUserInterface, DBUserInterface>
 
 export interface DBTrackInterface extends Document {
   _id: any
@@ -60,31 +62,40 @@ export interface DBTrackInterface extends Document {
   metrics: DBMetricsInterface
 }
 
-const trackSchema = new Schema({
-  _id: Schema.Types.String,
-  addedBy: [{
-    _id: false,
-    user: { type: Schema.Types.String, ref: 'User' },
-    addedAt: Schema.Types.Date,
-    played: [{
+const trackSchema = new Schema(
+  {
+    _id: Schema.Types.String,
+    addedBy: [
+      {
+        _id: false,
+        user: { type: Schema.Types.String, ref: 'User' },
+        addedAt: Schema.Types.Date,
+        played: [
+          {
+            _id: false,
+            at: Schema.Types.Date
+          }
+        ],
+        votes: [
+          {
+            _id: false,
+            user: { type: Schema.Types.String, ref: 'User' },
+            vote: Schema.Types.Number,
+            at: Schema.Types.Date
+          }
+        ]
+      }
+    ],
+    metrics: {
       _id: false,
-      at: Schema.Types.Date
-    }],
-    votes: [{
-      _id: false,
-      user: { type: Schema.Types.String, ref: 'User' },
-      vote: Schema.Types.Number,
-      at: Schema.Types.Date
-    }]
-  }],
-  metrics: {
-    _id: false,
-    plays: { type: Schema.Types.Number, default: 0 },
-    votes: { type: Schema.Types.Number, default: 0 },
-    votesTotal: { type: Schema.Types.Number, default: 0 },
-    votesAverage: { type: Schema.Types.Number, default: 0 }
-  }
-}, { _id: false })
+      plays: { type: Schema.Types.Number, default: 0 },
+      votes: { type: Schema.Types.Number, default: 0 },
+      votesTotal: { type: Schema.Types.Number, default: 0 },
+      votesAverage: { type: Schema.Types.Number, default: 0 }
+    }
+  },
+  { _id: false }
+)
 const Track = model<DBTrackInterface>('Track', trackSchema)
 
 const brh = {
@@ -93,48 +104,59 @@ const brh = {
   picture: 'https://cdn-images-1.medium.com/fit/c/200/200/1*bFBXYvskkPFI9nPx6Elwxg.png'
 }
 
-const findTracks = (uris: ReadonlyArray<string>): Promise<DBTrackInterface[]> => (
+const findTracks = (uris: ReadonlyArray<string>): Promise<DBTrackInterface[]> =>
   new Promise((resolve, reject) => {
     Track.find({ _id: { $in: uris } })
       .populate({ path: 'addedBy.user' })
       .populate({ path: 'addedBy.votes.user' })
-      .then(tracks => {
+      .then((tracks) => {
         if (tracks.length > 0) EventLogger.info('FOUND CACHED TRACKS', { data: uris })
         resolve(tracks)
       })
-      .catch(err => reject(err))
+      .catch((err) => reject(err))
   })
-)
 
 const findOrUseBRH = (user?: JBUserInterface): PromiseLikeDBUser => {
   if (user) return Promise.resolve(new User(user).toObject())
 
-  return User.findOneAndUpdate(
-    { _id: brh._id },
-    brh,
-    { upsert: true, new: true, setDefaultsOnInsert: true }
-  )
+  return User.findOneAndUpdate({ _id: brh._id }, brh, {
+    upsert: true,
+    new: true,
+    setDefaultsOnInsert: true
+  })
 }
 
-const addTracks = (uris: ReadonlyArray<string>, user?: DBUserInterface): Promise<any> => (
+const addTracks = (uris: ReadonlyArray<string>, user?: DBUserInterface): Promise<any> =>
   new Promise((resolve) => {
-    findOrUseBRH(user).then((returnUser) => {
-      const requests = uris.map((uri) => (
-        Track.findOneAndUpdate(
-          { _id: uri },
-          { $push: { addedBy: { $each: [{ user: returnUser, addedAt: new Date() }], $position: 0 } } },
-          { upsert: true, runValidators: true, setDefaultsOnInsert: true }
-        ).exec()
-      ))
+    findOrUseBRH(user)
+      .then((returnUser) => {
+        const requests = uris.map((uri) =>
+          Track.findOneAndUpdate(
+            { _id: uri },
+            {
+              $push: {
+                addedBy: {
+                  $each: [{ user: returnUser, addedAt: new Date() }],
+                  $position: 0
+                }
+              }
+            },
+            { upsert: true, runValidators: true, setDefaultsOnInsert: true }
+          ).exec()
+        )
 
-      Promise.all(requests)
-        .then(() => resolve({ uris, user: returnUser }))
-        .catch((error) => logger.error('addTracks:Track.updateOne', { message: error.message }))
-    }).catch((error: any) => logger.error('addTracks:findOrUseBRH', { message: error.message }))
+        Promise.all(requests)
+          .then(() => resolve({ uris, user: returnUser }))
+          .catch((error) =>
+            logger.error('addTracks:Track.updateOne', { message: error.message })
+          )
+      })
+      .catch((error: any) =>
+        logger.error('addTracks:findOrUseBRH', { message: error.message })
+      )
   })
-)
 
-const updateTrackPlaycount = (uri: string): Promise<DBTrackInterface> => (
+const updateTrackPlaycount = (uri: string): Promise<DBTrackInterface> =>
   new Promise((resolve) => {
     Track.findById(uri)
       .populate({ path: 'addedBy.user' })
@@ -152,41 +174,53 @@ const updateTrackPlaycount = (uri: string): Promise<DBTrackInterface> => (
       .then((track) => resolve(track))
       .catch((error) => logger.error('updateTrackPlaycount', { message: error.message }))
   })
-)
 
-const updateTrackVote = (uri: string, user: JBUserInterface, vote: number) => (
+const updateTrackVote = (uri: string, user: JBUserInterface, vote: number) =>
   new Promise((resolve) => {
-    findOrUseBRH(user).then((vUser) => {
-      Track.findById(uri)
-        .populate({ path: 'addedBy.user' })
-        .populate({ path: 'addedBy.votes.user' })
-        .then((track) => {
-          if (track && track.addedBy[0]) {
-            const currentVote = VotingHelper.voteNormalised(vote)
-            const newVote: JBVotesInterface = { at: new Date(), vote: currentVote, user: vUser }
-            const votes = track.addedBy[0].votes
-            const currentVoteIndex = votes.findIndex(vote => vote.user._id === vUser._id)
+    findOrUseBRH(user)
+      .then((vUser) => {
+        Track.findById(uri)
+          .populate({ path: 'addedBy.user' })
+          .populate({ path: 'addedBy.votes.user' })
+          .then((track) => {
+            if (track && track.addedBy[0]) {
+              const currentVote = VotingHelper.voteNormalised(vote)
+              const newVote: JBVotesInterface = {
+                at: new Date(),
+                vote: currentVote,
+                user: vUser
+              }
+              const votes = track.addedBy[0].votes
+              const currentVoteIndex = votes.findIndex(
+                (vote) => vote.user._id === vUser._id
+              )
 
-            if (currentVoteIndex !== -1) {
-              votes[currentVoteIndex].vote = currentVote
-            } else {
-              votes.unshift(newVote)
-              track.metrics.votes = VotingHelper.calcVoteCount(track.addedBy)
+              if (currentVoteIndex !== -1) {
+                votes[currentVoteIndex].vote = currentVote
+              } else {
+                votes.unshift(newVote)
+                track.metrics.votes = VotingHelper.calcVoteCount(track.addedBy)
+              }
+
+              track.metrics.votesTotal = VotingHelper.calcVoteTotal(track.addedBy)
+              track.metrics.votesAverage = VotingHelper.calcWeightedMean(track.addedBy)
+
+              return track.save()
             }
 
-            track.metrics.votesTotal = VotingHelper.calcVoteTotal(track.addedBy)
-            track.metrics.votesAverage = VotingHelper.calcWeightedMean(track.addedBy)
-
-            return track.save()
-          }
-
-          return Promise.resolve(track)
-        })
-        .then((track) => resolve({ uri: track.id, addedBy: track.addedBy, metrics: track.metrics }))
-        .catch((error) => logger.error('updateTrackVote:findById', { message: error.message }))
-    }).catch((error) => logger.error('updateTrackVote:findOrUseBRH', { message: error.message }))
+            return Promise.resolve(track)
+          })
+          .then((track) =>
+            resolve({ uri: track.id, addedBy: track.addedBy, metrics: track.metrics })
+          )
+          .catch((error) =>
+            logger.error('updateTrackVote:findById', { message: error.message })
+          )
+      })
+      .catch((error) =>
+        logger.error('updateTrackVote:findOrUseBRH', { message: error.message })
+      )
   })
-)
 
 export default Track
 export { findTracks, addTracks, updateTrackPlaycount, updateTrackVote }

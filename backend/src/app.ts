@@ -17,55 +17,59 @@ import { BroadcastInterface } from './utils/broadcaster'
 
 const app = express()
 app.disable('x-powered-by')
-app.use(function (_req, res) { res.send({ msg: 'WebSocket Only!' }) })
+app.use(function (_req, res) {
+  res.send({ msg: 'WebSocket Only!' })
+})
 
 const server = http.createServer(app)
 const socketio = io(server, { pingTimeout: 30000 })
 
 const isProduction = () => process.env.NODE_ENV === 'production'
-const broadcastToAll = (
-  options: BroadcastInterface
-) => Broadcaster.toAll({ socketio, ...options })
-const broadcastMopidyStateChange = (
-  message: StateChangeMessageInterface
-) => Broadcaster.stateChange({ socketio, message })
+const broadcastToAll = (options: BroadcastInterface) =>
+  Broadcaster.toAll({ socketio, ...options })
+const broadcastMopidyStateChange = (message: StateChangeMessageInterface) =>
+  Broadcaster.stateChange({ socketio, message })
 const allowSocketConnections = (mopidy: Mopidy) => {
-  if (isProduction()) Scheduler.scheduleAutoPlayback({ stop: () => mopidy.playback.stop() })
+  if (isProduction())
+    Scheduler.scheduleAutoPlayback({ stop: () => mopidy.playback.stop() })
 
-  socketio.on('connection', socket => {
+  socketio.on('connection', (socket) => {
     Broadcaster.stateChange({ socket: socket, message: { online: true } })
     SocketErrorsHandler(socket)
 
-    socket.on(MessageType.GENERIC, data => {
+    socket.on(MessageType.GENERIC, (data) => {
       const payload = Payload.decode(data)
 
-      AuthenticateHandler(payload, socket)
-        .then((updatedPayload) => MopidyHandler({
+      AuthenticateHandler(payload, socket).then((updatedPayload) =>
+        MopidyHandler({
           payload: updatedPayload,
           socketio: socketio,
           socket: socket,
           mopidy
-        }))
+        })
+      )
     })
 
-    socket.on(MessageType.SEARCH, data => {
+    socket.on(MessageType.SEARCH, (data) => {
       const payload = Payload.decode(data)
 
-      AuthenticateHandler(payload, socket)
-        .then((updatedPayload) => SearchHandler({
+      AuthenticateHandler(payload, socket).then((updatedPayload) =>
+        SearchHandler({
           payload: updatedPayload,
           socket: socket
-        }))
+        })
+      )
     })
 
-    socket.on(MessageType.VOTE, data => {
+    socket.on(MessageType.VOTE, (data) => {
       const payload = Payload.decode(data)
 
-      AuthenticateHandler(payload, socket)
-        .then((updatedPayload) => VoteHandler({
+      AuthenticateHandler(payload, socket).then((updatedPayload) =>
+        VoteHandler({
           payload: updatedPayload,
           socketio: socketio
-        }))
+        })
+      )
     })
   })
 

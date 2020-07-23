@@ -4,21 +4,12 @@ module.exports = {
       tsConfig: 'tsconfig.json'
     }
   },
-  moduleFileExtensions: [
-    'ts',
-    'js',
-    'json'
-  ],
+  moduleFileExtensions: ['ts', 'js', 'json'],
   transform: {
     '^.+\\.(js|ts|tsx)$': 'ts-jest'
   },
-  testMatch: [
-    '**/test/**/*.test.(ts|js)'
-  ],
-  watchPlugins: [
-    'jest-watch-typeahead/filename',
-    'jest-watch-typeahead/testname'
-  ],
+  testMatch: ['**/test/**/*.test.(ts|js)'],
+  watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
   testEnvironment: 'node',
   clearMocks: true,
   coverageThreshold: {

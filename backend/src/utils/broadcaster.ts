@@ -23,14 +23,21 @@ export interface StateChangeInterface extends SocketInterface {
 }
 
 const Broadcaster = {
-  toClient: ({ socket, headers, message, type = MessageType.GENERIC }: BroadcastInterface): void => {
+  toClient: ({
+    socket,
+    headers,
+    message,
+    type = MessageType.GENERIC
+  }: BroadcastInterface): void => {
     try {
       const payload = Payload.encodeToJson({
         key: headers.key,
         data: message,
         user: headers.user
       })
-      const context = headers.user ? MessageType.OUTGOING_API_AUTH : MessageType.OUTGOING_API
+      const context = headers.user
+        ? MessageType.OUTGOING_API_AUTH
+        : MessageType.OUTGOING_API
 
       EventLogger.info(context, { key: headers.key, data: message })
       socket.emit(type, payload)
@@ -39,7 +46,12 @@ const Broadcaster = {
     }
   },
 
-  toAll: ({ socketio, headers, message, type = MessageType.GENERIC }: BroadcastInterface): void => {
+  toAll: ({
+    socketio,
+    headers,
+    message,
+    type = MessageType.GENERIC
+  }: BroadcastInterface): void => {
     try {
       const payload = Payload.encodeToJson({
         key: headers.key,

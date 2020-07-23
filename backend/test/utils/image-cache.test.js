@@ -20,11 +20,12 @@ describe('ImageCache', () => {
       expect.assertions(2)
       mockingoose.Image.toReturn([_doc], 'find')
 
-      return ImageCache.findAll([_doc._id])
-        .then((result) => {
-          expect(result).toMatchObject([_doc])
-          expect(EventLogger.info).toHaveBeenCalledWith('FOUND CACHED IMAGES', { data: ['spotify123'] })
+      return ImageCache.findAll([_doc._id]).then((result) => {
+        expect(result).toMatchObject([_doc])
+        expect(EventLogger.info).toHaveBeenCalledWith('FOUND CACHED IMAGES', {
+          data: ['spotify123']
         })
+      })
     })
 
     it('finds no images and returns them', () => {
@@ -35,20 +36,18 @@ describe('ImageCache', () => {
       expect.assertions(2)
       mockingoose.Image.toReturn([], 'find')
 
-      return ImageCache.findAll([_doc._id])
-        .then((result) => {
-          expect(result).toMatchObject([])
-          expect(EventLogger.info).not.toHaveBeenCalled()
-        })
+      return ImageCache.findAll([_doc._id]).then((result) => {
+        expect(result).toMatchObject([])
+        expect(EventLogger.info).not.toHaveBeenCalled()
+      })
     })
 
     it('handles errors', () => {
       expect.assertions(1)
 
-      return ImageCache.findAll('xxx')
-        .catch((error) => {
-          expect(error.message).toEqual("Cannot read property 'length' of undefined")
-        })
+      return ImageCache.findAll('xxx').catch((error) => {
+        expect(error.message).toEqual("Cannot read property 'length' of undefined")
+      })
     })
   })
 
@@ -62,18 +61,17 @@ describe('ImageCache', () => {
       expect.assertions(1)
       mockingoose.Image.toReturn({ url: 'path' }, 'findOneAndUpdate')
 
-      return ImageCache.addAll({ 'spotify123': 'path/to/image' })
-        .then((result) => {
-          expect(result).toMatchObject([{ url: 'path' }])
-        })
+      return ImageCache.addAll({ spotify123: 'path/to/image' }).then((result) => {
+        expect(result).toMatchObject([{ url: 'path' }])
+      })
     })
 
     it('handles mongo errors', () => {
       expect.assertions(1)
       mockingoose.Image.toReturn(new Error('boom'), 'findOneAndUpdate')
-      ImageCache.addAll({ 'spotify123': 'path/to/image' })
+      ImageCache.addAll({ spotify123: 'path/to/image' })
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           expect(logger.error).toHaveBeenCalledWith(
             'storeImages:Image.findOneAndUpdate',
@@ -87,10 +85,9 @@ describe('ImageCache', () => {
     it('handles misformatted image data', () => {
       expect.assertions(1)
 
-      return ImageCache.addAll({ 'xxx': null })
-        .catch((error) => {
-          expect(error.message).toEqual('storeImages: Bad data')
-        })
+      return ImageCache.addAll({ xxx: null }).catch((error) => {
+        expect(error.message).toEqual('storeImages: Bad data')
+      })
     })
   })
 })

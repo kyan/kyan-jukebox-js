@@ -24,13 +24,15 @@ const Setting = model<DBSettingInterface>('Setting', settingSchema)
 const stateFind = { key: 'state' }
 const options = { upsert: true, runValidators: true, setDefaultsOnInsert: true }
 
-const addToTrackSeedList = (track: JBTrackInterface): Promise<void|string> => {
-  if (track.metrics && track.metrics.votes > 1 && track.metrics.votesAverage < 50) return Promise.resolve()
-  if (track.metrics && track.metrics.plays > 2 && track.metrics.votes < 1) return Promise.resolve()
+const addToTrackSeedList = (track: JBTrackInterface): Promise<void | string> => {
+  if (track.metrics && track.metrics.votes > 1 && track.metrics.votesAverage < 50)
+    return Promise.resolve()
+  if (track.metrics && track.metrics.plays > 2 && track.metrics.votes < 1)
+    return Promise.resolve()
 
   return new Promise((resolve) => {
     return Setting.findOne(stateFind)
-      .then(state => {
+      .then((state) => {
         const seeds = new Set(state.value.trackSeeds)
         seeds.add(track.uri)
         state.value.trackSeeds = Array.from(seeds)
@@ -44,7 +46,8 @@ const addToTrackSeedList = (track: JBTrackInterface): Promise<void|string> => {
 
 const clearState = (): Promise<void> => {
   return new Promise((resolve) => {
-    return Setting.collection.findOneAndReplace(stateFind, stateFind, options)
+    return Setting.collection
+      .findOneAndReplace(stateFind, stateFind, options)
       .then(() => resolve())
       .catch((error) => logger.error(`clearState: ${error.message}`))
   })
@@ -60,11 +63,12 @@ const initializeState = (
       ...stateFind,
       value: {
         currentTrack: currentTrack ? currentTrack.uri : null,
-        currentTracklist: currentTracklist.map(track => track.uri),
+        currentTracklist: currentTracklist.map((track) => track.uri),
         trackSeeds: emptyTrackSeeds
       }
     }
-    return Setting.collection.findOneAndReplace(stateFind, updateValue, options)
+    return Setting.collection
+      .findOneAndReplace(stateFind, updateValue, options)
       .then(() => resolve())
       .catch((error) => logger.error(`initializeState: ${error.message}`))
   })
@@ -86,12 +90,12 @@ const trimTracklist = (mopidy: Mopidy): Promise<boolean> => {
             }
           }
 
-          return Setting.findOneAndUpdate(stateFind, updateValue, options)
-            .then(() => {
-              logger.info(`trimTracklist: ${tracksToTrim}`)
-              return mopidy.tracklist.remove({ criteria: { uri: tracksToTrim } })
-                .then(() => resolve(true))
-            })
+          return Setting.findOneAndUpdate(stateFind, updateValue, options).then(() => {
+            logger.info(`trimTracklist: ${tracksToTrim}`)
+            return mopidy.tracklist
+              .remove({ criteria: { uri: tracksToTrim } })
+              .then(() => resolve(true))
+          })
         }
 
         return resolve(false)
@@ -130,7 +134,7 @@ const removeFromSeeds = (uri: string): Promise<string> => {
 const getSeedTracks = (): Promise<string[]> => {
   return new Promise((resolve) => {
     return Setting.findOne(stateFind)
-      .then(state => resolve(state.value.trackSeeds || []))
+      .then((state) => resolve(state.value.trackSeeds || []))
       .catch((error) => logger.error(`getSeedTracks: ${error.message}`))
   })
 }
@@ -138,7 +142,7 @@ const getSeedTracks = (): Promise<string[]> => {
 const getTracklist = (): Promise<string[]> => {
   return new Promise((resolve) => {
     return Setting.findOne(stateFind)
-      .then(state => resolve(state.value.currentTracklist || []))
+      .then((state) => resolve(state.value.currentTracklist || []))
       .catch((error) => logger.error(`getTracklist: ${error.message}`))
   })
 }

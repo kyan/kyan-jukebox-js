@@ -32,31 +32,40 @@ const spotifyApi = new SpotifyWebApi({
 })
 
 const stripServiceFromUris = (uris: ReadonlyArray<string>) => {
-  return uris.map(uri => uri.split(':').slice(-1)[0])
+  return uris.map((uri) => uri.split(':').slice(-1)[0])
 }
 
 /* istanbul ignore next */
 const setupSpotify = (callback: (api: SpotifyWebApi) => void): void => {
-  spotifyApi.clientCredentialsGrant().then(function (data) {
-    logger.info(`The access token expires in ${data.body['expires_in']}`)
-    logger.info(`The access token is ${data.body['access_token']}`)
+  spotifyApi
+    .clientCredentialsGrant()
+    .then(
+      function (data) {
+        logger.info(`The access token expires in ${data.body['expires_in']}`)
+        logger.info(`The access token is ${data.body['access_token']}`)
 
-    // Save the access token so that it's used in future calls
-    spotifyApi.setAccessToken(data.body['access_token'])
+        // Save the access token so that it's used in future calls
+        spotifyApi.setAccessToken(data.body['access_token'])
 
-    return callback(spotifyApi)
-  }, function (err) {
-    logger.error(`Something went wrong when retrieving an access token: ${err.message}`)
-  }).catch(function (error) {
-    logger.error(`setupSpotify: ${error.message}`)
-  })
+        return callback(spotifyApi)
+      },
+      function (err) {
+        logger.error(
+          `Something went wrong when retrieving an access token: ${err.message}`
+        )
+      }
+    )
+    .catch(function (error) {
+      logger.error(`setupSpotify: ${error.message}`)
+    })
 }
 
-const searchTracks = (params: SearchInterface): Promise<any> => (
+const searchTracks = (params: SearchInterface): Promise<any> =>
   new Promise((resolve) => {
     setupSpotify((api) => {
       const options = { ...defaultOptions, ...params.options }
-      api.searchTracks(params.query, options)
+      api
+        .searchTracks(params.query, options)
         .then((data) => {
           ImageCache.addAll(Recommend.getImageFromSpotifyTracks(data.body.tracks.items))
           resolve(data.body)
@@ -64,24 +73,23 @@ const searchTracks = (params: SearchInterface): Promise<any> => (
         .catch((error) => logger.error(`searchTracks: ${error.message}`))
     })
   })
-)
 
 const getSpotifyTracks = (
   uris: ReadonlyArray<string>
-): Promise<SpotifyApi.MultipleTracksResponse> => (
+): Promise<SpotifyApi.MultipleTracksResponse> =>
   new Promise((resolve) => {
     const trackUris = stripServiceFromUris(uris)
 
     setupSpotify((api: SpotifyWebApi) => {
-      api.getTracks(trackUris, defaultOptions)
-        .then((data) => {
-          ImageCache.addAll(Recommend.getImageFromSpotifyTracks(data.body.tracks)).then(() => {
+      api.getTracks(trackUris, defaultOptions).then((data) => {
+        ImageCache.addAll(Recommend.getImageFromSpotifyTracks(data.body.tracks)).then(
+          () => {
             resolve(data.body)
-          })
-        })
+          }
+        )
+      })
     })
   })
-)
 
 /* istanbul ignore next */
 const getRecommendations: GetRecommendationsInterface = (
@@ -103,13 +111,14 @@ const getRecommendations: GetRecommendationsInterface = (
     const options = { ...defaultOptions, ...seedOptions }
 
     setupSpotify((api: SpotifyWebApi) => {
-      api.getRecommendations(options)
-        .then(data => {
+      api
+        .getRecommendations(options)
+        .then((data) => {
           const tracks = data.body.tracks as SpotifyApi.TrackObjectFull[]
           return Recommend.extractSuitableData(tracks)
         })
-        .then(data => Recommend.addRandomUris(data))
-        .then(data => {
+        .then((data) => Recommend.addRandomUris(data))
+        .then((data) => {
           const { images, uris }: SuitableDataInterface = data
 
           if (uris.length > 0) {
@@ -131,7 +140,8 @@ const getRecommendations: GetRecommendationsInterface = (
 
             ImageCache.addAll(images).then(() => {
               addTracks(uris).then((data) => {
-                mopidy.tracklist.add({ uris: data.uris })
+                mopidy.tracklist
+                  .add({ uris: data.uris })
                   .then(successHandler(data.user), failureHandler)
               })
             })
@@ -148,40 +158,38 @@ const getRecommendations: GetRecommendationsInterface = (
 }
 
 const SpotifyService = {
-  canRecommend: (mopidy: Mopidy): Promise<GetRecommendationsInterface | null> => (
-    new Promise(resolve => {
-      return mopidy.tracklist.getNextTlid()
+  canRecommend: (mopidy: Mopidy): Promise<GetRecommendationsInterface | null> =>
+    new Promise((resolve) => {
+      return mopidy.tracklist
+        .getNextTlid()
         .then((tlid) => {
           if (!tlid) return resolve(getRecommendations)
           resolve()
         })
         .catch((error) => logger.error(`nextTrack: ${error.message}`))
-    })
-  ),
+    }),
 
-  validateTrack: (uri: string) => (
+  validateTrack: (uri: string) =>
     new Promise((resolve, reject) => {
-      return getTracklist()
-        .then(uris => {
-          if (uris.includes(uri)) {
-            const message = `You've already added: ${uri}`
-            return reject(new Error(message))
-          }
+      return getTracklist().then((uris) => {
+        if (uris.includes(uri)) {
+          const message = `You've already added: ${uri}`
+          return reject(new Error(message))
+        }
 
-          return SpotifyService.getTracks([uri])
-            .then((response) => {
-              const track = response.tracks[0]
+        return SpotifyService.getTracks([uri])
+          .then((response) => {
+            const track = response.tracks[0]
 
-              if (track.explicit && process.env.EXPLICIT_CONTENT === 'false') {
-                const message = `Not suitable. Is there a radio mix? - ${track.name}`
-                return reject(new Error(message))
-              }
-              resolve(true)
-            })
-            .catch((error) => logger.error(`getTracks: ${error.message}`))
-        })
-    })
-  ),
+            if (track.explicit && process.env.EXPLICIT_CONTENT === 'false') {
+              const message = `Not suitable. Is there a radio mix? - ${track.name}`
+              return reject(new Error(message))
+            }
+            resolve(true)
+          })
+          .catch((error) => logger.error(`getTracks: ${error.message}`))
+      })
+    }),
 
   search: (params: SearchInterface) => searchTracks(params),
   getTracks: (uris: ReadonlyArray<string>) => getSpotifyTracks(uris)

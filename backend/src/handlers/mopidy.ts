@@ -17,7 +17,9 @@ interface MopidyHandlerInterface {
 
 const StrToFunction = (mopidy: Mopidy, methodStr: string) => {
   let context: any = mopidy
-  methodStr.split('.').forEach(function (mthd) { context = context[mthd] })
+  methodStr.split('.').forEach(function (mthd) {
+    context = context[mthd]
+  })
   return context
 }
 
@@ -30,35 +32,37 @@ const MopidyHandler = ({ payload, socketio, socket, mopidy }: MopidyHandlerInter
   const { key, data } = payload
   EventLogger.info(MessageType.INCOMING_CLIENT, payload)
 
-  const broadcastTo = ({ headers, data }: { headers: any, data: any }) => (
-    MopidyDecorator.parse(headers, data)
-      .then(response => {
-        if (response && response.toAll) {
-          delete (response.toAll)
-          return Broadcaster.toAll({ socketio, headers, message: response })
-        }
+  const broadcastTo = ({ headers, data }: { headers: any; data: any }) =>
+    MopidyDecorator.parse(headers, data).then((response) => {
+      if (response && response.toAll) {
+        delete response.toAll
+        return Broadcaster.toAll({ socketio, headers, message: response })
+      }
 
-        Broadcaster.toClient({ socket, headers, message: response })
-      })
-  )
+      Broadcaster.toClient({ socket, headers, message: response })
+    })
 
-  isValidTrack(
-    payload.key, data
-  ).then(() => {
-    EventLogger.info(MessageType.OUTGOING_MOPIDY, payload)
+  isValidTrack(payload.key, data)
+    .then(() => {
+      EventLogger.info(MessageType.OUTGOING_MOPIDY, payload)
 
-    const successHandler = (response: any) => {
-      EventLogger.info(MessageType.INCOMING_MOPIDY, { ...payload, ...{ response } }, true)
-      broadcastTo({ headers: payload, data: response })
-    }
+      const successHandler = (response: any) => {
+        EventLogger.info(
+          MessageType.INCOMING_MOPIDY,
+          { ...payload, ...{ response } },
+          true
+        )
+        broadcastTo({ headers: payload, data: response })
+      }
 
-    return (data ? StrToFunction(mopidy, key)(data) : StrToFunction(mopidy, key)())
-      .then(successHandler)
-      .catch((err: any) => logger.error(`Mopidy API Failure: ${err.message}`))
-  }).catch((err) => {
-    payload.key = MopidyConstants.VALIDATION_ERROR
-    broadcastTo({ headers: payload, data: { message: err.message } })
-  })
+      return (data ? StrToFunction(mopidy, key)(data) : StrToFunction(mopidy, key)())
+        .then(successHandler)
+        .catch((err: any) => logger.error(`Mopidy API Failure: ${err.message}`))
+    })
+    .catch((err) => {
+      payload.key = MopidyConstants.VALIDATION_ERROR
+      broadcastTo({ headers: payload, data: { message: err.message } })
+    })
 }
 
 export default MopidyHandler

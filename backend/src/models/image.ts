@@ -6,15 +6,15 @@ export interface DBImageInterface extends Document {
   expireAt: Date
 }
 
-const imageSchema = new Schema({
-  _id: Schema.Types.String,
-  url: Schema.Types.String,
-  expireAt: Schema.Types.Date
-}, { _id: false })
-imageSchema.index(
-  { expireAt: 1 },
-  { expireAfterSeconds: 0 }
+const imageSchema = new Schema(
+  {
+    _id: Schema.Types.String,
+    url: Schema.Types.String,
+    expireAt: Schema.Types.Date
+  },
+  { _id: false }
 )
+imageSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 })
 const Image = model<DBImageInterface>('Image', imageSchema)
 
 export default Image

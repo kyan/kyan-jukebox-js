@@ -4,7 +4,9 @@ import { findTracks } from '../../src/models/track'
 jest.mock('../../src/models/track')
 
 describe('SearchResults', () => {
-  const payload = JSON.parse(fs.readFileSync('./test/__mockData__/searchResults.json', 'utf8'))
+  const payload = JSON.parse(
+    fs.readFileSync('./test/__mockData__/searchResults.json', 'utf8')
+  )
 
   afterEach(() => {
     jest.clearAllMocks()
@@ -34,7 +36,7 @@ describe('SearchResults', () => {
           }
         ],
         metrics: {
-          'votesAverage': 30
+          votesAverage: 30
         }
       },
       {
@@ -48,7 +50,7 @@ describe('SearchResults', () => {
           }
         ],
         metrics: {
-          'votesAverage': 50
+          votesAverage: 50
         }
       }
     ]
@@ -56,7 +58,7 @@ describe('SearchResults', () => {
     it('renders', () => {
       findTracks.mockResolvedValue(tracks)
 
-      return SearchResults(payload.tracks.items).then(transformedPayload => {
+      return SearchResults(payload.tracks.items).then((transformedPayload) => {
         expect(transformedPayload).toMatchSnapshot()
       })
     })
@@ -75,7 +77,7 @@ describe('SearchResults', () => {
           }
         ],
         metrics: {
-          'votesAverage': 80
+          votesAverage: 80
         }
       },
       {
@@ -89,7 +91,7 @@ describe('SearchResults', () => {
           }
         ],
         metrics: {
-          'votesAverage': 50
+          votesAverage: 50
         }
       },
       {
@@ -103,7 +105,7 @@ describe('SearchResults', () => {
           }
         ],
         metrics: {
-          'votesAverage': 30
+          votesAverage: 30
         }
       }
     ]
@@ -111,7 +113,7 @@ describe('SearchResults', () => {
     it('renders', () => {
       findTracks.mockResolvedValue(tracks)
 
-      return SearchResults(payload.tracks.items).then(transformedPayload => {
+      return SearchResults(payload.tracks.items).then((transformedPayload) => {
         expect(transformedPayload).toMatchSnapshot()
       })
     })
@@ -162,7 +164,7 @@ describe('SearchResults', () => {
       process.env.EXPLICIT_CONTENT = 'false'
       findTracks.mockResolvedValue(tracks)
 
-      return SearchResults(payload.tracks.items).then(transformedPayload => {
+      return SearchResults(payload.tracks.items).then((transformedPayload) => {
         expect(transformedPayload).toMatchSnapshot()
       })
     })
@@ -174,7 +176,7 @@ describe('SearchResults', () => {
     it('renders', () => {
       findTracks.mockResolvedValue(tracks)
 
-      return SearchResults(payload.tracks.items).then(transformedPayload => {
+      return SearchResults(payload.tracks.items).then((transformedPayload) => {
         expect(transformedPayload).toMatchSnapshot()
       })
     })

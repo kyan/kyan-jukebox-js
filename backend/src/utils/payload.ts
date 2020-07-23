@@ -13,7 +13,8 @@ const Payload = {
     const { jwt, key, data } = JSON.parse(payloadStr)
 
     ErrorHandler.expectationThatThrows({
-      expect: key, message: `[Payload.decode] No key provided! ${payloadStr}`
+      expect: key,
+      message: `[Payload.decode] No key provided! ${payloadStr}`
     })
 
     return { jwt, key, data }
@@ -21,7 +22,8 @@ const Payload = {
 
   encodeToJson: (payload: PayloadInterface): string => {
     ErrorHandler.expectationThatThrows({
-      expect: payload.key, message: '[Payload.encodeToJson] No key provided!'
+      expect: payload.key,
+      message: '[Payload.encodeToJson] No key provided!'
     })
 
     return JSON.stringify(payload)
