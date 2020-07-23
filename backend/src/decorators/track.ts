@@ -7,7 +7,7 @@ export interface JBTrackPayloadInterface {
 export default function (json: any): JBTrackPayloadInterface {
   if (!json) return { track: null }
 
-  let payload: JBTrackInterface = {
+  const payload: JBTrackInterface = {
     uri: json.uri,
     name: json.name,
     length: json.length || json.duration_ms

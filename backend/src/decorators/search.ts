@@ -3,24 +3,23 @@ import DecorateSearchResults from '../decorators/result'
 import { PayloadInterface } from '../utils/payload'
 
 const SearchDecorator = {
-  parse: (headers: PayloadInterface, data: any) => {
-    return new Promise((resolve) => {
+  parse: (headers: PayloadInterface, data: any) => (
+    new Promise((resolve) => {
       const { key } = headers
+      const searchResults = data
 
       switch (key) {
         case SearchConst.SEARCH_GET_TRACKS:
-          const searchResults = data
-
           return DecorateSearchResults(data.tracks.items)
             .then((data) => {
               searchResults.tracks.items = data
-              return resolve(searchResults)
+              resolve(searchResults)
             })
         default:
-          return resolve(`skippedSearchDecoratorDecoration: ${key}`)
+          resolve(`skippedSearchDecoratorDecoration: ${key}`)
       }
     })
-  }
+  )
 }
 
 export default SearchDecorator

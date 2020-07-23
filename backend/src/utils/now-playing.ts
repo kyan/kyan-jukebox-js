@@ -21,7 +21,7 @@ const lastPlayed = (addedBy: JBAddedByInterface) => {
 }
 
 const NowPlaying = {
-  addTrack: (track: JBTrackInterface) => {
+  addTrack: (track: JBTrackInterface): Promise<any> => {
     return new Promise((resolve) => {
       const metrics = [
         {
@@ -37,6 +37,7 @@ const NowPlaying = {
           text: `*Played:* ${simplePluralize(track.metrics.plays, 'time')}`
         }
       ]
+
       if (track.addedBy[1]) metrics.push(lastPlayed(track.addedBy[1]))
 
       const payload = {

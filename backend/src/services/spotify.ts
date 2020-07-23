@@ -19,6 +19,8 @@ interface SearchInterface {
   }
 }
 
+export type GetRecommendationsInterface = (uris: ReadonlyArray<string>, mopidy: Mopidy) => Promise<void>
+
 const countryCode = 'GB'
 const defaultOptions = { market: countryCode }
 const spotifyApi = new SpotifyWebApi({
@@ -79,10 +81,10 @@ const getSpotifyTracks = (
 }
 
 /* istanbul ignore next */
-const getRecommendations = (
+const getRecommendations: GetRecommendationsInterface = (
   uris: ReadonlyArray<string>,
   mopidy: Mopidy
-): Promise<void> => {
+) => {
   if (uris.length < 1) return Promise.resolve()
 
   return new Promise((resolve, reject) => {
@@ -143,7 +145,7 @@ const getRecommendations = (
 }
 
 const SpotifyService = {
-  canRecommend: (mopidy: Mopidy): Promise<Function | null> => {
+  canRecommend: (mopidy: Mopidy): Promise<GetRecommendationsInterface | null> => {
     return new Promise((resolve) => {
       return mopidy.tracklist.getNextTlid()
         .then((tlid) => {

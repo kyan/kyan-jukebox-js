@@ -11,18 +11,16 @@ const options = {
   useCreateIndex: true
 }
 
-const MongodbService = () => {
-  return new Promise(async (resolve, reject): Promise<boolean|void> => {
-    try {
-      await connect(mongodbUrl, options)
+const MongodbService = () => (
+  new Promise((resolve, reject): Promise<boolean|void> => {
+    return connect(mongodbUrl, options).then(() => {
       logger.info(`Mongodb Connected`, { url: process.env.MONGODB_URL })
-      return resolve(true)
-    }
-    catch (err) {
+      resolve(true)
+    }).catch(err => {
       logger.error(`Mongodb: ${err}`, { url: process.env.MONGODB_URL })
-      return reject(new Error('MongoDB failed to connect!'))
-    }
+      reject(new Error('MongoDB failed to connect!'))
+    })
   })
-}
+)
 
 export default MongodbService

@@ -51,7 +51,7 @@ const ImageCache = {
     })
   ),
 
-  addAll: (imageData: ImageCacheInterface) => storeImages(imageData)
+  addAll: (imageData: ImageCacheInterface): Promise<any> => storeImages(imageData)
 }
 
 export default ImageCache

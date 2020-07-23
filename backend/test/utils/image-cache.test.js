@@ -12,7 +12,7 @@ describe('ImageCache', () => {
   })
 
   describe('findAll', () => {
-    it('finds some images and returns them', done => {
+    it('finds some images and returns them', () => {
       const _doc = {
         _id: 'spotify123',
         url: 'path/to/image'
@@ -20,15 +20,14 @@ describe('ImageCache', () => {
       expect.assertions(2)
       mockingoose.Image.toReturn([_doc], 'find')
 
-      ImageCache.findAll([_doc._id])
+      return ImageCache.findAll([_doc._id])
         .then((result) => {
           expect(result).toMatchObject([_doc])
           expect(EventLogger.info).toHaveBeenCalledWith('FOUND CACHED IMAGES', { data: ['spotify123'] })
-          done()
         })
     })
 
-    it('finds no images and returns them', done => {
+    it('finds no images and returns them', () => {
       const _doc = {
         _id: 'spotify123',
         url: 'path/to/image'
@@ -36,11 +35,10 @@ describe('ImageCache', () => {
       expect.assertions(2)
       mockingoose.Image.toReturn([], 'find')
 
-      ImageCache.findAll([_doc._id])
+      return ImageCache.findAll([_doc._id])
         .then((result) => {
           expect(result).toMatchObject([])
           expect(EventLogger.info).not.toHaveBeenCalled()
-          done()
         })
     })
 
@@ -60,32 +58,29 @@ describe('ImageCache', () => {
       expect(result).toEqual(null)
     })
 
-    it('handles resolving an image ', done => {
+    it('handles resolving an image ', () => {
       expect.assertions(1)
       mockingoose.Image.toReturn({ url: 'path' }, 'findOneAndUpdate')
 
-      ImageCache.addAll({ 'spotify123': 'path/to/image' })
+      return ImageCache.addAll({ 'spotify123': 'path/to/image' })
         .then((result) => {
           expect(result).toMatchObject([{ url: 'path' }])
-          done()
         })
     })
 
-    it('handles mongo errors', done => {
+    it('handles mongo errors', () => {
       expect.assertions(1)
       mockingoose.Image.toReturn(new Error('boom'), 'findOneAndUpdate')
       ImageCache.addAll({ 'spotify123': 'path/to/image' })
 
-      setTimeout(() => {
-        try {
+      return new Promise(resolve => {
+        setTimeout(() => {
           expect(logger.error).toHaveBeenCalledWith(
             'storeImages:Image.findOneAndUpdate',
             { message: 'boom' }
           )
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+          resolve()
+        }, 0)
       })
     })
 

@@ -1,8 +1,6 @@
 import ErrorHandler from '../handlers/errors'
 import { JBUserInterface } from '../models/user'
 
-
-
 export interface PayloadInterface {
   jwt?: string
   key: string

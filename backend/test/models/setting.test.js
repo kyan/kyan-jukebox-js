@@ -48,7 +48,7 @@ describe('test mongoose Settings model', () => {
       })
     })
 
-    it('handles errors', done => {
+    it('handles errors', () => {
       expect.assertions(2)
       jest.spyOn(Setting.collection, 'findOneAndReplace').mockRejectedValue(new Error('boom'))
       const currentTrack = { uri: 'uri123' }
@@ -56,18 +56,16 @@ describe('test mongoose Settings model', () => {
 
       initializeState(currentTrack, currentTracklist)
 
-      setTimeout(() => {
-        try {
+      return new Promise(resolve => {
+        setTimeout(() => {
           expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
             { key: 'state' },
             { key: 'state', value: { currentTrack: 'uri123', currentTracklist: ['uri123'], trackSeeds: [] } },
             { runValidators: true, setDefaultsOnInsert: true, upsert: true }
           )
           expect(logger.error).toHaveBeenCalledWith('initializeState: boom')
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+          resolve()
+        }, 0)
       })
     })
   })
@@ -86,24 +84,22 @@ describe('test mongoose Settings model', () => {
       })
     })
 
-    it('handles errors', done => {
+    it('handles errors', () => {
       expect.assertions(2)
       jest.spyOn(Setting.collection, 'findOneAndReplace').mockRejectedValue(new Error('boom'))
 
       clearState()
 
-      setTimeout(() => {
-        try {
+      return new Promise(resolve => {
+        setTimeout(() => {
           expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
             { key: 'state' },
             { key: 'state' },
             { runValidators: true, setDefaultsOnInsert: true, upsert: true }
           )
           expect(logger.error).toHaveBeenCalledWith('clearState: boom')
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+          resolve()
+        }, 0)
       })
     })
   })
@@ -165,7 +161,7 @@ describe('test mongoose Settings model', () => {
       })
     })
 
-    it('handles errors', done => {
+    it('handles errors', () => {
       expect.assertions(2)
       jest.spyOn(Setting, 'findOne').mockRejectedValue(new Error('boom'))
       const track = {
@@ -178,14 +174,12 @@ describe('test mongoose Settings model', () => {
 
       addToTrackSeedList(track)
 
-      setTimeout(() => {
-        try {
+      return new Promise(resolve => {
+        setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
           expect(logger.error).toHaveBeenCalledWith('addToTrackSeedList: boom')
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+          resolve()
+        })
       })
     })
   })
@@ -246,21 +240,19 @@ describe('test mongoose Settings model', () => {
       })
     })
 
-    it('handles errors', done => {
+    it('handles errors', () => {
       expect.assertions(2)
       const mopidyMock = jest.fn()
       jest.spyOn(Setting, 'findOne').mockRejectedValue(new Error('boom'))
 
       trimTracklist(mopidyMock)
 
-      setTimeout(() => {
-        try {
+      return new Promise(resolve => {
+        setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
           expect(logger.error).toHaveBeenCalledWith('trimTracklist: boom')
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+          resolve()
+        }, 0)
       })
     })
   })
@@ -281,25 +273,23 @@ describe('test mongoose Settings model', () => {
       })
     })
 
-    it('handles errors', done => {
+    it('handles errors', () => {
       expect.assertions(2)
       const uri = 'uri123'
       jest.spyOn(Setting, 'findOneAndUpdate').mockRejectedValue(new Error('boom'))
 
       updateCurrentTrack(uri)
 
-      setTimeout(() => {
-        try {
+      return new Promise(resolve => {
+        setTimeout(() => {
           expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
             { key: 'state' },
             { $set: { 'value.currentTrack': 'uri123' } },
             { runValidators: true, setDefaultsOnInsert: true, upsert: true }
           )
           expect(logger.error).toHaveBeenCalledWith('updateCurrentTrack: boom')
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+          resolve()
+        }, 0)
       })
     })
   })
@@ -320,25 +310,23 @@ describe('test mongoose Settings model', () => {
       })
     })
 
-    it('handles errors', done => {
+    it('handles errors', () => {
       expect.assertions(2)
       const uris = ['uri123']
       jest.spyOn(Setting, 'findOneAndUpdate').mockRejectedValue(new Error('boom'))
 
       updateTracklist(uris)
 
-      setTimeout(() => {
-        try {
+      return new Promise(resolve => {
+        setTimeout(() => {
           expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
             { key: 'state' },
             { $set: { 'value.currentTracklist': ['uri123'] } },
             { runValidators: true, setDefaultsOnInsert: true, upsert: true }
           )
           expect(logger.error).toHaveBeenCalledWith('updateTracklist: boom')
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+          resolve()
+        }, 0)
       })
     })
   })
@@ -359,25 +347,23 @@ describe('test mongoose Settings model', () => {
       })
     })
 
-    it('handles errors', done => {
+    it('handles errors', () => {
       expect.assertions(2)
       const uri = 'uri123'
       jest.spyOn(Setting, 'findOneAndUpdate').mockRejectedValue(new Error('boom'))
 
       removeFromSeeds(uri)
 
-      setTimeout(() => {
-        try {
+      return new Promise(resolve => {
+        setTimeout(() => {
           expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
             { key: 'state' },
             { $pull: { 'value.trackSeeds': 'uri123' } },
             { runValidators: true, setDefaultsOnInsert: true, upsert: true }
           )
           expect(logger.error).toHaveBeenCalledWith('removeFromSeeds: boom')
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+          resolve()
+        }, 0)
       })
     })
   })
@@ -415,22 +401,20 @@ describe('test mongoose Settings model', () => {
       })
     })
 
-    it('handles errors', done => {
+    it('handles errors', () => {
       expect.assertions(2)
       jest.spyOn(Setting, 'findOne').mockRejectedValue(new Error('boom'))
 
       getSeedTracks()
 
-      setTimeout(() => {
-        try {
+      return new Promise(resolve => {
+        setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith(
             { key: 'state' }
           )
           expect(logger.error).toHaveBeenCalledWith('getSeedTracks: boom')
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+          resolve()
+        }, 0)
       })
     })
   })
@@ -468,22 +452,20 @@ describe('test mongoose Settings model', () => {
       })
     })
 
-    it('handles errors', done => {
+    it('handles errors', () => {
       expect.assertions(2)
       jest.spyOn(Setting, 'findOne').mockRejectedValue(new Error('boom'))
 
       getTracklist()
 
-      setTimeout(() => {
-        try {
+      return new Promise(resolve => {
+        setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith(
             { key: 'state' }
           )
           expect(logger.error).toHaveBeenCalledWith('getTracklist: boom')
-          done()
-        } catch (err) {
-          done.fail(err)
-        }
+          resolve()
+        }, 0)
       })
     })
   })
