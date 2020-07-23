@@ -21,7 +21,7 @@ const lastPlayed = (addedBy: JBAddedByInterface) => {
 }
 
 const NowPlaying = {
-  addTrack: (track: JBTrackInterface): Promise<any> => {
+  addTrack: (track: JBTrackInterface): Promise<unknown> => {
     return new Promise((resolve) => {
       const metrics = [
         {
@@ -40,7 +40,7 @@ const NowPlaying = {
 
       if (track.addedBy[1]) metrics.push(lastPlayed(track.addedBy[1]))
 
-      const payload = {
+      const payload: unknown = {
         blocks: [
           {
             type: 'section',

@@ -10,9 +10,9 @@ import {
   trimTracklist,
   updateTracklist
 } from '../models/setting'
-import { StateChangeMessageInterface, BaseBroadcastInterface } from '../utils/broadcaster'
+import { StateChangeMessageInterface, BroadcastInterface } from '../utils/broadcaster'
 
-type BroadcastToAllType = (options: BaseBroadcastInterface) => void
+type BroadcastToAllType = (options: BroadcastInterface) => void
 type BroadcastStateChangeType = (message: StateChangeMessageInterface) => void
 
 const mopidyUrl = process.env.WS_MOPIDY_URL
