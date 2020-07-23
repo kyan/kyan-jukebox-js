@@ -2,7 +2,7 @@ import lodash from 'lodash'
 import { JBAddedByInterface } from '../models/track'
 const { flatten, mean, sumBy } = lodash
 
-const VOTE_NORMALISER = 10 // asuming a vote comes in as 1-10
+const VOTE_NORMALISER = 10 as const // asuming a vote comes in as 1-10
 const AVERAGE_WEIGHT_DISTANCE_IN_MONTHS = 6.0
 const AVERAGE_WEIGHT_DECIMALIZER = 10.0
 const MAX_SCORE = 100

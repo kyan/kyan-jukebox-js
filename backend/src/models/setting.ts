@@ -3,7 +3,7 @@ import logger from '../config/logger'
 import Mopidy from 'mopidy'
 import { JBTrackInterface } from './track'
 
-const HOW_MANY_PREVIOUS_TRACKS_IN_PLAYLIST = 4
+const HOW_MANY_PREVIOUS_TRACKS_IN_PLAYLIST = 4 as const
 
 interface DBSettingValueInterface {
   trackSeeds: string[]

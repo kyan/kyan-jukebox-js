@@ -13,7 +13,7 @@ import MopidyHandler from './handlers/mopidy'
 import SearchHandler from './handlers/search'
 import VoteHandler from './handlers/voting'
 import AuthenticateHandler from './handlers/authenticate'
-import { BaseBroadcastInterface } from './utils/broadcaster'
+import { BroadcastInterface } from './utils/broadcaster'
 
 const app = express()
 app.disable('x-powered-by')
@@ -24,7 +24,7 @@ const socketio = io(server, { pingTimeout: 30000 })
 
 const isProduction = () => process.env.NODE_ENV === 'production'
 const broadcastToAll = (
-  options: BaseBroadcastInterface
+  options: BroadcastInterface
 ) => Broadcaster.toAll({ socketio, ...options })
 const broadcastMopidyStateChange = (
   message: StateChangeMessageInterface
