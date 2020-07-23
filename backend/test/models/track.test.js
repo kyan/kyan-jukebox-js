@@ -103,16 +103,33 @@ describe('test mongoose Track model', () => {
       })
     })
 
-    it('errors when calling findOrUseBRH', () => {
+    it('errors when calling findOrUseBRH and User fails', () => {
       expect.assertions(1)
-      mockingoose(User).toReturn(new Error('updateOne BRH Fail'), 'findOneAndUpdate')
+      mockingoose(User).toReturn(new Error('user fail'), 'findOneAndUpdate')
       const demoUris = ['123', '456']
       jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
       addTracks(demoUris)
 
       return new Promise(resolve => {
         setTimeout(() => {
-          expect(logger.error).toHaveBeenCalledWith('addTracks:findOrUseBRH', { message: 'updateOne BRH Fail' })
+          expect(logger.error)
+            .toHaveBeenCalledWith('addTracks:findOrUseBRH', { message: 'user fail' })
+          resolve()
+        }, 0)
+      })
+    })
+
+    it('errors when calling findOrUseBRH and Track fails', () => {
+      expect.assertions(1)
+      mockingoose(Track).toReturn(new Error('track fail'), 'findOneAndUpdate')
+      const demoUris = ['123', '456']
+      jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
+      addTracks(demoUris)
+
+      return new Promise(resolve => {
+        setTimeout(() => {
+          expect(logger.error)
+            .toHaveBeenCalledWith('addTracks:Track.updateOne', { message: 'track fail' })
           resolve()
         }, 0)
       })
