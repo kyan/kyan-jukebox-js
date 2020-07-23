@@ -16,8 +16,10 @@ module.exports = {
     "jest/globals": true
   },
   rules: {
+    // no semi colons please
+    semi: ["error", "never"],
     // remove when all anys have been fixed
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off"
   }
-};
+}
