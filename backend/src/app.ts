@@ -13,6 +13,7 @@ import MopidyHandler from './handlers/mopidy'
 import SearchHandler from './handlers/search'
 import VoteHandler from './handlers/voting'
 import AuthenticateHandler from './handlers/authenticate'
+import { BaseBroadcastInterface } from './utils/broadcaster'
 
 const app = express()
 app.disable('x-powered-by')
@@ -22,10 +23,12 @@ const server = http.createServer(app)
 const socketio = io(server, { pingTimeout: 30000 })
 
 const isProduction = () => process.env.NODE_ENV === 'production'
-const broadcastToAll = (options: any) => Broadcaster.toAll({ socketio, ...options })
-const broadcastMopidyStateChange = (message: StateChangeMessageInterface) => {
-  Broadcaster.stateChange({ socketio, message })
-}
+const broadcastToAll = (
+  options: BaseBroadcastInterface
+) => Broadcaster.toAll({ socketio, ...options })
+const broadcastMopidyStateChange = (
+  message: StateChangeMessageInterface
+) => Broadcaster.stateChange({ socketio, message })
 const allowSocketConnections = (mopidy: Mopidy) => {
   if (isProduction()) Scheduler.scheduleAutoPlayback({ stop: () => mopidy.playback.stop() })
 

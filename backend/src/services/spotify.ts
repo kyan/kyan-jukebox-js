@@ -19,7 +19,10 @@ interface SearchInterface {
   }
 }
 
-export type GetRecommendationsInterface = (uris: ReadonlyArray<string>, mopidy: Mopidy) => Promise<void>
+export type GetRecommendationsInterface = (
+  uris: ReadonlyArray<string>,
+  mopidy: Mopidy
+) => Promise<void>
 
 const countryCode = 'GB'
 const defaultOptions = { market: countryCode }
@@ -49,36 +52,36 @@ const setupSpotify = (callback: (api: SpotifyWebApi) => void): void => {
   })
 }
 
-const searchTracks = (params: SearchInterface): Promise<any> => {
-  return new Promise((resolve) => {
+const searchTracks = (params: SearchInterface): Promise<any> => (
+  new Promise((resolve) => {
     setupSpotify((api) => {
       const options = { ...defaultOptions, ...params.options }
       api.searchTracks(params.query, options)
         .then((data) => {
           ImageCache.addAll(Recommend.getImageFromSpotifyTracks(data.body.tracks.items))
-          return resolve(data.body)
+          resolve(data.body)
         })
         .catch((error) => logger.error(`searchTracks: ${error.message}`))
     })
   })
-}
+)
 
 const getSpotifyTracks = (
   uris: ReadonlyArray<string>
-): Promise<SpotifyApi.MultipleTracksResponse> => {
-  return new Promise((resolve) => {
+): Promise<SpotifyApi.MultipleTracksResponse> => (
+  new Promise((resolve) => {
     const trackUris = stripServiceFromUris(uris)
 
     setupSpotify((api: SpotifyWebApi) => {
       api.getTracks(trackUris, defaultOptions)
         .then((data) => {
           ImageCache.addAll(Recommend.getImageFromSpotifyTracks(data.body.tracks)).then(() => {
-            return resolve(data.body)
+            resolve(data.body)
           })
         })
     })
   })
-}
+)
 
 /* istanbul ignore next */
 const getRecommendations: GetRecommendationsInterface = (
@@ -134,30 +137,30 @@ const getRecommendations: GetRecommendationsInterface = (
             })
           }
 
-          return resolve()
+          resolve()
         })
         .catch(function (error) {
           logger.error(`getRecommendations: ${error.message}`)
-          return reject(error)
+          reject(error)
         })
     })
   })
 }
 
 const SpotifyService = {
-  canRecommend: (mopidy: Mopidy): Promise<GetRecommendationsInterface | null> => {
-    return new Promise((resolve) => {
+  canRecommend: (mopidy: Mopidy): Promise<GetRecommendationsInterface | null> => (
+    new Promise(resolve => {
       return mopidy.tracklist.getNextTlid()
         .then((tlid) => {
           if (!tlid) return resolve(getRecommendations)
-          return resolve()
+          resolve()
         })
         .catch((error) => logger.error(`nextTrack: ${error.message}`))
     })
-  },
+  ),
 
-  validateTrack: (uri: string) => {
-    return new Promise((resolve, reject) => {
+  validateTrack: (uri: string) => (
+    new Promise((resolve, reject) => {
       return getTracklist()
         .then(uris => {
           if (uris.includes(uri)) {
@@ -173,12 +176,12 @@ const SpotifyService = {
                 const message = `Not suitable. Is there a radio mix? - ${track.name}`
                 return reject(new Error(message))
               }
-              return resolve(true)
+              resolve(true)
             })
             .catch((error) => logger.error(`getTracks: ${error.message}`))
         })
     })
-  },
+  ),
 
   search: (params: SearchInterface) => searchTracks(params),
   getTracks: (uris: ReadonlyArray<string>) => getSpotifyTracks(uris)
