@@ -14,10 +14,8 @@ describe('test mongoose Image model', () => {
 
     mockingoose.Image.toReturn(_doc, 'findOne')
 
-    return model
-      .findById({ _id: 'spotify507f191e810c19729de860ea' })
-      .then(doc => {
-        expect(JSON.parse(JSON.stringify(doc))).toMatchObject(_doc)
-      })
+    return model.findById({ _id: 'spotify507f191e810c19729de860ea' }).then((doc) => {
+      expect(JSON.parse(JSON.stringify(doc))).toMatchObject(_doc)
+    })
   })
 })

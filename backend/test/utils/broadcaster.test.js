@@ -24,10 +24,10 @@ describe('Broadcaster', () => {
         'message',
         '{"key":"playback.next","data":"hello mum"}'
       )
-      expect(EventLogger.info).toHaveBeenCalledWith(
-        'OUTGOING API',
-        { data: 'hello mum', key: 'playback.next' }
-      )
+      expect(EventLogger.info).toHaveBeenCalledWith('OUTGOING API', {
+        data: 'hello mum',
+        key: 'playback.next'
+      })
     })
 
     it('handles authorised call', () => {
@@ -47,14 +47,16 @@ describe('Broadcaster', () => {
         'message',
         '{"key":"playback.next","data":"hello mum","user":"duncan"}'
       )
-      expect(EventLogger.info).toHaveBeenCalledWith(
-        'OUTGOING API [AUTHED]',
-        { data: 'hello mum', key: 'playback.next' }
-      )
+      expect(EventLogger.info).toHaveBeenCalledWith('OUTGOING API [AUTHED]', {
+        data: 'hello mum',
+        key: 'playback.next'
+      })
     })
 
     it('handles error', () => {
-      const sendMock = jest.fn(() => { throw Error('oops') })
+      const sendMock = jest.fn(() => {
+        throw Error('oops')
+      })
       const socket = {
         id: '12345',
         emit: sendMock
@@ -66,7 +68,9 @@ describe('Broadcaster', () => {
       const message = 'hello mum'
 
       broadcaster.toClient({ socket, headers, message })
-      expect(logger.error).toHaveBeenCalledWith('Broadcaster#toClient', { message: 'oops' })
+      expect(logger.error).toHaveBeenCalledWith('Broadcaster#toClient', {
+        message: 'oops'
+      })
     })
   })
 
@@ -84,14 +88,16 @@ describe('Broadcaster', () => {
         'message',
         '{"key":"playback.next","data":"hello mum"}'
       )
-      expect(EventLogger.info).toHaveBeenCalledWith(
-        'OUTGOING BROADCAST',
-        { data: 'hello mum', key: 'playback.next' }
-      )
+      expect(EventLogger.info).toHaveBeenCalledWith('OUTGOING BROADCAST', {
+        data: 'hello mum',
+        key: 'playback.next'
+      })
     })
 
     it('handles error', () => {
-      const sendMock = jest.fn(() => { throw Error('oops') })
+      const sendMock = jest.fn(() => {
+        throw Error('oops')
+      })
       const socketio = {
         emit: sendMock
       }
@@ -103,15 +109,12 @@ describe('Broadcaster', () => {
         'message',
         '{"key":"playback.next","data":"hello mum"}'
       )
-      expect(logger.error).toHaveBeenCalledWith(
-        'Broadcaster#toAll',
-        { message: 'oops' }
-      )
+      expect(logger.error).toHaveBeenCalledWith('Broadcaster#toAll', { message: 'oops' })
     })
   })
 
   describe('#stateChange', () => {
-    it('handles call', () => {
+    it('handles call to user', () => {
       const sendMock = jest.fn()
       const socket = {
         emit: sendMock
@@ -119,18 +122,32 @@ describe('Broadcaster', () => {
       const message = { online: false }
 
       broadcaster.stateChange({ socket, message })
-      expect(sendMock).toHaveBeenCalledWith(
-        'mopidy',
-        '{"online":false}'
-      )
-      expect(EventLogger.info).toHaveBeenCalledWith(
-        'OUTGOING STATE CHANGE',
-        { data: { online: false }, key: 'state' }
-      )
+      expect(sendMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
+      expect(EventLogger.info).toHaveBeenCalledWith('OUTGOING STATE CHANGE', {
+        data: { online: false },
+        key: 'state'
+      })
+    })
+
+    it('handles call to ', () => {
+      const sendMock = jest.fn()
+      const socket = {
+        emit: sendMock
+      }
+      const message = { online: false }
+
+      broadcaster.stateChange({ socketio: socket, message })
+      expect(sendMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
+      expect(EventLogger.info).toHaveBeenCalledWith('OUTGOING STATE CHANGE', {
+        data: { online: false },
+        key: 'state'
+      })
     })
 
     it('handles error', () => {
-      const sendMock = jest.fn(() => { throw Error('oops') })
+      const sendMock = jest.fn(() => {
+        throw Error('oops')
+      })
       const socket = {
         emit: sendMock
       }
@@ -138,10 +155,9 @@ describe('Broadcaster', () => {
 
       broadcaster.stateChange({ socket, message })
       expect(sendMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
-      expect(logger.error).toHaveBeenCalledWith(
-        'Broadcaster#stateChange',
-        { message: 'oops' }
-      )
+      expect(logger.error).toHaveBeenCalledWith('Broadcaster#stateChange', {
+        message: 'oops'
+      })
     })
   })
 })

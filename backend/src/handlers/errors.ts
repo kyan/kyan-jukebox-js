@@ -1,7 +1,7 @@
 import invariant from 'invariant'
 
-export interface ErrorHandlerInterface {
-  expect: boolean
+interface ErrorHandlerInterface {
+  expect: any
   message: string
 }
 

@@ -17,9 +17,7 @@ describe('VotingHelper', () => {
 
   describe('calcVoteCount', () => {
     it('should handle data', () => {
-      const data = [
-        { votes: [1, 2, 3, 4, 5] }
-      ]
+      const data = [{ votes: [1, 2, 3, 4, 5] }]
 
       expect(VotingHelper.calcVoteCount(data)).toEqual(5)
     })
@@ -35,12 +33,7 @@ describe('VotingHelper', () => {
     it('should handle data', () => {
       const data = [
         {
-          votes: [
-            { vote: 10 },
-            { vote: 20 },
-            { vote: 30 },
-            { vote: 40 }
-          ]
+          votes: [{ vote: 10 }, { vote: 20 }, { vote: 30 }, { vote: 40 }]
         }
       ]
 
@@ -58,12 +51,7 @@ describe('VotingHelper', () => {
     it('should handle data', () => {
       const data = [
         {
-          votes: [
-            { vote: 10 },
-            { vote: 20 },
-            { vote: 30 },
-            { vote: 40 }
-          ]
+          votes: [{ vote: 10 }, { vote: 20 }, { vote: 30 }, { vote: 40 }]
         }
       ]
 
@@ -82,24 +70,24 @@ describe('VotingHelper', () => {
       const data = [
         {
           votes: [
-            { vote: 90, at: '2020-02-05T17:08:27.000Z' },
-            { vote: 80, at: '2019-08-04T17:08:27.000Z' },
-            { vote: 10, at: '2019-02-03T17:08:27.000Z' },
-            { vote: 10, at: '2018-08-02T17:08:27.000Z' }
+            { vote: 90, at: new Date('2020-02-05T17:08:27.000Z') },
+            { vote: 80, at: new Date('2019-08-04T17:08:27.000Z') },
+            { vote: 10, at: new Date('2019-02-03T17:08:27.000Z') },
+            { vote: 10, at: new Date('2018-08-02T17:08:27.000Z') }
           ]
         },
         {
           votes: [
-            { vote: 10, at: '2020-02-06T17:08:27.000Z' },
-            { vote: 10, at: '2020-02-07T17:08:27.000Z' },
-            { vote: 10, at: '2018-08-08T17:08:27.000Z' },
-            { vote: 60, at: '2018-08-08T17:08:27.000Z' },
-            { vote: 40, at: '2016-08-09T17:08:27.000Z' }
+            { vote: 10, at: new Date('2020-02-06T17:08:27.000Z') },
+            { vote: 10, at: new Date('2020-02-07T17:08:27.000Z') },
+            { vote: 10, at: new Date('2018-08-08T17:08:27.000Z') },
+            { vote: 60, at: new Date('2018-08-08T17:08:27.000Z') },
+            { vote: 40, at: new Date('2016-08-09T17:08:27.000Z') }
           ]
         }
       ]
 
-      expect(VotingHelper.calcWeightedMean(data)).toEqual(44)
+      expect(VotingHelper.calcWeightedMean(data)).toEqual(46)
     })
 
     it('should handle no data', () => {

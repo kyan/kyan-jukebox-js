@@ -15,7 +15,7 @@ describe('AuthenticateHandler', () => {
     jest.clearAllMocks()
   })
 
-  it('handles successfully request', done => {
+  it('handles successfully request', () => {
     expect.assertions(3)
 
     const payload = {
@@ -26,65 +26,58 @@ describe('AuthenticateHandler', () => {
 
     OAuth2Client.mockImplementation(() => {
       return {
-        verifyIdToken: jest.fn()
-          .mockResolvedValue({
-            getPayload: jest.fn().mockImplementationOnce(() => ({
-              sub: 'abcdefg123456',
-              name: 'Duncan Robotson',
-              picture: 'a/beautiful/image',
-              hd: 'kyanmedia.com'
-            }))
-          })
+        verifyIdToken: jest.fn().mockResolvedValue({
+          getPayload: jest.fn().mockImplementationOnce(() => ({
+            sub: 'abcdefg123456',
+            name: 'Duncan Robotson',
+            picture: 'a/beautiful/image',
+            hd: 'kyanmedia.com'
+          }))
+        })
       }
     })
 
     User.findOneAndUpdate.mockResolvedValue(true)
 
-    AuthenticateHandler(payload, wsMock)
-      .then((response) => {
-        setTimeout(() => {
-          try {
-            expect(response).toEqual({
-              data: ['12'],
-              key: 'mixer.setVolume',
-              user: {
-                _id: 'abcdefg123456',
-                fullname: 'Duncan Robotson',
-                picture: 'a/beautiful/image'
-              }
-            })
-            expect(Broadcaster.toClient).not.toHaveBeenCalled()
-            expect(User.findOneAndUpdate.mock.calls[0]).toEqual([
-              { _id: 'abcdefg123456' },
-              { _id: 'abcdefg123456', fullname: 'Duncan Robotson', picture: 'a/beautiful/image' },
-              { new: true, setDefaultsOnInsert: true, upsert: true }])
-            done()
-          } catch (err) {
-            done.fail(err)
-          }
-        })
+    return AuthenticateHandler(payload, wsMock).then((response) => {
+      expect(response).toEqual({
+        data: ['12'],
+        key: 'mixer.setVolume',
+        user: {
+          _id: 'abcdefg123456',
+          fullname: 'Duncan Robotson',
+          picture: 'a/beautiful/image'
+        }
       })
+      expect(Broadcaster.toClient).not.toHaveBeenCalled()
+      expect(User.findOneAndUpdate.mock.calls[0]).toEqual([
+        { _id: 'abcdefg123456' },
+        {
+          _id: 'abcdefg123456',
+          fullname: 'Duncan Robotson',
+          picture: 'a/beautiful/image'
+        },
+        { new: true, setDefaultsOnInsert: true, upsert: true }
+      ])
+    })
   })
 
-  it('handles verify error', done => {
+  it('handles verify error', () => {
     expect.assertions(2)
-
     const payload = {
       key: 'mixer.setVolume',
       data: ['12'],
       jwt: 'somevalidjwttoken'
     }
-
     OAuth2Client.mockImplementation(() => {
       return {
-        verifyIdToken: jest.fn()
-          .mockRejectedValue({ message: 'authError' })
+        verifyIdToken: jest.fn().mockRejectedValue({ message: 'authError' })
       }
     })
-
     AuthenticateHandler(payload, wsMock)
-    setTimeout(() => {
-      try {
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
         expect(User.findOneAndUpdate).not.toHaveBeenCalled()
         expect(Broadcaster.toClient).toHaveBeenCalledWith({
           headers: {
@@ -97,40 +90,34 @@ describe('AuthenticateHandler', () => {
           },
           socket: wsMock
         })
-        done()
-      } catch (err) {
-        done.fail(err)
-      }
+        resolve()
+      }, 0)
     })
   })
 
-  it('handles incorrect domain', done => {
+  it('handles incorrect domain', () => {
     expect.assertions(2)
-
     const payload = {
       key: 'mixer.setVolume',
       data: ['12'],
       jwt: 'somevalidjwttoken'
     }
-
     OAuth2Client.mockImplementation(() => {
       return {
-        verifyIdToken: jest.fn()
-          .mockResolvedValue({
-            getPayload: jest.fn().mockImplementationOnce(() => ({
-              sub: 'abcdefg123456',
-              name: 'Fred Spanner',
-              hd: 'madeup.com'
-            }))
-          })
+        verifyIdToken: jest.fn().mockResolvedValue({
+          getPayload: jest.fn().mockImplementationOnce(() => ({
+            sub: 'abcdefg123456',
+            name: 'Fred Spanner',
+            hd: 'madeup.com'
+          }))
+        })
       }
     })
-
     jest.spyOn(User, 'findOneAndUpdate')
-
     AuthenticateHandler(payload, wsMock)
-    setTimeout(() => {
-      try {
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
         expect(User.findOneAndUpdate).not.toHaveBeenCalled()
         expect(Broadcaster.toClient).toHaveBeenCalledWith({
           headers: {
@@ -143,10 +130,8 @@ describe('AuthenticateHandler', () => {
           },
           socket: wsMock
         })
-        done()
-      } catch (err) {
-        done.fail(err)
-      }
+        resolve()
+      }, 0)
     })
   })
 
@@ -158,53 +143,49 @@ describe('AuthenticateHandler', () => {
       data: ['12']
     }
 
-    AuthenticateHandler(payload, wsMock)
-      .then((response) => {
-        expect(response).toEqual({
-          data: ['12'],
-          key: 'somenonauthtask'
-        })
-        expect(Broadcaster.toClient).not.toHaveBeenCalled()
+    return AuthenticateHandler(payload, wsMock).then((response) => {
+      expect(response).toEqual({
+        data: ['12'],
+        key: 'somenonauthtask'
       })
+      expect(Broadcaster.toClient).not.toHaveBeenCalled()
+    })
   })
 
-  it('handles User.findOneAndUpdate error', done => {
+  it('handles User.findOneAndUpdate error', () => {
     expect.assertions(3)
-
     const payload = {
       key: 'mixer.setVolume',
       data: ['12'],
       jwt: 'somevalidjwttoken'
     }
-
     OAuth2Client.mockImplementation(() => {
       return {
-        verifyIdToken: jest.fn()
-          .mockResolvedValue({
-            getPayload: jest.fn().mockImplementationOnce(() => ({
-              sub: 'abcdefg123456',
-              name: 'Fred Spanner',
-              hd: 'kyanmedia.com'
-            }))
-          })
+        verifyIdToken: jest.fn().mockResolvedValue({
+          getPayload: jest.fn().mockImplementationOnce(() => ({
+            sub: 'abcdefg123456',
+            name: 'Fred Spanner',
+            hd: 'kyanmedia.com'
+          }))
+        })
       }
     })
-
     jest.spyOn(User, 'findOneAndUpdate').mockRejectedValue(new Error('bang'))
-
     AuthenticateHandler(payload, wsMock)
-    setTimeout(() => {
-      try {
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
         expect(User.findOneAndUpdate.mock.calls[0]).toEqual([
           { _id: 'abcdefg123456' },
-          { _id: 'abcdefg123456', 'fullname': 'Fred Spanner' },
-          { new: true, 'setDefaultsOnInsert': true, 'upsert': true }])
+          { _id: 'abcdefg123456', fullname: 'Fred Spanner' },
+          { new: true, setDefaultsOnInsert: true, upsert: true }
+        ])
         expect(Broadcaster.toClient).not.toHaveBeenCalled()
-        expect(logger.error.mock.calls).toEqual([['Error checking user', { error: 'bang' }]])
-        done()
-      } catch (err) {
-        done.fail(err)
-      }
+        expect(logger.error.mock.calls).toEqual([
+          ['Error checking user', { error: 'bang' }]
+        ])
+        resolve()
+      }, 0)
     })
   })
 })

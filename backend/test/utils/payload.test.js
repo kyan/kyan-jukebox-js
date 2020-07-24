@@ -5,12 +5,11 @@ describe('Payload', () => {
   const data = { wotcha: 'son' }
 
   it('it should decode', () => {
-    expect(Payload.decode('{"key":"letsdothis","data":{"wotcha":"son"}}'))
-      .toEqual({
-        data: { wotcha: 'son' },
-        key: 'letsdothis',
-        jwt: undefined
-      })
+    expect(Payload.decode('{"key":"letsdothis","data":{"wotcha":"son"}}')).toEqual({
+      data: { wotcha: 'son' },
+      key: 'letsdothis',
+      jwt: undefined
+    })
   })
 
   it('it should throw error due to missing key', () => {
