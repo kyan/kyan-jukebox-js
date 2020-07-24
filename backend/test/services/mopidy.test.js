@@ -35,12 +35,14 @@ describe('MopidyService', () => {
 
     const instance = Mopidy.mock.instances[0]
     instance.playback = {
-      getCurrentTrack: jest.fn()
+      getCurrentTrack: jest
+        .fn()
         .mockImplementationOnce(() => Promise.resolve({ uri: 'somemadeupuri' }))
         .mockImplementationOnce(() => Promise.resolve())
     }
     instance.tracklist = {
-      getTracks: jest.fn()
+      getTracks: jest
+        .fn()
         .mockImplementationOnce(() => Promise.resolve([{ uri: 'somemadeupuri' }]))
         .mockImplementationOnce(() => Promise.resolve([]))
         .mockImplementationOnce(() => Promise.resolve([{ uri: 'somemadeupuri' }]))

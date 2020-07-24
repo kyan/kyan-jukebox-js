@@ -12,7 +12,7 @@ describe('VoteHandler', () => {
     jest.clearAllMocks()
   })
 
-  it('should handle a valid vote', done => {
+  it('should handle a valid vote', () => {
     expect.assertions(2)
     const payload = {
       key: 'castVote',
@@ -23,8 +23,8 @@ describe('VoteHandler', () => {
 
     VoteHandler({ payload, socketio })
 
-    setTimeout(() => {
-      try {
+    return new Promise((resolve) => {
+      setTimeout(() => {
         expect(updateTrackVote).toHaveBeenCalledWith(
           payload.data.uri,
           payload.user,
@@ -36,10 +36,8 @@ describe('VoteHandler', () => {
           message: 'track',
           type: 'vote'
         })
-        done()
-      } catch (err) {
-        done.fail(err)
-      }
+        resolve()
+      }, 0)
     })
   })
 })

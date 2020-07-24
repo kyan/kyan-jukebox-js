@@ -12,6 +12,8 @@ help:
 	@echo "  $$ make client-console     gives you a shell into the app"
 	@echo "  $$ make api-test           runs api specs in watch mode with coverage"
 	@echo "  $$ make api-console        gives you a shell into the app"
+	@echo "  $$ make api-lint           runs ESlint without fixing anything"
+	@echo "  $$ make api-fix            runs ESlint with --fix and --quiet"
 	@echo "  $$ make test               runs all tests (same as on CI)"
 
 build:
@@ -42,6 +44,12 @@ api-test:
 
 api-console:
 	docker-compose run --rm jukebox-api sh
+
+api-lint:
+	docker-compose run --rm jukebox-api npm run lint
+
+api-fix:
+	docker-compose run --rm jukebox-api npm run fix
 
 test:
 	docker-compose run -e CI=true --rm jukebox-client npm test -- --coverage --runInBand

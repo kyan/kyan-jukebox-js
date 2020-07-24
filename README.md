@@ -43,7 +43,7 @@ The app uses `make`, so if you run `make help` you will see all the commands you
 
 ### Running the tests
 
-There is currently 100% test coverage throughout the app as well as linting via StandardSJ.
+There is currently 100% test coverage throughout the app as well as linting and prettier via ESLint.
 
 Run all the tests for the Client and the API (This is what will be run on Github) using:
 ```
@@ -97,11 +97,11 @@ A ReactJS application that communicates with the JukeBox API.
 
 ### API
 
-A NodeJS + Express application that communicates with `Mongodb` and the `Mopidy` Websocket interface.
+A NodeJS + Express application written in TypeScript that communicates with `Mongodb` and the `Mopidy` Websocket interface.
 
 ##### TypeScript
 
-TypeScript support has now been added and is encouraged. In order to use Intellisense and TypeChecking in VSCode you will need to connect VSCode to the source running in the `API` container as that's where all the node modules are installed. To do this you need to have the `VSCode Remote - Containers` extension installed.
+In order to use Intellisense and TypeChecking in VSCode you will need to connect VSCode to the source running in the `API` container as that's where all the node modules are installed. To do this you need to have the `VSCode Remote - Containers` extension installed.
 
 You would then start the app via `make serve` or via `make api-console` to start the api service. The in VSCode you run `Remote Containers - Attach to running container...` and choose the jukebox api container that you started and want to connect to. This should then start a new window connecting to the container where you can edit your code. You should now get all the Intellisense and TypeChecking working in that window.
 
@@ -113,28 +113,9 @@ The API used `Mongodb` for it's perisistence layer. In development it will fire 
 
 ### Adding a new package to `package.json`
 
-Because everthing runs in Docker, you need to actually install the new packages in Docker too otherwise you would need to download all the packages to your local machine in order to update the `package-lock.json` file. So you would update your `package.json` file and run the command below, using the correct one depending on whether you are `frontend` or `backend`.
+The easiest way to do this is using `make api-console` or `make client-console`
 
-```
-$ docker-compose run --rm jukebox-api npm install
-$ docker-compose run --rm jukebox-client npm install
-```
-
-You can alternatively use:
-
-```
-$ docker-compose run --rm jukebox-api npm install some-npm --save
-```
-
-which will install the npm and update the `package.json` and `package-lock.json` file at the same time.
-
-This would install the new package as well as updating the `package-local.json` file on your machine. You'll then need to stop all the containers `CTR C` and rebuild the images, as they install the npms on the image.
-
-```
-$ doc build
-```
-
-You can then start all the containers again `docker-compose up`
+Once you have a command line you can just run `$ npm install <package>`. This will install the package and update the `package.*` files. You will be able to continue development. When you shutdown the container though the package will be missing. You need to re-build the image to make it available. So remember to run `make build-all` when you start up next time.
 
 ## Deployment
 

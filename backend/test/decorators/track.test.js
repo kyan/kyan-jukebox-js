@@ -2,7 +2,9 @@ import TransformerTrack from '../../src/decorators/track'
 import fs from 'fs'
 
 describe('TransformerTrack', () => {
-  const payload = JSON.parse(fs.readFileSync('./test/__mockData__/tracklist.json', 'utf8'))
+  const payload = JSON.parse(
+    fs.readFileSync('./test/__mockData__/tracklist.json', 'utf8')
+  )
 
   describe('when passed a Mopidy payload', () => {
     it('transforms the track', () => {
@@ -63,26 +65,27 @@ describe('TransformerTrack', () => {
 
     it('transforms the track', () => {
       process.env.EXPLICIT_CONTENT = 'false'
-      const payload = JSON.parse(fs.readFileSync('./test/__mockData__/searchResults.json', 'utf8')).tracks.items
+      const payload = JSON.parse(
+        fs.readFileSync('./test/__mockData__/searchResults.json', 'utf8')
+      ).tracks.items
       const track = payload[1]
 
       expect(TransformerTrack(track)).toEqual({
-        'track': {
-          'album': {
-            'name': 'Ken Dodd - His Greatest Hits',
-            'uri': 'spotify:album:59TyQORxcvy9RWj7gkZMvB',
-            'year': undefined
+        track: {
+          album: {
+            name: 'Ken Dodd - His Greatest Hits',
+            uri: 'spotify:album:59TyQORxcvy9RWj7gkZMvB',
+            year: undefined
           },
-          'artist': {
-            'name': 'Ken Dodd',
-            'uri': 'spotify:artist:76o4kCpWMmBGl8jIYfRHTk'
+          artist: {
+            name: 'Ken Dodd',
+            uri: 'spotify:artist:76o4kCpWMmBGl8jIYfRHTk'
           },
-          'image': 'https://i.scdn.co/image/ab67616d0000b27368b6e0998ac2c1726839bdcd',
-          'length': 120066,
-          'name':
-          'Happiness',
-          'uri': 'spotify:track:6idaUJ1KK1mWyxQziMefhU',
-          'explicit': true
+          image: 'https://i.scdn.co/image/ab67616d0000b27368b6e0998ac2c1726839bdcd',
+          length: 120066,
+          name: 'Happiness',
+          uri: 'spotify:track:6idaUJ1KK1mWyxQziMefhU',
+          explicit: true
         }
       })
     })

@@ -14,7 +14,7 @@ describe('SearchHandler', () => {
     jest.clearAllMocks()
   })
 
-  it('should handle a valid search', done => {
+  it('should handle a valid search', () => {
     expect.assertions(2)
     const payload = {
       key: 'searchGetTracks',
@@ -25,8 +25,8 @@ describe('SearchHandler', () => {
 
     SearchHandler({ payload, socket })
 
-    setTimeout(() => {
-      try {
+    return new Promise((resolve) => {
+      setTimeout(() => {
         expect(Spotify.search).toHaveBeenCalledWith('search')
         expect(Broadcaster.toClient).toHaveBeenCalledWith({
           socket,
@@ -34,10 +34,8 @@ describe('SearchHandler', () => {
           message: 'unifiedMessage',
           type: 'search'
         })
-        done()
-      } catch (err) {
-        done.fail(err)
-      }
+        resolve()
+      }, 0)
     })
   })
 })

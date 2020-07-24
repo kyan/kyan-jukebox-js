@@ -4,21 +4,12 @@ module.exports = {
       tsConfig: 'tsconfig.json'
     }
   },
-  moduleFileExtensions: [
-    'ts',
-    'js',
-    'json'
-  ],
+  moduleFileExtensions: ['ts', 'js', 'json'],
   transform: {
     '^.+\\.(js|ts|tsx)$': 'ts-jest'
   },
-  testMatch: [
-    '**/test/**/*.test.(ts|js)'
-  ],
-  watchPlugins: [
-    'jest-watch-typeahead/filename',
-    'jest-watch-typeahead/testname'
-  ],
+  testMatch: ['**/test/**/*.test.(ts|js)'],
+  watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
   testEnvironment: 'node',
   clearMocks: true,
   coverageThreshold: {
@@ -30,11 +21,12 @@ module.exports = {
     }
   },
   collectCoverageFrom: [
-    'src/**/*.js',
+    'src/**/*.(js|ts)',
     '!<rootDir>/dist/',
-    '!src/index.js',
-    '!src/app.js',
-    '!src/constants/*.js',
-    '!src/config/*.js'
+    '!src/index.ts',
+    '!src/app.ts',
+    '!src/constants/*',
+    '!src/types/*.d.ts',
+    '!src/config/*.ts'
   ]
 }

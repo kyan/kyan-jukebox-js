@@ -37,16 +37,19 @@ describe('MopidyDecorator', () => {
       expect.assertions(2)
       updateCurrentTrack.mockResolvedValue()
       DecorateTracklist.mockResolvedValue([{ track: { uri: '123', length: 2820123 } }])
-      return MopidyDecorator.parse(h('playback.getCurrentTrack'), data).then((response) => {
-        expect(DecorateTracklist).toHaveBeenCalledWith([data])
-        expect(response).toEqual({ track: { length: 2820123, uri: '123' } })
-      })
+      return MopidyDecorator.parse(h('playback.getCurrentTrack'), data).then(
+        (response) => {
+          expect(DecorateTracklist).toHaveBeenCalledWith([data])
+          expect(response).toEqual({ track: { length: 2820123, uri: '123' } })
+        }
+      )
     })
 
     it('does not transform when we have no data', () => {
       expect.assertions(1)
-      return MopidyDecorator.parse(h('playback.getCurrentTrack'), null)
-        .then(() => expect(DecorateTrack).not.toHaveBeenCalled())
+      return MopidyDecorator.parse(h('playback.getCurrentTrack'), null).then(() =>
+        expect(DecorateTrack).not.toHaveBeenCalled()
+      )
     })
   })
 
@@ -54,8 +57,10 @@ describe('MopidyDecorator', () => {
     it('returns the data that was passed in', () => {
       const data = 'data'
       expect.assertions(1)
-      return MopidyDecorator.parse(h('playback.getTimePosition'), data)
-        .then(returnData => expect(returnData).toEqual(data))
+      return MopidyDecorator.parse(
+        h('playback.getTimePosition'),
+        data
+      ).then((returnData) => expect(returnData).toEqual(data))
     })
   })
 
@@ -83,7 +88,11 @@ describe('MopidyDecorator', () => {
       addToTrackSeedList.mockResolvedValue()
       trimTracklist.mockResolvedValue()
 
-      return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackEnded'), data, mopidyMock).then((response) => {
+      return MopidyDecorator.mopidyCoreMessage(
+        h('event:trackPlaybackEnded'),
+        data,
+        mopidyMock
+      ).then((response) => {
         expect(addToTrackSeedList).toHaveBeenCalledWith(decoratedData[0].track)
         expect(trimTracklist).toHaveBeenCalledWith(mopidyMock)
         expect(response).toEqual('123')
@@ -103,7 +112,11 @@ describe('MopidyDecorator', () => {
       Spotify.canRecommend.mockResolvedValue(recomendMock)
       getSeedTracks.mockResolvedValue('seedTracks')
 
-      return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackStarted'), data, mopidyMock).then((response) => {
+      return MopidyDecorator.mopidyCoreMessage(
+        h('event:trackPlaybackStarted'),
+        data,
+        mopidyMock
+      ).then((response) => {
         expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')
         expect(setTimeout).toHaveBeenCalledWith(
           'mockRecommend',
@@ -133,7 +146,11 @@ describe('MopidyDecorator', () => {
       Spotify.canRecommend.mockResolvedValue(null)
       updateCurrentTrack.mockResolvedValue()
 
-      return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackStarted'), data, mopidyMock).then((response) => {
+      return MopidyDecorator.mopidyCoreMessage(
+        h('event:trackPlaybackStarted'),
+        data,
+        mopidyMock
+      ).then((response) => {
         expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')
         expect(setTimeout).not.toHaveBeenCalled()
         expect(NowPlaying.addTrack).toHaveBeenCalledWith({
@@ -152,8 +169,10 @@ describe('MopidyDecorator', () => {
     it('returns the volume data passed in', () => {
       const data = { volume: 99 }
       expect.assertions(1)
-      return MopidyDecorator.mopidyCoreMessage(h('event:volumeChanged'), data)
-        .then(returnData => expect(returnData).toEqual({ volume: 99 }))
+      return MopidyDecorator.mopidyCoreMessage(
+        h('event:volumeChanged'),
+        data
+      ).then((returnData) => expect(returnData).toEqual({ volume: 99 }))
     })
   })
 
@@ -161,8 +180,10 @@ describe('MopidyDecorator', () => {
     it('returns the seek position', () => {
       const data = { time_position: 99 }
       expect.assertions(1)
-      return MopidyDecorator.mopidyCoreMessage(h('event:trackPlaybackResumed'), data)
-        .then(returnData => expect(returnData).toEqual(data.time_position))
+      return MopidyDecorator.mopidyCoreMessage(
+        h('event:trackPlaybackResumed'),
+        data
+      ).then((returnData) => expect(returnData).toEqual(data.time_position))
     })
   })
 
@@ -170,27 +191,32 @@ describe('MopidyDecorator', () => {
     it('returns the playback state data passed in', () => {
       const data = { new_state: 'playing' }
       expect.assertions(1)
-      return MopidyDecorator.mopidyCoreMessage(h('event:playbackStateChanged'), data)
-        .then(returnData => expect(returnData).toEqual(data.new_state))
+      return MopidyDecorator.mopidyCoreMessage(
+        h('event:playbackStateChanged'),
+        data
+      ).then((returnData) => expect(returnData).toEqual(data.new_state))
     })
   })
 
   describe('tracklist.remove', () => {
     it('removes the track from the revently played array returns the data passed in', () => {
-      const data = [{
-        track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
-      }]
+      const data = [
+        {
+          track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
+        }
+      ]
       const response = [{ track: { name: 'track', artist: { name: 'artist' } } }]
       expect.assertions(2)
       DecorateTracklist.mockResolvedValue(response)
       removeFromSeeds.mockResolvedValue()
-      return MopidyDecorator.parse(h('tracklist.remove'), data).then(returnData => {
+      return MopidyDecorator.parse(h('tracklist.remove'), data).then((returnData) => {
         expect(returnData).toEqual({
           message: 'track by artist',
           toAll: true
         })
-        expect(removeFromSeeds)
-          .toHaveBeenCalledWith('spotify:track:43xy5ZmjM9tdzmrXu1pmSG')
+        expect(removeFromSeeds).toHaveBeenCalledWith(
+          'spotify:track:43xy5ZmjM9tdzmrXu1pmSG'
+        )
       })
     })
   })
@@ -200,8 +226,9 @@ describe('MopidyDecorator', () => {
       expect.assertions(1)
       clearState.mockResolvedValue()
       const data = 'data'
-      return MopidyDecorator.parse(h('tracklist.clear'), data)
-        .then(returnData => expect(returnData).toEqual(data))
+      return MopidyDecorator.parse(h('tracklist.clear'), data).then((returnData) =>
+        expect(returnData).toEqual(data)
+      )
     })
   })
 
@@ -209,8 +236,9 @@ describe('MopidyDecorator', () => {
     it('returns the data passed in', () => {
       expect.assertions(1)
       const data = 12
-      return MopidyDecorator.parse(h('mixer.getVolume'), data)
-        .then(returnData => expect(returnData).toEqual({ volume: 12 }))
+      return MopidyDecorator.parse(h('mixer.getVolume'), data).then((returnData) =>
+        expect(returnData).toEqual({ volume: 12 })
+      )
     })
   })
 
@@ -220,13 +248,12 @@ describe('MopidyDecorator', () => {
       let headers = h('mixer.setVolume')
       headers.data = [12]
       const data = 'data'
-      return MopidyDecorator.parse(headers, data)
-        .then(returnData => {
-          expect(returnData).toEqual({
-            toAll: true,
-            volume: 12
-          })
+      return MopidyDecorator.parse(headers, data).then((returnData) => {
+        expect(returnData).toEqual({
+          toAll: true,
+          volume: 12
         })
+      })
     })
   })
 
@@ -240,12 +267,14 @@ describe('MopidyDecorator', () => {
       DecorateTracklist.mockResolvedValue(data)
       addTracks.mockResolvedValue()
 
-      return MopidyDecorator.parse(headers, data)
-        .then(returnData => {
-          expect(addTracks).toHaveBeenCalledWith(['spotify:track:43xy5ZmjM9tdzmrXu1pmSG'], 'user')
-          expect(DecorateTracklist).toHaveBeenCalledWith([data[0].track])
-          expect(returnData).toEqual({ message: 'track by artist', toAll: true })
-        })
+      return MopidyDecorator.parse(headers, data).then((returnData) => {
+        expect(addTracks).toHaveBeenCalledWith(
+          ['spotify:track:43xy5ZmjM9tdzmrXu1pmSG'],
+          'user'
+        )
+        expect(DecorateTracklist).toHaveBeenCalledWith([data[0].track])
+        expect(returnData).toEqual({ message: 'track by artist', toAll: true })
+      })
     })
   })
 
@@ -253,16 +282,18 @@ describe('MopidyDecorator', () => {
     it('returns null', () => {
       expect.assertions(1)
 
-      return MopidyDecorator.parse(h('playback.next'), [])
-        .then(returnData => expect(returnData).toBeUndefined())
+      return MopidyDecorator.parse(h('playback.next'), []).then((returnData) =>
+        expect(returnData).toBeUndefined()
+      )
     })
   })
 
   describe('playback.previous', () => {
     it('returns null', () => {
       expect.assertions(1)
-      return MopidyDecorator.parse(h('playback.previous'), [])
-        .then(returnData => expect(returnData).toBeUndefined())
+      return MopidyDecorator.parse(h('playback.previous'), []).then((returnData) =>
+        expect(returnData).toBeUndefined()
+      )
     })
   })
 
@@ -270,8 +301,9 @@ describe('MopidyDecorator', () => {
     it('returns with a skippedTransform message', () => {
       expect.assertions(1)
       const data = 'data'
-      return MopidyDecorator.parse(h('unknown'), data)
-        .then(returnData => expect(returnData).toEqual('skippedTransform: unknown'))
+      return MopidyDecorator.parse(h('unknown'), data).then((returnData) =>
+        expect(returnData).toEqual('skippedTransform: unknown')
+      )
     })
   })
 
@@ -279,8 +311,9 @@ describe('MopidyDecorator', () => {
     it('returns with a skippedTransform message', () => {
       expect.assertions(1)
       const data = 'data'
-      return MopidyDecorator.mopidyCoreMessage(h('unknown'), data)
-        .then(returnData => expect(returnData).toEqual('mopidySkippedTransform: unknown'))
+      return MopidyDecorator.mopidyCoreMessage(h('unknown'), data).then((returnData) =>
+        expect(returnData).toEqual('mopidySkippedTransform: unknown')
+      )
     })
   })
 })

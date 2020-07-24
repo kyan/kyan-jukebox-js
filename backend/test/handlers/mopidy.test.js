@@ -16,7 +16,7 @@ describe('MopidyHandler', () => {
     jest.clearAllMocks()
   })
 
-  it('should happy path API call with defaults', done => {
+  it('should happy path API call with defaults', () => {
     expect.assertions(2)
     const mopidyVolumeMock = jest.fn().mockResolvedValue(null)
     const mopidy = {
@@ -33,8 +33,8 @@ describe('MopidyHandler', () => {
     Decorator.parse.mockResolvedValue('unifiedMessage')
     MopidyHandler({ payload, socket, socketio, mopidy })
 
-    setTimeout(() => {
-      try {
+    return new Promise((resolve) => {
+      setTimeout(() => {
         expect(Spotify.validateTrack).not.toHaveBeenCalled()
         expect(Broadcaster.toClient).toHaveBeenCalledWith({
           socket,
@@ -44,14 +44,12 @@ describe('MopidyHandler', () => {
           },
           message: 'unifiedMessage'
         })
-        done()
-      } catch (err) {
-        done.fail(err)
-      }
+        resolve()
+      }, 0)
     })
   })
 
-  it('should happy path API call with arg to send to all', done => {
+  it('should happy path API call with arg to send to all', () => {
     expect.assertions(2)
     const mopidyVolumeMock = jest.fn().mockResolvedValue(null)
     const mopidy = {
@@ -68,8 +66,8 @@ describe('MopidyHandler', () => {
     Decorator.parse.mockResolvedValue({ message: 'message', toAll: true })
     MopidyHandler({ payload, socket, socketio, mopidy })
 
-    setTimeout(() => {
-      try {
+    return new Promise((resolve) => {
+      setTimeout(() => {
         expect(Spotify.validateTrack).not.toHaveBeenCalled()
         expect(Broadcaster.toAll).toHaveBeenCalledWith({
           socketio,
@@ -81,14 +79,12 @@ describe('MopidyHandler', () => {
             message: 'message'
           }
         })
-        done()
-      } catch (err) {
-        done.fail(err)
-      }
+        resolve()
+      }, 0)
     })
   })
 
-  it('should handle api call failure', done => {
+  it('should handle api call failure', () => {
     expect.assertions(2)
     const mopidyMock = jest.fn().mockRejectedValue(new Error('API Broke'))
     const mopidy = {
@@ -102,18 +98,16 @@ describe('MopidyHandler', () => {
     }
     MopidyHandler({ payload, socket, socketio, mopidy })
 
-    setTimeout(() => {
-      try {
+    return new Promise((resolve) => {
+      setTimeout(() => {
         expect(Broadcaster.toClient).not.toHaveBeenCalled()
         expect(logger.error).toHaveBeenCalledWith('Mopidy API Failure: API Broke')
-        done()
-      } catch (err) {
-        done.fail(err)
-      }
+        resolve()
+      }, 0)
     })
   })
 
-  it('should handle the full happy path API call without args', done => {
+  it('should handle the full happy path API call without args', () => {
     expect.assertions(2)
     const mopidyVolumeMock = jest.fn().mockResolvedValue(null)
     const mopidy = {
@@ -127,22 +121,20 @@ describe('MopidyHandler', () => {
     Decorator.parse.mockResolvedValue('unifiedMessage')
     MopidyHandler({ payload, socket, socketio, mopidy })
 
-    setTimeout(() => {
-      try {
+    return new Promise((resolve) => {
+      setTimeout(() => {
         expect(Spotify.validateTrack).not.toHaveBeenCalled()
         expect(Broadcaster.toClient).toHaveBeenCalledWith({
           socket,
           headers: { key: 'tracklist.setVolume' },
           message: 'unifiedMessage'
         })
-        done()
-      } catch (err) {
-        done.fail(err)
-      }
+        resolve()
+      }, 0)
     })
   })
 
-  it('should handle an invalid track', done => {
+  it('should handle an invalid track', () => {
     expect.assertions(1)
     const mopidy = 'mopidy'
     const trackMock = jest.fn().mockRejectedValue(new Error('naughty-naughty'))
@@ -150,8 +142,8 @@ describe('MopidyHandler', () => {
     Spotify.validateTrack.mockImplementation(trackMock)
     MopidyHandler({ payload, socket, socketio, mopidy })
 
-    setTimeout(() => {
-      try {
+    return new Promise((resolve) => {
+      setTimeout(() => {
         expect(Broadcaster.toClient).toHaveBeenCalledWith({
           headers: {
             data: { uris: ['12345zsdf23456'] },
@@ -160,10 +152,8 @@ describe('MopidyHandler', () => {
           message: 'unifiedMessage',
           socket
         })
-        done()
-      } catch (err) {
-        done.fail(err)
-      }
+        resolve()
+      }, 0)
     })
   })
 })
