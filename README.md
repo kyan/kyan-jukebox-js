@@ -1,4 +1,4 @@
-![](https://github.com/kyan/jukebox-js/workflows/jukebox/badge.svg)
+![jukebox-build-and-test](https://github.com/kyan/jukebox-js/workflows/jukebox-build-and-test/badge.svg)
 
 # Jukebox 2.0
 
