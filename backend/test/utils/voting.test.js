@@ -1,10 +1,6 @@
 import VotingHelper from '../../src/utils/voting'
 
 describe('VotingHelper', () => {
-  beforeEach(() => {
-    jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
-  })
-
   afterEach(() => {
     jest.clearAllMocks()
   })
@@ -66,7 +62,7 @@ describe('VotingHelper', () => {
   })
 
   describe('calcWeightedMean', () => {
-    it('should handle data', () => {
+    it('should handle an above mid average', () => {
       const data = [
         {
           votes: [
@@ -79,14 +75,40 @@ describe('VotingHelper', () => {
         {
           votes: [
             { vote: 10, at: new Date('2020-02-06T17:08:27.000Z') },
-            { vote: 10, at: new Date('2020-02-07T17:08:27.000Z') },
+            { vote: 100, at: new Date('2020-02-07T17:08:27.000Z') },
             { vote: 10, at: new Date('2018-08-08T17:08:27.000Z') },
             { vote: 60, at: new Date('2018-08-08T17:08:27.000Z') },
             { vote: 40, at: new Date('2016-08-09T17:08:27.000Z') }
           ]
         }
       ]
+      const mockDate = new Date(1582020703141)
+      jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
+      expect(VotingHelper.calcWeightedMean(data)).toEqual(54)
+    })
 
+    it('should handle a below mid average', () => {
+      const data = [
+        {
+          votes: [
+            { vote: 90, at: new Date('2020-02-05T17:08:27.000Z') },
+            { vote: 80, at: new Date('2019-08-04T17:08:27.000Z') },
+            { vote: 10, at: new Date('2019-02-03T17:08:27.000Z') },
+            { vote: 10, at: new Date('2018-08-02T17:08:27.000Z') }
+          ]
+        },
+        {
+          votes: [
+            { vote: 10, at: new Date('2020-02-06T17:08:27.000Z') },
+            { vote: 100, at: new Date('2020-02-07T17:08:27.000Z') },
+            { vote: 10, at: new Date('2018-08-08T17:08:27.000Z') },
+            { vote: 60, at: new Date('2018-08-08T17:08:27.000Z') },
+            { vote: 40, at: new Date('2016-08-09T17:08:27.000Z') }
+          ]
+        }
+      ]
+      const mockDate = new Date(1782020703141)
+      jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
       expect(VotingHelper.calcWeightedMean(data)).toEqual(46)
     })
 
