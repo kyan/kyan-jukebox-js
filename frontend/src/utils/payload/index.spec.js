@@ -11,7 +11,7 @@ describe('Payload', () => {
   })
 
   it('it should encode to json', () => {
-    expect(Payload.encodeToJson(jwt, key, data)).toEqual(
+    expect(Payload.encodeToJson({ jwt, key, data })).toEqual(
       '{"jwt":"jwt","key":"letsdothis","data":{"wotcha":"son"}}'
     )
   })
