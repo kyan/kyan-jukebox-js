@@ -27,7 +27,7 @@ jobs:
     - name: Build and test frontend
       run: |
         cd frontend
-        npm ci --no-optional
+        npm install
         npm run build --if-present
         npm test -- --coverage
       env:
