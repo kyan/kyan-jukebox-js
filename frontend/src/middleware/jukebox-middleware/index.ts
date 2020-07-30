@@ -7,31 +7,42 @@ import { trackProgressTimer } from 'utils/time'
 import onMessageHandler from 'utils/on-message-handler'
 import Payload from 'utils/payload'
 import State from 'utils/state'
+import { Middleware, MiddlewareAPI, Action } from 'redux'
+import { Dispatch } from 'react'
 
-const JukeboxMiddleware = (() => {
+interface ActionInterface extends Action {
+  key: string
+  params: any
+}
+
+const JukeboxMiddleware: Middleware = (() => {
   let url = `http://${process.env.REACT_APP_WS_URL}:${process.env.REACT_APP_WS_PORT}`
-  let socket = null
-  let progressTimer = null
+  let socket: SocketIOClient.Socket
+  let progressTimer: any = null
 
-  return store => next => action => {
-    const getJWT = () => store.getState().settings.token
-    const packMessage = () => Payload.encodeToJson(getJWT(store), action.key, action.params)
+  return (store: MiddlewareAPI) => (next: Dispatch<any>) => (action: ActionInterface) => {
+    const getJWT = (): string => store.getState().settings.token
+    const packMessage = () => Payload.encodeToJson({
+      jwt: getJWT(),
+      key: action.key,
+      data: action.params
+    })
 
-    const onMopidyStateChange = data => {
+    const onMopidyStateChange = (data: any) => {
       if (JSON.parse(data).online) {
         store.dispatch(actions.mopidyConnected())
         return State.loadInitial(store)
       }
       store.dispatch(actions.mopidyDisconnected())
     }
-    const onOpen = _evt => {
+    const onOpen = () => {
       progressTimer = trackProgressTimer(store, actions)
       store.dispatch(actions.wsConnected())
     }
-    const onClose = _evt => store.dispatch(actions.wsDisconnect())
-    const onMessage = data => onMessageHandler(store, data, progressTimer)
-    const onSearchResults = data => onMessageHandler(store, data, progressTimer)
-    const onVote = data => onMessageHandler(store, data, progressTimer)
+    const onClose = () => store.dispatch(actions.wsDisconnect())
+    const onMessage = (data: any) => onMessageHandler(store, data, progressTimer)
+    const onSearchResults = (data: any) => onMessageHandler(store, data, progressTimer)
+    const onVote = (data: any) => onMessageHandler(store, data, progressTimer)
     const onConnect = () => {
       if (socket != null) socket.close()
       socket = io(url, { transports: ['websocket'] })
@@ -55,11 +66,11 @@ const JukeboxMiddleware = (() => {
       case Constants.DISCONNECT:
         return onDisconnect()
       case Constants.SEND:
-        return socket.emit('message', packMessage())
+        return socket && socket.emit('message', packMessage())
       case SearchConst.SEARCH:
-        return socket.emit('search', packMessage())
+        return socket && socket.emit('search', packMessage())
       case VoteConstant.VOTE:
-        return socket.emit('vote', packMessage())
+        return socket && socket.emit('vote', packMessage())
       default:
         return next(action)
     }
