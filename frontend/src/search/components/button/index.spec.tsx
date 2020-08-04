@@ -1,5 +1,5 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import { render, fireEvent } from '@testing-library/react'
 import SearchButton from './index'
 
 describe('SearchButton', () => {
@@ -11,21 +11,19 @@ describe('SearchButton', () => {
     const onClickMock = jest.fn().mockName('onClickMock')
 
     test('with button disabled', () => {
-      const wrapper = mount(<SearchButton disabled onClick={onClickMock} />)
-
-      expect(wrapper).toMatchSnapshot()
+      const { asFragment } = render(<SearchButton disabled onClick={onClickMock} />)
+      expect(asFragment().firstChild).toMatchSnapshot()
     })
 
     test('with button enabled', () => {
-      const wrapper = mount(<SearchButton disabled={false} onClick={onClickMock} />)
-
-      expect(wrapper).toMatchSnapshot()
+      const { asFragment } = render(<SearchButton disabled={false} onClick={onClickMock} />)
+      expect(asFragment().firstChild).toMatchSnapshot()
     })
 
     test('with valid props it renders correctly', () => {
-      const wrapper = mount(<SearchButton disabled={false} onClick={onClickMock} />)
-      wrapper.find('Button').simulate('click')
-      expect(onClickMock).toHaveBeenCalled()
+      const { getByText } = render(<SearchButton disabled={false} onClick={onClickMock} />)
+      fireEvent.click(getByText('Search'))
+      expect(onClickMock).toHaveBeenCalledTimes(1)
     })
   })
 })
