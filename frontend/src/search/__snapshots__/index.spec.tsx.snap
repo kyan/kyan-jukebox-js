@@ -29,15 +29,6 @@ Array [
 ]
 `;
 
-exports[`SearchContainer render Adding a track to the mix works as expected 2`] = `
-Array [
-  Object {
-    "open": false,
-    "type": "actionToggleSearchSidebar",
-  },
-]
-`;
-
 exports[`SearchContainer render Adding a track works as expected 1`] = `
 Array [
   Object {
@@ -106,6 +97,15 @@ Array [
   },
   Object {
     "type": "searchClearMix",
+  },
+]
+`;
+
+exports[`SearchContainer render Does not add when more than 5 already added 1`] = `
+Array [
+  Object {
+    "open": false,
+    "type": "actionToggleSearchSidebar",
   },
 ]
 `;

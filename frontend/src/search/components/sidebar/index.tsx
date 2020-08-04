@@ -1,43 +1,43 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { Sidebar, Button, Form, List, Header, Divider, Pagination } from 'semantic-ui-react'
 import SearchItem from '../search-item'
 import DraggableSearchItem from '../draggable-search-item'
 import './index.css'
 
 type SearchItemsProps = {
-  tracks: any[]
+  tracks: ReadonlyArray<any>
   onClick: (uri: string) => void
   onAdd: (track: any) => void
 }
 
 type MixItemsProps = {
-  tracks: any[]
-  onSwap: () => void
+  tracks: ReadonlyArray<any>
+  onSwap: (a: number, b: number) => void
   onRemove: (uri: string) => void
 }
 
 type YourMixProps = {
-  tracks: any[]
-  onRemoveFromMix: () => void
-  onSwapTracks: () => void
+  tracks: ReadonlyArray<any>
+  onRemoveFromMix: (uri: string) => void
+  onSwapTracks: (a: number, b: number) => void
   onAddTracks: (uris: string[]) => void
 }
 
 type SearchProps = {
   visible: boolean
   onClose: () => void
-  results: any[]
-  curatedList: any[]
+  results: ReadonlyArray<any>
+  curatedList: ReadonlyArray<any>
   onSubmit: () => void
   query: string
-  onSwapTracks: () => void
-  onRemoveFromMix: () => void
-  onQueryChange: () => void
-  onAddTrack: () => void
-  onAddTracks: () => void
-  onAddTrackToMix: () => void
+  onSwapTracks: (a: number, b: number) => void
+  onRemoveFromMix: (uri: string) => void
+  onQueryChange: (evt: React.ChangeEvent<HTMLInputElement>) => void
+  onAddTrack: (uri: string) => void
+  onAddTracks: (uris: string[]) => void
+  onAddTrackToMix: (track: any) => void
   totalPages: number
-  onPageChange: () => void
+  onPageChange: (_: any, data: any) => void
 }
 
 const SearchItems: React.FC<SearchItemsProps> = props => (

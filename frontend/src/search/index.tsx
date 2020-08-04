@@ -3,35 +3,45 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as mopidyActions from 'actions'
 import * as searchActions from 'search/actions'
 import SearchSidebar from 'search/components/sidebar'
+import { SearchState } from './reducers/search'
+import { CurateState } from './reducers/curated-list'
 
-export const SearchContainer = props => {
-  const search = useSelector(state => state.search)
-  const curatedList = useSelector(state => state.curatedList)
+interface RootState {
+  search: SearchState
+  curatedList: CurateState
+}
+
+const selectSearch = (state: RootState) => state.search
+const selectCuratedList = (state: RootState) => state.curatedList
+
+export const SearchContainer: React.FC = props => {
+  const search = useSelector(selectSearch)
+  const curatedList = useSelector(selectCuratedList)
   const dispatch = useDispatch()
 
-  const onAddTrack = uri => {
+  const onAddTrack = (uri: string) => {
     dispatch(searchActions.removeFromSearchResults([uri]))
     dispatch(mopidyActions.addNewTrack(uri))
   }
 
-  const onAddTracks = uris => {
+  const onAddTracks = (uris: string[]) => {
     dispatch(mopidyActions.addNewTracks(uris))
     dispatch(searchActions.clearMix())
   }
 
-  const onAddTrackToMix = track => {
+  const onAddTrackToMix = (track: any) => {
     if (curatedList.tracks.length < 5) {
       dispatch(searchActions.removeFromSearchResults([track.uri]))
       dispatch(searchActions.addTrackToMix(track))
     }
   }
 
-  const onRemoveFromMix = uri => {
+  const onRemoveFromMix = (uri: string) => {
     dispatch(searchActions.removeFromMix(uri))
     onSearch()
   }
 
-  const onSwapTracks = (a, b) => {
+  const onSwapTracks = (a: number, b: number) => {
     dispatch(searchActions.swapTracks(a, b))
   }
 
@@ -48,11 +58,11 @@ export const SearchContainer = props => {
       visible={search.searchSideBarOpen}
       onClose={() => dispatch(searchActions.toggleSearchSidebar(false))}
       onSubmit={() => onSearch()}
-      onSwapTracks={(a, b) => onSwapTracks(a, b)}
-      onAddTrack={uri => onAddTrack(uri)}
-      onAddTracks={uris => onAddTracks(uris)}
-      onAddTrackToMix={track => onAddTrackToMix(track)}
-      onRemoveFromMix={uri => onRemoveFromMix(uri)}
+      onSwapTracks={onSwapTracks}
+      onAddTrack={onAddTrack}
+      onAddTracks={onAddTracks}
+      onAddTrackToMix={onAddTrackToMix}
+      onRemoveFromMix={onRemoveFromMix}
       onQueryChange={evt => dispatch(searchActions.storeSearchQuery(evt.target.value))}
       onPageChange={(_, data) => onSearch(data)}
       results={search.results}

@@ -14,7 +14,7 @@ export const storeSearchResults = (results: any[]) => {
   }
 }
 
-export const storeSearchQuery = (query: string) => {
+export const storeSearchQuery = (query: string | null) => {
   return {
     type: Search.STORE_SEARCH_QUERY,
     query

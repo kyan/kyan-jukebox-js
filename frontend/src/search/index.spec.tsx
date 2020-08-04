@@ -250,11 +250,12 @@ describe('SearchContainer', () => {
         </Provider>
       )
       const actions = store.getActions()
+      //@ts-ignore
       wrapper.find('DraggableSearchItem').props().action('1', '3')
       expect(actions).toMatchSnapshot()
     })
 
-    test('Adding a track to the mix works as expected', () => {
+    test('Does not add when more than 5 already added', () => {
       const store = mockStore({
         search: {
           activePage: 2,

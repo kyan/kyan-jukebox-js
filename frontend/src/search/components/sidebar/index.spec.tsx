@@ -21,7 +21,7 @@ describe('Search', () => {
     const onSwapTracksMock = jest.fn().mockName('onSwapTracksMock')
 
     describe('valid props', () => {
-      let curatedList = [
+      const curatedList = [
         {
           track: {
             name: 'Track name 2',
@@ -36,7 +36,7 @@ describe('Search', () => {
           }
         }
       ]
-      let tracks = MockTrackListJson()
+      const tracks = MockTrackListJson()
       tracks[0].track.metrics = null
 
       const wrapper = mount(
