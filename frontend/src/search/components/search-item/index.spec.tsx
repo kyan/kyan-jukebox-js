@@ -67,11 +67,7 @@ describe('SearchItem', () => {
 
     test('with explicit track OK', () => {
       const { asFragment, getByAltText } = render(
-        <SearchItem
-          className={'item-class'}
-          track={explicitTrack}
-          onClick={onClickMock}
-        />
+        <SearchItem className={'item-class'} track={explicitTrack} onClick={onClickMock} />
       )
       expect(asFragment().firstChild).toMatchSnapshot()
       fireEvent.click(getByAltText('track name'))
@@ -80,22 +76,14 @@ describe('SearchItem', () => {
 
     test('with no metrics OK', () => {
       const { asFragment } = render(
-        <SearchItem
-          className={'item-class'}
-          track={trackWithNoMetrics}
-          onClick={onClickMock}
-        />
+        <SearchItem className={'item-class'} track={trackWithNoMetrics} onClick={onClickMock} />
       )
       expect(asFragment().firstChild).toMatchSnapshot()
     })
 
     test('clicking image adds track', () => {
       const { getByAltText } = render(
-        <SearchItem
-          className={'item-class'}
-          track={validTrack}
-          onClick={onClickMock}
-        />
+        <SearchItem className={'item-class'} track={validTrack} onClick={onClickMock} />
       )
       fireEvent.click(getByAltText('track name'))
       expect(onClickMock).toHaveBeenCalledTimes(1)
@@ -116,11 +104,7 @@ describe('SearchItem', () => {
 
     test('add to mix not shown when callback not provided', () => {
       const { queryByText } = render(
-        <SearchItem
-          className={'item-class'}
-          track={validTrack}
-          onClick={onClickMock}
-        />
+        <SearchItem className={'item-class'} track={validTrack} onClick={onClickMock} />
       )
       expect(queryByText('Add to mix')).toBeNull()
     })
