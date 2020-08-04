@@ -60,8 +60,7 @@ describe('actions', () => {
         position,
         duration
       }
-      expect(actions.updateProgressTimer(position, duration))
-        .toEqual(expectedAction)
+      expect(actions.updateProgressTimer(position, duration)).toEqual(expectedAction)
     })
 
     it('should handle when Infinity is set', () => {
@@ -72,8 +71,7 @@ describe('actions', () => {
         position,
         duration: 0
       }
-      expect(actions.updateProgressTimer(position, duration))
-        .toEqual(expectedAction)
+      expect(actions.updateProgressTimer(position, duration)).toEqual(expectedAction)
     })
   })
 

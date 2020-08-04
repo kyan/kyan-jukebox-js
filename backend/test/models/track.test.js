@@ -6,7 +6,8 @@ import Track, {
   findTracks,
   addTracks,
   updateTrackPlaycount,
-  updateTrackVote
+  updateTrackVote,
+  tracksToHumanReadableArray
 } from '../../src/models/track'
 jest.mock('../../src/config/logger')
 jest.mock('../../src/utils/event-logger')
@@ -39,6 +40,13 @@ describe('test mongoose Track model', () => {
       return Track.findById('2xN54cw14BBwQVCzQS2izH').then((doc) => {
         expect(JSON.parse(JSON.stringify(doc))).toMatchObject(_doc)
       })
+    })
+  })
+
+  describe('#tracksToHumanReadableArray', () => {
+    it('returns an array of strings', () => {
+      const tracks = [{ track: { name: 'track', artist: { name: 'artist' } } }]
+      expect(tracksToHumanReadableArray(tracks)).toEqual(['track by artist'])
     })
   })
 

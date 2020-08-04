@@ -5,12 +5,12 @@ import MopidyApi from 'constants/mopidy-api'
 import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 
-const PlayButton = (props) => (
+const PlayButton = props => (
   <Button
     onClick={props.onClick}
     animated='vertical'
-    disabled={(props.state === MopidyApi.PLAYING || props.disabled)}
-    active={(props.state === MopidyApi.PLAYING)}
+    disabled={props.state === MopidyApi.PLAYING || props.disabled}
+    active={props.state === MopidyApi.PLAYING}
     className='jb-play-button'
   >
     <Button.Content hidden>Play</Button.Content>
@@ -20,12 +20,14 @@ const PlayButton = (props) => (
   </Button>
 )
 
-const PauseButton = (props) => (
+const PauseButton = props => (
   <Button
     onClick={props.onClick}
     animated='vertical'
-    disabled={(props.state === MopidyApi.PAUSED || props.state === MopidyApi.STOPPED || props.disabled)}
-    active={(props.state === MopidyApi.PAUSED)}
+    disabled={
+      props.state === MopidyApi.PAUSED || props.state === MopidyApi.STOPPED || props.disabled
+    }
+    active={props.state === MopidyApi.PAUSED}
     className='jb-pause-button'
   >
     <Button.Content hidden>Pause</Button.Content>
@@ -35,12 +37,12 @@ const PauseButton = (props) => (
   </Button>
 )
 
-const StopButton = (props) => (
+const StopButton = props => (
   <Button
     onClick={props.onClick}
     animated='vertical'
-    disabled={(props.state === MopidyApi.STOPPED || props.disabled)}
-    active={(props.state === MopidyApi.STOPPED)}
+    disabled={props.state === MopidyApi.STOPPED || props.disabled}
+    active={props.state === MopidyApi.STOPPED}
     className='jb-stop-button'
   >
     <Button.Content hidden>Stop</Button.Content>
@@ -50,32 +52,16 @@ const StopButton = (props) => (
   </Button>
 )
 
-const Controls = (props) => {
+const Controls = props => {
   const jukebox = useSelector(state => state.jukebox)
   const { disabled, onPlay, onPause, onStop, onPrevious, onNext } = props
 
   return (
     <span>
-      <SkipButtons
-        disabled={disabled}
-        onPrevious={onPrevious}
-        onNext={onNext}
-      />
-      <PlayButton
-        onClick={onPlay}
-        state={jukebox.playbackState}
-        disabled={disabled}
-      />
-      <PauseButton
-        onClick={onPause}
-        state={jukebox.playbackState}
-        disabled={disabled}
-      />
-      <StopButton
-        onClick={onStop}
-        state={jukebox.playbackState}
-        disabled={disabled}
-      />
+      <SkipButtons disabled={disabled} onPrevious={onPrevious} onNext={onNext} />
+      <PlayButton onClick={onPlay} state={jukebox.playbackState} disabled={disabled} />
+      <PauseButton onClick={onPause} state={jukebox.playbackState} disabled={disabled} />
+      <StopButton onClick={onStop} state={jukebox.playbackState} disabled={disabled} />
     </span>
   )
 }

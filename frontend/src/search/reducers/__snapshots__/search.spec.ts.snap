@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`search handles initial state 1`] = `
+Object {
+  "limit": 20,
+  "offset": 0,
+  "query": "",
+  "results": Array [],
+  "searchSideBarOpen": false,
+  "total": 0,
+}
+`;

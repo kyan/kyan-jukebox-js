@@ -1,50 +1,77 @@
 import React, { useRef } from 'react'
-import classnames from 'classnames'
 import { string, func, bool, array, number } from 'prop-types'
-import VotedBy from 'components/voted-by'
-import { Sidebar, Button, Form, List, Header, Divider, Image, Pagination } from 'semantic-ui-react'
+import { Sidebar, Button, Form, List, Header, Divider, Pagination } from 'semantic-ui-react'
+import SearchItem from '../search-item'
+import DraggableSearchItem from '../draggable-search-item'
 import './index.css'
 
-const VoteInfo = (props) => {
-  if (!props.metrics) return null
-  return <VotedBy size='mini' total={props.metrics.votesAverage} show={props.metrics.votes > 0} />
-}
-
-const SearchItem = (props) => (
-  <div
-    className={classnames('search-list-item', { 'disabled': props.track.explicit })}
-    onClick={props.track.explicit ? undefined : props.onClick}
-  >
-    <Image
-      floated='left'
-      src={props.track.image}
-      size='tiny'
-      title={`Click to add - ${props.track.name} - ${props.track.artist.name}`}
-      className='search-list-item__image'
-      disabled={props.track.explicit}
-    />
-    <List.Content>
-      <div className='search-list-item__header'>{props.track.name} - {props.track.artist.name}</div>
-      <div className='search-list-item__content'>{props.track.album.name}</div>
-      <VoteInfo metrics={props.track.metrics} />
-    </List.Content>
-  </div>
-)
-
-const SearchItems = (props) => (
+const SearchItems = props =>
   props.tracks.map(item => (
     <SearchItem
       key={item.track.uri}
       track={item.track}
-      onClick={() => props.onAddTrack(item.track.uri)}
+      onClick={() => props.onClick(item.track.uri)}
+      onAdd={() => props.onAdd(item.track)}
     />
   ))
-)
 
-const Search = (props) => {
+const MixItems = props =>
+  props.tracks.map((item, i) => (
+    <DraggableSearchItem
+      i={i}
+      key={i}
+      track={item.track}
+      onRemove={() => props.onRemove(item.track.uri)}
+      action={props.onSwap}
+    />
+  ))
+
+const YourMix = props => {
+  if (props.tracks.length === 0) return null
+  const uris = props.tracks.map(data => data.track.uri)
+
+  return (
+    <>
+      <Divider horizontal>
+        <Header as='h4' inverted>
+          Your Mix
+        </Header>
+      </Divider>
+      <List divided inverted size='tiny'>
+        <MixItems
+          tracks={props.tracks}
+          onRemove={props.onRemoveFromMix}
+          onSwap={props.onSwapTracks}
+        />
+      </List>
+      <Button
+        fluid
+        onClick={() => props.onAddTracks(uris)}
+        className='search-list-item__add_to_mix'
+      >
+        Add mix to playlist
+      </Button>
+      <Divider horizontal />
+    </>
+  )
+}
+
+const Search = props => {
   const {
-    visible, onClose, results, onSubmit, query,
-    onQueryChange, onAddTrack, totalPages, onPageChange
+    visible,
+    onClose,
+    results,
+    curatedList,
+    onSubmit,
+    query,
+    onSwapTracks,
+    onRemoveFromMix,
+    onQueryChange,
+    onAddTrack,
+    onAddTracks,
+    onAddTrackToMix,
+    totalPages,
+    onPageChange
   } = props
   const inputEl = useRef(null)
 
@@ -61,6 +88,12 @@ const Search = (props) => {
         className='sidebar-search'
         onShow={() => inputEl.current.focus()}
       >
+        <YourMix
+          tracks={curatedList}
+          onSwapTracks={onSwapTracks}
+          onAddTracks={onAddTracks}
+          onRemoveFromMix={onRemoveFromMix}
+        />
         <Form inverted onSubmit={onSubmit}>
           <Form.Field>
             <label required>SEARCH</label>
@@ -71,12 +104,16 @@ const Search = (props) => {
               value={query}
             />
           </Form.Field>
-          <Button type='submit' fluid>Submit</Button>
+          <Button type='submit' fluid>
+            Find
+          </Button>
         </Form>
         <Divider horizontal>
-          <Header as='h4' inverted>Results</Header>
+          <Header as='h4' inverted>
+            Results
+          </Header>
         </Divider>
-        {(totalPages > 0) &&
+        {totalPages > 0 && (
           <Pagination
             className='search-list-pagination'
             defaultActivePage={1}
@@ -87,18 +124,15 @@ const Search = (props) => {
             totalPages={totalPages}
             onPageChange={onPageChange}
           />
-        }
+        )}
         <List divided relaxed inverted size='tiny'>
-          <SearchItems tracks={results} onAddTrack={onAddTrack} />
+          <SearchItems tracks={results} onClick={onAddTrack} onAdd={onAddTrackToMix} />
         </List>
       </Sidebar>
-      <Sidebar.Pusher
-        dimmed={visible}
-        onClick={visible ? onClose : null}
-      >
-        { props.children }
+      <Sidebar.Pusher dimmed={visible} onClick={visible ? onClose : null}>
+        {props.children}
       </Sidebar.Pusher>
-    </Sidebar.Pushable >
+    </Sidebar.Pushable>
   )
 }
 
@@ -107,9 +141,13 @@ Search.propTypes = {
   onSubmit: func.isRequired,
   onQueryChange: func.isRequired,
   onAddTrack: func.isRequired,
+  onAddTracks: func.isRequired,
+  onAddTrackToMix: func.isRequired,
+  onRemoveFromMix: func.isRequired,
   onPageChange: func.isRequired,
   visible: bool.isRequired,
   results: array.isRequired,
+  onSwapTracks: func.isRequired,
   totalPages: number.isRequired,
   query: string
 }

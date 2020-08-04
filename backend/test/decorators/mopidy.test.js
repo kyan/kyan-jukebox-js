@@ -2,7 +2,11 @@ import DecorateTrack from '../../src/decorators/track'
 import DecorateTracklist from '../../src/decorators/tracklist'
 import Spotify from '../../src/services/spotify'
 import NowPlaying from '../../src/utils/now-playing'
-import { addTracks, updateTrackPlaycount } from '../../src/models/track'
+import {
+  addTracks,
+  updateTrackPlaycount,
+  tracksToHumanReadableArray
+} from '../../src/models/track'
 import {
   addToTrackSeedList,
   clearState,
@@ -199,7 +203,7 @@ describe('MopidyDecorator', () => {
   })
 
   describe('tracklist.remove', () => {
-    it('removes the track from the revently played array returns the data passed in', () => {
+    it('removes the track from the recently played array returns the data passed in', () => {
       const data = [
         {
           track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
@@ -209,9 +213,11 @@ describe('MopidyDecorator', () => {
       expect.assertions(2)
       DecorateTracklist.mockResolvedValue(response)
       removeFromSeeds.mockResolvedValue()
+      addTracks.mockResolvedValue()
+      tracksToHumanReadableArray.mockReturnValue(['track'])
       return MopidyDecorator.parse(h('tracklist.remove'), data).then((returnData) => {
         expect(returnData).toEqual({
-          message: 'track by artist',
+          message: 'track',
           toAll: true
         })
         expect(removeFromSeeds).toHaveBeenCalledWith(
@@ -266,6 +272,7 @@ describe('MopidyDecorator', () => {
       headers.user = 'user'
       DecorateTracklist.mockResolvedValue(data)
       addTracks.mockResolvedValue()
+      tracksToHumanReadableArray.mockReturnValue(['one', 'two'])
 
       return MopidyDecorator.parse(headers, data).then((returnData) => {
         expect(addTracks).toHaveBeenCalledWith(
@@ -273,7 +280,7 @@ describe('MopidyDecorator', () => {
           'user'
         )
         expect(DecorateTracklist).toHaveBeenCalledWith([data[0].track])
-        expect(returnData).toEqual({ message: 'track by artist', toAll: true })
+        expect(returnData).toEqual({ message: 'one, two', toAll: true })
       })
     })
   })

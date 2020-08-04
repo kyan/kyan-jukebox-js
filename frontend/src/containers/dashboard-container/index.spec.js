@@ -32,6 +32,9 @@ describe('DashboardContainer', () => {
       search: {
         searchSideBarOpen: false,
         results: []
+      },
+      curatedList: {
+        tracks: []
       }
     }
 
@@ -52,10 +55,7 @@ describe('DashboardContainer', () => {
         mockActions = store.getActions()
         expect(wrapper).toMatchSnapshot()
 
-        expect(mockActions).toEqual([
-          { type: 'actionClearStoreToken' },
-          { type: 'actionConnect' }
-        ])
+        expect(mockActions).toEqual([{ type: 'actionClearStoreToken' }, { type: 'actionConnect' }])
 
         const searchButton = wrapper.find('SearchButton')
         expect(searchButton.prop('onClick')()).toEqual(searchActions.toggleSearchSidebar(true))
@@ -123,7 +123,6 @@ describe('DashboardContainer', () => {
         store.clearActions()
         expect(SignInToken.refresh.mock.calls.length).toEqual(1)
         expect(SignInToken.refresh.mock.calls[0][0]).toEqual(mockGoogle.googleUser)
-        spyOn(actions, 'updateToken').and.callThrough()
         SignInToken.refresh.mock.calls[0][1]('token')
         mockActions = store.getActions()
         expect(mockActions).toEqual([{ token: 'token', type: 'actionStoreToken' }])
@@ -141,16 +140,23 @@ describe('DashboardContainer', () => {
         store.clearActions()
         wrapper.find('Dashboard').prop('onRemoveTrack')('uri123')
         mockActions = store.getActions()
-        expect(mockActions).toEqual([{ key: 'tracklist.remove', type: 'actionSend', params: { criteria: { uri: ['uri123'] } } }])
+        expect(mockActions).toEqual([
+          { key: 'tracklist.remove', type: 'actionSend', params: { criteria: { uri: ['uri123'] } } }
+        ])
 
         store.clearActions()
         const dashboard = wrapper.find('Dashboard')
         dashboard.prop('onArtistSearch')('query')()
         mockActions = store.getActions()
         expect(mockActions).toEqual([
-          { key: 'searchGetTracks', params: { options: { offset: 0 }, query: 'query' }, type: 'actionTrackSearch' },
+          {
+            key: 'searchGetTracks',
+            params: { options: { offset: 0 }, query: 'query' },
+            type: 'actionTrackSearch'
+          },
           { query: 'query', type: 'actionStoreSearchQuery' },
-          { open: true, type: 'actionToggleSearchSidebar' }])
+          { open: true, type: 'actionToggleSearchSidebar' }
+        ])
       })
     })
   })

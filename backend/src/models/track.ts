@@ -4,6 +4,10 @@ import EventLogger from '../utils/event-logger'
 import logger from '../config/logger'
 import VotingHelper from '../utils/voting'
 
+export interface JBTrackPayloadInterface {
+  track: JBTrackInterface
+}
+
 export interface JBArtistInterface {
   uri: string
   name: string
@@ -126,6 +130,9 @@ const findOrUseBRH = (user?: JBUserInterface): PromiseLikeDBUser => {
   })
 }
 
+const tracksToHumanReadableArray = (tracks: any[]): string[] =>
+  tracks.map((data) => `${data.track.name} by ${data.track.artist.name}`)
+
 const addTracks = (uris: ReadonlyArray<string>, user?: DBUserInterface): Promise<any> =>
   new Promise((resolve) => {
     findOrUseBRH(user)
@@ -223,4 +230,10 @@ const updateTrackVote = (uri: string, user: JBUserInterface, vote: number) =>
   })
 
 export default Track
-export { findTracks, addTracks, updateTrackPlaycount, updateTrackVote }
+export {
+  findTracks,
+  addTracks,
+  updateTrackPlaycount,
+  updateTrackVote,
+  tracksToHumanReadableArray
+}
