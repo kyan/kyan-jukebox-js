@@ -1,32 +1,73 @@
 import React, { useRef } from 'react'
-import { string, func, bool, array, number } from 'prop-types'
 import { Sidebar, Button, Form, List, Header, Divider, Pagination } from 'semantic-ui-react'
 import SearchItem from '../search-item'
 import DraggableSearchItem from '../draggable-search-item'
 import './index.css'
 
-const SearchItems = props =>
-  props.tracks.map(item => (
-    <SearchItem
-      key={item.track.uri}
-      track={item.track}
-      onClick={() => props.onClick(item.track.uri)}
-      onAdd={() => props.onAdd(item.track)}
-    />
-  ))
+type SearchItemsProps = {
+  tracks: any[]
+  onClick: (uri: string) => void
+  onAdd: (track: any) => void
+}
 
-const MixItems = props =>
-  props.tracks.map((item, i) => (
-    <DraggableSearchItem
-      i={i}
-      key={i}
-      track={item.track}
-      onRemove={() => props.onRemove(item.track.uri)}
-      action={props.onSwap}
-    />
-  ))
+type MixItemsProps = {
+  tracks: any[]
+  onSwap: () => void
+  onRemove: (uri: string) => void
+}
 
-const YourMix = props => {
+type YourMixProps = {
+  tracks: any[]
+  onRemoveFromMix: () => void
+  onSwapTracks: () => void
+  onAddTracks: (uris: string[]) => void
+}
+
+type SearchProps = {
+  visible: boolean
+  onClose: () => void
+  results: any[]
+  curatedList: any[]
+  onSubmit: () => void
+  query: string
+  onSwapTracks: () => void
+  onRemoveFromMix: () => void
+  onQueryChange: () => void
+  onAddTrack: () => void
+  onAddTracks: () => void
+  onAddTrackToMix: () => void
+  totalPages: number
+  onPageChange: () => void
+}
+
+const SearchItems: React.FC<SearchItemsProps> = props => (
+  <>
+    {props.tracks.map(item => (
+      <SearchItem
+        key={item.track.uri}
+        track={item.track}
+        onClick={() => props.onClick(item.track.uri)}
+        onAdd={() => props.onAdd(item.track)}
+      />
+    ))}
+  </>
+)
+
+const MixItems: React.FC<MixItemsProps> = props => (
+  <>
+    {props.tracks.map((item, i) => (
+      <DraggableSearchItem
+        i={i}
+        key={i}
+        track={item.track}
+        onRemove={() => props.onRemove(item.track.uri)}
+        action={props.onSwap}
+      />
+    ))}
+  </>
+)
+
+const YourMix: React.FC<YourMixProps> = props => {
   if (props.tracks.length === 0) return null
   const uris = props.tracks.map(data => data.track.uri)
 
@@ -56,7 +97,7 @@ const YourMix = props => {
   )
 }
 
-const Search = props => {
+const Search: React.FC<SearchProps> = props => {
   const {
     visible,
     onClose,
@@ -73,7 +114,7 @@ const Search = props => {
     totalPages,
     onPageChange
   } = props
-  const inputEl = useRef(null)
+  const inputEl = React.useRef<HTMLInputElement>(null)
 
   return (
     <Sidebar.Pushable>
@@ -86,7 +127,7 @@ const Search = props => {
         width='very wide'
         direction='right'
         className='sidebar-search'
-        onShow={() => inputEl.current.focus()}
+        onShow={() => inputEl.current && inputEl.current.focus()}
       >
         <YourMix
           tracks={curatedList}
@@ -96,7 +137,7 @@ const Search = props => {
         />
         <Form inverted onSubmit={onSubmit}>
           <Form.Field>
-            <label required>SEARCH</label>
+            <label>SEARCH</label>
             <input
               ref={inputEl}
               placeholder='track, artist or album'
@@ -134,22 +175,6 @@ const Search = props => {
       </Sidebar.Pusher>
     </Sidebar.Pushable>
   )
-}
-
-Search.propTypes = {
-  onClose: func.isRequired,
-  onSubmit: func.isRequired,
-  onQueryChange: func.isRequired,
-  onAddTrack: func.isRequired,
-  onAddTracks: func.isRequired,
-  onAddTrackToMix: func.isRequired,
-  onRemoveFromMix: func.isRequired,
-  onPageChange: func.isRequired,
-  visible: bool.isRequired,
-  results: array.isRequired,
-  onSwapTracks: func.isRequired,
-  totalPages: number.isRequired,
-  query: string
 }
 
 export default Search

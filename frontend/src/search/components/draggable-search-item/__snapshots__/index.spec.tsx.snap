@@ -30,7 +30,6 @@ exports[`DraggableSearchItem render with valid props it renders correctly 1`] = 
     title="You can drag this to sort."
   >
     <SearchItem
-      onClick={[MockFunction onClickMock]}
       track={
         Object {
           "album": Object {
@@ -54,7 +53,6 @@ exports[`DraggableSearchItem render with valid props it renders correctly 1`] = 
           className="search-list-item__image"
           disabled={false}
           floated="left"
-          onClick={[MockFunction onClickMock]}
           size="tiny"
           src="image1"
           title="Click to add - track name - artist name"
@@ -62,7 +60,6 @@ exports[`DraggableSearchItem render with valid props it renders correctly 1`] = 
         >
           <img
             className="ui tiny left floated image search-list-item__image"
-            onClick={[MockFunction onClickMock]}
             src="image1"
             title="Click to add - track name - artist name"
           />

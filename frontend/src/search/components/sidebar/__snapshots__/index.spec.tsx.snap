@@ -28,6 +28,7 @@ exports[`Search render valid props renders as expected 1`] = `
   onRemoveFromMix={[MockFunction onRemoveFromMixMock]}
   onSubmit={[MockFunction onSubmitMock]}
   onSwapTracks={[MockFunction onSwapTracksMock]}
+  query=""
   results={
     Array [
       Object {
@@ -304,9 +305,7 @@ exports[`Search render valid props renders as expected 1`] = `
                   <div
                     class="field"
                   >
-                    <label
-                      required=""
-                    >
+                    <label>
                       SEARCH
                     </label>
                     <input
@@ -558,9 +557,7 @@ exports[`Search render valid props renders as expected 1`] = `
                     <div
                       class="field"
                     >
-                      <label
-                        required=""
-                      >
+                      <label>
                         SEARCH
                       </label>
                       <input
@@ -966,14 +963,13 @@ exports[`Search render valid props renders as expected 1`] = `
                     <div
                       className="field"
                     >
-                      <label
-                        required={true}
-                      >
+                      <label>
                         SEARCH
                       </label>
                       <input
                         onChange={[MockFunction onQueryChangeMock]}
                         placeholder="track, artist or album"
+                        value=""
                       />
                     </div>
                   </FormField>

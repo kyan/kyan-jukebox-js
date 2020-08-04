@@ -1,6 +1,7 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import MockTrackListJson from '__mockData__/api'
+import { Sidebar } from 'semantic-ui-react'
 import Search from './index'
 
 describe('Search', () => {
@@ -53,6 +54,7 @@ describe('Search', () => {
           curatedList={curatedList}
           totalPages={2}
           visible
+          query=''
         />
       )
 
@@ -62,8 +64,10 @@ describe('Search', () => {
 
       it('focuses the search input onShow', () => {
         const input = wrapper.find('input')
-        const sidebar = wrapper.find('Sidebar')
+        const sidebar = wrapper.find(Sidebar)
+        // @ts-ignore
         sidebar.prop('onShow')()
+        // @ts-ignore
         expect(input.get(0).ref.current).toEqual(document.activeElement)
       })
 
@@ -107,6 +111,7 @@ describe('Search', () => {
             curatedList={curatedList}
             totalPages={2}
             visible={false}
+            query=''
           />
         )
         const sidebar = wrapper.find('SidebarPusher')

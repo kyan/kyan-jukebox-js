@@ -6,7 +6,6 @@ type DraggableSearchItemProps = {
   i: number
   track: any
   action: (a: number, b: number) => void
-  onClick: () => void
   onRemove: () => void
 }
 
@@ -34,7 +33,7 @@ const DraggableSearchItem: React.FC<DraggableSearchItemProps> = props => {
       onDrop={e => onDrop(e, String(i))}
       title='You can drag this to sort.'
     >
-      <SearchItem key={props.track.uri} track={props.track} onClick={props.onClick} />
+      <SearchItem key={props.track.uri} track={props.track} />
       <span onClick={props.onRemove} className='search-list-item__remove'>
         Remove
       </span>

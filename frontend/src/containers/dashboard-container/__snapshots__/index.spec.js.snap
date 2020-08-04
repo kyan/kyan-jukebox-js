@@ -109,9 +109,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                   <div
                                     class="field"
                                   >
-                                    <label
-                                      required=""
-                                    >
+                                    <label>
                                       SEARCH
                                     </label>
                                     <input
@@ -158,9 +156,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                     <div
                                       class="field"
                                     >
-                                      <label
-                                        required=""
-                                      >
+                                      <label>
                                         SEARCH
                                       </label>
                                       <input
@@ -217,9 +213,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                     <div
                                       className="field"
                                     >
-                                      <label
-                                        required={true}
-                                      >
+                                      <label>
                                         SEARCH
                                       </label>
                                       <input
@@ -1360,9 +1354,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                   <div
                                     class="field"
                                   >
-                                    <label
-                                      required=""
-                                    >
+                                    <label>
                                       SEARCH
                                     </label>
                                     <input
@@ -1409,9 +1401,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                     <div
                                       class="field"
                                     >
-                                      <label
-                                        required=""
-                                      >
+                                      <label>
                                         SEARCH
                                       </label>
                                       <input
@@ -1468,9 +1458,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                     <div
                                       className="field"
                                     >
-                                      <label
-                                        required={true}
-                                      >
+                                      <label>
                                         SEARCH
                                       </label>
                                       <input
