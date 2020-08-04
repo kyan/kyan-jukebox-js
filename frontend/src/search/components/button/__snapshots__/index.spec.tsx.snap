@@ -1,0 +1,199 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchButton render with button disabled 1`] = `
+<SearchButton
+  disabled={true}
+  onClick={[MockFunction onClickMock]}
+>
+  <Button
+    animated="vertical"
+    as="button"
+    disabled={true}
+    floated="right"
+    onClick={[MockFunction onClickMock]}
+  >
+    <Ref
+      innerRef={
+        Object {
+          "current": <button
+            class="ui vertical animated disabled right floated button"
+            disabled=""
+            tabindex="-1"
+          >
+            <div
+              class="hidden content"
+            >
+              Search
+            </div>
+            <div
+              class="visible content"
+            >
+              <i
+                aria-hidden="true"
+                class="search icon"
+              />
+            </div>
+          </button>,
+        }
+      }
+    >
+      <RefFindNode
+        innerRef={
+          Object {
+            "current": <button
+              class="ui vertical animated disabled right floated button"
+              disabled=""
+              tabindex="-1"
+            >
+              <div
+                class="hidden content"
+              >
+                Search
+              </div>
+              <div
+                class="visible content"
+              >
+                <i
+                  aria-hidden="true"
+                  class="search icon"
+                />
+              </div>
+            </button>,
+          }
+        }
+      >
+        <button
+          className="ui vertical animated disabled right floated button"
+          disabled={true}
+          onClick={[Function]}
+          tabIndex={-1}
+        >
+          <ButtonContent
+            hidden={true}
+          >
+            <div
+              className="hidden content"
+            >
+              Search
+            </div>
+          </ButtonContent>
+          <ButtonContent
+            visible={true}
+          >
+            <div
+              className="visible content"
+            >
+              <Icon
+                as="i"
+                name="search"
+              >
+                <i
+                  aria-hidden="true"
+                  className="search icon"
+                  onClick={[Function]}
+                />
+              </Icon>
+            </div>
+          </ButtonContent>
+        </button>
+      </RefFindNode>
+    </Ref>
+  </Button>
+</SearchButton>
+`;
+
+exports[`SearchButton render with button enabled 1`] = `
+<SearchButton
+  disabled={false}
+  onClick={[MockFunction onClickMock]}
+>
+  <Button
+    animated="vertical"
+    as="button"
+    disabled={false}
+    floated="right"
+    onClick={[MockFunction onClickMock]}
+  >
+    <Ref
+      innerRef={
+        Object {
+          "current": <button
+            class="ui vertical animated right floated button"
+          >
+            <div
+              class="hidden content"
+            >
+              Search
+            </div>
+            <div
+              class="visible content"
+            >
+              <i
+                aria-hidden="true"
+                class="search icon"
+              />
+            </div>
+          </button>,
+        }
+      }
+    >
+      <RefFindNode
+        innerRef={
+          Object {
+            "current": <button
+              class="ui vertical animated right floated button"
+            >
+              <div
+                class="hidden content"
+              >
+                Search
+              </div>
+              <div
+                class="visible content"
+              >
+                <i
+                  aria-hidden="true"
+                  class="search icon"
+                />
+              </div>
+            </button>,
+          }
+        }
+      >
+        <button
+          className="ui vertical animated right floated button"
+          onClick={[Function]}
+        >
+          <ButtonContent
+            hidden={true}
+          >
+            <div
+              className="hidden content"
+            >
+              Search
+            </div>
+          </ButtonContent>
+          <ButtonContent
+            visible={true}
+          >
+            <div
+              className="visible content"
+            >
+              <Icon
+                as="i"
+                name="search"
+              >
+                <i
+                  aria-hidden="true"
+                  className="search icon"
+                  onClick={[Function]}
+                />
+              </Icon>
+            </div>
+          </ButtonContent>
+        </button>
+      </RefFindNode>
+    </Ref>
+  </Button>
+</SearchButton>
+`;
