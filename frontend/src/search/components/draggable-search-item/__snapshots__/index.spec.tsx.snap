@@ -49,6 +49,7 @@ exports[`DraggableSearchItem render with valid props it renders correctly 1`] = 
         className="search-list-item"
       >
         <Image
+          alt="track name"
           as="img"
           className="search-list-item__image"
           disabled={false}
@@ -59,6 +60,7 @@ exports[`DraggableSearchItem render with valid props it renders correctly 1`] = 
           ui={true}
         >
           <img
+            alt="track name"
             className="ui tiny left floated image search-list-item__image"
             src="image1"
             title="Click to add - track name - artist name"

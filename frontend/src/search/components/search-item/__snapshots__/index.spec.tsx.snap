@@ -1,223 +1,105 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SearchItem render with explicit track 1`] = `
-<SearchItem
-  className="item-class"
-  onAdd={[MockFunction onAddMock]}
-  onClick={[MockFunction onClickMock]}
-  track={
-    Object {
-      "album": Object {
-        "name": "album name",
-      },
-      "artist": Object {
-        "name": "artist name",
-      },
-      "explicit": true,
-      "image": "image1",
-      "metrics": Object {},
-      "name": "track name",
-    }
-  }
+exports[`SearchItem render with explicit track OK 1`] = `
+<div
+  class="item-class search-list-item disabled"
 >
+  <img
+    alt="track name"
+    class="ui tiny disabled left floated image search-list-item__image"
+    src="image"
+    title="Click to add - track name - artist name"
+  />
   <div
-    className="item-class search-list-item disabled"
+    class="content"
   >
-    <Image
-      as="img"
-      className="search-list-item__image"
-      disabled={true}
-      floated="left"
-      size="tiny"
-      src="image1"
-      title="Click to add - track name - artist name"
-      ui={true}
+    <div
+      class="search-list-item__header"
     >
-      <img
-        className="ui tiny disabled left floated image search-list-item__image"
-        src="image1"
-        title="Click to add - track name - artist name"
+      track name - artist name
+    </div>
+    <div
+      class="search-list-item__content"
+    >
+      album name
+    </div>
+    <div
+      class="ui grey mini basic label track-label vote-track-label"
+    >
+      <i
+        aria-hidden="true"
+        class="thumbs down icon"
       />
-    </Image>
-    <ListContent>
-      <div
-        className="content"
-      >
-        <div
-          className="search-list-item__header"
-        >
-          track name
-           - 
-          artist name
-        </div>
-        <div
-          className="search-list-item__content"
-        >
-          album name
-        </div>
-        <VoteInfo
-          metrics={Object {}}
-        >
-          <VotedBy
-            show={false}
-            size="mini"
-          />
-        </VoteInfo>
-        <span
-          className="search-list-item__add"
-          onClick={[MockFunction onAddMock]}
-        >
-          Add to mix
-        </span>
-      </div>
-    </ListContent>
+      -4
+    </div>
   </div>
-</SearchItem>
+</div>
 `;
 
-exports[`SearchItem render with no add handler 1`] = `
-<SearchItem
-  className="item-class"
-  onClick={[MockFunction onClickMock]}
-  track={
-    Object {
-      "album": Object {
-        "name": "album name",
-      },
-      "artist": Object {
-        "name": "artist name",
-      },
-      "explicit": false,
-      "image": "image1",
-      "metrics": Object {},
-      "name": "track name",
-    }
-  }
+exports[`SearchItem render with no metrics OK 1`] = `
+<div
+  class="item-class search-list-item disabled"
 >
+  <img
+    alt="track name"
+    class="ui tiny disabled left floated image search-list-item__image"
+    src="image"
+    title="Click to add - track name - artist name"
+  />
   <div
-    className="item-class search-list-item"
+    class="content"
   >
-    <Image
-      as="img"
-      className="search-list-item__image"
-      disabled={false}
-      floated="left"
-      onClick={[MockFunction onClickMock]}
-      size="tiny"
-      src="image1"
-      title="Click to add - track name - artist name"
-      ui={true}
+    <div
+      class="search-list-item__header"
     >
-      <img
-        className="ui tiny left floated image search-list-item__image"
-        onClick={[MockFunction onClickMock]}
-        src="image1"
-        title="Click to add - track name - artist name"
-      />
-    </Image>
-    <ListContent>
-      <div
-        className="content"
-      >
-        <div
-          className="search-list-item__header"
-        >
-          track name
-           - 
-          artist name
-        </div>
-        <div
-          className="search-list-item__content"
-        >
-          album name
-        </div>
-        <VoteInfo
-          metrics={Object {}}
-        >
-          <VotedBy
-            show={false}
-            size="mini"
-          />
-        </VoteInfo>
-      </div>
-    </ListContent>
+      track name - artist name
+    </div>
+    <div
+      class="search-list-item__content"
+    >
+      album name
+    </div>
   </div>
-</SearchItem>
+</div>
 `;
 
-exports[`SearchItem render with valid props it renders correctly 1`] = `
-<SearchItem
-  className="item-class"
-  onAdd={[MockFunction onAddMock]}
-  onClick={[MockFunction onClickMock]}
-  track={
-    Object {
-      "album": Object {
-        "name": "album name",
-      },
-      "artist": Object {
-        "name": "artist name",
-      },
-      "explicit": false,
-      "image": "image1",
-      "metrics": Object {},
-      "name": "track name",
-    }
-  }
+exports[`SearchItem render with normal track OK 1`] = `
+<div
+  class="item-class search-list-item"
 >
+  <img
+    alt="track name"
+    class="ui tiny left floated image search-list-item__image"
+    src="image"
+    title="Click to add - track name - artist name"
+  />
   <div
-    className="item-class search-list-item"
+    class="content"
   >
-    <Image
-      as="img"
-      className="search-list-item__image"
-      disabled={false}
-      floated="left"
-      onClick={[MockFunction onClickMock]}
-      size="tiny"
-      src="image1"
-      title="Click to add - track name - artist name"
-      ui={true}
+    <div
+      class="search-list-item__header"
     >
-      <img
-        className="ui tiny left floated image search-list-item__image"
-        onClick={[MockFunction onClickMock]}
-        src="image1"
-        title="Click to add - track name - artist name"
+      track name - artist name
+    </div>
+    <div
+      class="search-list-item__content"
+    >
+      album name
+    </div>
+    <div
+      class="ui grey mini basic label track-label vote-track-label"
+    >
+      <i
+        aria-hidden="true"
+        class="thumbs down icon"
       />
-    </Image>
-    <ListContent>
-      <div
-        className="content"
-      >
-        <div
-          className="search-list-item__header"
-        >
-          track name
-           - 
-          artist name
-        </div>
-        <div
-          className="search-list-item__content"
-        >
-          album name
-        </div>
-        <VoteInfo
-          metrics={Object {}}
-        >
-          <VotedBy
-            show={false}
-            size="mini"
-          />
-        </VoteInfo>
-        <span
-          className="search-list-item__add"
-          onClick={[MockFunction onAddMock]}
-        >
-          Add to mix
-        </span>
-      </div>
-    </ListContent>
+      -4
+    </div>
+    <span
+      class="search-list-item__add"
+    >
+      Add to mix
+    </span>
   </div>
-</SearchItem>
+</div>
 `;

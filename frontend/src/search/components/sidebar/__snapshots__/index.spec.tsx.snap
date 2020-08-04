@@ -263,6 +263,7 @@ exports[`Search render valid props renders as expected 1`] = `
                       class="search-list-item"
                     >
                       <img
+                        alt="Track name 2"
                         class="ui tiny left floated image search-list-item__image"
                         src="image2"
                         title="Click to add - Track name 2 - Artist name 2"
@@ -385,6 +386,7 @@ exports[`Search render valid props renders as expected 1`] = `
                     class="search-list-item disabled"
                   >
                     <img
+                      alt="Happiness"
                       class="ui tiny disabled left floated image search-list-item__image"
                       title="Click to add - Happiness - Ken Dodd"
                     />
@@ -414,6 +416,7 @@ exports[`Search render valid props renders as expected 1`] = `
                     class="search-list-item"
                   >
                     <img
+                      alt="Chicken Song"
                       class="ui tiny left floated image search-list-item__image"
                       src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
                       title="Click to add - Chicken Song - 3 Shades"
@@ -453,6 +456,7 @@ exports[`Search render valid props renders as expected 1`] = `
                     class="search-list-item"
                   >
                     <img
+                      alt="I Know Him So Well"
                       class="ui tiny left floated image search-list-item__image"
                       src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
                       title="Click to add - I Know Him So Well - Geraldine McQueen"
@@ -515,6 +519,7 @@ exports[`Search render valid props renders as expected 1`] = `
                         class="search-list-item"
                       >
                         <img
+                          alt="Track name 2"
                           class="ui tiny left floated image search-list-item__image"
                           src="image2"
                           title="Click to add - Track name 2 - Artist name 2"
@@ -637,6 +642,7 @@ exports[`Search render valid props renders as expected 1`] = `
                       class="search-list-item disabled"
                     >
                       <img
+                        alt="Happiness"
                         class="ui tiny disabled left floated image search-list-item__image"
                         title="Click to add - Happiness - Ken Dodd"
                       />
@@ -666,6 +672,7 @@ exports[`Search render valid props renders as expected 1`] = `
                       class="search-list-item"
                     >
                       <img
+                        alt="Chicken Song"
                         class="ui tiny left floated image search-list-item__image"
                         src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
                         title="Click to add - Chicken Song - 3 Shades"
@@ -705,6 +712,7 @@ exports[`Search render valid props renders as expected 1`] = `
                       class="search-list-item"
                     >
                       <img
+                        alt="I Know Him So Well"
                         class="ui tiny left floated image search-list-item__image"
                         src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
                         title="Click to add - I Know Him So Well - Geraldine McQueen"
@@ -859,6 +867,7 @@ exports[`Search render valid props renders as expected 1`] = `
                               className="search-list-item"
                             >
                               <Image
+                                alt="Track name 2"
                                 as="img"
                                 className="search-list-item__image"
                                 floated="left"
@@ -868,6 +877,7 @@ exports[`Search render valid props renders as expected 1`] = `
                                 ui={true}
                               >
                                 <img
+                                  alt="Track name 2"
                                   className="ui tiny left floated image search-list-item__image"
                                   src="image2"
                                   title="Click to add - Track name 2 - Artist name 2"
@@ -1447,6 +1457,7 @@ exports[`Search render valid props renders as expected 1`] = `
                         className="search-list-item disabled"
                       >
                         <Image
+                          alt="Happiness"
                           as="img"
                           className="search-list-item__image"
                           disabled={true}
@@ -1456,6 +1467,7 @@ exports[`Search render valid props renders as expected 1`] = `
                           ui={true}
                         >
                           <img
+                            alt="Happiness"
                             className="ui tiny disabled left floated image search-list-item__image"
                             title="Click to add - Happiness - Ken Dodd"
                           />
@@ -1556,6 +1568,7 @@ exports[`Search render valid props renders as expected 1`] = `
                         className="search-list-item"
                       >
                         <Image
+                          alt="Chicken Song"
                           as="img"
                           className="search-list-item__image"
                           floated="left"
@@ -1566,6 +1579,7 @@ exports[`Search render valid props renders as expected 1`] = `
                           ui={true}
                         >
                           <img
+                            alt="Chicken Song"
                             className="ui tiny left floated image search-list-item__image"
                             onClick={[Function]}
                             src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
@@ -1705,6 +1719,7 @@ exports[`Search render valid props renders as expected 1`] = `
                         className="search-list-item"
                       >
                         <Image
+                          alt="I Know Him So Well"
                           as="img"
                           className="search-list-item__image"
                           floated="left"
@@ -1715,6 +1730,7 @@ exports[`Search render valid props renders as expected 1`] = `
                           ui={true}
                         >
                           <img
+                            alt="I Know Him So Well"
                             className="ui tiny left floated image search-list-item__image"
                             onClick={[Function]}
                             src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"

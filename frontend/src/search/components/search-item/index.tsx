@@ -24,6 +24,7 @@ const SearchItem: React.FC<SearchItemProps> = props => (
     className={classnames(props.className, 'search-list-item', { disabled: props.track.explicit })}
   >
     <Image
+      alt={props.track.name}
       floated='left'
       src={props.track.image}
       size='tiny'

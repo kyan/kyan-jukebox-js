@@ -1,5 +1,5 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import { render, fireEvent } from '@testing-library/react'
 import SearchItem from './index'
 
 const validTrack = {
@@ -10,8 +10,11 @@ const validTrack = {
   album: {
     name: 'album name'
   },
-  metrics: {},
-  image: 'image1',
+  metrics: {
+    votes: 2,
+    votesAverage: 12
+  },
+  image: 'image',
   explicit: false
 }
 const explicitTrack = {
@@ -22,8 +25,22 @@ const explicitTrack = {
   album: {
     name: 'album name'
   },
-  metrics: {},
-  image: 'image1',
+  metrics: {
+    votes: 2,
+    votesAverage: 12
+  },
+  image: 'image',
+  explicit: true
+}
+const trackWithNoMetrics = {
+  name: 'track name',
+  artist: {
+    name: 'artist name'
+  },
+  album: {
+    name: 'album name'
+  },
+  image: 'image',
   explicit: true
 }
 
@@ -36,8 +53,8 @@ describe('SearchItem', () => {
     const onAddMock = jest.fn().mockName('onAddMock')
     const onClickMock = jest.fn().mockName('onClickMock')
 
-    test('with valid props it renders correctly', () => {
-      const wrapper = mount(
+    test('with normal track OK', () => {
+      const { asFragment } = render(
         <SearchItem
           className={'item-class'}
           track={validTrack}
@@ -45,40 +62,67 @@ describe('SearchItem', () => {
           onClick={onClickMock}
         />
       )
-
-      expect(wrapper).toMatchSnapshot()
-      wrapper.find('Image').simulate('click')
-      expect(onClickMock).toHaveBeenCalled()
-      wrapper.find('.search-list-item__add').simulate('click')
-      expect(onAddMock).toHaveBeenCalled()
+      expect(asFragment().firstChild).toMatchSnapshot()
     })
 
-    test('with explicit track', () => {
-      const wrapper = mount(
+    test('with explicit track OK', () => {
+      const { asFragment, getByAltText } = render(
         <SearchItem
           className={'item-class'}
           track={explicitTrack}
+          onClick={onClickMock}
+        />
+      )
+      expect(asFragment().firstChild).toMatchSnapshot()
+      fireEvent.click(getByAltText('track name'))
+      expect(onClickMock).toHaveBeenCalledTimes(0)
+    })
+
+    test('with no metrics OK', () => {
+      const { asFragment } = render(
+        <SearchItem
+          className={'item-class'}
+          track={trackWithNoMetrics}
+          onClick={onClickMock}
+        />
+      )
+      expect(asFragment().firstChild).toMatchSnapshot()
+    })
+
+    test('clicking image adds track', () => {
+      const { getByAltText } = render(
+        <SearchItem
+          className={'item-class'}
+          track={validTrack}
+          onClick={onClickMock}
+        />
+      )
+      fireEvent.click(getByAltText('track name'))
+      expect(onClickMock).toHaveBeenCalledTimes(1)
+    })
+
+    test('clicking add to mix works OK when callback provided', () => {
+      const { getByText } = render(
+        <SearchItem
+          className={'item-class'}
+          track={validTrack}
           onAdd={onAddMock}
           onClick={onClickMock}
         />
       )
-
-      expect(wrapper).toMatchSnapshot()
-      wrapper.find('Image').simulate('click')
-      expect(onClickMock).not.toHaveBeenCalled()
-      wrapper.find('.search-list-item__add').simulate('click')
-      expect(onAddMock).toHaveBeenCalled()
+      fireEvent.click(getByText('Add to mix'))
+      expect(onAddMock).toHaveBeenCalledTimes(1)
     })
 
-    test('with no add handler', () => {
-      const wrapper = mount(
-        <SearchItem className={'item-class'} track={validTrack} onClick={onClickMock} />
+    test('add to mix not shown when callback not provided', () => {
+      const { queryByText } = render(
+        <SearchItem
+          className={'item-class'}
+          track={validTrack}
+          onClick={onClickMock}
+        />
       )
-
-      expect(wrapper).toMatchSnapshot()
-      wrapper.find('Image').simulate('click')
-      expect(onClickMock).toHaveBeenCalled()
-      expect(wrapper.find('.search-list-item__add')).toHaveLength(0)
+      expect(queryByText('Add to mix')).toBeNull()
     })
   })
 })
