@@ -17,7 +17,7 @@ export const DashboardContainer = () => {
   const disable = !(isSignedIn && jukebox.mopidyOnline)
   const googleTokenId = useRef()
   const refreshTokenTimeoutID = useRef()
-  const hasTokenChanged = (token) => token !== googleTokenId.current
+  const hasTokenChanged = token => token !== googleTokenId.current
 
   useEffect(() => {
     dispatch(actions.wsConnect())
@@ -30,7 +30,7 @@ export const DashboardContainer = () => {
 
   if (isSignedIn && hasTokenChanged(googleUser.tokenId)) {
     googleTokenId.current = googleUser.tokenId
-    refreshTokenTimeoutID.current = SignInToken.refresh(googleUser, (token) => {
+    refreshTokenTimeoutID.current = SignInToken.refresh(googleUser, token => {
       dispatch(actions.updateToken(token))
     })
     dispatch(actions.updateToken(googleTokenId.current))
@@ -47,22 +47,30 @@ export const DashboardContainer = () => {
   const onPause = useCallback(() => dispatch(actions.pausePlaying()), [dispatch])
   const onNext = useCallback(() => dispatch(actions.nextPlaying()), [dispatch])
   const onPrevious = useCallback(() => dispatch(actions.previousPlaying()), [dispatch])
-  const onVolumeChange = useCallback((evt) => dispatch(actions.setVolume(evt)), [dispatch])
+  const onVolumeChange = useCallback(evt => dispatch(actions.setVolume(evt)), [dispatch])
   /* istanbul ignore next */
-  const onDrop = useCallback((_item, monitor) => {
-    if (monitor) {
-      dispatch(actions.addNewTrack(monitor.getItem().urls[0]))
-    }
-  }, [dispatch])
+  const onDrop = useCallback(
+    (_item, monitor) => {
+      if (monitor) {
+        dispatch(actions.addNewTrack(monitor.getItem().urls[0]))
+      }
+    },
+    [dispatch]
+  )
   const onTracklistClear = useCallback(() => dispatch(actions.clearTrackList()), [dispatch])
-  const onSearchClick = useCallback(() => dispatch(searchActions.toggleSearchSidebar(true)), [dispatch])
-  const onRemoveTrack = useCallback((evt) => dispatch(actions.removeFromTracklist(evt)), [dispatch])
-  const onArtistSearch = useCallback((query) => _ => {
-    const searchOptions = { offset: 0 }
-    dispatch(searchActions.search(query, searchOptions))
-    dispatch(searchActions.storeSearchQuery(query, searchOptions))
-    dispatch(searchActions.toggleSearchSidebar(true))
-  }, [dispatch])
+  const onSearchClick = useCallback(() => dispatch(searchActions.toggleSearchSidebar(true)), [
+    dispatch
+  ])
+  const onRemoveTrack = useCallback(evt => dispatch(actions.removeFromTracklist(evt)), [dispatch])
+  const onArtistSearch = useCallback(
+    query => _ => {
+      const searchOptions = { offset: 0 }
+      dispatch(searchActions.search(query, searchOptions))
+      dispatch(searchActions.storeSearchQuery(query, searchOptions))
+      dispatch(searchActions.toggleSearchSidebar(true))
+    },
+    [dispatch]
+  )
 
   return (
     <Dashboard

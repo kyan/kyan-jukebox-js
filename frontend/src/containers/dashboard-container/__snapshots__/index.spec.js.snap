@@ -44,11 +44,16 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
             >
               <SearchContainer>
                 <Search
+                  curatedList={Array []}
                   onAddTrack={[Function]}
+                  onAddTrackToMix={[Function]}
+                  onAddTracks={[Function]}
                   onClose={[Function]}
                   onPageChange={[Function]}
                   onQueryChange={[Function]}
+                  onRemoveFromMix={[Function]}
                   onSubmit={[Function]}
+                  onSwapTracks={[Function]}
                   results={Array []}
                   totalPages={NaN}
                   visible={false}
@@ -104,9 +109,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                   <div
                                     class="field"
                                   >
-                                    <label
-                                      required=""
-                                    >
+                                    <label>
                                       SEARCH
                                     </label>
                                     <input
@@ -118,7 +121,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                     class="ui fluid button"
                                     type="submit"
                                   >
-                                    Submit
+                                    Find
                                   </button>
                                 </form>
                                 <div
@@ -153,9 +156,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                     <div
                                       class="field"
                                     >
-                                      <label
-                                        required=""
-                                      >
+                                      <label>
                                         SEARCH
                                       </label>
                                       <input
@@ -167,7 +168,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                       class="ui fluid button"
                                       type="submit"
                                     >
-                                      Submit
+                                      Find
                                     </button>
                                   </form>
                                   <div
@@ -193,6 +194,12 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                               inverted="true"
                               vertical="true"
                             >
+                              <YourMix
+                                onAddTracks={[Function]}
+                                onRemoveFromMix={[Function]}
+                                onSwapTracks={[Function]}
+                                tracks={Array []}
+                              />
                               <Form
                                 as="form"
                                 inverted={true}
@@ -206,9 +213,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                     <div
                                       className="field"
                                     >
-                                      <label
-                                        required={true}
-                                      >
+                                      <label>
                                         SEARCH
                                       </label>
                                       <input
@@ -229,7 +234,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                             class="ui fluid button"
                                             type="submit"
                                           >
-                                            Submit
+                                            Find
                                           </button>,
                                         }
                                       }
@@ -241,7 +246,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                               class="ui fluid button"
                                               type="submit"
                                             >
-                                              Submit
+                                              Find
                                             </button>,
                                           }
                                         }
@@ -251,7 +256,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                           onClick={[Function]}
                                           type="submit"
                                         >
-                                          Submit
+                                          Find
                                         </button>
                                       </RefFindNode>
                                     </Ref>
@@ -287,7 +292,8 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                   role="list"
                                 >
                                   <SearchItems
-                                    onAddTrack={[Function]}
+                                    onAdd={[Function]}
+                                    onClick={[Function]}
                                     tracks={Array []}
                                   />
                                 </div>
@@ -1283,11 +1289,16 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
             >
               <SearchContainer>
                 <Search
+                  curatedList={Array []}
                   onAddTrack={[Function]}
+                  onAddTrackToMix={[Function]}
+                  onAddTracks={[Function]}
                   onClose={[Function]}
                   onPageChange={[Function]}
                   onQueryChange={[Function]}
+                  onRemoveFromMix={[Function]}
                   onSubmit={[Function]}
+                  onSwapTracks={[Function]}
                   results={Array []}
                   totalPages={NaN}
                   visible={false}
@@ -1343,9 +1354,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                   <div
                                     class="field"
                                   >
-                                    <label
-                                      required=""
-                                    >
+                                    <label>
                                       SEARCH
                                     </label>
                                     <input
@@ -1357,7 +1366,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                     class="ui fluid button"
                                     type="submit"
                                   >
-                                    Submit
+                                    Find
                                   </button>
                                 </form>
                                 <div
@@ -1392,9 +1401,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                     <div
                                       class="field"
                                     >
-                                      <label
-                                        required=""
-                                      >
+                                      <label>
                                         SEARCH
                                       </label>
                                       <input
@@ -1406,7 +1413,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                       class="ui fluid button"
                                       type="submit"
                                     >
-                                      Submit
+                                      Find
                                     </button>
                                   </form>
                                   <div
@@ -1432,6 +1439,12 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                               inverted="true"
                               vertical="true"
                             >
+                              <YourMix
+                                onAddTracks={[Function]}
+                                onRemoveFromMix={[Function]}
+                                onSwapTracks={[Function]}
+                                tracks={Array []}
+                              />
                               <Form
                                 as="form"
                                 inverted={true}
@@ -1445,9 +1458,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                     <div
                                       className="field"
                                     >
-                                      <label
-                                        required={true}
-                                      >
+                                      <label>
                                         SEARCH
                                       </label>
                                       <input
@@ -1468,7 +1479,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                             class="ui fluid button"
                                             type="submit"
                                           >
-                                            Submit
+                                            Find
                                           </button>,
                                         }
                                       }
@@ -1480,7 +1491,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                               class="ui fluid button"
                                               type="submit"
                                             >
-                                              Submit
+                                              Find
                                             </button>,
                                           }
                                         }
@@ -1490,7 +1501,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                           onClick={[Function]}
                                           type="submit"
                                         >
-                                          Submit
+                                          Find
                                         </button>
                                       </RefFindNode>
                                     </Ref>
@@ -1526,7 +1537,8 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                   role="list"
                                 >
                                   <SearchItems
-                                    onAddTrack={[Function]}
+                                    onAdd={[Function]}
+                                    onClick={[Function]}
                                     tracks={Array []}
                                   />
                                 </div>

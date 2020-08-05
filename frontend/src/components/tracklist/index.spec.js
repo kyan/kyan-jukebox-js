@@ -15,7 +15,9 @@ describe('Tracklist', () => {
   })
 
   describe('render', () => {
-    Date.now = jest.fn(() => { return 8208000 })
+    Date.now = jest.fn(() => {
+      return 8208000
+    })
 
     describe('when disabled', () => {
       const wrapper = shallow(
@@ -81,10 +83,7 @@ describe('Tracklist', () => {
   describe('when no track', () => {
     it('renders nothing', () => {
       const wrapper = shallow(
-        <Tracklist
-          onRemoveTrack={onRemoveMock}
-          onArtistSearch={onSearchMock}
-        />
+        <Tracklist onRemoveTrack={onRemoveMock} onArtistSearch={onSearchMock} />
       )
 
       expect(wrapper.instance()).toBeNull()
@@ -110,11 +109,7 @@ describe('Tracklist', () => {
       delete track.addedBy
 
       const wrapper = shallow(
-        <Tracklist
-          tracks={[track]}
-          onRemoveTrack={onRemoveMock}
-          onArtistSearch={onSearchMock}
-        />
+        <Tracklist tracks={[track]} onRemoveTrack={onRemoveMock} onArtistSearch={onSearchMock} />
       )
       expect(wrapper).toMatchSnapshot()
     })

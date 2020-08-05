@@ -26,14 +26,19 @@ const marks = {
   }
 }
 
-const spotifyLink = (uri) => {
+const spotifyLink = uri => {
   const code = uri.split(':').pop()
   return `https://open.spotify.com/track/${code}`
 }
 
-const AlbumDescription = (props) => {
+const AlbumDescription = props => {
   const year = ` (${props.album.year})`
-  return <Card.Description>{props.album.name}{year}</Card.Description>
+  return (
+    <Card.Description>
+      {props.album.name}
+      {year}
+    </Card.Description>
+  )
 }
 
 const noTrack = () => (
@@ -46,24 +51,24 @@ const noTrack = () => (
   </Card>
 )
 
-const calcVoteAverage = (data) => {
+const calcVoteAverage = data => {
   const votes = data.map(i => i.vote)
   if (votes.length < 1) return 0
   return mean(flatten(votes))
 }
 
-const voteHandleColor = (total) => {
+const voteHandleColor = total => {
   if (total > 50) return '#21ba45'
   if (total < 50) return 'red'
   return 'gray'
 }
 
-const TrackVotes = (props) => {
+const TrackVotes = props => {
   if (!props.metrics) return null
   return <VotedBy total={props.metrics.votesAverage} show={props.metrics.votes > 0} ribbon />
 }
 
-const AddLabel = (props) => {
+const AddLabel = props => {
   return (
     <Label size='mini'>
       Added
@@ -72,7 +77,7 @@ const AddLabel = (props) => {
   )
 }
 
-const PlayLabel = (props) => {
+const PlayLabel = props => {
   if (!props.metrics) return null
 
   return (
@@ -83,7 +88,7 @@ const PlayLabel = (props) => {
   )
 }
 
-const VoteLabel = (props) => {
+const VoteLabel = props => {
   if (!props.metrics) return null
 
   return (
@@ -94,22 +99,21 @@ const VoteLabel = (props) => {
   )
 }
 
-const CurrentTrack = (props) => {
+const CurrentTrack = props => {
   const { track, onVote, userID } = props
-  if (!track) { return noTrack() }
+  if (!track) {
+    return noTrack()
+  }
   const maxRating = 10
   const { addedBy = [] } = track
   const votes = (addedBy[0] && addedBy[0].votes) || []
   const currentUserVoter = votes.find(u => u.user._id === userID)
-  const currentUserVote = currentUserVoter ? (currentUserVoter.vote) : null
-  const doVote = (uri) => (rating) => onVote(uri, rating / maxRating)
+  const currentUserVote = currentUserVoter ? currentUserVoter.vote : null
+  const doVote = uri => rating => onVote(uri, rating / maxRating)
 
   return (
     <Card>
-      <Image
-        src={track.image || defaultImage}
-        label={<TrackVotes metrics={track.metrics} />}
-      />
+      <Image src={track.image || defaultImage} label={<TrackVotes metrics={track.metrics} />} />
       <Card.Content>
         <ProgressBar />
         <Card.Header>{track.name}</Card.Header>
@@ -146,7 +150,9 @@ const CurrentTrack = (props) => {
           href={spotifyLink(track.uri)}
           target='_blank'
           rel='noopener noreferrer'
-        >{track.uri}</a>
+        >
+          {track.uri}
+        </a>
       </Card.Content>
     </Card>
   )

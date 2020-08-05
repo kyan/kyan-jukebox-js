@@ -6,12 +6,14 @@ import Constants from 'constants/common'
 import UrlDropArea from 'components/url-drop-area'
 
 const DragInTrack = ({ disabled, onDrop, children }) => {
-  if (disabled) { return children }
+  if (disabled) {
+    return children
+  }
 
   return (
     <DragDropContextProvider backend={HTML5Backend}>
       <UrlDropArea accepts={Constants.DROP_TYPES} onDrop={onDrop}>
-        { children }
+        {children}
       </UrlDropArea>
     </DragDropContextProvider>
   )

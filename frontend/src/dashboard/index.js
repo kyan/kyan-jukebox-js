@@ -11,7 +11,7 @@ import ClearPlaylist from 'components/clear-playlist'
 import SearchContainer from 'search'
 import './index.css'
 
-const Dashboard = (props) => {
+const Dashboard = props => {
   const {
     online,
     disabled,
@@ -31,25 +31,13 @@ const Dashboard = (props) => {
   } = props
 
   return (
-    <Dimmer.Dimmable
-      blurring
-      dimmed={!online}
-    >
-      <DragInTrack
-        disabled={disabled}
-        onDrop={onDrop}
-      >
+    <Dimmer.Dimmable blurring dimmed={!online}>
+      <DragInTrack disabled={disabled} onDrop={onDrop}>
         <SearchContainer>
           <Container className='header-wrapper' fluid>
             <Settings />
-            <VolumeButtons
-              disabled={disabled}
-              onVolumeChange={onVolumeChange}
-            />
-            <SearchButton
-              onClick={onSearchClick}
-              disabled={disabled}
-            />
+            <VolumeButtons disabled={disabled} onVolumeChange={onVolumeChange} />
+            <SearchButton onClick={onSearchClick} disabled={disabled} />
             <Controls
               disabled={disabled}
               onPlay={onPlay}

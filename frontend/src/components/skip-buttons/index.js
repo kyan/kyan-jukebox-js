@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
 
-const PreviousButton = (props) => (
+const PreviousButton = props => (
   <Button
     onClick={props.onClick}
     animated='vertical'
@@ -16,7 +16,7 @@ const PreviousButton = (props) => (
   </Button>
 )
 
-const NextButton = (props) => (
+const NextButton = props => (
   <Button
     onClick={props.onClick}
     animated='vertical'

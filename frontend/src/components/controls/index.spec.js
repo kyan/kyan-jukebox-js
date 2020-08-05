@@ -14,7 +14,7 @@ describe('Controls', () => {
 
   describe('render', () => {
     const mockStore = configureMockStore()
-    const buildControl = (store, props) => (
+    const buildControl = (store, props) =>
       mount(
         <Provider store={store}>
           <Controls
@@ -28,7 +28,6 @@ describe('Controls', () => {
           />
         </Provider>
       )
-    )
 
     beforeEach(() => {
       jest.clearAllMocks()

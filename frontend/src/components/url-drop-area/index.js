@@ -4,7 +4,7 @@ import { DropTarget } from 'react-dnd'
 import './index.css'
 
 const boxTarget = {
-  drop (props, monitor) {
+  drop(props, monitor) {
     if (props.onDrop) {
       props.onDrop(props, monitor)
     }
@@ -18,19 +18,23 @@ const boxHandler = (connect, monitor) => {
   }
 }
 
-const dropTrack = (show) => {
+const dropTrack = show => {
   if (!show) return null
-  return <div className='drag-is-over'><p>Drop da track</p></div>
+  return (
+    <div className='drag-is-over'>
+      <p>Drop da track</p>
+    </div>
+  )
 }
 
 class UrlDropArea extends Component {
-  render () {
+  render() {
     const { connectDropTarget, isOver } = this.props
 
     return connectDropTarget(
       <div>
-        { dropTrack(isOver) }
-        { this.props.children }
+        {dropTrack(isOver)}
+        {this.props.children}
       </div>
     )
   }

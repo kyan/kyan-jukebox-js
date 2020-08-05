@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchItem render with explicit track OK 1`] = `
+<div
+  class="item-class search-list-item disabled"
+>
+  <img
+    alt="track name"
+    class="ui tiny disabled left floated image search-list-item__image"
+    src="image"
+    title="Click to add - track name - artist name"
+  />
+  <div
+    class="content"
+  >
+    <div
+      class="search-list-item__header"
+    >
+      track name - artist name
+    </div>
+    <div
+      class="search-list-item__content"
+    >
+      album name
+    </div>
+    <div
+      class="ui grey mini basic label track-label vote-track-label"
+    >
+      <i
+        aria-hidden="true"
+        class="thumbs down icon"
+      />
+      -4
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SearchItem render with no metrics OK 1`] = `
+<div
+  class="item-class search-list-item disabled"
+>
+  <img
+    alt="track name"
+    class="ui tiny disabled left floated image search-list-item__image"
+    src="image"
+    title="Click to add - track name - artist name"
+  />
+  <div
+    class="content"
+  >
+    <div
+      class="search-list-item__header"
+    >
+      track name - artist name
+    </div>
+    <div
+      class="search-list-item__content"
+    >
+      album name
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SearchItem render with normal track OK 1`] = `
+<div
+  class="item-class search-list-item"
+>
+  <img
+    alt="track name"
+    class="ui tiny left floated image search-list-item__image"
+    src="image"
+    title="Click to add - track name - artist name"
+  />
+  <div
+    class="content"
+  >
+    <div
+      class="search-list-item__header"
+    >
+      track name - artist name
+    </div>
+    <div
+      class="search-list-item__content"
+    >
+      album name
+    </div>
+    <div
+      class="ui grey mini basic label track-label vote-track-label"
+    >
+      <i
+        aria-hidden="true"
+        class="thumbs down icon"
+      />
+      -4
+    </div>
+    <span
+      class="search-list-item__add"
+    >
+      Add to mix
+    </span>
+  </div>
+</div>
+`;

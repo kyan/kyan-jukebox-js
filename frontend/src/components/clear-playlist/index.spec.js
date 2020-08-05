@@ -7,11 +7,7 @@ describe('ClearPlaylist', () => {
   const onClearMock = jest.fn()
 
   describe('render', () => {
-    const wrapper = shallow(
-      <ClearPlaylist
-        onClear={onClearMock}
-      />
-    )
+    const wrapper = shallow(<ClearPlaylist onClear={onClearMock} />)
 
     it('renders the as expected', () => {
       expect(wrapper).toMatchSnapshot()
@@ -45,12 +41,7 @@ describe('ClearPlaylist', () => {
   })
 
   describe('when disabled', () => {
-    const wrapper = shallow(
-      <ClearPlaylist
-        onClear={onClearMock}
-        disabled
-      />
-    )
+    const wrapper = shallow(<ClearPlaylist onClear={onClearMock} disabled />)
 
     it('renders the as expected', () => {
       expect(wrapper).toMatchSnapshot()

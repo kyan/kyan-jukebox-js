@@ -22,7 +22,7 @@ describe('onMessageHandler', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    spyOn(console, 'error')
+    jest.spyOn(console, 'error').mockImplementation()
   })
 
   describe('MESSAGE_NOT_HANDLED', () => {
@@ -121,7 +121,7 @@ describe('onMessageHandler', () => {
   })
 
   describe('EVENT_PLAYBACK_STATE_CHANGED', () => {
-    const playbackState = (state) => ({
+    const playbackState = state => ({
       key: MopidyApi.EVENT_PLAYBACK_STATE_CHANGED,
       data: state
     })
@@ -388,10 +388,12 @@ describe('onMessageHandler', () => {
       const store = mockStore({})
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
-      expect(actions).toEqual([{
-        type: 'actionStoreSearchResults',
-        results: 'searchresults'
-      }])
+      expect(actions).toEqual([
+        {
+          type: 'actionStoreSearchResults',
+          results: 'searchresults'
+        }
+      ])
       store.clearActions()
     })
   })
@@ -405,10 +407,12 @@ describe('onMessageHandler', () => {
       const store = mockStore({})
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
-      expect(actions).toEqual([{
-        type: 'syncSocialData',
-        track: 'voteData'
-      }])
+      expect(actions).toEqual([
+        {
+          type: 'syncSocialData',
+          track: 'voteData'
+        }
+      ])
       store.clearActions()
     })
 

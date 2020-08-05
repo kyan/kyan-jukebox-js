@@ -13,10 +13,7 @@ describe('DragInTrack', () => {
     describe('when controls disabled', () => {
       it('renders as expected', () => {
         const wrapper = shallow(
-          <DragInTrack
-            disabled
-            onDrop={onDropMock}
-          >
+          <DragInTrack disabled onDrop={onDropMock}>
             <span>Hello World</span>
           </DragInTrack>
         )
@@ -28,10 +25,7 @@ describe('DragInTrack', () => {
     describe('when controls enabled', () => {
       it('renders as expected', () => {
         const wrapper = shallow(
-          <DragInTrack
-            disabled={false}
-            onDrop={onDropMock}
-          >
+          <DragInTrack disabled={false} onDrop={onDropMock}>
             <span>Hello World</span>
           </DragInTrack>
         )

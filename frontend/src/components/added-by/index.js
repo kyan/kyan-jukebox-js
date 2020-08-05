@@ -4,29 +4,28 @@ import { List, Popup, Icon, Image } from 'semantic-ui-react'
 import dateFormat from 'dateformat'
 import './index.css'
 
-const addedByContent = (users) => (
+const addedByContent = users => (
   <List className='added-by-list'>
-    {
-      users.map((data, i) => {
-        const fullName = data.user ? data.user.fullname : 'User unknown'
+    {users.map((data, i) => {
+      const fullName = data.user ? data.user.fullname : 'User unknown'
 
-        return (
-          <List.Item key={i}>
-            {userPicture(data)}
-            <List.Content>
-              <List.Description>
-                <strong>{dateFormat(data.addedAt, 'dd mmm yyyy @ h:MM tt')}</strong> - {fullName}
-              </List.Description>
-            </List.Content>
-          </List.Item>
-        )
-      })
-    }
+      return (
+        <List.Item key={i}>
+          {userPicture(data)}
+          <List.Content>
+            <List.Description>
+              <strong>{dateFormat(data.addedAt, 'dd mmm yyyy @ h:MM tt')}</strong> - {fullName}
+            </List.Description>
+          </List.Content>
+        </List.Item>
+      )
+    })}
   </List>
 )
 
 const userPicture = data => {
-  if (data && data.user && data.user.picture) return <Image avatar className='added_by_avatar_image' src={data.user.picture} />
+  if (data && data.user && data.user.picture)
+    return <Image avatar className='added_by_avatar_image' src={data.user.picture} />
   return <Icon name='user' />
 }
 
@@ -34,13 +33,7 @@ const AddedBy = ({ users = [] }) => {
   const avatar = userPicture(users[0])
   if (!users.length) return avatar
 
-  return (
-    <Popup
-      wide
-      content={addedByContent(users)}
-      trigger={avatar}
-    />
-  )
+  return <Popup wide content={addedByContent(users)} trigger={avatar} />
 }
 
 AddedBy.propTypes = {

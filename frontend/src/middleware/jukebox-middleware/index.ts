@@ -16,17 +16,18 @@ interface ActionInterface extends Action {
 }
 
 const JukeboxMiddleware: Middleware = (() => {
-  let url = `http://${process.env.REACT_APP_WS_URL}:${process.env.REACT_APP_WS_PORT}`
+  const url = `http://${process.env.REACT_APP_WS_URL}:${process.env.REACT_APP_WS_PORT}`
   let socket: SocketIOClient.Socket
   let progressTimer: any = null
 
   return (store: MiddlewareAPI) => (next: Dispatch<any>) => (action: ActionInterface) => {
     const getJWT = (): string => store.getState().settings.token
-    const packMessage = () => Payload.encodeToJson({
-      jwt: getJWT(),
-      key: action.key,
-      data: action.params
-    })
+    const packMessage = () =>
+      Payload.encodeToJson({
+        jwt: getJWT(),
+        key: action.key,
+        data: action.params
+      })
 
     const onMopidyStateChange = (data: any) => {
       if (JSON.parse(data).online) {
@@ -56,7 +57,9 @@ const JukeboxMiddleware: Middleware = (() => {
       store.dispatch(actions.wsConnecting())
     }
     const onDisconnect = () => {
-      if (progressTimer) { progressTimer.reset() }
+      if (progressTimer) {
+        progressTimer.reset()
+      }
       store.dispatch(actions.wsDisconnected())
     }
 

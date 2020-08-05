@@ -1,8 +1,11 @@
 import DecorateTrack from './track'
 import { findTracks } from '../models/track'
 import ImageCache from '../utils/image-cache'
-import { JBTrackPayloadInterface } from '../decorators/track'
-import { DBTrackInterface, JBTrackInterface } from '../models/track'
+import {
+  DBTrackInterface,
+  JBTrackInterface,
+  JBTrackPayloadInterface
+} from '../models/track'
 import { DBImageInterface } from '../models/image'
 
 const DecorateTracklist = (

@@ -1,8 +1,4 @@
-import { JBTrackInterface } from '../models/track'
-
-export interface JBTrackPayloadInterface {
-  track: JBTrackInterface
-}
+import { JBTrackInterface, JBTrackPayloadInterface } from '../models/track'
 
 export default function (json: any): JBTrackPayloadInterface {
   if (!json) return { track: null }

@@ -28,9 +28,7 @@ export const Settings = () => {
     )
   }
 
-  return (
-    <React.Fragment>{avatar}</React.Fragment>
-  )
+  return <React.Fragment>{avatar}</React.Fragment>
 }
 
 export default Settings

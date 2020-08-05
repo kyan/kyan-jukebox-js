@@ -7,16 +7,12 @@ import VolumeButtons from './index'
 describe('VolumeButtons', () => {
   const volMock = jest.fn()
   const mockStore = configureMockStore()
-  const buildWrapper = (store, props) => (
+  const buildWrapper = (store, props) =>
     mount(
       <Provider store={store}>
-        <VolumeButtons
-          {...props}
-          onVolumeChange={volMock}
-        />
+        <VolumeButtons {...props} onVolumeChange={volMock} />
       </Provider>
     ).find('VolumeButtons')
-  )
 
   beforeEach(() => {
     jest.clearAllMocks()

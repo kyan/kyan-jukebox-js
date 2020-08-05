@@ -17,9 +17,7 @@ describe('track', () => {
     })
 
     it('handles a track', () => {
-      expect(
-        reducer(null, { type: Types.ADD_CURRENT_TRACK, track: track1 })
-      ).toMatchSnapshot()
+      expect(reducer(null, { type: Types.ADD_CURRENT_TRACK, track: track1 })).toMatchSnapshot()
     })
   })
 
@@ -32,7 +30,10 @@ describe('track', () => {
 
     it('handles a change', () => {
       expect(
-        reducer(track1, { type: Types.SYNC_SOCIAL_DATA, track: { uri: 't2', addedBy: 'duncan', metrics: 'metrics' } })
+        reducer(track1, {
+          type: Types.SYNC_SOCIAL_DATA,
+          track: { uri: 't2', addedBy: 'duncan', metrics: 'metrics' }
+        })
       ).toMatchSnapshot()
     })
   })

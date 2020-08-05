@@ -24,14 +24,16 @@ describe('CurrentTrackContainer', () => {
       )
       expect(wrapper).toMatchSnapshot()
       wrapper.find('CurrentTrack').prop('onVote')('uri123', 99)
-      expect(store.getActions()).toEqual([{
-        type: 'actionVote',
-        key: 'castVote',
-        params: {
-          uri: 'uri123',
-          vote: 99
+      expect(store.getActions()).toEqual([
+        {
+          type: 'actionVote',
+          key: 'castVote',
+          params: {
+            uri: 'uri123',
+            vote: 99
+          }
         }
-      }])
+      ])
     })
   })
 })

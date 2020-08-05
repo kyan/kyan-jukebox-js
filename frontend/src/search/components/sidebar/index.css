@@ -4,9 +4,12 @@
 }
 
 .search-list-item {
+  display: flex;
   color: white;
-  clear: both;
-  cursor: pointer;
+}
+
+.search-list-item .content {
+  width: 80%;
 }
 
 .search-list-item.disabled {
@@ -21,11 +24,40 @@
   text-overflow: ellipsis;
 }
 
+.search-list-item__image {
+  cursor: pointer;
+}
+
+.draggable .search-list-item__image {
+  pointer-events: none;
+}
+
 .search-list-item__content {
   margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.search-list-item__add {
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.search-list-item-draggable {
+  display: flex;
+}
+
+.search-list-item__remove {
+  margin-left: auto;
+  margin-block-start: auto;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.search-list-item__add:hover,
+.search-list-item__remove:hover {
+  color: #999;
 }
 
 .search-list-pagination.menu .item {
@@ -36,4 +68,11 @@
   color: white !important;
   font-weight: bold !important;
   border-color: tomato !important;
+}
+
+.draggable {
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
 }

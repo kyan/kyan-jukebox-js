@@ -21,7 +21,15 @@ export const addNewTrack = url => {
   return {
     type: Types.SEND,
     key: MopidyApi.TRACKLIST_ADD_TRACK,
-    params: { 'uris': [uri] }
+    params: { uris: [uri] }
+  }
+}
+
+export const addNewTracks = uris => {
+  return {
+    type: Types.SEND,
+    key: MopidyApi.TRACKLIST_ADD_TRACK,
+    params: { uris: uris.map(uri => transformUrl(uri)) }
   }
 }
 
@@ -50,12 +58,14 @@ export const removeFromTracklist = uri => {
   return {
     type: Types.SEND,
     key: MopidyApi.TRACKLIST_REMOVE_TRACK,
-    params: { 'criteria': { 'uri': [uri] } }
+    params: { criteria: { uri: [uri] } }
   }
 }
 
 export const updateProgressTimer = (position, duration) => {
-  if (duration === Infinity) { duration = 0 }
+  if (duration === Infinity) {
+    duration = 0
+  }
 
   return {
     type: Types.UPDATE_PROGRESS_TIMER,
@@ -183,21 +193,21 @@ export const getVolume = () => {
   }
 }
 
-export const updateVolume = (volume) => {
+export const updateVolume = volume => {
   return {
     type: Types.UPDATE_VOLUME,
     volume
   }
 }
 
-export const updatePlaybackState = (state) => {
+export const updatePlaybackState = state => {
   return {
     type: Types.UPDATE_PLAYBACK_STATE,
     state
   }
 }
 
-export const setVolume = (volume) => {
+export const setVolume = volume => {
   return {
     type: Types.SEND,
     key: MopidyApi.SET_VOLUME,

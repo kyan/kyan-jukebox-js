@@ -2,12 +2,12 @@ import React from 'react'
 
 // uses code from https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html
 class ErrorBoundary extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { hasError: false }
   }
 
-  componentDidCatch (error, info) {
+  componentDidCatch(error, info) {
     // Display fallback UI
     this.setState({ hasError: true })
 
@@ -18,7 +18,7 @@ class ErrorBoundary extends React.Component {
     }
   }
 
-  render () {
+  render() {
     if (this.state.hasError) {
       return <h1>Ouch! I broke a bit.</h1>
     }

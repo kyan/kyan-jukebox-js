@@ -57,11 +57,7 @@ describe('JukeboxMiddleware', () => {
       jest.runOnlyPendingTimers()
       const actions = store.getActions()
 
-      expect(onMessageHandler).toHaveBeenCalledWith(
-        store,
-        payload,
-        jasmine.any(Object)
-      )
+      expect(onMessageHandler).toHaveBeenCalledWith(store, payload, jasmine.any(Object))
 
       expect(actions).toEqual([
         { type: 'actionDisconnected' },
@@ -197,10 +193,7 @@ describe('JukeboxMiddleware', () => {
       })
       const actions = store.getActions()
       expect(actions).toEqual([])
-      expect(mockEmit).toHaveBeenCalledWith(
-        'vote',
-        '{"jwt":"token","key":"castVote","data":"12"}'
-      )
+      expect(mockEmit).toHaveBeenCalledWith('vote', '{"jwt":"token","key":"castVote","data":"12"}')
     })
   })
 })

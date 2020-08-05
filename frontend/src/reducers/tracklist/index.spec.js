@@ -61,7 +61,10 @@ describe('tracklist', () => {
     it('handles a change', () => {
       const tracks = [track2, track3]
       expect(
-        reducer(tracks, { type: Types.SYNC_SOCIAL_DATA, track: { uri: 't2', addedBy: 'duncan', metrics: 'metrics' } })
+        reducer(tracks, {
+          type: Types.SYNC_SOCIAL_DATA,
+          track: { uri: 't2', addedBy: 'duncan', metrics: 'metrics' }
+        })
       ).toMatchSnapshot()
     })
   })

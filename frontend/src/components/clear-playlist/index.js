@@ -2,11 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Confirm, Label } from 'semantic-ui-react'
 
-const ClearPlaylist = (props) => {
+const ClearPlaylist = props => {
   const [open, setOpen] = React.useState(false)
-  if (props.disabled) { return null }
+  if (props.disabled) {
+    return null
+  }
 
-  const confirm = (ev) => {
+  const confirm = ev => {
     props.onClear(ev)
     setOpen(false)
   }
@@ -15,14 +17,9 @@ const ClearPlaylist = (props) => {
 
   return (
     <>
-      <Label
-        horizontal
-        size='mini'
-        as='a'
-        color='red'
-        onClick={show}
-        className='jb-clear-button'
-      >CLEAR</Label>
+      <Label horizontal size='mini' as='a' color='red' onClick={show} className='jb-clear-button'>
+        CLEAR
+      </Label>
       <Confirm
         content='Are you sure you want to nuke the playlist?'
         cancelButton='No thanks'

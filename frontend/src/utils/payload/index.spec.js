@@ -6,8 +6,10 @@ describe('Payload', () => {
   const data = { wotcha: 'son' }
 
   it('it should decode', () => {
-    expect(Payload.decode('{"key":"letsdothis","data":{"wotcha":"son"}}'))
-      .toEqual({ data: { wotcha: 'son' }, key: 'letsdothis' })
+    expect(Payload.decode('{"key":"letsdothis","data":{"wotcha":"son"}}')).toEqual({
+      data: { wotcha: 'son' },
+      key: 'letsdothis'
+    })
   })
 
   it('it should encode to json', () => {

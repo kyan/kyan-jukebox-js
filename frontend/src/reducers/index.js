@@ -4,7 +4,8 @@ import tracklist from 'reducers/tracklist'
 import timer from 'reducers/timer'
 import jukebox from 'reducers/jukebox'
 import settings from 'reducers/settings'
-import search from 'search/reducers'
+import search from 'search/reducers/search'
+import curatedList from 'search/reducers/curated-list'
 
 const jukeboxApp = combineReducers({
   track,
@@ -12,7 +13,8 @@ const jukeboxApp = combineReducers({
   timer,
   jukebox,
   settings,
-  search
+  search,
+  curatedList
 })
 
 export default jukeboxApp

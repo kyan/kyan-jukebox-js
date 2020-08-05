@@ -6,7 +6,7 @@ export interface PayLoadInterface {
 
 const Payload = {
   decode: (payload: string): PayLoadInterface => JSON.parse(payload),
-  encodeToJson: ({ jwt, key, data }:PayLoadInterface): string => JSON.stringify({ jwt, key, data })
+  encodeToJson: ({ jwt, key, data }: PayLoadInterface): string => JSON.stringify({ jwt, key, data })
 }
 
 export default Payload

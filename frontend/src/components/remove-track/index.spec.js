@@ -12,11 +12,7 @@ describe('RemoveTrack', () => {
 
   describe('render', () => {
     const wrapper = shallow(
-      <RemoveTrack
-        uri='uri123'
-        name='The track title'
-        onClick={onClickMock}
-      />
+      <RemoveTrack uri='uri123' name='The track title' onClick={onClickMock} />
     )
 
     it('renders the as expected', () => {

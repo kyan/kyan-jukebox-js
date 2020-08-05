@@ -12,9 +12,7 @@ import { Container } from 'semantic-ui-react'
 import DashboardContainer from 'containers/dashboard-container'
 import 'react-notifications-component/dist/theme.css'
 
-const store = createStore(jukeboxApp, composeWithDevTools(
-  applyMiddleware(jukeboxMiddleware)
-))
+const store = createStore(jukeboxApp, composeWithDevTools(applyMiddleware(jukeboxMiddleware)))
 
 const App = () => {
   const googleAuth = useGoogleLogin({
