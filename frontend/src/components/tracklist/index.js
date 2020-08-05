@@ -9,37 +9,28 @@ import VotedBy from 'components/voted-by'
 import RemoveTrack from 'components/remove-track'
 import './index.css'
 
-const TrackImage = (props) => (
-  <Comment.Avatar
-    className={props.isCurrent ? 'current-image' : null}
-    src={props.src}
-  />
+const TrackImage = props => (
+  <Comment.Avatar className={props.isCurrent ? 'current-image' : null} src={props.src} />
 )
 
-const ImageChooser = (props) => {
+const ImageChooser = props => {
   const image = props.image ? props.image : defaultImage
 
-  return (
-    <TrackImage
-      src={image}
-      isCurrent={props.isCurrent}
-    />
-  )
+  return <TrackImage src={image} isCurrent={props.isCurrent} />
 }
 
-const TrackHeading = (props) => (
-  <Comment.Author>{props.name}</Comment.Author>
-)
+const TrackHeading = props => <Comment.Author>{props.name}</Comment.Author>
 
-const TrackDescription = (props) => (
+const TrackDescription = props => (
   <Comment.Text>
     <Item as='a' className='track-search-link' onClick={props.onClick}>
       {props.artistName}
-    </Item> <small>({millisToMinutesAndSeconds(props.trackLength)})</small>
+    </Item>{' '}
+    <small>({millisToMinutesAndSeconds(props.trackLength)})</small>
   </Comment.Text>
 )
 
-const CurrentVote = (props) => {
+const CurrentVote = props => {
   if (!props.metrics) return null
   const show = props.metrics.votes > 0
   if (!show) return null
@@ -51,7 +42,7 @@ const CurrentVote = (props) => {
   )
 }
 
-const ActionRemove = (props) => {
+const ActionRemove = props => {
   if (props.isCurrent || props.disabled) return null
   const removeTrack = (uri, cb) => () => cb(uri)
 
@@ -64,7 +55,7 @@ const ActionRemove = (props) => {
   )
 }
 
-const CurrentPlays = (props) => {
+const CurrentPlays = props => {
   let basic = true
   let color = 'grey'
   if (!props.metrics) return null
@@ -75,18 +66,14 @@ const CurrentPlays = (props) => {
 
   return (
     <Comment.Action as='span'>
-      <Label
-        className='track-label'
-        size='tiny'
-        color={color}
-        basic={basic}
-      >Played <Label.Detail>{props.metrics.plays}</Label.Detail>
+      <Label className='track-label' size='tiny' color={color} basic={basic}>
+        Played <Label.Detail>{props.metrics.plays}</Label.Detail>
       </Label>
     </Comment.Action>
   )
 }
 
-const ListItems = (props) => {
+const ListItems = props => {
   let beenPlayed = false
   const isCurrentTrack = (current, uri) => current && current.uri === uri
 
@@ -96,20 +83,10 @@ const ListItems = (props) => {
     if (isCurrent) beenPlayed = beenPlayed || true
 
     return (
-      <Comment
-        className={classnames({ 'current-track': isCurrent })}
-        key={`${i}${track.uri}`}
-      >
-        <ImageChooser
-          image={track.image}
-          isCurrent={isCurrent}
-        />
-        <Comment.Content
-          className={classnames({ 'track-info': !beenPlayed })}
-        >
-          <TrackHeading
-            name={track.name}
-          />
+      <Comment className={classnames({ 'current-track': isCurrent })} key={`${i}${track.uri}`}>
+        <ImageChooser image={track.image} isCurrent={isCurrent} />
+        <Comment.Content className={classnames({ 'track-info': !beenPlayed })}>
+          <TrackHeading name={track.name} />
           <TrackDescription
             artistName={track.artist.name}
             trackLength={track.length}
@@ -135,8 +112,10 @@ const ListItems = (props) => {
   })
 }
 
-const Tracklist = (props) => {
-  if (!props.tracks) { return null }
+const Tracklist = props => {
+  if (!props.tracks) {
+    return null
+  }
 
   return (
     <Comment.Group size='small'>

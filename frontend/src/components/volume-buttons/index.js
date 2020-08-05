@@ -25,7 +25,7 @@ const volumeDown = (volume, cb) => {
   }
 }
 
-const VolumeDownButton = (props) => (
+const VolumeDownButton = props => (
   <Button
     className='jb-volume-down'
     onClick={volumeDown(props.volume, props.onChange)}
@@ -35,7 +35,7 @@ const VolumeDownButton = (props) => (
   </Button>
 )
 
-const VolumeUpButton = (props) => (
+const VolumeUpButton = props => (
   <Button
     className='jb-volume-up'
     onClick={volumeUp(props.volume, props.onChange)}
@@ -50,17 +50,9 @@ const VolumeButtons = ({ disabled, onVolumeChange }) => {
 
   return (
     <Button.Group floated='right'>
-      <VolumeDownButton
-        volume={jukebox.volume}
-        onChange={onVolumeChange}
-        disabled={disabled}
-      />
+      <VolumeDownButton volume={jukebox.volume} onChange={onVolumeChange} disabled={disabled} />
       <Button.Or text={jukebox.volume} />
-      <VolumeUpButton
-        volume={jukebox.volume}
-        onChange={onVolumeChange}
-        disabled={disabled}
-      />
+      <VolumeUpButton volume={jukebox.volume} onChange={onVolumeChange} disabled={disabled} />
     </Button.Group>
   )
 }

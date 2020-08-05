@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchButton render with button disabled 1`] = `
+<button
+  class="ui vertical animated disabled right floated button"
+  disabled=""
+  tabindex="-1"
+>
+  <div
+    class="hidden content"
+  >
+    Search
+  </div>
+  <div
+    class="visible content"
+  >
+    <i
+      aria-hidden="true"
+      class="search icon"
+    />
+  </div>
+</button>
+`;
+
+exports[`SearchButton render with button enabled 1`] = `
+<button
+  class="ui vertical animated right floated button"
+>
+  <div
+    class="hidden content"
+  >
+    Search
+  </div>
+  <div
+    class="visible content"
+  >
+    <i
+      aria-hidden="true"
+      class="search icon"
+    />
+  </div>
+</button>
+`;

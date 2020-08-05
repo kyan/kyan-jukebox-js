@@ -2,11 +2,33 @@
 
 exports[`Search render valid props renders as expected 1`] = `
 <Search
+  curatedList={
+    Array [
+      Object {
+        "track": Object {
+          "album": Object {
+            "name": "Album name 2",
+          },
+          "artist": Object {
+            "name": "Artist name 2",
+          },
+          "image": "image2",
+          "name": "Track name 2",
+          "uri": "https://open.spotify.com/track/0c41pMosF5Kqwwetrack2",
+        },
+      },
+    ]
+  }
   onAddTrack={[MockFunction onAddTrackMock]}
+  onAddTrackToMix={[MockFunction onAddTrackToMixMock]}
+  onAddTracks={[MockFunction onAddTracksMock]}
   onClose={[MockFunction onCloseMock]}
   onPageChange={[MockFunction onPageChangeMock]}
   onQueryChange={[MockFunction onQueryChangeMock]}
+  onRemoveFromMix={[MockFunction onRemoveFromMixMock]}
   onSubmit={[MockFunction onSubmitMock]}
+  onSwapTracks={[MockFunction onSwapTracksMock]}
+  query=""
   results={
     Array [
       Object {
@@ -219,15 +241,72 @@ exports[`Search render valid props renders as expected 1`] = `
                 inverted="true"
                 vertical="true"
               >
+                <div
+                  class="ui horizontal divider"
+                >
+                  <h4
+                    class="ui inverted header"
+                  >
+                    Your Mix
+                  </h4>
+                </div>
+                <div
+                  class="ui tiny divided inverted list"
+                  role="list"
+                >
+                  <div
+                    class="draggable search-list-item-draggable"
+                    draggable="true"
+                    title="You can drag this to sort."
+                  >
+                    <div
+                      class="search-list-item"
+                    >
+                      <img
+                        alt="Track name 2"
+                        class="ui tiny left floated image search-list-item__image"
+                        src="image2"
+                        title="Click to add - Track name 2 - Artist name 2"
+                      />
+                      <div
+                        class="content"
+                      >
+                        <div
+                          class="search-list-item__header"
+                        >
+                          Track name 2
+                           - 
+                          Artist name 2
+                        </div>
+                        <div
+                          class="search-list-item__content"
+                        >
+                          Album name 2
+                        </div>
+                      </div>
+                    </div>
+                    <span
+                      class="search-list-item__remove"
+                    >
+                      Remove
+                    </span>
+                  </div>
+                </div>
+                <button
+                  class="ui fluid button search-list-item__add_to_mix"
+                >
+                  Add mix to playlist
+                </button>
+                <div
+                  class="ui horizontal divider"
+                />
                 <form
                   class="ui inverted form"
                 >
                   <div
                     class="field"
                   >
-                    <label
-                      required=""
-                    >
+                    <label>
                       SEARCH
                     </label>
                     <input
@@ -239,7 +318,7 @@ exports[`Search render valid props renders as expected 1`] = `
                     class="ui fluid button"
                     type="submit"
                   >
-                    Submit
+                    Find
                   </button>
                 </form>
                 <div
@@ -307,6 +386,7 @@ exports[`Search render valid props renders as expected 1`] = `
                     class="search-list-item disabled"
                   >
                     <img
+                      alt="Happiness"
                       class="ui tiny disabled left floated image search-list-item__image"
                       title="Click to add - Happiness - Ken Dodd"
                     />
@@ -325,12 +405,18 @@ exports[`Search render valid props renders as expected 1`] = `
                       >
                         Ken Dodd
                       </div>
+                      <span
+                        class="search-list-item__add"
+                      >
+                        Add to mix
+                      </span>
                     </div>
                   </div>
                   <div
                     class="search-list-item"
                   >
                     <img
+                      alt="Chicken Song"
                       class="ui tiny left floated image search-list-item__image"
                       src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
                       title="Click to add - Chicken Song - 3 Shades"
@@ -359,12 +445,18 @@ exports[`Search render valid props renders as expected 1`] = `
                         />
                         -1
                       </div>
+                      <span
+                        class="search-list-item__add"
+                      >
+                        Add to mix
+                      </span>
                     </div>
                   </div>
                   <div
                     class="search-list-item"
                   >
                     <img
+                      alt="I Know Him So Well"
                       class="ui tiny left floated image search-list-item__image"
                       src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
                       title="Click to add - I Know Him So Well - Geraldine McQueen"
@@ -384,6 +476,11 @@ exports[`Search render valid props renders as expected 1`] = `
                       >
                         I Know Him So Well
                       </div>
+                      <span
+                        class="search-list-item__add"
+                      >
+                        Add to mix
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -400,15 +497,72 @@ exports[`Search render valid props renders as expected 1`] = `
                   inverted="true"
                   vertical="true"
                 >
+                  <div
+                    class="ui horizontal divider"
+                  >
+                    <h4
+                      class="ui inverted header"
+                    >
+                      Your Mix
+                    </h4>
+                  </div>
+                  <div
+                    class="ui tiny divided inverted list"
+                    role="list"
+                  >
+                    <div
+                      class="draggable search-list-item-draggable"
+                      draggable="true"
+                      title="You can drag this to sort."
+                    >
+                      <div
+                        class="search-list-item"
+                      >
+                        <img
+                          alt="Track name 2"
+                          class="ui tiny left floated image search-list-item__image"
+                          src="image2"
+                          title="Click to add - Track name 2 - Artist name 2"
+                        />
+                        <div
+                          class="content"
+                        >
+                          <div
+                            class="search-list-item__header"
+                          >
+                            Track name 2
+                             - 
+                            Artist name 2
+                          </div>
+                          <div
+                            class="search-list-item__content"
+                          >
+                            Album name 2
+                          </div>
+                        </div>
+                      </div>
+                      <span
+                        class="search-list-item__remove"
+                      >
+                        Remove
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    class="ui fluid button search-list-item__add_to_mix"
+                  >
+                    Add mix to playlist
+                  </button>
+                  <div
+                    class="ui horizontal divider"
+                  />
                   <form
                     class="ui inverted form"
                   >
                     <div
                       class="field"
                     >
-                      <label
-                        required=""
-                      >
+                      <label>
                         SEARCH
                       </label>
                       <input
@@ -420,7 +574,7 @@ exports[`Search render valid props renders as expected 1`] = `
                       class="ui fluid button"
                       type="submit"
                     >
-                      Submit
+                      Find
                     </button>
                   </form>
                   <div
@@ -488,6 +642,7 @@ exports[`Search render valid props renders as expected 1`] = `
                       class="search-list-item disabled"
                     >
                       <img
+                        alt="Happiness"
                         class="ui tiny disabled left floated image search-list-item__image"
                         title="Click to add - Happiness - Ken Dodd"
                       />
@@ -506,12 +661,18 @@ exports[`Search render valid props renders as expected 1`] = `
                         >
                           Ken Dodd
                         </div>
+                        <span
+                          class="search-list-item__add"
+                        >
+                          Add to mix
+                        </span>
                       </div>
                     </div>
                     <div
                       class="search-list-item"
                     >
                       <img
+                        alt="Chicken Song"
                         class="ui tiny left floated image search-list-item__image"
                         src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
                         title="Click to add - Chicken Song - 3 Shades"
@@ -540,12 +701,18 @@ exports[`Search render valid props renders as expected 1`] = `
                           />
                           -1
                         </div>
+                        <span
+                          class="search-list-item__add"
+                        >
+                          Add to mix
+                        </span>
                       </div>
                     </div>
                     <div
                       class="search-list-item"
                     >
                       <img
+                        alt="I Know Him So Well"
                         class="ui tiny left floated image search-list-item__image"
                         src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
                         title="Click to add - I Know Him So Well - Geraldine McQueen"
@@ -565,6 +732,11 @@ exports[`Search render valid props renders as expected 1`] = `
                         >
                           I Know Him So Well
                         </div>
+                        <span
+                          class="search-list-item__add"
+                        >
+                          Add to mix
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -578,6 +750,216 @@ exports[`Search render valid props renders as expected 1`] = `
               inverted="true"
               vertical="true"
             >
+              <YourMix
+                onAddTracks={[MockFunction onAddTracksMock]}
+                onRemoveFromMix={[MockFunction onRemoveFromMixMock]}
+                onSwapTracks={[MockFunction onSwapTracksMock]}
+                tracks={
+                  Array [
+                    Object {
+                      "track": Object {
+                        "album": Object {
+                          "name": "Album name 2",
+                        },
+                        "artist": Object {
+                          "name": "Artist name 2",
+                        },
+                        "image": "image2",
+                        "name": "Track name 2",
+                        "uri": "https://open.spotify.com/track/0c41pMosF5Kqwwetrack2",
+                      },
+                    },
+                  ]
+                }
+              >
+                <Divider
+                  horizontal={true}
+                >
+                  <div
+                    className="ui horizontal divider"
+                  >
+                    <Header
+                      as="h4"
+                      inverted={true}
+                    >
+                      <h4
+                        className="ui inverted header"
+                      >
+                        Your Mix
+                      </h4>
+                    </Header>
+                  </div>
+                </Divider>
+                <List
+                  divided={true}
+                  inverted={true}
+                  size="tiny"
+                >
+                  <div
+                    className="ui tiny divided inverted list"
+                    role="list"
+                  >
+                    <MixItems
+                      onRemove={[MockFunction onRemoveFromMixMock]}
+                      onSwap={[MockFunction onSwapTracksMock]}
+                      tracks={
+                        Array [
+                          Object {
+                            "track": Object {
+                              "album": Object {
+                                "name": "Album name 2",
+                              },
+                              "artist": Object {
+                                "name": "Artist name 2",
+                              },
+                              "image": "image2",
+                              "name": "Track name 2",
+                              "uri": "https://open.spotify.com/track/0c41pMosF5Kqwwetrack2",
+                            },
+                          },
+                        ]
+                      }
+                    >
+                      <DraggableSearchItem
+                        action={[MockFunction onSwapTracksMock]}
+                        i={0}
+                        key="0"
+                        onRemove={[Function]}
+                        track={
+                          Object {
+                            "album": Object {
+                              "name": "Album name 2",
+                            },
+                            "artist": Object {
+                              "name": "Artist name 2",
+                            },
+                            "image": "image2",
+                            "name": "Track name 2",
+                            "uri": "https://open.spotify.com/track/0c41pMosF5Kqwwetrack2",
+                          }
+                        }
+                      >
+                        <div
+                          className="draggable search-list-item-draggable"
+                          draggable={true}
+                          onDragOver={[Function]}
+                          onDragStart={[Function]}
+                          onDrop={[Function]}
+                          title="You can drag this to sort."
+                        >
+                          <SearchItem
+                            key="https://open.spotify.com/track/0c41pMosF5Kqwwetrack2"
+                            track={
+                              Object {
+                                "album": Object {
+                                  "name": "Album name 2",
+                                },
+                                "artist": Object {
+                                  "name": "Artist name 2",
+                                },
+                                "image": "image2",
+                                "name": "Track name 2",
+                                "uri": "https://open.spotify.com/track/0c41pMosF5Kqwwetrack2",
+                              }
+                            }
+                          >
+                            <div
+                              className="search-list-item"
+                            >
+                              <Image
+                                alt="Track name 2"
+                                as="img"
+                                className="search-list-item__image"
+                                floated="left"
+                                size="tiny"
+                                src="image2"
+                                title="Click to add - Track name 2 - Artist name 2"
+                                ui={true}
+                              >
+                                <img
+                                  alt="Track name 2"
+                                  className="ui tiny left floated image search-list-item__image"
+                                  src="image2"
+                                  title="Click to add - Track name 2 - Artist name 2"
+                                />
+                              </Image>
+                              <ListContent>
+                                <div
+                                  className="content"
+                                >
+                                  <div
+                                    className="search-list-item__header"
+                                  >
+                                    Track name 2
+                                     - 
+                                    Artist name 2
+                                  </div>
+                                  <div
+                                    className="search-list-item__content"
+                                  >
+                                    Album name 2
+                                  </div>
+                                  <VoteInfo />
+                                </div>
+                              </ListContent>
+                            </div>
+                          </SearchItem>
+                          <span
+                            className="search-list-item__remove"
+                            onClick={[Function]}
+                          >
+                            Remove
+                          </span>
+                        </div>
+                      </DraggableSearchItem>
+                    </MixItems>
+                  </div>
+                </List>
+                <Button
+                  as="button"
+                  className="search-list-item__add_to_mix"
+                  fluid={true}
+                  onClick={[Function]}
+                >
+                  <Ref
+                    innerRef={
+                      Object {
+                        "current": <button
+                          class="ui fluid button search-list-item__add_to_mix"
+                        >
+                          Add mix to playlist
+                        </button>,
+                      }
+                    }
+                  >
+                    <RefFindNode
+                      innerRef={
+                        Object {
+                          "current": <button
+                            class="ui fluid button search-list-item__add_to_mix"
+                          >
+                            Add mix to playlist
+                          </button>,
+                        }
+                      }
+                    >
+                      <button
+                        className="ui fluid button search-list-item__add_to_mix"
+                        onClick={[Function]}
+                      >
+                        Add mix to playlist
+                      </button>
+                    </RefFindNode>
+                  </Ref>
+                </Button>
+                <Divider
+                  horizontal={true}
+                >
+                  <div
+                    className="ui horizontal divider"
+                  />
+                </Divider>
+              </YourMix>
               <Form
                 as="form"
                 inverted={true}
@@ -591,14 +973,13 @@ exports[`Search render valid props renders as expected 1`] = `
                     <div
                       className="field"
                     >
-                      <label
-                        required={true}
-                      >
+                      <label>
                         SEARCH
                       </label>
                       <input
                         onChange={[MockFunction onQueryChangeMock]}
                         placeholder="track, artist or album"
+                        value=""
                       />
                     </div>
                   </FormField>
@@ -614,7 +995,7 @@ exports[`Search render valid props renders as expected 1`] = `
                             class="ui fluid button"
                             type="submit"
                           >
-                            Submit
+                            Find
                           </button>,
                         }
                       }
@@ -626,7 +1007,7 @@ exports[`Search render valid props renders as expected 1`] = `
                               class="ui fluid button"
                               type="submit"
                             >
-                              Submit
+                              Find
                             </button>,
                           }
                         }
@@ -636,7 +1017,7 @@ exports[`Search render valid props renders as expected 1`] = `
                           onClick={[Function]}
                           type="submit"
                         >
-                          Submit
+                          Find
                         </button>
                       </RefFindNode>
                     </Ref>
@@ -853,7 +1234,8 @@ exports[`Search render valid props renders as expected 1`] = `
                   role="list"
                 >
                   <SearchItems
-                    onAddTrack={[MockFunction onAddTrackMock]}
+                    onAdd={[MockFunction onAddTrackToMixMock]}
+                    onClick={[MockFunction onAddTrackMock]}
                     tracks={
                       Array [
                         Object {
@@ -1021,6 +1403,7 @@ exports[`Search render valid props renders as expected 1`] = `
                   >
                     <SearchItem
                       key="spotify:track:1WaBuuaXGwrU4sFvxAjnkf"
+                      onAdd={[Function]}
                       onClick={[Function]}
                       track={
                         Object {
@@ -1074,6 +1457,7 @@ exports[`Search render valid props renders as expected 1`] = `
                         className="search-list-item disabled"
                       >
                         <Image
+                          alt="Happiness"
                           as="img"
                           className="search-list-item__image"
                           disabled={true}
@@ -1083,6 +1467,7 @@ exports[`Search render valid props renders as expected 1`] = `
                           ui={true}
                         >
                           <img
+                            alt="Happiness"
                             className="ui tiny disabled left floated image search-list-item__image"
                             title="Click to add - Happiness - Ken Dodd"
                           />
@@ -1106,12 +1491,19 @@ exports[`Search render valid props renders as expected 1`] = `
                             <VoteInfo
                               metrics={null}
                             />
+                            <span
+                              className="search-list-item__add"
+                              onClick={[Function]}
+                            >
+                              Add to mix
+                            </span>
                           </div>
                         </ListContent>
                       </div>
                     </SearchItem>
                     <SearchItem
                       key="spotify:track:6BitwTrBfUrTdztRrQiw52"
+                      onAdd={[Function]}
                       onClick={[Function]}
                       track={
                         Object {
@@ -1174,19 +1566,22 @@ exports[`Search render valid props renders as expected 1`] = `
                     >
                       <div
                         className="search-list-item"
-                        onClick={[Function]}
                       >
                         <Image
+                          alt="Chicken Song"
                           as="img"
                           className="search-list-item__image"
                           floated="left"
+                          onClick={[Function]}
                           size="tiny"
                           src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
                           title="Click to add - Chicken Song - 3 Shades"
                           ui={true}
                         >
                           <img
+                            alt="Chicken Song"
                             className="ui tiny left floated image search-list-item__image"
+                            onClick={[Function]}
                             src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
                             title="Click to add - Chicken Song - 3 Shades"
                           />
@@ -1250,12 +1645,19 @@ exports[`Search render valid props renders as expected 1`] = `
                                 </Label>
                               </VotedBy>
                             </VoteInfo>
+                            <span
+                              className="search-list-item__add"
+                              onClick={[Function]}
+                            >
+                              Add to mix
+                            </span>
                           </div>
                         </ListContent>
                       </div>
                     </SearchItem>
                     <SearchItem
                       key="spotify:track:6hp4DW1Z1RInKvO5ijj9nW"
+                      onAdd={[Function]}
                       onClick={[Function]}
                       track={
                         Object {
@@ -1315,19 +1717,22 @@ exports[`Search render valid props renders as expected 1`] = `
                     >
                       <div
                         className="search-list-item"
-                        onClick={[Function]}
                       >
                         <Image
+                          alt="I Know Him So Well"
                           as="img"
                           className="search-list-item__image"
                           floated="left"
+                          onClick={[Function]}
                           size="tiny"
                           src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
                           title="Click to add - I Know Him So Well - Geraldine McQueen"
                           ui={true}
                         >
                           <img
+                            alt="I Know Him So Well"
                             className="ui tiny left floated image search-list-item__image"
+                            onClick={[Function]}
                             src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
                             title="Click to add - I Know Him So Well - Geraldine McQueen"
                           />
@@ -1364,6 +1769,12 @@ exports[`Search render valid props renders as expected 1`] = `
                                 total={50}
                               />
                             </VoteInfo>
+                            <span
+                              className="search-list-item__add"
+                              onClick={[Function]}
+                            >
+                              Add to mix
+                            </span>
                           </div>
                         </ListContent>
                       </div>

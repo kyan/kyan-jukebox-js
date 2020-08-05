@@ -20,12 +20,13 @@ describe('SignInToken', () => {
     it('returns a token', done => {
       expect.assertions(3)
       const mockGoogle = {
-        reloadAuthResponse: jest.fn()
+        reloadAuthResponse: jest
+          .fn()
           .mockImplementation(() => Promise.resolve({ id_token: 'new_token' }))
       }
       const mockSuccess = jest.fn()
-      spyOn(console, 'info')
-      spyOn(console, 'warn')
+      jest.spyOn(global.console, 'info').mockImplementation()
+      jest.spyOn(global.console, 'warn').mockImplementation()
 
       SignInToken.refresh(mockGoogle, mockSuccess)
 
@@ -44,12 +45,11 @@ describe('SignInToken', () => {
     it('errors to the console', done => {
       expect.assertions(3)
       const mockGoogle = {
-        reloadAuthResponse: jest.fn()
-          .mockImplementation(() => Promise.reject(new Error('bang')))
+        reloadAuthResponse: jest.fn().mockImplementation(() => Promise.reject(new Error('bang')))
       }
       const mockSuccess = jest.fn()
-      spyOn(console, 'info')
-      spyOn(console, 'warn')
+      jest.spyOn(global.console, 'info').mockImplementation()
+      jest.spyOn(global.console, 'warn').mockImplementation()
 
       SignInToken.refresh(mockGoogle, mockSuccess)
 

@@ -21,10 +21,7 @@ describe('ProgressBar', () => {
       })
       const wrapper = mount(
         <Provider store={store}>
-          <ProgressBar
-            onPrevious={prevMock}
-            onNext={nextMock}
-          />
+          <ProgressBar onPrevious={prevMock} onNext={nextMock} />
         </Provider>
       )
       expect(wrapper).toMatchSnapshot()

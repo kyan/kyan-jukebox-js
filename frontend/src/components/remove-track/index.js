@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Comment, Confirm } from 'semantic-ui-react'
 
-const RemoveTrack = (props) => {
+const RemoveTrack = props => {
   const [open, setOpen] = React.useState(false)
-  const confirm = (ev) => {
+  const confirm = ev => {
     props.onClick(ev)
     setOpen(false)
   }
@@ -13,7 +13,9 @@ const RemoveTrack = (props) => {
 
   return (
     <>
-      <Comment.Action className='remove-track' onClick={show}>Remove</Comment.Action>
+      <Comment.Action className='remove-track' onClick={show}>
+        Remove
+      </Comment.Action>
       <Confirm
         content={`Are you sure you want to remove: ${props.name}`}
         cancelButton='No thanks'

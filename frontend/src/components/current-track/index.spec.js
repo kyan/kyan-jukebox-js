@@ -94,9 +94,7 @@ describe('CurrentTrack', () => {
 
   describe('when no track', () => {
     it('renders nothing', () => {
-      wrapper = shallow(
-        <CurrentTrack />
-      )
+      wrapper = shallow(<CurrentTrack />)
 
       expect(wrapper.instance()).toBeNull()
     })
@@ -105,12 +103,7 @@ describe('CurrentTrack', () => {
   describe('when no image', () => {
     it('renders default image', () => {
       track = MockTrackListJson()[0].track
-      wrapper = shallow(
-        <CurrentTrack
-          track={track}
-          progress={25}
-        />
-      )
+      wrapper = shallow(<CurrentTrack track={track} progress={25} />)
 
       expect(wrapper.find(Image)).toMatchSnapshot()
     })
@@ -121,12 +114,7 @@ describe('CurrentTrack', () => {
       track = MockTrackListJson()[2].track
       delete track.addedBy
       delete track.album
-      wrapper = shallow(
-        <CurrentTrack
-          track={track}
-          progress={25}
-        />
-      )
+      wrapper = shallow(<CurrentTrack track={track} progress={25} />)
 
       expect(wrapper).toMatchSnapshot()
     })

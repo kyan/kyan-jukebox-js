@@ -12,7 +12,12 @@ import {
   updateTracklist,
   getSeedTracks
 } from '../models/setting'
-import { addTracks, updateTrackPlaycount } from '../models/track'
+import {
+  addTracks,
+  updateTrackPlaycount,
+  tracksToHumanReadableArray,
+  JBTrackPayloadInterface
+} from '../models/track'
 import { GetRecommendationsInterface } from '../services/spotify'
 
 let recommendTimer: NodeJS.Timeout | null
@@ -90,20 +95,27 @@ const MopidyDecorator = {
           })
         case Constants.TRACKLIST_REMOVE:
           return removeFromSeeds(data[0].track.uri)
-            .then(() => DecorateTracklist([data[0].track]))
-            .then((response) => {
+            .then(() => {
+              const tracks: JBTrackPayloadInterface[] = data
+              return DecorateTracklist(tracks.map((item) => item.track))
+            })
+            .then((responses: JBTrackPayloadInterface[]) => {
               resolve({
-                message: `${response[0].track.name} by ${response[0].track.artist.name}`,
+                message: tracksToHumanReadableArray(responses).join(', '),
                 toAll: true
               })
             })
         case Constants.TRACKLIST_ADD:
-          return addTracks([headers.data.uris[0]], user)
-            .then(() => DecorateTracklist([data[0].track]))
-            .then((response) => {
+          return addTracks(headers.data.uris, user)
+            .then(() => {
+              const tracks: JBTrackPayloadInterface[] = data
+              return DecorateTracklist(tracks.map((item) => item.track))
+            })
+            .then((responses: JBTrackPayloadInterface[]) => {
               clearSetTimeout(recommendTimer)
+
               resolve({
-                message: `${response[0].track.name} by ${response[0].track.artist.name}`,
+                message: tracksToHumanReadableArray(responses).join(', '),
                 toAll: true
               })
             })

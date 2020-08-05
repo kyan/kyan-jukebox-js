@@ -8,12 +8,7 @@ describe('SkipButtons', () => {
   let wrapper
 
   describe('render', () => {
-    wrapper = mount(
-      <SkipButtons
-        onPrevious={prevMock}
-        onNext={nextMock}
-      />
-    )
+    wrapper = mount(<SkipButtons onPrevious={prevMock} onNext={nextMock} />)
 
     it('renders the as expected', () => {
       expect(wrapper).toMatchSnapshot()
