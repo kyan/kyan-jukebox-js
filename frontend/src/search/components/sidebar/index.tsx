@@ -127,7 +127,7 @@ const Search: React.FC<SearchProps> = props => {
         width='very wide'
         direction='right'
         className='sidebar-search'
-        onShow={() => inputEl.current && inputEl.current.focus()}
+        onShow={/* istanbul ignore next */ () => inputEl.current && inputEl.current.focus()}
       >
         <YourMix
           tracks={curatedList}

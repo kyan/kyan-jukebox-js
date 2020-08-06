@@ -101,9 +101,9 @@ A NodeJS + Express application written in TypeScript that communicates with `Mon
 
 ##### TypeScript
 
-In order to use Intellisense and TypeChecking in VSCode you will need to connect VSCode to the source running in the `API` container as that's where all the node modules are installed. To do this you need to have the `VSCode Remote - Containers` extension installed.
+In order to use Intellisense and TypeChecking in VSCode you will need to connect VSCode to the source running in the container as that's where all the node modules are installed. To do this you need to have the `VSCode Remote - Containers` extension installed.
 
-You would then start the app via `make serve` or via `make api-console` to start the api service. The in VSCode you run `Remote Containers - Attach to running container...` and choose the jukebox api container that you started and want to connect to. This should then start a new window connecting to the container where you can edit your code. You should now get all the Intellisense and TypeChecking working in that window.
+You can do this in various ways. Either whilst you're serving the app locally, or just via having the `*-console` script running. You run `Remote Containers - Attach to running container...` and choose the jukebox container that you started and want to connect to. This should then start a new window connecting to the container where you can edit your code. You should now get all the Intellisense and TypeChecking working in that window.
 
 Once you have done this once, the next time when you start the container, you should see an entry in the `Remote Exporer` containers section where you can attach again from there. You can also edit the configuration so you can install in extension you want when you are editing.
 

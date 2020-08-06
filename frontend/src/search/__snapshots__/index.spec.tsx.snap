@@ -32,7 +32,7 @@ Array [
 exports[`SearchContainer render Adding a track works as expected 1`] = `
 Array [
   Object {
-    "open": false,
+    "open": true,
     "type": "actionToggleSearchSidebar",
   },
   Object {

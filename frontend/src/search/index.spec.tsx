@@ -2,6 +2,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { mount } from 'enzyme'
 import configureMockStore from 'redux-mock-store'
+import { toggleSearchSidebar } from 'search/actions'
 import SearchContainer from './index'
 
 describe('SearchContainer', () => {
@@ -34,7 +35,7 @@ describe('SearchContainer', () => {
               }
             }
           ],
-          searchSideBarOpen: true
+          searchSideBarOpen: false
         },
         curatedList: {
           tracks: []
@@ -45,9 +46,9 @@ describe('SearchContainer', () => {
           <SearchContainer />
         </Provider>
       )
+      store.dispatch(toggleSearchSidebar(true))
       const actions = store.getActions()
       const event = { target: { value: 'spam' } }
-      wrapper.find('SidebarPusher').simulate('click')
       wrapper.find('Form').simulate('submit')
       wrapper.find('.search-list-item .search-list-item__image').first().simulate('click')
       wrapper.find('input').first().simulate('change', event)
