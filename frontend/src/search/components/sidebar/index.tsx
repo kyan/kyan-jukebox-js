@@ -140,6 +140,7 @@ const Search: React.FC<SearchProps> = props => {
             <label>SEARCH</label>
             <input
               ref={inputEl}
+              aria-label='search-input'
               placeholder='track, artist or album'
               onChange={onQueryChange}
               value={query}

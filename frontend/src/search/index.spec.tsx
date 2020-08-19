@@ -1,6 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { mount } from 'enzyme'
+import { render, fireEvent } from '@testing-library/react'
 import configureMockStore from 'redux-mock-store'
 import { toggleSearchSidebar } from 'search/actions'
 import SearchContainer from './index'
@@ -41,7 +41,7 @@ describe('SearchContainer', () => {
           tracks: []
         }
       })
-      const wrapper = mount(
+      const { getByText, getByAltText, getByLabelText } = render(
         <Provider store={store}>
           <SearchContainer />
         </Provider>
@@ -49,10 +49,12 @@ describe('SearchContainer', () => {
       store.dispatch(toggleSearchSidebar(true))
       const actions = store.getActions()
       const event = { target: { value: 'spam' } }
-      wrapper.find('Form').simulate('submit')
-      wrapper.find('.search-list-item .search-list-item__image').first().simulate('click')
-      wrapper.find('input').first().simulate('change', event)
-      wrapper.find('Pagination').find('.item').last().simulate('click')
+
+      fireEvent.click(getByText('Find'))
+      fireEvent.click(getByAltText('Track name 1'))
+      fireEvent.change(getByLabelText('search-input'), event)
+      fireEvent.click(getByText('2'))
+
       expect(actions).toMatchSnapshot()
     })
 
@@ -84,14 +86,14 @@ describe('SearchContainer', () => {
           tracks: []
         }
       })
-      const wrapper = mount(
+      const { getAllByText } = render(
         <Provider store={store}>
           <SearchContainer />
         </Provider>
       )
       const actions = store.getActions()
-      wrapper.find('SidebarPusher').simulate('click')
-      wrapper.find('.search-list-item .search-list-item__add').first().simulate('click')
+
+      fireEvent.click(getAllByText('Add to mix')[0])
       expect(actions).toMatchSnapshot()
     })
 
@@ -137,17 +139,14 @@ describe('SearchContainer', () => {
           ]
         }
       })
-      const wrapper = mount(
+      const { getAllByText } = render(
         <Provider store={store}>
           <SearchContainer />
         </Provider>
       )
       const actions = store.getActions()
-      wrapper.find('SidebarPusher').simulate('click')
-      wrapper
-        .find('.search-list-item-draggable .search-list-item__remove')
-        .first()
-        .simulate('click')
+
+      fireEvent.click(getAllByText('Remove')[0])
       expect(actions).toMatchSnapshot()
     })
 
@@ -206,14 +205,14 @@ describe('SearchContainer', () => {
           ]
         }
       })
-      const wrapper = mount(
+      const { getByText } = render(
         <Provider store={store}>
           <SearchContainer />
         </Provider>
       )
       const actions = store.getActions()
-      wrapper.find('SidebarPusher').simulate('click')
-      wrapper.find('.search-list-item__add_to_mix').first().simulate('click')
+
+      fireEvent.click(getByText('Add mix to playlist'))
       expect(actions).toMatchSnapshot()
     })
 
@@ -231,6 +230,32 @@ describe('SearchContainer', () => {
           tracks: [
             {
               track: {
+                name: 'Track name 1',
+                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
+                artist: {
+                  name: 'Artist name 1'
+                },
+                album: {
+                  name: 'Album name 1'
+                },
+                image: 'image1'
+              }
+            },
+            {
+              track: {
+                name: 'Track name 2',
+                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
+                artist: {
+                  name: 'Artist name 2'
+                },
+                album: {
+                  name: 'Album name 2'
+                },
+                image: 'image2'
+              }
+            },
+            {
+              track: {
                 name: 'Track name 3',
                 uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack3',
                 artist: {
@@ -245,14 +270,27 @@ describe('SearchContainer', () => {
           ]
         }
       })
-      const wrapper = mount(
+      const { getAllByTitle } = render(
         <Provider store={store}>
           <SearchContainer />
         </Provider>
       )
       const actions = store.getActions()
-      //@ts-ignore
-      wrapper.find('DraggableSearchItem').props().action('1', '3')
+      const draggableOpNodeE = getAllByTitle('You can drag this to sort.')[2]
+      const createBubbledEvent = (type: any, props = {}) => {
+        const event = new Event(type, { bubbles: true })
+        Object.assign(event, props)
+        return event
+      }
+
+      draggableOpNodeE.dispatchEvent(
+        createBubbledEvent('drop', {
+          dataTransfer: {
+            getData: jest.fn().mockReturnValue('1')
+          }
+        })
+      )
+
       expect(actions).toMatchSnapshot()
     })
 
@@ -350,14 +388,18 @@ describe('SearchContainer', () => {
           ]
         }
       })
-      const wrapper = mount(
+      const { getByText, getAllByText } = render(
         <Provider store={store}>
-          <SearchContainer />
+          <SearchContainer>
+            <span>Close</span>
+          </SearchContainer>
         </Provider>
       )
       const actions = store.getActions()
-      wrapper.find('SidebarPusher').simulate('click')
-      wrapper.find('.search-list-item .search-list-item__add').first().simulate('click')
+      store.dispatch(toggleSearchSidebar(true))
+      fireEvent.click(getAllByText('Add to mix')[0])
+      fireEvent.click(getByText('Close'))
+
       expect(actions).toMatchSnapshot()
     })
   })
