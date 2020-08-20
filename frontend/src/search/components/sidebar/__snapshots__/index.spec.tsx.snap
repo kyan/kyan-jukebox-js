@@ -1,1827 +1,254 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Search render valid props renders as expected 1`] = `
-<Search
-  curatedList={
-    Array [
-      Object {
-        "track": Object {
-          "album": Object {
-            "name": "Album name 2",
-          },
-          "artist": Object {
-            "name": "Artist name 2",
-          },
-          "image": "image2",
-          "name": "Track name 2",
-          "uri": "https://open.spotify.com/track/0c41pMosF5Kqwwetrack2",
-        },
-      },
-    ]
-  }
-  onAddTrack={[MockFunction onAddTrackMock]}
-  onAddTrackToMix={[MockFunction onAddTrackToMixMock]}
-  onAddTracks={[MockFunction onAddTracksMock]}
-  onClose={[MockFunction onCloseMock]}
-  onPageChange={[MockFunction onPageChangeMock]}
-  onQueryChange={[MockFunction onQueryChangeMock]}
-  onRemoveFromMix={[MockFunction onRemoveFromMixMock]}
-  onSubmit={[MockFunction onSubmitMock]}
-  onSwapTracks={[MockFunction onSwapTracksMock]}
-  query=""
-  results={
-    Array [
-      Object {
-        "track": Object {
-          "addedBy": Array [
-            Object {
-              "addedAt": "2020-01-27T20:19:27.965Z",
-              "played": Array [
-                Object {
-                  "at": "2020-01-27T20:20:34.422Z",
-                },
-              ],
-              "user": Object {
-                "__v": 0,
-                "_id": "1117795953801840xxxxx",
-                "fullname": "Duncan Robertson",
-                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-              },
-              "votes": Array [
-                Object {
-                  "at": "2020-01-27T20:20:37.904Z",
-                  "user": Object {
-                    "__v": 0,
-                    "_id": "1117795953801840xxxxx",
-                    "fullname": "Duncan Robertson",
-                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                  },
-                  "vote": 80,
-                },
-              ],
-            },
-          ],
-          "album": Object {
-            "name": "Ken Dodd",
-            "uri": "spotify:album:1D7E2EHMoQM3nP9drEwv7o",
-            "year": "1991",
-          },
-          "artist": Object {
-            "name": "Ken Dodd",
-            "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
-          },
-          "explicit": true,
-          "length": 120000,
-          "metrics": null,
-          "name": "Happiness",
-          "uri": "spotify:track:1WaBuuaXGwrU4sFvxAjnkf",
-          "year": "1991",
-        },
-      },
-      Object {
-        "track": Object {
-          "addedBy": Array [
-            Object {
-              "addedAt": "2020-01-27T20:19:49.207Z",
-              "played": Array [
-                Object {
-                  "at": "2020-01-27T20:20:48.148Z",
-                },
-                Object {
-                  "at": "2020-01-27T20:20:44.403Z",
-                },
-                Object {
-                  "at": "2020-01-27T20:20:41.006Z",
-                },
-              ],
-              "user": Object {
-                "__v": 0,
-                "_id": "1117795953801840xxxxx",
-                "fullname": "Duncan Robertson",
-                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-              },
-              "votes": Array [
-                Object {
-                  "at": "2020-01-27T20:20:50.355Z",
-                  "user": Object {
-                    "__v": 0,
-                    "_id": "1117795953801840xxxxx",
-                    "fullname": "Duncan Robertson",
-                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                  },
-                  "vote": 40,
-                },
-              ],
-            },
-          ],
-          "album": Object {
-            "name": "Chicken Song",
-            "uri": "spotify:album:1Ozoc3hrpvwEpwnFkTNOGR",
-            "year": "2019",
-          },
-          "artist": Object {
-            "name": "3 Shades",
-            "uri": "spotify:artist:5YGwWwsOsMAwDN8mH0hn7M",
-          },
-          "image": "https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b",
-          "length": 60000,
-          "metrics": Object {
-            "plays": 3,
-            "votes": 1,
-            "votesAverage": 40,
-            "votesTotal": 40,
-          },
-          "name": "Chicken Song",
-          "uri": "spotify:track:6BitwTrBfUrTdztRrQiw52",
-          "year": "2019",
-        },
-      },
-      Object {
-        "track": Object {
-          "addedBy": Array [
-            Object {
-              "addedAt": "2020-01-27T20:20:27.606Z",
-              "played": Array [
-                Object {
-                  "at": "2020-01-27T20:20:46.330Z",
-                },
-                Object {
-                  "at": "2020-01-27T20:20:42.593Z",
-                },
-              ],
-              "user": Object {
-                "__v": 0,
-                "_id": "1117795953801840xxxxx",
-                "fullname": "Duncan Robertson",
-                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-              },
-              "votes": Array [
-                Object {
-                  "at": "2020-01-27T20:20:37.904Z",
-                  "user": Object {
-                    "__v": 0,
-                    "_id": "1117795953801840xxxxx",
-                    "fullname": "Duncan Robertson",
-                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                  },
-                  "vote": 50,
-                },
-              ],
-            },
-          ],
-          "album": Object {
-            "name": "I Know Him So Well",
-            "uri": "spotify:album:0IZ5JFCiYgS5C4T4GrvHoO",
-            "year": "2011",
-          },
-          "artist": Object {
-            "name": "Geraldine McQueen",
-            "uri": "spotify:artist:6Q6StrY5Cnns1tXe8rGipt",
-          },
-          "image": "https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee",
-          "length": 254000,
-          "metrics": Object {
-            "plays": 0,
-            "votes": 0,
-            "votesAverage": 50,
-            "votesTotal": 100,
-          },
-          "name": "I Know Him So Well",
-          "uri": "spotify:track:6hp4DW1Z1RInKvO5ijj9nW",
-          "year": "2011",
-        },
-      },
-    ]
-  }
-  totalPages={2}
-  visible={true}
+exports[`Search render valid props everything renders as expected 1`] = `
+<div
+  class="pushable"
 >
-  <SidebarPushable>
+  <div
+    class="ui overlay right very wide visible sidebar sidebar-search"
+    icon="labeled"
+    inverted="true"
+    vertical="true"
+  >
     <div
-      className="pushable"
+      class="ui horizontal divider"
     >
-      <Sidebar
-        animation="overlay"
-        className="sidebar-search"
-        direction="right"
-        icon="labeled"
-        inverted="true"
-        onShow={[Function]}
-        target={
-          Object {
-            "current": Document {
-              "location": Location {
-                "assign": [Function],
-                "hash": "",
-                "host": "localhost",
-                "hostname": "localhost",
-                "href": "http://localhost/",
-                "origin": "http://localhost",
-                "pathname": "/",
-                "port": "",
-                "protocol": "http:",
-                "reload": [Function],
-                "replace": [Function],
-                "search": "",
-                "toString": [Function],
-              },
-            },
-          }
-        }
-        vertical="true"
-        visible={true}
-        width="very wide"
+      <h4
+        class="ui inverted header"
       >
-        <Ref
-          innerRef={
-            Object {
-              "current": <div
-                class="ui overlay right very wide visible sidebar sidebar-search"
-                icon="labeled"
-                inverted="true"
-                vertical="true"
-              >
-                <div
-                  class="ui horizontal divider"
-                >
-                  <h4
-                    class="ui inverted header"
-                  >
-                    Your Mix
-                  </h4>
-                </div>
-                <div
-                  class="ui tiny divided inverted list"
-                  role="list"
-                >
-                  <div
-                    class="draggable search-list-item-draggable"
-                    draggable="true"
-                    title="You can drag this to sort."
-                  >
-                    <div
-                      class="search-list-item"
-                    >
-                      <img
-                        alt="Track name 2"
-                        class="ui tiny left floated image search-list-item__image"
-                        src="image2"
-                        title="Click to add - Track name 2 - Artist name 2"
-                      />
-                      <div
-                        class="content"
-                      >
-                        <div
-                          class="search-list-item__header"
-                        >
-                          Track name 2
-                           - 
-                          Artist name 2
-                        </div>
-                        <div
-                          class="search-list-item__content"
-                        >
-                          Album name 2
-                        </div>
-                      </div>
-                    </div>
-                    <span
-                      class="search-list-item__remove"
-                    >
-                      Remove
-                    </span>
-                  </div>
-                </div>
-                <button
-                  class="ui fluid button search-list-item__add_to_mix"
-                >
-                  Add mix to playlist
-                </button>
-                <div
-                  class="ui horizontal divider"
-                />
-                <form
-                  class="ui inverted form"
-                >
-                  <div
-                    class="field"
-                  >
-                    <label>
-                      SEARCH
-                    </label>
-                    <input
-                      placeholder="track, artist or album"
-                      value=""
-                    />
-                  </div>
-                  <button
-                    class="ui fluid button"
-                    type="submit"
-                  >
-                    Find
-                  </button>
-                </form>
-                <div
-                  class="ui horizontal divider"
-                >
-                  <h4
-                    class="ui inverted header"
-                  >
-                    Results
-                  </h4>
-                </div>
-                <div
-                  aria-label="Pagination Navigation"
-                  class="ui pagination pointing secondary search-list-pagination menu"
-                  role="navigation"
-                >
-                  <a
-                    aria-current="false"
-                    aria-disabled="false"
-                    aria-label="Previous item"
-                    class="item"
-                    tabindex="0"
-                    type="prevItem"
-                    value="1"
-                  >
-                    ⟨
-                  </a>
-                  <a
-                    aria-current="true"
-                    aria-disabled="false"
-                    class="active item"
-                    tabindex="0"
-                    type="pageItem"
-                    value="1"
-                  >
-                    1
-                  </a>
-                  <a
-                    aria-current="false"
-                    aria-disabled="false"
-                    class="item"
-                    tabindex="0"
-                    type="pageItem"
-                    value="2"
-                  >
-                    2
-                  </a>
-                  <a
-                    aria-current="false"
-                    aria-disabled="false"
-                    aria-label="Next item"
-                    class="item"
-                    tabindex="0"
-                    type="nextItem"
-                    value="2"
-                  >
-                    ⟩
-                  </a>
-                </div>
-                <div
-                  class="ui tiny divided inverted relaxed list"
-                  role="list"
-                >
-                  <div
-                    class="search-list-item disabled"
-                  >
-                    <img
-                      alt="Happiness"
-                      class="ui tiny disabled left floated image search-list-item__image"
-                      title="Click to add - Happiness - Ken Dodd"
-                    />
-                    <div
-                      class="content"
-                    >
-                      <div
-                        class="search-list-item__header"
-                      >
-                        Happiness
-                         - 
-                        Ken Dodd
-                      </div>
-                      <div
-                        class="search-list-item__content"
-                      >
-                        Ken Dodd
-                      </div>
-                      <span
-                        class="search-list-item__add"
-                      >
-                        Add to mix
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="search-list-item"
-                  >
-                    <img
-                      alt="Chicken Song"
-                      class="ui tiny left floated image search-list-item__image"
-                      src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
-                      title="Click to add - Chicken Song - 3 Shades"
-                    />
-                    <div
-                      class="content"
-                    >
-                      <div
-                        class="search-list-item__header"
-                      >
-                        Chicken Song
-                         - 
-                        3 Shades
-                      </div>
-                      <div
-                        class="search-list-item__content"
-                      >
-                        Chicken Song
-                      </div>
-                      <div
-                        class="ui grey mini basic label track-label vote-track-label"
-                      >
-                        <i
-                          aria-hidden="true"
-                          class="thumbs down icon"
-                        />
-                        -1
-                      </div>
-                      <span
-                        class="search-list-item__add"
-                      >
-                        Add to mix
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="search-list-item"
-                  >
-                    <img
-                      alt="I Know Him So Well"
-                      class="ui tiny left floated image search-list-item__image"
-                      src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
-                      title="Click to add - I Know Him So Well - Geraldine McQueen"
-                    />
-                    <div
-                      class="content"
-                    >
-                      <div
-                        class="search-list-item__header"
-                      >
-                        I Know Him So Well
-                         - 
-                        Geraldine McQueen
-                      </div>
-                      <div
-                        class="search-list-item__content"
-                      >
-                        I Know Him So Well
-                      </div>
-                      <span
-                        class="search-list-item__add"
-                      >
-                        Add to mix
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>,
-            }
-          }
-        >
-          <RefFindNode
-            innerRef={
-              Object {
-                "current": <div
-                  class="ui overlay right very wide visible sidebar sidebar-search"
-                  icon="labeled"
-                  inverted="true"
-                  vertical="true"
-                >
-                  <div
-                    class="ui horizontal divider"
-                  >
-                    <h4
-                      class="ui inverted header"
-                    >
-                      Your Mix
-                    </h4>
-                  </div>
-                  <div
-                    class="ui tiny divided inverted list"
-                    role="list"
-                  >
-                    <div
-                      class="draggable search-list-item-draggable"
-                      draggable="true"
-                      title="You can drag this to sort."
-                    >
-                      <div
-                        class="search-list-item"
-                      >
-                        <img
-                          alt="Track name 2"
-                          class="ui tiny left floated image search-list-item__image"
-                          src="image2"
-                          title="Click to add - Track name 2 - Artist name 2"
-                        />
-                        <div
-                          class="content"
-                        >
-                          <div
-                            class="search-list-item__header"
-                          >
-                            Track name 2
-                             - 
-                            Artist name 2
-                          </div>
-                          <div
-                            class="search-list-item__content"
-                          >
-                            Album name 2
-                          </div>
-                        </div>
-                      </div>
-                      <span
-                        class="search-list-item__remove"
-                      >
-                        Remove
-                      </span>
-                    </div>
-                  </div>
-                  <button
-                    class="ui fluid button search-list-item__add_to_mix"
-                  >
-                    Add mix to playlist
-                  </button>
-                  <div
-                    class="ui horizontal divider"
-                  />
-                  <form
-                    class="ui inverted form"
-                  >
-                    <div
-                      class="field"
-                    >
-                      <label>
-                        SEARCH
-                      </label>
-                      <input
-                        placeholder="track, artist or album"
-                        value=""
-                      />
-                    </div>
-                    <button
-                      class="ui fluid button"
-                      type="submit"
-                    >
-                      Find
-                    </button>
-                  </form>
-                  <div
-                    class="ui horizontal divider"
-                  >
-                    <h4
-                      class="ui inverted header"
-                    >
-                      Results
-                    </h4>
-                  </div>
-                  <div
-                    aria-label="Pagination Navigation"
-                    class="ui pagination pointing secondary search-list-pagination menu"
-                    role="navigation"
-                  >
-                    <a
-                      aria-current="false"
-                      aria-disabled="false"
-                      aria-label="Previous item"
-                      class="item"
-                      tabindex="0"
-                      type="prevItem"
-                      value="1"
-                    >
-                      ⟨
-                    </a>
-                    <a
-                      aria-current="true"
-                      aria-disabled="false"
-                      class="active item"
-                      tabindex="0"
-                      type="pageItem"
-                      value="1"
-                    >
-                      1
-                    </a>
-                    <a
-                      aria-current="false"
-                      aria-disabled="false"
-                      class="item"
-                      tabindex="0"
-                      type="pageItem"
-                      value="2"
-                    >
-                      2
-                    </a>
-                    <a
-                      aria-current="false"
-                      aria-disabled="false"
-                      aria-label="Next item"
-                      class="item"
-                      tabindex="0"
-                      type="nextItem"
-                      value="2"
-                    >
-                      ⟩
-                    </a>
-                  </div>
-                  <div
-                    class="ui tiny divided inverted relaxed list"
-                    role="list"
-                  >
-                    <div
-                      class="search-list-item disabled"
-                    >
-                      <img
-                        alt="Happiness"
-                        class="ui tiny disabled left floated image search-list-item__image"
-                        title="Click to add - Happiness - Ken Dodd"
-                      />
-                      <div
-                        class="content"
-                      >
-                        <div
-                          class="search-list-item__header"
-                        >
-                          Happiness
-                           - 
-                          Ken Dodd
-                        </div>
-                        <div
-                          class="search-list-item__content"
-                        >
-                          Ken Dodd
-                        </div>
-                        <span
-                          class="search-list-item__add"
-                        >
-                          Add to mix
-                        </span>
-                      </div>
-                    </div>
-                    <div
-                      class="search-list-item"
-                    >
-                      <img
-                        alt="Chicken Song"
-                        class="ui tiny left floated image search-list-item__image"
-                        src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
-                        title="Click to add - Chicken Song - 3 Shades"
-                      />
-                      <div
-                        class="content"
-                      >
-                        <div
-                          class="search-list-item__header"
-                        >
-                          Chicken Song
-                           - 
-                          3 Shades
-                        </div>
-                        <div
-                          class="search-list-item__content"
-                        >
-                          Chicken Song
-                        </div>
-                        <div
-                          class="ui grey mini basic label track-label vote-track-label"
-                        >
-                          <i
-                            aria-hidden="true"
-                            class="thumbs down icon"
-                          />
-                          -1
-                        </div>
-                        <span
-                          class="search-list-item__add"
-                        >
-                          Add to mix
-                        </span>
-                      </div>
-                    </div>
-                    <div
-                      class="search-list-item"
-                    >
-                      <img
-                        alt="I Know Him So Well"
-                        class="ui tiny left floated image search-list-item__image"
-                        src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
-                        title="Click to add - I Know Him So Well - Geraldine McQueen"
-                      />
-                      <div
-                        class="content"
-                      >
-                        <div
-                          class="search-list-item__header"
-                        >
-                          I Know Him So Well
-                           - 
-                          Geraldine McQueen
-                        </div>
-                        <div
-                          class="search-list-item__content"
-                        >
-                          I Know Him So Well
-                        </div>
-                        <span
-                          class="search-list-item__add"
-                        >
-                          Add to mix
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>,
-              }
-            }
-          >
-            <div
-              className="ui overlay right very wide visible sidebar sidebar-search"
-              icon="labeled"
-              inverted="true"
-              vertical="true"
-            >
-              <YourMix
-                onAddTracks={[MockFunction onAddTracksMock]}
-                onRemoveFromMix={[MockFunction onRemoveFromMixMock]}
-                onSwapTracks={[MockFunction onSwapTracksMock]}
-                tracks={
-                  Array [
-                    Object {
-                      "track": Object {
-                        "album": Object {
-                          "name": "Album name 2",
-                        },
-                        "artist": Object {
-                          "name": "Artist name 2",
-                        },
-                        "image": "image2",
-                        "name": "Track name 2",
-                        "uri": "https://open.spotify.com/track/0c41pMosF5Kqwwetrack2",
-                      },
-                    },
-                  ]
-                }
-              >
-                <Divider
-                  horizontal={true}
-                >
-                  <div
-                    className="ui horizontal divider"
-                  >
-                    <Header
-                      as="h4"
-                      inverted={true}
-                    >
-                      <h4
-                        className="ui inverted header"
-                      >
-                        Your Mix
-                      </h4>
-                    </Header>
-                  </div>
-                </Divider>
-                <List
-                  divided={true}
-                  inverted={true}
-                  size="tiny"
-                >
-                  <div
-                    className="ui tiny divided inverted list"
-                    role="list"
-                  >
-                    <MixItems
-                      onRemove={[MockFunction onRemoveFromMixMock]}
-                      onSwap={[MockFunction onSwapTracksMock]}
-                      tracks={
-                        Array [
-                          Object {
-                            "track": Object {
-                              "album": Object {
-                                "name": "Album name 2",
-                              },
-                              "artist": Object {
-                                "name": "Artist name 2",
-                              },
-                              "image": "image2",
-                              "name": "Track name 2",
-                              "uri": "https://open.spotify.com/track/0c41pMosF5Kqwwetrack2",
-                            },
-                          },
-                        ]
-                      }
-                    >
-                      <DraggableSearchItem
-                        action={[MockFunction onSwapTracksMock]}
-                        i={0}
-                        key="0"
-                        onRemove={[Function]}
-                        track={
-                          Object {
-                            "album": Object {
-                              "name": "Album name 2",
-                            },
-                            "artist": Object {
-                              "name": "Artist name 2",
-                            },
-                            "image": "image2",
-                            "name": "Track name 2",
-                            "uri": "https://open.spotify.com/track/0c41pMosF5Kqwwetrack2",
-                          }
-                        }
-                      >
-                        <div
-                          className="draggable search-list-item-draggable"
-                          draggable={true}
-                          onDragOver={[Function]}
-                          onDragStart={[Function]}
-                          onDrop={[Function]}
-                          title="You can drag this to sort."
-                        >
-                          <SearchItem
-                            key="https://open.spotify.com/track/0c41pMosF5Kqwwetrack2"
-                            track={
-                              Object {
-                                "album": Object {
-                                  "name": "Album name 2",
-                                },
-                                "artist": Object {
-                                  "name": "Artist name 2",
-                                },
-                                "image": "image2",
-                                "name": "Track name 2",
-                                "uri": "https://open.spotify.com/track/0c41pMosF5Kqwwetrack2",
-                              }
-                            }
-                          >
-                            <div
-                              className="search-list-item"
-                            >
-                              <Image
-                                alt="Track name 2"
-                                as="img"
-                                className="search-list-item__image"
-                                floated="left"
-                                size="tiny"
-                                src="image2"
-                                title="Click to add - Track name 2 - Artist name 2"
-                                ui={true}
-                              >
-                                <img
-                                  alt="Track name 2"
-                                  className="ui tiny left floated image search-list-item__image"
-                                  src="image2"
-                                  title="Click to add - Track name 2 - Artist name 2"
-                                />
-                              </Image>
-                              <ListContent>
-                                <div
-                                  className="content"
-                                >
-                                  <div
-                                    className="search-list-item__header"
-                                  >
-                                    Track name 2
-                                     - 
-                                    Artist name 2
-                                  </div>
-                                  <div
-                                    className="search-list-item__content"
-                                  >
-                                    Album name 2
-                                  </div>
-                                  <VoteInfo />
-                                </div>
-                              </ListContent>
-                            </div>
-                          </SearchItem>
-                          <span
-                            className="search-list-item__remove"
-                            onClick={[Function]}
-                          >
-                            Remove
-                          </span>
-                        </div>
-                      </DraggableSearchItem>
-                    </MixItems>
-                  </div>
-                </List>
-                <Button
-                  as="button"
-                  className="search-list-item__add_to_mix"
-                  fluid={true}
-                  onClick={[Function]}
-                >
-                  <Ref
-                    innerRef={
-                      Object {
-                        "current": <button
-                          class="ui fluid button search-list-item__add_to_mix"
-                        >
-                          Add mix to playlist
-                        </button>,
-                      }
-                    }
-                  >
-                    <RefFindNode
-                      innerRef={
-                        Object {
-                          "current": <button
-                            class="ui fluid button search-list-item__add_to_mix"
-                          >
-                            Add mix to playlist
-                          </button>,
-                        }
-                      }
-                    >
-                      <button
-                        className="ui fluid button search-list-item__add_to_mix"
-                        onClick={[Function]}
-                      >
-                        Add mix to playlist
-                      </button>
-                    </RefFindNode>
-                  </Ref>
-                </Button>
-                <Divider
-                  horizontal={true}
-                >
-                  <div
-                    className="ui horizontal divider"
-                  />
-                </Divider>
-              </YourMix>
-              <Form
-                as="form"
-                inverted={true}
-                onSubmit={[MockFunction onSubmitMock]}
-              >
-                <form
-                  className="ui inverted form"
-                  onSubmit={[Function]}
-                >
-                  <FormField>
-                    <div
-                      className="field"
-                    >
-                      <label>
-                        SEARCH
-                      </label>
-                      <input
-                        onChange={[MockFunction onQueryChangeMock]}
-                        placeholder="track, artist or album"
-                        value=""
-                      />
-                    </div>
-                  </FormField>
-                  <Button
-                    as="button"
-                    fluid={true}
-                    type="submit"
-                  >
-                    <Ref
-                      innerRef={
-                        Object {
-                          "current": <button
-                            class="ui fluid button"
-                            type="submit"
-                          >
-                            Find
-                          </button>,
-                        }
-                      }
-                    >
-                      <RefFindNode
-                        innerRef={
-                          Object {
-                            "current": <button
-                              class="ui fluid button"
-                              type="submit"
-                            >
-                              Find
-                            </button>,
-                          }
-                        }
-                      >
-                        <button
-                          className="ui fluid button"
-                          onClick={[Function]}
-                          type="submit"
-                        >
-                          Find
-                        </button>
-                      </RefFindNode>
-                    </Ref>
-                  </Button>
-                </form>
-              </Form>
-              <Divider
-                horizontal={true}
-              >
-                <div
-                  className="ui horizontal divider"
-                >
-                  <Header
-                    as="h4"
-                    inverted={true}
-                  >
-                    <h4
-                      className="ui inverted header"
-                    >
-                      Results
-                    </h4>
-                  </Header>
-                </div>
-              </Divider>
-              <Pagination
-                aria-label="Pagination Navigation"
-                boundaryRange={1}
-                className="search-list-pagination"
-                defaultActivePage={1}
-                ellipsisItem="..."
-                firstItem={null}
-                lastItem={null}
-                nextItem={
-                  Object {
-                    "aria-label": "Next item",
-                    "content": "⟩",
-                  }
-                }
-                onPageChange={[MockFunction onPageChangeMock]}
-                pageItem={Object {}}
-                pointing={true}
-                prevItem={
-                  Object {
-                    "aria-label": "Previous item",
-                    "content": "⟨",
-                  }
-                }
-                secondary={true}
-                siblingRange={1}
-                totalPages={2}
-              >
-                <Menu
-                  aria-label="Pagination Navigation"
-                  className="search-list-pagination"
-                  pagination={true}
-                  pointing={true}
-                  role="navigation"
-                  secondary={true}
-                >
-                  <div
-                    aria-label="Pagination Navigation"
-                    className="ui pagination pointing secondary search-list-pagination menu"
-                    role="navigation"
-                  >
-                    <PaginationItem
-                      active={false}
-                      aria-label="Previous item"
-                      content="⟨"
-                      key="prevItem-1"
-                      onClick={[Function]}
-                      type="prevItem"
-                      value={1}
-                    >
-                      <MenuItem
-                        active={false}
-                        aria-current={false}
-                        aria-disabled={false}
-                        aria-label="Previous item"
-                        content="⟨"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
-                        tabIndex={0}
-                        type="prevItem"
-                        value={1}
-                      >
-                        <a
-                          aria-current={false}
-                          aria-disabled={false}
-                          aria-label="Previous item"
-                          className="item"
-                          onClick={[Function]}
-                          onKeyDown={[Function]}
-                          tabIndex={0}
-                          type="prevItem"
-                          value={1}
-                        >
-                          ⟨
-                        </a>
-                      </MenuItem>
-                    </PaginationItem>
-                    <PaginationItem
-                      active={true}
-                      content={1}
-                      key="pageItem-1"
-                      onClick={[Function]}
-                      type="pageItem"
-                      value={1}
-                    >
-                      <MenuItem
-                        active={true}
-                        aria-current={true}
-                        aria-disabled={false}
-                        content={1}
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
-                        tabIndex={0}
-                        type="pageItem"
-                        value={1}
-                      >
-                        <a
-                          aria-current={true}
-                          aria-disabled={false}
-                          className="active item"
-                          onClick={[Function]}
-                          onKeyDown={[Function]}
-                          tabIndex={0}
-                          type="pageItem"
-                          value={1}
-                        >
-                          1
-                        </a>
-                      </MenuItem>
-                    </PaginationItem>
-                    <PaginationItem
-                      active={false}
-                      content={2}
-                      key="pageItem-2"
-                      onClick={[Function]}
-                      type="pageItem"
-                      value={2}
-                    >
-                      <MenuItem
-                        active={false}
-                        aria-current={false}
-                        aria-disabled={false}
-                        content={2}
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
-                        tabIndex={0}
-                        type="pageItem"
-                        value={2}
-                      >
-                        <a
-                          aria-current={false}
-                          aria-disabled={false}
-                          className="item"
-                          onClick={[Function]}
-                          onKeyDown={[Function]}
-                          tabIndex={0}
-                          type="pageItem"
-                          value={2}
-                        >
-                          2
-                        </a>
-                      </MenuItem>
-                    </PaginationItem>
-                    <PaginationItem
-                      active={false}
-                      aria-label="Next item"
-                      content="⟩"
-                      key="nextItem-2"
-                      onClick={[Function]}
-                      type="nextItem"
-                      value={2}
-                    >
-                      <MenuItem
-                        active={false}
-                        aria-current={false}
-                        aria-disabled={false}
-                        aria-label="Next item"
-                        content="⟩"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
-                        tabIndex={0}
-                        type="nextItem"
-                        value={2}
-                      >
-                        <a
-                          aria-current={false}
-                          aria-disabled={false}
-                          aria-label="Next item"
-                          className="item"
-                          onClick={[Function]}
-                          onKeyDown={[Function]}
-                          tabIndex={0}
-                          type="nextItem"
-                          value={2}
-                        >
-                          ⟩
-                        </a>
-                      </MenuItem>
-                    </PaginationItem>
-                  </div>
-                </Menu>
-              </Pagination>
-              <List
-                divided={true}
-                inverted={true}
-                relaxed={true}
-                size="tiny"
-              >
-                <div
-                  className="ui tiny divided inverted relaxed list"
-                  role="list"
-                >
-                  <SearchItems
-                    onAdd={[MockFunction onAddTrackToMixMock]}
-                    onClick={[MockFunction onAddTrackMock]}
-                    tracks={
-                      Array [
-                        Object {
-                          "track": Object {
-                            "addedBy": Array [
-                              Object {
-                                "addedAt": "2020-01-27T20:19:27.965Z",
-                                "played": Array [
-                                  Object {
-                                    "at": "2020-01-27T20:20:34.422Z",
-                                  },
-                                ],
-                                "user": Object {
-                                  "__v": 0,
-                                  "_id": "1117795953801840xxxxx",
-                                  "fullname": "Duncan Robertson",
-                                  "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                                },
-                                "votes": Array [
-                                  Object {
-                                    "at": "2020-01-27T20:20:37.904Z",
-                                    "user": Object {
-                                      "__v": 0,
-                                      "_id": "1117795953801840xxxxx",
-                                      "fullname": "Duncan Robertson",
-                                      "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                                    },
-                                    "vote": 80,
-                                  },
-                                ],
-                              },
-                            ],
-                            "album": Object {
-                              "name": "Ken Dodd",
-                              "uri": "spotify:album:1D7E2EHMoQM3nP9drEwv7o",
-                              "year": "1991",
-                            },
-                            "artist": Object {
-                              "name": "Ken Dodd",
-                              "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
-                            },
-                            "explicit": true,
-                            "length": 120000,
-                            "metrics": null,
-                            "name": "Happiness",
-                            "uri": "spotify:track:1WaBuuaXGwrU4sFvxAjnkf",
-                            "year": "1991",
-                          },
-                        },
-                        Object {
-                          "track": Object {
-                            "addedBy": Array [
-                              Object {
-                                "addedAt": "2020-01-27T20:19:49.207Z",
-                                "played": Array [
-                                  Object {
-                                    "at": "2020-01-27T20:20:48.148Z",
-                                  },
-                                  Object {
-                                    "at": "2020-01-27T20:20:44.403Z",
-                                  },
-                                  Object {
-                                    "at": "2020-01-27T20:20:41.006Z",
-                                  },
-                                ],
-                                "user": Object {
-                                  "__v": 0,
-                                  "_id": "1117795953801840xxxxx",
-                                  "fullname": "Duncan Robertson",
-                                  "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                                },
-                                "votes": Array [
-                                  Object {
-                                    "at": "2020-01-27T20:20:50.355Z",
-                                    "user": Object {
-                                      "__v": 0,
-                                      "_id": "1117795953801840xxxxx",
-                                      "fullname": "Duncan Robertson",
-                                      "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                                    },
-                                    "vote": 40,
-                                  },
-                                ],
-                              },
-                            ],
-                            "album": Object {
-                              "name": "Chicken Song",
-                              "uri": "spotify:album:1Ozoc3hrpvwEpwnFkTNOGR",
-                              "year": "2019",
-                            },
-                            "artist": Object {
-                              "name": "3 Shades",
-                              "uri": "spotify:artist:5YGwWwsOsMAwDN8mH0hn7M",
-                            },
-                            "image": "https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b",
-                            "length": 60000,
-                            "metrics": Object {
-                              "plays": 3,
-                              "votes": 1,
-                              "votesAverage": 40,
-                              "votesTotal": 40,
-                            },
-                            "name": "Chicken Song",
-                            "uri": "spotify:track:6BitwTrBfUrTdztRrQiw52",
-                            "year": "2019",
-                          },
-                        },
-                        Object {
-                          "track": Object {
-                            "addedBy": Array [
-                              Object {
-                                "addedAt": "2020-01-27T20:20:27.606Z",
-                                "played": Array [
-                                  Object {
-                                    "at": "2020-01-27T20:20:46.330Z",
-                                  },
-                                  Object {
-                                    "at": "2020-01-27T20:20:42.593Z",
-                                  },
-                                ],
-                                "user": Object {
-                                  "__v": 0,
-                                  "_id": "1117795953801840xxxxx",
-                                  "fullname": "Duncan Robertson",
-                                  "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                                },
-                                "votes": Array [
-                                  Object {
-                                    "at": "2020-01-27T20:20:37.904Z",
-                                    "user": Object {
-                                      "__v": 0,
-                                      "_id": "1117795953801840xxxxx",
-                                      "fullname": "Duncan Robertson",
-                                      "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                                    },
-                                    "vote": 50,
-                                  },
-                                ],
-                              },
-                            ],
-                            "album": Object {
-                              "name": "I Know Him So Well",
-                              "uri": "spotify:album:0IZ5JFCiYgS5C4T4GrvHoO",
-                              "year": "2011",
-                            },
-                            "artist": Object {
-                              "name": "Geraldine McQueen",
-                              "uri": "spotify:artist:6Q6StrY5Cnns1tXe8rGipt",
-                            },
-                            "image": "https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee",
-                            "length": 254000,
-                            "metrics": Object {
-                              "plays": 0,
-                              "votes": 0,
-                              "votesAverage": 50,
-                              "votesTotal": 100,
-                            },
-                            "name": "I Know Him So Well",
-                            "uri": "spotify:track:6hp4DW1Z1RInKvO5ijj9nW",
-                            "year": "2011",
-                          },
-                        },
-                      ]
-                    }
-                  >
-                    <SearchItem
-                      key="spotify:track:1WaBuuaXGwrU4sFvxAjnkf"
-                      onAdd={[Function]}
-                      onClick={[Function]}
-                      track={
-                        Object {
-                          "addedBy": Array [
-                            Object {
-                              "addedAt": "2020-01-27T20:19:27.965Z",
-                              "played": Array [
-                                Object {
-                                  "at": "2020-01-27T20:20:34.422Z",
-                                },
-                              ],
-                              "user": Object {
-                                "__v": 0,
-                                "_id": "1117795953801840xxxxx",
-                                "fullname": "Duncan Robertson",
-                                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                              },
-                              "votes": Array [
-                                Object {
-                                  "at": "2020-01-27T20:20:37.904Z",
-                                  "user": Object {
-                                    "__v": 0,
-                                    "_id": "1117795953801840xxxxx",
-                                    "fullname": "Duncan Robertson",
-                                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                                  },
-                                  "vote": 80,
-                                },
-                              ],
-                            },
-                          ],
-                          "album": Object {
-                            "name": "Ken Dodd",
-                            "uri": "spotify:album:1D7E2EHMoQM3nP9drEwv7o",
-                            "year": "1991",
-                          },
-                          "artist": Object {
-                            "name": "Ken Dodd",
-                            "uri": "spotify:artist:76o4kCpWMmBGl8jIYfRHTk",
-                          },
-                          "explicit": true,
-                          "length": 120000,
-                          "metrics": null,
-                          "name": "Happiness",
-                          "uri": "spotify:track:1WaBuuaXGwrU4sFvxAjnkf",
-                          "year": "1991",
-                        }
-                      }
-                    >
-                      <div
-                        className="search-list-item disabled"
-                      >
-                        <Image
-                          alt="Happiness"
-                          as="img"
-                          className="search-list-item__image"
-                          disabled={true}
-                          floated="left"
-                          size="tiny"
-                          title="Click to add - Happiness - Ken Dodd"
-                          ui={true}
-                        >
-                          <img
-                            alt="Happiness"
-                            className="ui tiny disabled left floated image search-list-item__image"
-                            title="Click to add - Happiness - Ken Dodd"
-                          />
-                        </Image>
-                        <ListContent>
-                          <div
-                            className="content"
-                          >
-                            <div
-                              className="search-list-item__header"
-                            >
-                              Happiness
-                               - 
-                              Ken Dodd
-                            </div>
-                            <div
-                              className="search-list-item__content"
-                            >
-                              Ken Dodd
-                            </div>
-                            <VoteInfo
-                              metrics={null}
-                            />
-                            <span
-                              className="search-list-item__add"
-                              onClick={[Function]}
-                            >
-                              Add to mix
-                            </span>
-                          </div>
-                        </ListContent>
-                      </div>
-                    </SearchItem>
-                    <SearchItem
-                      key="spotify:track:6BitwTrBfUrTdztRrQiw52"
-                      onAdd={[Function]}
-                      onClick={[Function]}
-                      track={
-                        Object {
-                          "addedBy": Array [
-                            Object {
-                              "addedAt": "2020-01-27T20:19:49.207Z",
-                              "played": Array [
-                                Object {
-                                  "at": "2020-01-27T20:20:48.148Z",
-                                },
-                                Object {
-                                  "at": "2020-01-27T20:20:44.403Z",
-                                },
-                                Object {
-                                  "at": "2020-01-27T20:20:41.006Z",
-                                },
-                              ],
-                              "user": Object {
-                                "__v": 0,
-                                "_id": "1117795953801840xxxxx",
-                                "fullname": "Duncan Robertson",
-                                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                              },
-                              "votes": Array [
-                                Object {
-                                  "at": "2020-01-27T20:20:50.355Z",
-                                  "user": Object {
-                                    "__v": 0,
-                                    "_id": "1117795953801840xxxxx",
-                                    "fullname": "Duncan Robertson",
-                                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                                  },
-                                  "vote": 40,
-                                },
-                              ],
-                            },
-                          ],
-                          "album": Object {
-                            "name": "Chicken Song",
-                            "uri": "spotify:album:1Ozoc3hrpvwEpwnFkTNOGR",
-                            "year": "2019",
-                          },
-                          "artist": Object {
-                            "name": "3 Shades",
-                            "uri": "spotify:artist:5YGwWwsOsMAwDN8mH0hn7M",
-                          },
-                          "image": "https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b",
-                          "length": 60000,
-                          "metrics": Object {
-                            "plays": 3,
-                            "votes": 1,
-                            "votesAverage": 40,
-                            "votesTotal": 40,
-                          },
-                          "name": "Chicken Song",
-                          "uri": "spotify:track:6BitwTrBfUrTdztRrQiw52",
-                          "year": "2019",
-                        }
-                      }
-                    >
-                      <div
-                        className="search-list-item"
-                      >
-                        <Image
-                          alt="Chicken Song"
-                          as="img"
-                          className="search-list-item__image"
-                          floated="left"
-                          onClick={[Function]}
-                          size="tiny"
-                          src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
-                          title="Click to add - Chicken Song - 3 Shades"
-                          ui={true}
-                        >
-                          <img
-                            alt="Chicken Song"
-                            className="ui tiny left floated image search-list-item__image"
-                            onClick={[Function]}
-                            src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
-                            title="Click to add - Chicken Song - 3 Shades"
-                          />
-                        </Image>
-                        <ListContent>
-                          <div
-                            className="content"
-                          >
-                            <div
-                              className="search-list-item__header"
-                            >
-                              Chicken Song
-                               - 
-                              3 Shades
-                            </div>
-                            <div
-                              className="search-list-item__content"
-                            >
-                              Chicken Song
-                            </div>
-                            <VoteInfo
-                              metrics={
-                                Object {
-                                  "plays": 3,
-                                  "votes": 1,
-                                  "votesAverage": 40,
-                                  "votesTotal": 40,
-                                }
-                              }
-                            >
-                              <VotedBy
-                                show={true}
-                                size="mini"
-                                total={40}
-                              >
-                                <Label
-                                  basic={true}
-                                  className="track-label vote-track-label"
-                                  color="grey"
-                                  content={-1}
-                                  icon="thumbs down"
-                                  ribbon={null}
-                                  size="mini"
-                                >
-                                  <div
-                                    className="ui grey mini basic label track-label vote-track-label"
-                                    onClick={[Function]}
-                                  >
-                                    <Icon
-                                      as="i"
-                                      name="thumbs down"
-                                    >
-                                      <i
-                                        aria-hidden="true"
-                                        className="thumbs down icon"
-                                        onClick={[Function]}
-                                      />
-                                    </Icon>
-                                    -1
-                                  </div>
-                                </Label>
-                              </VotedBy>
-                            </VoteInfo>
-                            <span
-                              className="search-list-item__add"
-                              onClick={[Function]}
-                            >
-                              Add to mix
-                            </span>
-                          </div>
-                        </ListContent>
-                      </div>
-                    </SearchItem>
-                    <SearchItem
-                      key="spotify:track:6hp4DW1Z1RInKvO5ijj9nW"
-                      onAdd={[Function]}
-                      onClick={[Function]}
-                      track={
-                        Object {
-                          "addedBy": Array [
-                            Object {
-                              "addedAt": "2020-01-27T20:20:27.606Z",
-                              "played": Array [
-                                Object {
-                                  "at": "2020-01-27T20:20:46.330Z",
-                                },
-                                Object {
-                                  "at": "2020-01-27T20:20:42.593Z",
-                                },
-                              ],
-                              "user": Object {
-                                "__v": 0,
-                                "_id": "1117795953801840xxxxx",
-                                "fullname": "Duncan Robertson",
-                                "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                              },
-                              "votes": Array [
-                                Object {
-                                  "at": "2020-01-27T20:20:37.904Z",
-                                  "user": Object {
-                                    "__v": 0,
-                                    "_id": "1117795953801840xxxxx",
-                                    "fullname": "Duncan Robertson",
-                                    "picture": "https://lh3.googleusercontent.com/a-/AAuE7mA6MSypnscAYS2lpAz-cKY1xnT3K-HUmzgpV8xExw=s96-c",
-                                  },
-                                  "vote": 50,
-                                },
-                              ],
-                            },
-                          ],
-                          "album": Object {
-                            "name": "I Know Him So Well",
-                            "uri": "spotify:album:0IZ5JFCiYgS5C4T4GrvHoO",
-                            "year": "2011",
-                          },
-                          "artist": Object {
-                            "name": "Geraldine McQueen",
-                            "uri": "spotify:artist:6Q6StrY5Cnns1tXe8rGipt",
-                          },
-                          "image": "https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee",
-                          "length": 254000,
-                          "metrics": Object {
-                            "plays": 0,
-                            "votes": 0,
-                            "votesAverage": 50,
-                            "votesTotal": 100,
-                          },
-                          "name": "I Know Him So Well",
-                          "uri": "spotify:track:6hp4DW1Z1RInKvO5ijj9nW",
-                          "year": "2011",
-                        }
-                      }
-                    >
-                      <div
-                        className="search-list-item"
-                      >
-                        <Image
-                          alt="I Know Him So Well"
-                          as="img"
-                          className="search-list-item__image"
-                          floated="left"
-                          onClick={[Function]}
-                          size="tiny"
-                          src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
-                          title="Click to add - I Know Him So Well - Geraldine McQueen"
-                          ui={true}
-                        >
-                          <img
-                            alt="I Know Him So Well"
-                            className="ui tiny left floated image search-list-item__image"
-                            onClick={[Function]}
-                            src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
-                            title="Click to add - I Know Him So Well - Geraldine McQueen"
-                          />
-                        </Image>
-                        <ListContent>
-                          <div
-                            className="content"
-                          >
-                            <div
-                              className="search-list-item__header"
-                            >
-                              I Know Him So Well
-                               - 
-                              Geraldine McQueen
-                            </div>
-                            <div
-                              className="search-list-item__content"
-                            >
-                              I Know Him So Well
-                            </div>
-                            <VoteInfo
-                              metrics={
-                                Object {
-                                  "plays": 0,
-                                  "votes": 0,
-                                  "votesAverage": 50,
-                                  "votesTotal": 100,
-                                }
-                              }
-                            >
-                              <VotedBy
-                                show={false}
-                                size="mini"
-                                total={50}
-                              />
-                            </VoteInfo>
-                            <span
-                              className="search-list-item__add"
-                              onClick={[Function]}
-                            >
-                              Add to mix
-                            </span>
-                          </div>
-                        </ListContent>
-                      </div>
-                    </SearchItem>
-                  </SearchItems>
-                </div>
-              </List>
-              <EventListener
-                capture={false}
-                listener={[Function]}
-                targetRef={
-                  Object {
-                    "current": Document {
-                      "location": Location {
-                        "assign": [Function],
-                        "hash": "",
-                        "host": "localhost",
-                        "hostname": "localhost",
-                        "href": "http://localhost/",
-                        "origin": "http://localhost",
-                        "pathname": "/",
-                        "port": "",
-                        "protocol": "http:",
-                        "reload": [Function],
-                        "replace": [Function],
-                        "search": "",
-                        "toString": [Function],
-                      },
-                    },
-                  }
-                }
-                type="click"
-              />
-            </div>
-          </RefFindNode>
-        </Ref>
-      </Sidebar>
-      <SidebarPusher
-        dimmed={true}
-        onClick={[MockFunction onCloseMock]}
+        Your Mix
+      </h4>
+    </div>
+    <div
+      class="ui tiny divided inverted list"
+      role="list"
+    >
+      <div
+        class="draggable search-list-item-draggable"
+        draggable="true"
+        title="You can drag this to sort."
       >
         <div
-          className="pusher dimmed"
-          onClick={[MockFunction onCloseMock]}
-        />
-      </SidebarPusher>
+          class="search-list-item"
+        >
+          <img
+            alt="Track name 2"
+            class="ui tiny left floated image search-list-item__image"
+            src="image2"
+            title="Click to add - Track name 2 - Artist name 2"
+          />
+          <div
+            class="content"
+          >
+            <div
+              class="search-list-item__header"
+            >
+              Track name 2 - Artist name 2
+            </div>
+            <div
+              class="search-list-item__content"
+            >
+              Album name 2
+            </div>
+          </div>
+        </div>
+        <span
+          class="search-list-item__remove"
+        >
+          Remove
+        </span>
+      </div>
     </div>
-  </SidebarPushable>
-</Search>
+    <button
+      class="ui fluid button search-list-item__add_to_mix"
+    >
+      Add mix to playlist
+    </button>
+    <div
+      class="ui horizontal divider"
+    />
+    <form
+      class="ui inverted form"
+    >
+      <div
+        class="field"
+      >
+        <label>
+          SEARCH
+        </label>
+        <input
+          aria-label="search-input"
+          placeholder="track, artist or album"
+          value=""
+        />
+      </div>
+      <button
+        class="ui fluid button"
+        type="submit"
+      >
+        Find
+      </button>
+    </form>
+    <div
+      class="ui horizontal divider"
+    >
+      <h4
+        class="ui inverted header"
+      >
+        Results
+      </h4>
+    </div>
+    <div
+      aria-label="Pagination Navigation"
+      class="ui pagination pointing secondary search-list-pagination menu"
+      role="navigation"
+    >
+      <a
+        aria-current="false"
+        aria-disabled="false"
+        aria-label="Previous item"
+        class="item"
+        tabindex="0"
+        type="prevItem"
+        value="1"
+      >
+        ⟨
+      </a>
+      <a
+        aria-current="true"
+        aria-disabled="false"
+        class="active item"
+        tabindex="0"
+        type="pageItem"
+        value="1"
+      >
+        1
+      </a>
+      <a
+        aria-current="false"
+        aria-disabled="false"
+        class="item"
+        tabindex="0"
+        type="pageItem"
+        value="2"
+      >
+        2
+      </a>
+      <a
+        aria-current="false"
+        aria-disabled="false"
+        aria-label="Next item"
+        class="item"
+        tabindex="0"
+        type="nextItem"
+        value="2"
+      >
+        ⟩
+      </a>
+    </div>
+    <div
+      class="ui tiny divided inverted relaxed list"
+      role="list"
+    >
+      <div
+        class="search-list-item disabled"
+      >
+        <img
+          alt="Happiness"
+          class="ui tiny disabled left floated image search-list-item__image"
+          title="Click to add - Happiness - Ken Dodd"
+        />
+        <div
+          class="content"
+        >
+          <div
+            class="search-list-item__header"
+          >
+            Happiness - Ken Dodd
+          </div>
+          <div
+            class="search-list-item__content"
+          >
+            Ken Dodd
+          </div>
+          <span
+            class="search-list-item__add"
+          >
+            Add to mix
+          </span>
+        </div>
+      </div>
+      <div
+        class="search-list-item"
+      >
+        <img
+          alt="Chicken Song"
+          class="ui tiny left floated image search-list-item__image"
+          src="https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b"
+          title="Click to add - Chicken Song - 3 Shades"
+        />
+        <div
+          class="content"
+        >
+          <div
+            class="search-list-item__header"
+          >
+            Chicken Song - 3 Shades
+          </div>
+          <div
+            class="search-list-item__content"
+          >
+            Chicken Song
+          </div>
+          <div
+            class="ui grey mini basic label track-label vote-track-label"
+          >
+            <i
+              aria-hidden="true"
+              class="thumbs down icon"
+            />
+            -1
+          </div>
+          <span
+            class="search-list-item__add"
+          >
+            Add to mix
+          </span>
+        </div>
+      </div>
+      <div
+        class="search-list-item"
+      >
+        <img
+          alt="I Know Him So Well"
+          class="ui tiny left floated image search-list-item__image"
+          src="https://i.scdn.co/image/ab67616d0000b273f5d46038d259167ee9791bee"
+          title="Click to add - I Know Him So Well - Geraldine McQueen"
+        />
+        <div
+          class="content"
+        >
+          <div
+            class="search-list-item__header"
+          >
+            I Know Him So Well - Geraldine McQueen
+          </div>
+          <div
+            class="search-list-item__content"
+          >
+            I Know Him So Well
+          </div>
+          <span
+            class="search-list-item__add"
+          >
+            Add to mix
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="pusher dimmed"
+  />
+</div>
 `;

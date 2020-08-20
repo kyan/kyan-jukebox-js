@@ -15,9 +15,6 @@ const DraggableSearchItem: React.FC<DraggableSearchItemProps> = props => {
   const onDragStart = (ev: React.DragEvent, i: string): void => {
     ev.dataTransfer && ev.dataTransfer.setData('text/plain', i)
   }
-  const onDragOver = (ev: React.DragEvent): void => {
-    ev.preventDefault()
-  }
 
   const onDrop = (ev: React.DragEvent, a: string): void => {
     const b = ev.dataTransfer && ev.dataTransfer.getData('text/plain')
@@ -29,7 +26,6 @@ const DraggableSearchItem: React.FC<DraggableSearchItemProps> = props => {
       draggable
       className={classnames('draggable', 'search-list-item-draggable')}
       onDragStart={e => onDragStart(e, String(i))}
-      onDragOver={e => onDragOver(e)}
       onDrop={e => onDrop(e, String(i))}
       title='You can drag this to sort.'
     >
