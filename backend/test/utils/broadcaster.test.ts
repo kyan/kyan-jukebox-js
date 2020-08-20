@@ -11,16 +11,16 @@ describe('Broadcaster', () => {
 
   describe('#toClient', () => {
     it('handles unauthorised call', () => {
-      const sendMock = jest.fn()
-      const socket = {
-        id: '12345',
-        emit: sendMock
-      }
+      const emitMock = jest.fn()
       const headers = { key: 'playback.next' }
       const message = 'hello mum'
 
-      broadcaster.toClient({ socket, headers, message })
-      expect(sendMock).toHaveBeenCalledWith(
+      const socket = { id: '123', emit: emitMock } as any
+      const mockSocket = socket as SocketIO.Socket
+
+      broadcaster.toClient({ socket: mockSocket, headers, message })
+
+      expect(socket.emit).toHaveBeenCalledWith(
         'message',
         '{"key":"playback.next","data":"hello mum"}'
       )
@@ -31,19 +31,18 @@ describe('Broadcaster', () => {
     })
 
     it('handles authorised call', () => {
-      const sendMock = jest.fn()
-      const socket = {
-        id: '12345',
-        emit: sendMock
-      }
+      const emitMock = jest.fn()
       const headers = {
         key: 'playback.next',
         user: 'duncan'
       }
       const message = 'hello mum'
 
-      broadcaster.toClient({ socket, headers, message })
-      expect(sendMock).toHaveBeenCalledWith(
+      const socket = { id: '123', emit: emitMock } as any
+      const mockSocket = socket as SocketIO.Socket
+
+      broadcaster.toClient({ socket: mockSocket, headers, message })
+      expect(emitMock).toHaveBeenCalledWith(
         'message',
         '{"key":"playback.next","data":"hello mum","user":"duncan"}'
       )
@@ -54,20 +53,19 @@ describe('Broadcaster', () => {
     })
 
     it('handles error', () => {
-      const sendMock = jest.fn(() => {
+      const emitMock = jest.fn(() => {
         throw Error('oops')
       })
-      const socket = {
-        id: '12345',
-        emit: sendMock
-      }
       const headers = {
         key: 'playback.next',
         user: 'duncan'
       }
       const message = 'hello mum'
 
-      broadcaster.toClient({ socket, headers, message })
+      const socket = { id: '123', emit: emitMock } as any
+      const mockSocket = socket as SocketIO.Socket
+
+      broadcaster.toClient({ socket: mockSocket, headers, message })
       expect(logger.error).toHaveBeenCalledWith('Broadcaster#toClient', {
         message: 'oops'
       })
@@ -76,15 +74,15 @@ describe('Broadcaster', () => {
 
   describe('#toAll', () => {
     it('handles call', () => {
-      const sendMock = jest.fn()
-      const socketio = {
-        emit: sendMock
-      }
+      const emitMock = jest.fn()
       const headers = { key: 'playback.next' }
       const message = 'hello mum'
 
-      broadcaster.toAll({ socketio, headers, message })
-      expect(sendMock).toHaveBeenCalledWith(
+      const socket = { emit: emitMock } as any
+      const mockSocket = socket as SocketIO.Server
+
+      broadcaster.toAll({ socketio: mockSocket, headers, message })
+      expect(emitMock).toHaveBeenCalledWith(
         'message',
         '{"key":"playback.next","data":"hello mum"}'
       )
@@ -95,17 +93,17 @@ describe('Broadcaster', () => {
     })
 
     it('handles error', () => {
-      const sendMock = jest.fn(() => {
+      const emitMock = jest.fn(() => {
         throw Error('oops')
       })
-      const socketio = {
-        emit: sendMock
-      }
       const headers = { key: 'playback.next' }
       const message = 'hello mum'
 
-      broadcaster.toAll({ socketio, headers, message })
-      expect(sendMock).toHaveBeenCalledWith(
+      const socket = { emit: emitMock } as any
+      const mockSocket = socket as SocketIO.Server
+
+      broadcaster.toAll({ socketio: mockSocket, headers, message })
+      expect(emitMock).toHaveBeenCalledWith(
         'message',
         '{"key":"playback.next","data":"hello mum"}'
       )
@@ -115,14 +113,14 @@ describe('Broadcaster', () => {
 
   describe('#stateChange', () => {
     it('handles call to user', () => {
-      const sendMock = jest.fn()
-      const socket = {
-        emit: sendMock
-      }
+      const emitMock = jest.fn()
       const message = { online: false }
 
-      broadcaster.stateChange({ socket, message })
-      expect(sendMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
+      const socket = { emit: emitMock } as any
+      const mockSocket = socket as SocketIO.Socket
+
+      broadcaster.stateChange({ socket: mockSocket, message })
+      expect(emitMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
       expect(EventLogger.info).toHaveBeenCalledWith('OUTGOING STATE CHANGE', {
         data: { online: false },
         key: 'state'
@@ -130,14 +128,14 @@ describe('Broadcaster', () => {
     })
 
     it('handles call to ', () => {
-      const sendMock = jest.fn()
-      const socket = {
-        emit: sendMock
-      }
+      const emitMock = jest.fn()
       const message = { online: false }
 
-      broadcaster.stateChange({ socketio: socket, message })
-      expect(sendMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
+      const socket = { emit: emitMock } as any
+      const mockSocket = socket as SocketIO.Server
+
+      broadcaster.stateChange({ socketio: mockSocket, message })
+      expect(emitMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
       expect(EventLogger.info).toHaveBeenCalledWith('OUTGOING STATE CHANGE', {
         data: { online: false },
         key: 'state'
@@ -145,16 +143,16 @@ describe('Broadcaster', () => {
     })
 
     it('handles error', () => {
-      const sendMock = jest.fn(() => {
+      const emitMock = jest.fn(() => {
         throw Error('oops')
       })
-      const socket = {
-        emit: sendMock
-      }
       const message = { online: false }
 
-      broadcaster.stateChange({ socket, message })
-      expect(sendMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
+      const socket = { emit: emitMock } as any
+      const mockSocket = socket as SocketIO.Socket
+
+      broadcaster.stateChange({ socket: mockSocket, message })
+      expect(emitMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
       expect(logger.error).toHaveBeenCalledWith('Broadcaster#stateChange', {
         message: 'oops'
       })

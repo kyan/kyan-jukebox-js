@@ -1,7 +1,6 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import { render, fireEvent } from '@testing-library/react'
 import MockTrackListJson from '__mockData__/api'
-import { Sidebar } from 'semantic-ui-react'
 import Search from './index'
 
 describe('Search', () => {
@@ -39,64 +38,8 @@ describe('Search', () => {
       const tracks = MockTrackListJson()
       tracks[0].track.metrics = null
 
-      const wrapper = mount(
-        <Search
-          onClose={onCloseMock}
-          onSubmit={onSubmitMock}
-          onQueryChange={onQueryChangeMock}
-          onAddTrack={onAddTrackMock}
-          onAddTracks={onAddTracksMock}
-          onSwapTracks={onSwapTracksMock}
-          onAddTrackToMix={onAddTrackToMixMock}
-          onRemoveFromMix={onRemoveFromMixMock}
-          onPageChange={onPageChangeMock}
-          results={tracks}
-          curatedList={curatedList}
-          totalPages={2}
-          visible
-          query=''
-        />
-      )
-
-      it('renders as expected', () => {
-        expect(wrapper).toMatchSnapshot()
-      })
-
-      it('focuses the search input onShow', () => {
-        const input = wrapper.find('input')
-        const sidebar = wrapper.find(Sidebar)
-        // @ts-ignore
-        sidebar.prop('onShow')()
-        // @ts-ignore
-        expect(input.get(0).ref.current).toEqual(document.activeElement)
-      })
-
-      it('does not add a disabled track', () => {
-        const track = wrapper.find('SearchItem').first()
-        track.simulate('click')
-        expect(onAddTrackMock).not.toHaveBeenCalled()
-      })
-
-      it('does add a track', () => {
-        const track = wrapper.find('SearchItem').at(2).find('Image')
-        track.simulate('click')
-        expect(onAddTrackMock).toHaveBeenCalledWith('spotify:track:6BitwTrBfUrTdztRrQiw52')
-      })
-
-      it('does add a track to the mix', () => {
-        const track = wrapper.find('SearchItem').at(3).find('.search-list-item__add')
-        track.simulate('click')
-        expect(onAddTrackToMixMock).toHaveBeenCalledWith(tracks[2].track)
-      })
-
-      it('closes the sidebar', () => {
-        const sidebar = wrapper.find('SidebarPusher')
-        sidebar.simulate('click')
-        expect(onCloseMock).toHaveBeenCalled()
-      })
-
-      it('ignores closing the sidebar', () => {
-        const wrapper = mount(
+      test('everything renders as expected', () => {
+        const { asFragment } = render(
           <Search
             onClose={onCloseMock}
             onSubmit={onSubmitMock}
@@ -110,13 +53,82 @@ describe('Search', () => {
             results={tracks}
             curatedList={curatedList}
             totalPages={2}
-            visible={false}
+            visible
             query=''
           />
         )
-        const sidebar = wrapper.find('SidebarPusher')
-        sidebar.simulate('click')
-        expect(onCloseMock).not.toHaveBeenCalled()
+        expect(asFragment().firstChild).toMatchSnapshot()
+      })
+
+      test('it adds a track when the track image is clicked', () => {
+        const { getByAltText } = render(
+          <Search
+            onClose={onCloseMock}
+            onSubmit={onSubmitMock}
+            onQueryChange={onQueryChangeMock}
+            onAddTrack={onAddTrackMock}
+            onAddTracks={onAddTracksMock}
+            onSwapTracks={onSwapTracksMock}
+            onAddTrackToMix={onAddTrackToMixMock}
+            onRemoveFromMix={onRemoveFromMixMock}
+            onPageChange={onPageChangeMock}
+            results={tracks}
+            curatedList={curatedList}
+            totalPages={2}
+            visible
+            query=''
+          />
+        )
+        const track = tracks[1].track.name
+        fireEvent.click(getByAltText(track))
+        expect(onAddTrackMock).toHaveBeenCalledWith('spotify:track:6BitwTrBfUrTdztRrQiw52')
+      })
+
+      test('it does not add a explicit track when the track image is clicked', () => {
+        const { getByAltText } = render(
+          <Search
+            onClose={onCloseMock}
+            onSubmit={onSubmitMock}
+            onQueryChange={onQueryChangeMock}
+            onAddTrack={onAddTrackMock}
+            onAddTracks={onAddTracksMock}
+            onSwapTracks={onSwapTracksMock}
+            onAddTrackToMix={onAddTrackToMixMock}
+            onRemoveFromMix={onRemoveFromMixMock}
+            onPageChange={onPageChangeMock}
+            results={tracks}
+            curatedList={curatedList}
+            totalPages={2}
+            visible
+            query=''
+          />
+        )
+        const track = tracks[0].track.name
+        fireEvent.click(getByAltText(track))
+        expect(onAddTrackMock).not.toHaveBeenCalled()
+      })
+
+      test('it does add a track to the mix when clicking Add to Mix', () => {
+        const { getAllByText } = render(
+          <Search
+            onClose={onCloseMock}
+            onSubmit={onSubmitMock}
+            onQueryChange={onQueryChangeMock}
+            onAddTrack={onAddTrackMock}
+            onAddTracks={onAddTracksMock}
+            onSwapTracks={onSwapTracksMock}
+            onAddTrackToMix={onAddTrackToMixMock}
+            onRemoveFromMix={onRemoveFromMixMock}
+            onPageChange={onPageChangeMock}
+            results={tracks}
+            curatedList={curatedList}
+            totalPages={2}
+            visible
+            query=''
+          />
+        )
+        fireEvent.click(getAllByText('Add to mix')[0])
+        expect(onAddTrackToMixMock).toHaveBeenCalledWith(tracks[0].track)
       })
     })
   })

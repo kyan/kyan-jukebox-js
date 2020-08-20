@@ -127,7 +127,7 @@ const Search: React.FC<SearchProps> = props => {
         width='very wide'
         direction='right'
         className='sidebar-search'
-        onShow={() => inputEl.current && inputEl.current.focus()}
+        onShow={/* istanbul ignore next */ () => inputEl.current && inputEl.current.focus()}
       >
         <YourMix
           tracks={curatedList}
@@ -140,6 +140,7 @@ const Search: React.FC<SearchProps> = props => {
             <label>SEARCH</label>
             <input
               ref={inputEl}
+              aria-label='search-input'
               placeholder='track, artist or album'
               onChange={onQueryChange}
               value={query}

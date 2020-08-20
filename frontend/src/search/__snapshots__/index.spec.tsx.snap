@@ -3,10 +3,6 @@
 exports[`SearchContainer render Adding a track to the mix works as expected 1`] = `
 Array [
   Object {
-    "open": false,
-    "type": "actionToggleSearchSidebar",
-  },
-  Object {
     "type": "actionRemoveFromSearchResults",
     "uris": Array [
       "https://open.spotify.com/track/0c41pMosF5Kqwwetrack1",
@@ -32,7 +28,7 @@ Array [
 exports[`SearchContainer render Adding a track works as expected 1`] = `
 Array [
   Object {
-    "open": false,
+    "open": true,
     "type": "actionToggleSearchSidebar",
   },
   Object {
@@ -82,10 +78,6 @@ Array [
 exports[`SearchContainer render Adding tracks from the mix works as expected 1`] = `
 Array [
   Object {
-    "open": false,
-    "type": "actionToggleSearchSidebar",
-  },
-  Object {
     "key": "tracklist.add",
     "params": Object {
       "uris": Array [
@@ -104,6 +96,10 @@ Array [
 exports[`SearchContainer render Does not add when more than 5 already added 1`] = `
 Array [
   Object {
+    "open": true,
+    "type": "actionToggleSearchSidebar",
+  },
+  Object {
     "open": false,
     "type": "actionToggleSearchSidebar",
   },
@@ -112,10 +108,6 @@ Array [
 
 exports[`SearchContainer render Removing a track from the mix works as expected 1`] = `
 Array [
-  Object {
-    "open": false,
-    "type": "actionToggleSearchSidebar",
-  },
   Object {
     "type": "curateRemoveTracksFromMix",
     "uri": "https://open.spotify.com/track/0c41pMosF5Kqwwetrack2",
@@ -137,8 +129,8 @@ Array [
 exports[`SearchContainer render Swapping tracks from the mix works as expected 1`] = `
 Array [
   Object {
-    "a": "1",
-    "b": "3",
+    "a": 2,
+    "b": 1,
     "type": "searchSwapTracks",
   },
 ]
