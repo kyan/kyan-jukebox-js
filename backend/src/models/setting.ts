@@ -5,7 +5,7 @@ import { JBTrackInterface } from './track'
 
 const HOW_MANY_PREVIOUS_TRACKS_IN_PLAYLIST = 4 as const
 
-interface DBSettingValueInterface {
+export interface DBSettingValueInterface {
   trackSeeds: string[]
   currentTrack: string
   currentTracklist: string[]
@@ -54,7 +54,7 @@ const clearState = (): Promise<void> => {
 }
 
 const initializeState = (
-  currentTrack: Mopidy.models.Track,
+  currentTrack: Mopidy.models.Track | null,
   currentTracklist: Mopidy.models.Track[]
 ): Promise<void> => {
   return new Promise((resolve) => {

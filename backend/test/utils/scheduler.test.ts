@@ -10,7 +10,10 @@ describe('Scheduler', () => {
   beforeAll(() => {
     jest.spyOn(cron, 'schedule').mockImplementation(() => {
       return {
-        start: startMock
+        stop: jest.fn(),
+        start: startMock,
+        destroy: jest.fn(),
+        getStatus: jest.fn()
       }
     })
     jest.spyOn(logger, 'info').mockImplementation(infoMock)
@@ -22,19 +25,21 @@ describe('Scheduler', () => {
 
   describe('scheduleAutoPlayback', () => {
     it('it should schedule two jobs, for 8am and 7pm', () => {
+      const mockCronSchedule = cron.schedule as jest.Mock
       Scheduler.scheduleAutoPlayback({
         stop: mockStop
       })
       expect(cron.schedule).toHaveBeenCalledTimes(1)
       expect(startMock).toHaveBeenCalledTimes(1)
-      expect(cron.schedule.mock.calls[0][0]).toEqual('0 19 * * *')
+      expect(mockCronSchedule.mock.calls[0][0]).toEqual('0 19 * * *')
     })
 
     it('when the job is invoked it should stop the jukebox and call the logger', () => {
+      const mockCronSchedule = cron.schedule as jest.Mock
       Scheduler.scheduleAutoPlayback({
         stop: mockStop
       })
-      cron.schedule.mock.calls[0][1]()
+      mockCronSchedule.mock.calls[0][1]()
       expect(mockStop).toHaveBeenCalledTimes(1)
       expect(infoMock).toHaveBeenCalledWith('[Scheduled] Jukebox Stopped')
     })

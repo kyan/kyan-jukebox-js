@@ -1,9 +1,11 @@
+import lodash from 'lodash'
+import Mopidy from 'mopidy'
 import SpotifyService from '../../src/services/spotify'
 import EventLogger from '../../src/utils/event-logger'
-import ImageCache from '../../src/utils/image-cache'
-import Recommend from '../../src/utils/recommendations'
+import ImageCache, { ImageCacheInterface } from '../../src/utils/image-cache'
+import Recommend, { SuitableDataInterface } from '../../src/utils/recommendations'
 import logger from '../../src/config/logger'
-import Track, { addTracks } from '../../src/models/track'
+import Track, { addTracks, DBTrackInterface } from '../../src/models/track'
 import { getTracklist } from '../../src/models/setting'
 
 jest.mock('../../src/utils/recommendations')
@@ -61,8 +63,14 @@ jest.mock('spotify-web-api-node', () => {
   }
 })
 jest.mock('lodash', () => ({
-  sampleSize: (list) => list
+  sampleSize: (list: lodash.Dictionary<unknown[]>) => list
 }))
+
+const mockedRecommend = Recommend as jest.Mocked<typeof Recommend>
+const mockedImageCache = ImageCache as jest.Mocked<typeof ImageCache>
+const mockedAddTracks = addTracks as jest.Mock
+const mockedGetTracklist = getTracklist as jest.Mock
+const mockedTrackFind = Track.find as jest.Mock<any>
 
 describe('SpotifyService', () => {
   afterEach(() => {
@@ -72,7 +80,7 @@ describe('SpotifyService', () => {
   describe('getTracks', () => {
     it('should handle tracks', () => {
       expect.assertions(1)
-      ImageCache.addAll.mockResolvedValue()
+      mockedImageCache.addAll.mockResolvedValue({})
       return SpotifyService.getTracks(['spotify:track:03fT3OHB9KyMtGMtNEW']).then(
         (result) => {
           expect(result).toEqual({ tracks: [{ explicit: true, name: 'Naughty' }] })
@@ -88,8 +96,8 @@ describe('SpotifyService', () => {
         tracklist: {
           getNextTlid: jest.fn().mockImplementationOnce(() => Promise.resolve(123))
         }
-      }
-      return SpotifyService.canRecommend(mopidy).then((result) => {
+      } as unknown
+      return SpotifyService.canRecommend(mopidy as Mopidy).then((result) => {
         expect(result).toBeUndefined()
       })
     })
@@ -101,24 +109,26 @@ describe('SpotifyService', () => {
           getNextTlid: jest.fn().mockResolvedValue(null),
           add: jest.fn().mockResolvedValue('track added OK')
         }
-      }
+      } as unknown
       const uris = [
         'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt',
         'spotify:track:7LzeKqmOtpKVKJ1dmalkC0',
         'spotify:track:1Ut1A8UaNqGuwsHgWq75PW'
       ]
-      Recommend.extractSuitableData.mockResolvedValue()
-      Recommend.addRandomUris.mockResolvedValue({ images: 'images', uris })
-      addTracks.mockImplementation(() => Promise.resolve({ user: 'duncan' }))
-      ImageCache.addAll.mockResolvedValue()
-      Track.find.mockImplementation(() => ({
-        select: jest.fn().mockResolvedValue([{ _id: 'meh' }])
+      const images = {} as ImageCacheInterface
+      const results = [{ _id: 'meh' }] as DBTrackInterface[]
+      mockedRecommend.extractSuitableData.mockResolvedValue({} as SuitableDataInterface)
+      mockedRecommend.addRandomUris.mockResolvedValue({ images, uris })
+      mockedAddTracks.mockResolvedValue({ user: 'duncan' })
+      mockedImageCache.addAll.mockResolvedValue({})
+      mockedTrackFind.mockImplementation(() => ({
+        select: jest.fn().mockResolvedValue(results)
       }))
 
-      return SpotifyService.canRecommend(mopidy).then((result) => {
+      return SpotifyService.canRecommend(mopidy as Mopidy).then((result) => {
         expect(result).toEqual(expect.any(Function))
 
-        return result(uris, mopidy).then((result) => {
+        return result(uris, mopidy as Mopidy).then((result) => {
           return new Promise((resolve) => {
             setTimeout(() => {
               expect(result).toBeUndefined()
@@ -137,8 +147,8 @@ describe('SpotifyService', () => {
                 true
               )
               resolve()
-            })
-          }, 0)
+            }, 0)
+          })
         })
       })
     })
@@ -149,12 +159,12 @@ describe('SpotifyService', () => {
         tracklist: {
           getNextTlid: jest.fn().mockImplementationOnce(() => Promise.resolve(null))
         }
-      }
-      return SpotifyService.canRecommend(mopidy).then((result) => {
+      } as unknown
+      return SpotifyService.canRecommend(mopidy as Mopidy).then((result) => {
         expect(result).toEqual(expect.any(Function))
 
-        const uris = []
-        return result(uris, mopidy).then((result) => {
+        const uris: string[] = []
+        return result(uris, mopidy as Mopidy).then((result) => {
           return new Promise((resolve) => {
             setTimeout(() => {
               expect(result).toBeUndefined()
@@ -171,8 +181,8 @@ describe('SpotifyService', () => {
         tracklist: {
           getNextTlid: jest.fn().mockRejectedValue(new Error('getNextTlid broke'))
         }
-      }
-      SpotifyService.canRecommend(mopidy)
+      } as unknown
+      SpotifyService.canRecommend(mopidy as Mopidy)
 
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -186,13 +196,12 @@ describe('SpotifyService', () => {
   describe('explicit content', () => {
     it('should resolve OK', () => {
       expect.assertions(1)
-      getTracklist.mockResolvedValue([
+      mockedGetTracklist.mockResolvedValue([
         'spotify:track:03fT3OHB9KyMtGMt2zwqCT',
         'spotify:track:1yzSSn5Sj1azuo7RgwvDb3'
       ])
-      jest
-        .spyOn(SpotifyService, 'getTracks')
-        .mockResolvedValue({ tracks: [{ explicit: false, name: 'Handbags' }] })
+      const track = { explicit: false, name: 'Handbags' } as SpotifyApi.TrackObjectFull
+      jest.spyOn(SpotifyService, 'getTracks').mockResolvedValue({ tracks: [track] })
 
       return SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW').then(
         (response) => {
@@ -204,16 +213,15 @@ describe('SpotifyService', () => {
 
   describe('when explicit and content is NOT allowed', () => {
     afterEach(() => {
-      process.env.EXPLICIT_CONTENT = true
+      process.env.EXPLICIT_CONTENT = 'true'
     })
 
     it('should show error message', () => {
-      process.env.EXPLICIT_CONTENT = false
+      process.env.EXPLICIT_CONTENT = 'false'
       expect.assertions(1)
-      jest
-        .spyOn(SpotifyService, 'getTracks')
-        .mockResolvedValue({ tracks: [{ explicit: true, name: 'Handbags' }] })
-      getTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT'])
+      const track = { explicit: true, name: 'Handbags' } as SpotifyApi.TrackObjectFull
+      jest.spyOn(SpotifyService, 'getTracks').mockResolvedValue({ tracks: [track] })
+      mockedGetTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT'])
 
       return SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW').catch(
         (error) => {
@@ -226,7 +234,7 @@ describe('SpotifyService', () => {
   describe('validateTrack', () => {
     it('should reject if track is already in tracklist', () => {
       expect.assertions(1)
-      getTracklist.mockResolvedValue([
+      mockedGetTracklist.mockResolvedValue([
         'spotify:track:03fT3OHB9KyMtGMt2zwqCT',
         'spotify:track:1yzSSn5Sj1azuo7RgwvDb3'
       ])
@@ -240,23 +248,21 @@ describe('SpotifyService', () => {
       )
     })
 
-    it('should resolve if track is valid', () => {
+    it('should resolve if track is valid', async () => {
       expect.assertions(1)
-      getTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT'])
-      jest
-        .spyOn(SpotifyService, 'getTracks')
-        .mockResolvedValue({ tracks: [{ explicit: false, name: 'Handbags' }] })
+      mockedGetTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT'])
+      const track = { explicit: false, name: 'Handbags' } as SpotifyApi.TrackObjectFull
+      jest.spyOn(SpotifyService, 'getTracks').mockResolvedValue({ tracks: [track] })
 
-      return SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW').then(
-        (result) => {
-          expect(result).toEqual(true)
-        }
+      const result = await SpotifyService.validateTrack(
+        'spotify:track:03fT3OHB9KyMtGMtNEW'
       )
+      expect(result).toEqual(true)
     })
 
     it('should log if track is broken', () => {
       expect.assertions(1)
-      getTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT'])
+      mockedGetTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT'])
       jest.spyOn(SpotifyService, 'getTracks').mockRejectedValue(new Error('bang!'))
       SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW')
 
@@ -270,18 +276,29 @@ describe('SpotifyService', () => {
   })
 
   describe('search', () => {
-    it('should resolve search', () => {
+    it('should resolve search', async () => {
       expect.assertions(1)
-      ImageCache.addAll.mockResolvedValue()
+      mockedImageCache.addAll.mockResolvedValue({})
 
-      return SpotifyService.search('hello', {}).then((result) => {
-        expect(result).toEqual({ tracks: { items: [] } })
+      const result = await SpotifyService.search({
+        query: 'hello',
+        options: {
+          offset: 0,
+          limit: 10
+        }
       })
+      expect(result).toEqual({ tracks: { items: [] } })
     })
 
     it('should reject when search fails', () => {
       expect.assertions(1)
-      SpotifyService.search('hello', {})
+      SpotifyService.search({
+        query: 'hello',
+        options: {
+          offset: 0,
+          limit: 10
+        }
+      })
 
       return new Promise((resolve) => {
         setTimeout(() => {

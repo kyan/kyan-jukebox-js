@@ -8,8 +8,14 @@ jest.mock('../../src/config/logger')
 jest.mock('../../src/utils/broadcaster')
 jest.mock('../../src/models/user')
 
+const mockUserFindOneAndUpdate = User.findOneAndUpdate as jest.Mock
+const mockLoggerError = logger.error as jest.Mock
+const googleMock = OAuth2Client as unknown
+const mockOAuth2Client = googleMock as jest.Mock
+
 describe('AuthenticateHandler', () => {
-  const wsMock = jest.fn()
+  const mock = {} as unknown
+  const wsMock = mock as SocketIO.Socket
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -24,7 +30,7 @@ describe('AuthenticateHandler', () => {
       jwt: 'somevalidjwttoken'
     }
 
-    OAuth2Client.mockImplementation(() => {
+    mockOAuth2Client.mockImplementation(() => {
       return {
         verifyIdToken: jest.fn().mockResolvedValue({
           getPayload: jest.fn().mockImplementationOnce(() => ({
@@ -37,7 +43,7 @@ describe('AuthenticateHandler', () => {
       }
     })
 
-    User.findOneAndUpdate.mockResolvedValue(true)
+    mockUserFindOneAndUpdate.mockResolvedValue(true)
 
     return AuthenticateHandler(payload, wsMock).then((response) => {
       expect(response).toEqual({
@@ -50,7 +56,7 @@ describe('AuthenticateHandler', () => {
         }
       })
       expect(Broadcaster.toClient).not.toHaveBeenCalled()
-      expect(User.findOneAndUpdate.mock.calls[0]).toEqual([
+      expect(mockUserFindOneAndUpdate.mock.calls[0]).toEqual([
         { _id: 'abcdefg123456' },
         {
           _id: 'abcdefg123456',
@@ -69,7 +75,7 @@ describe('AuthenticateHandler', () => {
       data: ['12'],
       jwt: 'somevalidjwttoken'
     }
-    OAuth2Client.mockImplementation(() => {
+    mockOAuth2Client.mockImplementation(() => {
       return {
         verifyIdToken: jest.fn().mockRejectedValue({ message: 'authError' })
       }
@@ -102,7 +108,7 @@ describe('AuthenticateHandler', () => {
       data: ['12'],
       jwt: 'somevalidjwttoken'
     }
-    OAuth2Client.mockImplementation(() => {
+    mockOAuth2Client.mockImplementation(() => {
       return {
         verifyIdToken: jest.fn().mockResolvedValue({
           getPayload: jest.fn().mockImplementationOnce(() => ({
@@ -159,7 +165,7 @@ describe('AuthenticateHandler', () => {
       data: ['12'],
       jwt: 'somevalidjwttoken'
     }
-    OAuth2Client.mockImplementation(() => {
+    mockOAuth2Client.mockImplementation(() => {
       return {
         verifyIdToken: jest.fn().mockResolvedValue({
           getPayload: jest.fn().mockImplementationOnce(() => ({
@@ -175,13 +181,13 @@ describe('AuthenticateHandler', () => {
 
     return new Promise((resolve) => {
       setTimeout(() => {
-        expect(User.findOneAndUpdate.mock.calls[0]).toEqual([
+        expect(mockUserFindOneAndUpdate.mock.calls[0]).toEqual([
           { _id: 'abcdefg123456' },
           { _id: 'abcdefg123456', fullname: 'Fred Spanner' },
           { new: true, setDefaultsOnInsert: true, upsert: true }
         ])
         expect(Broadcaster.toClient).not.toHaveBeenCalled()
-        expect(logger.error.mock.calls).toEqual([
+        expect(mockLoggerError.mock.calls).toEqual([
           ['Error checking user', { error: 'bang' }]
         ])
         resolve()
