@@ -19,6 +19,7 @@ module.exports = {
     semi: ['error', 'never'],
     // remove when all anys have been fixed
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off'
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off'
   }
 }

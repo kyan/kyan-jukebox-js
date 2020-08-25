@@ -12,7 +12,7 @@ describe('ImageCache', () => {
   })
 
   describe('findAll', () => {
-    it('finds some images and returns them', () => {
+    it('finds some images and returns them', async () => {
       const _doc = {
         _id: 'spotify123',
         url: 'path/to/image'
@@ -20,15 +20,14 @@ describe('ImageCache', () => {
       expect.assertions(2)
       mockingoose.Image.toReturn([_doc], 'find')
 
-      return ImageCache.findAll([_doc._id]).then((result) => {
-        expect(result).toMatchObject([_doc])
-        expect(EventLogger.info).toHaveBeenCalledWith('FOUND CACHED IMAGES', {
-          data: ['spotify123']
-        })
+      const result = await ImageCache.findAll([_doc._id])
+      expect(result).toMatchObject([_doc])
+      expect(EventLogger.info).toHaveBeenCalledWith('FOUND CACHED IMAGES', {
+        data: ['spotify123']
       })
     })
 
-    it('finds no images and returns them', () => {
+    it('finds no images and returns them', async () => {
       const _doc = {
         _id: 'spotify123',
         url: 'path/to/image'
@@ -36,16 +35,15 @@ describe('ImageCache', () => {
       expect.assertions(2)
       mockingoose.Image.toReturn([], 'find')
 
-      return ImageCache.findAll([_doc._id]).then((result) => {
-        expect(result).toMatchObject([])
-        expect(EventLogger.info).not.toHaveBeenCalled()
-      })
+      const result = await ImageCache.findAll([_doc._id])
+      expect(result).toMatchObject([])
+      expect(EventLogger.info).not.toHaveBeenCalled()
     })
 
     it('handles errors', () => {
       expect.assertions(1)
 
-      return ImageCache.findAll('xxx').catch((error) => {
+      return ImageCache.findAll(['xxx']).catch((error) => {
         expect(error.message).toEqual("Cannot read property 'length' of undefined")
       })
     })
@@ -57,13 +55,12 @@ describe('ImageCache', () => {
       expect(result).toEqual(null)
     })
 
-    it('handles resolving an image ', () => {
+    it('handles resolving an image ', async () => {
       expect.assertions(1)
       mockingoose.Image.toReturn({ url: 'path' }, 'findOneAndUpdate')
 
-      return ImageCache.addAll({ spotify123: 'path/to/image' }).then((result) => {
-        expect(result).toMatchObject([{ url: 'path' }])
-      })
+      const result = await ImageCache.addAll({ spotify123: 'path/to/image' })
+      expect(result).toMatchObject([{ url: 'path' }])
     })
 
     it('handles mongo errors', () => {

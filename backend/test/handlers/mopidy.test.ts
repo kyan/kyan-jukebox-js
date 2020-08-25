@@ -3,14 +3,18 @@ import Spotify from '../../src/services/spotify'
 import MopidyHandler from '../../src/handlers/mopidy'
 import Broadcaster from '../../src/utils/broadcaster'
 import Decorator from '../../src/decorators/mopidy'
+import Mopidy from 'mopidy'
 jest.mock('../../src/decorators/mopidy')
 jest.mock('../../src/utils/broadcaster')
 jest.mock('../../src/config/logger')
 jest.mock('../../src/services/spotify')
 
+const mockSpotifyValidateTrack = Spotify.validateTrack as jest.Mock
+const mockDecoratorParse = Decorator.parse as jest.Mock
+
 describe('MopidyHandler', () => {
-  const socket = jest.fn()
-  const socketio = jest.fn()
+  const socket = jest.fn() as unknown
+  const socketio = jest.fn() as unknown
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -23,15 +27,19 @@ describe('MopidyHandler', () => {
       tracklist: {
         setVolume: mopidyVolumeMock
       }
-    }
+    } as unknown
     const payload = {
       key: 'tracklist.setVolume',
       data: 'data'
     }
-    const trackMock = jest.fn().mockResolvedValue()
-    Spotify.validateTrack.mockImplementation(trackMock)
-    Decorator.parse.mockResolvedValue('unifiedMessage')
-    MopidyHandler({ payload, socket, socketio, mopidy })
+    mockSpotifyValidateTrack.mockResolvedValue(true)
+    mockDecoratorParse.mockResolvedValue('unifiedMessage')
+    MopidyHandler({
+      payload,
+      socket: socket as SocketIO.Socket,
+      socketio: socketio as SocketIO.Server,
+      mopidy: mopidy as Mopidy
+    })
 
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -56,15 +64,19 @@ describe('MopidyHandler', () => {
       tracklist: {
         setVolume: mopidyVolumeMock
       }
-    }
+    } as unknown
     const payload = {
       key: 'tracklist.setVolume',
       data: 'data'
     }
-    const trackMock = jest.fn().mockResolvedValue()
-    Spotify.validateTrack.mockImplementation(trackMock)
-    Decorator.parse.mockResolvedValue({ message: 'message', toAll: true })
-    MopidyHandler({ payload, socket, socketio, mopidy })
+    mockSpotifyValidateTrack.mockResolvedValue(true)
+    mockDecoratorParse.mockResolvedValue({ message: 'message', toAll: true })
+    MopidyHandler({
+      payload,
+      socket: socket as SocketIO.Socket,
+      socketio: socketio as SocketIO.Server,
+      mopidy: mopidy as Mopidy
+    })
 
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -91,12 +103,17 @@ describe('MopidyHandler', () => {
       tracklist: {
         setVolume: mopidyMock
       }
-    }
+    } as unknown
     const payload = {
       key: 'tracklist.setVolume',
       data: [['12']]
     }
-    MopidyHandler({ payload, socket, socketio, mopidy })
+    MopidyHandler({
+      payload,
+      socket: socket as SocketIO.Socket,
+      socketio: socketio as SocketIO.Server,
+      mopidy: mopidy as Mopidy
+    })
 
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -114,19 +131,27 @@ describe('MopidyHandler', () => {
       tracklist: {
         setVolume: mopidyVolumeMock
       }
+    } as unknown
+    const data = null as unknown
+    const payload = {
+      key: 'tracklist.setVolume',
+      data
     }
-    const payload = { key: 'tracklist.setVolume' }
-    const trackMock = jest.fn().mockResolvedValue()
-    Spotify.validateTrack.mockImplementation(trackMock)
-    Decorator.parse.mockResolvedValue('unifiedMessage')
-    MopidyHandler({ payload, socket, socketio, mopidy })
+    mockSpotifyValidateTrack.mockResolvedValue(true)
+    mockDecoratorParse.mockResolvedValue('unifiedMessage')
+    MopidyHandler({
+      payload,
+      socket: socket as SocketIO.Socket,
+      socketio: socketio as SocketIO.Server,
+      mopidy: mopidy as Mopidy
+    })
 
     return new Promise((resolve) => {
       setTimeout(() => {
         expect(Spotify.validateTrack).not.toHaveBeenCalled()
         expect(Broadcaster.toClient).toHaveBeenCalledWith({
           socket,
-          headers: { key: 'tracklist.setVolume' },
+          headers: { key: 'tracklist.setVolume', data: null },
           message: 'unifiedMessage'
         })
         resolve()
@@ -136,11 +161,15 @@ describe('MopidyHandler', () => {
 
   it('should handle an invalid track', () => {
     expect.assertions(1)
-    const mopidy = 'mopidy'
-    const trackMock = jest.fn().mockRejectedValue(new Error('naughty-naughty'))
+    const mopidy = {} as Mopidy
     const payload = { key: 'tracklist.add', data: { uris: ['12345zsdf23456'] } }
-    Spotify.validateTrack.mockImplementation(trackMock)
-    MopidyHandler({ payload, socket, socketio, mopidy })
+    mockSpotifyValidateTrack.mockRejectedValue(new Error('naughty-naughty'))
+    MopidyHandler({
+      payload,
+      socket: socket as SocketIO.Socket,
+      socketio: socketio as SocketIO.Server,
+      mopidy: mopidy as Mopidy
+    })
 
     return new Promise((resolve) => {
       setTimeout(() => {

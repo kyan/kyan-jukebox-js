@@ -4,14 +4,13 @@ import MongodbService from '../../src/services/mongodb'
 jest.mock('../../src/config/logger')
 
 describe('MongodbService', () => {
-  it('it should handle a connection success', () => {
+  it('it should handle a connection success', async () => {
     expect.assertions(1)
-    mongoose.connect = jest.fn(() => Promise.resolve())
+    mongoose.connect = jest.fn().mockResolvedValue(true)
 
-    return MongodbService().then(() => {
-      expect(logger.info).toHaveBeenCalledWith('Mongodb Connected', {
-        url: 'mongodb://mongodb:27017/jb-dev'
-      })
+    await MongodbService()
+    expect(logger.info).toHaveBeenCalledWith('Mongodb Connected', {
+      url: 'mongodb://mongodb:27017/jb-dev'
     })
   })
 

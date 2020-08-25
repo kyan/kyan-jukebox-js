@@ -1,6 +1,8 @@
+import fs from 'fs'
 import TransformerTracklist from '../../src/decorators/tracklist'
 import ImageCache from '../../src/utils/image-cache'
-import fs from 'fs'
+import { DBImageInterface } from '../../src/models/image'
+import { JBTrackInterface } from '../../src/models/track'
 jest.mock('../../src/config/logger')
 
 const firstTrack = {
@@ -48,7 +50,7 @@ describe('TransformerTracklist', () => {
       expect.assertions(1)
       jest
         .spyOn(ImageCache, 'findAll')
-        .mockImplementation(() => Promise.resolve(mockImageData))
+        .mockResolvedValue(mockImageData as DBImageInterface[])
 
       return TransformerTracklist(payload).then((transformedPayload) => {
         expect(transformedPayload).toEqual([
@@ -109,7 +111,8 @@ describe('TransformerTracklist', () => {
 
     it('catches errors', () => {
       expect.assertions(1)
-      return TransformerTracklist('something broke').catch((err) => {
+      const arg = 'something broke' as unknown
+      return TransformerTracklist(arg as JBTrackInterface[]).catch((err) => {
         expect(err.message).toEqual('json.map is not a function')
       })
     })
