@@ -3,6 +3,8 @@ import SearchResults from '../../src/decorators/result'
 import { findTracks } from '../../src/models/track'
 jest.mock('../../src/models/track')
 
+const mockFindTracks = findTracks as jest.Mock
+
 describe('SearchResults', () => {
   const payload = JSON.parse(
     fs.readFileSync('./test/__mockData__/searchResults.json', 'utf8')
@@ -56,7 +58,7 @@ describe('SearchResults', () => {
     ]
 
     it('renders', () => {
-      findTracks.mockResolvedValue(tracks)
+      mockFindTracks.mockResolvedValue(tracks)
 
       return SearchResults(payload.tracks.items).then((transformedPayload) => {
         expect(transformedPayload).toMatchSnapshot()
@@ -111,7 +113,7 @@ describe('SearchResults', () => {
     ]
 
     it('renders', () => {
-      findTracks.mockResolvedValue(tracks)
+      mockFindTracks.mockResolvedValue(tracks)
 
       return SearchResults(payload.tracks.items).then((transformedPayload) => {
         expect(transformedPayload).toMatchSnapshot()
@@ -162,7 +164,7 @@ describe('SearchResults', () => {
 
     it('renders', () => {
       process.env.EXPLICIT_CONTENT = 'false'
-      findTracks.mockResolvedValue(tracks)
+      mockFindTracks.mockResolvedValue(tracks)
 
       return SearchResults(payload.tracks.items).then((transformedPayload) => {
         expect(transformedPayload).toMatchSnapshot()
@@ -171,10 +173,8 @@ describe('SearchResults', () => {
   })
 
   describe('when passed no results', () => {
-    const tracks = []
-
     it('renders', () => {
-      findTracks.mockResolvedValue(tracks)
+      mockFindTracks.mockResolvedValue([])
 
       return SearchResults(payload.tracks.items).then((transformedPayload) => {
         expect(transformedPayload).toMatchSnapshot()
