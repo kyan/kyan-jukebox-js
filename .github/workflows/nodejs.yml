@@ -27,7 +27,7 @@ jobs:
     - name: Build and test frontend
       run: |
         cd frontend
-        npm ci
+        npm install
         npm run build --if-present
         npm test -- --coverage
       env:
@@ -35,7 +35,7 @@ jobs:
     - name: Build and test backend
       run: |
         cd backend
-        npm ci
+        npm install
         npm run build --if-present
         npm run test:ci
       env:

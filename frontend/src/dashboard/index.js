@@ -45,14 +45,8 @@ const Dashboard = props => {
             />
 
             <div className='c-header__actions'>
-              <SearchButton
-                onClick={onSearchClick}
-                disabled={disabled}
-              />
-              <VolumeButtons
-                disabled={disabled}
-                onVolumeChange={onVolumeChange}
-              />
+              <SearchButton onClick={onSearchClick} disabled={disabled} />
+              <VolumeButtons disabled={disabled} onVolumeChange={onVolumeChange} />
               <Settings />
             </div>
           </div>

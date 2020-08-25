@@ -1463,7 +1463,7 @@ exports[`CurrentTrack render album renders track 1`] = `
                         <strong>
                           27 Jan 2020 @ 8:19 pm
                         </strong>
-                         -
+                         - 
                         Duncan Robertson
                       </ListDescription>
                     </ListContent>
@@ -1592,9 +1592,9 @@ exports[`CurrentTrack render album renders track 1`] = `
                         <strong>
                           27 Jan 2020 @ 8:20 pm
                         </strong>
-                         -
+                         - 
                         Duncan Robertson
-
+                         
                         <Label
                           circular={true}
                           size="mini"

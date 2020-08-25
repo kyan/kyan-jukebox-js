@@ -450,22 +450,100 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                 disabled={true}
                                 onClick={[Function]}
                               >
-                                <button
-                                  className="c-button c-button--disabled"
+                                <Button
+                                  animated="vertical"
+                                  as="button"
                                   disabled={true}
+                                  floated="right"
                                   onClick={[Function]}
                                 >
-                                  <Icon
-                                    as="i"
-                                    name="search"
+                                  <Ref
+                                    innerRef={
+                                      Object {
+                                        "current": <button
+                                          class="ui vertical animated disabled right floated button"
+                                          disabled=""
+                                          tabindex="-1"
+                                        >
+                                          <div
+                                            class="hidden content"
+                                          >
+                                            Search
+                                          </div>
+                                          <div
+                                            class="visible content"
+                                          >
+                                            <i
+                                              aria-hidden="true"
+                                              class="search icon"
+                                            />
+                                          </div>
+                                        </button>,
+                                      }
+                                    }
                                   >
-                                    <i
-                                      aria-hidden="true"
-                                      className="search icon"
-                                      onClick={[Function]}
-                                    />
-                                  </Icon>
-                                </button>
+                                    <RefFindNode
+                                      innerRef={
+                                        Object {
+                                          "current": <button
+                                            class="ui vertical animated disabled right floated button"
+                                            disabled=""
+                                            tabindex="-1"
+                                          >
+                                            <div
+                                              class="hidden content"
+                                            >
+                                              Search
+                                            </div>
+                                            <div
+                                              class="visible content"
+                                            >
+                                              <i
+                                                aria-hidden="true"
+                                                class="search icon"
+                                              />
+                                            </div>
+                                          </button>,
+                                        }
+                                      }
+                                    >
+                                      <button
+                                        className="ui vertical animated disabled right floated button"
+                                        disabled={true}
+                                        onClick={[Function]}
+                                        tabIndex={-1}
+                                      >
+                                        <ButtonContent
+                                          hidden={true}
+                                        >
+                                          <div
+                                            className="hidden content"
+                                          >
+                                            Search
+                                          </div>
+                                        </ButtonContent>
+                                        <ButtonContent
+                                          visible={true}
+                                        >
+                                          <div
+                                            className="visible content"
+                                          >
+                                            <Icon
+                                              as="i"
+                                              name="search"
+                                            >
+                                              <i
+                                                aria-hidden="true"
+                                                className="search icon"
+                                                onClick={[Function]}
+                                              />
+                                            </Icon>
+                                          </div>
+                                        </ButtonContent>
+                                      </button>
+                                    </RefFindNode>
+                                  </Ref>
+                                </Button>
                               </SearchButton>
                               <VolumeButtons
                                 disabled={true}
@@ -580,7 +658,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                               className="c-main__trackList"
                             >
                               <h6>
-                                Tracklist
+                                Tracklist 
                                 <ClearPlaylist
                                   disabled={true}
                                   onClear={[Function]}
@@ -1070,22 +1148,100 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                 disabled={true}
                                 onClick={[Function]}
                               >
-                                <button
-                                  className="c-button c-button--disabled"
+                                <Button
+                                  animated="vertical"
+                                  as="button"
                                   disabled={true}
+                                  floated="right"
                                   onClick={[Function]}
                                 >
-                                  <Icon
-                                    as="i"
-                                    name="search"
+                                  <Ref
+                                    innerRef={
+                                      Object {
+                                        "current": <button
+                                          class="ui vertical animated disabled right floated button"
+                                          disabled=""
+                                          tabindex="-1"
+                                        >
+                                          <div
+                                            class="hidden content"
+                                          >
+                                            Search
+                                          </div>
+                                          <div
+                                            class="visible content"
+                                          >
+                                            <i
+                                              aria-hidden="true"
+                                              class="search icon"
+                                            />
+                                          </div>
+                                        </button>,
+                                      }
+                                    }
                                   >
-                                    <i
-                                      aria-hidden="true"
-                                      className="search icon"
-                                      onClick={[Function]}
-                                    />
-                                  </Icon>
-                                </button>
+                                    <RefFindNode
+                                      innerRef={
+                                        Object {
+                                          "current": <button
+                                            class="ui vertical animated disabled right floated button"
+                                            disabled=""
+                                            tabindex="-1"
+                                          >
+                                            <div
+                                              class="hidden content"
+                                            >
+                                              Search
+                                            </div>
+                                            <div
+                                              class="visible content"
+                                            >
+                                              <i
+                                                aria-hidden="true"
+                                                class="search icon"
+                                              />
+                                            </div>
+                                          </button>,
+                                        }
+                                      }
+                                    >
+                                      <button
+                                        className="ui vertical animated disabled right floated button"
+                                        disabled={true}
+                                        onClick={[Function]}
+                                        tabIndex={-1}
+                                      >
+                                        <ButtonContent
+                                          hidden={true}
+                                        >
+                                          <div
+                                            className="hidden content"
+                                          >
+                                            Search
+                                          </div>
+                                        </ButtonContent>
+                                        <ButtonContent
+                                          visible={true}
+                                        >
+                                          <div
+                                            className="visible content"
+                                          >
+                                            <Icon
+                                              as="i"
+                                              name="search"
+                                            >
+                                              <i
+                                                aria-hidden="true"
+                                                className="search icon"
+                                                onClick={[Function]}
+                                              />
+                                            </Icon>
+                                          </div>
+                                        </ButtonContent>
+                                      </button>
+                                    </RefFindNode>
+                                  </Ref>
+                                </Button>
                               </SearchButton>
                               <VolumeButtons
                                 disabled={true}
@@ -1206,7 +1362,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                               className="c-main__trackList"
                             >
                               <h6>
-                                Tracklist
+                                Tracklist 
                                 <ClearPlaylist
                                   disabled={true}
                                   onClear={[Function]}

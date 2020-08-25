@@ -6,26 +6,19 @@ export const Settings = () => {
   const { googleUser, signIn, signOut } = useContext(GoogleAuthContext)
 
   let avatar = (
-    <button
-      onClick={() => signIn()}
-      className='c-button'
-    >
+    <button onClick={() => signIn()} className='c-button'>
       <Icon name='power off' />
     </button>
   )
   if (googleUser && googleUser.profileObj) {
     avatar = (
-      <button
-        onClick={() => signOut()}
-        className='c-button c-button--image'
-      >
+      <button onClick={() => signOut()} className='c-button c-button--image'>
         <img
           title={googleUser.profileObj.name}
           src={googleUser.profileObj.imageUrl}
           alt={googleUser.profileObj.name}
         />
       </button>
-
     )
   }
 

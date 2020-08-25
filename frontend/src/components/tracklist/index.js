@@ -9,7 +9,7 @@ import VotedBy from 'components/voted-by'
 import RemoveTrack from 'components/remove-track'
 import './styles.scss'
 
-const TrackImage = (props) => (
+const TrackImage = props => (
   <Comment.Avatar
     src={props.src}
     className={classnames('c-tracklist__image', { 'c-tracklist__image--current': props.isCurrent })}
@@ -22,11 +22,9 @@ const ImageChooser = props => {
   return <TrackImage src={image} isCurrent={props.isCurrent} />
 }
 
-const TrackTitle = (props) => (
-  <span className='c-tracklist__title'>{props.name}</span>
-)
+const TrackTitle = props => <span className='c-tracklist__title'>{props.name}</span>
 
-const TrackInfo = (props) => (
+const TrackInfo = props => (
   <React.Fragment>
     <span className='c-tracklist__artist'>
       <Item as='a' className='track-search-link' onClick={props.onClick}>
@@ -94,16 +92,9 @@ const ListItems = props => {
         className={classnames('c-tracklist__item', { 'c-tracklist__item--current': isCurrent })}
         key={`${i}${track.uri}`}
       >
-        <ImageChooser
-          image={track.image}
-          isCurrent={isCurrent}
-        />
-        <div
-          className={classnames({ 'c-tracklist__info': !beenPlayed })}
-        >
-          <TrackTitle
-            name={track.name}
-          />
+        <ImageChooser image={track.image} isCurrent={isCurrent} />
+        <div className={classnames({ 'c-tracklist__info': !beenPlayed })}>
+          <TrackTitle name={track.name} />
           <TrackInfo
             artistName={track.artist.name}
             trackLength={track.length}

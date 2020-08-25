@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Icon } from 'semantic-ui-react'
 
-const PreviousButton = (props) => (
+const PreviousButton = props => (
   <button
     onClick={props.onClick}
     disabled={props.disabled}
@@ -15,7 +15,7 @@ const PreviousButton = (props) => (
   </button>
 )
 
-const NextButton = (props) => (
+const NextButton = props => (
   <button
     onClick={props.onClick}
     disabled={props.disabled}

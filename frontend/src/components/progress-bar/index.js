@@ -12,7 +12,9 @@ const ProgressBar = () => {
   return (
     <div className='c-progressBar'>
       <span className='c-progressBar__trackLength'>{millisToMinutesAndSeconds(track.length)}</span>
-      <span className='c-progressBar__remainingTime'>{millisToMinutesAndSeconds(timer.remaining)}</span>
+      <span className='c-progressBar__remainingTime'>
+        {millisToMinutesAndSeconds(timer.remaining)}
+      </span>
       <Line percent={progressPercentage} strokeLinecap='square' />
     </div>
   )

@@ -47,7 +47,7 @@ exports[`Dashboard render renders the happy path correctly 1`] = `
           className="c-main__trackList"
         >
           <h6>
-            Tracklist
+            Tracklist 
             <ClearPlaylist
               disabled={false}
               onClear={[MockFunction onTracklistClearMock]}

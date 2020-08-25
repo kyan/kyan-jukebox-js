@@ -33,13 +33,22 @@ const spotifyLink = uri => {
 
 const AlbumDescription = props => {
   const year = ` (${props.album.year})`
-  return <p>{props.album.name}{year}</p>
+  return (
+    <p>
+      {props.album.name}
+      {year}
+    </p>
+  )
 }
 
 const noTrack = () => (
   <div className='c-nowPlaying'>
     <div>
-      <img className='c-nowPlaying__image' src={defaultImage} alt='Kyan Limited Edition Collectors Vinyl' />
+      <img
+        className='c-nowPlaying__image'
+        src={defaultImage}
+        alt='Kyan Limited Edition Collectors Vinyl'
+      />
       <div className='c-nowPlaying__trackInfo'>
         <h6>Now playing</h6>
         <h4>-</h4>
@@ -75,7 +84,7 @@ const AddLabel = props => {
   )
 }
 
-const PlayLabel = (props) => {
+const PlayLabel = props => {
   return (
     <div className='c-nowPlaying__metaItem'>
       <h6>Played</h6>
@@ -84,7 +93,7 @@ const PlayLabel = (props) => {
   )
 }
 
-const VoteLabel = (props) => {
+const VoteLabel = props => {
   return (
     <div className='c-nowPlaying__metaItem'>
       <h6>Votes</h6>
@@ -111,14 +120,16 @@ const CurrentTrack = props => {
         <img
           src={track.image || defaultImage}
           className='c-nowPlaying__image'
-          alt={(track.image ? track.name : 'Kyan Limited Edition Collectors Vinyl')}
+          alt={track.image ? track.name : 'Kyan Limited Edition Collectors Vinyl'}
         />
         <div className='c-nowPlaying__trackInfo'>
-          <div className='c-nowPlaying__rating'><TrackVotes metrics={track.metrics} /></div>
+          <div className='c-nowPlaying__rating'>
+            <TrackVotes metrics={track.metrics} />
+          </div>
           <h6>Now playing</h6>
-          <a className='h4' href={spotifyLink(track.uri)}
-            target='_blank'
-            rel='noopener noreferrer'>{track.name}</a>
+          <a className='h4' href={spotifyLink(track.uri)} target='_blank' rel='noopener noreferrer'>
+            {track.name}
+          </a>
           <p>{track.artist.name}</p>
           <AlbumDescription album={track.album} />
           <ProgressBar />
@@ -148,7 +159,12 @@ const CurrentTrack = props => {
         </div>
         <div className='c-nowPlaying__footer'>
           <AddedBy users={track.addedBy} />
-          <VotedBy size='mini' show={votes.length > 0} total={calcVoteAverage(votes)} votes={votes} />
+          <VotedBy
+            size='mini'
+            show={votes.length > 0}
+            total={calcVoteAverage(votes)}
+            votes={votes}
+          />
         </div>
       </div>
     </div>
