@@ -7,8 +7,12 @@ jest.mock('../../src/services/spotify')
 jest.mock('../../src/utils/broadcaster')
 jest.mock('../../src/decorators/search')
 
+const mockSpotifySearch = Spotify.search as jest.Mock
+const mockDecoratorParse = Decorator.parse as jest.Mock
+
 describe('SearchHandler', () => {
-  const socket = jest.fn()
+  const socket = {} as unknown
+  const mockSocket = socket as SocketIO.Socket
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -20,10 +24,10 @@ describe('SearchHandler', () => {
       key: 'searchGetTracks',
       data: 'search'
     }
-    Spotify.search.mockResolvedValue('tracks')
-    Decorator.parse.mockResolvedValue('unifiedMessage')
+    mockSpotifySearch.mockResolvedValue('tracks')
+    mockDecoratorParse.mockResolvedValue('unifiedMessage')
 
-    SearchHandler({ payload, socket })
+    SearchHandler({ payload, socket: mockSocket })
 
     return new Promise((resolve) => {
       setTimeout(() => {

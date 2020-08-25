@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "start": "ts-node-dev --respawn --transpileOnly src/index.ts",
     "start:prod": "node dist/index.js",
     "fix": "eslint . --ext .js,.ts --quiet --fix",
@@ -12,7 +12,7 @@
     "test:coverage": "npm run lint && npm run jest -- --watchAll --coverage",
     "test:ci": "npm run lint && npm run jest -- --runInBand --coverage",
     "jest": "jest --forceExit --detectOpenHandles --verbose",
-    "lint": "tsc --noEmit && eslint . --ext .js,.ts"
+    "lint": "tsc --noEmit && eslint . --ext .ts"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -54,6 +54,6 @@
     "prettier": "^2.0.5",
     "ts-jest": "^26.1.0",
     "ts-node-dev": "^1.0.0-pre.48",
-    "typescript": "^3.9.7"
+    "typescript": "^4.0.0"
   }
 }

@@ -5,7 +5,7 @@ describe('ErrorHandler', () => {
     it('throws with a message if the expectation is not met', () => {
       expect(() => {
         ErrorHandler.expectationThatThrows({
-          expect: false === true,
+          expect: [].length === 6,
           message: 'Well that went wrong'
         })
       }).toThrow('Well that went wrong')

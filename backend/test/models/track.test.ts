@@ -1,13 +1,15 @@
 import mockingoose from 'mockingoose'
-import User from '../../src/models/user'
+import User, { DBUserInterface } from '../../src/models/user'
 import EventLogger from '../../src/utils/event-logger'
 import logger from '../../src/config/logger'
+import { JBUserInterface } from '../../src/models/user'
 import Track, {
   findTracks,
   addTracks,
   updateTrackPlaycount,
   updateTrackVote,
-  tracksToHumanReadableArray
+  tracksToHumanReadableArray,
+  DBTrackInterface
 } from '../../src/models/track'
 jest.mock('../../src/config/logger')
 jest.mock('../../src/utils/event-logger')
@@ -26,9 +28,9 @@ describe('test mongoose Track model', () => {
       const _doc = {
         _id: '2xN54cw14BBwQVCzQS2izH',
         addedBy: []
-      }
+      } as unknown
 
-      const finderMock = (query) => {
+      const finderMock = (query: any) => {
         expect(query.getQuery()).toMatchSnapshot('findById query')
 
         if (query.getQuery()._id === '2xN54cw14BBwQVCzQS2izH') {
@@ -51,28 +53,26 @@ describe('test mongoose Track model', () => {
   })
 
   describe('#findTracks', () => {
-    it('makes a call to findOne Track document', () => {
+    it('makes a call to find Track documents', async () => {
       expect.assertions(1)
       mockingoose(Track).toReturn([{ _id: '123' }], 'find')
-      return findTracks('123').then(() => {
-        expect(EventLogger.info).toHaveBeenCalledWith('FOUND CACHED TRACKS', {
-          data: '123'
-        })
+      await findTracks(['123'])
+      expect(EventLogger.info).toHaveBeenCalledWith('FOUND CACHED TRACKS', {
+        data: ['123']
       })
     })
 
-    it('makes a call to findOne Track document and returns nothing', () => {
+    it('makes a call to find Track documents and returns nothing', async () => {
       expect.assertions(1)
       mockingoose(Track).toReturn([], 'find')
-      return findTracks('123').then(() => {
-        expect(logger.info).not.toHaveBeenCalled()
-      })
+      await findTracks(['123'])
+      expect(logger.info).not.toHaveBeenCalled()
     })
 
     it('handles errors', () => {
       expect.assertions(1)
       mockingoose(Track).toReturn(new Error('My Error'), 'find')
-      return findTracks('123').catch((error) => {
+      return findTracks(['123']).catch((error) => {
         expect(error.message).toEqual('My Error')
       })
     })
@@ -80,31 +80,30 @@ describe('test mongoose Track model', () => {
 
   describe('#addTracks', () => {
     const trackObject = { trackUri: '123' }
-    const fakeDate = new Date(888251200000)
+    const fakeDate = new Date(888251200000) as any
 
-    it('returns the uris uses the user', () => {
+    it('returns the uris uses the user', async () => {
       expect.assertions(1)
       const userObject = {
         _id: '999',
         fullname: 'Fred Spanner'
-      }
-      mockingoose(Track).toReturn(trackObject, 'updateOne')
+      } as DBUserInterface
+      mockingoose(Track).toReturn(trackObject, 'updateOne' as any)
       const demoUris = ['123', '456']
       jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
 
-      return addTracks(demoUris, userObject).then((uris) => {
-        expect(uris).toEqual({
-          uris: ['123', '456'],
-          user: { _id: '999', fullname: 'Fred Spanner' }
-        })
+      const uris = await addTracks(demoUris, userObject)
+      expect(uris).toEqual({
+        uris: ['123', '456'],
+        user: { _id: '999', fullname: 'Fred Spanner' }
       })
     })
 
-    it('returns the uris and uses BRH', () => {
+    it('returns the uris and uses BRH', async () => {
       expect.assertions(2)
-      mockingoose(Track).toReturn(trackObject, 'updateOne')
+      mockingoose(Track).toReturn(trackObject, 'updateOne' as any)
 
-      const userFinderMock = (query) => {
+      const userFinderMock = (query: any) => {
         expect(query.getQuery()).toMatchSnapshot('findOneAndUpdate query')
 
         if (query.getQuery()._id === '1ambigrainbowhead') {
@@ -116,11 +115,10 @@ describe('test mongoose Track model', () => {
       const demoUris = ['123', '456']
       jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
 
-      return addTracks(demoUris, null).then((uris) => {
-        expect(uris).toMatchObject({
-          uris: ['123', '456'],
-          user: { _id: '1ambigrainbowhead', fullname: 'BRH' }
-        })
+      const uris = await addTracks(demoUris, null)
+      expect(uris).toMatchObject({
+        uris: ['123', '456'],
+        user: { _id: '1ambigrainbowhead', fullname: 'BRH' }
       })
     })
 
@@ -160,30 +158,28 @@ describe('test mongoose Track model', () => {
   })
 
   describe('#updateTrackPlaycount', () => {
-    const fakeDate = new Date(888251200000)
+    const fakeDate = new Date(888251200000) as any
 
-    it('sets the playedAt', () => {
+    it('sets the playedAt', async () => {
       expect.assertions(1)
       jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
       const track = {
-        addedBy: [{ playedAt: null }]
-      }
+        addedBy: [{}]
+      } as unknown
       mockingoose(Track).toReturn(track, 'findOne')
-      return updateTrackPlaycount('123').then((track) => {
-        expect(track).toMatchSnapshot('playedAt data filled in')
-      })
+      const track_1 = await updateTrackPlaycount('123')
+      expect(track_1).toMatchSnapshot('playedAt data filled in')
     })
 
-    it('does not set the playedAt', () => {
+    it('does not set the playedAt', async () => {
       expect.assertions(1)
       jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
       const track = {
         addedBy: []
-      }
+      } as unknown
       mockingoose(Track).toReturn(track, 'findOne')
-      return updateTrackPlaycount('123').then((track) => {
-        expect(track).toMatchSnapshot('playedAt data filled in')
-      })
+      const track_1 = await updateTrackPlaycount('123')
+      expect(track_1).toMatchSnapshot('playedAt data filled in')
     })
 
     it('handles an error', () => {
@@ -204,21 +200,20 @@ describe('test mongoose Track model', () => {
   })
 
   describe('#updateTrackVote', () => {
-    const fakeDate = new Date(888251200000)
-    const user = { _id: 'user999', fullname: 'Fred Spanner' }
+    const fakeDate = new Date(888251200000) as any
+    const user = { _id: 'user999', fullname: 'Fred Spanner' } as JBUserInterface
 
-    it('does not vote when there is no matching track', () => {
+    it('does not vote when there is no matching track', async () => {
       expect.assertions(1)
-      const payload = { _id: 'uri123', addedBy: [] }
+      const payload = { _id: 'uri123', addedBy: [] } as any
       mockingoose(Track).toReturn(payload, 'findOne')
-      return updateTrackVote(payload._id, user, 12).then((result) => {
-        expect(result).toMatchSnapshot()
-      })
+      const result = await updateTrackVote(payload._id, user, 12)
+      expect(result).toMatchSnapshot()
     })
 
     it('handles an error with Track.findById', () => {
       expect.assertions(1)
-      const track = { _id: 'uri123', addedBy: [{ votes: [] }] }
+      const track = { _id: 'uri123', addedBy: [{ votes: [] }] } as DBTrackInterface
       mockingoose(Track).toReturn(new Error('boom!'), 'findOne')
       updateTrackVote(track._id, user, 12)
 
@@ -234,7 +229,7 @@ describe('test mongoose Track model', () => {
 
     it('handles an error with findOrUseBRH', () => {
       expect.assertions(1)
-      const track = { _id: 'uri123', addedBy: [{ votes: [] }] }
+      const track = { _id: 'uri123', addedBy: [{ votes: [] }] } as DBTrackInterface
       mockingoose(User).toReturn(new Error('boom!'), 'findOneAndUpdate')
       updateTrackVote(track._id, null, 12)
 
@@ -248,18 +243,17 @@ describe('test mongoose Track model', () => {
       })
     })
 
-    it('adds a vote when there is a matching track', () => {
+    it('adds a vote when there is a matching track', async () => {
       expect.assertions(1)
-      const payload = { _id: 'uri123', addedBy: [{ votes: [] }] }
+      const payload = { _id: 'uri123', addedBy: [{ votes: [] }] } as DBTrackInterface
       jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
       mockingoose(Track).toReturn(payload, 'findOne')
 
-      return updateTrackVote(payload._id, user, 2).then((track) => {
-        expect(track).toMatchSnapshot()
-      })
+      const track = await updateTrackVote(payload._id, user, 2)
+      expect(track).toMatchSnapshot()
     })
 
-    it('updates a vote when there is a matching track', () => {
+    it('updates a vote when there is a matching track', async () => {
       expect.assertions(1)
       const vote = { user, vote: 10, at: new Date(888451200000) }
       const track = {
@@ -281,13 +275,12 @@ describe('test mongoose Track model', () => {
               populate: () => Promise.resolve(track)
             }
           }
-        }
+        } as any
       })
       jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
 
-      return updateTrackVote(track._id, user, 12).then((result) => {
-        expect(result).toMatchSnapshot()
-      })
+      const result_3 = await updateTrackVote(track._id, user, 12)
+      expect(result_3).toMatchSnapshot()
     })
   })
 })

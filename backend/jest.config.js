@@ -8,7 +8,7 @@ module.exports = {
   transform: {
     '^.+\\.(js|ts|tsx)$': 'ts-jest'
   },
-  testMatch: ['**/test/**/*.test.(ts|js)'],
+  testMatch: ['**/test/**/*.test.(ts)'],
   watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
   testEnvironment: 'node',
   clearMocks: true,

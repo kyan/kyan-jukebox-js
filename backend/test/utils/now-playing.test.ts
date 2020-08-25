@@ -1,19 +1,26 @@
 import Setting from '../../src/models/setting'
 import logger from '../../src/config/logger'
 import NowPlaying from '../../src/utils/now-playing'
+import { JBTrackInterface } from '../../src/models/track'
+import { DBSettingInterface } from '../../src/models/setting'
 jest.mock('../../src/config/logger')
 
 describe('NowPlaying', () => {
   describe('addTrack', () => {
-    const trackObject = {
+    const trackObject: JBTrackInterface = {
+      uri: 'uri000',
       name: 'Seasons (Waiting On You)',
       year: '1983',
       image: 'the-album-art.jpg',
+      length: 1234,
       artist: {
+        uri: 'uri123',
         name: 'Future Islands'
       },
       album: {
-        name: 'Singles'
+        uri: 'uri321',
+        name: 'Singles',
+        year: '2019'
       },
       metrics: {
         votesAverage: 80,
@@ -37,7 +44,8 @@ describe('NowPlaying', () => {
     }
 
     it('returns the correct payload when full data', () => {
-      jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue()
+      const result = {} as DBSettingInterface
+      jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(result)
       jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
 
       return NowPlaying.addTrack(trackObject).then((payload) => {
@@ -46,7 +54,8 @@ describe('NowPlaying', () => {
     })
 
     it('returns the correct payload when full data 1', () => {
-      jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue()
+      const result = {} as DBSettingInterface
+      jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(result)
       jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
       trackObject.metrics.plays = 1
       delete trackObject.addedBy[1]
