@@ -1,3 +1,4 @@
+import Mopidy from 'mopidy'
 import SpotifyWebApi from 'spotify-web-api-node'
 import MessageType from '../constants/message'
 import EventLogger from '../utils/event-logger'
@@ -7,7 +8,6 @@ import ImageCache from '../utils/image-cache'
 import Recommend from '../utils/recommendations'
 import { addTracks } from '../models/track'
 import { getTracklist } from '../models/setting'
-import Mopidy from 'mopidy'
 import { DBUserInterface } from '../models/user'
 import { SuitableDataInterface } from '../utils/recommendations'
 
@@ -117,7 +117,7 @@ const getRecommendations: GetRecommendationsInterface = (
           const tracks = data.body.tracks as SpotifyApi.TrackObjectFull[]
           return Recommend.extractSuitableData(tracks)
         })
-        .then((data) => Recommend.addRandomUris(data))
+        .then((data) => Recommend.enrichWithPopularTracksIfNeeded(data))
         .then((data) => {
           const { images, uris }: SuitableDataInterface = data
 
@@ -130,7 +130,7 @@ const getRecommendations: GetRecommendationsInterface = (
                   ...{ data: uris },
                   ...{ response }
                 }
-                EventLogger.info(MessageType.INCOMING_MOPIDY, payload, true)
+                EventLogger.info(MessageType.INCOMING_RECOMMENDATIONS, payload, true)
               }
             }
 
