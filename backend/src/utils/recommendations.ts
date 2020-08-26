@@ -34,7 +34,7 @@ const Recommendations = {
   },
 
   /**
-   * Attempts to extract suitable tracks from the tracks provided
+   * Attempts to extract suitable tracks and images from the data provided
    *
    * There are various filters. These include:
    *  - ~explicit tracks~
@@ -44,7 +44,8 @@ const Recommendations = {
    *
    *  Limited to SPOTIFY_NEW_TRACKS_ADDED_LIMIT
    *
-   * @param tracks - A list of Spotify tracks
+   * @param tracks - A list of Spotify Tracks
+   * @returns An object with `uris` and `images` keys
    */
   extractSuitableData: (
     tracks: SpotifyApi.TrackObjectFull[]
