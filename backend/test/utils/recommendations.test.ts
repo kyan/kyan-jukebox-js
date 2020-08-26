@@ -41,7 +41,7 @@ describe('Recommend', () => {
   })
 
   describe('extractSuitableData', () => {
-    it('should extract image and uris from tracks', () => {
+    it('should extract image and uris from tracks', async () => {
       expect.assertions(1)
       const tracks = [
         {
@@ -77,32 +77,36 @@ describe('Recommend', () => {
       ] as SpotifyApi.TrackObjectFull[]
       const currentUrisToIgnore = ['track3']
       const resultsToIgnore = [{ _id: 'track1' }] as DBTrackInterface[]
+      const tracksPlayedToday = [{ _id: 'track2' }] as DBTrackInterface[]
       const mockedTrackFind = Track.find as jest.Mock<any>
       const mockedGetTracklist = getTracklist as jest.Mock<any>
 
-      mockedTrackFind.mockImplementation(() => ({
-        select: jest.fn().mockResolvedValue(resultsToIgnore)
-      }))
+      mockedTrackFind
+        .mockImplementationOnce(() => ({
+          select: jest.fn().mockResolvedValue(resultsToIgnore)
+        }))
+        .mockImplementationOnce(() => ({
+          select: jest.fn().mockResolvedValue(tracksPlayedToday)
+        }))
       mockedGetTracklist.mockResolvedValue(currentUrisToIgnore)
 
-      return Recommend.extractSuitableData(tracks).then((data) => {
-        expect(data).toEqual({
-          images: {
-            track1: 'image1',
-            track2: 'image2',
-            track3: 'image3',
-            track4: 'image4',
-            track5: 'image5',
-            track6: 'image6'
-          },
-          uris: ['track2', 'track6', 'track4']
-        })
+      const data = await Recommend.extractSuitableData(tracks)
+      expect(data).toEqual({
+        images: {
+          track1: 'image1',
+          track2: 'image2',
+          track3: 'image3',
+          track4: 'image4',
+          track5: 'image5',
+          track6: 'image6'
+        },
+        uris: ['track5', 'track6', 'track4']
       })
     })
   })
 
-  describe('addRandomUris', () => {
-    it('should not add random data if not required', () => {
+  describe('enrichWithPopularTracksIfNeeded', () => {
+    it('should not add random data if not required', async () => {
       expect.assertions(1)
       const initialData = {
         uris: ['uris'],
@@ -112,12 +116,11 @@ describe('Recommend', () => {
       const mockedGetTracks = SpotifyService.getTracks as jest.Mock<any>
       mockedGetTracks.mockResolvedValue(response)
 
-      return Recommend.addRandomUris(initialData).then((data) => {
-        expect(data).toEqual(initialData)
-      })
+      const data = await Recommend.enrichWithPopularTracksIfNeeded(initialData)
+      expect(data).toEqual(initialData)
     })
 
-    it('should add random data if required', () => {
+    it('should add random data if required', async () => {
       expect.assertions(1)
       const initialData: SuitableDataInterface = {
         uris: [],
@@ -133,9 +136,8 @@ describe('Recommend', () => {
       mockedTrackAggregate.mockResolvedValue(results)
       mockedGetTracklist.mockResolvedValue(currentUrisToIgnore)
 
-      return Recommend.addRandomUris(initialData).then((data) => {
-        expect(data).toEqual({ images: { image: 'foo' }, uris: ['track1', 'track2'] })
-      })
+      const data = await Recommend.enrichWithPopularTracksIfNeeded(initialData)
+      expect(data).toEqual({ images: { image: 'foo' }, uris: ['track1', 'track2'] })
     })
   })
 })
