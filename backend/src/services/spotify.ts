@@ -60,7 +60,7 @@ const setupSpotify = (callback: (api: SpotifyWebApi) => void): void => {
     })
 }
 
-const searchTracks = (params: SearchInterface): Promise<any> =>
+const searchTracks = (params: SearchInterface): Promise<SpotifyApi.SearchResponse> =>
   new Promise((resolve) => {
     setupSpotify((api) => {
       const options = { ...defaultOptions, ...params.options }
