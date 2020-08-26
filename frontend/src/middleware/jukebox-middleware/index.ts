@@ -29,7 +29,7 @@ const JukeboxMiddleware: Middleware = (() => {
         data: action.params
       })
 
-    const onMopidyStateChange = (data: any) => {
+    const onMopidyStateChange = (data: string) => {
       if (JSON.parse(data).online) {
         store.dispatch(actions.mopidyConnected())
         return State.loadInitial(store)
@@ -41,9 +41,9 @@ const JukeboxMiddleware: Middleware = (() => {
       store.dispatch(actions.wsConnected())
     }
     const onClose = () => store.dispatch(actions.wsDisconnect())
-    const onMessage = (data: any) => onMessageHandler(store, data, progressTimer)
-    const onSearchResults = (data: any) => onMessageHandler(store, data, progressTimer)
-    const onVote = (data: any) => onMessageHandler(store, data, progressTimer)
+    const onMessage = (data: string) => onMessageHandler(store, data, progressTimer)
+    const onSearchResults = (data: string) => onMessageHandler(store, data, progressTimer)
+    const onVote = (data: string) => onMessageHandler(store, data, progressTimer)
     const onConnect = () => {
       if (socket != null) socket.close()
       socket = io(url, { transports: ['websocket'] })

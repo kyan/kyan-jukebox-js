@@ -118,7 +118,7 @@ describe('SpotifyService', () => {
       const images = {} as ImageCacheInterface
       const results = [{ _id: 'meh' }] as DBTrackInterface[]
       mockedRecommend.extractSuitableData.mockResolvedValue({} as SuitableDataInterface)
-      mockedRecommend.addRandomUris.mockResolvedValue({ images, uris })
+      mockedRecommend.enrichWithPopularTracksIfNeeded.mockResolvedValue({ images, uris })
       mockedAddTracks.mockResolvedValue({ user: 'duncan' })
       mockedImageCache.addAll.mockResolvedValue({})
       mockedTrackFind.mockImplementation(() => ({
@@ -133,7 +133,7 @@ describe('SpotifyService', () => {
             setTimeout(() => {
               expect(result).toBeUndefined()
               expect(EventLogger.info).toHaveBeenCalledWith(
-                'INCOMING MOPIDY',
+                'INCOMING RECOMMENDATIONS',
                 {
                   data: [
                     'spotify:track:0ZUo4YjG4saFnEJhdWp9Bt',
