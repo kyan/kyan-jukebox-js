@@ -85,7 +85,7 @@ describe('test mongoose Settings model', () => {
             },
             { runValidators: true, setDefaultsOnInsert: true, upsert: true }
           )
-          expect(logger.error).toHaveBeenCalledWith('initializeState: boom')
+          expect(logger.error).toHaveBeenCalledWith('initializeState', { args: 'boom' })
           resolve()
         }, 0)
       })
@@ -122,7 +122,7 @@ describe('test mongoose Settings model', () => {
             { key: 'state' },
             { runValidators: true, setDefaultsOnInsert: true, upsert: true }
           )
-          expect(logger.error).toHaveBeenCalledWith('clearState: boom')
+          expect(logger.error).toHaveBeenCalledWith('clearState', { args: 'boom' })
           resolve()
         }, 0)
       })
@@ -199,7 +199,9 @@ describe('test mongoose Settings model', () => {
       return new Promise((resolve) => {
         setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
-          expect(logger.error).toHaveBeenCalledWith('addToTrackSeedList: boom')
+          expect(logger.error).toHaveBeenCalledWith('addToTrackSeedList', {
+            args: 'boom'
+          })
           resolve()
         })
       })
@@ -261,7 +263,7 @@ describe('test mongoose Settings model', () => {
       return new Promise((resolve) => {
         setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
-          expect(logger.error).toHaveBeenCalledWith('trimTracklist: boom')
+          expect(logger.error).toHaveBeenCalledWith('trimTracklist', { args: 'boom' })
           resolve()
         }, 0)
       })
@@ -297,7 +299,9 @@ describe('test mongoose Settings model', () => {
             { $set: { 'value.currentTrack': 'uri123' } },
             { runValidators: true, setDefaultsOnInsert: true, upsert: true }
           )
-          expect(logger.error).toHaveBeenCalledWith('updateCurrentTrack: boom')
+          expect(logger.error).toHaveBeenCalledWith('updateCurrentTrack', {
+            args: 'boom'
+          })
           resolve()
         }, 0)
       })
@@ -333,7 +337,7 @@ describe('test mongoose Settings model', () => {
             { $set: { 'value.currentTracklist': ['uri123'] } },
             { runValidators: true, setDefaultsOnInsert: true, upsert: true }
           )
-          expect(logger.error).toHaveBeenCalledWith('updateTracklist: boom')
+          expect(logger.error).toHaveBeenCalledWith('updateTracklist', { args: 'boom' })
           resolve()
         }, 0)
       })
@@ -369,7 +373,7 @@ describe('test mongoose Settings model', () => {
             { $pull: { 'value.trackSeeds': 'uri123' } },
             { runValidators: true, setDefaultsOnInsert: true, upsert: true }
           )
-          expect(logger.error).toHaveBeenCalledWith('removeFromSeeds: boom')
+          expect(logger.error).toHaveBeenCalledWith('removeFromSeeds', { args: 'boom' })
           resolve()
         }, 0)
       })
@@ -412,7 +416,7 @@ describe('test mongoose Settings model', () => {
       return new Promise((resolve) => {
         setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
-          expect(logger.error).toHaveBeenCalledWith('getSeedTracks: boom')
+          expect(logger.error).toHaveBeenCalledWith('getSeedTracks', { args: 'boom' })
           resolve()
         }, 0)
       })
@@ -455,7 +459,7 @@ describe('test mongoose Settings model', () => {
       return new Promise((resolve) => {
         setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
-          expect(logger.error).toHaveBeenCalledWith('getTracklist: boom')
+          expect(logger.error).toHaveBeenCalledWith('getTracklist', { args: 'boom' })
           resolve()
         }, 0)
       })

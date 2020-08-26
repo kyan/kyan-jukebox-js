@@ -23,6 +23,9 @@ export interface StateChangeInterface extends SocketInterface {
 }
 
 const Broadcaster = {
+  /**
+   * Sends a message to a specific connected user
+   */
   toClient: ({
     socket,
     headers,
@@ -46,6 +49,9 @@ const Broadcaster = {
     }
   },
 
+  /**
+   * Sends a message to all connected users
+   */
   toAll: ({
     socketio,
     headers,
@@ -66,6 +72,9 @@ const Broadcaster = {
     }
   },
 
+  /**
+   * Sends a state change message to user/users
+   */
   stateChange: ({ socket, socketio, message }: StateChangeInterface): void => {
     const payload = JSON.stringify(message)
 

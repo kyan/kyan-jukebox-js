@@ -40,24 +40,23 @@ const addToTrackSeedList = (track: JBTrackInterface): Promise<void | string> => 
         return state.save()
       })
       .then(() => resolve(track.uri))
-      .catch((error) => logger.error(`addToTrackSeedList: ${error.message}`))
+      .catch((error) => logger.error('addToTrackSeedList', { args: error.message }))
   })
 }
 
-const clearState = (): Promise<void> => {
-  return new Promise((resolve) => {
+const clearState = (): Promise<void> =>
+  new Promise((resolve) => {
     return Setting.collection
       .findOneAndReplace(stateFind, stateFind, options)
       .then(() => resolve())
-      .catch((error) => logger.error(`clearState: ${error.message}`))
+      .catch((error) => logger.error('clearState', { args: error.message }))
   })
-}
 
 const initializeState = (
   currentTrack: Mopidy.models.Track | null,
   currentTracklist: Mopidy.models.Track[]
-): Promise<void> => {
-  return new Promise((resolve) => {
+): Promise<void> =>
+  new Promise((resolve) => {
     const emptyTrackSeeds: string[] = []
     const updateValue = {
       ...stateFind,
@@ -70,12 +69,11 @@ const initializeState = (
     return Setting.collection
       .findOneAndReplace(stateFind, updateValue, options)
       .then(() => resolve())
-      .catch((error) => logger.error(`initializeState: ${error.message}`))
+      .catch((error) => logger.error('initializeState', { args: error.message }))
   })
-}
 
-const trimTracklist = (mopidy: Mopidy): Promise<boolean> => {
-  return new Promise((resolve) => {
+const trimTracklist = (mopidy: Mopidy): Promise<boolean> =>
+  new Promise((resolve) => {
     return Setting.findOne(stateFind)
       .then((state) => {
         const { currentTrack, currentTracklist } = state.value
@@ -91,7 +89,8 @@ const trimTracklist = (mopidy: Mopidy): Promise<boolean> => {
           }
 
           return Setting.findOneAndUpdate(stateFind, updateValue, options).then(() => {
-            logger.info(`trimTracklist: ${tracksToTrim}`)
+            logger.info('trimTracklist', { args: tracksToTrim })
+
             return mopidy.tracklist
               .remove({ criteria: { uri: tracksToTrim } })
               .then(() => resolve(true))
@@ -100,52 +99,46 @@ const trimTracklist = (mopidy: Mopidy): Promise<boolean> => {
 
         return resolve(false)
       })
-      .catch((error) => logger.error(`trimTracklist: ${error.message}`))
+      .catch((error) => logger.error('trimTracklist', { args: error.message }))
   })
-}
 
-const updateCurrentTrack = (uri: string): Promise<string> => {
-  return new Promise((resolve) => {
+const updateCurrentTrack = (uri: string): Promise<string> =>
+  new Promise((resolve) => {
     const updateValue = { $set: { 'value.currentTrack': uri } }
     return Setting.findOneAndUpdate(stateFind, updateValue, options)
       .then(() => resolve(uri))
-      .catch((error) => logger.error(`updateCurrentTrack: ${error.message}`))
+      .catch((error) => logger.error('updateCurrentTrack', { args: error.message }))
   })
-}
 
-const updateTracklist = (uris: ReadonlyArray<string>): Promise<ReadonlyArray<string>> => {
-  return new Promise((resolve) => {
+const updateTracklist = (uris: ReadonlyArray<string>): Promise<ReadonlyArray<string>> =>
+  new Promise((resolve) => {
     const updateValue = { $set: { 'value.currentTracklist': uris } }
     return Setting.findOneAndUpdate(stateFind, updateValue, options)
       .then(() => resolve(uris))
-      .catch((error) => logger.error(`updateTracklist: ${error.message}`))
+      .catch((error) => logger.error('updateTracklist', { args: error.message }))
   })
-}
 
-const removeFromSeeds = (uri: string): Promise<string> => {
-  return new Promise((resolve) => {
+const removeFromSeeds = (uri: string): Promise<string> =>
+  new Promise((resolve) => {
     const updateValue = { $pull: { 'value.trackSeeds': uri } }
     return Setting.findOneAndUpdate(stateFind, updateValue, options)
       .then(() => resolve(uri))
-      .catch((error) => logger.error(`removeFromSeeds: ${error.message}`))
+      .catch((error) => logger.error('removeFromSeeds', { args: error.message }))
   })
-}
 
-const getSeedTracks = (): Promise<string[]> => {
-  return new Promise((resolve) => {
+const getSeedTracks = (): Promise<string[]> =>
+  new Promise((resolve) => {
     return Setting.findOne(stateFind)
       .then((state) => resolve(state.value.trackSeeds || []))
-      .catch((error) => logger.error(`getSeedTracks: ${error.message}`))
+      .catch((error) => logger.error('getSeedTracks', { args: error.message }))
   })
-}
 
-const getTracklist = (): Promise<string[]> => {
-  return new Promise((resolve) => {
+const getTracklist = (): Promise<string[]> =>
+  new Promise((resolve) => {
     return Setting.findOne(stateFind)
       .then((state) => resolve(state.value.currentTracklist || []))
-      .catch((error) => logger.error(`getTracklist: ${error.message}`))
+      .catch((error) => logger.error('getTracklist', { args: error.message }))
   })
-}
 
 export default Setting
 export {
