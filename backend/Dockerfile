@@ -13,7 +13,7 @@ EXPOSE $PORT 9229
 RUN npm install -g npm@latest
 
 COPY package*.json ./
-RUN npm install
+RUN DISABLE_OPENCOLLECTIVE=true npm install
 
 COPY . .
 
