@@ -3,6 +3,11 @@ import logger from '../config/logger'
 import Mopidy from 'mopidy'
 import { JBTrackInterface } from './track'
 
+const SettingSchema = new Schema({
+  key: Schema.Types.String,
+  value: Schema.Types.Mixed
+})
+
 const HOW_MANY_PREVIOUS_TRACKS_IN_PLAYLIST = 4 as const
 
 export interface DBSettingValueInterface {
@@ -23,28 +28,24 @@ interface DBSettingModelInterface extends Model<DBSettingInterface> {
     currentTrack: Mopidy.models.Track | null,
     currentTracklist: Mopidy.models.Track[]
   ) => Promise<void | string>
+  trimTracklist: (mopidy: Mopidy) => Promise<boolean>
+  updateCurrentTrack: (uri: string) => Promise<string>
 }
-
-const SettingSchema = new Schema({
-  key: Schema.Types.String,
-  value: Schema.Types.Mixed
-})
 
 const stateFind = { key: 'state' }
 const options = { upsert: true, runValidators: true, setDefaultsOnInsert: true }
 
-SettingSchema.statics.clearState = function (): Promise<void> {
-  return new Promise((resolve) => {
+SettingSchema.statics.clearState = (): Promise<void> =>
+  new Promise((resolve) => {
     return Setting.collection
       .findOneAndReplace(stateFind, stateFind, options)
       .then(() => resolve())
       .catch((error) => logger.error('clearState', { args: error.message }))
   })
-}
 
-SettingSchema.statics.addToTrackSeedList = function (
+SettingSchema.statics.addToTrackSeedList = (
   track: JBTrackInterface
-): Promise<void | string> {
+): Promise<void | string> => {
   if (track.metrics && track.metrics.votes > 1 && track.metrics.votesAverage < 50)
     return Promise.resolve()
   if (track.metrics && track.metrics.plays > 2 && track.metrics.votes < 1)
@@ -84,7 +85,7 @@ SettingSchema.statics.initializeState = (
       .catch((error) => logger.error('initializeState', { args: error.message }))
   })
 
-const trimTracklist = (mopidy: Mopidy): Promise<boolean> =>
+SettingSchema.statics.trimTracklist = (mopidy: Mopidy): Promise<boolean> =>
   new Promise((resolve) => {
     return Setting.findOne(stateFind)
       .then((state) => {
@@ -114,7 +115,7 @@ const trimTracklist = (mopidy: Mopidy): Promise<boolean> =>
       .catch((error) => logger.error('trimTracklist', { args: error.message }))
   })
 
-const updateCurrentTrack = (uri: string): Promise<string> =>
+SettingSchema.statics.updateCurrentTrack = (uri: string): Promise<string> =>
   new Promise((resolve) => {
     const updateValue = { $set: { 'value.currentTrack': uri } }
     return Setting.findOneAndUpdate(stateFind, updateValue, options)
@@ -158,11 +159,4 @@ const Setting = model<DBSettingInterface, DBSettingModelInterface>(
 )
 
 export default Setting
-export {
-  getSeedTracks,
-  getTracklist,
-  removeFromSeeds,
-  trimTracklist,
-  updateCurrentTrack,
-  updateTracklist
-}
+export { getSeedTracks, getTracklist, removeFromSeeds, updateTracklist }

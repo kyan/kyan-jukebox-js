@@ -10,8 +10,6 @@ import {
 import Setting, {
   getSeedTracks,
   removeFromSeeds,
-  trimTracklist,
-  updateCurrentTrack,
   updateTracklist
 } from '../../src/models/setting'
 import MopidyDecorator from '../../src/decorators/mopidy'
@@ -25,11 +23,11 @@ jest.mock('../../src/models/setting')
 
 jest.useFakeTimers()
 
-const mockUpdateCurrentTrack = updateCurrentTrack as jest.Mock
+const mockUpdateCurrentTrack = Setting.updateCurrentTrack as jest.Mock
 const mockUpdateTracklist = updateTracklist as jest.Mock
 const mockClearState = Setting.clearState as jest.Mock
 const mockDecorateTracklist = DecorateTracklist as jest.Mock
-const mockTrimTracklist = trimTracklist as jest.Mock
+const mockTrimTracklist = Setting.trimTracklist as jest.Mock
 const mockAddToTrackSeedList = Setting.addToTrackSeedList as jest.Mock
 const mockGetSeedTracks = getSeedTracks as jest.Mock
 const mockRemoveFromSeeds = removeFromSeeds as jest.Mock
@@ -107,7 +105,7 @@ describe('MopidyDecorator', () => {
         mopidyMock as Mopidy
       )
       expect(Setting.addToTrackSeedList).toHaveBeenCalledWith(decoratedData[0].track)
-      expect(trimTracklist).toHaveBeenCalledWith(mopidyMock)
+      expect(Setting.trimTracklist).toHaveBeenCalledWith(mopidyMock)
       expect(response).toEqual('123')
     })
   })

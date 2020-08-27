@@ -1,8 +1,6 @@
 import Mopidy from 'mopidy'
 import logger from '../../src/config/logger'
 import Setting, {
-  trimTracklist,
-  updateCurrentTrack,
   updateTracklist,
   removeFromSeeds,
   getSeedTracks,
@@ -219,7 +217,7 @@ describe('test mongoose Settings model', () => {
       jest.spyOn(Setting, 'findOne').mockResolvedValue(state as any)
       jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(undefined)
 
-      await trimTracklist(mopidyMock as Mopidy)
+      await Setting.trimTracklist(mopidyMock as Mopidy)
       expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
       expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
         { key: 'state' },
@@ -245,7 +243,7 @@ describe('test mongoose Settings model', () => {
       jest.spyOn(Setting, 'findOne').mockResolvedValue(state as any)
       jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(undefined)
 
-      await trimTracklist(mopidyMock as Mopidy)
+      await Setting.trimTracklist(mopidyMock as Mopidy)
       expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
       expect(Setting.findOneAndUpdate).not.toHaveBeenCalled()
     })
@@ -255,7 +253,7 @@ describe('test mongoose Settings model', () => {
       const mopidyMock = jest.fn() as unknown
       jest.spyOn(Setting, 'findOne').mockRejectedValue(new Error('boom'))
 
-      trimTracklist(mopidyMock as Mopidy)
+      Setting.trimTracklist(mopidyMock as Mopidy)
 
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -273,7 +271,7 @@ describe('test mongoose Settings model', () => {
       const uri = 'uri123'
       jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(undefined)
 
-      const response = await updateCurrentTrack(uri)
+      const response = await Setting.updateCurrentTrack(uri)
       expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
         { key: 'state' },
         { $set: { 'value.currentTrack': 'uri123' } },
@@ -287,7 +285,7 @@ describe('test mongoose Settings model', () => {
       const uri = 'uri123'
       jest.spyOn(Setting, 'findOneAndUpdate').mockRejectedValue(new Error('boom'))
 
-      updateCurrentTrack(uri)
+      Setting.updateCurrentTrack(uri)
 
       return new Promise((resolve) => {
         setTimeout(() => {
