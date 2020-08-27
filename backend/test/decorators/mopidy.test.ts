@@ -7,9 +7,7 @@ import {
   updateTrackPlaycount,
   tracksToHumanReadableArray
 } from '../../src/models/track'
-import {
-  addToTrackSeedList,
-  clearState,
+import Setting, {
   getSeedTracks,
   removeFromSeeds,
   trimTracklist,
@@ -29,10 +27,10 @@ jest.useFakeTimers()
 
 const mockUpdateCurrentTrack = updateCurrentTrack as jest.Mock
 const mockUpdateTracklist = updateTracklist as jest.Mock
-const mockClearState = clearState as jest.Mock
+const mockClearState = Setting.clearState as jest.Mock
 const mockDecorateTracklist = DecorateTracklist as jest.Mock
 const mockTrimTracklist = trimTracklist as jest.Mock
-const mockAddToTrackSeedList = addToTrackSeedList as jest.Mock
+const mockAddToTrackSeedList = Setting.addToTrackSeedList as jest.Mock
 const mockGetSeedTracks = getSeedTracks as jest.Mock
 const mockRemoveFromSeeds = removeFromSeeds as jest.Mock
 const mockAddTracks = addTracks as jest.Mock
@@ -50,58 +48,51 @@ describe('MopidyDecorator', () => {
   }
 
   describe('playback.getCurrentTrack', () => {
-    it('transforms when we have data', () => {
+    it('transforms when we have data', async () => {
       const data = 'data'
       expect.assertions(2)
       mockUpdateCurrentTrack.mockResolvedValue(true)
       mockDecorateTracklist.mockResolvedValue([
         { track: { uri: '123', length: 2820123 } }
       ])
-      return MopidyDecorator.parse(h('playback.getCurrentTrack'), data).then(
-        (response) => {
-          expect(DecorateTracklist).toHaveBeenCalledWith([data])
-          expect(response).toEqual({ track: { length: 2820123, uri: '123' } })
-        }
-      )
+      const response = await MopidyDecorator.parse(h('playback.getCurrentTrack'), data)
+      expect(DecorateTracklist).toHaveBeenCalledWith([data])
+      expect(response).toEqual({ track: { length: 2820123, uri: '123' } })
     })
 
-    it('does not transform when we have no data', () => {
+    it('does not transform when we have no data', async () => {
       expect.assertions(1)
-      return MopidyDecorator.parse(h('playback.getCurrentTrack'), null).then(() =>
-        expect(DecorateTrack).not.toHaveBeenCalled()
-      )
+      await MopidyDecorator.parse(h('playback.getCurrentTrack'), null)
+      return expect(DecorateTrack).not.toHaveBeenCalled()
     })
   })
 
   describe('playback.getTimePosition', () => {
-    it('returns the data that was passed in', () => {
+    it('returns the data that was passed in', async () => {
       const data = 'data'
       expect.assertions(1)
-      return MopidyDecorator.parse(
-        h('playback.getTimePosition'),
-        data
-      ).then((returnData) => expect(returnData).toEqual(data))
+      const returnData = await MopidyDecorator.parse(h('playback.getTimePosition'), data)
+      return expect(returnData).toEqual(data)
     })
   })
 
   describe('tracklist.getTracks', () => {
-    it('calls the DecorateTracklist class, passes it into the settings and returns the result', () => {
+    it('calls the DecorateTracklist class, passes it into the settings and returns the result', async () => {
       const data = 'data'
       expect.assertions(3)
       mockDecorateTracklist.mockResolvedValue([
         { track: { uri: '123', length: 2820123 } }
       ])
       mockUpdateTracklist.mockResolvedValue(true)
-      return MopidyDecorator.parse(h('tracklist.getTracks'), data).then((returnData) => {
-        expect(DecorateTracklist).toHaveBeenCalledWith(data)
-        expect(updateTracklist).toBeCalledWith(['123'])
-        expect(returnData).toEqual([{ track: { uri: '123', length: 2820123 } }])
-      })
+      const returnData = await MopidyDecorator.parse(h('tracklist.getTracks'), data)
+      expect(DecorateTracklist).toHaveBeenCalledWith(data)
+      expect(updateTracklist).toBeCalledWith(['123'])
+      expect(returnData).toEqual([{ track: { uri: '123', length: 2820123 } }])
     })
   })
 
   describe('event:trackPlaybackEnded', () => {
-    it('correctly calls through', () => {
+    it('correctly calls through', async () => {
       expect.assertions(3)
       const data = { tl_track: { track: 'track' } }
       const decoratedData = [{ track: { uri: '123', length: 2820123 } }]
@@ -110,20 +101,19 @@ describe('MopidyDecorator', () => {
       mockAddToTrackSeedList.mockResolvedValue(true)
       mockTrimTracklist.mockResolvedValue(true)
 
-      return MopidyDecorator.mopidyCoreMessage(
+      const response = await MopidyDecorator.mopidyCoreMessage(
         h('event:trackPlaybackEnded'),
         data,
         mopidyMock as Mopidy
-      ).then((response) => {
-        expect(addToTrackSeedList).toHaveBeenCalledWith(decoratedData[0].track)
-        expect(trimTracklist).toHaveBeenCalledWith(mopidyMock)
-        expect(response).toEqual('123')
-      })
+      )
+      expect(Setting.addToTrackSeedList).toHaveBeenCalledWith(decoratedData[0].track)
+      expect(trimTracklist).toHaveBeenCalledWith(mopidyMock)
+      expect(response).toEqual('123')
     })
   })
 
   describe('event:trackPlaybackStarted', () => {
-    it('does recommend if there are recomendations', () => {
+    it('does recommend if there are recomendations', async () => {
       expect.assertions(4)
       const recomendMock = 'mockRecommend'
       const data = { tl_track: { track: { uri: 'uri123' } } }
@@ -136,32 +126,31 @@ describe('MopidyDecorator', () => {
       mockSpotifyCanRecommend.mockResolvedValue(recomendMock)
       mockGetSeedTracks.mockResolvedValue('seedTracks')
 
-      return MopidyDecorator.mopidyCoreMessage(
+      const response = await MopidyDecorator.mopidyCoreMessage(
         h('event:trackPlaybackStarted'),
         data,
         mopidyMock as Mopidy
-      ).then((response) => {
-        expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')
-        expect(setTimeout).toHaveBeenCalledWith(
-          'mockRecommend',
-          2115092.25,
-          'seedTracks',
-          mopidyMock
-        )
-        expect(NowPlaying.addTrack).toHaveBeenCalledWith({
+      )
+      expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')
+      expect(setTimeout).toHaveBeenCalledWith(
+        'mockRecommend',
+        2115092.25,
+        'seedTracks',
+        mopidyMock
+      )
+      expect(NowPlaying.addTrack).toHaveBeenCalledWith({
+        length: 2820123,
+        uri: '123'
+      })
+      expect(response).toEqual({
+        track: {
           length: 2820123,
           uri: '123'
-        })
-        expect(response).toEqual({
-          track: {
-            length: 2820123,
-            uri: '123'
-          }
-        })
+        }
       })
     })
 
-    it('does not recommend if there are no recomendation', () => {
+    it('does not recommend if there are no recomendation', async () => {
       expect.assertions(4)
       const data = { tl_track: { track: { uri: 'uri123' } } }
       const mopidyMock = jest.fn() as unknown
@@ -170,21 +159,20 @@ describe('MopidyDecorator', () => {
       mockSpotifyCanRecommend.mockResolvedValue(null)
       mockUpdateCurrentTrack.mockResolvedValue(true)
 
-      return MopidyDecorator.mopidyCoreMessage(
+      const response = await MopidyDecorator.mopidyCoreMessage(
         h('event:trackPlaybackStarted'),
         data,
         mopidyMock as Mopidy
-      ).then((response) => {
-        expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')
-        expect(setTimeout).not.toHaveBeenCalled()
-        expect(NowPlaying.addTrack).toHaveBeenCalledWith({
+      )
+      expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')
+      expect(setTimeout).not.toHaveBeenCalled()
+      expect(NowPlaying.addTrack).toHaveBeenCalledWith({
+        uri: '123'
+      })
+      expect(response).toEqual({
+        track: {
           uri: '123'
-        })
-        expect(response).toEqual({
-          track: {
-            uri: '123'
-          }
-        })
+        }
       })
     })
   })

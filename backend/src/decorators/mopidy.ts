@@ -3,9 +3,7 @@ import Constants from '../constants/mopidy'
 import DecorateTracklist from '../decorators/tracklist'
 import NowPlaying from '../utils/now-playing'
 import Spotify from '../services/spotify'
-import {
-  addToTrackSeedList,
-  clearState,
+import Setting, {
   removeFromSeeds,
   trimTracklist,
   updateCurrentTrack,
@@ -49,7 +47,7 @@ const MopidyDecorator = {
       switch (key) {
         case Constants.CORE_EVENTS.PLAYBACK_ENDED:
           return DecorateTracklist([data.tl_track.track]).then((data) => {
-            return addToTrackSeedList(data[0].track)
+            return Setting.addToTrackSeedList(data[0].track)
               .then(() => trimTracklist(mopidy))
               .then(() => resolve(data[0].track.uri))
           })
@@ -124,7 +122,7 @@ const MopidyDecorator = {
           clearSetTimeout(recommendTimer)
           return resolve()
         case Constants.TRACKLIST_CLEAR:
-          return clearState().then(() => resolve(data))
+          return Setting.clearState().then(() => resolve(data))
         case Constants.MIXER_SET_VOLUME:
           return resolve({
             volume: headers.data[0],
