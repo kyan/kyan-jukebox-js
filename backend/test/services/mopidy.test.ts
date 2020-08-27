@@ -3,7 +3,7 @@ import MopidyService from '../../src/services/mopidy'
 import logger from '../../src/config/logger'
 import Decorator from '../../src/decorators/mopidy'
 import EventLogger from '../../src/utils/event-logger'
-import Setting, { updateTracklist } from '../../src/models/setting'
+import Setting from '../../src/models/setting'
 jest.mock('mopidy')
 jest.mock('../../src/decorators/mopidy')
 jest.mock('../../src/utils/event-logger')
@@ -13,7 +13,7 @@ jest.mock('../../src/models/setting')
 const mockedDecorator = Decorator as jest.Mocked<typeof Decorator>
 const mockedInitializeState = Setting.initializeState as jest.Mock
 const mockedTrimTracklist = Setting.trimTracklist as jest.Mock
-const mockedUpdateTracklist = updateTracklist as jest.Mock
+const mockedUpdateTracklist = Setting.updateTracklist as jest.Mock
 const mockedClearState = Setting.clearState as jest.Mock
 const mockedLogger = logger as jest.Mocked<typeof logger>
 const mockedEventLogger = EventLogger as jest.Mocked<typeof EventLogger>

@@ -30,6 +30,7 @@ interface DBSettingModelInterface extends Model<DBSettingInterface> {
   ) => Promise<void | string>
   trimTracklist: (mopidy: Mopidy) => Promise<boolean>
   updateCurrentTrack: (uri: string) => Promise<string>
+  updateTracklist: (uris: ReadonlyArray<string>) => Promise<ReadonlyArray<string>>
 }
 
 const stateFind = { key: 'state' }
@@ -123,7 +124,9 @@ SettingSchema.statics.updateCurrentTrack = (uri: string): Promise<string> =>
       .catch((error) => logger.error('updateCurrentTrack', { args: error.message }))
   })
 
-const updateTracklist = (uris: ReadonlyArray<string>): Promise<ReadonlyArray<string>> =>
+SettingSchema.statics.updateTracklist = (
+  uris: ReadonlyArray<string>
+): Promise<ReadonlyArray<string>> =>
   new Promise((resolve) => {
     const updateValue = { $set: { 'value.currentTracklist': uris } }
     return Setting.findOneAndUpdate(stateFind, updateValue, options)
@@ -159,4 +162,4 @@ const Setting = model<DBSettingInterface, DBSettingModelInterface>(
 )
 
 export default Setting
-export { getSeedTracks, getTracklist, removeFromSeeds, updateTracklist }
+export { getSeedTracks, getTracklist, removeFromSeeds }
