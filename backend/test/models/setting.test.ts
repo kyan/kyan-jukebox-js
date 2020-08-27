@@ -1,9 +1,6 @@
 import Mopidy from 'mopidy'
 import logger from '../../src/config/logger'
 import Setting, {
-  addToTrackSeedList,
-  initializeState,
-  clearState,
   trimTracklist,
   updateCurrentTrack,
   updateTracklist,
@@ -29,7 +26,7 @@ describe('test mongoose Settings model', () => {
       const currentTrack = { uri: 'uri123' } as Mopidy.models.Track
       const currentTracklist = [currentTrack]
 
-      await initializeState(currentTrack, currentTracklist)
+      await Setting.initializeState(currentTrack, currentTracklist)
       expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
         { key: 'state' },
         {
@@ -50,7 +47,7 @@ describe('test mongoose Settings model', () => {
         .spyOn(Setting.collection, 'findOneAndReplace')
         .mockResolvedValue(undefined as never)
 
-      await initializeState(null, [])
+      await Setting.initializeState(null, [])
       expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
         { key: 'state' },
         {
@@ -69,7 +66,7 @@ describe('test mongoose Settings model', () => {
       const currentTrack = { uri: 'uri123' } as Mopidy.models.Track
       const currentTracklist = [currentTrack]
 
-      initializeState(currentTrack, currentTracklist)
+      Setting.initializeState(currentTrack, currentTracklist)
 
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -99,7 +96,7 @@ describe('test mongoose Settings model', () => {
         .spyOn(Setting.collection, 'findOneAndReplace')
         .mockResolvedValue(undefined as never)
 
-      await clearState()
+      await Setting.clearState()
       expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
         { key: 'state' },
         { key: 'state' },
@@ -113,7 +110,7 @@ describe('test mongoose Settings model', () => {
         .spyOn(Setting.collection, 'findOneAndReplace')
         .mockRejectedValue(new Error('boom') as never)
 
-      clearState()
+      Setting.clearState()
 
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -148,7 +145,7 @@ describe('test mongoose Settings model', () => {
         }
       } as JBTrackInterface
 
-      const uri = await addToTrackSeedList(track)
+      const uri = await Setting.addToTrackSeedList(track)
       expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
       expect(uri).toEqual('uri123')
     })
@@ -164,7 +161,7 @@ describe('test mongoose Settings model', () => {
         }
       } as JBTrackInterface
 
-      const uri = await addToTrackSeedList(track)
+      const uri = await Setting.addToTrackSeedList(track)
       expect(uri).not.toBeDefined()
     })
 
@@ -179,7 +176,7 @@ describe('test mongoose Settings model', () => {
         }
       } as JBTrackInterface
 
-      const uri = await addToTrackSeedList(track)
+      const uri = await Setting.addToTrackSeedList(track)
       expect(uri).not.toBeDefined()
     })
 
@@ -194,7 +191,7 @@ describe('test mongoose Settings model', () => {
         }
       } as JBTrackInterface
 
-      addToTrackSeedList(track)
+      Setting.addToTrackSeedList(track)
 
       return new Promise((resolve) => {
         setTimeout(() => {
