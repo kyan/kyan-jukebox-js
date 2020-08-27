@@ -7,7 +7,7 @@ import logger from '../config/logger'
 import ImageCache from '../utils/image-cache'
 import Recommend from '../utils/recommendations'
 import { addTracks } from '../models/track'
-import { getTracklist } from '../models/setting'
+import Setting from '../models/setting'
 import { DBUserInterface } from '../models/user'
 import { SuitableDataInterface } from '../utils/recommendations'
 
@@ -171,7 +171,7 @@ const SpotifyService = {
 
   validateTrack: (uri: string) =>
     new Promise((resolve, reject) => {
-      return getTracklist().then((uris) => {
+      return Setting.getTracklist().then((uris) => {
         if (uris.includes(uri)) {
           const message = `You've already added: ${uri}`
           return reject(new Error(message))

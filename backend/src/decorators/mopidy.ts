@@ -3,7 +3,7 @@ import Constants from '../constants/mopidy'
 import DecorateTracklist from '../decorators/tracklist'
 import NowPlaying from '../utils/now-playing'
 import Spotify from '../services/spotify'
-import Setting, { removeFromSeeds, getSeedTracks } from '../models/setting'
+import Setting from '../models/setting'
 import {
   addTracks,
   updateTrackPlaycount,
@@ -26,7 +26,7 @@ const recommendTracks = (
 ): void => {
   if (!recommendFunc) return
 
-  getSeedTracks().then((uris) => {
+  Setting.getSeedTracks().then((uris) => {
     const waitToRecommend = (trackLength / 4) * 3
     clearSetTimeout(recommendTimer)
     recommendTimer = setTimeout(recommendFunc, waitToRecommend, uris, mopidy)
@@ -88,7 +88,7 @@ const MopidyDecorator = {
             ).then(() => resolve(tracks))
           })
         case Constants.TRACKLIST_REMOVE:
-          return removeFromSeeds(data[0].track.uri)
+          return Setting.removeFromSeeds(data[0].track.uri)
             .then(() => {
               const tracks: JBTrackPayloadInterface[] = data
               return DecorateTracklist(tracks.map((item) => item.track))

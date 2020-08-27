@@ -1,11 +1,6 @@
 import Mopidy from 'mopidy'
 import logger from '../../src/config/logger'
-import Setting, {
-  removeFromSeeds,
-  getSeedTracks,
-  getTracklist,
-  DBSettingValueInterface
-} from '../../src/models/setting'
+import Setting, { DBSettingValueInterface } from '../../src/models/setting'
 import { JBTrackInterface } from '../../src/models/track'
 jest.mock('../../src/config/logger')
 
@@ -344,7 +339,7 @@ describe('test mongoose Settings model', () => {
       const uri = 'uri123'
       jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(undefined)
 
-      const response = await removeFromSeeds(uri)
+      const response = await Setting.removeFromSeeds(uri)
       expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
         { key: 'state' },
         { $pull: { 'value.trackSeeds': 'uri123' } },
@@ -358,7 +353,7 @@ describe('test mongoose Settings model', () => {
       const uri = 'uri123'
       jest.spyOn(Setting, 'findOneAndUpdate').mockRejectedValue(new Error('boom'))
 
-      removeFromSeeds(uri)
+      Setting.removeFromSeeds(uri)
 
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -383,7 +378,7 @@ describe('test mongoose Settings model', () => {
         }
       } as any)
 
-      const response = await getSeedTracks()
+      const response = await Setting.getSeedTracks()
       expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
       expect(response).toEqual(['uri123'])
     })
@@ -396,7 +391,7 @@ describe('test mongoose Settings model', () => {
         }
       } as any)
 
-      const response = await getSeedTracks()
+      const response = await Setting.getSeedTracks()
       expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
       expect(response).toEqual([])
     })
@@ -405,7 +400,7 @@ describe('test mongoose Settings model', () => {
       expect.assertions(2)
       jest.spyOn(Setting, 'findOne').mockRejectedValue(new Error('boom'))
 
-      getSeedTracks()
+      Setting.getSeedTracks()
 
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -426,7 +421,7 @@ describe('test mongoose Settings model', () => {
         }
       } as any)
 
-      const response = await getTracklist()
+      const response = await Setting.getTracklist()
       expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
       expect(response).toEqual(['uri123'])
     })
@@ -439,7 +434,7 @@ describe('test mongoose Settings model', () => {
         }
       } as any)
 
-      const response = await getTracklist()
+      const response = await Setting.getTracklist()
       expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
       expect(response).toEqual([])
     })
@@ -448,7 +443,7 @@ describe('test mongoose Settings model', () => {
       expect.assertions(2)
       jest.spyOn(Setting, 'findOne').mockRejectedValue(new Error('boom'))
 
-      getTracklist()
+      Setting.getTracklist()
 
       return new Promise((resolve) => {
         setTimeout(() => {
