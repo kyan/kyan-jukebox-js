@@ -4,7 +4,7 @@ import EventLogger from '../utils/event-logger'
 import MopidyConstants from '../constants/mopidy'
 import MessageType from '../constants/message'
 import Decorator from '../decorators/mopidy'
-import Setting, { trimTracklist, updateTracklist } from '../models/setting'
+import Setting, { updateTracklist } from '../models/setting'
 import { StateChangeMessageInterface, BroadcastInterface } from '../utils/broadcaster'
 
 type BroadcastToAllType = (options: BroadcastInterface) => void
@@ -27,7 +27,7 @@ const MopidyService = (
       Promise.all([mopidy.playback.getCurrentTrack(), mopidy.tracklist.getTracks()]).then(
         async (responses) => {
           await Setting.initializeState(responses[0], responses[1])
-          await trimTracklist(mopidy)
+          await Setting.trimTracklist(mopidy)
           firstTime ? broadcastStateChange({ online: true }) : resolve(mopidy)
           firstTime = true
         }

@@ -5,8 +5,6 @@ import NowPlaying from '../utils/now-playing'
 import Spotify from '../services/spotify'
 import Setting, {
   removeFromSeeds,
-  trimTracklist,
-  updateCurrentTrack,
   updateTracklist,
   getSeedTracks
 } from '../models/setting'
@@ -48,7 +46,7 @@ const MopidyDecorator = {
         case Constants.CORE_EVENTS.PLAYBACK_ENDED:
           return DecorateTracklist([data.tl_track.track]).then((data) => {
             return Setting.addToTrackSeedList(data[0].track)
-              .then(() => trimTracklist(mopidy))
+              .then(() => Setting.trimTracklist(mopidy))
               .then(() => resolve(data[0].track.uri))
           })
         case Constants.CORE_EVENTS.PLAYBACK_STARTED:
@@ -58,7 +56,7 @@ const MopidyDecorator = {
               const payload = data[0]
               NowPlaying.addTrack(payload.track)
 
-              await updateCurrentTrack(payload.track.uri)
+              await Setting.updateCurrentTrack(payload.track.uri)
               const recommend = await Spotify.canRecommend(mopidy)
               recommendTracks(recommend, payload.track.length, mopidy)
               resolve(payload)
@@ -83,7 +81,9 @@ const MopidyDecorator = {
           if (!data) return resolve()
           return DecorateTracklist([data]).then((TransformedData) => {
             const trackInfo = TransformedData[0]
-            return updateCurrentTrack(trackInfo.track.uri).then(() => resolve(trackInfo))
+            return Setting.updateCurrentTrack(trackInfo.track.uri).then(() =>
+              resolve(trackInfo)
+            )
           })
         case Constants.GET_TRACKS:
           return DecorateTracklist(data).then((tracks) => {
