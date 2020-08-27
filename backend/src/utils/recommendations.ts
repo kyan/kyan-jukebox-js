@@ -1,5 +1,5 @@
 import Track from '../models/track'
-import { getTracklist } from '../models/setting'
+import Setting from '../models/setting'
 import { ImageCacheInterface } from './image-cache'
 import SpotifyService from '../services/spotify'
 
@@ -51,7 +51,7 @@ const Recommendations = {
     tracks: SpotifyApi.TrackObjectFull[]
   ): Promise<SuitableDataInterface> =>
     new Promise((resolve) => {
-      getTracklist().then(async (currentTrackListUris) => {
+      Setting.getTracklist().then(async (currentTrackListUris) => {
         const trackUris = tracks.map((t) => t.uri)
         const images = Recommendations.getImageFromSpotifyTracks(tracks)
         const currentTrackList = currentTrackListUris
@@ -95,7 +95,7 @@ const Recommendations = {
     const images = data.images
 
     return new Promise((resolve) => {
-      getTracklist().then(async (currentTrackListUris) => {
+      Setting.getTracklist().then(async (currentTrackListUris) => {
         const currentTrackList = currentTrackListUris
         const results = await Track.aggregate([
           { $match: { 'metrics.votesAverage': { $gte: 70 } } },

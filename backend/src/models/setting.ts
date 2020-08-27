@@ -21,18 +21,6 @@ export interface DBSettingInterface extends Document {
   value: DBSettingValueInterface
 }
 
-interface DBSettingModelInterface extends Model<DBSettingInterface> {
-  clearState: () => Promise<void>
-  addToTrackSeedList: (track: JBTrackInterface) => Promise<void | string>
-  initializeState: (
-    currentTrack: Mopidy.models.Track | null,
-    currentTracklist: Mopidy.models.Track[]
-  ) => Promise<void | string>
-  trimTracklist: (mopidy: Mopidy) => Promise<boolean>
-  updateCurrentTrack: (uri: string) => Promise<string>
-  updateTracklist: (uris: ReadonlyArray<string>) => Promise<ReadonlyArray<string>>
-}
-
 const stateFind = { key: 'state' }
 const options = { upsert: true, runValidators: true, setDefaultsOnInsert: true }
 
@@ -134,7 +122,7 @@ SettingSchema.statics.updateTracklist = (
       .catch((error) => logger.error('updateTracklist', { args: error.message }))
   })
 
-const removeFromSeeds = (uri: string): Promise<string> =>
+SettingSchema.statics.removeFromSeeds = (uri: string): Promise<string> =>
   new Promise((resolve) => {
     const updateValue = { $pull: { 'value.trackSeeds': uri } }
     return Setting.findOneAndUpdate(stateFind, updateValue, options)
@@ -142,19 +130,34 @@ const removeFromSeeds = (uri: string): Promise<string> =>
       .catch((error) => logger.error('removeFromSeeds', { args: error.message }))
   })
 
-const getSeedTracks = (): Promise<string[]> =>
+SettingSchema.statics.getSeedTracks = (): Promise<string[]> =>
   new Promise((resolve) => {
     return Setting.findOne(stateFind)
       .then((state) => resolve(state.value.trackSeeds || []))
       .catch((error) => logger.error('getSeedTracks', { args: error.message }))
   })
 
-const getTracklist = (): Promise<string[]> =>
+SettingSchema.statics.getTracklist = (): Promise<string[]> =>
   new Promise((resolve) => {
     return Setting.findOne(stateFind)
       .then((state) => resolve(state.value.currentTracklist || []))
       .catch((error) => logger.error('getTracklist', { args: error.message }))
   })
+
+interface DBSettingModelInterface extends Model<DBSettingInterface> {
+  clearState: () => Promise<void>
+  addToTrackSeedList: (track: JBTrackInterface) => Promise<void | string>
+  initializeState: (
+    currentTrack: Mopidy.models.Track | null,
+    currentTracklist: Mopidy.models.Track[]
+  ) => Promise<void | string>
+  trimTracklist: (mopidy: Mopidy) => Promise<boolean>
+  updateCurrentTrack: (uri: string) => Promise<string>
+  updateTracklist: (uris: ReadonlyArray<string>) => Promise<ReadonlyArray<string>>
+  removeFromSeeds: (uri: string) => Promise<string>
+  getSeedTracks: () => Promise<string[]>
+  getTracklist: () => Promise<string[]>
+}
 
 const Setting = model<DBSettingInterface, DBSettingModelInterface>(
   'Setting',
@@ -162,4 +165,3 @@ const Setting = model<DBSettingInterface, DBSettingModelInterface>(
 )
 
 export default Setting
-export { getSeedTracks, getTracklist, removeFromSeeds }

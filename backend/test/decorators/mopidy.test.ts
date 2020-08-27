@@ -7,7 +7,7 @@ import {
   updateTrackPlaycount,
   tracksToHumanReadableArray
 } from '../../src/models/track'
-import Setting, { getSeedTracks, removeFromSeeds } from '../../src/models/setting'
+import Setting from '../../src/models/setting'
 import MopidyDecorator from '../../src/decorators/mopidy'
 import Mopidy from 'mopidy'
 jest.mock('../../src/services/spotify')
@@ -25,8 +25,8 @@ const mockClearState = Setting.clearState as jest.Mock
 const mockDecorateTracklist = DecorateTracklist as jest.Mock
 const mockTrimTracklist = Setting.trimTracklist as jest.Mock
 const mockAddToTrackSeedList = Setting.addToTrackSeedList as jest.Mock
-const mockGetSeedTracks = getSeedTracks as jest.Mock
-const mockRemoveFromSeeds = removeFromSeeds as jest.Mock
+const mockGetSeedTracks = Setting.getSeedTracks as jest.Mock
+const mockRemoveFromSeeds = Setting.removeFromSeeds as jest.Mock
 const mockAddTracks = addTracks as jest.Mock
 const mockTracksToHumanReadableArray = tracksToHumanReadableArray as jest.Mock
 const mockUpdateTrackPlaycount = updateTrackPlaycount as jest.Mock
@@ -231,7 +231,9 @@ describe('MopidyDecorator', () => {
         message: 'track',
         toAll: true
       })
-      expect(removeFromSeeds).toHaveBeenCalledWith('spotify:track:43xy5ZmjM9tdzmrXu1pmSG')
+      expect(Setting.removeFromSeeds).toHaveBeenCalledWith(
+        'spotify:track:43xy5ZmjM9tdzmrXu1pmSG'
+      )
     })
   })
 
