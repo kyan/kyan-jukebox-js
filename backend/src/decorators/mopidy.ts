@@ -3,11 +3,7 @@ import Constants from '../constants/mopidy'
 import DecorateTracklist from '../decorators/tracklist'
 import NowPlaying from '../utils/now-playing'
 import Spotify from '../services/spotify'
-import Setting, {
-  removeFromSeeds,
-  updateTracklist,
-  getSeedTracks
-} from '../models/setting'
+import Setting, { removeFromSeeds, getSeedTracks } from '../models/setting'
 import {
   addTracks,
   updateTrackPlaycount,
@@ -87,9 +83,9 @@ const MopidyDecorator = {
           })
         case Constants.GET_TRACKS:
           return DecorateTracklist(data).then((tracks) => {
-            return updateTracklist(tracks.map((data) => data.track.uri)).then(() =>
-              resolve(tracks)
-            )
+            return Setting.updateTracklist(
+              tracks.map((data) => data.track.uri)
+            ).then(() => resolve(tracks))
           })
         case Constants.TRACKLIST_REMOVE:
           return removeFromSeeds(data[0].track.uri)

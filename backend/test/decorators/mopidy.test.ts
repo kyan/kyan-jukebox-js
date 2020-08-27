@@ -7,11 +7,7 @@ import {
   updateTrackPlaycount,
   tracksToHumanReadableArray
 } from '../../src/models/track'
-import Setting, {
-  getSeedTracks,
-  removeFromSeeds,
-  updateTracklist
-} from '../../src/models/setting'
+import Setting, { getSeedTracks, removeFromSeeds } from '../../src/models/setting'
 import MopidyDecorator from '../../src/decorators/mopidy'
 import Mopidy from 'mopidy'
 jest.mock('../../src/services/spotify')
@@ -24,7 +20,7 @@ jest.mock('../../src/models/setting')
 jest.useFakeTimers()
 
 const mockUpdateCurrentTrack = Setting.updateCurrentTrack as jest.Mock
-const mockUpdateTracklist = updateTracklist as jest.Mock
+const mockUpdateTracklist = Setting.updateTracklist as jest.Mock
 const mockClearState = Setting.clearState as jest.Mock
 const mockDecorateTracklist = DecorateTracklist as jest.Mock
 const mockTrimTracklist = Setting.trimTracklist as jest.Mock
@@ -84,7 +80,7 @@ describe('MopidyDecorator', () => {
       mockUpdateTracklist.mockResolvedValue(true)
       const returnData = await MopidyDecorator.parse(h('tracklist.getTracks'), data)
       expect(DecorateTracklist).toHaveBeenCalledWith(data)
-      expect(updateTracklist).toBeCalledWith(['123'])
+      expect(Setting.updateTracklist).toBeCalledWith(['123'])
       expect(returnData).toEqual([{ track: { uri: '123', length: 2820123 } }])
     })
   })

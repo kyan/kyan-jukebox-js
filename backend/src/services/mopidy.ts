@@ -4,7 +4,7 @@ import EventLogger from '../utils/event-logger'
 import MopidyConstants from '../constants/mopidy'
 import MessageType from '../constants/message'
 import Decorator from '../decorators/mopidy'
-import Setting, { updateTracklist } from '../models/setting'
+import Setting from '../models/setting'
 import { StateChangeMessageInterface, BroadcastInterface } from '../utils/broadcaster'
 
 type BroadcastToAllType = (options: BroadcastInterface) => void
@@ -68,7 +68,7 @@ const MopidyService = (
           mopidy.tracklist
             .getTracks()
             .then((tracks) =>
-              updateTracklist(tracks.map((track) => track.uri)).then(() =>
+              Setting.updateTracklist(tracks.map((track) => track.uri)).then(() =>
                 packAndSend({ key: MopidyConstants.GET_TRACKS }, tracks, 'parse')
               )
             )

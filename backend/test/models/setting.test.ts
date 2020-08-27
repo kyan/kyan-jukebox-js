@@ -1,7 +1,6 @@
 import Mopidy from 'mopidy'
 import logger from '../../src/config/logger'
 import Setting, {
-  updateTracklist,
   removeFromSeeds,
   getSeedTracks,
   getTracklist,
@@ -309,7 +308,7 @@ describe('test mongoose Settings model', () => {
       const uris = ['uri123']
       jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(undefined)
 
-      const response = await updateTracklist(uris)
+      const response = await Setting.updateTracklist(uris)
       expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
         { key: 'state' },
         { $set: { 'value.currentTracklist': ['uri123'] } },
@@ -323,7 +322,7 @@ describe('test mongoose Settings model', () => {
       const uris = ['uri123']
       jest.spyOn(Setting, 'findOneAndUpdate').mockRejectedValue(new Error('boom'))
 
-      updateTracklist(uris)
+      Setting.updateTracklist(uris)
 
       return new Promise((resolve) => {
         setTimeout(() => {
