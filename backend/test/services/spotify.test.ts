@@ -5,7 +5,7 @@ import EventLogger from '../../src/utils/event-logger'
 import ImageCache, { ImageCacheInterface } from '../../src/utils/image-cache'
 import Recommend, { SuitableDataInterface } from '../../src/utils/recommendations'
 import logger from '../../src/config/logger'
-import Track, { addTracks, DBTrackInterface } from '../../src/models/track'
+import Track, { DBTrackInterface } from '../../src/models/track'
 import Setting from '../../src/models/setting'
 
 jest.mock('../../src/utils/recommendations')
@@ -68,7 +68,7 @@ jest.mock('lodash', () => ({
 
 const mockedRecommend = Recommend as jest.Mocked<typeof Recommend>
 const mockedImageCache = ImageCache as jest.Mocked<typeof ImageCache>
-const mockedAddTracks = addTracks as jest.Mock
+const mockedAddTracks = Track.addTracks as jest.Mock
 const mockedGetTracklist = Setting.getTracklist as jest.Mock
 const mockedTrackFind = Track.find as jest.Mock<any>
 

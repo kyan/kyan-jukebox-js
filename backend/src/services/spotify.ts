@@ -6,7 +6,7 @@ import MopidyConstants from '../constants/mopidy'
 import logger from '../config/logger'
 import ImageCache from '../utils/image-cache'
 import Recommend from '../utils/recommendations'
-import { addTracks } from '../models/track'
+import Track from '../models/track'
 import Setting from '../models/setting'
 import { DBUserInterface } from '../models/user'
 import { SuitableDataInterface } from '../utils/recommendations'
@@ -139,7 +139,7 @@ const getRecommendations: GetRecommendationsInterface = (
             }
 
             ImageCache.addAll(images).then(() => {
-              addTracks(uris).then((data) => {
+              Track.addTracks(uris).then((data) => {
                 mopidy.tracklist
                   .add({ uris: data.uris })
                   .then(successHandler(data.user), failureHandler)

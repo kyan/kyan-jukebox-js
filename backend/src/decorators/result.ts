@@ -1,6 +1,5 @@
 import DecorateTrack from './track'
-import {
-  findTracks,
+import Track, {
   JBTrackInterface,
   JBTrackPayloadInterface,
   DBTrackInterface
@@ -11,7 +10,7 @@ const DecorateSearchResults = (
 ): Promise<JBTrackPayloadInterface[]> =>
   new Promise((resolve) => {
     const trackUris = json.map((data) => data.uri)
-    const requests = [findTracks(trackUris)]
+    const requests = [Track.findTracks(trackUris)]
 
     const compare = (a: JBTrackPayloadInterface, b: JBTrackPayloadInterface): number => {
       let comparison = 0
