@@ -1,9 +1,9 @@
 import fs from 'fs'
 import SearchResults from '../../src/decorators/result'
-import { findTracks } from '../../src/models/track'
+import Track from '../../src/models/track'
 jest.mock('../../src/models/track')
 
-const mockFindTracks = findTracks as jest.Mock
+const mockFindTracks = Track.findTracks as jest.Mock
 
 describe('SearchResults', () => {
   const payload = JSON.parse(

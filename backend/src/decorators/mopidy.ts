@@ -4,12 +4,7 @@ import DecorateTracklist from '../decorators/tracklist'
 import NowPlaying from '../utils/now-playing'
 import Spotify from '../services/spotify'
 import Setting from '../models/setting'
-import {
-  addTracks,
-  updateTrackPlaycount,
-  tracksToHumanReadableArray,
-  JBTrackPayloadInterface
-} from '../models/track'
+import Track, { updateTrackPlaycount, JBTrackPayloadInterface } from '../models/track'
 import { GetRecommendationsInterface } from '../services/spotify'
 
 let recommendTimer: NodeJS.Timeout | null
@@ -95,12 +90,14 @@ const MopidyDecorator = {
             })
             .then((responses: JBTrackPayloadInterface[]) => {
               resolve({
-                message: tracksToHumanReadableArray(responses).join(', '),
+                message: responses
+                  .map((r) => `${r.track.name} by ${r.track.artist.name}`)
+                  .join(', '),
                 toAll: true
               })
             })
         case Constants.TRACKLIST_ADD:
-          return addTracks(headers.data.uris, user)
+          return Track.addTracks(headers.data.uris, user)
             .then(() => {
               const tracks: JBTrackPayloadInterface[] = data
               return DecorateTracklist(tracks.map((item) => item.track))
@@ -109,7 +106,9 @@ const MopidyDecorator = {
               clearSetTimeout(recommendTimer)
 
               resolve({
-                message: tracksToHumanReadableArray(responses).join(', '),
+                message: responses
+                  .map((r) => `${r.track.name} by ${r.track.artist.name}`)
+                  .join(', '),
                 toAll: true
               })
             })

@@ -2,11 +2,7 @@ import DecorateTrack from '../../src/decorators/track'
 import DecorateTracklist from '../../src/decorators/tracklist'
 import Spotify from '../../src/services/spotify'
 import NowPlaying from '../../src/utils/now-playing'
-import {
-  addTracks,
-  updateTrackPlaycount,
-  tracksToHumanReadableArray
-} from '../../src/models/track'
+import Track, { updateTrackPlaycount } from '../../src/models/track'
 import Setting from '../../src/models/setting'
 import MopidyDecorator from '../../src/decorators/mopidy'
 import Mopidy from 'mopidy'
@@ -27,8 +23,7 @@ const mockTrimTracklist = Setting.trimTracklist as jest.Mock
 const mockAddToTrackSeedList = Setting.addToTrackSeedList as jest.Mock
 const mockGetSeedTracks = Setting.getSeedTracks as jest.Mock
 const mockRemoveFromSeeds = Setting.removeFromSeeds as jest.Mock
-const mockAddTracks = addTracks as jest.Mock
-const mockTracksToHumanReadableArray = tracksToHumanReadableArray as jest.Mock
+const mockAddTracks = Track.addTracks as jest.Mock
 const mockUpdateTrackPlaycount = updateTrackPlaycount as jest.Mock
 const mockSpotifyCanRecommend = Spotify.canRecommend as jest.Mock
 
@@ -225,10 +220,9 @@ describe('MopidyDecorator', () => {
       mockDecorateTracklist.mockResolvedValue(response)
       mockRemoveFromSeeds.mockResolvedValue(true)
       mockAddTracks.mockResolvedValue(true)
-      mockTracksToHumanReadableArray.mockReturnValue(['track'])
       const returnData = await MopidyDecorator.parse(h('tracklist.remove'), data)
       expect(returnData).toEqual({
-        message: 'track',
+        message: 'track by artist',
         toAll: true
       })
       expect(Setting.removeFromSeeds).toHaveBeenCalledWith(
@@ -273,21 +267,38 @@ describe('MopidyDecorator', () => {
   describe('tracklist.add', () => {
     it('returns the data passed in', async () => {
       expect.assertions(3)
-      const data = [{ track: { name: 'track', artist: { name: 'artist' } } }]
-      const headers = h('tracklist.add')
-      headers.data = { uris: ['spotify:track:43xy5ZmjM9tdzmrXu1pmSG'] }
-      headers.user = 'user'
+      const data = [
+        {
+          track: {
+            name: 'track',
+            artist: { name: 'artist' }
+          }
+        },
+        { track: { name: 'track1', artist: { name: 'artist2' } } }
+      ]
+      const headers = {
+        key: 'tracklist.add',
+        data: {
+          uris: [
+            'spotify:track:43xy5ZmjM9tdzmrXu1pmSG',
+            'spotify:track:53xy5ZmjM9tdzmrXu1pmSG'
+          ]
+        },
+        user: 'user'
+      }
       mockDecorateTracklist.mockResolvedValue(data)
       mockAddTracks.mockResolvedValue(true)
-      mockTracksToHumanReadableArray.mockReturnValue(['one', 'two'])
 
       const returnData = await MopidyDecorator.parse(headers, data)
-      expect(addTracks).toHaveBeenCalledWith(
-        ['spotify:track:43xy5ZmjM9tdzmrXu1pmSG'],
+      expect(Track.addTracks).toHaveBeenCalledWith(
+        ['spotify:track:43xy5ZmjM9tdzmrXu1pmSG', 'spotify:track:53xy5ZmjM9tdzmrXu1pmSG'],
         'user'
       )
-      expect(DecorateTracklist).toHaveBeenCalledWith([data[0].track])
-      expect(returnData).toEqual({ message: 'one, two', toAll: true })
+      expect(DecorateTracklist).toHaveBeenCalledWith([data[0].track, data[1].track])
+      expect(returnData).toEqual({
+        message: 'track by artist, track1 by artist2',
+        toAll: true
+      })
     })
   })
 

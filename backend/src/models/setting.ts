@@ -144,7 +144,7 @@ SettingSchema.statics.getTracklist = (): Promise<string[]> =>
       .catch((error) => logger.error('getTracklist', { args: error.message }))
   })
 
-interface DBSettingModelInterface extends Model<DBSettingInterface> {
+interface DBSettingStaticsInterface extends Model<DBSettingInterface> {
   clearState: () => Promise<void>
   addToTrackSeedList: (track: JBTrackInterface) => Promise<void | string>
   initializeState: (
@@ -159,7 +159,7 @@ interface DBSettingModelInterface extends Model<DBSettingInterface> {
   getTracklist: () => Promise<string[]>
 }
 
-const Setting = model<DBSettingInterface, DBSettingModelInterface>(
+const Setting = model<DBSettingInterface, DBSettingStaticsInterface>(
   'Setting',
   SettingSchema
 )
