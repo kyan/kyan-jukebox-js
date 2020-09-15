@@ -51,7 +51,7 @@ const MopidyService = (
     })
 
     Object.values(MopidyConstants.CORE_EVENTS).forEach((key) => {
-      mopidy.on(key, (message) => {
+      mopidy.on(key, (message: any) => {
         EventLogger.info(MessageType.INCOMING_CORE, { key, data: message })
 
         const packAndSend = (

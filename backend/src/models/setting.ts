@@ -145,18 +145,18 @@ SettingSchema.statics.getTracklist = (): Promise<string[]> =>
   })
 
 interface DBSettingStaticsInterface extends Model<DBSettingInterface> {
-  clearState: () => Promise<void>
-  addToTrackSeedList: (track: JBTrackInterface) => Promise<void | string>
-  initializeState: (
+  clearState(): Promise<void>
+  addToTrackSeedList(track: JBTrackInterface): Promise<void | string>
+  initializeState(
     currentTrack: Mopidy.models.Track | null,
     currentTracklist: Mopidy.models.Track[]
-  ) => Promise<void | string>
-  trimTracklist: (mopidy: Mopidy) => Promise<boolean>
-  updateCurrentTrack: (uri: string) => Promise<string>
-  updateTracklist: (uris: ReadonlyArray<string>) => Promise<ReadonlyArray<string>>
-  removeFromSeeds: (uri: string) => Promise<string>
-  getSeedTracks: () => Promise<string[]>
-  getTracklist: () => Promise<string[]>
+  ): Promise<void | string>
+  trimTracklist(mopidy: Mopidy): Promise<boolean>
+  updateCurrentTrack(uri: string): Promise<string>
+  updateTracklist(uris: ReadonlyArray<string>): Promise<ReadonlyArray<string>>
+  removeFromSeeds(uri: string): Promise<string>
+  getSeedTracks(): Promise<string[]>
+  getTracklist(): Promise<string[]>
 }
 
 const Setting = model<DBSettingInterface, DBSettingStaticsInterface>(

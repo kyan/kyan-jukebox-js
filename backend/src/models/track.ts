@@ -231,9 +231,9 @@ const updateTrackVote = (uri: string, user: JBUserInterface, vote: number) =>
   })
 
 interface DBTrackStaticsInterface extends Model<DBTrackInterface> {
-  findTracks: (uris: ReadonlyArray<string>) => Promise<DBTrackInterface[]>
-  findOrUseBRH: (user?: JBUserInterface) => PromiseLikeDBUser
-  addTracks: (uris: ReadonlyArray<string>, user?: DBUserInterface) => Promise<any>
+  findTracks(uris: ReadonlyArray<string>): Promise<DBTrackInterface[]>
+  findOrUseBRH(user?: JBUserInterface): PromiseLikeDBUser
+  addTracks(uris: ReadonlyArray<string>, user?: DBUserInterface): Promise<any>
 }
 
 const Track = model<DBTrackInterface, DBTrackStaticsInterface>('Track', TrackSchema)
