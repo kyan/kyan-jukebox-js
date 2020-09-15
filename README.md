@@ -10,7 +10,7 @@ This is a work-in-progress replacement for our [existing office JukeBox](https:/
 
 ## Overview
 
-The Jukebox re-imagined still uses `Mopidy` but has been split into parts, Client and API, Both of which are written in `JavaScript`. It also uses smaller events messages passed back and forth over a websocket. Currently both the client and API live in this one repo, but in the future it will likely split into it's component parts.
+The Jukebox re-imagined still uses `Mopidy` but has been split into parts, Client and API. The API is written in [TypeScript](https://www.typescriptlang.org/) and the Client currently a mix of [JavaScript](https://www.javascript.com/) and TypeScript. It also uses smaller events messages passed back and forth over a websocket. Currently both the client and API live in this one repo, but in the future it will likely split into it's component parts.
 
 ## Why not use an existing Mopidy frontend
 
