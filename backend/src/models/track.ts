@@ -1,8 +1,43 @@
-import { Schema, model, Document, DocumentQuery } from 'mongoose'
+import { Schema, model, Model, Document, DocumentQuery } from 'mongoose'
 import User, { DBUserInterface, JBUserInterface } from '../models/user'
 import EventLogger from '../utils/event-logger'
 import logger from '../config/logger'
 import VotingHelper from '../utils/voting'
+
+const TrackSchema = new Schema(
+  {
+    _id: Schema.Types.String,
+    addedBy: [
+      {
+        _id: false,
+        user: { type: Schema.Types.String, ref: 'User' },
+        addedAt: Schema.Types.Date,
+        played: [
+          {
+            _id: false,
+            at: Schema.Types.Date
+          }
+        ],
+        votes: [
+          {
+            _id: false,
+            user: { type: Schema.Types.String, ref: 'User' },
+            vote: Schema.Types.Number,
+            at: Schema.Types.Date
+          }
+        ]
+      }
+    ],
+    metrics: {
+      _id: false,
+      plays: { type: Schema.Types.Number, default: 0 },
+      votes: { type: Schema.Types.Number, default: 0 },
+      votesTotal: { type: Schema.Types.Number, default: 0 },
+      votesAverage: { type: Schema.Types.Number, default: 0 }
+    }
+  },
+  { _id: false }
+)
 
 export interface JBTrackPayloadInterface {
   track: JBTrackInterface
@@ -66,49 +101,15 @@ export interface DBTrackInterface extends Document {
   metrics: DBMetricsInterface
 }
 
-const trackSchema = new Schema(
-  {
-    _id: Schema.Types.String,
-    addedBy: [
-      {
-        _id: false,
-        user: { type: Schema.Types.String, ref: 'User' },
-        addedAt: Schema.Types.Date,
-        played: [
-          {
-            _id: false,
-            at: Schema.Types.Date
-          }
-        ],
-        votes: [
-          {
-            _id: false,
-            user: { type: Schema.Types.String, ref: 'User' },
-            vote: Schema.Types.Number,
-            at: Schema.Types.Date
-          }
-        ]
-      }
-    ],
-    metrics: {
-      _id: false,
-      plays: { type: Schema.Types.Number, default: 0 },
-      votes: { type: Schema.Types.Number, default: 0 },
-      votesTotal: { type: Schema.Types.Number, default: 0 },
-      votesAverage: { type: Schema.Types.Number, default: 0 }
-    }
-  },
-  { _id: false }
-)
-const Track = model<DBTrackInterface>('Track', trackSchema)
-
 const brh = {
   _id: '1ambigrainbowhead',
   fullname: 'BRH',
   picture: 'https://cdn-images-1.medium.com/fit/c/200/200/1*bFBXYvskkPFI9nPx6Elwxg.png'
 }
 
-const findTracks = (uris: ReadonlyArray<string>): Promise<DBTrackInterface[]> =>
+TrackSchema.statics.findTracks = (
+  uris: ReadonlyArray<string>
+): Promise<DBTrackInterface[]> =>
   new Promise((resolve, reject) => {
     Track.find({ _id: { $in: uris } })
       .populate({ path: 'addedBy.user' })
@@ -120,7 +121,7 @@ const findTracks = (uris: ReadonlyArray<string>): Promise<DBTrackInterface[]> =>
       .catch((err) => reject(err))
   })
 
-const findOrUseBRH = (user?: JBUserInterface): PromiseLikeDBUser => {
+TrackSchema.statics.findOrUseBRH = (user?: JBUserInterface): PromiseLikeDBUser => {
   if (user) return Promise.resolve(new User(user).toObject())
 
   return User.findOneAndUpdate({ _id: brh._id }, brh, {
@@ -130,12 +131,12 @@ const findOrUseBRH = (user?: JBUserInterface): PromiseLikeDBUser => {
   })
 }
 
-const tracksToHumanReadableArray = (tracks: any[]): string[] =>
-  tracks.map((data) => `${data.track.name} by ${data.track.artist.name}`)
-
-const addTracks = (uris: ReadonlyArray<string>, user?: DBUserInterface): Promise<any> =>
+TrackSchema.statics.addTracks = (
+  uris: ReadonlyArray<string>,
+  user?: DBUserInterface
+): Promise<any> =>
   new Promise((resolve) => {
-    findOrUseBRH(user)
+    Track.findOrUseBRH(user)
       .then((returnUser) => {
         const requests = uris.map((uri) =>
           Track.findOneAndUpdate(
@@ -184,7 +185,7 @@ const updateTrackPlaycount = (uri: string): Promise<DBTrackInterface> =>
 
 const updateTrackVote = (uri: string, user: JBUserInterface, vote: number) =>
   new Promise((resolve) => {
-    findOrUseBRH(user)
+    Track.findOrUseBRH(user)
       .then((vUser) => {
         Track.findById(uri)
           .populate({ path: 'addedBy.user' })
@@ -229,11 +230,13 @@ const updateTrackVote = (uri: string, user: JBUserInterface, vote: number) =>
       )
   })
 
-export default Track
-export {
-  findTracks,
-  addTracks,
-  updateTrackPlaycount,
-  updateTrackVote,
-  tracksToHumanReadableArray
+interface DBTrackStaticsInterface extends Model<DBTrackInterface> {
+  findTracks(uris: ReadonlyArray<string>): Promise<DBTrackInterface[]>
+  findOrUseBRH(user?: JBUserInterface): PromiseLikeDBUser
+  addTracks(uris: ReadonlyArray<string>, user?: DBUserInterface): Promise<any>
 }
+
+const Track = model<DBTrackInterface, DBTrackStaticsInterface>('Track', TrackSchema)
+
+export default Track
+export { updateTrackPlaycount, updateTrackVote }

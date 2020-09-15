@@ -9,7 +9,7 @@ describe('SearchDecorator', () => {
     jest.clearAllMocks()
   })
 
-  it('should handle skipping', () => {
+  it('should handle skipping', async () => {
     expect.assertions(1)
     const header = {
       key: 'keynotused',
@@ -17,13 +17,12 @@ describe('SearchDecorator', () => {
     }
     const data = {}
 
-    return SearchDecorator.parse(header, data).then((results) => {
-      expect(results).toEqual('skippedSearchDecoratorDecoration: keynotused')
-    })
+    const results = await SearchDecorator.parse(header, data)
+    expect(results).toEqual('skippedSearchDecoratorDecoration: keynotused')
   })
 
   describe('SEARCH_GET_TRACKS', () => {
-    it('calls the DecorateSearchResults function', () => {
+    it('calls the DecorateSearchResults function', async () => {
       const header = {
         key: 'searchGetTracks',
         data: {}
@@ -31,13 +30,15 @@ describe('SearchDecorator', () => {
       const data = {
         tracks: {
           items: ['result']
-        }
+        } as unknown
       }
       expect.assertions(1)
       mockDecorateSearchResults.mockResolvedValue('tracks')
-      return SearchDecorator.parse(header, data).then((returnData) => {
-        expect(returnData).toEqual({ tracks: { items: 'tracks' } })
-      })
+      const returnData = await SearchDecorator.parse(
+        header,
+        data as SpotifyApi.SearchResponse
+      )
+      expect(returnData).toEqual({ tracks: { items: 'tracks' } })
     })
   })
 })

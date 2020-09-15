@@ -4,12 +4,7 @@ import EventLogger from '../utils/event-logger'
 import MopidyConstants from '../constants/mopidy'
 import MessageType from '../constants/message'
 import Decorator from '../decorators/mopidy'
-import {
-  clearState,
-  initializeState,
-  trimTracklist,
-  updateTracklist
-} from '../models/setting'
+import Setting from '../models/setting'
 import { StateChangeMessageInterface, BroadcastInterface } from '../utils/broadcaster'
 
 type BroadcastToAllType = (options: BroadcastInterface) => void
@@ -31,8 +26,8 @@ const MopidyService = (
     const initCurrentTrackState = (mopidy: Mopidy) => {
       Promise.all([mopidy.playback.getCurrentTrack(), mopidy.tracklist.getTracks()]).then(
         async (responses) => {
-          await initializeState(responses[0], responses[1])
-          await trimTracklist(mopidy)
+          await Setting.initializeState(responses[0], responses[1])
+          await Setting.trimTracklist(mopidy)
           firstTime ? broadcastStateChange({ online: true }) : resolve(mopidy)
           firstTime = true
         }
@@ -41,13 +36,13 @@ const MopidyService = (
 
     mopidy.on('websocket:error', (err: any) => {
       logger.error(`Mopidy Error: ${err.message}`, { url: `${mopidyUrl}:${mopidyPort}` })
-      clearState()
+      Setting.clearState()
     })
 
     mopidy.on('state:offline', () => {
       logger.info('Mopidy Offline', { url: `${mopidyUrl}:${mopidyPort}` })
       broadcastStateChange({ online: false })
-      clearState()
+      Setting.clearState()
     })
 
     mopidy.on('state:online', () => {
@@ -56,7 +51,7 @@ const MopidyService = (
     })
 
     Object.values(MopidyConstants.CORE_EVENTS).forEach((key) => {
-      mopidy.on(key, (message) => {
+      mopidy.on(key, (message: any) => {
         EventLogger.info(MessageType.INCOMING_CORE, { key, data: message })
 
         const packAndSend = (
@@ -73,7 +68,7 @@ const MopidyService = (
           mopidy.tracklist
             .getTracks()
             .then((tracks) =>
-              updateTracklist(tracks.map((track) => track.uri)).then(() =>
+              Setting.updateTracklist(tracks.map((track) => track.uri)).then(() =>
                 packAndSend({ key: MopidyConstants.GET_TRACKS }, tracks, 'parse')
               )
             )

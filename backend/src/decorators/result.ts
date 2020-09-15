@@ -1,12 +1,18 @@
 import DecorateTrack from './track'
-import { findTracks, JBTrackInterface } from '../models/track'
+import Track, {
+  JBTrackInterface,
+  JBTrackPayloadInterface,
+  DBTrackInterface
+} from '../models/track'
 
-const DecorateSearchResults = (json: JBTrackInterface[]) => {
-  return new Promise((resolve) => {
+const DecorateSearchResults = (
+  json: JBTrackInterface[]
+): Promise<JBTrackPayloadInterface[]> =>
+  new Promise((resolve) => {
     const trackUris = json.map((data) => data.uri)
-    const requests = [findTracks(trackUris)]
+    const requests = [Track.findTracks(trackUris)]
 
-    const compare = (a: any, b: any): number => {
+    const compare = (a: JBTrackPayloadInterface, b: JBTrackPayloadInterface): number => {
       let comparison = 0
       let votesA = a.track.metrics && a.track.metrics.votesAverage
       let votesB = b.track.metrics && b.track.metrics.votesAverage
@@ -22,8 +28,8 @@ const DecorateSearchResults = (json: JBTrackInterface[]) => {
       return comparison
     }
 
-    Promise.all(requests).then((responses: any[]) => {
-      const tracks: any[] = responses[0]
+    Promise.all<DBTrackInterface[]>(requests).then((responses) => {
+      const tracks: DBTrackInterface[] = responses[0]
       const decoratedTracks = json.map((data) => {
         const trackData = tracks.find((track) => track._id === data.uri)
 
@@ -35,9 +41,8 @@ const DecorateSearchResults = (json: JBTrackInterface[]) => {
         return DecorateTrack(data)
       })
 
-      return resolve(decoratedTracks.sort(compare))
+      resolve(decoratedTracks.sort(compare))
     })
   })
-}
 
 export default DecorateSearchResults

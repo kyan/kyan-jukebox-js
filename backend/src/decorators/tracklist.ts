@@ -1,5 +1,5 @@
 import DecorateTrack from './track'
-import { findTracks } from '../models/track'
+import Track from '../models/track'
 import ImageCache from '../utils/image-cache'
 import {
   DBTrackInterface,
@@ -14,7 +14,7 @@ const DecorateTracklist = (
   new Promise((resolve) => {
     const uris: ReadonlyArray<string> = json.map((data) => data.uri)
     const requests: [Promise<DBTrackInterface[]>, Promise<DBImageInterface[]>] = [
-      findTracks(uris),
+      Track.findTracks(uris),
       ImageCache.findAll(uris)
     ]
 
