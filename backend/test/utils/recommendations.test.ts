@@ -1,4 +1,4 @@
-import { getTracklist } from '../../src/models/setting'
+import Setting from '../../src/models/setting'
 import Track, { DBTrackInterface } from '../../src/models/track'
 import SpotifyService from '../../src/services/spotify'
 import Recommend, { SuitableDataInterface } from '../../src/utils/recommendations'
@@ -79,7 +79,7 @@ describe('Recommend', () => {
       const resultsToIgnore = [{ _id: 'track1' }] as DBTrackInterface[]
       const tracksPlayedToday = [{ _id: 'track2' }] as DBTrackInterface[]
       const mockedTrackFind = Track.find as jest.Mock<any>
-      const mockedGetTracklist = getTracklist as jest.Mock<any>
+      const mockedGetTracklist = Setting.getTracklist as jest.Mock<any>
 
       mockedTrackFind
         .mockImplementationOnce(() => ({
@@ -130,7 +130,7 @@ describe('Recommend', () => {
       const currentUrisToIgnore = ['track3'] as string[]
       const mockedGetTracks = SpotifyService.getTracks as jest.Mock<any>
       const mockedTrackAggregate = Track.aggregate as jest.Mock<any>
-      const mockedGetTracklist = getTracklist as jest.Mock<any>
+      const mockedGetTracklist = Setting.getTracklist as jest.Mock<any>
 
       mockedGetTracks.mockResolvedValue({} as SpotifyApi.MultipleTracksResponse)
       mockedTrackAggregate.mockResolvedValue(results)

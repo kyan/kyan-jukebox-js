@@ -3,12 +3,7 @@ import MopidyService from '../../src/services/mopidy'
 import logger from '../../src/config/logger'
 import Decorator from '../../src/decorators/mopidy'
 import EventLogger from '../../src/utils/event-logger'
-import {
-  clearState,
-  initializeState,
-  trimTracklist,
-  updateTracklist
-} from '../../src/models/setting'
+import Setting from '../../src/models/setting'
 jest.mock('mopidy')
 jest.mock('../../src/decorators/mopidy')
 jest.mock('../../src/utils/event-logger')
@@ -16,10 +11,10 @@ jest.mock('../../src/config/logger')
 jest.mock('../../src/models/setting')
 
 const mockedDecorator = Decorator as jest.Mocked<typeof Decorator>
-const mockedInitializeState = initializeState as jest.Mock
-const mockedTrimTracklist = trimTracklist as jest.Mock
-const mockedUpdateTracklist = updateTracklist as jest.Mock
-const mockedClearState = clearState as jest.Mock
+const mockedInitializeState = Setting.initializeState as jest.Mock
+const mockedTrimTracklist = Setting.trimTracklist as jest.Mock
+const mockedUpdateTracklist = Setting.updateTracklist as jest.Mock
+const mockedClearState = Setting.clearState as jest.Mock
 const mockedLogger = logger as jest.Mocked<typeof logger>
 const mockedEventLogger = EventLogger as jest.Mocked<typeof EventLogger>
 
@@ -59,14 +54,14 @@ describe('MopidyService', () => {
     expect(instance.on.mock.calls[0][0]).toEqual('websocket:error')
     instance.on.mock.calls[0][1]({ message: 'boooooooom!' })
     expect(mockedLogger.error.mock.calls[0][0]).toEqual('Mopidy Error: boooooooom!')
-    expect(clearState).toHaveBeenCalled()
+    expect(Setting.clearState).toHaveBeenCalled()
     mockedClearState.mockClear()
 
     expect(instance.on.mock.calls[1][0]).toEqual('state:offline')
     instance.on.mock.calls[1][1]()
     expect(mockedLogger.info.mock.calls[0][0]).toEqual('Mopidy Offline')
     expect(mopidyStateMock.mock.calls[0][0]).toEqual({ online: false })
-    expect(clearState).toHaveBeenCalled()
+    expect(Setting.clearState).toHaveBeenCalled()
 
     expect(instance.on.mock.calls[2][0]).toEqual('state:online')
     instance.on.mock.calls[2][1]()

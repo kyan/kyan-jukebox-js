@@ -6,8 +6,8 @@ import MopidyConstants from '../constants/mopidy'
 import logger from '../config/logger'
 import ImageCache from '../utils/image-cache'
 import Recommend from '../utils/recommendations'
-import { addTracks } from '../models/track'
-import { getTracklist } from '../models/setting'
+import Track from '../models/track'
+import Setting from '../models/setting'
 import { DBUserInterface } from '../models/user'
 import { SuitableDataInterface } from '../utils/recommendations'
 
@@ -60,7 +60,7 @@ const setupSpotify = (callback: (api: SpotifyWebApi) => void): void => {
     })
 }
 
-const searchTracks = (params: SearchInterface): Promise<any> =>
+const searchTracks = (params: SearchInterface): Promise<SpotifyApi.SearchResponse> =>
   new Promise((resolve) => {
     setupSpotify((api) => {
       const options = { ...defaultOptions, ...params.options }
@@ -139,7 +139,7 @@ const getRecommendations: GetRecommendationsInterface = (
             }
 
             ImageCache.addAll(images).then(() => {
-              addTracks(uris).then((data) => {
+              Track.addTracks(uris).then((data) => {
                 mopidy.tracklist
                   .add({ uris: data.uris })
                   .then(successHandler(data.user), failureHandler)
@@ -171,7 +171,7 @@ const SpotifyService = {
 
   validateTrack: (uri: string) =>
     new Promise((resolve, reject) => {
-      return getTracklist().then((uris) => {
+      return Setting.getTracklist().then((uris) => {
         if (uris.includes(uri)) {
           const message = `You've already added: ${uri}`
           return reject(new Error(message))

@@ -14,8 +14,8 @@ const SearchHandler = ({ socket, payload }: SearchHandlerInterface) => {
   const { data } = payload
   EventLogger.info('SEARCH', payload, true)
 
-  const broadcastTo = (headers: PayloadInterface, message: any) => {
-    Decorator.parse(headers, message).then((unifiedMessage) => {
+  const broadcastTo = (headers: PayloadInterface, tracks: SpotifyApi.SearchResponse) => {
+    Decorator.parse(headers, tracks).then((unifiedMessage) => {
       Broadcaster.toClient({
         socket,
         headers,

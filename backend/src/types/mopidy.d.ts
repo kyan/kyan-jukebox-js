@@ -31,13 +31,13 @@ declare class Mopidy {
   // ----------------- EVENT SUBSCRIPTION -----------------
 
   on<K extends keyof Mopidy.StrictEvents>(
-    name: K, listener: (v: Mopidy.StrictEvents[K]
-  ) => void): this;
+    event: K, listener: Mopidy.StrictEvents[K]
+  ): this;
 
   off(): void;
   off<K extends keyof Mopidy.StrictEvents>(
-    name: K, listener: (v: Mopidy.StrictEvents[K]
-  ) => void): this;
+    event: K, listener: Mopidy.StrictEvents[K]
+ ): this;
 
   // ----------------- CORE API -----------------
 
