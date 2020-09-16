@@ -21,7 +21,7 @@ describe('AuthenticateHandler', () => {
     jest.clearAllMocks()
   })
 
-  it('handles successfully request', () => {
+  it('handles successfully request', async () => {
     expect.assertions(3)
 
     const payload = {
@@ -37,35 +37,34 @@ describe('AuthenticateHandler', () => {
             sub: 'abcdefg123456',
             name: 'Duncan Robotson',
             picture: 'a/beautiful/image',
-            hd: 'kyanmedia.com'
+            hd: 'kyan.com'
           }))
         })
       }
     })
 
     mockUserFindOneAndUpdate.mockResolvedValue(true)
+    const response = await AuthenticateHandler(payload, wsMock)
 
-    return AuthenticateHandler(payload, wsMock).then((response) => {
-      expect(response).toEqual({
-        data: ['12'],
-        key: 'mixer.setVolume',
-        user: {
-          _id: 'abcdefg123456',
-          fullname: 'Duncan Robotson',
-          picture: 'a/beautiful/image'
-        }
-      })
-      expect(Broadcaster.toClient).not.toHaveBeenCalled()
-      expect(mockUserFindOneAndUpdate.mock.calls[0]).toEqual([
-        { _id: 'abcdefg123456' },
-        {
-          _id: 'abcdefg123456',
-          fullname: 'Duncan Robotson',
-          picture: 'a/beautiful/image'
-        },
-        { new: true, setDefaultsOnInsert: true, upsert: true }
-      ])
+    expect(response).toEqual({
+      data: ['12'],
+      key: 'mixer.setVolume',
+      user: {
+        _id: 'abcdefg123456',
+        fullname: 'Duncan Robotson',
+        picture: 'a/beautiful/image'
+      }
     })
+    expect(Broadcaster.toClient).not.toHaveBeenCalled()
+    expect(mockUserFindOneAndUpdate.mock.calls[0]).toEqual([
+      { _id: 'abcdefg123456' },
+      {
+        _id: 'abcdefg123456',
+        fullname: 'Duncan Robotson',
+        picture: 'a/beautiful/image'
+      },
+      { new: true, setDefaultsOnInsert: true, upsert: true }
+    ])
   })
 
   it('handles verify error', () => {
@@ -141,21 +140,20 @@ describe('AuthenticateHandler', () => {
     })
   })
 
-  it('handles non-autherised requests', () => {
+  it('handles non-autherised requests', async () => {
     expect.assertions(2)
 
     const payload = {
       key: 'somenonauthtask',
       data: ['12']
     }
+    const response = await AuthenticateHandler(payload, wsMock)
 
-    return AuthenticateHandler(payload, wsMock).then((response) => {
-      expect(response).toEqual({
-        data: ['12'],
-        key: 'somenonauthtask'
-      })
-      expect(Broadcaster.toClient).not.toHaveBeenCalled()
+    expect(response).toEqual({
+      data: ['12'],
+      key: 'somenonauthtask'
     })
+    expect(Broadcaster.toClient).not.toHaveBeenCalled()
   })
 
   it('handles User.findOneAndUpdate error', () => {
@@ -171,7 +169,7 @@ describe('AuthenticateHandler', () => {
           getPayload: jest.fn().mockImplementationOnce(() => ({
             sub: 'abcdefg123456',
             name: 'Fred Spanner',
-            hd: 'kyanmedia.com'
+            hd: 'kyan.com'
           }))
         })
       }
