@@ -3,15 +3,14 @@ name: jukebox-build-and-test
 on:
   push:
     branches:
-    - master
-    - release/*
+      - master
+      - release/*
   pull_request:
     branches:
-    - master
+      - master
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -19,32 +18,32 @@ jobs:
         node-version: [12.x, 13.x, 14.x]
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Build and test frontend
-      run: |
-        cd frontend
-        npm ci
-        npm run build --if-present
-        npm test -- --coverage
-      env:
-        CI: true
-    - name: Build and test backend
-      run: |
-        cd backend
-        npm ci
-        npm run build --if-present
-        npm run test:ci
-      env:
-        CI: true
-        LOCAL_STORAGE_PATH: /tmp/jukebox
-        MONGODB_URL: mongodb://mongodb:27017/jb-dev
-        WS_MOPIDY_URL: mopidy-prod.local
-        WS_MOPIDY_PORT: 6680
-        CLIENT_ID: abcdefg
-        EXPLICIT_CONTENT: true
-        SPOTIFY_NEW_TRACKS_ADDED_LIMIT: 3
-        GOOGLE_AUTH_DOMAIN: kyanmedia.com
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Build and test frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run build --if-present
+          npm test -- --coverage
+        env:
+          CI: true
+      - name: Build and test backend
+        run: |
+          cd backend
+          npm ci
+          npm run build --if-present
+          npm run test:ci
+        env:
+          CI: true
+          LOCAL_STORAGE_PATH: /tmp/jukebox
+          MONGODB_URL: mongodb://mongodb:27017/jb-dev
+          WS_MOPIDY_URL: mopidy-prod.local
+          WS_MOPIDY_PORT: 6680
+          CLIENT_ID: abcdefg
+          EXPLICIT_CONTENT: true
+          SPOTIFY_NEW_TRACKS_ADDED_LIMIT: 3
+          GOOGLE_AUTH_DOMAIN: kyan.com
