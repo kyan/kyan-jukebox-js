@@ -144,7 +144,14 @@ TrackSchema.statics.addTracks = (
             {
               $push: {
                 addedBy: {
-                  $each: [{ user: returnUser, addedAt: new Date() }],
+                  $each: [
+                    {
+                      user: returnUser,
+                      addedAt: new Date(),
+                      played: [],
+                      votes: []
+                    }
+                  ],
                   $position: 0
                 }
               }
