@@ -1,12 +1,11 @@
 import express from 'express'
 import http from 'http'
 import io from 'socket.io'
-import Mopidy from 'mopidy'
 import MessageType from './constants/message'
 import Broadcaster, { StateChangeMessageInterface } from './utils/broadcaster'
 import Scheduler from './utils/scheduler'
 import Payload from './utils/payload'
-import MopidyService from './services/mopidy'
+import MopidyService, { MopidySettingInterface } from './services/mopidy'
 import MongodbService from './services/mongodb'
 import SocketErrorsHandler from './handlers/socket-errors'
 import MopidyHandler from './handlers/mopidy'
@@ -23,15 +22,15 @@ app.use(function (_req, res) {
 
 const server = http.createServer(app)
 const socketio = io(server, { pingTimeout: 30000 })
-
 const isProduction = () => process.env.NODE_ENV === 'production'
+
 const broadcastToAll = (options: BroadcastInterface) =>
   Broadcaster.toAll({ socketio, ...options })
 const broadcastMopidyStateChange = (message: StateChangeMessageInterface) =>
   Broadcaster.stateChange({ socketio, message })
-const allowSocketConnections = (mopidy: Mopidy) => {
-  if (isProduction())
-    Scheduler.scheduleAutoPlayback({ stop: () => mopidy.playback.stop() })
+
+const initSocketioEventHandlers = (args: MopidySettingInterface) => {
+  if (isProduction()) Scheduler.scheduleAutoShutdown(args)
 
   socketio.on('connection', (socket) => {
     Broadcaster.stateChange({ socket: socket, message: { online: true } })
@@ -45,7 +44,7 @@ const allowSocketConnections = (mopidy: Mopidy) => {
           payload: updatedPayload,
           socketio: socketio,
           socket: socket,
-          mopidy
+          mopidy: args.mopidy
         })
       )
     })
@@ -84,6 +83,6 @@ const allowSocketConnections = (mopidy: Mopidy) => {
 
 MongodbService()
   .then(() => MopidyService(broadcastToAll, broadcastMopidyStateChange))
-  .then(allowSocketConnections)
+  .then(initSocketioEventHandlers)
 
 export default server
