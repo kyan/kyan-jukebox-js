@@ -1,9 +1,12 @@
 import Scheduler from '../../src/utils/scheduler'
-import logger from '../../src/config/logger'
 import cron from 'node-cron'
+import Mopidy from 'mopidy'
+import logger from '../../src/config/logger'
+import { DBSettingStaticsInterface } from '../../src/models/setting'
 
 describe('Scheduler', () => {
-  const mockStop = jest.fn()
+  const mopidyRemoveMock = jest.fn().mockResolvedValue(null)
+  const mopidyStopMock = jest.fn().mockResolvedValue(null)
   const startMock = jest.fn()
   const infoMock = jest.fn()
 
@@ -23,25 +26,84 @@ describe('Scheduler', () => {
     jest.clearAllMocks()
   })
 
-  describe('scheduleAutoPlayback', () => {
-    it('it should schedule two jobs, for 8am and 7pm', () => {
-      const mockCronSchedule = cron.schedule as jest.Mock
-      Scheduler.scheduleAutoPlayback({
-        stop: mockStop
-      })
-      expect(cron.schedule).toHaveBeenCalledTimes(1)
-      expect(startMock).toHaveBeenCalledTimes(1)
-      expect(mockCronSchedule.mock.calls[0][0]).toEqual('0 19 * * *')
-    })
+  describe('scheduleAutoShutdown', () => {
+    test('it should schedule a job to shutdown JB', () => {
+      expect.assertions(7)
+      const getPlayedTracksFromTracklistMock = jest.fn().mockResolvedValue(['track1'])
+      const mopidy = {
+        playback: {
+          stop: mopidyStopMock
+        },
+        tracklist: {
+          remove: mopidyRemoveMock
+        }
+      } as unknown
+      const setting = {
+        getPlayedTracksFromTracklist: getPlayedTracksFromTracklistMock
+      } as unknown
 
-    it('when the job is invoked it should stop the jukebox and call the logger', () => {
       const mockCronSchedule = cron.schedule as jest.Mock
-      Scheduler.scheduleAutoPlayback({
-        stop: mockStop
+
+      Scheduler.scheduleAutoShutdown({
+        mopidy: mopidy as Mopidy,
+        setting: setting as DBSettingStaticsInterface
       })
       mockCronSchedule.mock.calls[0][1]()
-      expect(mockStop).toHaveBeenCalledTimes(1)
-      expect(infoMock).toHaveBeenCalledWith('[Scheduled] Jukebox Stopped')
+
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          expect(mockCronSchedule).toHaveBeenCalledTimes(1)
+          expect(mockCronSchedule).toHaveBeenCalledWith(
+            '0 19 * * *',
+            expect.any(Function)
+          )
+          expect(startMock).toHaveBeenCalledTimes(1)
+          expect(mopidyStopMock).toHaveBeenCalledTimes(1)
+          expect(mopidyRemoveMock).toHaveBeenCalledTimes(1)
+          expect(mopidyRemoveMock).toHaveBeenCalledWith({ criteria: { uri: ['track1'] } })
+          expect(infoMock).toHaveBeenCalledWith('[Scheduled] Jukebox Stopped')
+          resolve()
+        }, 0)
+      })
+    })
+
+    test('it should not attempt to remove tracks if there are none', () => {
+      expect.assertions(6)
+      const getPlayedTracksFromTracklistMock = jest.fn().mockResolvedValue([])
+      const mopidy = {
+        playback: {
+          stop: mopidyStopMock
+        },
+        tracklist: {
+          remove: mopidyRemoveMock
+        }
+      } as unknown
+      const setting = {
+        getPlayedTracksFromTracklist: getPlayedTracksFromTracklistMock
+      } as unknown
+
+      const mockCronSchedule = cron.schedule as jest.Mock
+
+      Scheduler.scheduleAutoShutdown({
+        mopidy: mopidy as Mopidy,
+        setting: setting as DBSettingStaticsInterface
+      })
+      mockCronSchedule.mock.calls[0][1]()
+
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          expect(mockCronSchedule).toHaveBeenCalledTimes(1)
+          expect(mockCronSchedule).toHaveBeenCalledWith(
+            '0 19 * * *',
+            expect.any(Function)
+          )
+          expect(startMock).toHaveBeenCalledTimes(1)
+          expect(mopidyStopMock).toHaveBeenCalledTimes(1)
+          expect(mopidyRemoveMock).not.toHaveBeenCalled()
+          expect(infoMock).toHaveBeenCalledWith('[Scheduled] Jukebox Stopped')
+          resolve()
+        }, 0)
+      })
     })
   })
 })
