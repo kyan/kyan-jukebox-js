@@ -1,4 +1,3 @@
-import jsonStringifySafe from 'json-stringify-safe'
 import lodash from 'lodash'
 import Event from '../models/event'
 import logger from '../config/logger'
@@ -16,7 +15,7 @@ const EventLogger = {
   info: (label: string, payload: any, createEvent?: boolean): void => {
     const data: LoggerPayloadInterface = pick(payload, ['key', 'user', 'data'])
 
-    logger.info(label, { args: jsonStringifySafe(data) })
+    logger.info(label, data)
 
     if (data.user && createEvent) {
       Event.create({

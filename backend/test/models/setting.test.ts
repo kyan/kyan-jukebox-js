@@ -413,7 +413,7 @@ describe('test mongoose Settings model', () => {
   })
 
   describe('getTracklist', () => {
-    it('sets state as expected', async () => {
+    it('gets tracks as expected', async () => {
       expect.assertions(2)
       jest.spyOn(Setting, 'findOne').mockResolvedValue({
         value: {
@@ -449,6 +449,52 @@ describe('test mongoose Settings model', () => {
         setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
           expect(logger.error).toHaveBeenCalledWith('getTracklist', { args: 'boom' })
+          resolve()
+        }, 0)
+      })
+    })
+  })
+
+  describe('getPlayedTracksFromTracklist', () => {
+    it('gets tracks as expected', async () => {
+      expect.assertions(2)
+      jest.spyOn(Setting, 'findOne').mockResolvedValue({
+        value: {
+          currentTrack: 'track3',
+          currentTracklist: ['track1', 'track2', 'track3', 'track4']
+        }
+      } as any)
+
+      const response = await Setting.getPlayedTracksFromTracklist()
+      expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
+      expect(response).toEqual(['track1', 'track2'])
+    })
+
+    it('handles no result', async () => {
+      expect.assertions(2)
+      jest.spyOn(Setting, 'findOne').mockResolvedValue({
+        value: {
+          currentTracklist: null
+        }
+      } as any)
+
+      const response = await Setting.getPlayedTracksFromTracklist()
+      expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
+      expect(response).toEqual([])
+    })
+
+    it('handles errors', () => {
+      expect.assertions(2)
+      jest.spyOn(Setting, 'findOne').mockRejectedValue(new Error('boom'))
+
+      Setting.getPlayedTracksFromTracklist()
+
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
+          expect(logger.error).toHaveBeenCalledWith('getPlayedTracksFromTracklist', {
+            args: 'boom'
+          })
           resolve()
         }, 0)
       })
