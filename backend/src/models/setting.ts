@@ -144,7 +144,22 @@ SettingSchema.statics.getTracklist = (): Promise<string[]> =>
       .catch((error) => logger.error('getTracklist', { args: error.message }))
   })
 
-interface DBSettingStaticsInterface extends Model<DBSettingInterface> {
+SettingSchema.statics.getPlayedTracksFromTracklist = (): Promise<string[]> =>
+  new Promise((resolve) => {
+    return Setting.findOne(stateFind)
+      .then((state) => {
+        const track = state.value.currentTrack
+        const tracklist = state.value.currentTracklist || []
+
+        return tracklist.slice(0, tracklist.indexOf(track))
+      })
+      .then((tracks) => resolve(tracks))
+      .catch((error) =>
+        logger.error('getPlayedTracksFromTracklist', { args: error.message })
+      )
+  })
+
+export interface DBSettingStaticsInterface extends Model<DBSettingInterface> {
   clearState(): Promise<void>
   addToTrackSeedList(track: JBTrackInterface): Promise<void | string>
   initializeState(
@@ -157,6 +172,7 @@ interface DBSettingStaticsInterface extends Model<DBSettingInterface> {
   removeFromSeeds(uri: string): Promise<string>
   getSeedTracks(): Promise<string[]>
   getTracklist(): Promise<string[]>
+  getPlayedTracksFromTracklist(): Promise<string[]>
 }
 
 const Setting = model<DBSettingInterface, DBSettingStaticsInterface>(

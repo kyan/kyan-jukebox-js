@@ -15,7 +15,7 @@ describe('EventLogger', () => {
     EventLogger.info('mopidy::mixer.setVolume', { data: { name: 'Duncan' } })
     expect(Event.create).not.toHaveBeenCalled()
     expect(logger.info).toHaveBeenCalledWith('mopidy::mixer.setVolume', {
-      args: '{"data":{"name":"Duncan"}}'
+      data: { name: 'Duncan' }
     })
   })
 
@@ -40,7 +40,9 @@ describe('EventLogger', () => {
       user: '12345'
     })
     expect(logger.info).toHaveBeenCalledWith('mopidy::mixer.setVolume', {
-      args: '{"key":"key123","user":{"_id":"12345"},"data":"data"}'
+      key: 'key123',
+      user: { _id: '12345' },
+      data: 'data'
     })
   })
 })
