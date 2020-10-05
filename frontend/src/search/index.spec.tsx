@@ -22,17 +22,15 @@ describe('SearchContainer', () => {
           total: 3200,
           results: [
             {
-              track: {
-                name: 'Track name 1',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
-                artist: {
-                  name: 'Artist name 1'
-                },
-                album: {
-                  name: 'Album name 1'
-                },
-                image: 'image1'
-              }
+              name: 'Track name 1',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
+              artist: {
+                name: 'Artist name 1'
+              },
+              album: {
+                name: 'Album name 1'
+              },
+              image: 'image1'
             }
           ],
           searchSideBarOpen: false
@@ -67,17 +65,15 @@ describe('SearchContainer', () => {
           total: 3200,
           results: [
             {
-              track: {
-                name: 'Track name 1',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
-                artist: {
-                  name: 'Artist name 1'
-                },
-                album: {
-                  name: 'Album name 1'
-                },
-                image: 'image1'
-              }
+              name: 'Track name 1',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
+              artist: {
+                name: 'Artist name 1'
+              },
+              album: {
+                name: 'Album name 1'
+              },
+              image: 'image1'
             }
           ],
           searchSideBarOpen: true
@@ -106,17 +102,15 @@ describe('SearchContainer', () => {
           total: 3200,
           results: [
             {
-              track: {
-                name: 'Track name 1',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
-                artist: {
-                  name: 'Artist name 1'
-                },
-                album: {
-                  name: 'Album name 1'
-                },
-                image: 'image1'
-              }
+              name: 'Track name 1',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
+              artist: {
+                name: 'Artist name 1'
+              },
+              album: {
+                name: 'Album name 1'
+              },
+              image: 'image1'
             }
           ],
           searchSideBarOpen: true
@@ -124,17 +118,15 @@ describe('SearchContainer', () => {
         curatedList: {
           tracks: [
             {
-              track: {
-                name: 'Track name 2',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack2',
-                artist: {
-                  name: 'Artist name 2'
-                },
-                album: {
-                  name: 'Album name 2'
-                },
-                image: 'image2'
-              }
+              name: 'Track name 2',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack2',
+              artist: {
+                name: 'Artist name 2'
+              },
+              album: {
+                name: 'Album name 2'
+              },
+              image: 'image2'
             }
           ]
         }
@@ -159,17 +151,15 @@ describe('SearchContainer', () => {
           total: 3200,
           results: [
             {
-              track: {
-                name: 'Track name 1',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
-                artist: {
-                  name: 'Artist name 1'
-                },
-                album: {
-                  name: 'Album name 1'
-                },
-                image: 'image1'
-              }
+              name: 'Track name 1',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
+              artist: {
+                name: 'Artist name 1'
+              },
+              album: {
+                name: 'Album name 1'
+              },
+              image: 'image1'
             }
           ],
           searchSideBarOpen: true
@@ -177,30 +167,26 @@ describe('SearchContainer', () => {
         curatedList: {
           tracks: [
             {
-              track: {
-                name: 'Track name 2',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack2',
-                artist: {
-                  name: 'Artist name 2'
-                },
-                album: {
-                  name: 'Album name 2'
-                },
-                image: 'image2'
-              }
+              name: 'Track name 2',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack2',
+              artist: {
+                name: 'Artist name 2'
+              },
+              album: {
+                name: 'Album name 2'
+              },
+              image: 'image2'
             },
             {
-              track: {
-                name: 'Track name 3',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack3',
-                artist: {
-                  name: 'Artist name 3'
-                },
-                album: {
-                  name: 'Album name 3'
-                },
-                image: 'image3'
-              }
+              name: 'Track name 3',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack3',
+              artist: {
+                name: 'Artist name 3'
+              },
+              album: {
+                name: 'Album name 3'
+              },
+              image: 'image3'
             }
           ]
         }
@@ -229,43 +215,37 @@ describe('SearchContainer', () => {
         curatedList: {
           tracks: [
             {
-              track: {
-                name: 'Track name 1',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
-                artist: {
-                  name: 'Artist name 1'
-                },
-                album: {
-                  name: 'Album name 1'
-                },
-                image: 'image1'
-              }
+              name: 'Track name 1',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
+              artist: {
+                name: 'Artist name 1'
+              },
+              album: {
+                name: 'Album name 1'
+              },
+              image: 'image1'
             },
             {
-              track: {
-                name: 'Track name 2',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
-                artist: {
-                  name: 'Artist name 2'
-                },
-                album: {
-                  name: 'Album name 2'
-                },
-                image: 'image2'
-              }
+              name: 'Track name 2',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
+              artist: {
+                name: 'Artist name 2'
+              },
+              album: {
+                name: 'Album name 2'
+              },
+              image: 'image2'
             },
             {
-              track: {
-                name: 'Track name 3',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack3',
-                artist: {
-                  name: 'Artist name 3'
-                },
-                album: {
-                  name: 'Album name 3'
-                },
-                image: 'image3'
-              }
+              name: 'Track name 3',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack3',
+              artist: {
+                name: 'Artist name 3'
+              },
+              album: {
+                name: 'Album name 3'
+              },
+              image: 'image3'
             }
           ]
         }
@@ -303,17 +283,15 @@ describe('SearchContainer', () => {
           total: 3200,
           results: [
             {
-              track: {
-                name: 'Track name 1',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
-                artist: {
-                  name: 'Artist name 1'
-                },
-                album: {
-                  name: 'Album name 1'
-                },
-                image: 'image1'
-              }
+              name: 'Track name 1',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1',
+              artist: {
+                name: 'Artist name 1'
+              },
+              album: {
+                name: 'Album name 1'
+              },
+              image: 'image1'
             }
           ],
           searchSideBarOpen: true
@@ -321,69 +299,59 @@ describe('SearchContainer', () => {
         curatedList: {
           tracks: [
             {
-              track: {
-                name: 'Track name 2',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack2',
-                artist: {
-                  name: 'Artist name 2'
-                },
-                album: {
-                  name: 'Album name 2'
-                },
-                image: 'image2'
-              }
+              name: 'Track name 2',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack2',
+              artist: {
+                name: 'Artist name 2'
+              },
+              album: {
+                name: 'Album name 2'
+              },
+              image: 'image2'
             },
             {
-              track: {
-                name: 'Track name 3',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack3',
-                artist: {
-                  name: 'Artist name 3'
-                },
-                album: {
-                  name: 'Album name 3'
-                },
-                image: 'image3'
-              }
+              name: 'Track name 3',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack3',
+              artist: {
+                name: 'Artist name 3'
+              },
+              album: {
+                name: 'Album name 3'
+              },
+              image: 'image3'
             },
             {
-              track: {
-                name: 'Track name 4',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack4',
-                artist: {
-                  name: 'Artist name 4'
-                },
-                album: {
-                  name: 'Album name 4'
-                },
-                image: 'image4'
-              }
+              name: 'Track name 4',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack4',
+              artist: {
+                name: 'Artist name 4'
+              },
+              album: {
+                name: 'Album name 4'
+              },
+              image: 'image4'
             },
             {
-              track: {
-                name: 'Track name 5',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack5',
-                artist: {
-                  name: 'Artist name 5'
-                },
-                album: {
-                  name: 'Album name 5'
-                },
-                image: 'image5'
-              }
+              name: 'Track name 5',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack5',
+              artist: {
+                name: 'Artist name 5'
+              },
+              album: {
+                name: 'Album name 5'
+              },
+              image: 'image5'
             },
             {
-              track: {
-                name: 'Track name 6',
-                uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack6',
-                artist: {
-                  name: 'Artist name 6'
-                },
-                album: {
-                  name: 'Album name 6'
-                },
-                image: 'image6'
-              }
+              name: 'Track name 6',
+              uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack6',
+              artist: {
+                name: 'Artist name 6'
+              },
+              album: {
+                name: 'Album name 6'
+              },
+              image: 'image6'
             }
           ]
         }

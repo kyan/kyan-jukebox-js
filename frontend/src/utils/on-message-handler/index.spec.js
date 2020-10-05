@@ -36,9 +36,7 @@ describe('onMessageHandler', () => {
   describe('PLAYBACK_GET_CURRENT_TRACK', () => {
     it('checks track playing', () => {
       const payload = {
-        data: {
-          track: MockTrackListJson()[1].track
-        },
+        data: MockTrackListJson()[1],
         key: MopidyApi.PLAYBACK_GET_CURRENT_TRACK
       }
       const store = mockStore({
@@ -49,8 +47,8 @@ describe('onMessageHandler', () => {
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
       expect(actions).toEqual([
-        { track: payload.data.track, type: 'actionAddCurrentTrack' },
-        { track: payload.data.track, type: 'syncSocialData' }
+        { track: payload.data, type: 'actionAddCurrentTrack' },
+        { track: payload.data, type: 'syncSocialData' }
       ])
       expect(progressStartMock.mock.calls.length).toEqual(1)
       store.clearActions()
@@ -58,9 +56,7 @@ describe('onMessageHandler', () => {
 
     it('checks track playing but JB stopped', () => {
       const payload = {
-        data: {
-          track: MockTrackListJson()[0].track
-        },
+        data: MockTrackListJson()[0],
         key: MopidyApi.PLAYBACK_GET_CURRENT_TRACK
       }
       const store = mockStore({
@@ -71,8 +67,8 @@ describe('onMessageHandler', () => {
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
       expect(actions).toEqual([
-        { track: payload.data.track, type: 'actionAddCurrentTrack' },
-        { track: payload.data.track, type: 'syncSocialData' }
+        { track: payload.data, type: 'actionAddCurrentTrack' },
+        { track: payload.data, type: 'syncSocialData' }
       ])
       expect(progressStartMock.mock.calls.length).toEqual(0)
       store.clearActions()
@@ -80,7 +76,7 @@ describe('onMessageHandler', () => {
 
     it('checks when no track is actually playing', () => {
       const payload = {
-        data: { track: undefined },
+        data: undefined,
         key: MopidyApi.PLAYBACK_GET_CURRENT_TRACK
       }
       const store = mockStore({
@@ -99,9 +95,7 @@ describe('onMessageHandler', () => {
   describe('EVENT_TRACK_PLAYBACK_STARTED', () => {
     it('checks track playing with image provided in payload', () => {
       const payload = {
-        data: {
-          track: MockTrackListJson()[1].track
-        },
+        data: MockTrackListJson()[1],
         key: MopidyApi.EVENT_TRACK_PLAYBACK_STARTED
       }
       const store = mockStore({
@@ -112,8 +106,8 @@ describe('onMessageHandler', () => {
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
       expect(actions).toEqual([
-        { track: payload.data.track, type: 'actionAddCurrentTrack' },
-        { track: payload.data.track, type: 'syncSocialData' }
+        { track: payload.data, type: 'actionAddCurrentTrack' },
+        { track: payload.data, type: 'syncSocialData' }
       ])
       expect(progressStartMock.mock.calls.length).toEqual(1)
       store.clearActions()
@@ -197,7 +191,7 @@ describe('onMessageHandler', () => {
       onMessageHandler(store, JSON.stringify(payload), progress)
       const actions = store.getActions()
       expect(actions[0]).toEqual({
-        list: payload.data,
+        tracks: payload.data,
         type: 'actionAddTracks'
       })
       expect(actions.length).toEqual(1)
