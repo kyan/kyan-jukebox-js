@@ -1,8 +1,8 @@
 import { Schema, Document, model } from 'mongoose'
-import { DBUserInterface } from './user'
+import User from './user'
 
-export interface DBEventInterface extends Document {
-  user: DBUserInterface
+interface Event extends Document {
+  user: User
   key: string
   payload: any
 }
@@ -12,6 +12,6 @@ const eventSchema = new Schema({
   key: Schema.Types.String,
   payload: Schema.Types.Mixed
 })
-const Event = model<DBEventInterface>('Event', eventSchema)
+const Event = model<Event>('Event', eventSchema)
 
 export default Event

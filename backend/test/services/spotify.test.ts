@@ -2,10 +2,10 @@ import lodash from 'lodash'
 import Mopidy from 'mopidy'
 import SpotifyService from '../../src/services/spotify'
 import EventLogger from '../../src/utils/event-logger'
-import ImageCache, { ImageCacheInterface } from '../../src/utils/image-cache'
-import Recommend, { SuitableDataInterface } from '../../src/utils/recommendations'
+import ImageCache, { ImageCacheData } from '../../src/utils/image-cache'
+import Recommend, { SuitableExtractedData } from '../../src/utils/recommendations'
 import logger from '../../src/config/logger'
-import Track, { DBTrackInterface } from '../../src/models/track'
+import Track from '../../src/models/track'
 import Setting from '../../src/models/setting'
 
 jest.mock('../../src/utils/recommendations')
@@ -53,6 +53,11 @@ jest.mock('spotify-web-api-node', () => {
         .mockImplementation(() =>
           Promise.resolve({ body: { tracks: [{ explicit: true, name: 'Naughty' }] } })
         ),
+      getArtists: jest
+        .fn()
+        .mockImplementation(() =>
+          Promise.resolve({ body: { artists: [{ name: 'Yahzoo' }] } })
+        ),
       searchTracks: jest
         .fn()
         .mockImplementationOnce(() =>
@@ -81,9 +86,22 @@ describe('SpotifyService', () => {
     it('should handle tracks', () => {
       expect.assertions(1)
       mockedImageCache.addAll.mockResolvedValue({})
+
       return SpotifyService.getTracks(['spotify:track:03fT3OHB9KyMtGMtNEW']).then(
         (result) => {
           expect(result).toEqual({ tracks: [{ explicit: true, name: 'Naughty' }] })
+        }
+      )
+    })
+  })
+
+  describe('getArtists', () => {
+    it('should handle artists', () => {
+      expect.assertions(1)
+
+      return SpotifyService.getArtists(['spotify:artist:03fT3OHB9KyMtGMtNEW']).then(
+        (result) => {
+          expect(result).toEqual([{ name: 'Yahzoo' }])
         }
       )
     })
@@ -115,9 +133,9 @@ describe('SpotifyService', () => {
         'spotify:track:7LzeKqmOtpKVKJ1dmalkC0',
         'spotify:track:1Ut1A8UaNqGuwsHgWq75PW'
       ]
-      const images = {} as ImageCacheInterface
-      const results = [{ _id: 'meh' }] as DBTrackInterface[]
-      mockedRecommend.extractSuitableData.mockResolvedValue({} as SuitableDataInterface)
+      const images = {} as ImageCacheData
+      const results = [{ _id: 'meh' }] as Track[]
+      mockedRecommend.extractSuitableData.mockResolvedValue({} as SuitableExtractedData)
       mockedRecommend.enrichWithPopularTracksIfNeeded.mockResolvedValue({ images, uris })
       mockedAddTracks.mockResolvedValue({ user: 'duncan' })
       mockedImageCache.addAll.mockResolvedValue({})

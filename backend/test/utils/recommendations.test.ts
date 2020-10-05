@@ -1,7 +1,7 @@
 import Setting from '../../src/models/setting'
-import Track, { DBTrackInterface } from '../../src/models/track'
+import Track from '../../src/models/track'
 import SpotifyService from '../../src/services/spotify'
-import Recommend, { SuitableDataInterface } from '../../src/utils/recommendations'
+import Recommend, { SuitableExtractedData } from '../../src/utils/recommendations'
 jest.mock('../../src/models/track')
 jest.mock('../../src/models/setting')
 jest.mock('../../src/services/spotify')
@@ -76,8 +76,8 @@ describe('Recommend', () => {
         }
       ] as SpotifyApi.TrackObjectFull[]
       const currentUrisToIgnore = ['track3']
-      const resultsToIgnore = [{ _id: 'track1' }] as DBTrackInterface[]
-      const tracksPlayedToday = [{ _id: 'track2' }] as DBTrackInterface[]
+      const resultsToIgnore = [{ _id: 'track1' }] as Track[]
+      const tracksPlayedToday = [{ _id: 'track2' }] as Track[]
       const mockedTrackFind = Track.find as jest.Mock<any>
       const mockedGetTracklist = Setting.getTracklist as jest.Mock<any>
 
@@ -122,7 +122,7 @@ describe('Recommend', () => {
 
     it('should add random data if required', async () => {
       expect.assertions(1)
-      const initialData: SuitableDataInterface = {
+      const initialData: SuitableExtractedData = {
         uris: [],
         images: { image: 'foo' }
       }

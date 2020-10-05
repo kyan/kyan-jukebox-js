@@ -47,10 +47,10 @@ export const syncSocialData = track => {
   }
 }
 
-export const addTrackList = list => {
+export const addTrackList = tracks => {
   return {
     type: Types.ADD_TRACKS,
-    list
+    tracks
   }
 }
 

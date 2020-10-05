@@ -24,8 +24,8 @@ const search: Reducer<SearchState> = (state = initalState, action) => {
     case Constant.REMOVE_FROM_SEARCH_RESULTS: {
       return {
         ...state,
-        results: state.results.filter(item => {
-          return !action.uris.includes(item.track.uri)
+        results: state.results.filter(track => {
+          return !action.uris.includes(track.uri)
         })
       }
     }
@@ -40,12 +40,11 @@ const search: Reducer<SearchState> = (state = initalState, action) => {
       })
     }
     case Constant.STORE_SEARCH_RESULTS: {
-      const results = action.results.tracks
       return Object.assign({}, state, {
-        limit: results.limit,
-        offset: results.offset,
-        total: results.total > 10000 ? 10000 : results.total,
-        results: results.items
+        limit: action.results.limit,
+        offset: action.results.offset,
+        total: action.results.total > 10000 ? 10000 : action.results.total,
+        results: action.results.tracks
       })
     }
     default: {

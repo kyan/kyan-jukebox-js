@@ -8,10 +8,10 @@ import ImageCache from '../utils/image-cache'
 import Recommend from '../utils/recommendations'
 import Track from '../models/track'
 import Setting from '../models/setting'
-import { DBUserInterface } from '../models/user'
-import { SuitableDataInterface } from '../utils/recommendations'
+import { JBUser } from '../models/user'
+import { SuitableExtractedData } from '../utils/recommendations'
 
-interface SearchInterface {
+interface SearchParams {
   query: string
   options: {
     offset: number
@@ -19,7 +19,7 @@ interface SearchInterface {
   }
 }
 
-export type GetRecommendationsInterface = (
+export type GetRecommendations = (
   uris: ReadonlyArray<string>,
   mopidy: Mopidy
 ) => Promise<void>
@@ -60,7 +60,7 @@ const setupSpotify = (callback: (api: SpotifyWebApi) => void): void => {
     })
 }
 
-const searchTracks = (params: SearchInterface): Promise<SpotifyApi.SearchResponse> =>
+const searchTracks = (params: SearchParams): Promise<SpotifyApi.SearchResponse> =>
   new Promise((resolve) => {
     setupSpotify((api) => {
       const options = { ...defaultOptions, ...params.options }
@@ -91,8 +91,21 @@ const getSpotifyTracks = (
     })
   })
 
+const getSpotifyArtists = (
+  uris: ReadonlyArray<string>
+): Promise<SpotifyApi.ArtistObjectFull[]> =>
+  new Promise((resolve) => {
+    const artistUris = stripServiceFromUris(uris)
+
+    setupSpotify((api: SpotifyWebApi) => {
+      api.getArtists(artistUris).then((data) => {
+        resolve(data.body.artists)
+      })
+    })
+  })
+
 /* istanbul ignore next */
-const getRecommendations: GetRecommendationsInterface = (
+const getRecommendations: GetRecommendations = (
   uris: ReadonlyArray<string>,
   mopidy: Mopidy
 ) => {
@@ -119,10 +132,10 @@ const getRecommendations: GetRecommendationsInterface = (
         })
         .then((data) => Recommend.enrichWithPopularTracksIfNeeded(data))
         .then((data) => {
-          const { images, uris }: SuitableDataInterface = data
+          const { images, uris }: SuitableExtractedData = data
 
           if (uris.length > 0) {
-            const successHandler = (user: DBUserInterface) => (response: any) => {
+            const successHandler = (user: JBUser) => (response: any) => {
               if (response) {
                 const payload = {
                   ...{ user },
@@ -158,7 +171,7 @@ const getRecommendations: GetRecommendationsInterface = (
 }
 
 const SpotifyService = {
-  canRecommend: (mopidy: Mopidy): Promise<GetRecommendationsInterface | null> =>
+  canRecommend: (mopidy: Mopidy): Promise<GetRecommendations | null> =>
     new Promise((resolve) => {
       return mopidy.tracklist
         .getNextTlid()
@@ -191,8 +204,23 @@ const SpotifyService = {
       })
     }),
 
-  search: (params: SearchInterface) => searchTracks(params),
-  getTracks: (uris: ReadonlyArray<string>) => getSpotifyTracks(uris)
+  search: (params: SearchParams) => searchTracks(params),
+  /**
+   * Get a list of Spotify Tracks
+   *
+   *
+   * @param uris - A list of Spotify uris
+   * @returns A list of Spotify Tracks
+   */
+  getTracks: (uris: ReadonlyArray<string>) => getSpotifyTracks(uris),
+  /**
+   * Get a list of Spotify Artists
+   *
+   *
+   * @param uris - A list of Spotify uris
+   * @returns A list of Spotify Artists
+   */
+  getArtists: (uris: ReadonlyArray<string>) => getSpotifyArtists(uris)
 }
 
 export default SpotifyService

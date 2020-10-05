@@ -1,11 +1,11 @@
 import lodash from 'lodash'
 import Event from '../models/event'
 import logger from '../config/logger'
-import { JBUserInterface } from '../models/user'
+import { JBUser } from '../models/user'
 
-interface LoggerPayloadInterface {
+interface LoggerPayload {
   key: string
-  user: JBUserInterface
+  user: JBUser
   data: any
 }
 
@@ -13,7 +13,7 @@ const { pick } = lodash
 
 const EventLogger = {
   info: (label: string, payload: any, createEvent?: boolean): void => {
-    const data: LoggerPayloadInterface = pick(payload, ['key', 'user', 'data'])
+    const data: LoggerPayload = pick(payload, ['key', 'user', 'data'])
 
     logger.info(label, data)
 

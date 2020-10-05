@@ -1,13 +1,12 @@
 import Setting from '../../src/models/setting'
 import logger from '../../src/config/logger'
 import NowPlaying from '../../src/utils/now-playing'
-import { JBTrackInterface } from '../../src/models/track'
-import { DBSettingInterface } from '../../src/models/setting'
+import { JBTrack } from '../../src/models/track'
 jest.mock('../../src/config/logger')
 
 describe('NowPlaying', () => {
   describe('addTrack', () => {
-    const trackObject: JBTrackInterface = {
+    const trackObject: JBTrack = {
       uri: 'uri000',
       name: 'Seasons (Waiting On You)',
       year: '1983',
@@ -44,7 +43,7 @@ describe('NowPlaying', () => {
     }
 
     it('returns the correct payload when full data', () => {
-      const result = {} as DBSettingInterface
+      const result = {} as Setting
       jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(result)
       jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
 
@@ -54,7 +53,7 @@ describe('NowPlaying', () => {
     })
 
     it('returns the correct payload when full data 1', () => {
-      const result = {} as DBSettingInterface
+      const result = {} as Setting
       jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(result)
       jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
       trackObject.metrics.plays = 1

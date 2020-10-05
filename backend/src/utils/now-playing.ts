@@ -1,5 +1,5 @@
 import Setting from '../models/setting'
-import { JBTrackInterface, JBAddedByInterface } from '../models/track'
+import { JBTrack, JBAddedBy } from '../models/track'
 import logger from '../config/logger'
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
@@ -13,7 +13,7 @@ const simplePluralize = (count: number, noun: string, suffix = 's') => {
   return `${count} ${noun}${count !== 1 ? suffix : ''}`
 }
 const timeAgo = new TimeAgo('en-GB')
-const lastPlayed = (addedBy: JBAddedByInterface) => {
+const lastPlayed = (addedBy: JBAddedBy) => {
   return {
     type: 'mrkdwn',
     text: `*Last Played:* ${timeAgo.format(addedBy.addedAt)}`
@@ -21,7 +21,7 @@ const lastPlayed = (addedBy: JBAddedByInterface) => {
 }
 
 const NowPlaying = {
-  addTrack: (track: JBTrackInterface): Promise<unknown> => {
+  addTrack: (track: JBTrack): Promise<unknown> => {
     return new Promise((resolve) => {
       const metrics = [
         {

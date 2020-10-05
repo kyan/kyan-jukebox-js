@@ -1,5 +1,5 @@
 import EventLogger from '../utils/event-logger'
-import Image, { DBImageInterface } from '../models/image'
+import Image from '../models/image'
 import logger from '../config/logger'
 
 // Expects an imageData structure like:
@@ -7,7 +7,7 @@ import logger from '../config/logger'
 //     'spotify:track:10jsW2NYd9blCrDITMh2zS': 'https://i.scdn.co/image/ab67616d00001e02627434487365cb0af24ec15f',
 //     'spotify:track:10jsW2NYd9blCrDITMh2zG': 'https://i.scdn.co/image/ab67616d00001e02627434487365cb0af24ec15d'
 //   }
-export interface ImageCacheInterface {
+export interface ImageCacheData {
   [key: string]: string
 }
 
@@ -17,7 +17,7 @@ const expiresDate = () => {
   return new Date(today.getTime() + day * 30)
 }
 
-const storeImages = (imageData: ImageCacheInterface): Promise<any> => {
+const storeImages = (imageData: ImageCacheData): Promise<any> => {
   if (!imageData) return Promise.resolve(imageData)
   const options = { upsert: true, new: true, setDefaultsOnInsert: true }
 
@@ -42,7 +42,12 @@ const storeImages = (imageData: ImageCacheInterface): Promise<any> => {
 }
 
 const ImageCache = {
-  findAll: (uris: ReadonlyArray<string>): Promise<DBImageInterface[]> =>
+  /**
+   * Lookup images in MongoDB
+   *
+   * @param uris - A list of Track uris
+   */
+  findAll: (uris: ReadonlyArray<string>): Promise<Image[]> =>
     new Promise((resolve, reject) => {
       Image.find({ _id: { $in: uris } })
         .then((images) => {
@@ -52,7 +57,7 @@ const ImageCache = {
         .catch((err) => reject(err))
     }),
 
-  addAll: (imageData: ImageCacheInterface): Promise<any> => storeImages(imageData)
+  addAll: (imageData: ImageCacheData): Promise<any> => storeImages(imageData)
 }
 
 export default ImageCache

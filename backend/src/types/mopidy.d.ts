@@ -16,28 +16,30 @@ declare class Mopidy {
    *
    * This library is the foundation of most Mopidy web clients.
    */
-  constructor(options: Mopidy.Options);
+  constructor(options: Mopidy.Options)
   /**
    * Explicit connect function for when autoConnect:false is passed to
    * constructor.
    */
-  connect(): Promise<void>;
+  connect(): Promise<void>
   /**
    * Close the WebSocket without reconnecting. Letting the object be garbage
    * collected will have the same effect, so this isn't strictly necessary.
    */
-  close(): Promise<void>;
+  close(): Promise<void>
 
   // ----------------- EVENT SUBSCRIPTION -----------------
 
   on<K extends keyof Mopidy.StrictEvents>(
-    event: K, listener: Mopidy.StrictEvents[K]
-  ): this;
+    event: K,
+    listener: Mopidy.StrictEvents[K]
+  ): this
 
-  off(): void;
+  off(): void
   off<K extends keyof Mopidy.StrictEvents>(
-    event: K, listener: Mopidy.StrictEvents[K]
- ): this;
+    event: K,
+    listener: Mopidy.StrictEvents[K]
+  ): this
 
   // ----------------- CORE API -----------------
 
@@ -45,45 +47,45 @@ declare class Mopidy {
    * Manages everything related to the list of tracks we will play. See
    * TracklistController. Undefined before Mopidy connects.
    */
-  tracklist: Mopidy.Core.TracklistController | undefined;
+  tracklist: Mopidy.Core.TracklistController | undefined
   /**
    * Manages playback state and the current playing track. See
    * PlaybackController. Undefined before Mopidy connects.
    */
-  playback: Mopidy.Core.PlaybackController | undefined;
+  playback: Mopidy.Core.PlaybackController | undefined
   /**
    * Manages the music library, e.g. searching and browsing for music. See
    * LibraryController. Undefined before Mopidy connects.
    */
-  library: Mopidy.Core.LibraryController | undefined;
+  library: Mopidy.Core.LibraryController | undefined
   /**
    * Manages stored playlists. See PlaylistsController. Undefined before
    * Mopidy connects.
    */
-  playlists: Mopidy.Core.PlaylistsController | undefined;
+  playlists: Mopidy.Core.PlaylistsController | undefined
   /**
    * Manages volume and muting. See MixerController. Undefined before Mopidy
    * connects.
    */
-  mixer: Mopidy.Core.MixerController | undefined;
+  mixer: Mopidy.Core.MixerController | undefined
   /**
    * Keeps record of what tracks have been played. See HistoryController.
    * Undefined before Mopidy connects.
    */
-  history: Mopidy.Core.HistoryController | undefined;
+  history: Mopidy.Core.HistoryController | undefined
 
   /**
    * Get list of URI schemes we can handle
    */
-  getUriSchemes(): Promise<string[]>;
+  getUriSchemes(): Promise<string[]>
   /**
    * Get version of the Mopidy core API
    */
-  getVersion(): Promise<string>;
+  getVersion(): Promise<string>
 }
 
 declare namespace Mopidy {
-  type ValueOf<T> = T[keyof T];
+  type ValueOf<T> = T[keyof T]
 
   interface Options {
     /**
@@ -96,50 +98,50 @@ declare namespace Mopidy {
      * In a non-browser environment, where document.location isn't available, it
      * defaults to ws://localhost/mopidy/ws.
      */
-    webSocketUrl: string;
+    webSocketUrl: string
     /**
      * Whether or not to connect to the WebSocket on instance creation. Defaults
      * to true.
      */
-    autoConnect?: boolean;
+    autoConnect?: boolean
     /**
      * The minimum number of milliseconds to wait after a connection error before
      * we try to reconnect. For every failed attempt, the backoff delay is doubled
      * until it reaches backoffDelayMax. Defaults to 1000.
      */
-    backoffDelayMin?: number;
+    backoffDelayMin?: number
     /**
      * The maximum number of milliseconds to wait after a connection error before
      * we try to reconnect. Defaults to 64000.
      */
-    backoffDelayMax?: number;
+    backoffDelayMax?: number
     /**
      * If set, this object will be used to log errors from Mopidy.js. This is
      * mostly useful for testing Mopidy.js. Defaults to console.
      */
-    console?: Console;
+    console?: Console
     /**
      * An existing WebSocket object to be used instead of creating a new
      * WebSocket. Defaults to undefined.
      */
-    webSocket?: WebSocket;
+    webSocket?: WebSocket
   }
-  type URI = string;
-  type PlaybackState = "playing" | "paused" | "stopped";
+  type URI = string
+  type PlaybackState = 'playing' | 'paused' | 'stopped'
   type QueryField =
-    | "uri"
-    | "track_name"
-    | "album"
-    | "artist"
-    | "albumartist"
-    | "composer"
-    | "performer"
-    | "track_no"
-    | "genre"
-    | "date"
-    | "comment"
-    | "any";
-  type Query = { [key in QueryField]?: string[] };
+    | 'uri'
+    | 'track_name'
+    | 'album'
+    | 'artist'
+    | 'albumartist'
+    | 'composer'
+    | 'performer'
+    | 'track_no'
+    | 'genre'
+    | 'date'
+    | 'comment'
+    | 'any'
+  type Query = { [key in QueryField]?: string[] }
   interface StrictEvents extends Core.CoreListener {
     /**
      * Client state
@@ -148,15 +150,15 @@ declare namespace Mopidy {
      * server and ready for method calls, when it's offline, and when it's
      * trying to reconnect to the server by looking at the events
      */
-    "state:online": () => void;
-    "state:offline": () => void;
-    reconnectionPending: ({ timeToAttempt }: { timeToAttempt: number }) => void;
-    reconnecting: () => void;
+    'state:online': () => void
+    'state:offline': () => void
+    reconnectionPending: ({ timeToAttempt }: { timeToAttempt: number }) => void
+    reconnecting: () => void
     /**
      * The client state events are also emitted under the aggregate event named
      * state.
      */
-    state: (args?: unknown) => void;
+    state: (args?: unknown) => void
 
     /**
      * WebSocket events
@@ -167,36 +169,31 @@ declare namespace Mopidy {
      * Of course, you can also do this using the web developer tools in any
      * modern browser.
      */
-    "websocket:close": any;
-    "websocket:error": any;
-    "websocket:incomingMessage": any;
-    "websocket:open": any;
-    "websocket:outgoingMessage": any;
+    'websocket:close': any
+    'websocket:error': any
+    'websocket:incomingMessage': any
+    'websocket:open': any
+    'websocket:outgoingMessage': any
   }
 
   // https://docs.mopidy.com/en/latest/api/models/
-  type ModelType =
-    | "album"
-    | "artist"
-    | "directory"
-    | "playlist"
-    | "track";
+  type ModelType = 'album' | 'artist' | 'directory' | 'playlist' | 'track'
   namespace models {
     class Ref<T extends ModelType> {
-      constructor({ uri, name, type }: { uri: URI; name: string; type: T });
-      static album(): Ref<"album">;
-      static artist(): Ref<"artist">;
-      static directory(): Ref<"directory">;
-      static playlist(): Ref<"playlist">;
-      static track(): Ref<"track">;
-      static ALBUM: "album";
-      static ARTIST: "artist";
-      static DIRECTORY: "directory";
-      static PLAYLIST: "playlist";
-      static TRACK: "track";
-      readonly name: string;
-      readonly type: T;
-      readonly uri: URI;
+      constructor({ uri, name, type }: { uri: URI; name: string; type: T })
+      static album(): Ref<'album'>
+      static artist(): Ref<'artist'>
+      static directory(): Ref<'directory'>
+      static playlist(): Ref<'playlist'>
+      static track(): Ref<'track'>
+      static ALBUM: 'album'
+      static ARTIST: 'artist'
+      static DIRECTORY: 'directory'
+      static PLAYLIST: 'playlist'
+      static TRACK: 'track'
+      readonly name: string
+      readonly type: T
+      readonly uri: URI
     }
 
     /**
@@ -215,10 +212,13 @@ declare namespace Mopidy {
      *
      */
     class TlTrack {
-      constructor({ tlid, track }: { tlid: number; track: Track });
-      readonly tlid: number;
-      readonly track: Track;
+      constructor({ tlid, track }: { tlid: number; track: Track })
+      readonly tlid: number
+      readonly track: Track
     }
+    /**
+     * A tracklist track.
+     */
     class Track {
       constructor({
         uri,
@@ -235,176 +235,176 @@ declare namespace Mopidy {
         bitrate,
         comment,
         musicbrainz_id,
-        last_modified,
+        last_modified
       }: {
         /**
          * The track URI
          */
-        uri: URI;
+        uri: URI
         /**
          * The track name
          */
-        name: string;
+        name: string
         /**
          * The track artists
          */
-        artists: Artist[];
+        artists: Artist[]
         /**
          * The track album
          */
-        album: Album;
+        album: Album
         /**
          * The track composers
          */
-        composers: Artist[];
+        composers: Artist[]
         /**
          * The track performers
          */
-        performers: Artist[];
+        performers: Artist[]
         /**
          * The track genre
          */
-        genre: string;
+        genre: string
         /**
          * The track number in the album
          */
-        track_no?: number;
+        track_no?: number
         /**
          * The disc number in the album
          */
-        disc_no?: number;
+        disc_no?: number
         /**
          * The track release date (YYYY or YYYY-MM-DD)
          */
-        date: string;
+        date: string
         /**
          * The track length in milliseconds
          */
-        length?: number;
+        length?: number
         /**
          * The track bitrate in kbit/s
          */
-        bitrate: number;
+        bitrate: number
         /**
          * The track comment
          */
-        comment: string;
+        comment: string
         /**
          * The track MusicBrainz ID
          */
-        musicbrainz_id: string;
+        musicbrainz_id: string
         /**
          * Integer representing when the track was last modified. Exact meaning
          * depends on source of track. For local files this is the modification
          * time in milliseconds since Unix epoch. For other backends it could be
          * an equivalent timestamp or simply a version counter.
          */
-        last_modified?: number;
-      });
+        last_modified?: number
+      })
       /**
        * The track URI
        */
-      readonly uri: URI;
+      readonly uri: URI
       /**
        * The track name
        */
-      readonly name: string;
+      readonly name: string
       /**
        * The track artists
        */
-      readonly artists: Artist[];
+      readonly artists: Artist[]
       /**
        * The track album
        */
-      readonly album: string;
+      readonly album: Album
       /**
        * The track composers
        */
-      readonly composers: Artist[];
+      readonly composers: Artist[]
       /**
        * The track performers
        */
-      readonly performers: Artist[];
+      readonly performers: Artist[]
       /**
        * The track genre
        */
-      readonly genre: string;
+      readonly genre: string
       /**
        * The track number in the album
        */
-      readonly track_no: number;
+      readonly track_no: number
       /**
        * The disc number in the album
        */
-      readonly disc_no: number;
+      readonly disc_no: number
       /**
        * The track release date (YYYY or YYYY-MM-DD)
        */
-      readonly date: string;
+      readonly date: string
       /**
        * The track length in milliseconds.
        */
-      readonly length: number;
+      readonly length: number
       /**
        * The track bitrate in kbit/s
        */
-      readonly bitrate: string;
+      readonly bitrate: string
       /**
        * The track comment
        */
-      readonly comment: string;
+      readonly comment: string
       /**
        * The track MusicBrainz ID
        */
-      readonly musicbrainz_id: string;
+      readonly musicbrainz_id: string
       /**
        * Integer representing when the track was last modified. Exact meaning
        * depends on source of track. For local files this is the modification
        * time in milliseconds since Unix epoch. For other backends it could be
        * an equivalent timestamp or simply a version counter.
        */
-      readonly last_modified: number;
+      readonly last_modified: number
     }
     class SearchResult {
       constructor({
         uri,
         tracks,
         artists,
-        albums,
+        albums
       }: {
         /**
          * The search result URI
          */
-        uri: URI;
+        uri: URI
         /**
          * The tracks matching the search query
          */
-        tracks: Track[];
+        tracks: Track[]
         /**
          * The artists matching the search query
          */
-        artists: Artist[];
+        artists: Artist[]
         /**
          * The albums matching the search query
          */
-        albums: Album[];
-      });
+        albums: Album[]
+      })
       /**
        * The search result URI
        */
-      readonly uri: URI;
+      readonly uri: URI
       /**
        * The tracks matching the search query
        */
-      readonly tracks: Track[] | undefined;
+      readonly tracks: Track[] | undefined
       /**
        * The artists matching the search query
        */
-      readonly artists: Artist[] | undefined;
+      readonly artists: Artist[] | undefined
       /**
        * The albums matching the search query
        */
-      readonly albums: Album[] | undefined;
+      readonly albums: Album[] | undefined
     }
 
     class Artist {
@@ -412,41 +412,41 @@ declare namespace Mopidy {
         uri,
         name,
         sortname,
-        musicbrainz_id,
+        musicbrainz_id
       }: {
         /**
          * The artist URI
          */
-        uri: URI;
+        uri: URI
         /**
          * The artist name
          */
-        name: string;
+        name: string
         /**
          * Artist name for better sorting, e.g. with articles stripped
          */
-        sortname: string;
+        sortname: string
         /**
          * The MusicBrainz ID of the artist
          */
-        musicbrainz_id: string;
-      });
+        musicbrainz_id: string
+      })
       /**
        * The artist URI
        */
-      readonly uri: URI;
+      readonly uri: URI
       /**
        * The artist name
        */
-      readonly name: string;
+      readonly name: string
       /**
        * Artist name for better sorting, e.g. with articles stripped
        */
-      readonly sortname: string;
+      readonly sortname: string
       /**
        * The MusicBrainz ID of the artist
        */
-      readonly musicbrainz_id: string;
+      readonly musicbrainz_id: string
     }
 
     class Album {
@@ -457,98 +457,98 @@ declare namespace Mopidy {
         num_tracks,
         num_discs,
         date,
-        musicbrainz_id,
+        musicbrainz_id
       }: {
         /**
          * The album URI
          */
-        uri: URI;
+        uri: URI
         /**
          * The album name
          */
-        name: string;
+        name: string
         /**
          * A set of album artists
          */
-        artists: Artist[];
+        artists: Artist[]
         /**
          * The number of tracks in the album
          */
-        num_tracks: number;
+        num_tracks: number
         /**
          * The number of discs in the album
          */
-        num_discs: number;
+        num_discs: number
         /**
          * The album release date (YYYY or YYYY-MM-DD)
          */
-        date: string;
+        date: string
         /**
          * The MusicBrainz ID of the album
          */
-        musicbrainz_id: string;
-      });
+        musicbrainz_id: string
+      })
       /**
        * The album URI
        */
-      readonly uri: URI;
+      readonly uri: URI
       /**
        * The album name
        */
-      readonly name: string;
+      readonly name: string
       /**
        * A set of album artists
        */
-      readonly artists: Artist[];
+      readonly artists: Artist[]
       /**
        * The number of tracks in the album
        */
-      readonly num_tracks: number;
+      readonly num_tracks: number
       /**
        * The number of discs in the album
        */
-      readonly num_discs: number;
+      readonly num_discs: number
       /**
        * album release date (YYYY or YYYY-MM-DD)
        */
-      readonly date: string;
+      readonly date: string
       /**
        * The MusicBrainz ID of the album
        */
-      readonly musicbrainz_id: string;
+      readonly musicbrainz_id: string
     }
 
     class Image {
       constructor({
         uri,
         width,
-        height,
+        height
       }: {
         /**
          * The URI of the image
          */
-        uri: URI;
+        uri: URI
         /**
          * The width of the image
          */
-        width?: number;
+        width?: number
         /**
          * The height of the image
          */
-        height?: number;
-      });
+        height?: number
+      })
       /**
        * The URI of the image
        */
-      readonly uri: URI;
+      readonly uri: URI
       /**
        * The width of the image
        */
-      readonly width: number;
+      readonly width: number
       /**
        * The height of the image
        */
-      readonly height: number;
+      readonly height: number
     }
 
     class Playlist {
@@ -561,40 +561,40 @@ declare namespace Mopidy {
         /**
          * The URI of the image
          */
-        uri: URI;
+        uri: URI
         /**
          * The playlist name
          */
-        name: string;
+        name: string
         /**
          * The playlist’s tracks
          */
-        tracks: Track[];
+        tracks: Track[]
         /**
          * The playlist modification time in milliseconds since Unix epoch
          */
         last_modified: number
-      });
+      })
       /**
        * The URI of the image
        */
-      readonly uri: URI;
+      readonly uri: URI
       /**
        * The playlist name
        */
-      readonly name: string;
+      readonly name: string
       /**
        * The playlist’s tracks
        */
-      readonly tracks: Track[];
+      readonly tracks: Track[]
       /**
        * The playlist modification time in milliseconds since Unix epoch
        */
-      readonly last_modified: number;
+      readonly last_modified: number
       /**
        * The number of tracks in the playlist
        */
-      readonly length: number;
+      readonly length: number
     }
   }
 
@@ -617,64 +617,60 @@ declare namespace Mopidy {
       /**
        * Called whenever the mute state is changed.
        */
-      "event:muteChanged": ({
+      'event:muteChanged': ({
         mute
       }: {
         /**
          * the new mute state
          */
         mute: boolean
-      }) => void;
-      "event:optionsChanged": () => void;
-      "event:playbackStateChanged": ({
+      }) => void
+      'event:optionsChanged': () => void
+      'event:playbackStateChanged': ({
         old_state,
-        new_state,
+        new_state
       }: {
-        old_state: PlaybackState;
-        new_state: PlaybackState;
-      }) => void;
-      "event:playlistChanged": ({
-        playlist,
-      }: {
-        playlist: models.Playlist;
-      }) => void;
-      "event:playlistDeleted": ({
+        old_state: PlaybackState
+        new_state: PlaybackState
+      }) => void
+      'event:playlistChanged': ({ playlist }: { playlist: models.Playlist }) => void
+      'event:playlistDeleted': ({
         /**
          * the URI of the deleted playlist
          */
-        uri,
+        uri
       }: {
-        uri: URI;
-      }) => void;
-      "event:playlistsLoaded": () => void;
+        uri: URI
+      }) => void
+      'event:playlistsLoaded': () => void
       /**
        * Called whenever the time position changes by an unexpected amount, e.g.
        * at seek to a new time position.
        */
-      "event:seeked": ({
+      'event:seeked': ({
         /**
          * the position that was seeked to in milliseconds
          */
-        time_position,
+        time_position
       }: {
-        time_position: number;
-      }) => void;
+        time_position: number
+      }) => void
       /**
        * Called whenever the currently playing stream title changes.
        */
-      "event:streamTitleChanged": ({
+      'event:streamTitleChanged': ({
         /**
          * the new stream title
          */
-        title,
+        title
       }: {
-        title: string;
-      }) => void;
+        title: string
+      }) => void
 
       /**
        * Called whenever playback of a track ends.
        */
-      "event:trackPlaybackEnded": ({
+      'event:trackPlaybackEnded': ({
         /**
          * the track that was played before playback stopped
          */
@@ -682,15 +678,15 @@ declare namespace Mopidy {
         /**
          * the time position in milliseconds
          */
-        timePosition,
+        timePosition
       }: {
-        tl_track: models.TlTrack;
-        timePosition: number;
-      }) => void;
+        tl_track: models.TlTrack
+        timePosition: number
+      }) => void
       /**
        * Called whenever track playback is paused.
        */
-      "event:trackPlaybackPaused": ({
+      'event:trackPlaybackPaused': ({
         /**
          * the track that was playing when playback paused
          */
@@ -698,15 +694,15 @@ declare namespace Mopidy {
         /**
          * the time position in milliseconds
          */
-        timePosition,
+        timePosition
       }: {
-        tl_track: models.TlTrack;
-        timePosition: number;
-      }) => void;
+        tl_track: models.TlTrack
+        timePosition: number
+      }) => void
       /**
        * Called whenever track playback is resumed.
        */
-      "event:trackPlaybackResumed": ({
+      'event:trackPlaybackResumed': ({
         /**
          * the track that was playing when playback resumed
          */
@@ -714,37 +710,37 @@ declare namespace Mopidy {
         /**
          * the time position in milliseconds
          */
-        timePosition,
+        timePosition
       }: {
-        tl_track: models.TlTrack;
-        timePosition: number;
-      }) => void;
+        tl_track: models.TlTrack
+        timePosition: number
+      }) => void
       /**
        * Called whenever a new track starts playing.
        */
-      "event:trackPlaybackStarted": ({
+      'event:trackPlaybackStarted': ({
         /**
          * the track that just started playing
          */
-        tl_track,
+        tl_track
       }: {
-        tl_track: models.TlTrack;
-      }) => void;
+        tl_track: models.TlTrack
+      }) => void
       /**
        * Called whenever the tracklist is changed.
        */
-      "event:tracklistChanged": () => void;
+      'event:tracklistChanged': () => void
       /**
        * Called whenever the volume is changed.
        */
-      "event:volumeChanged": ({
+      'event:volumeChanged': ({
         /**
          * the new volume in the range [0..100]
          */
-        volume,
+        volume
       }: {
-        volume: number;
-      }) => void;
+        volume: number
+      }) => void
     }
 
     // ----------------- CONTROLLERS -----------------
@@ -766,21 +762,21 @@ declare namespace Mopidy {
       add({
         tracks,
         at_position,
-        uris,
+        uris
       }: {
         /**
          * The tracks to add
          */
-        tracks?: models.Track[];
+        tracks?: models.Track[]
         /**
          * The position in tracklist to add tracks
          */
-        at_position?: number;
+        at_position?: number
         /**
          * list of URIs for tracks to add
          */
-        uris?: string[];
-      }): Promise<models.TlTrack[]>;
+        uris?: string[]
+      }): Promise<models.TlTrack[]>
 
       /**
        * Remove the matching tracks from the tracklist.
@@ -795,14 +791,14 @@ declare namespace Mopidy {
          * (dict, of (string, list) pairs) – one or more rules to match by
          */
         criteria: { [key: string]: string[] }
-      }): Promise<models.TlTrack[]>;
+      }): Promise<models.TlTrack[]>
 
       /**
        * Clear the tracklist
        *
        * Triggers the `mopidy.core.CoreListener.tracklist_changed()` event.
        */
-      clear(): Promise<void>;
+      clear(): Promise<void>
 
       /**
        * Move the tracks in the slice `[start:end]` to `to_position`.
@@ -817,15 +813,15 @@ declare namespace Mopidy {
         /**
          * position of first track to move
          */
-        start: number;
+        start: number
         /**
          * position after last track to move
          */
-        end: number;
+        end: number
         /**
          * new position for the tracks
          */
-        to_position: number;
+        to_position: number
       }): Promise<void>
 
       /**
@@ -841,17 +837,17 @@ declare namespace Mopidy {
         /**
          * position of first track to shuffle
          */
-        start?: number;
+        start?: number
         /**
          * position after last track to shuffle
          */
-        end?: number;
+        end?: number
       }): Promise<void>
 
       /**
        * Get tracklist as list of `mopidy.models.TlTrack`
        */
-      getTlTracks(): Promise<models.TlTrack[]>;
+      getTlTracks(): Promise<models.TlTrack[]>
 
       /**
        * The position of the given track in the tracklist.
@@ -861,17 +857,17 @@ declare namespace Mopidy {
        */
       index({
         tl_track,
-        tlid,
+        tlid
       }: {
         /**
          * The track to find the index of
          */
-        tl_track?: models.TlTrack;
+        tl_track?: models.TlTrack
         /**
          * TLID of the track to find the index of
          */
-        tlid?: number;
-      }): Promise<number | null>;
+        tlid?: number
+      }): Promise<number | null>
 
       /**
        * Get the tracklist version.
@@ -879,17 +875,17 @@ declare namespace Mopidy {
        * Integer which is increased every time the tracklist is changed.
        * Is not reset before Mopidy is restarted.
        */
-      getVersion(): Promise<number>;
+      getVersion(): Promise<number>
 
       /**
        * Get length of the tracklist
        */
-      getLength(): Promise<number>;
+      getLength(): Promise<number>
 
       /**
        * Get tracklist as list of `mopidy.models.Track`
        */
-      getTracks(): Promise<models.Track[]>;
+      getTracks(): Promise<models.Track[]>
 
       /**
        * Returns a slice of the tracklist, limited by the given start and end
@@ -897,17 +893,17 @@ declare namespace Mopidy {
        */
       slice({
         start,
-        end,
+        end
       }: {
         /**
          * position of first track to include in slice
          */
-        start: number;
+        start: number
         /**
          * position after last track to include in slice
          */
-        end: number;
-      }): Promise<models.TlTrack[]>;
+        end: number
+      }): Promise<models.TlTrack[]>
 
       /**
        *
@@ -924,7 +920,7 @@ declare namespace Mopidy {
          * (dict, of (string, list) pairs) – one or more rules to match by
          */
         criteria: { [key: string]: string[] }
-      }): Promise<models.TlTrack[]>;
+      }): Promise<models.TlTrack[]>
 
       // ----------------- FUTURE STATE -----------------
 
@@ -933,7 +929,7 @@ declare namespace Mopidy {
        *
        * Not necessarily the same TLID as returned by `get_next_tlid()`.
        */
-      getEotTlid(): Promise<number | null>;
+      getEotTlid(): Promise<number | null>
 
       /**
        * The tlid of the track that will be played if calling `mopidy.core.PlaybackController.next()`.
@@ -942,7 +938,7 @@ declare namespace Mopidy {
        * track can loop around the tracklist. When random is enabled this should be a random track,
        * all tracks should be played once before the tracklist repeats.
        */
-      getNextTlid(): Promise<number | null>;
+      getNextTlid(): Promise<number | null>
 
       /**
        * Returns the TLID of the track that will be played if calling
@@ -951,7 +947,7 @@ declare namespace Mopidy {
        * For normal playback this is the previous track in the tracklist. If random and/or
        * consume is enabled it should return the current track instead.
        */
-      getPreviousTlid(): Promise<number | null>;
+      getPreviousTlid(): Promise<number | null>
 
       /**
        * The track that will be played after the given track.
@@ -965,22 +961,27 @@ declare namespace Mopidy {
          * The reference track
          */
         tl_track?: models.TlTrack
-      }): Promise<models.TlTrack | null>;
-
+      }): Promise<models.TlTrack | null>
 
       // ----------------- DEPRECATED -----------------
-
 
       /**
        * @deprecated Deprecated since version 3.0: Use `get_next_tlid()` instead.
        */
-      nextTrack({ tl_track }:{ tl_track: models.TlTrack }): Promise<models.TlTrack | null>;
+      nextTrack({
+        tl_track
+      }: {
+        tl_track: models.TlTrack
+      }): Promise<models.TlTrack | null>
 
       /**
        * @deprecated Deprecated since version 3.0: Use `get_previous_tlid()` instead.
        */
-      previousTrack({ tl_track }:{ tl_track: models.TlTrack }): Promise<models.TlTrack | null>;
-
+      previousTrack({
+        tl_track
+      }: {
+        tl_track: models.TlTrack
+      }): Promise<models.TlTrack | null>
 
       // ----------------- OPTIONS -----------------
 
@@ -990,7 +991,7 @@ declare namespace Mopidy {
        * True - Tracks are removed from the tracklist when they have been played.
        * False - Tracks are not removed from the tracklist.
        */
-      getConsume(): Promise<boolean>;
+      getConsume(): Promise<boolean>
 
       /**
        * Set consume mode.
@@ -998,12 +999,12 @@ declare namespace Mopidy {
        * True - Tracks are removed from the tracklist when they have been played.
        * False - Tracks are not removed from the tracklist.
        */
-      setConsume({ value }: { value: boolean }): Promise<void>;
+      setConsume({ value }: { value: boolean }): Promise<void>
 
       /**
        * Get random mode.
        */
-      getRandom(): Promise<boolean>;
+      getRandom(): Promise<boolean>
 
       /**
        * Set random mode.
@@ -1011,24 +1012,24 @@ declare namespace Mopidy {
        * True - Tracks are selected at random from the tracklist.
        * False - Tracks are played in the order of the tracklist.
        */
-      setRandom({ value }: { value: boolean }): Promise<void>;
+      setRandom({ value }: { value: boolean }): Promise<void>
 
       /**
        * Get repeat mode.
        */
-      getRepeat(): Promise<boolean>;
+      getRepeat(): Promise<boolean>
 
       /**
        * Set repeat mode.
        *
        * To repeat a single track, set both `repeat` and `single`.
        */
-      setRepeat({ value }: { value: boolean }): Promise<void>;
+      setRepeat({ value }: { value: boolean }): Promise<void>
 
       /**
        * Get single mode
        */
-      getSingle(): Promise<boolean>;
+      getSingle(): Promise<boolean>
 
       /**
        * Set single mode.
@@ -1036,7 +1037,7 @@ declare namespace Mopidy {
        * True - Playback is stopped after current song, unless in repeat mode.
        * False - Playback continues after current song.
        */
-      setSingle({ value }: { value: boolean }): Promise<void>;
+      setSingle({ value }: { value: boolean }): Promise<void>
     }
 
     // https://docs.mopidy.com/en/latest/api/core/#playback-controller
@@ -1047,13 +1048,7 @@ declare namespace Mopidy {
        *
        * Note that the track *must* already be in the tracklist.
        */
-      play({
-        track,
-        tlid,
-      }: {
-        track?: models.TlTrack;
-        tlid?: number;
-      }): Promise<void>;
+      play({ track, tlid }: { track?: models.TlTrack; tlid?: number }): Promise<void>
 
       /**
        * Change to the next track.
@@ -1061,7 +1056,7 @@ declare namespace Mopidy {
        * The current playback state will be kept. If it was playing, playing will
        * continue. If it was paused, it will still be paused, etc.
        */
-      next(): Promise<void>;
+      next(): Promise<void>
 
       /**
        * Change to the previous track.
@@ -1069,22 +1064,22 @@ declare namespace Mopidy {
        * The current playback state will be kept. If it was playing, playing will
        * continue. If it was paused, it will still be paused, etc.
        */
-      previous(): Promise<void>;
+      previous(): Promise<void>
 
       /**
        * Stop playing.
        */
-      stop(): Promise<void>;
+      stop(): Promise<void>
 
       /**
        * Pause playback.
        */
-      pause(): Promise<void>;
+      pause(): Promise<void>
 
       /**
        * If paused, resume playing the current track.
        */
-      resume(): Promise<void>;
+      resume(): Promise<void>
 
       /**
        * Seeks to time position given in milliseconds.
@@ -1096,45 +1091,45 @@ declare namespace Mopidy {
          * time position in milliseconds
          */
         time_position: number
-      }): Promise<boolean>;
+      }): Promise<boolean>
 
       // ----------------- CURRENT TRACK -----------------
 
       /**
        * Get the currently playing or selected track.
        */
-      getCurrentTlTrack(): Promise<models.TlTrack | null>;
+      getCurrentTlTrack(): Promise<models.TlTrack | null>
 
       /**
        * Get the currently playing or selected track.
        *
        * Extracted from `get_current_tl_track()` for convenience.
        */
-      getCurrentTrack(): Promise<models.Track | null>;
+      getCurrentTrack(): Promise<models.Track | null>
 
       /**
        * Get the current stream title or None.
        */
-      getStreamTitle(): Promise<string | null>;
+      getStreamTitle(): Promise<string | null>
 
       /**
        * Get time position in milliseconds.
        */
-      getTimePosition(): Promise<number | null>;
+      getTimePosition(): Promise<number | null>
 
       // ----------------- PLAYBACK STATES -----------------
 
       /**
        * Get The playback state.
        */
-      getState(): Promise<PlaybackState>;
+      getState(): Promise<PlaybackState>
 
       /**
        * Set the playback state. See:
        *  https://docs.mopidy.com/en/latest/api/core/#mopidy.core.PlaybackController.set_state
        * for possible states and transitions
        */
-      setState({ new_state }: { new_state: PlaybackState }): Promise<void>;
+      setState({ new_state }: { new_state: PlaybackState }): Promise<void>
     }
 
     // https://docs.mopidy.com/en/latest/api/core/#library-controller
@@ -1172,7 +1167,7 @@ declare namespace Mopidy {
          * URI to browse
          */
         uri: URI
-      }): Promise<models.Ref<any>[]>;
+      }): Promise<models.Ref<any>[]>
 
       /**
        * Search the library for tracks where `field` contains `values`.
@@ -1206,21 +1201,21 @@ declare namespace Mopidy {
       search({
         query,
         uris,
-        exact,
+        exact
       }: {
         /**
          * one or more queries to search for
          */
-        query: Query;
+        query: Query
         /**
          * zero or more URI roots to limit the search to
          */
-        uris?: string[];
+        uris?: string[]
         /**
          * if the search should use exact matching
          */
-        exact?: boolean;
-      }): Promise<models.SearchResult[]>;
+        exact?: boolean
+      }): Promise<models.SearchResult[]>
 
       /**
        * Lookup the given URIs.
@@ -1229,12 +1224,12 @@ declare namespace Mopidy {
        */
       lookup({
         uris
-      }:{
+      }: {
         /**
          * A list of URI's
          */
         uris: string[]
-      }): Promise<{ [index: string]: models.Track[] }>;
+      }): Promise<{ [index: string]: models.Track[] }>
 
       /**
        *
@@ -1254,12 +1249,12 @@ declare namespace Mopidy {
        */
       getImages({
         uris
-      }:{
+      }: {
         /**
          * A list of URI's
          */
         uris: string[]
-      }): Promise<{ [index: string]: models.Image[] }>;
+      }): Promise<{ [index: string]: models.Image[] }>
     }
 
     // https://docs.mopidy.com/en/latest/api/core/#playlists-controller
@@ -1267,7 +1262,7 @@ declare namespace Mopidy {
       /**
        * Get the list of URI schemes that support playlists.
        */
-      getUriSchemes(): Promise<string[]>;
+      getUriSchemes(): Promise<string[]>
 
       // ----------------- FETCHING -----------------
 
@@ -1277,7 +1272,7 @@ declare namespace Mopidy {
        * Returns a list of Ref objects referring to the playlists. In other words,
        * no information about the playlists’ content is given.
        */
-      asList(): Promise<models.Ref<any>[]>;
+      asList(): Promise<models.Ref<any>[]>
 
       /**
        * Get the items in a playlist specified by `uri`.
@@ -1286,13 +1281,13 @@ declare namespace Mopidy {
        *
        * If a playlist with the given uri doesn’t exist, it returns `None`.
        */
-      getItems({ uri }: { uri: string }): Promise<models.Ref<any>[] | null>;
+      getItems({ uri }: { uri: string }): Promise<models.Ref<any>[] | null>
 
       /**
        * Lookup playlist with given URI in both the set of playlists and in any other
        * playlist sources. Returns `None` if not found.
        */
-      lookup({ uri }: { uri: URI }): Promise<models.Playlist | null>;
+      lookup({ uri }: { uri: URI }): Promise<models.Playlist | null>
 
       /**
        * Refresh the playlists in playlists.
@@ -1301,7 +1296,7 @@ declare namespace Mopidy {
        * handled by a backend, only that backend is asked to refresh. If `uri_scheme` doesn’t
        * match any current backend, nothing happens.
        */
-      refresh({ uri_scheme }: { uri_scheme?: string }): Promise<void>;
+      refresh({ uri_scheme }: { uri_scheme?: string }): Promise<void>
 
       // ----------------- MANIPULATING -----------------
 
@@ -1322,12 +1317,12 @@ declare namespace Mopidy {
         /**
          * name of the new playlist
          */
-        name: string;
+        name: string
         /**
          * use the backend matching the URI scheme
          */
-        uri_scheme?: string;
-      }): Promise<models.Playlist | null>;
+        uri_scheme?: string
+      }): Promise<models.Playlist | null>
 
       /**
        * Save the playlist.
@@ -1351,7 +1346,7 @@ declare namespace Mopidy {
          * The playlist
          */
         playlist: models.Playlist
-      }): Promise<models.Playlist | null>;
+      }): Promise<models.Playlist | null>
 
       /**
        * Delete playlist identified by the URI.
@@ -1367,7 +1362,7 @@ declare namespace Mopidy {
          * URI of the playlist to delete
          */
         uri: URI
-      }): Promise<boolean>;
+      }): Promise<boolean>
     }
 
     // https://docs.mopidy.com/en/latest/api/core/#mixer-controller
@@ -1377,7 +1372,7 @@ declare namespace Mopidy {
        *
        * True if muted, False unmuted, None if unknown.
        */
-      getMute(): Promise<boolean | null>;
+      getMute(): Promise<boolean | null>
 
       /**
        * Set mute state.
@@ -1386,7 +1381,7 @@ declare namespace Mopidy {
        *
        * Returns True if call is successful, otherwise False.
        */
-      setMute({ mute }: { mute: boolean }): Promise<boolean>;
+      setMute({ mute }: { mute: boolean }): Promise<boolean>
 
       /**
        * Get the volume.
@@ -1395,7 +1390,7 @@ declare namespace Mopidy {
        *
        * The volume scale is linear.
        */
-      getVolume(): Promise<number | null>;
+      getVolume(): Promise<number | null>
 
       /**
        * Set the volume.
@@ -1404,7 +1399,7 @@ declare namespace Mopidy {
        *
        * The volume scale is linear.
        */
-      setVolume({ volume }: { volume: number }): Promise<boolean>;
+      setVolume({ volume }: { volume: number }): Promise<boolean>
     }
 
     interface HistoryController {
@@ -1413,12 +1408,12 @@ declare namespace Mopidy {
        *
        * The timestamps are milliseconds since epoch.
        */
-      getHistory(): Promise<{ [index: string]: models.Ref<any>[] }>;
+      getHistory(): Promise<{ [index: string]: models.Ref<any>[] }>
 
       /**
        * Get the number of tracks in the history.
        */
-      getLength(): Promise<number>;
+      getLength(): Promise<number>
     }
   }
 }

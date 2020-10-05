@@ -1,5 +1,5 @@
 import lodash from 'lodash'
-import { JBAddedByInterface } from '../models/track'
+import { JBAddedBy } from '../models/track'
 const { flatten, mean, sumBy } = lodash
 
 const VOTE_NORMALISER = 10 as const // asuming a vote comes in as 1-10
@@ -10,20 +10,20 @@ const MAX_SCORE = 100
 const VotingHelper = {
   voteNormalised: (vote: number): number => vote * VOTE_NORMALISER,
 
-  calcVoteCount: (data: JBAddedByInterface[]): number => {
+  calcVoteCount: (data: JBAddedBy[]): number => {
     return sumBy(data, (i) => i.votes.length)
   },
 
-  calcVoteTotal: (data: JBAddedByInterface[]): number => {
+  calcVoteTotal: (data: JBAddedBy[]): number => {
     return sumBy(data, (i) => sumBy(i.votes, (v) => v.vote))
   },
 
-  calcVoteAverage: (data: JBAddedByInterface[]): number => {
+  calcVoteAverage: (data: JBAddedBy[]): number => {
     const votes = data.map((i) => i.votes.map((j) => j.vote))
     return votes.length > 0 ? mean(flatten(votes)) : 0
   },
 
-  calcWeightedMean: (data: JBAddedByInterface[]): number => {
+  calcWeightedMean: (data: JBAddedBy[]): number => {
     if (data.length < 1) return 0
     const today = new Date().getTime()
     const diffInMonths = (e: number, s: number) =>

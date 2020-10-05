@@ -41,12 +41,10 @@ describe('MopidyDecorator', () => {
       const data = 'data'
       expect.assertions(2)
       mockUpdateCurrentTrack.mockResolvedValue(true)
-      mockDecorateTracklist.mockResolvedValue([
-        { track: { uri: '123', length: 2820123 } }
-      ])
+      mockDecorateTracklist.mockResolvedValue([{ uri: '123', length: 2820123 }])
       const response = await MopidyDecorator.parse(h('playback.getCurrentTrack'), data)
       expect(DecorateTracklist).toHaveBeenCalledWith([data])
-      expect(response).toEqual({ track: { length: 2820123, uri: '123' } })
+      expect(response).toEqual({ length: 2820123, uri: '123' })
     })
 
     it('does not transform when we have no data', async () => {
@@ -69,14 +67,12 @@ describe('MopidyDecorator', () => {
     it('calls the DecorateTracklist class, passes it into the settings and returns the result', async () => {
       const data = 'data'
       expect.assertions(3)
-      mockDecorateTracklist.mockResolvedValue([
-        { track: { uri: '123', length: 2820123 } }
-      ])
+      mockDecorateTracklist.mockResolvedValue([{ uri: '123', length: 2820123 }])
       mockUpdateTracklist.mockResolvedValue(true)
       const returnData = await MopidyDecorator.parse(h('tracklist.getTracks'), data)
       expect(DecorateTracklist).toHaveBeenCalledWith(data)
       expect(Setting.updateTracklist).toBeCalledWith(['123'])
-      expect(returnData).toEqual([{ track: { uri: '123', length: 2820123 } }])
+      expect(returnData).toEqual([{ uri: '123', length: 2820123 }])
     })
   })
 
@@ -84,7 +80,7 @@ describe('MopidyDecorator', () => {
     it('correctly calls through', async () => {
       expect.assertions(3)
       const data = { tl_track: { track: 'track' } }
-      const decoratedData = [{ track: { uri: '123', length: 2820123 } }]
+      const decoratedData = [{ uri: '123', length: 2820123 }]
       const mopidyMock = jest.fn() as unknown
       mockDecorateTracklist.mockResolvedValue(decoratedData)
       mockAddToTrackSeedList.mockResolvedValue(true)
@@ -95,7 +91,7 @@ describe('MopidyDecorator', () => {
         data,
         mopidyMock as Mopidy
       )
-      expect(Setting.addToTrackSeedList).toHaveBeenCalledWith(decoratedData[0].track)
+      expect(Setting.addToTrackSeedList).toHaveBeenCalledWith(decoratedData[0])
       expect(Setting.trimTracklist).toHaveBeenCalledWith(mopidyMock)
       expect(response).toEqual('123')
     })
@@ -108,9 +104,7 @@ describe('MopidyDecorator', () => {
       const data = { tl_track: { track: { uri: 'uri123' } } }
       const mopidyMock = jest.fn() as unknown
       mockUpdateTrackPlaycount.mockResolvedValue(true)
-      mockDecorateTracklist.mockResolvedValue([
-        { track: { uri: '123', length: 2820123 } }
-      ])
+      mockDecorateTracklist.mockResolvedValue([{ uri: '123', length: 2820123 }])
       mockUpdateCurrentTrack.mockResolvedValue(true)
       mockSpotifyCanRecommend.mockResolvedValue(recomendMock)
       mockGetSeedTracks.mockResolvedValue('seedTracks')
@@ -132,10 +126,8 @@ describe('MopidyDecorator', () => {
         uri: '123'
       })
       expect(response).toEqual({
-        track: {
-          length: 2820123,
-          uri: '123'
-        }
+        length: 2820123,
+        uri: '123'
       })
     })
 
@@ -144,7 +136,7 @@ describe('MopidyDecorator', () => {
       const data = { tl_track: { track: { uri: 'uri123' } } }
       const mopidyMock = jest.fn() as unknown
       mockUpdateTrackPlaycount.mockResolvedValue(true)
-      mockDecorateTracklist.mockResolvedValue([{ track: { uri: '123' } }])
+      mockDecorateTracklist.mockResolvedValue([{ uri: '123' }])
       mockSpotifyCanRecommend.mockResolvedValue(null)
       mockUpdateCurrentTrack.mockResolvedValue(true)
 
@@ -159,9 +151,7 @@ describe('MopidyDecorator', () => {
         uri: '123'
       })
       expect(response).toEqual({
-        track: {
-          uri: '123'
-        }
+        uri: '123'
       })
     })
   })
@@ -215,7 +205,7 @@ describe('MopidyDecorator', () => {
           track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
         }
       ]
-      const response = [{ track: { name: 'track', artist: { name: 'artist' } } }]
+      const response = [{ name: 'track', artist: { name: 'artist' } }]
       expect.assertions(2)
       mockDecorateTracklist.mockResolvedValue(response)
       mockRemoveFromSeeds.mockResolvedValue(true)
@@ -286,7 +276,7 @@ describe('MopidyDecorator', () => {
         },
         user: 'user'
       }
-      mockDecorateTracklist.mockResolvedValue(data)
+      mockDecorateTracklist.mockResolvedValue([data[0].track, data[1].track])
       mockAddTracks.mockResolvedValue(true)
 
       const returnData = await MopidyDecorator.parse(headers, data)

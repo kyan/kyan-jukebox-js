@@ -1,5 +1,5 @@
 import fs from 'fs'
-import SearchResults from '../../src/decorators/result'
+import DecorateSearchResults from '../../src/decorators/result'
 import Track from '../../src/models/track'
 jest.mock('../../src/models/track')
 
@@ -18,6 +18,12 @@ describe('SearchResults', () => {
     const tracks = [
       {
         _id: 'spotify:track:1WaBuuaXGwrU4sFvxAjnkf',
+        metrics: {
+          plays: 10,
+          votes: 10,
+          votesTotal: 10,
+          votesAverage: 10
+        },
         addedBy: [
           {
             user: {
@@ -38,7 +44,10 @@ describe('SearchResults', () => {
           }
         ],
         metrics: {
-          votesAverage: 30
+          plays: 10,
+          votes: 10,
+          votesTotal: 10,
+          votesAverage: 60
         }
       },
       {
@@ -57,12 +66,11 @@ describe('SearchResults', () => {
       }
     ]
 
-    it('renders', () => {
+    it('renders', async () => {
       mockFindTracks.mockResolvedValue(tracks)
 
-      return SearchResults(payload.tracks.items).then((transformedPayload) => {
-        expect(transformedPayload).toMatchSnapshot()
-      })
+      const transformedPayload = await DecorateSearchResults(payload.tracks.items)
+      expect(transformedPayload).toMatchSnapshot()
     })
   })
 
@@ -112,12 +120,11 @@ describe('SearchResults', () => {
       }
     ]
 
-    it('renders', () => {
+    it('renders', async () => {
       mockFindTracks.mockResolvedValue(tracks)
 
-      return SearchResults(payload.tracks.items).then((transformedPayload) => {
-        expect(transformedPayload).toMatchSnapshot()
-      })
+      const transformedPayload = await DecorateSearchResults(payload.tracks.items)
+      expect(transformedPayload).toMatchSnapshot()
     })
   })
 
@@ -162,23 +169,21 @@ describe('SearchResults', () => {
       }
     ]
 
-    it('renders', () => {
+    it('renders', async () => {
       process.env.EXPLICIT_CONTENT = 'false'
       mockFindTracks.mockResolvedValue(tracks)
 
-      return SearchResults(payload.tracks.items).then((transformedPayload) => {
-        expect(transformedPayload).toMatchSnapshot()
-      })
+      const transformedPayload = await DecorateSearchResults(payload.tracks.items)
+      expect(transformedPayload).toMatchSnapshot()
     })
   })
 
   describe('when passed no results', () => {
-    it('renders', () => {
+    it('renders', async () => {
       mockFindTracks.mockResolvedValue([])
 
-      return SearchResults(payload.tracks.items).then((transformedPayload) => {
-        expect(transformedPayload).toMatchSnapshot()
-      })
+      const transformedPayload = await DecorateSearchResults(payload.tracks.items)
+      expect(transformedPayload).toMatchSnapshot()
     })
   })
 })
