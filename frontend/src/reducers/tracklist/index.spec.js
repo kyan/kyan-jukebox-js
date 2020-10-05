@@ -33,19 +33,19 @@ describe('tracklist', () => {
     })
 
     it('handles empty tracklist', () => {
-      const tracks = [{ track: track1 }]
-      expect(reducer([], { type: Types.ADD_TRACKS, list: tracks })).toMatchSnapshot()
+      const tracks = [track1]
+      expect(reducer([], { type: Types.ADD_TRACKS, tracks })).toMatchSnapshot()
     })
 
     it('handles when some new tracks added', () => {
-      const tracks = [{ track: track2 }, { track: track3 }]
-      expect(reducer([track1], { type: Types.ADD_TRACKS, list: tracks })).toMatchSnapshot()
+      const tracks = [track2, track3]
+      expect(reducer([track1], { type: Types.ADD_TRACKS, tracks })).toMatchSnapshot()
     })
 
     it('handles when some tracks removed', () => {
-      const tracks = [{ track: track2 }, { track: track3 }]
+      const tracks = [track2, track3]
       expect(
-        reducer([track1, track2, track3], { type: Types.ADD_TRACKS, list: tracks })
+        reducer([track1, track2, track3], { type: Types.ADD_TRACKS, tracks })
       ).toMatchSnapshot()
     })
   })

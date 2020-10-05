@@ -33,12 +33,12 @@ describe('actions', () => {
   })
 
   it('should handle addTrackList', () => {
-    const list = ['spotify:track:0c41pMosF5Kqwwegcps8ES']
+    const tracks = ['track1', 'track2']
     const expectedAction = {
       type: Types.ADD_TRACKS,
-      list
+      tracks
     }
-    expect(actions.addTrackList(list)).toEqual(expectedAction)
+    expect(actions.addTrackList(tracks)).toEqual(expectedAction)
   })
 
   it('should handle removeFromTracklist', () => {
