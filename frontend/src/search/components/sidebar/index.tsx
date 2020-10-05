@@ -42,12 +42,12 @@ type SearchProps = {
 
 const SearchItems: React.FC<SearchItemsProps> = props => (
   <>
-    {props.tracks.map(item => (
+    {props.tracks.map(track => (
       <SearchItem
-        key={item.track.uri}
-        track={item.track}
-        onClick={() => props.onClick(item.track.uri)}
-        onAdd={() => props.onAdd(item.track)}
+        key={track.uri}
+        track={track}
+        onClick={() => props.onClick(track.uri)}
+        onAdd={() => props.onAdd(track)}
       />
     ))}
   </>
@@ -55,12 +55,12 @@ const SearchItems: React.FC<SearchItemsProps> = props => (
 
 const MixItems: React.FC<MixItemsProps> = props => (
   <>
-    {props.tracks.map((item, i) => (
+    {props.tracks.map((track, i) => (
       <DraggableSearchItem
         i={i}
         key={i}
-        track={item.track}
-        onRemove={() => props.onRemove(item.track.uri)}
+        track={track}
+        onRemove={() => props.onRemove(track.uri)}
         action={props.onSwap}
       />
     ))}
@@ -69,7 +69,7 @@ const MixItems: React.FC<MixItemsProps> = props => (
 
 const YourMix: React.FC<YourMixProps> = props => {
   if (props.tracks.length === 0) return null
-  const uris = props.tracks.map(data => data.track.uri)
+  const uris = props.tracks.map(track => track.uri)
 
   return (
     <>

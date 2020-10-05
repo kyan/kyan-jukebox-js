@@ -1,7 +1,18 @@
 import { Schema, Document, model, Model } from 'mongoose'
 import logger from '../config/logger'
 import Mopidy from 'mopidy'
-import { JBTrackInterface } from './track'
+import { JBTrack } from './track'
+
+interface SettingValue {
+  trackSeeds: string[]
+  currentTrack: string
+  currentTracklist: string[]
+}
+
+interface Setting extends Document {
+  key: string
+  value: SettingValue
+}
 
 const SettingSchema = new Schema({
   key: Schema.Types.String,
@@ -9,18 +20,6 @@ const SettingSchema = new Schema({
 })
 
 const HOW_MANY_PREVIOUS_TRACKS_IN_PLAYLIST = 4 as const
-
-export interface DBSettingValueInterface {
-  trackSeeds: string[]
-  currentTrack: string
-  currentTracklist: string[]
-}
-
-export interface DBSettingInterface extends Document {
-  key: string
-  value: DBSettingValueInterface
-}
-
 const stateFind = { key: 'state' }
 const options = { upsert: true, runValidators: true, setDefaultsOnInsert: true }
 
@@ -32,9 +31,7 @@ SettingSchema.statics.clearState = (): Promise<void> =>
       .catch((error) => logger.error('clearState', { args: error.message }))
   })
 
-SettingSchema.statics.addToTrackSeedList = (
-  track: JBTrackInterface
-): Promise<void | string> => {
+SettingSchema.statics.addToTrackSeedList = (track: JBTrack): Promise<void | string> => {
   if (track.metrics && track.metrics.votes > 1 && track.metrics.votesAverage < 50)
     return Promise.resolve()
   if (track.metrics && track.metrics.plays > 2 && track.metrics.votes < 1)
@@ -159,9 +156,9 @@ SettingSchema.statics.getPlayedTracksFromTracklist = (): Promise<string[]> =>
       )
   })
 
-export interface DBSettingStaticsInterface extends Model<DBSettingInterface> {
+export interface DBSettingStatics extends Model<Setting> {
   clearState(): Promise<void>
-  addToTrackSeedList(track: JBTrackInterface): Promise<void | string>
+  addToTrackSeedList(track: JBTrack): Promise<void | string>
   initializeState(
     currentTrack: Mopidy.models.Track | null,
     currentTracklist: Mopidy.models.Track[]
@@ -175,9 +172,6 @@ export interface DBSettingStaticsInterface extends Model<DBSettingInterface> {
   getPlayedTracksFromTracklist(): Promise<string[]>
 }
 
-const Setting = model<DBSettingInterface, DBSettingStaticsInterface>(
-  'Setting',
-  SettingSchema
-)
+const Setting = model<Setting, DBSettingStatics>('Setting', SettingSchema)
 
 export default Setting

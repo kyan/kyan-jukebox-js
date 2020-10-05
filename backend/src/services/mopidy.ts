@@ -4,15 +4,15 @@ import EventLogger from '../utils/event-logger'
 import MopidyConstants from '../constants/mopidy'
 import MessageType from '../constants/message'
 import Decorator from '../decorators/mopidy'
-import Setting, { DBSettingStaticsInterface } from '../models/setting'
-import { StateChangeMessageInterface, BroadcastInterface } from '../utils/broadcaster'
+import Setting, { DBSettingStatics } from '../models/setting'
+import { StateChange, BroadcastToAll } from '../utils/broadcaster'
 
-type BroadcastToAllType = (options: BroadcastInterface) => void
-type BroadcastStateChangeType = (message: StateChangeMessageInterface) => void
+type BroadcastToAllType = (options: BroadcastToAll) => void
+type BroadcastStateChangeType = (message: StateChange['message']) => void
 
-export interface MopidySettingInterface {
+export interface MopidySetting {
   mopidy: Mopidy
-  setting: DBSettingStaticsInterface
+  setting: DBSettingStatics
 }
 
 const mopidyUrl = process.env.WS_MOPIDY_URL
@@ -23,7 +23,7 @@ const MopidyService = (
   broadcastToAll: BroadcastToAllType,
   broadcastStateChange: BroadcastStateChangeType
 ) => {
-  return new Promise<MopidySettingInterface>((resolve) => {
+  return new Promise<MopidySetting>((resolve) => {
     const mopidy = new Mopidy({
       webSocketUrl: `ws://${mopidyUrl}:${mopidyPort}/mopidy/ws/`
     })

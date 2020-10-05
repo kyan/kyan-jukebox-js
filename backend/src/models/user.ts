@@ -1,12 +1,12 @@
 import { Document, Schema, model } from 'mongoose'
 
-export interface JBUserInterface {
+export interface JBUser {
   _id: any
   fullname: string
   picture: string
 }
 
-export interface DBUserInterface extends JBUserInterface, Document {}
+interface User extends JBUser, Document {}
 
 const userSchema = new Schema(
   {
@@ -16,6 +16,6 @@ const userSchema = new Schema(
   },
   { _id: false }
 )
-const User = model<DBUserInterface>('User', userSchema)
+const User = model<User>('User', userSchema)
 
 export default User

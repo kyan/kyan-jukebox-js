@@ -48,7 +48,7 @@ const onMessageHandler = (store, payload, progressTimer) => {
       break
     case MopidyApi.PLAYBACK_GET_CURRENT_TRACK:
     case MopidyApi.EVENT_TRACK_PLAYBACK_STARTED:
-      if (data && data.track) addCurrentTrack(data.track, store, progressTimer)
+      if (data) addCurrentTrack(data, store, progressTimer)
       break
     case MopidyApi.EVENT_PLAYBACK_STATE_CHANGED:
     case MopidyApi.PLAYBACK_GET_PLAYBACK_STATE:

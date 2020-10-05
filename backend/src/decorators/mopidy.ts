@@ -4,8 +4,8 @@ import DecorateTracklist from '../decorators/tracklist'
 import NowPlaying from '../utils/now-playing'
 import Spotify from '../services/spotify'
 import Setting from '../models/setting'
-import Track, { updateTrackPlaycount, JBTrackPayloadInterface } from '../models/track'
-import { GetRecommendationsInterface } from '../services/spotify'
+import Track, { updateTrackPlaycount, JBTrack } from '../models/track'
+import { GetRecommendations } from '../services/spotify'
 
 let recommendTimer: NodeJS.Timeout | null
 
@@ -15,7 +15,7 @@ const clearSetTimeout = (timeout: NodeJS.Timeout) => {
 }
 
 const recommendTracks = (
-  recommendFunc: GetRecommendationsInterface,
+  recommendFunc: GetRecommendations,
   trackLength: number,
   mopidy: Mopidy
 ): void => {
@@ -36,20 +36,20 @@ const MopidyDecorator = {
       switch (key) {
         case Constants.CORE_EVENTS.PLAYBACK_ENDED:
           return DecorateTracklist([data.tl_track.track]).then((data) => {
-            return Setting.addToTrackSeedList(data[0].track)
+            return Setting.addToTrackSeedList(data[0])
               .then(() => Setting.trimTracklist(mopidy))
-              .then(() => resolve(data[0].track.uri))
+              .then(() => resolve(data[0].uri))
           })
         case Constants.CORE_EVENTS.PLAYBACK_STARTED:
           return updateTrackPlaycount(data.tl_track.track.uri)
             .then(() => DecorateTracklist([data.tl_track.track]))
             .then(async (data) => {
               const payload = data[0]
-              NowPlaying.addTrack(payload.track)
+              NowPlaying.addTrack(payload)
 
-              await Setting.updateCurrentTrack(payload.track.uri)
+              await Setting.updateCurrentTrack(payload.uri)
               const recommend = await Spotify.canRecommend(mopidy)
-              recommendTracks(recommend, payload.track.length, mopidy)
+              recommendTracks(recommend, payload.length, mopidy)
               resolve(payload)
             })
         case Constants.CORE_EVENTS.VOLUME_CHANGED:
@@ -72,43 +72,38 @@ const MopidyDecorator = {
           if (!data) return resolve()
           return DecorateTracklist([data]).then((TransformedData) => {
             const trackInfo = TransformedData[0]
-            return Setting.updateCurrentTrack(trackInfo.track.uri).then(() =>
+            return Setting.updateCurrentTrack(trackInfo.uri).then(() =>
               resolve(trackInfo)
             )
           })
         case Constants.GET_TRACKS:
-          return DecorateTracklist(data).then((tracks) => {
-            return Setting.updateTracklist(
-              tracks.map((data) => data.track.uri)
-            ).then(() => resolve(tracks))
+          return DecorateTracklist(data).then(async (tracks) => {
+            await Setting.updateTracklist(tracks.map((data) => data.uri))
+            return resolve(tracks)
           })
         case Constants.TRACKLIST_REMOVE:
           return Setting.removeFromSeeds(data[0].track.uri)
             .then(() => {
-              const tracks: JBTrackPayloadInterface[] = data
+              const tracks: Mopidy.models.TlTrack[] = data
               return DecorateTracklist(tracks.map((item) => item.track))
             })
-            .then((responses: JBTrackPayloadInterface[]) => {
+            .then((responses: JBTrack[]) => {
               resolve({
-                message: responses
-                  .map((r) => `${r.track.name} by ${r.track.artist.name}`)
-                  .join(', '),
+                message: responses.map((r) => `${r.name} by ${r.artist.name}`).join(', '),
                 toAll: true
               })
             })
         case Constants.TRACKLIST_ADD:
           return Track.addTracks(headers.data.uris, user)
             .then(() => {
-              const tracks: JBTrackPayloadInterface[] = data
+              const tracks: Mopidy.models.TlTrack[] = data
               return DecorateTracklist(tracks.map((item) => item.track))
             })
-            .then((responses: JBTrackPayloadInterface[]) => {
+            .then((responses: JBTrack[]) => {
               clearSetTimeout(recommendTimer)
 
               resolve({
-                message: responses
-                  .map((r) => `${r.track.name} by ${r.track.artist.name}`)
-                  .join(', '),
+                message: responses.map((r) => `${r.name} by ${r.artist.name}`).join(', '),
                 toAll: true
               })
             })
