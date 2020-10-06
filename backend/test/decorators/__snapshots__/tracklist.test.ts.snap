@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransformerTracklist when passed a tracklist transforms it 1`] = `
+Array [
+  Object {
+    "addedBy": Array [
+      Object {
+        "user": Object {
+          "_id": "123",
+          "fullname": "Big Rainbowhead",
+        },
+      },
+    ],
+    "album": Object {
+      "name": "London 0 Hull 4",
+      "uri": "spotify:album:13gokJcmO1Dbc9cbHM93jO",
+      "year": "1986",
+    },
+    "artist": Object {
+      "name": "The Housemartins",
+      "uri": "spotify:artist:77D38RDgCtlYNLpayStftL",
+    },
+    "image": "path/to/image/1",
+    "length": 145000,
+    "name": "Happy Hour",
+    "uri": "spotify:track:6IZWJhXyk1Z0rtWNxIi4o7",
+    "year": "1986",
+  },
+  Object {
+    "addedBy": Array [
+      Object {
+        "user": Object {
+          "_id": "456",
+          "fullname": "Bigger Rainbowhead",
+        },
+      },
+    ],
+    "album": Object {
+      "name": "Happy Now",
+      "uri": "spotify:album:6nAjd2MlBY1f1mNu6BsWLO",
+      "year": "2018",
+    },
+    "artist": Object {
+      "name": "Kygo",
+      "uri": "spotify:artist:23fqKkggKUBHNkbKtXEls4",
+    },
+    "length": 211000,
+    "name": "Happy Now",
+    "uri": "spotify:track:14sOS5L36385FJ3OL8hew4",
+    "year": "2018",
+  },
+  Object {
+    "album": Object {
+      "name": "Eyes Open",
+      "uri": "spotify:album:5PYva5C1cdwx2PAsOgZBHN",
+      "year": "2006",
+    },
+    "artist": Object {
+      "name": "Snow Patrol",
+      "uri": "spotify:artist:3rIZMv9rysU7JkLzEaC5Jp",
+    },
+    "length": 182000,
+    "name": "You Could Be Happy",
+    "uri": "spotify:track:7zkLcJktbodeRntovGdXQK",
+    "year": "2006",
+  },
+]
+`;

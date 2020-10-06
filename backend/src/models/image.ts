@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose'
 
-export interface DBImageInterface extends Document {
+interface Image extends Document {
   _id: any
   url: string
   expireAt: Date
@@ -15,6 +15,6 @@ const imageSchema = new Schema(
   { _id: false }
 )
 imageSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 })
-const Image = model<DBImageInterface>('Image', imageSchema)
+const Image = model<Image>('Image', imageSchema)
 
 export default Image

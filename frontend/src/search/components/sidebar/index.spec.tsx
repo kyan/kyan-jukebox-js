@@ -22,21 +22,19 @@ describe('Search', () => {
     describe('valid props', () => {
       const curatedList = [
         {
-          track: {
-            name: 'Track name 2',
-            uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack2',
-            artist: {
-              name: 'Artist name 2'
-            },
-            album: {
-              name: 'Album name 2'
-            },
-            image: 'image2'
-          }
+          name: 'Track name 2',
+          uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack2',
+          artist: {
+            name: 'Artist name 2'
+          },
+          album: {
+            name: 'Album name 2'
+          },
+          image: 'image2'
         }
       ]
       const tracks = MockTrackListJson()
-      tracks[0].track.metrics = null
+      tracks[0].metrics = null
 
       test('everything renders as expected', () => {
         const { asFragment } = render(
@@ -79,7 +77,7 @@ describe('Search', () => {
             query=''
           />
         )
-        const track = tracks[1].track.name
+        const track = tracks[1].name
         fireEvent.click(getByAltText(track))
         expect(onAddTrackMock).toHaveBeenCalledWith('spotify:track:6BitwTrBfUrTdztRrQiw52')
       })
@@ -103,7 +101,7 @@ describe('Search', () => {
             query=''
           />
         )
-        const track = tracks[0].track.name
+        const track = tracks[0].name
         fireEvent.click(getByAltText(track))
         expect(onAddTrackMock).not.toHaveBeenCalled()
       })
@@ -128,7 +126,7 @@ describe('Search', () => {
           />
         )
         fireEvent.click(getAllByText('Add to mix')[0])
-        expect(onAddTrackToMixMock).toHaveBeenCalledWith(tracks[0].track)
+        expect(onAddTrackToMixMock).toHaveBeenCalledWith(tracks[0])
       })
     })
   })

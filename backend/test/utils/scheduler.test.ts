@@ -2,7 +2,7 @@ import Scheduler from '../../src/utils/scheduler'
 import cron from 'node-cron'
 import Mopidy from 'mopidy'
 import logger from '../../src/config/logger'
-import { DBSettingStaticsInterface } from '../../src/models/setting'
+import { DBSettingStatics } from '../../src/models/setting'
 
 describe('Scheduler', () => {
   const mopidyRemoveMock = jest.fn().mockResolvedValue(null)
@@ -46,7 +46,7 @@ describe('Scheduler', () => {
 
       Scheduler.scheduleAutoShutdown({
         mopidy: mopidy as Mopidy,
-        setting: setting as DBSettingStaticsInterface
+        setting: setting as DBSettingStatics
       })
       mockCronSchedule.mock.calls[0][1]()
 
@@ -86,7 +86,7 @@ describe('Scheduler', () => {
 
       Scheduler.scheduleAutoShutdown({
         mopidy: mopidy as Mopidy,
-        setting: setting as DBSettingStaticsInterface
+        setting: setting as DBSettingStatics
       })
       mockCronSchedule.mock.calls[0][1]()
 

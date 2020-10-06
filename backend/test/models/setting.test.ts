@@ -1,7 +1,7 @@
 import Mopidy from 'mopidy'
 import logger from '../../src/config/logger'
-import Setting, { DBSettingValueInterface } from '../../src/models/setting'
-import { JBTrackInterface } from '../../src/models/track'
+import Setting from '../../src/models/setting'
+import { JBTrack } from '../../src/models/track'
 jest.mock('../../src/config/logger')
 
 describe('test mongoose Settings model', () => {
@@ -120,7 +120,7 @@ describe('test mongoose Settings model', () => {
 
   describe('addToTrackSeedList', () => {
     it('sets state as expected', async () => {
-      const result = { trackSeeds: [] } as DBSettingValueInterface
+      const result = { trackSeeds: [] } as Setting['value']
       const findOnReturn = {
         value: result,
         markModified: jest.fn(),
@@ -135,7 +135,7 @@ describe('test mongoose Settings model', () => {
           votes: 10,
           plays: 10
         }
-      } as JBTrackInterface
+      } as JBTrack
 
       const uri = await Setting.addToTrackSeedList(track)
       expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
@@ -151,7 +151,7 @@ describe('test mongoose Settings model', () => {
           votes: 10,
           plays: 10
         }
-      } as JBTrackInterface
+      } as JBTrack
 
       const uri = await Setting.addToTrackSeedList(track)
       expect(uri).not.toBeDefined()
@@ -166,7 +166,7 @@ describe('test mongoose Settings model', () => {
           votes: 0,
           plays: 10
         }
-      } as JBTrackInterface
+      } as JBTrack
 
       const uri = await Setting.addToTrackSeedList(track)
       expect(uri).not.toBeDefined()
@@ -181,7 +181,7 @@ describe('test mongoose Settings model', () => {
           votesAverage: 50,
           votes: 10
         }
-      } as JBTrackInterface
+      } as JBTrack
 
       Setting.addToTrackSeedList(track)
 

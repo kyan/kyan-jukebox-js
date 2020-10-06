@@ -29,6 +29,9 @@ describe('SearchDecorator', () => {
       }
       const data = {
         tracks: {
+          limit: 10,
+          offset: 10,
+          total: 1,
           items: ['result']
         } as unknown
       }
@@ -38,7 +41,12 @@ describe('SearchDecorator', () => {
         header,
         data as SpotifyApi.SearchResponse
       )
-      expect(returnData).toEqual({ tracks: { items: 'tracks' } })
+      expect(returnData).toEqual({
+        limit: 10,
+        offset: 10,
+        total: 1,
+        tracks: 'tracks'
+      })
     })
   })
 })

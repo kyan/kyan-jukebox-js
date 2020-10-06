@@ -3,14 +3,14 @@ import Broadcaster from '../utils/broadcaster'
 import AuthConsts from '../constants/auth'
 import MopidyConsts from '../constants/mopidy'
 import logger from '../config/logger'
-import User, { JBUserInterface } from '../models/user'
-import { PayloadInterface } from '../utils/payload'
+import User, { JBUser } from '../models/user'
+import Payload from '../utils/payload'
 
 const isAuthorisedRequest = (key: string): boolean => {
   return (MopidyConsts.AUTHORISED_KEYS as ReadonlyArray<string>).includes(key)
 }
 
-const persistUser = (user: JBUserInterface) => {
+const persistUser = (user: JBUser) => {
   const query = { _id: user._id }
   const update = user
   const options = { upsert: true, new: true, setDefaultsOnInsert: true }
@@ -18,9 +18,9 @@ const persistUser = (user: JBUserInterface) => {
 }
 
 const AuthenticateHandler = (
-  payload: PayloadInterface,
+  payload: Payload,
   socket: SocketIO.Socket
-): Promise<PayloadInterface> => {
+): Promise<Payload> => {
   if (!isAuthorisedRequest(payload.key)) {
     delete payload.jwt
     return Promise.resolve(payload)
@@ -38,7 +38,7 @@ const AuthenticateHandler = (
       .verifyIdToken({ idToken: token, audience: process.env.CLIENT_ID })
       .then((ticket) => {
         const data = ticket.getPayload()
-        const responsePayload: PayloadInterface = {
+        const responsePayload: Payload = {
           data: payload.data,
           key: payload.key,
           user: {

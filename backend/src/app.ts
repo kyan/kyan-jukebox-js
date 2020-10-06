@@ -2,17 +2,16 @@ import express from 'express'
 import http from 'http'
 import io from 'socket.io'
 import MessageType from './constants/message'
-import Broadcaster, { StateChangeMessageInterface } from './utils/broadcaster'
+import Broadcaster, { StateChange, BroadcastToAll } from './utils/broadcaster'
 import Scheduler from './utils/scheduler'
 import Payload from './utils/payload'
-import MopidyService, { MopidySettingInterface } from './services/mopidy'
+import MopidyService, { MopidySetting } from './services/mopidy'
 import MongodbService from './services/mongodb'
 import SocketErrorsHandler from './handlers/socket-errors'
 import MopidyHandler from './handlers/mopidy'
 import SearchHandler from './handlers/search'
 import VoteHandler from './handlers/voting'
 import AuthenticateHandler from './handlers/authenticate'
-import { BroadcastInterface } from './utils/broadcaster'
 
 const app = express()
 app.disable('x-powered-by')
@@ -24,12 +23,12 @@ const server = http.createServer(app)
 const socketio = io(server, { pingTimeout: 30000 })
 const isProduction = () => process.env.NODE_ENV === 'production'
 
-const broadcastToAll = (options: BroadcastInterface) =>
+const broadcastToAll = (options: BroadcastToAll) =>
   Broadcaster.toAll({ socketio, ...options })
-const broadcastMopidyStateChange = (message: StateChangeMessageInterface) =>
+const broadcastMopidyStateChange = (message: StateChange['message']) =>
   Broadcaster.stateChange({ socketio, message })
 
-const initSocketioEventHandlers = (args: MopidySettingInterface) => {
+const initSocketioEventHandlers = (args: MopidySetting) => {
   if (isProduction()) Scheduler.scheduleAutoShutdown(args)
 
   socketio.on('connection', (socket) => {

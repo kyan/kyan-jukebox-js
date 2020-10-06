@@ -1,10 +1,10 @@
 import Track from '../models/track'
 import Setting from '../models/setting'
-import { ImageCacheInterface } from './image-cache'
+import { ImageCacheData } from './image-cache'
 import SpotifyService from '../services/spotify'
 
-export interface SuitableDataInterface {
-  images: ImageCacheInterface
+export interface SuitableExtractedData {
+  images: ImageCacheData
   uris: ReadonlyArray<string>
 }
 
@@ -16,9 +16,7 @@ const Recommendations = {
    *
    * @param tracks - A list of Spotify tracks
    */
-  getImageFromSpotifyTracks: (
-    tracks: SpotifyApi.TrackObjectFull[]
-  ): ImageCacheInterface => {
+  getImageFromSpotifyTracks: (tracks: SpotifyApi.TrackObjectFull[]): ImageCacheData => {
     const albumTracks = tracks.filter((track) => track.album)
     const images = albumTracks.map((track) => {
       if (track.linked_from && track.linked_from.type === 'track') {
@@ -49,7 +47,7 @@ const Recommendations = {
    */
   extractSuitableData: (
     tracks: SpotifyApi.TrackObjectFull[]
-  ): Promise<SuitableDataInterface> =>
+  ): Promise<SuitableExtractedData> =>
     new Promise((resolve) => {
       Setting.getTracklist().then(async (currentTrackListUris) => {
         const trackUris = tracks.map((t) => t.uri)
@@ -89,8 +87,8 @@ const Recommendations = {
    * @param data - An object of uris and images
    */
   enrichWithPopularTracksIfNeeded: (
-    data: SuitableDataInterface
-  ): Promise<SuitableDataInterface> => {
+    data: SuitableExtractedData
+  ): Promise<SuitableExtractedData> => {
     if (data.uris.length > 0) return Promise.resolve(data)
     const images = data.images
 

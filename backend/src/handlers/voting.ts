@@ -3,14 +3,14 @@ import MessageType from '../constants/message'
 import EventLogger from '../utils/event-logger'
 import Broadcaster from '../utils/broadcaster'
 import { updateTrackVote } from '../models/track'
-import { PayloadInterface } from '../utils/payload'
+import Payload from '../utils/payload'
 
-interface VoteHandlerInterface {
+interface VoteHandler {
   socketio: SocketIO.Server
-  payload: PayloadInterface
+  payload: Payload
 }
 
-const VoteHandler = ({ socketio, payload }: VoteHandlerInterface) => {
+const VoteHandler = ({ socketio, payload }: VoteHandler) => {
   const { user, data } = payload
   EventLogger.info('CAST_VOTE', payload, true)
 
