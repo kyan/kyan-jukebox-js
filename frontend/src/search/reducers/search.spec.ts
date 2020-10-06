@@ -12,7 +12,7 @@ describe('search', () => {
 
   it('handles REMOVE_FROM_SEARCH_RESULTS', () => {
     const initialState = getInitialState({
-      results: [{ track: { uri: 'url1' } }, { track: { uri: 'url2' } }, { track: { uri: 'url3' } }]
+      results: [{ uri: 'url1' }, { uri: 'url2' }, { uri: 'url3' }]
     })
     expect(initialState.results).toHaveLength(3)
     const state = reducer(initialState, {
@@ -20,7 +20,7 @@ describe('search', () => {
       uris: ['url2']
     })
     expect(state.results).toHaveLength(2)
-    expect(state.results[0].track.uri).toEqual('url1')
+    expect(state.results[0].uri).toEqual('url1')
   })
 
   it('handles TOGGLE_SEARCH_SIDEBAR', () => {
@@ -42,21 +42,16 @@ describe('search', () => {
   })
 
   it('handles STORE_SEARCH_RESULTS', () => {
-    const tracks = [
-      { track: { uri: 'url1' } },
-      { track: { uri: 'url2' } },
-      { track: { uri: 'url3' } }
-    ]
+    const tracks = [{ uri: 'url1' }, { uri: 'url2' }, { uri: 'url3' }]
     const initialState = getInitialState()
     expect(initialState.results).toHaveLength(0)
     const state = reducer(initialState, {
       type: Constant.STORE_SEARCH_RESULTS,
       results: {
-        tracks: {
-          offset: 0,
-          total: 3,
-          items: tracks
-        }
+        limit: 0,
+        offset: 0,
+        total: 3,
+        tracks
       }
     })
     expect(state.results).toHaveLength(3)
@@ -65,21 +60,16 @@ describe('search', () => {
   })
 
   it('handles STORE_SEARCH_RESULTS of > 30000', () => {
-    const tracks = [
-      { track: { uri: 'url1' } },
-      { track: { uri: 'url2' } },
-      { track: { uri: 'url3' } }
-    ]
+    const tracks = [{ uri: 'url1' }, { uri: 'url2' }, { uri: 'url3' }]
     const initialState = getInitialState()
     expect(initialState.results).toHaveLength(0)
     const state = reducer(initialState, {
       type: Constant.STORE_SEARCH_RESULTS,
       results: {
-        tracks: {
-          offset: 0,
-          total: 30000,
-          items: tracks
-        }
+        limit: 0,
+        offset: 0,
+        total: 30000,
+        tracks
       }
     })
     expect(state.results).toHaveLength(3)

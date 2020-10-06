@@ -18,7 +18,7 @@ describe('CurrentTrack', () => {
     describe('album', () => {
       it('renders track', () => {
         const voteMock = jest.fn()
-        track = MockTrackListJson()[1].track
+        track = MockTrackListJson()[1]
         track.metrics = null
         const store = configureMockStore()({
           timer: { duration: 10000, position: 8000, remaining: 700 },
@@ -46,7 +46,7 @@ describe('CurrentTrack', () => {
 
       it('renders and average vote that was < 50', () => {
         const voteMock = jest.fn()
-        track = MockTrackListJson()[0].track
+        track = MockTrackListJson()[0]
         const store = configureMockStore()({
           timer: { duration: 10000, position: 8000, remaining: 700 },
           track
@@ -69,7 +69,7 @@ describe('CurrentTrack', () => {
 
       it('renders and average vote that was 0', () => {
         const voteMock = jest.fn()
-        track = MockTrackListJson()[2].track
+        track = MockTrackListJson()[2]
         const store = configureMockStore()({
           timer: { duration: 10000, position: 8000, remaining: 700 },
           track
@@ -102,7 +102,7 @@ describe('CurrentTrack', () => {
 
   describe('when no image', () => {
     it('renders default image', () => {
-      track = MockTrackListJson()[0].track
+      track = MockTrackListJson()[0]
       wrapper = shallow(<CurrentTrack track={track} progress={25} />)
 
       expect(wrapper.find(Image)).toMatchSnapshot()
@@ -111,7 +111,7 @@ describe('CurrentTrack', () => {
 
   describe('when missing data', () => {
     it('renders defaults', () => {
-      track = MockTrackListJson()[2].track
+      track = MockTrackListJson()[2]
       delete track.addedBy
       delete track.album
       wrapper = shallow(<CurrentTrack track={track} progress={25} />)

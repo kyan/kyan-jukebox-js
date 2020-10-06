@@ -6,10 +6,10 @@ import MessageType from '../constants/message'
 import MopidyConstants from '../constants/mopidy'
 import Spotify from '../services/spotify'
 import Mopidy from 'mopidy'
-import { PayloadInterface } from '../utils/payload'
+import Payload from '../utils/payload'
 
-interface MopidyHandlerInterface {
-  payload: PayloadInterface
+interface MopidyHandler {
+  payload: Payload
   socketio: SocketIO.Server
   socket: SocketIO.Socket
   mopidy: Mopidy
@@ -28,7 +28,7 @@ const isValidTrack = (key: string, data: any) => {
   return Spotify.validateTrack(data.uris[0])
 }
 
-const MopidyHandler = ({ payload, socketio, socket, mopidy }: MopidyHandlerInterface) => {
+const MopidyHandler = ({ payload, socketio, socket, mopidy }: MopidyHandler) => {
   const { key, data } = payload
   EventLogger.info(MessageType.INCOMING_CLIENT, payload)
 

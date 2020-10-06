@@ -1,21 +1,17 @@
 import DecorateTrack from './track'
-import Track, {
-  JBTrackInterface,
-  JBTrackPayloadInterface,
-  DBTrackInterface
-} from '../models/track'
+import Track, { JBTrack, SpotifyTrackObjectFullExt } from '../models/track'
 
 const DecorateSearchResults = (
-  json: JBTrackInterface[]
-): Promise<JBTrackPayloadInterface[]> =>
+  spotifyTracks: SpotifyApi.TrackObjectFull[]
+): Promise<JBTrack[]> =>
   new Promise((resolve) => {
-    const trackUris = json.map((data) => data.uri)
+    const trackUris = spotifyTracks.map((track) => track.uri)
     const requests = [Track.findTracks(trackUris)]
 
-    const compare = (a: JBTrackPayloadInterface, b: JBTrackPayloadInterface): number => {
+    const compare = (a: JBTrack, b: JBTrack): number => {
       let comparison = 0
-      let votesA = a.track.metrics && a.track.metrics.votesAverage
-      let votesB = b.track.metrics && b.track.metrics.votesAverage
+      let votesA = a.metrics && a.metrics.votesAverage
+      let votesB = b.metrics && b.metrics.votesAverage
       if (votesA === undefined) votesA = -1
       if (votesB === undefined) votesB = -1
 
@@ -28,18 +24,20 @@ const DecorateSearchResults = (
       return comparison
     }
 
-    Promise.all<DBTrackInterface[]>(requests).then((responses) => {
-      const tracks: DBTrackInterface[] = responses[0]
-      const decoratedTracks = json.map((data) => {
-        const trackData = tracks.find((track) => track._id === data.uri)
+    Promise.all<Track[]>(requests).then((responses) => {
+      const tracks: Track[] = responses[0]
+      const decoratedTracks = spotifyTracks.map(
+        (spotifyTrack: SpotifyTrackObjectFullExt) => {
+          const trackData = tracks.find((track) => track._id === spotifyTrack.uri)
 
-        if (trackData) {
-          data.addedBy = trackData.addedBy
-          data.metrics = trackData.metrics
+          if (trackData) {
+            spotifyTrack.addedBy = trackData.addedBy
+            spotifyTrack.metrics = trackData.metrics
+          }
+
+          return DecorateTrack(spotifyTrack as SpotifyTrackObjectFullExt)
         }
-
-        return DecorateTrack(data)
-      })
+      )
 
       resolve(decoratedTracks.sort(compare))
     })

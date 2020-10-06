@@ -1,9 +1,9 @@
-import { JBTrackInterface, JBTrackPayloadInterface } from '../models/track'
+import { JBTrack } from '../models/track'
 
-export default function (json: any): JBTrackPayloadInterface {
-  if (!json) return { track: null }
+export default function (json: any): JBTrack {
+  if (!json) throw new Error('DecorateTrack passed no data!')
 
-  const payload: JBTrackInterface = {
+  const payload: JBTrack = {
     uri: json.uri,
     name: json.name,
     length: json.length || json.duration_ms
@@ -46,5 +46,5 @@ export default function (json: any): JBTrackPayloadInterface {
     payload.explicit = true
   }
 
-  return { track: payload }
+  return payload
 }

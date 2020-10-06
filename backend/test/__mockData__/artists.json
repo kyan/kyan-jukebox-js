@@ -1,0 +1,102 @@
+[
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/77D38RDgCtlYNLpayStftL"
+    },
+    "followers": { "href": null, "total": 145590 },
+    "genres": ["britpop", "dance rock", "new romantic", "new wave", "new wave pop"],
+    "href": "https://api.spotify.com/v1/artists/77D38RDgCtlYNLpayStftL",
+    "id": "77D38RDgCtlYNLpayStftL",
+    "images": [
+      {
+        "height": 996,
+        "url": "https://i.scdn.co/image/bb164b73bcad092c2362fb6dcb1b41e25a61b991",
+        "width": 1000
+      },
+      {
+        "height": 637,
+        "url": "https://i.scdn.co/image/44009f2b46ee9116ce66ce1e19684428ac2b021f",
+        "width": 640
+      },
+      {
+        "height": 199,
+        "url": "https://i.scdn.co/image/7fa5f9cd53d802582b7062095bc1095700386e42",
+        "width": 200
+      },
+      {
+        "height": 64,
+        "url": "https://i.scdn.co/image/bc0599e012bdc6438ae1d2361628f3858f47eea5",
+        "width": 64
+      }
+    ],
+    "name": "The Housemartins",
+    "popularity": 55,
+    "type": "artist",
+    "uri": "spotify:artist:77D38RDgCtlYNLpayStftL"
+  },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/23fqKkggKUBHNkbKtXEls4"
+    },
+    "followers": { "href": null, "total": 6751491 },
+    "genres": ["edm", "pop", "tropical house"],
+    "href": "https://api.spotify.com/v1/artists/23fqKkggKUBHNkbKtXEls4",
+    "id": "23fqKkggKUBHNkbKtXEls4",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/eee84c026e93f6d970fdc82c5010c45219530577",
+        "width": 640
+      },
+      {
+        "height": 320,
+        "url": "https://i.scdn.co/image/88aed04adde2b3bdab332abb9b9d071d1fbe1701",
+        "width": 320
+      },
+      {
+        "height": 160,
+        "url": "https://i.scdn.co/image/750bda7060bd0b22a9a2fb65e27f05120a0d056e",
+        "width": 160
+      }
+    ],
+    "name": "Kygo",
+    "popularity": 89,
+    "type": "artist",
+    "uri": "spotify:artist:23fqKkggKUBHNkbKtXEls4"
+  },
+  {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/3rIZMv9rysU7JkLzEaC5Jp"
+    },
+    "followers": { "href": null, "total": 2073252 },
+    "genres": [
+      "irish rock",
+      "modern rock",
+      "pop rock",
+      "rock"
+    ],
+    "href": "https://api.spotify.com/v1/artists/3rIZMv9rysU7JkLzEaC5Jp",
+    "id": "3rIZMv9rysU7JkLzEaC5Jp",
+    "images": [
+      {
+        "height": 640,
+        "url": "https://i.scdn.co/image/9efec97c21ff998d874b96116bf4315975a8b42a",
+        "width": 640
+      },
+      {
+        "height": 320,
+        "url": "https://i.scdn.co/image/aed6e40a6e9ba547af2482bad0de46b160f06859",
+        "width": 320
+      },
+      {
+        "height": 160,
+        "url": "https://i.scdn.co/image/df9e248d1b28f747a7b6242fda732a4e36383509",
+        "width": 160
+      }
+    ],
+    "name": "Snow Patrol",
+    "popularity": 74,
+    "type": "artist",
+    "uri": "spotify:artist:3rIZMv9rysU7JkLzEaC5Jp"
+  }
+]

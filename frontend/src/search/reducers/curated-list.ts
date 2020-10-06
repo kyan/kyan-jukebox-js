@@ -12,15 +12,15 @@ const initalState: CurateState = {
 const curate: Reducer<CurateState> = (state = initalState, action) => {
   switch (action.type) {
     case Constant.ADD_TRACK_TO_MIX: {
-      const exists = state.tracks.find(item => item.track.uri === action.track.uri)
-      if (!exists) state.tracks.push({ track: action.track })
+      const exists = state.tracks.find(track => track.uri === action.track.uri)
+      if (!exists) state.tracks.push(action.track)
 
       return state
     }
     case Constant.REMOVE_TRACK_FROM_MIX: {
       return {
         ...state,
-        tracks: state.tracks.filter(item => item.track.uri !== action.uri)
+        tracks: state.tracks.filter(track => track.uri !== action.uri)
       }
     }
     case Constant.SWAP_TRACKS: {

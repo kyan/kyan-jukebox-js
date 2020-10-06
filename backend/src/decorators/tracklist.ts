@@ -1,37 +1,32 @@
 import DecorateTrack from './track'
-import Track from '../models/track'
+import Mopidy from 'mopidy'
 import ImageCache from '../utils/image-cache'
-import {
-  DBTrackInterface,
-  JBTrackInterface,
-  JBTrackPayloadInterface
-} from '../models/track'
-import { DBImageInterface } from '../models/image'
+import Track, { MopidyTrackExt, JBTrack } from '../models/track'
+import Image from '../models/image'
 
-const DecorateTracklist = (
-  json: JBTrackInterface[]
-): Promise<JBTrackPayloadInterface[]> =>
+const DecorateTracklist = (json: Mopidy.models.Track[]): Promise<JBTrack[]> =>
   new Promise((resolve) => {
     const uris: ReadonlyArray<string> = json.map((data) => data.uri)
-    const requests: [Promise<DBTrackInterface[]>, Promise<DBImageInterface[]>] = [
+    const requests: [Promise<Track[]>, Promise<Image[]>] = [
       Track.findTracks(uris),
       ImageCache.findAll(uris)
     ]
 
     Promise.all(requests).then((responses) => {
-      const tracks: DBTrackInterface[] = responses[0]
+      const tracks: Track[] = responses[0]
       const images: any[] = responses[1]
       const decoratedTracks = json.map((data) => {
-        const trackData = tracks.find((track) => track._id === data.uri)
-        const imageData = images.find((image) => image._id === data.uri)
+        const track = data as MopidyTrackExt
+        const trackData = tracks.find((t) => t._id === track.uri)
+        const imageData = images.find((i) => i._id === track.uri)
 
         if (trackData) {
-          data.addedBy = trackData.addedBy
-          data.metrics = trackData.metrics
+          track.addedBy = trackData.addedBy
+          track.metrics = trackData.metrics
         }
-        if (imageData) data.image = imageData.url
+        if (imageData) track.image = imageData.url
 
-        return DecorateTrack(data)
+        return DecorateTrack(track)
       })
 
       return resolve(decoratedTracks)

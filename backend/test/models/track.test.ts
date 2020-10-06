@@ -1,13 +1,8 @@
 import mockingoose from 'mockingoose'
-import User, { DBUserInterface } from '../../src/models/user'
+import User, { JBUser } from '../../src/models/user'
 import EventLogger from '../../src/utils/event-logger'
 import logger from '../../src/config/logger'
-import { JBUserInterface } from '../../src/models/user'
-import Track, {
-  updateTrackPlaycount,
-  updateTrackVote,
-  DBTrackInterface
-} from '../../src/models/track'
+import Track, { updateTrackPlaycount, updateTrackVote } from '../../src/models/track'
 jest.mock('../../src/config/logger')
 jest.mock('../../src/utils/event-logger')
 
@@ -77,7 +72,7 @@ describe('test mongoose Track model', () => {
       const userObject = {
         _id: '999',
         fullname: 'Fred Spanner'
-      } as DBUserInterface
+      } as JBUser
       mockingoose(Track).toReturn(trackObject, 'updateOne' as any)
       const demoUris = ['123', '456']
       jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
@@ -191,7 +186,7 @@ describe('test mongoose Track model', () => {
 
   describe('#updateTrackVote', () => {
     const fakeDate = new Date(888251200000) as any
-    const user = { _id: 'user999', fullname: 'Fred Spanner' } as JBUserInterface
+    const user = { _id: 'user999', fullname: 'Fred Spanner' } as JBUser
 
     it('does not vote when there is no matching track', async () => {
       expect.assertions(1)
@@ -203,7 +198,7 @@ describe('test mongoose Track model', () => {
 
     it('handles an error with Track.findById', () => {
       expect.assertions(1)
-      const track = { _id: 'uri123', addedBy: [{ votes: [] }] } as DBTrackInterface
+      const track = { _id: 'uri123', addedBy: [{ votes: [] }] } as Track
       mockingoose(Track).toReturn(new Error('boom!'), 'findOne')
       updateTrackVote(track._id, user, 12)
 
@@ -219,7 +214,7 @@ describe('test mongoose Track model', () => {
 
     it('handles an error with findOrUseBRH', () => {
       expect.assertions(1)
-      const track = { _id: 'uri123', addedBy: [{ votes: [] }] } as DBTrackInterface
+      const track = { _id: 'uri123', addedBy: [{ votes: [] }] } as Track
       mockingoose(User).toReturn(new Error('boom!'), 'findOneAndUpdate')
       updateTrackVote(track._id, null, 12)
 
@@ -235,7 +230,7 @@ describe('test mongoose Track model', () => {
 
     it('adds a vote when there is a matching track', async () => {
       expect.assertions(1)
-      const payload = { _id: 'uri123', addedBy: [{ votes: [] }] } as DBTrackInterface
+      const payload = { _id: 'uri123', addedBy: [{ votes: [] }] } as Track
       jest.spyOn(global, 'Date').mockImplementation(() => fakeDate)
       mockingoose(Track).toReturn(payload, 'findOne')
 

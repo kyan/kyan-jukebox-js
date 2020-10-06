@@ -5,7 +5,7 @@ import MockTrackListJson from '__mockData__/api'
 
 describe('Tracklist', () => {
   let tracks = MockTrackListJson()
-  tracks[0].track.metrics = null
+  tracks[0].metrics = null
 
   const onRemoveMock = jest.fn()
   const onSearchMock = jest.fn()
@@ -23,8 +23,8 @@ describe('Tracklist', () => {
       const wrapper = shallow(
         <Tracklist
           disabled
-          tracks={tracks.map(item => item.track)}
-          currentTrack={tracks[0].track}
+          tracks={tracks}
+          currentTrack={tracks[0]}
           onRemoveTrack={onRemoveMock}
           onArtistSearch={onSearchMock}
         />
@@ -39,8 +39,8 @@ describe('Tracklist', () => {
       const wrapper = shallow(
         <Tracklist
           disabled={false}
-          tracks={tracks.map(item => item.track)}
-          currentTrack={tracks[0].track}
+          tracks={tracks}
+          currentTrack={tracks[0]}
           onRemoveTrack={onRemoveMock}
           onArtistSearch={onSearchMock}
         />
@@ -54,8 +54,8 @@ describe('Tracklist', () => {
     it('removes a track', () => {
       const wrapper = mount(
         <Tracklist
-          tracks={tracks.map(item => item.track)}
-          currentTrack={tracks[0].track}
+          tracks={tracks}
+          currentTrack={tracks[0]}
           onRemoveTrack={onRemoveMock}
           onArtistSearch={onSearchMock}
         />
@@ -68,8 +68,8 @@ describe('Tracklist', () => {
     it('searches for an artist', () => {
       const wrapper = mount(
         <Tracklist
-          tracks={tracks.map(item => item.track)}
-          currentTrack={tracks[1].track}
+          tracks={tracks}
+          currentTrack={tracks[1]}
           onRemoveTrack={onRemoveMock}
           onArtistSearch={onSearchMock}
         />
@@ -93,11 +93,7 @@ describe('Tracklist', () => {
   describe('tracklist but nothing cued up', () => {
     it('does not mark anything as current', () => {
       const wrapper = shallow(
-        <Tracklist
-          tracks={tracks.map(item => item.track)}
-          onRemoveTrack={onRemoveMock}
-          onArtistSearch={onSearchMock}
-        />
+        <Tracklist tracks={tracks} onRemoveTrack={onRemoveMock} onArtistSearch={onSearchMock} />
       )
       expect(wrapper).toMatchSnapshot()
     })
@@ -105,7 +101,7 @@ describe('Tracklist', () => {
 
   describe('tracklist has track with no addedBy data', () => {
     it('does nothing', () => {
-      const track = tracks[0].track
+      const track = tracks[0]
       delete track.addedBy
 
       const wrapper = shallow(

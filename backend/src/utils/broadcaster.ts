@@ -3,23 +3,23 @@ import MessageType from '../constants/message'
 import EventLogger from '../utils/event-logger'
 import Payload from '../utils/payload'
 
-interface SocketInterface {
+interface Socket {
   socket?: SocketIO.Socket
   socketio?: SocketIO.Server
 }
 
-export interface BroadcastInterface extends SocketInterface {
+export interface BroadcastToAll extends Socket {
   headers: any
   message: any
   type?: string
 }
 
-export interface StateChangeMessageInterface {
+interface Message {
   online: boolean
 }
 
-export interface StateChangeInterface extends SocketInterface {
-  message: StateChangeMessageInterface
+export interface StateChange extends Socket {
+  message: Message
 }
 
 const Broadcaster = {
@@ -31,7 +31,7 @@ const Broadcaster = {
     headers,
     message,
     type = MessageType.GENERIC
-  }: BroadcastInterface): void => {
+  }: BroadcastToAll): void => {
     try {
       const payload = Payload.encodeToJson({
         key: headers.key,
@@ -57,7 +57,7 @@ const Broadcaster = {
     headers,
     message,
     type = MessageType.GENERIC
-  }: BroadcastInterface): void => {
+  }: BroadcastToAll): void => {
     try {
       const payload = Payload.encodeToJson({
         key: headers.key,
@@ -75,7 +75,7 @@ const Broadcaster = {
   /**
    * Sends a state change message to user/users
    */
-  stateChange: ({ socket, socketio, message }: StateChangeInterface): void => {
+  stateChange: ({ socket, socketio, message }: StateChange): void => {
     const payload = JSON.stringify(message)
 
     try {

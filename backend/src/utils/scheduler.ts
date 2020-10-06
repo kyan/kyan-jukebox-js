@@ -1,9 +1,9 @@
 import cron from 'node-cron'
 import logger from '../config/logger'
-import { MopidySettingInterface } from '../services/mopidy'
+import { MopidySetting } from '../services/mopidy'
 
 const Scheduler = {
-  scheduleAutoShutdown: (args: MopidySettingInterface): void => {
+  scheduleAutoShutdown: (args: MopidySetting): void => {
     const stopJukebox = cron.schedule('0 19 * * *', async () => {
       // Stop the JB
       args.mopidy.playback.stop()
