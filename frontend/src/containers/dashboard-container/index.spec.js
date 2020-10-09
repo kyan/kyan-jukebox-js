@@ -5,41 +5,45 @@ import configureMockStore from 'redux-mock-store'
 import * as actions from 'actions'
 import * as searchActions from 'search/actions'
 import GoogleAuthContext from 'contexts/google'
-import SignInToken from 'utils/signin-token'
 import DashboardContainer from './index'
 jest.mock('utils/notify')
-jest.mock('utils/signin-token')
 
 describe('DashboardContainer', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.spyOn(console, 'info').mockImplementation()
+    jest.spyOn(console, 'warn').mockImplementation()
   })
 
   describe('online', () => {
-    let mockActions, wrapper, store, data
+    let mockActions, wrapper, store
     const mockStore = configureMockStore()
-    data = {
-      tracklist: [],
-      jukebox: {
-        volume: 25,
-        online: true,
-        playbackState: 'playing'
-      },
-      timer: {
-        duration: 100,
-        postion: 0
-      },
-      search: {
-        searchSideBarOpen: false,
-        results: []
-      },
-      curatedList: {
-        tracks: []
-      }
-    }
 
     describe('logged out', () => {
       it('renders as expected', () => {
+        const data = {
+          tracklist: [],
+          jukebox: {
+            volume: 25,
+            online: true,
+            playbackState: 'playing'
+          },
+          timer: {
+            duration: 100,
+            postion: 0
+          },
+          search: {
+            searchSideBarOpen: false,
+            results: []
+          },
+          curatedList: {
+            tracks: []
+          },
+          settings: {
+            token: null,
+            tokenExpires: 0
+          }
+        }
         const mockGoogle = {
           isSignedIn: false,
           googleUser: null
@@ -72,16 +76,38 @@ describe('DashboardContainer', () => {
 
         const clear = wrapper.find('ClearPlaylist')
         expect(clear.prop('onClear')()).toEqual(actions.clearTrackList())
-
-        expect(SignInToken.clear.mock.calls.length).toEqual(1)
       })
     })
 
     describe('logged in', () => {
       it('renders as expected', () => {
+        const data = {
+          tracklist: [],
+          jukebox: {
+            volume: 25,
+            online: true,
+            playbackState: 'playing'
+          },
+          timer: {
+            duration: 100,
+            postion: 0
+          },
+          search: {
+            searchSideBarOpen: false,
+            results: []
+          },
+          curatedList: {
+            tracks: []
+          },
+          settings: {
+            token: 'googlejwttoken123',
+            tokenExpires: 0
+          }
+        }
         const mockGoogle = {
           isSignedIn: true,
           googleUser: {
+            expiresAt: 12345,
             tokenId: 'googlejwttoken123',
             profileObj: {
               name: 'Fred Spanner',
@@ -100,7 +126,7 @@ describe('DashboardContainer', () => {
         mockActions = store.getActions()
         expect(wrapper).toMatchSnapshot()
         expect(mockActions).toEqual([
-          { token: 'googlejwttoken123', type: 'actionStoreToken' },
+          { token: 'googlejwttoken123', tokenExpires: 12345, type: 'actionStoreToken' },
           { type: 'actionConnect' }
         ])
 
@@ -119,13 +145,6 @@ describe('DashboardContainer', () => {
           { key: 'playback.next', type: 'actionSend' },
           { key: 'playback.previous', type: 'actionSend' }
         ])
-
-        store.clearActions()
-        expect(SignInToken.refresh.mock.calls.length).toEqual(1)
-        expect(SignInToken.refresh.mock.calls[0][0]).toEqual(mockGoogle.googleUser)
-        SignInToken.refresh.mock.calls[0][1]('token')
-        mockActions = store.getActions()
-        expect(mockActions).toEqual([{ token: 'token', type: 'actionStoreToken' }])
 
         store.clearActions()
         wrapper.find('VolumeButtons').prop('onVolumeChange')(12)
@@ -157,6 +176,140 @@ describe('DashboardContainer', () => {
           { query: 'query', type: 'actionStoreSearchQuery' },
           { open: true, type: 'actionToggleSearchSidebar' }
         ])
+      })
+
+      it('should refresh the token', () => {
+        const data = {
+          tracklist: [],
+          jukebox: {
+            volume: 25,
+            online: true,
+            playbackState: 'playing'
+          },
+          timer: {
+            duration: 100,
+            postion: 0
+          },
+          search: {
+            searchSideBarOpen: false,
+            results: []
+          },
+          curatedList: {
+            tracks: []
+          },
+          settings: {
+            token: 'googlejwttoken123',
+            tokenExpires: Date.now() - 5000000
+          }
+        }
+        const mockGoogle = {
+          isSignedIn: true,
+          googleUser: {
+            expiresAt: 12345,
+            tokenId: 'googlejwttoken123',
+            profileObj: {
+              name: 'Fred Spanner',
+              imageUrl: 'myImage123'
+            }
+          },
+          auth2: {
+            currentUser: {
+              get: jest.fn(() => {
+                return {
+                  reloadAuthResponse: jest.fn().mockResolvedValue({
+                    id_token: 'newtoken123',
+                    expires_at: 12345678999987
+                  })
+                }
+              })
+            }
+          }
+        }
+        store = mockStore(data)
+        wrapper = mount(
+          <Provider store={store}>
+            <GoogleAuthContext.Provider value={mockGoogle}>
+              <DashboardContainer />
+            </GoogleAuthContext.Provider>
+          </Provider>
+        )
+        mockActions = store.getActions()
+        expect(wrapper).toMatchSnapshot()
+
+        return new Promise(resolve => {
+          setTimeout(() => {
+            expect(console.info).toHaveBeenCalledWith('Token Refreshed (expires): ', 12345678999987)
+            expect(mockActions).toEqual([
+              { type: 'actionConnect' },
+              { type: 'actionStoreToken', token: 'newtoken123', tokenExpires: 12345678999987 }
+            ])
+            resolve()
+          }, 0)
+        })
+      })
+
+      it('should log error when refresh fails', () => {
+        const data = {
+          tracklist: [],
+          jukebox: {
+            volume: 25,
+            online: true,
+            playbackState: 'playing'
+          },
+          timer: {
+            duration: 100,
+            postion: 0
+          },
+          search: {
+            searchSideBarOpen: false,
+            results: []
+          },
+          curatedList: {
+            tracks: []
+          },
+          settings: {
+            token: 'googlejwttoken123',
+            tokenExpires: Date.now() - 5000000
+          }
+        }
+        const mockGoogle = {
+          isSignedIn: true,
+          googleUser: {
+            expiresAt: 12345,
+            tokenId: 'googlejwttoken123',
+            profileObj: {
+              name: 'Fred Spanner',
+              imageUrl: 'myImage123'
+            }
+          },
+          auth2: {
+            currentUser: {
+              get: jest.fn(() => {
+                return {
+                  reloadAuthResponse: jest.fn().mockRejectedValue(new Error('bang!'))
+                }
+              })
+            }
+          }
+        }
+        store = mockStore(data)
+        wrapper = mount(
+          <Provider store={store}>
+            <GoogleAuthContext.Provider value={mockGoogle}>
+              <DashboardContainer />
+            </GoogleAuthContext.Provider>
+          </Provider>
+        )
+        mockActions = store.getActions()
+        expect(wrapper).toMatchSnapshot()
+
+        return new Promise(resolve => {
+          setTimeout(() => {
+            expect(console.warn).toHaveBeenCalledWith('Token un-refreshable: ', 'bang!')
+            expect(mockActions).toEqual([{ type: 'actionConnect' }])
+            resolve()
+          }, 0)
+        })
       })
     })
   })

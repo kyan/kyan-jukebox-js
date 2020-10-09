@@ -16,7 +16,7 @@ const store = createStore(jukeboxApp, composeWithDevTools(applyMiddleware(jukebo
 
 const App = () => {
   const googleAuth = useGoogleLogin({
-    clientId: process.env.REACT_APP_CLIENT_ID,
+    clientId: process.env.REACT_APP_CLIENT_ID as string,
     hostedDomain: process.env.GOOGLE_AUTH_DOMAIN
   })
 

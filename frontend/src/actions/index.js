@@ -2,9 +2,10 @@ import MopidyApi from 'constants/mopidy-api'
 import Types from 'constants/common'
 import { transformUrl } from 'utils/spotify'
 
-export const updateToken = token => {
+export const updateToken = (token, expires) => {
   return {
     type: Types.STORE_TOKEN,
+    tokenExpires: expires,
     token
   }
 }

@@ -40,7 +40,7 @@ describe('Settinsg', () => {
     describe('when nonauthorised user', () => {
       const signInMock = jest.fn()
       const mockGoogle = {
-        signIn: signInMock,
+        grantOfflineAccess: signInMock,
         isSignedIn: false,
         googleUser: null
       }
