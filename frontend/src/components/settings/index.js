@@ -4,13 +4,13 @@ import GoogleAuthContext from 'contexts/google'
 import './index.css'
 
 export const Settings = () => {
-  const { googleUser, signIn, signOut } = useContext(GoogleAuthContext)
+  const { googleUser, grantOfflineAccess, signOut } = useContext(GoogleAuthContext)
 
   let avatar = (
     <Button
       icon='power off'
       floated='right'
-      onClick={() => signIn()}
+      onClick={() => grantOfflineAccess()}
       className='jb-settings-toggle'
       title='Login using Google'
     />

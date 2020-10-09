@@ -4,7 +4,8 @@ import Types from 'constants/common'
 describe('settings', () => {
   it('handles default state', () => {
     expect(reducer(undefined, {})).toEqual({
-      token: null
+      token: null,
+      tokenExpires: 0
     })
   })
 
@@ -12,9 +13,11 @@ describe('settings', () => {
     expect(
       reducer(undefined, {
         type: Types.STORE_TOKEN,
-        token: 'atoken'
+        token: 'atoken',
+        tokenExpires: 12345
       })
     ).toEqual({
+      tokenExpires: 12345,
       token: 'atoken'
     })
   })
@@ -22,13 +25,15 @@ describe('settings', () => {
   it('handles STORE_TOKEN with same value', () => {
     expect(
       reducer(
-        { token: '1234' },
+        { token: '1234', tokenExpires: 12345 },
         {
           type: Types.STORE_TOKEN,
-          token: '1234'
+          token: '1234',
+          tokenExpires: 98765
         }
       )
     ).toEqual({
+      tokenExpires: 12345,
       token: '1234'
     })
   })
@@ -36,13 +41,14 @@ describe('settings', () => {
   it('handles CLEAR_STORE_TOKEN', () => {
     expect(
       reducer(
-        { token: '1234' },
+        { token: '1234', tokenExpires: 12345 },
         {
           type: Types.CLEAR_STORE_TOKEN
         }
       )
     ).toEqual({
-      token: null
+      token: null,
+      tokenExpires: 0
     })
   })
 })

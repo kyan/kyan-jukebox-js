@@ -1,6 +1,7 @@
 import Types from 'constants/common'
 
 const initalState = {
+  tokenExpires: 0,
   token: null
 }
 
@@ -9,12 +10,11 @@ const settings = (state = initalState, action) => {
     case Types.STORE_TOKEN:
       if (action.token === state.token) return state
       return Object.assign({}, state, {
-        token: action.token
+        token: action.token,
+        tokenExpires: action.tokenExpires
       })
     case Types.CLEAR_STORE_TOKEN:
-      return Object.assign({}, state, {
-        token: null
-      })
+      return initalState
     default:
       return state
   }
