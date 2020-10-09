@@ -28,7 +28,7 @@ module.exports = {
         ...defaultRules,
         'plugin:@typescript-eslint/recommended',
         'plugin:jest/recommended',
-        'prettier/@typescript-eslint',
+        'prettier/@typescript-eslint'
       ],
       rules: {
         // remove when all have been fixed
