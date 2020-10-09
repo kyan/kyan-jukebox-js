@@ -238,7 +238,7 @@ describe('DashboardContainer', () => {
 
         return new Promise(resolve => {
           setTimeout(() => {
-            expect(console.info).toHaveBeenCalledWith('Token Refreshed: ', 'newtoken123')
+            expect(console.info).toHaveBeenCalledWith('Token Refreshed (expires): ', 12345678999987)
             expect(mockActions).toEqual([
               { type: 'actionConnect' },
               { type: 'actionStoreToken', token: 'newtoken123', tokenExpires: 12345678999987 }

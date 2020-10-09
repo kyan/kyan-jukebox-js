@@ -41,7 +41,7 @@ export const DashboardContainer = () => {
         .reloadAuthResponse()
         .then(
           response => {
-            console.info('Token Refreshed: ', response.id_token)
+            console.info('Token Refreshed (expires): ', response.expires_at)
             dispatch(actions.updateToken(response.id_token, response.expires_at))
           },
           err => console.warn('Token un-refreshable: ', err.message)
