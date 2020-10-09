@@ -1,46 +1,55 @@
-import React, { useCallback, useEffect, useContext, useRef } from 'react'
+import React, { useCallback, useEffect, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import usePageVisibility from 'hooks/usePageVisibility'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import SignInToken from 'utils/signin-token'
 import GoogleAuthContext from 'contexts/google'
 import * as actions from 'actions'
 import * as searchActions from 'search/actions'
 import Dashboard from 'dashboard'
 
 export const DashboardContainer = () => {
+  const isVisible = usePageVisibility()
+  const settings = useSelector(state => state.settings)
   const jukebox = useSelector(state => state.jukebox)
   const tracklist = useSelector(state => state.tracklist)
   const currentTrack = useSelector(state => state.track)
   const dispatch = useDispatch()
-  const { isSignedIn, googleUser } = useContext(GoogleAuthContext)
+  const { isSignedIn, googleUser, auth2 } = useContext(GoogleAuthContext)
   const disable = !(isSignedIn && jukebox.mopidyOnline)
-  const googleTokenId = useRef()
-  const refreshTokenTimeoutID = useRef()
-  const hasTokenChanged = token => token !== googleTokenId.current
 
   useEffect(() => {
     dispatch(actions.wsConnect())
 
     /* istanbul ignore next */
-    return () => {
-      dispatch(actions.wsDisconnect())
-    }
+    return () => dispatch(actions.wsDisconnect())
   }, [dispatch])
 
-  if (isSignedIn && hasTokenChanged(googleUser.tokenId)) {
-    googleTokenId.current = googleUser.tokenId
-    refreshTokenTimeoutID.current = SignInToken.refresh(googleUser, token => {
-      dispatch(actions.updateToken(token))
-    })
-    dispatch(actions.updateToken(googleTokenId.current))
+  if (isSignedIn && isVisible) {
+    const shouldRefreshToken = () => {
+      // The token is within 5 minutes of expiring
+      return settings.tokenExpires > 0 && settings.tokenExpires - 300 * 1000 - Date.now() <= 0
+    }
+
+    if (googleUser.expiresAt > settings.tokenExpires) {
+      dispatch(actions.updateToken(googleUser.tokenId, googleUser.expiresAt))
+    }
+
+    if (shouldRefreshToken()) {
+      auth2.currentUser
+        .get()
+        .reloadAuthResponse()
+        .then(
+          response => {
+            console.info('Token Refreshed: ', response.id_token)
+            dispatch(actions.updateToken(response.id_token, response.expires_at))
+          },
+          err => console.warn('Token un-refreshable: ', err.message)
+        )
+    }
   }
 
-  if (!isSignedIn) {
-    googleTokenId.current = undefined
-    SignInToken.clear(refreshTokenTimeoutID.current)
-    dispatch(actions.clearToken())
-  }
+  if (!isSignedIn) dispatch(actions.clearToken())
 
   const onPlay = useCallback(() => dispatch(actions.startPlaying()), [dispatch])
   const onStop = useCallback(() => dispatch(actions.stopPlaying()), [dispatch])

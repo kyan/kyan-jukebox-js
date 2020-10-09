@@ -31,7 +31,9 @@ const addCurrentTrack = (track, store, progress) => {
   store.dispatch(actions.addCurrentTrack(track))
   store.dispatch(actions.syncSocialData(track))
   const progressTimer = progress.set(0, track.length)
-  if (store.getState().jukebox.playbackState === MopidyApi.PLAYING) progressTimer.start()
+  if (store.getState().jukebox.playbackState === MopidyApi.PLAYING) {
+    progressTimer.start()
+  }
 }
 
 const addTrackList = (tracklist, store) => {
