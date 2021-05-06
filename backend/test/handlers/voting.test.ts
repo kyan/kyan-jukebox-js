@@ -1,3 +1,4 @@
+import { Server } from 'socket.io'
 import Broadcaster from '../../src/utils/broadcaster'
 import { updateTrackVote } from '../../src/models/track'
 import VoteHandler from '../../src/handlers/voting'
@@ -9,7 +10,7 @@ jest.mock('../../src/models/track')
 const mockUpdateTrackVote = updateTrackVote as jest.Mock
 
 describe('VoteHandler', () => {
-  const socketio = {} as SocketIO.Server
+  const socketio = {} as Server
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -41,7 +42,7 @@ describe('VoteHandler', () => {
           message: 'track',
           type: 'vote'
         })
-        resolve()
+        resolve(null)
       }, 0)
     })
   })

@@ -1,3 +1,4 @@
+import { Server } from 'socket.io'
 import VoteConstant from '../constants/votes'
 import MessageType from '../constants/message'
 import EventLogger from '../utils/event-logger'
@@ -6,7 +7,7 @@ import { updateTrackVote } from '../models/track'
 import Payload from '../utils/payload'
 
 interface VoteHandler {
-  socketio: SocketIO.Server
+  socketio: Server
   payload: Payload
 }
 

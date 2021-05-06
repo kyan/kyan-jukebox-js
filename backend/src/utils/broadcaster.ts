@@ -1,14 +1,15 @@
+import { Server, Socket } from 'socket.io'
 import logger from '../config/logger'
 import MessageType from '../constants/message'
 import EventLogger from '../utils/event-logger'
 import Payload from '../utils/payload'
 
-interface Socket {
-  socket?: SocketIO.Socket
-  socketio?: SocketIO.Server
+interface BaseSocket {
+  socket?: Socket
+  socketio?: Server
 }
 
-export interface BroadcastToAll extends Socket {
+export interface BroadcastToAll extends BaseSocket {
   headers: any
   message: any
   type?: string
@@ -18,7 +19,7 @@ interface Message {
   online: boolean
 }
 
-export interface StateChange extends Socket {
+export interface StateChange extends BaseSocket {
   message: Message
 }
 

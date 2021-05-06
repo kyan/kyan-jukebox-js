@@ -1,3 +1,4 @@
+import { Socket } from 'socket.io'
 import logger from '../../src/config/logger'
 import ErrorsHandler from '../../src/handlers/socket-errors'
 jest.mock('../../src/config/logger')
@@ -13,7 +14,7 @@ describe('ErrorsHandler', () => {
   } as unknown
 
   it('sets everything up before interval', () => {
-    ErrorsHandler(ws as SocketIO.Socket)
+    ErrorsHandler(ws as Socket)
     expect(onMock.mock.calls[0][0]).toEqual('error')
     expect(onMock.mock.calls[0][1]).toEqual(expect.any(Function))
     expect(onMock.mock.calls[0][1]({ code: 'ECONNRESET' })).toBeUndefined()

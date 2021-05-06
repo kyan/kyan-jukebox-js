@@ -1,3 +1,4 @@
+import { Socket } from 'socket.io'
 import Broadcaster from '../utils/broadcaster'
 import MessageType from '../constants/message'
 import Spotify from '../services/spotify'
@@ -6,7 +7,7 @@ import SearchDecorator from '../decorators/search'
 import Payload from '../utils/payload'
 
 interface SearchHandler {
-  socket: SocketIO.Socket
+  socket: Socket
   payload: Payload
 }
 

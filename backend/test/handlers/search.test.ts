@@ -1,3 +1,4 @@
+import { Socket } from 'socket.io'
 import Spotify from '../../src/services/spotify'
 import Broadcaster from '../../src/utils/broadcaster'
 import Decorator from '../../src/decorators/search'
@@ -12,7 +13,7 @@ const mockDecoratorParse = Decorator.parse as jest.Mock
 
 describe('SearchHandler', () => {
   const socket = {} as unknown
-  const mockSocket = socket as SocketIO.Socket
+  const mockSocket = socket as Socket
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -38,7 +39,7 @@ describe('SearchHandler', () => {
           message: 'unifiedMessage',
           type: 'search'
         })
-        resolve()
+        resolve(null)
       }, 0)
     })
   })
