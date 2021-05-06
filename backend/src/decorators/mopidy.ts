@@ -69,7 +69,7 @@ const MopidyDecorator = {
 
       switch (key) {
         case Constants.GET_CURRENT_TRACK:
-          if (!data) return resolve()
+          if (!data) return resolve(null)
           return DecorateTracklist([data]).then((TransformedData) => {
             const trackInfo = TransformedData[0]
             return Setting.updateCurrentTrack(trackInfo.uri).then(() =>
@@ -110,7 +110,7 @@ const MopidyDecorator = {
         case Constants.PLAYBACK_NEXT:
         case Constants.PLAYBACK_PREVIOUS:
           clearSetTimeout(recommendTimer)
-          return resolve()
+          return resolve(null)
         case Constants.TRACKLIST_CLEAR:
           return Setting.clearState().then(() => resolve(data))
         case Constants.MIXER_SET_VOLUME:
