@@ -1,6 +1,5 @@
-import express from 'express'
-import http from 'http'
-import io from 'socket.io'
+import { createServer } from 'http'
+import { Server, Socket } from 'socket.io'
 import MessageType from './constants/message'
 import Broadcaster, { StateChange, BroadcastToAll } from './utils/broadcaster'
 import Scheduler from './utils/scheduler'
@@ -13,14 +12,8 @@ import SearchHandler from './handlers/search'
 import VoteHandler from './handlers/voting'
 import AuthenticateHandler from './handlers/authenticate'
 
-const app = express()
-app.disable('x-powered-by')
-app.use(function (_req, res) {
-  res.send({ msg: 'WebSocket Only!' })
-})
-
-const server = http.createServer(app)
-const socketio = io(server, { pingTimeout: 30000 })
+const server = createServer()
+const socketio = new Server(server, { allowEIO3: true, pingTimeout: 30000 })
 const isProduction = () => process.env.NODE_ENV === 'production'
 
 const broadcastToAll = (options: BroadcastToAll) =>
@@ -31,7 +24,7 @@ const broadcastMopidyStateChange = (message: StateChange['message']) =>
 const initSocketioEventHandlers = (args: MopidySetting) => {
   if (isProduction()) Scheduler.scheduleAutoShutdown(args)
 
-  socketio.on('connection', (socket) => {
+  socketio.on('connection', (socket: Socket) => {
     Broadcaster.stateChange({ socket: socket, message: { online: true } })
     SocketErrorsHandler(socket)
 

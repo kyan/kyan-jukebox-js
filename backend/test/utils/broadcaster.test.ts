@@ -1,3 +1,4 @@
+import { Server, Socket } from 'socket.io'
 import broadcaster from '../../src/utils/broadcaster'
 import logger from '../../src/config/logger'
 import EventLogger from '../../src/utils/event-logger'
@@ -16,7 +17,7 @@ describe('Broadcaster', () => {
       const message = 'hello mum'
 
       const socket = { id: '123', emit: emitMock } as any
-      const mockSocket = socket as SocketIO.Socket
+      const mockSocket = socket as Socket
 
       broadcaster.toClient({ socket: mockSocket, headers, message })
 
@@ -39,7 +40,7 @@ describe('Broadcaster', () => {
       const message = 'hello mum'
 
       const socket = { id: '123', emit: emitMock } as any
-      const mockSocket = socket as SocketIO.Socket
+      const mockSocket = socket as Socket
 
       broadcaster.toClient({ socket: mockSocket, headers, message })
       expect(emitMock).toHaveBeenCalledWith(
@@ -63,7 +64,7 @@ describe('Broadcaster', () => {
       const message = 'hello mum'
 
       const socket = { id: '123', emit: emitMock } as any
-      const mockSocket = socket as SocketIO.Socket
+      const mockSocket = socket as Socket
 
       broadcaster.toClient({ socket: mockSocket, headers, message })
       expect(logger.error).toHaveBeenCalledWith('Broadcaster#toClient', {
@@ -79,7 +80,7 @@ describe('Broadcaster', () => {
       const message = 'hello mum'
 
       const socket = { emit: emitMock } as any
-      const mockSocket = socket as SocketIO.Server
+      const mockSocket = socket as Server
 
       broadcaster.toAll({ socketio: mockSocket, headers, message })
       expect(emitMock).toHaveBeenCalledWith(
@@ -100,7 +101,7 @@ describe('Broadcaster', () => {
       const message = 'hello mum'
 
       const socket = { emit: emitMock } as any
-      const mockSocket = socket as SocketIO.Server
+      const mockSocket = socket as Server
 
       broadcaster.toAll({ socketio: mockSocket, headers, message })
       expect(emitMock).toHaveBeenCalledWith(
@@ -117,7 +118,7 @@ describe('Broadcaster', () => {
       const message = { online: false }
 
       const socket = { emit: emitMock } as any
-      const mockSocket = socket as SocketIO.Socket
+      const mockSocket = socket as Socket
 
       broadcaster.stateChange({ socket: mockSocket, message })
       expect(emitMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
@@ -132,7 +133,7 @@ describe('Broadcaster', () => {
       const message = { online: false }
 
       const socket = { emit: emitMock } as any
-      const mockSocket = socket as SocketIO.Server
+      const mockSocket = socket as Server
 
       broadcaster.stateChange({ socketio: mockSocket, message })
       expect(emitMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
@@ -149,7 +150,7 @@ describe('Broadcaster', () => {
       const message = { online: false }
 
       const socket = { emit: emitMock } as any
-      const mockSocket = socket as SocketIO.Socket
+      const mockSocket = socket as Socket
 
       broadcaster.stateChange({ socket: mockSocket, message })
       expect(emitMock).toHaveBeenCalledWith('mopidy', '{"online":false}')

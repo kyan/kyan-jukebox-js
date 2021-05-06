@@ -1,3 +1,4 @@
+import { Socket } from 'socket.io'
 import { OAuth2Client } from 'google-auth-library'
 import Broadcaster from '../utils/broadcaster'
 import AuthConsts from '../constants/auth'
@@ -17,10 +18,7 @@ const persistUser = (user: JBUser) => {
   return User.findOneAndUpdate(query, update, options)
 }
 
-const AuthenticateHandler = (
-  payload: Payload,
-  socket: SocketIO.Socket
-): Promise<Payload> => {
+const AuthenticateHandler = (payload: Payload, socket: Socket): Promise<Payload> => {
   if (!isAuthorisedRequest(payload.key)) {
     delete payload.jwt
     return Promise.resolve(payload)
