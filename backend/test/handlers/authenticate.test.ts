@@ -1,3 +1,4 @@
+import { Socket } from 'socket.io'
 import { OAuth2Client } from 'google-auth-library'
 import Broadcaster from '../../src/utils/broadcaster'
 import User from '../../src/models/user'
@@ -15,7 +16,7 @@ const mockOAuth2Client = googleMock as jest.Mock
 
 describe('AuthenticateHandler', () => {
   const mock = {} as unknown
-  const wsMock = mock as SocketIO.Socket
+  const wsMock = mock as Socket
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -95,7 +96,7 @@ describe('AuthenticateHandler', () => {
           },
           socket: wsMock
         })
-        resolve()
+        resolve(null)
       }, 0)
     })
   })
@@ -135,7 +136,7 @@ describe('AuthenticateHandler', () => {
           },
           socket: wsMock
         })
-        resolve()
+        resolve(null)
       }, 0)
     })
   })
@@ -188,7 +189,7 @@ describe('AuthenticateHandler', () => {
         expect(mockLoggerError.mock.calls).toEqual([
           ['Error checking user', { error: 'bang' }]
         ])
-        resolve()
+        resolve(null)
       }, 0)
     })
   })

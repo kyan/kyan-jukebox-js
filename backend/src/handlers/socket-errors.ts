@@ -1,3 +1,4 @@
+import { Socket } from 'socket.io'
 import logger from '../config/logger'
 
 function error(e: any) {
@@ -7,7 +8,7 @@ function error(e: any) {
   }
 }
 
-const SocketErrorsHandler = (ws: SocketIO.Socket) => {
+const SocketErrorsHandler = (ws: Socket) => {
   ws.on('error', error)
   ws.on('close', () => {
     logger.info('Websocket closed', { clientID: ws.id })
