@@ -13,7 +13,7 @@ import VoteHandler from './handlers/voting'
 import AuthenticateHandler from './handlers/authenticate'
 
 const server = createServer()
-const socketio = new Server(server, { allowEIO3: true, pingTimeout: 30000 })
+const socketio = new Server(server, { pingTimeout: 30000 })
 const isProduction = () => process.env.NODE_ENV === 'production'
 
 const broadcastToAll = (options: BroadcastToAll) =>
