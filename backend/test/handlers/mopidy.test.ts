@@ -1,3 +1,4 @@
+import { Server, Socket } from 'socket.io'
 import logger from '../../src/config/logger'
 import Spotify from '../../src/services/spotify'
 import MopidyHandler from '../../src/handlers/mopidy'
@@ -36,8 +37,8 @@ describe('MopidyHandler', () => {
     mockDecoratorParse.mockResolvedValue('unifiedMessage')
     MopidyHandler({
       payload,
-      socket: socket as SocketIO.Socket,
-      socketio: socketio as SocketIO.Server,
+      socket: socket as Socket,
+      socketio: socketio as Server,
       mopidy: mopidy as Mopidy
     })
 
@@ -52,7 +53,7 @@ describe('MopidyHandler', () => {
           },
           message: 'unifiedMessage'
         })
-        resolve()
+        resolve(null)
       }, 0)
     })
   })
@@ -73,8 +74,8 @@ describe('MopidyHandler', () => {
     mockDecoratorParse.mockResolvedValue({ message: 'message', toAll: true })
     MopidyHandler({
       payload,
-      socket: socket as SocketIO.Socket,
-      socketio: socketio as SocketIO.Server,
+      socket: socket as Socket,
+      socketio: socketio as Server,
       mopidy: mopidy as Mopidy
     })
 
@@ -91,7 +92,7 @@ describe('MopidyHandler', () => {
             message: 'message'
           }
         })
-        resolve()
+        resolve(null)
       }, 0)
     })
   })
@@ -110,8 +111,8 @@ describe('MopidyHandler', () => {
     }
     MopidyHandler({
       payload,
-      socket: socket as SocketIO.Socket,
-      socketio: socketio as SocketIO.Server,
+      socket: socket as Socket,
+      socketio: socketio as Server,
       mopidy: mopidy as Mopidy
     })
 
@@ -119,7 +120,7 @@ describe('MopidyHandler', () => {
       setTimeout(() => {
         expect(Broadcaster.toClient).not.toHaveBeenCalled()
         expect(logger.error).toHaveBeenCalledWith('Mopidy API Failure: API Broke')
-        resolve()
+        resolve(null)
       }, 0)
     })
   })
@@ -141,8 +142,8 @@ describe('MopidyHandler', () => {
     mockDecoratorParse.mockResolvedValue('unifiedMessage')
     MopidyHandler({
       payload,
-      socket: socket as SocketIO.Socket,
-      socketio: socketio as SocketIO.Server,
+      socket: socket as Socket,
+      socketio: socketio as Server,
       mopidy: mopidy as Mopidy
     })
 
@@ -154,7 +155,7 @@ describe('MopidyHandler', () => {
           headers: { key: 'tracklist.setVolume', data: null },
           message: 'unifiedMessage'
         })
-        resolve()
+        resolve(null)
       }, 0)
     })
   })
@@ -166,8 +167,8 @@ describe('MopidyHandler', () => {
     mockSpotifyValidateTrack.mockRejectedValue(new Error('naughty-naughty'))
     MopidyHandler({
       payload,
-      socket: socket as SocketIO.Socket,
-      socketio: socketio as SocketIO.Server,
+      socket: socket as Socket,
+      socketio: socketio as Server,
       mopidy: mopidy as Mopidy
     })
 
@@ -181,7 +182,7 @@ describe('MopidyHandler', () => {
           message: 'unifiedMessage',
           socket
         })
-        resolve()
+        resolve(null)
       }, 0)
     })
   })

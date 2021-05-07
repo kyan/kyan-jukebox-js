@@ -296,7 +296,7 @@ describe('MopidyDecorator', () => {
     it('returns null', async () => {
       expect.assertions(1)
       const returnData = await MopidyDecorator.parse(h('playback.next'), [])
-      return expect(returnData).toBeUndefined()
+      return expect(returnData).toBeNull()
     })
   })
 
@@ -304,7 +304,7 @@ describe('MopidyDecorator', () => {
     it('returns null', async () => {
       expect.assertions(1)
       const returnData = await MopidyDecorator.parse(h('playback.previous'), [])
-      return expect(returnData).toBeUndefined()
+      return expect(returnData).toBeNull()
     })
   })
 

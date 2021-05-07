@@ -1,3 +1,4 @@
+import { Server, Socket } from 'socket.io'
 import logger from '../config/logger'
 import Broadcaster from '../utils/broadcaster'
 import MopidyDecorator from '../decorators/mopidy'
@@ -10,8 +11,8 @@ import Payload from '../utils/payload'
 
 interface MopidyHandler {
   payload: Payload
-  socketio: SocketIO.Server
-  socket: SocketIO.Socket
+  socketio: Server
+  socket: Socket
   mopidy: Mopidy
 }
 
