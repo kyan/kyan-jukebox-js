@@ -7,8 +7,8 @@
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "npm run lint && react-scripts test --env=jsdom",
-    "coverage": "npm run lint && react-scripts test --env=jsdom --coverage",
+    "test": "yarn run lint && react-scripts test --env=jsdom",
+    "coverage": "yarn run lint && react-scripts test --env=jsdom --coverage",
     "fix": "eslint . --ext .js,.ts,.jsx,.tsx --quiet --fix",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx"

@@ -38,23 +38,23 @@ stop-all:
 	docker-compose $(files) -f docker-compose-mopidy.yml down
 
 client-test:
-	docker-compose run --rm jukebox-client npm test --coverage
+	docker-compose run --rm jukebox-client yarn test --coverage
 
 client-console:
 	docker-compose run --rm jukebox-client sh
 
 api-test:
-	docker-compose run --rm jukebox-api npm run test:coverage
+	docker-compose run --rm jukebox-api yarn run test:coverage
 
 api-console:
 	docker-compose run --rm --service-ports jukebox-api sh
 
 api-lint:
-	docker-compose run --rm jukebox-api npm run lint
+	docker-compose run --rm jukebox-api yarn run lint
 
 api-fix:
-	docker-compose run --rm jukebox-api npm run fix
+	docker-compose run --rm jukebox-api yarn run fix
 
 test:
-	docker-compose run -e CI=true --rm jukebox-client npm test -- --coverage --runInBand
-	docker-compose run -e CI=true --rm jukebox-api npm run test:ci
+	docker-compose run -e CI=true --rm jukebox-client yarn test -- --coverage --runInBand
+	docker-compose run -e CI=true --rm jukebox-api yarn run test:ci

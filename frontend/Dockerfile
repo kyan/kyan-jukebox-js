@@ -10,10 +10,8 @@ ARG PORT=3001
 ENV PORT $PORT
 EXPOSE $PORT
 
-RUN npm install -g npm@latest
-
-COPY package*.json ./
-RUN DISABLE_OPENCOLLECTIVE=true npm install
+COPY package.json yarn.lock ./
+RUN DISABLE_OPENCOLLECTIVE=true yarn install
 
 COPY . .
 
