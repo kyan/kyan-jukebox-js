@@ -7,7 +7,7 @@ services:
       context: ./frontend
       args:
         - NODE_ENV=development
-    command: npm start
+    command: yarn start
     volumes:
       - ./frontend:/usr/src/app:cached
       - /usr/src/app/node_modules
@@ -30,7 +30,7 @@ services:
     volumes:
       - ./backend:/usr/src/app:cached
       - /usr/src/app/node_modules
-    command: npm start
+    command: yarn start
     ports:
       - 8080:8080
       - 9229:9229
