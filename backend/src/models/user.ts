@@ -6,7 +6,9 @@ export interface JBUser {
   picture: string
 }
 
-interface User extends JBUser, Document {}
+interface User extends JBUser, Document {
+  _id: any
+}
 
 const userSchema = new Schema(
   {

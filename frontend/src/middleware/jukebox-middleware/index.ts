@@ -1,4 +1,4 @@
-import io from 'socket.io-client'
+import io, { Socket } from 'socket.io-client'
 import * as actions from 'actions'
 import Constants from 'constants/common'
 import VoteConstant from 'votes/constants'
@@ -17,7 +17,7 @@ interface ActionInterface extends Action {
 
 const JukeboxMiddleware: Middleware = (() => {
   const url = `http://${process.env.REACT_APP_WS_URL}:${process.env.REACT_APP_WS_PORT}`
-  let socket: SocketIOClient.Socket
+  let socket: Socket
   let progressTimer: any = null
 
   return (store: MiddlewareAPI) => (next: Dispatch<any>) => (action: ActionInterface) => {

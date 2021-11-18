@@ -43,7 +43,7 @@ describe('NowPlaying', () => {
     }
 
     it('returns the correct payload when full data', () => {
-      const result = {} as Setting
+      const result = {} as any
       jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(result)
       jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
 
@@ -53,7 +53,7 @@ describe('NowPlaying', () => {
     })
 
     it('returns the correct payload when full data 1', () => {
-      const result = {} as Setting
+      const result = {} as any
       jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(result)
       jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
       trackObject.metrics.plays = 1
@@ -68,7 +68,7 @@ describe('NowPlaying', () => {
       jest.spyOn(Setting, 'findOneAndUpdate').mockRejectedValue(new Error('oooops'))
       NowPlaying.addTrack(trackObject)
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(logger.error).toHaveBeenCalledWith('NowPlaying.addTrack: oooops')
           resolve()

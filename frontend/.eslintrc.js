@@ -1,8 +1,4 @@
-const defaultRules = [
-  'react-app',
-  'eslint:recommended',
-  'plugin:prettier/recommended'
-];
+const defaultRules = ['react-app', 'eslint:recommended', 'plugin:prettier/recommended']
 
 module.exports = {
   root: true,
@@ -22,7 +18,7 @@ module.exports = {
   overrides: [
     {
       // enable the rule specifically for TypeScript files
-      files: ["*.ts", "*.tsx"],
+      files: ['*.ts', '*.tsx'],
       plugins: ['@typescript-eslint'],
       extends: [
         ...defaultRules,

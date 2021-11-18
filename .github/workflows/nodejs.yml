@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 13.x, 14.x]
+        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -23,24 +23,26 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Build and test frontend
+
+      - name: Install dependencies
         run: |
-          cd frontend
-          npm ci
-          npm run build --if-present
-          npm test -- --coverage
+          yarn install
+
+      - name: Test frontend
+        run: |
+          yarn workspace @jukebox/frontend build
+          yarn workspace @jukebox/frontend test:ci
         env:
           CI: true
-      - name: Build and test backend
+          SKIP_PREFLIGHT_CHECK: true
+      - name: Test backend
         run: |
-          cd backend
-          npm ci
-          npm run build --if-present
-          npm run test:ci
+          yarn workspace @jukebox/backend build
+          yarn workspace @jukebox/backend test:ci
         env:
           CI: true
           LOCAL_STORAGE_PATH: /tmp/jukebox
-          MONGODB_URL: mongodb://mongodb:27017/jb-dev
+          MONGODB_URL: mongodb://localhost:27017/jb-dev
           WS_MOPIDY_URL: mopidy-prod.local
           WS_MOPIDY_PORT: 6680
           CLIENT_ID: abcdefg
