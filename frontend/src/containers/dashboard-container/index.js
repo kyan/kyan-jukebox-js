@@ -67,9 +67,10 @@ export const DashboardContainer = () => {
     [dispatch]
   )
   const onTracklistClear = useCallback(() => dispatch(actions.clearTrackList()), [dispatch])
-  const onSearchClick = useCallback(() => dispatch(searchActions.toggleSearchSidebar(true)), [
-    dispatch
-  ])
+  const onSearchClick = useCallback(
+    () => dispatch(searchActions.toggleSearchSidebar(true)),
+    [dispatch]
+  )
   const onRemoveTrack = useCallback(evt => dispatch(actions.removeFromTracklist(evt)), [dispatch])
   const onArtistSearch = useCallback(
     query => _ => {

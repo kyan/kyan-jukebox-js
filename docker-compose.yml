@@ -1,54 +1,6 @@
 version: '3'
 
 services:
-  jukebox-client:
-    container_name: jukebox-client
-    build:
-      context: ./frontend
-      args:
-        - NODE_ENV=development
-    command: npm start
-    volumes:
-      - ./frontend:/usr/src/app:cached
-      - /usr/src/app/node_modules
-    ports:
-      - 3001:3001
-    environment:
-      - NODE_ENV=development
-      - PORT=3001
-      - REACT_APP_WS_URL=localhost
-      - REACT_APP_WS_PORT=8080
-      - REACT_APP_CLIENT_ID=${CLIENT_ID}
-      - GOOGLE_AUTH_DOMAIN=${GOOGLE_AUTH_DOMAIN}
-    tty: true
-  jukebox-api:
-    container_name: jukebox-api
-    build:
-      context: ./backend
-      args:
-        - NODE_ENV=development
-    volumes:
-      - ./backend:/usr/src/app:cached
-      - /usr/src/app/node_modules
-    command: npm start
-    ports:
-      - 8080:8080
-      - 9229:9229
-    environment:
-      - NODE_ENV=development
-      - PORT=8080
-      - IS_ALIVE_TIMEOUT=30000
-      - WS_MOPIDY_URL=${WS_MOPIDY_URL}
-      - WS_MOPIDY_PORT=${WS_MOPIDY_PORT}
-      - MONGODB_URL=mongodb://mongodb:27017/jb-dev
-      - SPOTIFY_ID=${SPOTIFY_ID}
-      - SPOTIFY_SECRET=${SPOTIFY_SECRET}
-      - SPOTIFY_NEW_TRACKS_ADDED_LIMIT=3
-      - CLIENT_ID=${CLIENT_ID}
-      - EXPLICIT_CONTENT=${EXPLICIT_CONTENT}
-      - GOOGLE_AUTH_DOMAIN=${GOOGLE_AUTH_DOMAIN}
-    depends_on:
-      - mongodb
   mongodb:
     image: mongo:4.2-bionic
     container_name: mongodb
@@ -60,3 +12,18 @@ services:
       - ./mongodb-data/db:/data/db:delegated
     ports:
       - 27017:27017
+  mopidy:
+    container_name: mopidy
+    build:
+      context: ./mopidy
+    command: mopidy
+    ports:
+      - "6600:6600"
+      - "6680:6680"
+    volumes:
+      - ./mopidy-data:/var/lib/mopidy:delegated
+    environment:
+      - MOPIDY_USERNAME=${MOPIDY_USERNAME}
+      - MOPIDY_PASSWORD=${MOPIDY_PASSWORD}
+      - MOPIDY_CLIENT_ID=${MOPIDY_CLIENT_ID}
+      - MOPIDY_CLIENT_SECRET=${MOPIDY_CLIENT_SECRET}
