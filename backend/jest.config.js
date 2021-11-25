@@ -1,7 +1,8 @@
 module.exports = {
+  setupFiles: ['dotenv/config'],
   globals: {
     'ts-jest': {
-      tsConfig: 'tsconfig.json'
+      tsconfig: 'tsconfig.json'
     }
   },
   moduleFileExtensions: ['ts', 'js', 'json'],

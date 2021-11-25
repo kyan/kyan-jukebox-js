@@ -2,7 +2,6 @@ import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Provider } from 'react-redux'
 import { Image } from 'semantic-ui-react'
-import keyCode from 'rc-util/lib/KeyCode'
 import configureMockStore from 'redux-mock-store'
 import MockTrackListJson from '__mockData__/api'
 import CurrentTrack from './index'
@@ -40,7 +39,7 @@ describe('CurrentTrack', () => {
         expect(wrapper).toMatchSnapshot()
         const handler = wrapper.find('.rc-slider-handle').at(1)
         wrapper.simulate('focus')
-        handler.simulate('keyDown', { keyCode: keyCode.UP })
+        handler.simulate('keyDown', { keyCode: 38 })
         expect(voteMock).toHaveBeenCalledWith('spotify:track:6BitwTrBfUrTdztRrQiw52', 5)
       })
 

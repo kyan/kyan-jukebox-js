@@ -1,5 +1,5 @@
 import Mopidy from 'mopidy'
-import { Schema, model, Model, Document, DocumentQuery } from 'mongoose'
+import { Schema, model, Model, Document } from 'mongoose'
 import User, { JBUser } from '../models/user'
 import EventLogger from '../utils/event-logger'
 import logger from '../config/logger'
@@ -126,8 +126,6 @@ export interface JBTrack {
   genres?: string[]
 }
 
-type PromiseLikeUser = Promise<User> | DocumentQuery<User, User>
-
 const brh = {
   _id: '1ambigrainbowhead',
   fullname: 'BRH',
@@ -146,14 +144,14 @@ TrackSchema.statics.findTracks = (uris: string[]): Promise<Track[]> =>
       .catch((err) => reject(err))
   })
 
-TrackSchema.statics.findOrUseBRH = (user?: JBUser): PromiseLikeUser => {
+TrackSchema.statics.findOrUseBRH = (user?: JBUser): Promise<any> => {
   if (user) return Promise.resolve(new User(user).toObject())
 
   return User.findOneAndUpdate({ _id: brh._id }, brh, {
     upsert: true,
     new: true,
     setDefaultsOnInsert: true
-  })
+  }).exec()
 }
 
 TrackSchema.statics.addTracks = (
@@ -162,7 +160,7 @@ TrackSchema.statics.addTracks = (
 ): Promise<any> =>
   new Promise((resolve) => {
     Track.findOrUseBRH(user)
-      .then((returnUser) => {
+      .then((returnUser: any) => {
         const requests = uris.map((uri) =>
           Track.findOneAndUpdate(
             { _id: uri },
@@ -218,7 +216,7 @@ const updateTrackPlaycount = (uri: string): Promise<Track> =>
 const updateTrackVote = (uri: string, user: JBUser, vote: number) =>
   new Promise((resolve) => {
     Track.findOrUseBRH(user)
-      .then((vUser) => {
+      .then((vUser: any) => {
         Track.findById(uri)
           .populate({ path: 'addedBy.user' })
           .populate({ path: 'addedBy.votes.user' })
@@ -257,7 +255,7 @@ const updateTrackVote = (uri: string, user: JBUser, vote: number) =>
             logger.error('updateTrackVote:findById', { message: error.message })
           )
       })
-      .catch((error) =>
+      .catch((error: { message: string }) =>
         logger.error('updateTrackVote:findOrUseBRH', { message: error.message })
       )
   })
@@ -269,7 +267,7 @@ interface DBTrackStatics extends Model<Track> {
    * @param uris - A list of Track uris
    */
   findTracks(uris: ReadonlyArray<string>): Promise<Track[]>
-  findOrUseBRH(user?: JBUser): PromiseLikeUser
+  findOrUseBRH(user?: JBUser): Promise<any>
   addTracks(uris: ReadonlyArray<string>, user?: JBUser): Promise<any>
 }
 
