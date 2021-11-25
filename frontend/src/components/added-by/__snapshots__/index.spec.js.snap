@@ -28,7 +28,6 @@ exports[`AddedBy when addedBy information provided and it is the first play disp
   }
   disabled={false}
   eventsEnabled={true}
-  offset={0}
   on={
     Array [
       "click",
@@ -36,6 +35,7 @@ exports[`AddedBy when addedBy information provided and it is the first play disp
     ]
   }
   pinned={false}
+  popperModifiers={Array []}
   position="top left"
   trigger={
     <Image
@@ -108,7 +108,6 @@ exports[`AddedBy when addedBy information provided and there is play history dis
   }
   disabled={false}
   eventsEnabled={true}
-  offset={0}
   on={
     Array [
       "click",
@@ -116,6 +115,7 @@ exports[`AddedBy when addedBy information provided and there is play history dis
     ]
   }
   pinned={false}
+  popperModifiers={Array []}
   position="top left"
   trigger={
     <Image

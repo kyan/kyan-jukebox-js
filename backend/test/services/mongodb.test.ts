@@ -10,7 +10,7 @@ describe('MongodbService', () => {
 
     await MongodbService()
     expect(logger.info).toHaveBeenCalledWith('Mongodb Connected', {
-      url: 'mongodb://mongodb:27017/jb-dev'
+      url: 'mongodb://localhost:27017/jb-dev'
     })
   })
 
@@ -24,7 +24,7 @@ describe('MongodbService', () => {
       return new Promise((resolve) => {
         setTimeout(() => {
           expect(logger.error).toHaveBeenCalledWith('Mongodb: Error: bang!', {
-            url: 'mongodb://mongodb:27017/jb-dev'
+            url: 'mongodb://localhost:27017/jb-dev'
           })
           resolve()
         }, 0)

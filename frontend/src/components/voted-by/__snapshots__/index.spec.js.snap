@@ -26,7 +26,6 @@ exports[`VotedBy when no user data does nothing 1`] = `
   }
   disabled={false}
   eventsEnabled={true}
-  offset={0}
   on={
     Array [
       "click",
@@ -34,6 +33,7 @@ exports[`VotedBy when no user data does nothing 1`] = `
     ]
   }
   pinned={false}
+  popperModifiers={Array []}
   position="top left"
   trigger={
     <Label
@@ -158,7 +158,6 @@ exports[`VotedBy when votes information is provided and a ribbon prop is set dis
   }
   disabled={false}
   eventsEnabled={true}
-  offset={0}
   on={
     Array [
       "click",
@@ -166,6 +165,7 @@ exports[`VotedBy when votes information is provided and a ribbon prop is set dis
     ]
   }
   pinned={false}
+  popperModifiers={Array []}
   position="top left"
   trigger={
     <Label
@@ -240,7 +240,6 @@ exports[`VotedBy when votes information is provided and no ribbon prop displays 
   }
   disabled={false}
   eventsEnabled={true}
-  offset={0}
   on={
     Array [
       "click",
@@ -248,6 +247,7 @@ exports[`VotedBy when votes information is provided and no ribbon prop displays 
     ]
   }
   pinned={false}
+  popperModifiers={Array []}
   position="top left"
   trigger={
     <Label

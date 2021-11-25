@@ -44,7 +44,9 @@ describe('ImageCache', () => {
       expect.assertions(1)
 
       return ImageCache.findAll(['xxx']).catch((error) => {
-        expect(error.message).toEqual("Cannot read property 'length' of undefined")
+        expect(error.message).toEqual(
+          "Cannot read properties of undefined (reading 'length')"
+        )
       })
     })
   })

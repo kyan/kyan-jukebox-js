@@ -47,7 +47,7 @@ Object {
 
 exports[`test mongoose Track model #updateTrackVote adds a vote when there is a matching track 1`] = `
 Object {
-  "addedBy": CoreDocumentArray [
+  "addedBy": Array [
     Object {
       "played": Array [],
       "votes": Array [
@@ -71,7 +71,7 @@ Object {
 
 exports[`test mongoose Track model #updateTrackVote does not vote when there is no matching track 1`] = `
 Object {
-  "addedBy": CoreDocumentArray [],
+  "addedBy": Array [],
   "metrics": Object {
     "plays": 0,
     "votes": 0,

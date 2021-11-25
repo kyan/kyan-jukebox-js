@@ -12,7 +12,7 @@ This is a work-in-progress replacement for our [existing office JukeBox](https:/
 
 ## Overview
 
-The Jukebox re-imagined still uses `Mopidy` but has been split into parts, Client and API. The API is written in [TypeScript](https://www.typescriptlang.org/) and the Client currently a mix of [JavaScript](https://www.javascript.com/) and TypeScript. It also uses smaller events messages passed back and forth over a websocket. Currently both the client and API live in this one repo, but in the future it will likely split into it's component parts.
+The Jukebox re-imagined still uses `Mopidy` but has been split into parts, Client and API (FE and BE). The BE is written in [TypeScript](https://www.typescriptlang.org/) and the FE currently is a mix of [JavaScript](https://www.javascript.com/) and TypeScript. It also uses smaller events messages passed back and forth over a websocket. Currently both the FE and BE live in this one monorepo.
 
 ## Why not use an existing Mopidy frontend
 
@@ -26,7 +26,9 @@ We have extra requirements for our office Jukebox to make it more interactive an
 
 ## Requirements
 
-A machine that can run `nodejs`, a `Google` account and a premium `Spotify` account.
+* A machine that can run `nodejs`
+* A `Google` account (for easy user management)
+* A premium `Spotify` account (for the music)
 
 ```
 $ git clone https://github.com/kyan/jukebox-js
@@ -35,63 +37,64 @@ $ cd jukebox-js
 
 ## Environment
 
-Runing the app locally requires some enviroment variables in order to be able to connect to Spotify and also to allow user authentication with Google.
-
-First, copy the [`.env.example`](.env.example) file into a new `.env` file and fill in the missing information. Links are provided in the file.
+Runing the app locally requires some enviroment variables to be set in the various applications. There are a bunch of `.env.example` files that just need to be duplicated in the folder they are in and the various missing parts filled in. The comments in those files should help you.
 
 ## Development
 
-The app uses `make`, so if you run `make help` you will see all the commands you can run against the app with a simple explaination.
+The app uses `make` to make running common tasks easier, so if you run `make help` you will see all the commands you can run against the app with a simple explaination. Some of the commands take args `make <something> args=--foo`
 
 ### Running the tests
 
-There is currently 100% test coverage throughout the app as well as linting and prettier via ESLint.
+There is currently 100% tests and coverage throughout the app as well as linting and prettier via ESLint.
 
-Run all the tests for the Client and the API (This is what will be run on Github) using:
+Run all the tests in the same way it does on CI:
 ```
 $ make test
 ```
 
-Run just the tests for the client using:
+Run just the tests for the FE or BE:
 ```
-$ make client-test
-```
-
-Run just the tests for the api using:
-```
-$ make api-test
+$ make fe-test
+$ make be-test
+$ make be-test args=--watchAll
+$ make be-test args=--watchAll --coverage
 ```
 
-You can also run:
+You can also just run any of the scripts in `package.json` file of that project:
 ```
-$ make api-client
-$ make api-console
+$ make be task=lint
 ```
-If you just want a console that you can run commands yourself.
+
+You can also just ignore `make` and run everything manual if that's your thing.
 
 ### Running the app
 
-There are two ways to run the app in `Docker`. You either run it using a Docker version of Mopidy. You don't get any sound but it's by far the easiest way. You just need to run:
+When running the app locally you get to run a Docker instance of Mopidy on your machine. You don't get any sound but it's by far the easiest way. You just need to run:
 
+Build the dependencies MongoDB and Mopidy
 ```
-$ make build-all
-$ make serve-all
+make build
 ```
-
-or you can run it using Mopidy running somewhere else. In this case you will need to change the `WS_MOPIDY_URL` to point to your own running version. You can then start things with:
-
+Start the dependencies MongoDB and Mopidy
 ```
-$ make build
-$ make serve
+make serve
+make serve -D # run in the background
 ```
 
-Either way. this will give you a working client and API plus the persistence layer. The client is available
+Now you can just open a new terminal for the FE and the BE and run:
+
+```
+make be task=start
+```
+and
+```
+make fe task=start
+```
+
+This will give you a working FE and BE plus the persistence layer. The Jukebox is available
 at http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart.
 
-
-### Mopidy
-
-If you so want to run your own version of Mopidy for running in production, you can buy yourself a Raspberry Pi and follow [these instructions](docs/mopidy_install.md).
+## Technology
 
 ### Client
 
@@ -119,6 +122,10 @@ The easiest way to do this is using `make api-console` or `make client-console`
 
 Once you have a command line you can just run `$ npm install <package>`. This will install the package and update the `package.*` files. You will be able to continue development. When you shutdown the container though the package will be missing. You need to re-build the image to make it available. So remember to run `make build-all` when you start up next time.
 
+### Mopidy
+
+If you so want to run your own version of Mopidy for running in production, you can buy yourself a Raspberry Pi and follow [these instructions](docs/mopidy_install.md).
+
 ## Deployment
 
 Deployment requires a couple of npm's to be installed on your local machine.
@@ -128,17 +135,17 @@ $ npm install -g shipit-cli
 $ npm install -g shipit-deploy
 ```
 
-### client
+### Client
 
-To push out a new release of the [client](frontend/) you first need just need to run:
+To push out a new release of the [FE](frontend/) you first need just need to run:
 ```
 $ ./scripts/deploy-client
 ```
 This will create a `build` directory in your local `frontend` folder and then push it to Github (where the frontend is hosted). You may have to wait a min for things to propergate, but you should now have pushed a new release. You can check at https://github.com/kyan/jukebox-js/tree/gh-pages. There are ENVs you can update in the deploy scripts if you need to customise.
 
-### api
+### Api
 
-To push out a new release of the [api](backend/) you need to run:
+To push out a new release of the [BE](backend/) you need to run:
 ```
 $ ./scripts/deploy-api
 ```
@@ -146,4 +153,4 @@ This will currently deploy a local branch named `release` so make sure it contai
 
 ### mongodb
 
-In production the api uses a EC2 server running mongodb and lives at `mongo.kyanmedia.net`.
+In production the API uses https://cloud.mongodb.com

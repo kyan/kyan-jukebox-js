@@ -30,7 +30,7 @@ exports[`ProgressBar render renders the as expected 1`] = `
       >
         0:12
       </span>
-      <Progress
+      <Line
         className=""
         percent={80}
         prefixCls="rc-progress"
@@ -42,7 +42,7 @@ exports[`ProgressBar render renders the as expected 1`] = `
         trailWidth={1}
       >
         <svg
-          className="rc-progress-line "
+          className="rc-progress-line"
           preserveAspectRatio="none"
           style={Object {}}
           viewBox="0 0 100 1"
@@ -50,7 +50,7 @@ exports[`ProgressBar render renders the as expected 1`] = `
           <path
             className="rc-progress-line-trail"
             d="M 0.5,0.5
-           L 99.5,0.5"
+         L 99.5,0.5"
             fillOpacity="0"
             stroke="#D9D9D9"
             strokeLinecap="round"
@@ -59,7 +59,7 @@ exports[`ProgressBar render renders the as expected 1`] = `
           <path
             className="rc-progress-line-path"
             d="M 0.5,0.5
-           L 99.5,0.5"
+         L 99.5,0.5"
             fillOpacity="0"
             key="0"
             stroke="#2db7f5"
@@ -67,14 +67,14 @@ exports[`ProgressBar render renders the as expected 1`] = `
             strokeWidth={1}
             style={
               Object {
-                "strokeDasharray": "80px, 100px",
+                "strokeDasharray": "79.2px, 100px",
                 "strokeDashoffset": "-0px",
                 "transition": "stroke-dashoffset 0.3s ease 0s, stroke-dasharray .3s ease 0s, stroke 0.3s linear",
               }
             }
           />
         </svg>
-      </Progress>
+      </Line>
     </div>
   </ProgressBar>
 </Provider>
