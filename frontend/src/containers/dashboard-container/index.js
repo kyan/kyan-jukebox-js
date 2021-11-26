@@ -60,8 +60,17 @@ export const DashboardContainer = () => {
   /* istanbul ignore next */
   const onDrop = useCallback(
     (_item, monitor) => {
+      const urls = monitor
+        .getItem()
+        .urls[0].split('https://')
+        .map(url => {
+          return 'https://' + url
+        })
+        .slice(1)
       if (monitor) {
-        dispatch(actions.addNewTrack(monitor.getItem().urls[0]))
+        urls.forEach(url => {
+          dispatch(actions.addNewTrack(url))
+        })
       }
     },
     [dispatch]
