@@ -75,6 +75,12 @@ Build the dependencies MongoDB and Mopidy
 ```
 make build
 ```
+
+Note: If you are using an M1 Macbook, the above command may fail. To fix this, you will need to set the following environment variable in your shell:
+```
+DOCKER_DEFAULT_PLATFORM=linux/amd64
+```
+
 Start the dependencies MongoDB and Mopidy
 ```
 make serve
