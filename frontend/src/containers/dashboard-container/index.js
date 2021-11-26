@@ -4,6 +4,7 @@ import usePageVisibility from 'hooks/usePageVisibility'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import GoogleAuthContext from 'contexts/google'
+import Notify from 'utils/notify'
 import * as actions from 'actions'
 import * as searchActions from 'search/actions'
 import Dashboard from 'dashboard'
@@ -68,9 +69,16 @@ export const DashboardContainer = () => {
         })
         .slice(1)
       if (monitor) {
-        urls.forEach(url => {
-          dispatch(actions.addNewTrack(url))
-        })
+        if (urls.length <= 5) {
+          urls.forEach(url => {
+            dispatch(actions.addNewTrack(url))
+          })
+        } else {
+          Notify.warning({
+            title: 'Oops',
+            message: 'You can only add a maximum of 5 tracks at a time!'
+          })
+        }
       }
     },
     [dispatch]
