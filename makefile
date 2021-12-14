@@ -11,6 +11,8 @@ help:
 	@echo "  $$ make fe-test            runs ALL frontend tests (use args= for any args)"
 	@echo "  $$ make be-test            runs ALL backend tests (use args= for any args)"
 	@echo "  $$ make test               runs ALL tests (same as on CI)"
+	@echo "  $$ make fe-deploy          production deploy of frontend to Github"
+	@echo "  $$ make be-deploy          production deploy of backend using dist/ dir"
 
 build:
 	docker-compose $(files) down
@@ -37,3 +39,9 @@ be-test:
 test:
 	CI=true yarn workspace @jukebox/frontend test:ci
 	CI=true yarn workspace @jukebox/backend test:ci
+
+fe-deploy:
+	./scripts/deploy-frontend.sh
+
+be-deploy:
+	./scripts/deploy-backend.sh
