@@ -83,18 +83,18 @@ DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 Start the dependencies MongoDB and Mopidy
 ```
-make serve
-make serve -D # run in the background
+make start
+make start args=-D # run in the background
 ```
 
 Now you can just open a new terminal for the FE and the BE and run:
 
 ```
-make be task=start
+make fe-server
 ```
 and
 ```
-make fe task=start
+make be-server
 ```
 
 This will give you a working FE and BE plus the persistence layer. The Jukebox is available
@@ -138,7 +138,7 @@ If you so want to run your own version of Mopidy for running in production, you 
 
 To push out a new release of the [FE](frontend/) you first need just need to run:
 ```
-$ ./scripts/deploy-frontend
+$ ./scripts/deploy-frontend.sh
 ```
 This will create a `build` directory in your local `frontend` folder and then push it to Github (where the frontend is hosted). You may have to wait a min for things to propergate, but you should now have pushed a new release. You can check at https://github.com/kyan/jukebox-js/tree/gh-pages. There are ENVs you can update in the deploy scripts if you need to customise.
 
@@ -146,9 +146,8 @@ This will create a `build` directory in your local `frontend` folder and then pu
 
 To push out a new release of the [BE](backend/) you need to run:
 ```
-$ ./scripts/deploy-backend
+$ ./scripts/deploy-backend.sh
 ```
-This will currently deploy a local branch named `release` so make sure it contains what you expect.
 
 ### mongodb
 
