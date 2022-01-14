@@ -5,7 +5,7 @@ module.exports = shipit => {
 
   shipit.initConfig({
     default: {
-      branch: 'dr-shipit',
+      branch: 'master',
       deployTo: 'app',
       repositoryUrl: 'https://github.com/kyan/jukebox-js.git',
       ignores: ['.git', 'node_modules', 'README.md', 'shipitfile.js'],
@@ -24,7 +24,7 @@ module.exports = shipit => {
   })
 
   shipit.on('updated', function () {
-   shipit.start(['yarn_install', 'yarn_build'])
+    shipit.start(['yarn_install', 'yarn_build'])
   })
 
   shipit.blTask('yarn_install', function () {
