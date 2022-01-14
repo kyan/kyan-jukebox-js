@@ -3,10 +3,9 @@ const path = require('path')
 module.exports = shipit => {
   require('shipit-deploy')(shipit)
 
-  const config = {
+  shipit.initConfig({
     default: {
-      branch: 'master',
-      dirToCopy: 'backend',
+      branch: 'dr-shipit',
       deployTo: 'app',
       repositoryUrl: 'https://github.com/kyan/jukebox-js.git',
       ignores: ['.git', 'node_modules', 'README.md', 'shipitfile.js'],
@@ -18,25 +17,24 @@ module.exports = shipit => {
     pi: {
       servers: 'jukebox@jukebox-api-prod'
     }
-  }
-  shipit.initConfig(config)
+  })
 
   shipit.on('published', function () {
     shipit.start(['restart_daemon', 'restart_api_service'])
   })
 
   shipit.on('updated', function () {
-    shipit.start(['npm_install', 'npm_build'])
+   shipit.start(['yarn_install', 'yarn_build'])
   })
 
-  shipit.blTask('npm_install', function () {
+  shipit.blTask('yarn_install', function () {
     const cwd = path.join(shipit.releasesPath, shipit.releaseDirname)
-    return shipit.remote('npm install', { cwd })
+    return shipit.remote('yarn workspaces focus @jukebox/backend', { cwd })
   })
 
-  shipit.blTask('npm_build', function () {
+  shipit.blTask('yarn_build', function () {
     const cwd = path.join(shipit.releasesPath, shipit.releaseDirname)
-    return shipit.remote('npm run build', { cwd })
+    return shipit.remote('yarn workspace @jukebox/backend build', { cwd })
   })
 
   shipit.blTask('restart_daemon', function () {

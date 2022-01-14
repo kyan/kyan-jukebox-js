@@ -2,6 +2,8 @@
 
 These instructions help you install Mopidy onto a Raspberry Pi Model B. It is assumed the Pi will be running the latest version of Raspian.
 
+**NOTE These are not up to date and it's probably better to use Ubuntu 20 LTS**
+
 * Get Raspian OS https://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2019-04-09/2019-04-08-raspbian-stretch-lite.zip (we're using stetch because Buster seems to have issues currently where we can't get global events from Mopidy)
 * Stick image on SD card that will fit inside the PI
 * https://www.raspberrypi.org/documentation/installation/installing-images/mac.md (I would use https://www.raspberrypi.org/documentation/installation/installing-images/README.md as it says, much easier)
@@ -170,10 +172,5 @@ $ sudo dpkg-reconfigure tzdata
 
 These will be useful if you are running the Jukebox
 
-```
-$ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-$ sudo apt-get install -y nodejs
-$ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-$ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-$ sudo apt-get update && sudo apt-get install yarn
-```
+* https://github.com/Schniz/fnm
+* https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable
