@@ -5,7 +5,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/node /home/jukebox/app/current/dist/index.js
+ExecStart=/usr/bin/node /home/jukebox/app/current/backend/dist/index.js
 # Required on some systems
 #WorkingDirectory=/opt/nodeserver
 Restart=always
