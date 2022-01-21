@@ -18,7 +18,7 @@ echo # (optional) move to a new line
 
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-  shipit pi deploy
+  yarn workspace @jukebox/backend run shipit pi deploy
 
   echo "✅ ${GREEN}Deployed successfully.${NC}"
 fi
