@@ -9,7 +9,7 @@ Object {
   "image": "the-album-art.jpg",
   "last_played": "6 hours ago",
   "metrics": Object {
-    "played": 2,
+    "plays": 2,
     "rating": 3,
     "votes": 2,
   },
@@ -28,7 +28,7 @@ Object {
   "image": "the-album-art.jpg",
   "last_played": null,
   "metrics": Object {
-    "played": 1,
+    "plays": 1,
     "rating": 3,
     "votes": 2,
   },
