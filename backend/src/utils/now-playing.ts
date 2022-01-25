@@ -29,7 +29,7 @@ const NowPlaying = {
         metrics: {
           rating: voteNormaliser(track.metrics.votesAverage),
           votes: track.metrics.votes,
-          played: track.metrics.plays
+          plays: track.metrics.plays
         },
         added_by: track.addedBy[0].user.fullname,
         added_at: timeAgo.format(track.addedBy[0].addedAt),
