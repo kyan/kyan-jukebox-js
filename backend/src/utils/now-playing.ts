@@ -1,90 +1,39 @@
 import Setting from '../models/setting'
-import { JBTrack, JBAddedBy } from '../models/track'
+import { JBTrack } from '../models/track'
 import logger from '../config/logger'
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 
 TimeAgo.addLocale(en)
 
-const slackFind = { key: 'slack' }
+// This is the Settings key where we store any JSON
+const slackFind = { key: 'json' }
 const options = { upsert: true, runValidators: true, setDefaultsOnInsert: true }
-const voteNormaliser = (v: number) => Math.round(v / 10 - 5) // 100 is max a user can vote per play
-const simplePluralize = (count: number, noun: string, suffix = 's') => {
-  return `${count} ${noun}${count !== 1 ? suffix : ''}`
-}
 const timeAgo = new TimeAgo('en-GB')
-const lastPlayed = (addedBy: JBAddedBy) => {
-  return {
-    type: 'mrkdwn',
-    text: `*Last Played:* ${timeAgo.format(addedBy.addedAt)}`
-  }
+const voteNormaliser = (v: number) => Math.round(v / 10 - 5) // 100 is max a user can vote per play
+const spotifyLink = (uri: string) => {
+  const code = uri.split(':').pop()
+  return `https://open.spotify.com/track/${code}`
 }
 
 const NowPlaying = {
   addTrack: (track: JBTrack): Promise<unknown> => {
     return new Promise((resolve) => {
-      const metrics = [
-        {
-          type: 'mrkdwn',
-          text: `*Rating:* ${voteNormaliser(track.metrics.votesAverage)}`
-        },
-        {
-          type: 'mrkdwn',
-          text: `*Voted by:* ${simplePluralize(track.metrics.votes, 'user')}`
-        },
-        {
-          type: 'mrkdwn',
-          text: `*Played:* ${simplePluralize(track.metrics.plays, 'time')}`
-        }
-      ]
-
-      if (track.addedBy[1]) metrics.push(lastPlayed(track.addedBy[1]))
-
       const payload: unknown = {
-        blocks: [
-          {
-            type: 'section',
-            text: {
-              type: 'mrkdwn',
-              text: 'Now Playing:'
-            }
-          },
-          {
-            type: 'divider'
-          },
-          {
-            type: 'section',
-            block_id: 'section1',
-            text: {
-              type: 'mrkdwn',
-              text: `*${track.name}* \n ${track.artist.name} \n ${track.album.name} (${track.year})`
-            },
-            accessory: {
-              type: 'image',
-              image_url: track.image,
-              alt_text: track.artist.name
-            }
-          },
-          {
-            type: 'divider'
-          },
-          {
-            type: 'section',
-            block_id: 'section2',
-            fields: metrics
-          },
-          {
-            type: 'context',
-            elements: [
-              {
-                type: 'mrkdwn',
-                text: `Added by ${track.addedBy[0].user.fullname} ${timeAgo.format(
-                  track.addedBy[0].addedAt
-                )}`
-              }
-            ]
-          }
-        ]
+        spotify: spotifyLink(track.uri),
+        title: track.name,
+        artist: track.artist.name,
+        album: track.album.name,
+        year: track.year,
+        image: track.image,
+        metrics: {
+          rating: voteNormaliser(track.metrics.votesAverage),
+          votes: track.metrics.votes,
+          plays: track.metrics.plays
+        },
+        added_by: track.addedBy[0].user.fullname,
+        added_at: timeAgo.format(track.addedBy[0].addedAt),
+        last_played: track.addedBy[1] ? timeAgo.format(track.addedBy[1].addedAt) : null
       }
 
       const updateValue = { $set: { 'value.currentTrack': payload } }

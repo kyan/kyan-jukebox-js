@@ -49,10 +49,15 @@ describe('NowPlaying', () => {
 
       return NowPlaying.addTrack(trackObject).then((payload) => {
         expect(payload).toMatchSnapshot()
+        expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
+          { key: 'json' },
+          { $set: { 'value.currentTrack': payload } },
+          { runValidators: true, setDefaultsOnInsert: true, upsert: true }
+        )
       })
     })
 
-    it('returns the correct payload when full data 1', () => {
+    it('returns the correct payload when partial full data', () => {
       const result = {} as any
       jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(result)
       jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
@@ -61,6 +66,11 @@ describe('NowPlaying', () => {
 
       return NowPlaying.addTrack(trackObject).then((payload) => {
         expect(payload).toMatchSnapshot()
+        expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
+          { key: 'json' },
+          { $set: { 'value.currentTrack': payload } },
+          { runValidators: true, setDefaultsOnInsert: true, upsert: true }
+        )
       })
     })
 
