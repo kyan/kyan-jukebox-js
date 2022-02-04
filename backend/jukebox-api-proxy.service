@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/caddy run -config /home/jukebox/app/current/backend/dist/Caddyfile
+ExecStart=/usr/bin/caddy run -config /home/jukebox/app/current/backend/Caddyfile
 
 Restart=always
 # Restart service after 10 seconds if service crashes
