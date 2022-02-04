@@ -21,7 +21,7 @@ build:
 	docker-compose build
 
 start:
-	docker-compose $(args) up
+	docker-compose $(args) up $(params)
 
 fe-serve:
 	make fe task=start
