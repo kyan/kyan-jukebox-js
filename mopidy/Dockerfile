@@ -13,8 +13,9 @@ RUN set -ex \
         gstreamer1.0-plugins-bad \
         python-crypto \
         python-pykka \
- && curl -L https://apt.mopidy.com/mopidy.gpg | apt-key add - \
- && curl -L https://apt.mopidy.com/mopidy.list -o /etc/apt/sources.list.d/mopidy.list \
+ && mkdir -p /usr/local/share/keyrings \
+ && curl -L https://apt.mopidy.com/mopidy.gpg -o /usr/local/share/keyrings/mopidy-archive-keyring.gpg \
+ && curl -L https://apt.mopidy.com/buster.list -o /etc/apt/sources.list.d/mopidy.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         mopidy \
