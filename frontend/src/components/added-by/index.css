@@ -6,4 +6,9 @@
 
 .ui.list.added-by-list {
   font-size: 12px;
+  max-height: 300px;
+  overflow-y: scroll;
+  padding-right: 10px;
+  scrollbar-width: none;
+  scrollbar-color: transparent blue;
 }
