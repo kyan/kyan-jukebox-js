@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Button, Icon } from 'semantic-ui-react'
+import './index.css'
 
 const VOLUME_INC = 5
 const VOLUME_MAX = 100
@@ -51,7 +52,9 @@ const VolumeButtons = ({ disabled, onVolumeChange }) => {
   return (
     <Button.Group floated='right'>
       <VolumeDownButton volume={jukebox.volume} onChange={onVolumeChange} disabled={disabled} />
-      <Button.Or text={jukebox.volume} />
+      <span className='labelWrapper'>
+        <Button.Or text={jukebox.volume} />
+      </span>
       <VolumeUpButton volume={jukebox.volume} onChange={onVolumeChange} disabled={disabled} />
     </Button.Group>
   )
