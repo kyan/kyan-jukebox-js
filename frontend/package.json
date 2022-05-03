@@ -38,6 +38,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^10.4.9",
+    "@testing-library/user-event": "^14.1.1",
     "@types/enzyme": "^3.10.5",
     "@types/jest": "^26.0.7",
     "@types/node": "^14.0.26",
@@ -49,7 +50,7 @@
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "enzyme-to-json": "^3.6.2",
-    "eslint": "^7.0.0",
+    "eslint": "^8.14.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^23.20.0",

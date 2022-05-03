@@ -1,63 +1,75 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+// import { mount } from 'enzyme'
 import GoogleAuthContext from 'contexts/google'
 import Settings from './index'
 
-describe('Settinsg', () => {
+describe('Settings', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  describe('render', () => {
-    describe('when authorised user', () => {
-      const signOutMock = jest.fn()
-      const mockGoogle = {
-        signOut: signOutMock,
-        isSignedIn: true,
-        googleUser: {
-          profileObj: {
-            name: 'Fred Spanner',
-            imageUrl: 'myImage123'
-          }
+  describe('when authorised user', () => {
+    const signOutMock = jest.fn()
+    const mockGoogle = {
+      signOut: signOutMock,
+      isSignedIn: true,
+      googleUser: {
+        profileObj: {
+          name: 'Fred Spanner',
+          imageUrl: 'myImage123'
         }
       }
-      const wrapper = mount(
+    }
+
+    test('renders as expected', () => {
+      const { asFragment } = render(
         <GoogleAuthContext.Provider value={mockGoogle}>
           <Settings />
         </GoogleAuthContext.Provider>
       )
 
-      it('renders as expected', () => {
-        expect(wrapper).toMatchSnapshot()
-      })
-
-      it('handles signing out', () => {
-        wrapper.find('Image').simulate('click')
-        expect(signOutMock).toHaveBeenCalled()
-      })
+      const snapshot = asFragment()
+      expect(snapshot).toMatchSnapshot()
     })
 
-    describe('when nonauthorised user', () => {
-      const signInMock = jest.fn()
-      const mockGoogle = {
-        grantOfflineAccess: signInMock,
-        isSignedIn: false,
-        googleUser: null
-      }
-      const wrapper = mount(
+    test('handles signing out', () => {
+      const user = userEvent.setup()
+      const { getByTitle } = render(
         <GoogleAuthContext.Provider value={mockGoogle}>
           <Settings />
         </GoogleAuthContext.Provider>
       )
 
-      it('renders as expected', () => {
-        expect(wrapper).toMatchSnapshot()
-      })
+      user.click(getByTitle('Fred Spanner'))
+      expect(signOutMock).toHaveBeenCalled()
+    })
+  })
 
-      it('handles signing in', () => {
-        wrapper.find('Button').simulate('click')
-        expect(signInMock).toHaveBeenCalled()
-      })
+  describe('when nonauthorised user', () => {
+    const signInMock = jest.fn()
+    const mockGoogle = {
+      grantOfflineAccess: signInMock,
+      isSignedIn: false,
+      googleUser: null
+    }
+
+    const user = userEvent.setup()
+    const { getByText, asFragment } = render(
+      <GoogleAuthContext.Provider value={mockGoogle}>
+        <Settings />
+      </GoogleAuthContext.Provider>
+    )
+
+    test('renders as expected', () => {
+      const snapshot = asFragment()
+      expect(snapshot).toMatchSnapshot()
+    })
+
+    test('handles signing in', () => {
+      user.click(getByText('Login using Google'))
+      expect(signInMock).toHaveBeenCalled()
     })
   })
 })

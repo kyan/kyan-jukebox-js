@@ -1,85 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Settinsg render when authorised user renders as expected 1`] = `
-<Settings>
-  <Image
-    as="img"
-    floated="right"
-    onClick={[Function]}
-    rounded={true}
-    size="mini"
+exports[`Settings when authorised user renders as expected 1`] = `
+<DocumentFragment>
+  <img
+    class="ui mini rounded right floated image"
     src="myImage123"
     title="Fred Spanner"
-    ui={true}
-  >
-    <img
-      className="ui mini rounded right floated image"
-      onClick={[Function]}
-      src="myImage123"
-      title="Fred Spanner"
-    />
-  </Image>
-</Settings>
+  />
+</DocumentFragment>
 `;
 
-exports[`Settinsg render when nonauthorised user renders as expected 1`] = `
-<Settings>
-  <Button
-    as="button"
-    className="jb-settings-toggle"
-    floated="right"
-    icon="power off"
-    onClick={[Function]}
-    title="Login using Google"
-  >
-    <Ref
-      innerRef={
-        Object {
-          "current": <button
-            class="ui icon right floated button jb-settings-toggle"
-            title="Login using Google"
-          >
-            <i
-              aria-hidden="true"
-              class="power off icon"
-            />
-          </button>,
-        }
-      }
-    >
-      <RefFindNode
-        innerRef={
-          Object {
-            "current": <button
-              class="ui icon right floated button jb-settings-toggle"
-              title="Login using Google"
-            >
-              <i
-                aria-hidden="true"
-                class="power off icon"
-              />
-            </button>,
-          }
-        }
-      >
-        <button
-          className="ui icon right floated button jb-settings-toggle"
-          onClick={[Function]}
-          title="Login using Google"
-        >
-          <Icon
-            as="i"
-            name="power off"
-          >
-            <i
-              aria-hidden="true"
-              className="power off icon"
-              onClick={[Function]}
-            />
-          </Icon>
-        </button>
-      </RefFindNode>
-    </Ref>
-  </Button>
-</Settings>
-`;
+exports[`Settings when nonauthorised user renders as expected 1`] = `<DocumentFragment />`;
