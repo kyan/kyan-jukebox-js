@@ -1,9 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { JukeboxAppState } from 'reducers'
 import MopidyApi from 'constants/mopidy-api'
 import { Icon } from 'semantic-ui-react'
 import './index.css'
+
+import type { JukeboxAppState } from 'reducers'
 
 interface NavigateButtonProps {
   disabled: boolean
