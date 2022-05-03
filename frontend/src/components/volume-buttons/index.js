@@ -52,7 +52,7 @@ const VolumeButtons = ({ disabled, onVolumeChange }) => {
   return (
     <Button.Group floated='right'>
       <VolumeDownButton volume={jukebox.volume} onChange={onVolumeChange} disabled={disabled} />
-      <span class='labelWrapper'>
+      <span className='labelWrapper'>
         <Button.Or text={jukebox.volume} />
       </span>
       <VolumeUpButton volume={jukebox.volume} onChange={onVolumeChange} disabled={disabled} />
