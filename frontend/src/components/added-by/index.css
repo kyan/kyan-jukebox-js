@@ -6,4 +6,13 @@
 
 .ui.list.added-by-list {
   font-size: 12px;
+  max-height: 300px;
+  overflow-y: scroll;
+  padding-right: 10px;
+}
+.ui.list.added-by-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ui.list.added-by-list::-webkit-scrollbar {
+  width: 6px;
 }

@@ -33,7 +33,7 @@ const AddedBy = ({ users = [] }) => {
   const avatar = userPicture(users[0])
   if (!users.length) return avatar
 
-  return <Popup wide content={addedByContent(users)} trigger={avatar} />
+  return <Popup hoverable wide content={addedByContent(users)} trigger={avatar} />
 }
 
 AddedBy.propTypes = {

@@ -1652,6 +1652,7 @@ exports[`CurrentTrack render album renders track 1`] = `
                 }
                 disabled={false}
                 eventsEnabled={true}
+                hoverable={true}
                 on={
                   Array [
                     "click",
@@ -1675,6 +1676,7 @@ exports[`CurrentTrack render album renders track 1`] = `
                 <Portal
                   closeOnDocumentClick={true}
                   closeOnEscape={true}
+                  closeOnPortalMouseLeave={true}
                   closeOnTriggerClick={true}
                   closeOnTriggerMouseLeave={true}
                   eventPool="default"
