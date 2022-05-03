@@ -7,14 +7,14 @@ import './index.css'
 
 interface NavigateButtonProps {
   disabled: boolean
-  onClick?: () => void
+  onClick: () => void
 }
 
 interface PlayButtonProps {
   disabled: boolean
-  onPause?: () => void
-  onPlay?: () => void
-  state?: string
+  onPause: () => void
+  onPlay: () => void
+  state: string
 }
 
 interface ControlsProps {
