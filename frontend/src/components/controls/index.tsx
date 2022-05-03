@@ -1,11 +1,31 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { JukeboxAppState } from 'reducers'
 import MopidyApi from 'constants/mopidy-api'
-import PropTypes from 'prop-types'
 import { Icon } from 'semantic-ui-react'
 import './index.css'
 
-const PreviousButton = ({ disabled, onClick }) => {
+interface NavigateButtonProps {
+  disabled: boolean
+  onClick?: () => void
+}
+
+interface PlayButtonProps {
+  disabled: boolean
+  onPause?: () => void
+  onPlay?: () => void
+  state?: string
+}
+
+interface ControlsProps {
+  disabled: boolean
+  onPlay: () => void
+  onPause: () => void
+  onPrevious: () => void
+  onNext: () => void
+}
+
+const PreviousButton = ({ disabled, onClick }: NavigateButtonProps) => {
   return (
     <button
       className='c-controls__button'
@@ -17,7 +37,7 @@ const PreviousButton = ({ disabled, onClick }) => {
     </button>
   )
 }
-const PlayButton = ({ disabled, onPause, onPlay, state }) => {
+const PlayButton = ({ disabled, onPause, onPlay, state }: PlayButtonProps) => {
   const icon = state === MopidyApi.PLAYING ? 'pause' : 'play'
   const clickHandler = state === MopidyApi.PLAYING ? onPause : onPlay
 
@@ -32,7 +52,7 @@ const PlayButton = ({ disabled, onPause, onPlay, state }) => {
     </button>
   )
 }
-const NextButton = ({ disabled, onClick }) => {
+const NextButton = ({ disabled, onClick }: NavigateButtonProps) => {
   return (
     <button
       className='c-controls__button'
@@ -45,8 +65,8 @@ const NextButton = ({ disabled, onClick }) => {
   )
 }
 
-const Controls = props => {
-  const jukebox = useSelector(state => state.jukebox)
+const Controls = (props: ControlsProps) => {
+  const jukebox = useSelector((state: JukeboxAppState) => state.jukebox)
   const { disabled, onPlay, onPause, onPrevious, onNext } = props
 
   return (
@@ -61,14 +81,6 @@ const Controls = props => {
       <NextButton onClick={onNext} disabled={disabled} />
     </div>
   )
-}
-
-Controls.propTypes = {
-  disabled: PropTypes.bool,
-  onPlay: PropTypes.func.isRequired,
-  onPause: PropTypes.func.isRequired,
-  onPrevious: PropTypes.func.isRequired,
-  onNext: PropTypes.func.isRequired
 }
 
 export default Controls
