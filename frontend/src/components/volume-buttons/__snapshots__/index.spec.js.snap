@@ -68,14 +68,18 @@ exports[`VolumeButtons render render 1`] = `
           </Ref>
         </Button>
       </VolumeDownButton>
-      <ButtonOr
-        text={0}
+      <span
+        className="labelWrapper"
       >
-        <div
-          className="or"
-          data-text={0}
-        />
-      </ButtonOr>
+        <ButtonOr
+          text={0}
+        >
+          <div
+            className="or"
+            data-text={0}
+          />
+        </ButtonOr>
+      </span>
       <VolumeUpButton
         disabled={false}
         onChange={[MockFunction]}
