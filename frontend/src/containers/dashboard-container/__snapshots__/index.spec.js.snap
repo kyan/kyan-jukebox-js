@@ -413,14 +413,18 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                         </Ref>
                                       </Button>
                                     </VolumeDownButton>
-                                    <ButtonOr
-                                      text={25}
+                                    <span
+                                      className="labelWrapper"
                                     >
-                                      <div
-                                        className="or"
-                                        data-text={25}
-                                      />
-                                    </ButtonOr>
+                                      <ButtonOr
+                                        text={25}
+                                      >
+                                        <div
+                                          className="or"
+                                          data-text={25}
+                                        />
+                                      </ButtonOr>
+                                    </span>
                                     <VolumeUpButton
                                       disabled={true}
                                       onChange={[Function]}
@@ -1661,14 +1665,18 @@ exports[`DashboardContainer online logged in should log error when refresh fails
                                         </Ref>
                                       </Button>
                                     </VolumeDownButton>
-                                    <ButtonOr
-                                      text={25}
+                                    <span
+                                      className="labelWrapper"
                                     >
-                                      <div
-                                        className="or"
-                                        data-text={25}
-                                      />
-                                    </ButtonOr>
+                                      <ButtonOr
+                                        text={25}
+                                      >
+                                        <div
+                                          className="or"
+                                          data-text={25}
+                                        />
+                                      </ButtonOr>
+                                    </span>
                                     <VolumeUpButton
                                       disabled={true}
                                       onChange={[Function]}
@@ -2909,14 +2917,18 @@ exports[`DashboardContainer online logged in should refresh the token 1`] = `
                                         </Ref>
                                       </Button>
                                     </VolumeDownButton>
-                                    <ButtonOr
-                                      text={25}
+                                    <span
+                                      className="labelWrapper"
                                     >
-                                      <div
-                                        className="or"
-                                        data-text={25}
-                                      />
-                                    </ButtonOr>
+                                      <ButtonOr
+                                        text={25}
+                                      >
+                                        <div
+                                          className="or"
+                                          data-text={25}
+                                        />
+                                      </ButtonOr>
+                                    </span>
                                     <VolumeUpButton
                                       disabled={true}
                                       onChange={[Function]}
@@ -4197,14 +4209,18 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                         </Ref>
                                       </Button>
                                     </VolumeDownButton>
-                                    <ButtonOr
-                                      text={25}
+                                    <span
+                                      className="labelWrapper"
                                     >
-                                      <div
-                                        className="or"
-                                        data-text={25}
-                                      />
-                                    </ButtonOr>
+                                      <ButtonOr
+                                        text={25}
+                                      >
+                                        <div
+                                          className="or"
+                                          data-text={25}
+                                        />
+                                      </ButtonOr>
+                                    </span>
                                     <VolumeUpButton
                                       disabled={true}
                                       onChange={[Function]}
