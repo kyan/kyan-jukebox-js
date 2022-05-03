@@ -46,10 +46,6 @@ const VolumeUpButton = props => (
   </Button>
 )
 
-const VolumeLabel = props => {
-  return <div class='volumeLabel'>{props.value}</div>
-}
-
 const VolumeButtons = ({ disabled, onVolumeChange }) => {
   const jukebox = useSelector(state => state.jukebox)
 
@@ -59,7 +55,6 @@ const VolumeButtons = ({ disabled, onVolumeChange }) => {
       <span class='labelWrapper'>
         <Button.Or text={jukebox.volume} />
       </span>
-      <VolumeLabel value={jukebox.volume} />
       <VolumeUpButton volume={jukebox.volume} onChange={onVolumeChange} disabled={disabled} />
     </Button.Group>
   )
