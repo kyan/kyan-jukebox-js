@@ -7,7 +7,12 @@ import './index.css'
 
 const PreviousButton = ({ disabled, onClick }) => {
   return (
-    <button className='c-controls__button' onClick={onClick} disabled={disabled}>
+    <button
+      className='c-controls__button'
+      onClick={onClick}
+      disabled={disabled}
+      data-testid='PreviousButton'
+    >
       <Icon name='step backward' size='big' />
     </button>
   )
@@ -17,14 +22,24 @@ const PlayButton = ({ disabled, onPause, onPlay, state }) => {
   const clickHandler = state === MopidyApi.PLAYING ? onPause : onPlay
 
   return (
-    <button className='c-controls__button' onClick={clickHandler} disabled={disabled}>
+    <button
+      className='c-controls__button'
+      onClick={clickHandler}
+      disabled={disabled}
+      data-testid='PlayButton'
+    >
       <Icon name={icon} size='big' />
     </button>
   )
 }
 const NextButton = ({ disabled, onClick }) => {
   return (
-    <button className='c-controls__button' onClick={onClick} disabled={disabled}>
+    <button
+      className='c-controls__button'
+      onClick={onClick}
+      disabled={disabled}
+      data-testid='NextButton'
+    >
       <Icon name='step forward' size='big' />
     </button>
   )
@@ -52,7 +67,6 @@ Controls.propTypes = {
   disabled: PropTypes.bool,
   onPlay: PropTypes.func.isRequired,
   onPause: PropTypes.func.isRequired,
-  onStop: PropTypes.func.isRequired,
   onPrevious: PropTypes.func.isRequired,
   onNext: PropTypes.func.isRequired
 }
