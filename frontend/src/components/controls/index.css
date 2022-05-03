@@ -1,0 +1,17 @@
+.c-controls__wrapper {
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.c-controls__button {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.c-controls__button i.icon {
+  display: block;
+  width: auto;
+  margin: 0;
+}

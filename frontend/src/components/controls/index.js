@@ -1,68 +1,50 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import SkipButtons from 'components/skip-buttons'
 import MopidyApi from 'constants/mopidy-api'
 import PropTypes from 'prop-types'
-import { Button, Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
+import './index.css'
 
-const PlayButton = props => (
-  <Button
-    onClick={props.onClick}
-    animated='vertical'
-    disabled={props.state === MopidyApi.PLAYING || props.disabled}
-    active={props.state === MopidyApi.PLAYING}
-    className='jb-play-button'
-  >
-    <Button.Content hidden>Play</Button.Content>
-    <Button.Content visible>
-      <Icon name='play' />
-    </Button.Content>
-  </Button>
-)
+const PreviousButton = ({ disabled, onClick }) => {
+  return (
+    <button className='c-controls__button' onClick={onClick} disabled={disabled}>
+      <Icon name='step backward' size='big' />
+    </button>
+  )
+}
+const PlayButton = ({ disabled, onPause, onPlay, state }) => {
+  const icon = state === MopidyApi.PLAYING ? 'pause' : 'play'
+  const clickHandler = state === MopidyApi.PLAYING ? onPause : onPlay
 
-const PauseButton = props => (
-  <Button
-    onClick={props.onClick}
-    animated='vertical'
-    disabled={
-      props.state === MopidyApi.PAUSED || props.state === MopidyApi.STOPPED || props.disabled
-    }
-    active={props.state === MopidyApi.PAUSED}
-    className='jb-pause-button'
-  >
-    <Button.Content hidden>Pause</Button.Content>
-    <Button.Content visible>
-      <Icon name='pause' />
-    </Button.Content>
-  </Button>
-)
-
-const StopButton = props => (
-  <Button
-    onClick={props.onClick}
-    animated='vertical'
-    disabled={props.state === MopidyApi.STOPPED || props.disabled}
-    active={props.state === MopidyApi.STOPPED}
-    className='jb-stop-button'
-  >
-    <Button.Content hidden>Stop</Button.Content>
-    <Button.Content visible>
-      <Icon name='stop' />
-    </Button.Content>
-  </Button>
-)
+  return (
+    <button className='c-controls__button' onClick={clickHandler} disabled={disabled}>
+      <Icon name={icon} size='big' />
+    </button>
+  )
+}
+const NextButton = ({ disabled, onClick }) => {
+  return (
+    <button className='c-controls__button' onClick={onClick} disabled={disabled}>
+      <Icon name='step forward' size='big' />
+    </button>
+  )
+}
 
 const Controls = props => {
   const jukebox = useSelector(state => state.jukebox)
-  const { disabled, onPlay, onPause, onStop, onPrevious, onNext } = props
+  const { disabled, onPlay, onPause, onPrevious, onNext } = props
 
   return (
-    <span>
-      <SkipButtons disabled={disabled} onPrevious={onPrevious} onNext={onNext} />
-      <PlayButton onClick={onPlay} state={jukebox.playbackState} disabled={disabled} />
-      <PauseButton onClick={onPause} state={jukebox.playbackState} disabled={disabled} />
-      <StopButton onClick={onStop} state={jukebox.playbackState} disabled={disabled} />
-    </span>
+    <div className='c-controls__wrapper'>
+      <PreviousButton onClick={onPrevious} disabled={disabled} />
+      <PlayButton
+        onPlay={onPlay}
+        onPause={onPause}
+        state={jukebox.playbackState}
+        disabled={disabled}
+      />
+      <NextButton onClick={onNext} disabled={disabled} />
+    </div>
   )
 }
 
