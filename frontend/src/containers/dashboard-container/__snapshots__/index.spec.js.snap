@@ -599,515 +599,81 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                 onPrevious={[Function]}
                                 onStop={[Function]}
                               >
-                                <span>
-                                  <SkipButtons
+                                <div
+                                  className="c-controls__wrapper"
+                                >
+                                  <PreviousButton
                                     disabled={true}
-                                    onNext={[Function]}
-                                    onPrevious={[Function]}
+                                    onClick={[Function]}
                                   >
-                                    <PreviousButton
+                                    <button
+                                      className="c-controls__button"
+                                      data-testid="PreviousButton"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
-                                      <Button
-                                        animated="vertical"
-                                        as="button"
-                                        className="jb-previous-button"
-                                        disabled={true}
-                                        onClick={[Function]}
+                                      <Icon
+                                        as="i"
+                                        name="step backward"
+                                        size="big"
                                       >
-                                        <Ref
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-previous-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Prev
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="step backward icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <RefFindNode
-                                            innerRef={
-                                              Object {
-                                                "current": <button
-                                                  class="ui vertical animated disabled button jb-previous-button"
-                                                  disabled=""
-                                                  tabindex="-1"
-                                                >
-                                                  <div
-                                                    class="hidden content"
-                                                  >
-                                                    Prev
-                                                  </div>
-                                                  <div
-                                                    class="visible content"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      class="step backward icon"
-                                                    />
-                                                  </div>
-                                                </button>,
-                                              }
-                                            }
-                                          >
-                                            <button
-                                              className="ui vertical animated disabled button jb-previous-button"
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              tabIndex={-1}
-                                            >
-                                              <ButtonContent
-                                                hidden={true}
-                                              >
-                                                <div
-                                                  className="hidden content"
-                                                >
-                                                  Prev
-                                                </div>
-                                              </ButtonContent>
-                                              <ButtonContent
-                                                visible={true}
-                                              >
-                                                <div
-                                                  className="visible content"
-                                                >
-                                                  <Icon
-                                                    as="i"
-                                                    name="step backward"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      className="step backward icon"
-                                                      onClick={[Function]}
-                                                    />
-                                                  </Icon>
-                                                </div>
-                                              </ButtonContent>
-                                            </button>
-                                          </RefFindNode>
-                                        </Ref>
-                                      </Button>
-                                    </PreviousButton>
-                                    <NextButton
-                                      disabled={true}
-                                      onClick={[Function]}
-                                    >
-                                      <Button
-                                        animated="vertical"
-                                        as="button"
-                                        className="jb-next-button"
-                                        disabled={true}
-                                        onClick={[Function]}
-                                      >
-                                        <Ref
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-next-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Next
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="step forward icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <RefFindNode
-                                            innerRef={
-                                              Object {
-                                                "current": <button
-                                                  class="ui vertical animated disabled button jb-next-button"
-                                                  disabled=""
-                                                  tabindex="-1"
-                                                >
-                                                  <div
-                                                    class="hidden content"
-                                                  >
-                                                    Next
-                                                  </div>
-                                                  <div
-                                                    class="visible content"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      class="step forward icon"
-                                                    />
-                                                  </div>
-                                                </button>,
-                                              }
-                                            }
-                                          >
-                                            <button
-                                              className="ui vertical animated disabled button jb-next-button"
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              tabIndex={-1}
-                                            >
-                                              <ButtonContent
-                                                hidden={true}
-                                              >
-                                                <div
-                                                  className="hidden content"
-                                                >
-                                                  Next
-                                                </div>
-                                              </ButtonContent>
-                                              <ButtonContent
-                                                visible={true}
-                                              >
-                                                <div
-                                                  className="visible content"
-                                                >
-                                                  <Icon
-                                                    as="i"
-                                                    name="step forward"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      className="step forward icon"
-                                                      onClick={[Function]}
-                                                    />
-                                                  </Icon>
-                                                </div>
-                                              </ButtonContent>
-                                            </button>
-                                          </RefFindNode>
-                                        </Ref>
-                                      </Button>
-                                    </NextButton>
-                                  </SkipButtons>
+                                        <i
+                                          aria-hidden="true"
+                                          className="step backward big icon"
+                                          onClick={[Function]}
+                                        />
+                                      </Icon>
+                                    </button>
+                                  </PreviousButton>
                                   <PlayButton
                                     disabled={true}
-                                    onClick={[Function]}
+                                    onPause={[Function]}
+                                    onPlay={[Function]}
                                     state="playing"
                                   >
-                                    <Button
-                                      active={true}
-                                      animated="vertical"
-                                      as="button"
-                                      className="jb-play-button"
+                                    <button
+                                      className="c-controls__button"
+                                      data-testid="PlayButton"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
-                                      <Ref
-                                        innerRef={
-                                          Object {
-                                            "current": <button
-                                              class="ui active vertical animated disabled button jb-play-button"
-                                              disabled=""
-                                              tabindex="-1"
-                                            >
-                                              <div
-                                                class="hidden content"
-                                              >
-                                                Play
-                                              </div>
-                                              <div
-                                                class="visible content"
-                                              >
-                                                <i
-                                                  aria-hidden="true"
-                                                  class="play icon"
-                                                />
-                                              </div>
-                                            </button>,
-                                          }
-                                        }
+                                      <Icon
+                                        as="i"
+                                        name="pause"
+                                        size="big"
                                       >
-                                        <RefFindNode
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui active vertical animated disabled button jb-play-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Play
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="play icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <button
-                                            className="ui active vertical animated disabled button jb-play-button"
-                                            disabled={true}
-                                            onClick={[Function]}
-                                            tabIndex={-1}
-                                          >
-                                            <ButtonContent
-                                              hidden={true}
-                                            >
-                                              <div
-                                                className="hidden content"
-                                              >
-                                                Play
-                                              </div>
-                                            </ButtonContent>
-                                            <ButtonContent
-                                              visible={true}
-                                            >
-                                              <div
-                                                className="visible content"
-                                              >
-                                                <Icon
-                                                  as="i"
-                                                  name="play"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    className="play icon"
-                                                    onClick={[Function]}
-                                                  />
-                                                </Icon>
-                                              </div>
-                                            </ButtonContent>
-                                          </button>
-                                        </RefFindNode>
-                                      </Ref>
-                                    </Button>
+                                        <i
+                                          aria-hidden="true"
+                                          className="pause big icon"
+                                          onClick={[Function]}
+                                        />
+                                      </Icon>
+                                    </button>
                                   </PlayButton>
-                                  <PauseButton
+                                  <NextButton
                                     disabled={true}
                                     onClick={[Function]}
-                                    state="playing"
                                   >
-                                    <Button
-                                      active={false}
-                                      animated="vertical"
-                                      as="button"
-                                      className="jb-pause-button"
+                                    <button
+                                      className="c-controls__button"
+                                      data-testid="NextButton"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
-                                      <Ref
-                                        innerRef={
-                                          Object {
-                                            "current": <button
-                                              class="ui vertical animated disabled button jb-pause-button"
-                                              disabled=""
-                                              tabindex="-1"
-                                            >
-                                              <div
-                                                class="hidden content"
-                                              >
-                                                Pause
-                                              </div>
-                                              <div
-                                                class="visible content"
-                                              >
-                                                <i
-                                                  aria-hidden="true"
-                                                  class="pause icon"
-                                                />
-                                              </div>
-                                            </button>,
-                                          }
-                                        }
+                                      <Icon
+                                        as="i"
+                                        name="step forward"
+                                        size="big"
                                       >
-                                        <RefFindNode
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-pause-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Pause
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="pause icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <button
-                                            className="ui vertical animated disabled button jb-pause-button"
-                                            disabled={true}
-                                            onClick={[Function]}
-                                            tabIndex={-1}
-                                          >
-                                            <ButtonContent
-                                              hidden={true}
-                                            >
-                                              <div
-                                                className="hidden content"
-                                              >
-                                                Pause
-                                              </div>
-                                            </ButtonContent>
-                                            <ButtonContent
-                                              visible={true}
-                                            >
-                                              <div
-                                                className="visible content"
-                                              >
-                                                <Icon
-                                                  as="i"
-                                                  name="pause"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    className="pause icon"
-                                                    onClick={[Function]}
-                                                  />
-                                                </Icon>
-                                              </div>
-                                            </ButtonContent>
-                                          </button>
-                                        </RefFindNode>
-                                      </Ref>
-                                    </Button>
-                                  </PauseButton>
-                                  <StopButton
-                                    disabled={true}
-                                    onClick={[Function]}
-                                    state="playing"
-                                  >
-                                    <Button
-                                      active={false}
-                                      animated="vertical"
-                                      as="button"
-                                      className="jb-stop-button"
-                                      disabled={true}
-                                      onClick={[Function]}
-                                    >
-                                      <Ref
-                                        innerRef={
-                                          Object {
-                                            "current": <button
-                                              class="ui vertical animated disabled button jb-stop-button"
-                                              disabled=""
-                                              tabindex="-1"
-                                            >
-                                              <div
-                                                class="hidden content"
-                                              >
-                                                Stop
-                                              </div>
-                                              <div
-                                                class="visible content"
-                                              >
-                                                <i
-                                                  aria-hidden="true"
-                                                  class="stop icon"
-                                                />
-                                              </div>
-                                            </button>,
-                                          }
-                                        }
-                                      >
-                                        <RefFindNode
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-stop-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Stop
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="stop icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <button
-                                            className="ui vertical animated disabled button jb-stop-button"
-                                            disabled={true}
-                                            onClick={[Function]}
-                                            tabIndex={-1}
-                                          >
-                                            <ButtonContent
-                                              hidden={true}
-                                            >
-                                              <div
-                                                className="hidden content"
-                                              >
-                                                Stop
-                                              </div>
-                                            </ButtonContent>
-                                            <ButtonContent
-                                              visible={true}
-                                            >
-                                              <div
-                                                className="visible content"
-                                              >
-                                                <Icon
-                                                  as="i"
-                                                  name="stop"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    className="stop icon"
-                                                    onClick={[Function]}
-                                                  />
-                                                </Icon>
-                                              </div>
-                                            </ButtonContent>
-                                          </button>
-                                        </RefFindNode>
-                                      </Ref>
-                                    </Button>
-                                  </StopButton>
-                                </span>
+                                        <i
+                                          aria-hidden="true"
+                                          className="step forward big icon"
+                                          onClick={[Function]}
+                                        />
+                                      </Icon>
+                                    </button>
+                                  </NextButton>
+                                </div>
                               </Controls>
                             </div>
                           </Container>
@@ -1851,515 +1417,81 @@ exports[`DashboardContainer online logged in should log error when refresh fails
                                 onPrevious={[Function]}
                                 onStop={[Function]}
                               >
-                                <span>
-                                  <SkipButtons
+                                <div
+                                  className="c-controls__wrapper"
+                                >
+                                  <PreviousButton
                                     disabled={true}
-                                    onNext={[Function]}
-                                    onPrevious={[Function]}
+                                    onClick={[Function]}
                                   >
-                                    <PreviousButton
+                                    <button
+                                      className="c-controls__button"
+                                      data-testid="PreviousButton"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
-                                      <Button
-                                        animated="vertical"
-                                        as="button"
-                                        className="jb-previous-button"
-                                        disabled={true}
-                                        onClick={[Function]}
+                                      <Icon
+                                        as="i"
+                                        name="step backward"
+                                        size="big"
                                       >
-                                        <Ref
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-previous-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Prev
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="step backward icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <RefFindNode
-                                            innerRef={
-                                              Object {
-                                                "current": <button
-                                                  class="ui vertical animated disabled button jb-previous-button"
-                                                  disabled=""
-                                                  tabindex="-1"
-                                                >
-                                                  <div
-                                                    class="hidden content"
-                                                  >
-                                                    Prev
-                                                  </div>
-                                                  <div
-                                                    class="visible content"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      class="step backward icon"
-                                                    />
-                                                  </div>
-                                                </button>,
-                                              }
-                                            }
-                                          >
-                                            <button
-                                              className="ui vertical animated disabled button jb-previous-button"
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              tabIndex={-1}
-                                            >
-                                              <ButtonContent
-                                                hidden={true}
-                                              >
-                                                <div
-                                                  className="hidden content"
-                                                >
-                                                  Prev
-                                                </div>
-                                              </ButtonContent>
-                                              <ButtonContent
-                                                visible={true}
-                                              >
-                                                <div
-                                                  className="visible content"
-                                                >
-                                                  <Icon
-                                                    as="i"
-                                                    name="step backward"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      className="step backward icon"
-                                                      onClick={[Function]}
-                                                    />
-                                                  </Icon>
-                                                </div>
-                                              </ButtonContent>
-                                            </button>
-                                          </RefFindNode>
-                                        </Ref>
-                                      </Button>
-                                    </PreviousButton>
-                                    <NextButton
-                                      disabled={true}
-                                      onClick={[Function]}
-                                    >
-                                      <Button
-                                        animated="vertical"
-                                        as="button"
-                                        className="jb-next-button"
-                                        disabled={true}
-                                        onClick={[Function]}
-                                      >
-                                        <Ref
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-next-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Next
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="step forward icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <RefFindNode
-                                            innerRef={
-                                              Object {
-                                                "current": <button
-                                                  class="ui vertical animated disabled button jb-next-button"
-                                                  disabled=""
-                                                  tabindex="-1"
-                                                >
-                                                  <div
-                                                    class="hidden content"
-                                                  >
-                                                    Next
-                                                  </div>
-                                                  <div
-                                                    class="visible content"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      class="step forward icon"
-                                                    />
-                                                  </div>
-                                                </button>,
-                                              }
-                                            }
-                                          >
-                                            <button
-                                              className="ui vertical animated disabled button jb-next-button"
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              tabIndex={-1}
-                                            >
-                                              <ButtonContent
-                                                hidden={true}
-                                              >
-                                                <div
-                                                  className="hidden content"
-                                                >
-                                                  Next
-                                                </div>
-                                              </ButtonContent>
-                                              <ButtonContent
-                                                visible={true}
-                                              >
-                                                <div
-                                                  className="visible content"
-                                                >
-                                                  <Icon
-                                                    as="i"
-                                                    name="step forward"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      className="step forward icon"
-                                                      onClick={[Function]}
-                                                    />
-                                                  </Icon>
-                                                </div>
-                                              </ButtonContent>
-                                            </button>
-                                          </RefFindNode>
-                                        </Ref>
-                                      </Button>
-                                    </NextButton>
-                                  </SkipButtons>
+                                        <i
+                                          aria-hidden="true"
+                                          className="step backward big icon"
+                                          onClick={[Function]}
+                                        />
+                                      </Icon>
+                                    </button>
+                                  </PreviousButton>
                                   <PlayButton
                                     disabled={true}
-                                    onClick={[Function]}
+                                    onPause={[Function]}
+                                    onPlay={[Function]}
                                     state="playing"
                                   >
-                                    <Button
-                                      active={true}
-                                      animated="vertical"
-                                      as="button"
-                                      className="jb-play-button"
+                                    <button
+                                      className="c-controls__button"
+                                      data-testid="PlayButton"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
-                                      <Ref
-                                        innerRef={
-                                          Object {
-                                            "current": <button
-                                              class="ui active vertical animated disabled button jb-play-button"
-                                              disabled=""
-                                              tabindex="-1"
-                                            >
-                                              <div
-                                                class="hidden content"
-                                              >
-                                                Play
-                                              </div>
-                                              <div
-                                                class="visible content"
-                                              >
-                                                <i
-                                                  aria-hidden="true"
-                                                  class="play icon"
-                                                />
-                                              </div>
-                                            </button>,
-                                          }
-                                        }
+                                      <Icon
+                                        as="i"
+                                        name="pause"
+                                        size="big"
                                       >
-                                        <RefFindNode
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui active vertical animated disabled button jb-play-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Play
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="play icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <button
-                                            className="ui active vertical animated disabled button jb-play-button"
-                                            disabled={true}
-                                            onClick={[Function]}
-                                            tabIndex={-1}
-                                          >
-                                            <ButtonContent
-                                              hidden={true}
-                                            >
-                                              <div
-                                                className="hidden content"
-                                              >
-                                                Play
-                                              </div>
-                                            </ButtonContent>
-                                            <ButtonContent
-                                              visible={true}
-                                            >
-                                              <div
-                                                className="visible content"
-                                              >
-                                                <Icon
-                                                  as="i"
-                                                  name="play"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    className="play icon"
-                                                    onClick={[Function]}
-                                                  />
-                                                </Icon>
-                                              </div>
-                                            </ButtonContent>
-                                          </button>
-                                        </RefFindNode>
-                                      </Ref>
-                                    </Button>
+                                        <i
+                                          aria-hidden="true"
+                                          className="pause big icon"
+                                          onClick={[Function]}
+                                        />
+                                      </Icon>
+                                    </button>
                                   </PlayButton>
-                                  <PauseButton
+                                  <NextButton
                                     disabled={true}
                                     onClick={[Function]}
-                                    state="playing"
                                   >
-                                    <Button
-                                      active={false}
-                                      animated="vertical"
-                                      as="button"
-                                      className="jb-pause-button"
+                                    <button
+                                      className="c-controls__button"
+                                      data-testid="NextButton"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
-                                      <Ref
-                                        innerRef={
-                                          Object {
-                                            "current": <button
-                                              class="ui vertical animated disabled button jb-pause-button"
-                                              disabled=""
-                                              tabindex="-1"
-                                            >
-                                              <div
-                                                class="hidden content"
-                                              >
-                                                Pause
-                                              </div>
-                                              <div
-                                                class="visible content"
-                                              >
-                                                <i
-                                                  aria-hidden="true"
-                                                  class="pause icon"
-                                                />
-                                              </div>
-                                            </button>,
-                                          }
-                                        }
+                                      <Icon
+                                        as="i"
+                                        name="step forward"
+                                        size="big"
                                       >
-                                        <RefFindNode
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-pause-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Pause
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="pause icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <button
-                                            className="ui vertical animated disabled button jb-pause-button"
-                                            disabled={true}
-                                            onClick={[Function]}
-                                            tabIndex={-1}
-                                          >
-                                            <ButtonContent
-                                              hidden={true}
-                                            >
-                                              <div
-                                                className="hidden content"
-                                              >
-                                                Pause
-                                              </div>
-                                            </ButtonContent>
-                                            <ButtonContent
-                                              visible={true}
-                                            >
-                                              <div
-                                                className="visible content"
-                                              >
-                                                <Icon
-                                                  as="i"
-                                                  name="pause"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    className="pause icon"
-                                                    onClick={[Function]}
-                                                  />
-                                                </Icon>
-                                              </div>
-                                            </ButtonContent>
-                                          </button>
-                                        </RefFindNode>
-                                      </Ref>
-                                    </Button>
-                                  </PauseButton>
-                                  <StopButton
-                                    disabled={true}
-                                    onClick={[Function]}
-                                    state="playing"
-                                  >
-                                    <Button
-                                      active={false}
-                                      animated="vertical"
-                                      as="button"
-                                      className="jb-stop-button"
-                                      disabled={true}
-                                      onClick={[Function]}
-                                    >
-                                      <Ref
-                                        innerRef={
-                                          Object {
-                                            "current": <button
-                                              class="ui vertical animated disabled button jb-stop-button"
-                                              disabled=""
-                                              tabindex="-1"
-                                            >
-                                              <div
-                                                class="hidden content"
-                                              >
-                                                Stop
-                                              </div>
-                                              <div
-                                                class="visible content"
-                                              >
-                                                <i
-                                                  aria-hidden="true"
-                                                  class="stop icon"
-                                                />
-                                              </div>
-                                            </button>,
-                                          }
-                                        }
-                                      >
-                                        <RefFindNode
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-stop-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Stop
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="stop icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <button
-                                            className="ui vertical animated disabled button jb-stop-button"
-                                            disabled={true}
-                                            onClick={[Function]}
-                                            tabIndex={-1}
-                                          >
-                                            <ButtonContent
-                                              hidden={true}
-                                            >
-                                              <div
-                                                className="hidden content"
-                                              >
-                                                Stop
-                                              </div>
-                                            </ButtonContent>
-                                            <ButtonContent
-                                              visible={true}
-                                            >
-                                              <div
-                                                className="visible content"
-                                              >
-                                                <Icon
-                                                  as="i"
-                                                  name="stop"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    className="stop icon"
-                                                    onClick={[Function]}
-                                                  />
-                                                </Icon>
-                                              </div>
-                                            </ButtonContent>
-                                          </button>
-                                        </RefFindNode>
-                                      </Ref>
-                                    </Button>
-                                  </StopButton>
-                                </span>
+                                        <i
+                                          aria-hidden="true"
+                                          className="step forward big icon"
+                                          onClick={[Function]}
+                                        />
+                                      </Icon>
+                                    </button>
+                                  </NextButton>
+                                </div>
                               </Controls>
                             </div>
                           </Container>
@@ -3103,515 +2235,81 @@ exports[`DashboardContainer online logged in should refresh the token 1`] = `
                                 onPrevious={[Function]}
                                 onStop={[Function]}
                               >
-                                <span>
-                                  <SkipButtons
+                                <div
+                                  className="c-controls__wrapper"
+                                >
+                                  <PreviousButton
                                     disabled={true}
-                                    onNext={[Function]}
-                                    onPrevious={[Function]}
+                                    onClick={[Function]}
                                   >
-                                    <PreviousButton
+                                    <button
+                                      className="c-controls__button"
+                                      data-testid="PreviousButton"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
-                                      <Button
-                                        animated="vertical"
-                                        as="button"
-                                        className="jb-previous-button"
-                                        disabled={true}
-                                        onClick={[Function]}
+                                      <Icon
+                                        as="i"
+                                        name="step backward"
+                                        size="big"
                                       >
-                                        <Ref
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-previous-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Prev
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="step backward icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <RefFindNode
-                                            innerRef={
-                                              Object {
-                                                "current": <button
-                                                  class="ui vertical animated disabled button jb-previous-button"
-                                                  disabled=""
-                                                  tabindex="-1"
-                                                >
-                                                  <div
-                                                    class="hidden content"
-                                                  >
-                                                    Prev
-                                                  </div>
-                                                  <div
-                                                    class="visible content"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      class="step backward icon"
-                                                    />
-                                                  </div>
-                                                </button>,
-                                              }
-                                            }
-                                          >
-                                            <button
-                                              className="ui vertical animated disabled button jb-previous-button"
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              tabIndex={-1}
-                                            >
-                                              <ButtonContent
-                                                hidden={true}
-                                              >
-                                                <div
-                                                  className="hidden content"
-                                                >
-                                                  Prev
-                                                </div>
-                                              </ButtonContent>
-                                              <ButtonContent
-                                                visible={true}
-                                              >
-                                                <div
-                                                  className="visible content"
-                                                >
-                                                  <Icon
-                                                    as="i"
-                                                    name="step backward"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      className="step backward icon"
-                                                      onClick={[Function]}
-                                                    />
-                                                  </Icon>
-                                                </div>
-                                              </ButtonContent>
-                                            </button>
-                                          </RefFindNode>
-                                        </Ref>
-                                      </Button>
-                                    </PreviousButton>
-                                    <NextButton
-                                      disabled={true}
-                                      onClick={[Function]}
-                                    >
-                                      <Button
-                                        animated="vertical"
-                                        as="button"
-                                        className="jb-next-button"
-                                        disabled={true}
-                                        onClick={[Function]}
-                                      >
-                                        <Ref
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-next-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Next
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="step forward icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <RefFindNode
-                                            innerRef={
-                                              Object {
-                                                "current": <button
-                                                  class="ui vertical animated disabled button jb-next-button"
-                                                  disabled=""
-                                                  tabindex="-1"
-                                                >
-                                                  <div
-                                                    class="hidden content"
-                                                  >
-                                                    Next
-                                                  </div>
-                                                  <div
-                                                    class="visible content"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      class="step forward icon"
-                                                    />
-                                                  </div>
-                                                </button>,
-                                              }
-                                            }
-                                          >
-                                            <button
-                                              className="ui vertical animated disabled button jb-next-button"
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              tabIndex={-1}
-                                            >
-                                              <ButtonContent
-                                                hidden={true}
-                                              >
-                                                <div
-                                                  className="hidden content"
-                                                >
-                                                  Next
-                                                </div>
-                                              </ButtonContent>
-                                              <ButtonContent
-                                                visible={true}
-                                              >
-                                                <div
-                                                  className="visible content"
-                                                >
-                                                  <Icon
-                                                    as="i"
-                                                    name="step forward"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      className="step forward icon"
-                                                      onClick={[Function]}
-                                                    />
-                                                  </Icon>
-                                                </div>
-                                              </ButtonContent>
-                                            </button>
-                                          </RefFindNode>
-                                        </Ref>
-                                      </Button>
-                                    </NextButton>
-                                  </SkipButtons>
+                                        <i
+                                          aria-hidden="true"
+                                          className="step backward big icon"
+                                          onClick={[Function]}
+                                        />
+                                      </Icon>
+                                    </button>
+                                  </PreviousButton>
                                   <PlayButton
                                     disabled={true}
-                                    onClick={[Function]}
+                                    onPause={[Function]}
+                                    onPlay={[Function]}
                                     state="playing"
                                   >
-                                    <Button
-                                      active={true}
-                                      animated="vertical"
-                                      as="button"
-                                      className="jb-play-button"
+                                    <button
+                                      className="c-controls__button"
+                                      data-testid="PlayButton"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
-                                      <Ref
-                                        innerRef={
-                                          Object {
-                                            "current": <button
-                                              class="ui active vertical animated disabled button jb-play-button"
-                                              disabled=""
-                                              tabindex="-1"
-                                            >
-                                              <div
-                                                class="hidden content"
-                                              >
-                                                Play
-                                              </div>
-                                              <div
-                                                class="visible content"
-                                              >
-                                                <i
-                                                  aria-hidden="true"
-                                                  class="play icon"
-                                                />
-                                              </div>
-                                            </button>,
-                                          }
-                                        }
+                                      <Icon
+                                        as="i"
+                                        name="pause"
+                                        size="big"
                                       >
-                                        <RefFindNode
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui active vertical animated disabled button jb-play-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Play
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="play icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <button
-                                            className="ui active vertical animated disabled button jb-play-button"
-                                            disabled={true}
-                                            onClick={[Function]}
-                                            tabIndex={-1}
-                                          >
-                                            <ButtonContent
-                                              hidden={true}
-                                            >
-                                              <div
-                                                className="hidden content"
-                                              >
-                                                Play
-                                              </div>
-                                            </ButtonContent>
-                                            <ButtonContent
-                                              visible={true}
-                                            >
-                                              <div
-                                                className="visible content"
-                                              >
-                                                <Icon
-                                                  as="i"
-                                                  name="play"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    className="play icon"
-                                                    onClick={[Function]}
-                                                  />
-                                                </Icon>
-                                              </div>
-                                            </ButtonContent>
-                                          </button>
-                                        </RefFindNode>
-                                      </Ref>
-                                    </Button>
+                                        <i
+                                          aria-hidden="true"
+                                          className="pause big icon"
+                                          onClick={[Function]}
+                                        />
+                                      </Icon>
+                                    </button>
                                   </PlayButton>
-                                  <PauseButton
+                                  <NextButton
                                     disabled={true}
                                     onClick={[Function]}
-                                    state="playing"
                                   >
-                                    <Button
-                                      active={false}
-                                      animated="vertical"
-                                      as="button"
-                                      className="jb-pause-button"
+                                    <button
+                                      className="c-controls__button"
+                                      data-testid="NextButton"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
-                                      <Ref
-                                        innerRef={
-                                          Object {
-                                            "current": <button
-                                              class="ui vertical animated disabled button jb-pause-button"
-                                              disabled=""
-                                              tabindex="-1"
-                                            >
-                                              <div
-                                                class="hidden content"
-                                              >
-                                                Pause
-                                              </div>
-                                              <div
-                                                class="visible content"
-                                              >
-                                                <i
-                                                  aria-hidden="true"
-                                                  class="pause icon"
-                                                />
-                                              </div>
-                                            </button>,
-                                          }
-                                        }
+                                      <Icon
+                                        as="i"
+                                        name="step forward"
+                                        size="big"
                                       >
-                                        <RefFindNode
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-pause-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Pause
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="pause icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <button
-                                            className="ui vertical animated disabled button jb-pause-button"
-                                            disabled={true}
-                                            onClick={[Function]}
-                                            tabIndex={-1}
-                                          >
-                                            <ButtonContent
-                                              hidden={true}
-                                            >
-                                              <div
-                                                className="hidden content"
-                                              >
-                                                Pause
-                                              </div>
-                                            </ButtonContent>
-                                            <ButtonContent
-                                              visible={true}
-                                            >
-                                              <div
-                                                className="visible content"
-                                              >
-                                                <Icon
-                                                  as="i"
-                                                  name="pause"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    className="pause icon"
-                                                    onClick={[Function]}
-                                                  />
-                                                </Icon>
-                                              </div>
-                                            </ButtonContent>
-                                          </button>
-                                        </RefFindNode>
-                                      </Ref>
-                                    </Button>
-                                  </PauseButton>
-                                  <StopButton
-                                    disabled={true}
-                                    onClick={[Function]}
-                                    state="playing"
-                                  >
-                                    <Button
-                                      active={false}
-                                      animated="vertical"
-                                      as="button"
-                                      className="jb-stop-button"
-                                      disabled={true}
-                                      onClick={[Function]}
-                                    >
-                                      <Ref
-                                        innerRef={
-                                          Object {
-                                            "current": <button
-                                              class="ui vertical animated disabled button jb-stop-button"
-                                              disabled=""
-                                              tabindex="-1"
-                                            >
-                                              <div
-                                                class="hidden content"
-                                              >
-                                                Stop
-                                              </div>
-                                              <div
-                                                class="visible content"
-                                              >
-                                                <i
-                                                  aria-hidden="true"
-                                                  class="stop icon"
-                                                />
-                                              </div>
-                                            </button>,
-                                          }
-                                        }
-                                      >
-                                        <RefFindNode
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-stop-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Stop
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="stop icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <button
-                                            className="ui vertical animated disabled button jb-stop-button"
-                                            disabled={true}
-                                            onClick={[Function]}
-                                            tabIndex={-1}
-                                          >
-                                            <ButtonContent
-                                              hidden={true}
-                                            >
-                                              <div
-                                                className="hidden content"
-                                              >
-                                                Stop
-                                              </div>
-                                            </ButtonContent>
-                                            <ButtonContent
-                                              visible={true}
-                                            >
-                                              <div
-                                                className="visible content"
-                                              >
-                                                <Icon
-                                                  as="i"
-                                                  name="stop"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    className="stop icon"
-                                                    onClick={[Function]}
-                                                  />
-                                                </Icon>
-                                              </div>
-                                            </ButtonContent>
-                                          </button>
-                                        </RefFindNode>
-                                      </Ref>
-                                    </Button>
-                                  </StopButton>
-                                </span>
+                                        <i
+                                          aria-hidden="true"
+                                          className="step forward big icon"
+                                          onClick={[Function]}
+                                        />
+                                      </Icon>
+                                    </button>
+                                  </NextButton>
+                                </div>
                               </Controls>
                             </div>
                           </Container>
@@ -4395,515 +3093,81 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                 onPrevious={[Function]}
                                 onStop={[Function]}
                               >
-                                <span>
-                                  <SkipButtons
+                                <div
+                                  className="c-controls__wrapper"
+                                >
+                                  <PreviousButton
                                     disabled={true}
-                                    onNext={[Function]}
-                                    onPrevious={[Function]}
+                                    onClick={[Function]}
                                   >
-                                    <PreviousButton
+                                    <button
+                                      className="c-controls__button"
+                                      data-testid="PreviousButton"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
-                                      <Button
-                                        animated="vertical"
-                                        as="button"
-                                        className="jb-previous-button"
-                                        disabled={true}
-                                        onClick={[Function]}
+                                      <Icon
+                                        as="i"
+                                        name="step backward"
+                                        size="big"
                                       >
-                                        <Ref
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-previous-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Prev
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="step backward icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <RefFindNode
-                                            innerRef={
-                                              Object {
-                                                "current": <button
-                                                  class="ui vertical animated disabled button jb-previous-button"
-                                                  disabled=""
-                                                  tabindex="-1"
-                                                >
-                                                  <div
-                                                    class="hidden content"
-                                                  >
-                                                    Prev
-                                                  </div>
-                                                  <div
-                                                    class="visible content"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      class="step backward icon"
-                                                    />
-                                                  </div>
-                                                </button>,
-                                              }
-                                            }
-                                          >
-                                            <button
-                                              className="ui vertical animated disabled button jb-previous-button"
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              tabIndex={-1}
-                                            >
-                                              <ButtonContent
-                                                hidden={true}
-                                              >
-                                                <div
-                                                  className="hidden content"
-                                                >
-                                                  Prev
-                                                </div>
-                                              </ButtonContent>
-                                              <ButtonContent
-                                                visible={true}
-                                              >
-                                                <div
-                                                  className="visible content"
-                                                >
-                                                  <Icon
-                                                    as="i"
-                                                    name="step backward"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      className="step backward icon"
-                                                      onClick={[Function]}
-                                                    />
-                                                  </Icon>
-                                                </div>
-                                              </ButtonContent>
-                                            </button>
-                                          </RefFindNode>
-                                        </Ref>
-                                      </Button>
-                                    </PreviousButton>
-                                    <NextButton
-                                      disabled={true}
-                                      onClick={[Function]}
-                                    >
-                                      <Button
-                                        animated="vertical"
-                                        as="button"
-                                        className="jb-next-button"
-                                        disabled={true}
-                                        onClick={[Function]}
-                                      >
-                                        <Ref
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-next-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Next
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="step forward icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <RefFindNode
-                                            innerRef={
-                                              Object {
-                                                "current": <button
-                                                  class="ui vertical animated disabled button jb-next-button"
-                                                  disabled=""
-                                                  tabindex="-1"
-                                                >
-                                                  <div
-                                                    class="hidden content"
-                                                  >
-                                                    Next
-                                                  </div>
-                                                  <div
-                                                    class="visible content"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      class="step forward icon"
-                                                    />
-                                                  </div>
-                                                </button>,
-                                              }
-                                            }
-                                          >
-                                            <button
-                                              className="ui vertical animated disabled button jb-next-button"
-                                              disabled={true}
-                                              onClick={[Function]}
-                                              tabIndex={-1}
-                                            >
-                                              <ButtonContent
-                                                hidden={true}
-                                              >
-                                                <div
-                                                  className="hidden content"
-                                                >
-                                                  Next
-                                                </div>
-                                              </ButtonContent>
-                                              <ButtonContent
-                                                visible={true}
-                                              >
-                                                <div
-                                                  className="visible content"
-                                                >
-                                                  <Icon
-                                                    as="i"
-                                                    name="step forward"
-                                                  >
-                                                    <i
-                                                      aria-hidden="true"
-                                                      className="step forward icon"
-                                                      onClick={[Function]}
-                                                    />
-                                                  </Icon>
-                                                </div>
-                                              </ButtonContent>
-                                            </button>
-                                          </RefFindNode>
-                                        </Ref>
-                                      </Button>
-                                    </NextButton>
-                                  </SkipButtons>
+                                        <i
+                                          aria-hidden="true"
+                                          className="step backward big icon"
+                                          onClick={[Function]}
+                                        />
+                                      </Icon>
+                                    </button>
+                                  </PreviousButton>
                                   <PlayButton
                                     disabled={true}
-                                    onClick={[Function]}
+                                    onPause={[Function]}
+                                    onPlay={[Function]}
                                     state="playing"
                                   >
-                                    <Button
-                                      active={true}
-                                      animated="vertical"
-                                      as="button"
-                                      className="jb-play-button"
+                                    <button
+                                      className="c-controls__button"
+                                      data-testid="PlayButton"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
-                                      <Ref
-                                        innerRef={
-                                          Object {
-                                            "current": <button
-                                              class="ui active vertical animated disabled button jb-play-button"
-                                              disabled=""
-                                              tabindex="-1"
-                                            >
-                                              <div
-                                                class="hidden content"
-                                              >
-                                                Play
-                                              </div>
-                                              <div
-                                                class="visible content"
-                                              >
-                                                <i
-                                                  aria-hidden="true"
-                                                  class="play icon"
-                                                />
-                                              </div>
-                                            </button>,
-                                          }
-                                        }
+                                      <Icon
+                                        as="i"
+                                        name="pause"
+                                        size="big"
                                       >
-                                        <RefFindNode
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui active vertical animated disabled button jb-play-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Play
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="play icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <button
-                                            className="ui active vertical animated disabled button jb-play-button"
-                                            disabled={true}
-                                            onClick={[Function]}
-                                            tabIndex={-1}
-                                          >
-                                            <ButtonContent
-                                              hidden={true}
-                                            >
-                                              <div
-                                                className="hidden content"
-                                              >
-                                                Play
-                                              </div>
-                                            </ButtonContent>
-                                            <ButtonContent
-                                              visible={true}
-                                            >
-                                              <div
-                                                className="visible content"
-                                              >
-                                                <Icon
-                                                  as="i"
-                                                  name="play"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    className="play icon"
-                                                    onClick={[Function]}
-                                                  />
-                                                </Icon>
-                                              </div>
-                                            </ButtonContent>
-                                          </button>
-                                        </RefFindNode>
-                                      </Ref>
-                                    </Button>
+                                        <i
+                                          aria-hidden="true"
+                                          className="pause big icon"
+                                          onClick={[Function]}
+                                        />
+                                      </Icon>
+                                    </button>
                                   </PlayButton>
-                                  <PauseButton
+                                  <NextButton
                                     disabled={true}
                                     onClick={[Function]}
-                                    state="playing"
                                   >
-                                    <Button
-                                      active={false}
-                                      animated="vertical"
-                                      as="button"
-                                      className="jb-pause-button"
+                                    <button
+                                      className="c-controls__button"
+                                      data-testid="NextButton"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
-                                      <Ref
-                                        innerRef={
-                                          Object {
-                                            "current": <button
-                                              class="ui vertical animated disabled button jb-pause-button"
-                                              disabled=""
-                                              tabindex="-1"
-                                            >
-                                              <div
-                                                class="hidden content"
-                                              >
-                                                Pause
-                                              </div>
-                                              <div
-                                                class="visible content"
-                                              >
-                                                <i
-                                                  aria-hidden="true"
-                                                  class="pause icon"
-                                                />
-                                              </div>
-                                            </button>,
-                                          }
-                                        }
+                                      <Icon
+                                        as="i"
+                                        name="step forward"
+                                        size="big"
                                       >
-                                        <RefFindNode
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-pause-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Pause
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="pause icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <button
-                                            className="ui vertical animated disabled button jb-pause-button"
-                                            disabled={true}
-                                            onClick={[Function]}
-                                            tabIndex={-1}
-                                          >
-                                            <ButtonContent
-                                              hidden={true}
-                                            >
-                                              <div
-                                                className="hidden content"
-                                              >
-                                                Pause
-                                              </div>
-                                            </ButtonContent>
-                                            <ButtonContent
-                                              visible={true}
-                                            >
-                                              <div
-                                                className="visible content"
-                                              >
-                                                <Icon
-                                                  as="i"
-                                                  name="pause"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    className="pause icon"
-                                                    onClick={[Function]}
-                                                  />
-                                                </Icon>
-                                              </div>
-                                            </ButtonContent>
-                                          </button>
-                                        </RefFindNode>
-                                      </Ref>
-                                    </Button>
-                                  </PauseButton>
-                                  <StopButton
-                                    disabled={true}
-                                    onClick={[Function]}
-                                    state="playing"
-                                  >
-                                    <Button
-                                      active={false}
-                                      animated="vertical"
-                                      as="button"
-                                      className="jb-stop-button"
-                                      disabled={true}
-                                      onClick={[Function]}
-                                    >
-                                      <Ref
-                                        innerRef={
-                                          Object {
-                                            "current": <button
-                                              class="ui vertical animated disabled button jb-stop-button"
-                                              disabled=""
-                                              tabindex="-1"
-                                            >
-                                              <div
-                                                class="hidden content"
-                                              >
-                                                Stop
-                                              </div>
-                                              <div
-                                                class="visible content"
-                                              >
-                                                <i
-                                                  aria-hidden="true"
-                                                  class="stop icon"
-                                                />
-                                              </div>
-                                            </button>,
-                                          }
-                                        }
-                                      >
-                                        <RefFindNode
-                                          innerRef={
-                                            Object {
-                                              "current": <button
-                                                class="ui vertical animated disabled button jb-stop-button"
-                                                disabled=""
-                                                tabindex="-1"
-                                              >
-                                                <div
-                                                  class="hidden content"
-                                                >
-                                                  Stop
-                                                </div>
-                                                <div
-                                                  class="visible content"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    class="stop icon"
-                                                  />
-                                                </div>
-                                              </button>,
-                                            }
-                                          }
-                                        >
-                                          <button
-                                            className="ui vertical animated disabled button jb-stop-button"
-                                            disabled={true}
-                                            onClick={[Function]}
-                                            tabIndex={-1}
-                                          >
-                                            <ButtonContent
-                                              hidden={true}
-                                            >
-                                              <div
-                                                className="hidden content"
-                                              >
-                                                Stop
-                                              </div>
-                                            </ButtonContent>
-                                            <ButtonContent
-                                              visible={true}
-                                            >
-                                              <div
-                                                className="visible content"
-                                              >
-                                                <Icon
-                                                  as="i"
-                                                  name="stop"
-                                                >
-                                                  <i
-                                                    aria-hidden="true"
-                                                    className="stop icon"
-                                                    onClick={[Function]}
-                                                  />
-                                                </Icon>
-                                              </div>
-                                            </ButtonContent>
-                                          </button>
-                                        </RefFindNode>
-                                      </Ref>
-                                    </Button>
-                                  </StopButton>
-                                </span>
+                                        <i
+                                          aria-hidden="true"
+                                          className="step forward big icon"
+                                          onClick={[Function]}
+                                        />
+                                      </Icon>
+                                    </button>
+                                  </NextButton>
+                                </div>
                               </Controls>
                             </div>
                           </Container>
