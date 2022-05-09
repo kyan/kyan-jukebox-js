@@ -56,9 +56,8 @@ const PlayButton = ({ disabled, onPause, onPlay, state }: PlayButtonProps) => {
   )
 }
 
-const Controls = (props: ControlsProps) => {
+const Controls = ({ disabled, onPlay, onPause, onPrevious, onNext }: ControlsProps) => {
   const jukebox = useSelector((state: JukeboxAppState) => state.jukebox)
-  const { disabled, onPlay, onPause, onPrevious, onNext } = props
 
   return (
     <div className='c-controls__wrapper'>
