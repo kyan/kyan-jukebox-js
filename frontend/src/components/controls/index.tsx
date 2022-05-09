@@ -4,6 +4,7 @@ import MopidyApi from 'constants/mopidy-api'
 import { Icon } from 'semantic-ui-react'
 import './index.css'
 
+import type { SemanticICONS } from 'semantic-ui-react/dist/commonjs/generic'
 import type { JukeboxAppState } from 'reducers'
 
 interface SkipButtonProps {
@@ -35,7 +36,7 @@ const SkipButton = ({ disabled, onClick, type }: SkipButtonProps) => {
       disabled={disabled}
       data-testid={`SkipButton--${type}`}
     >
-      <Icon name={`step ${type}`} size='big' />
+      <Icon name={`step ${type}` as SemanticICONS} size='big' />
     </button>
   )
 }
