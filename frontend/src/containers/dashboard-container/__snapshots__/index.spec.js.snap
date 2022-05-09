@@ -602,13 +602,14 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                 <div
                                   className="c-controls__wrapper"
                                 >
-                                  <PreviousButton
+                                  <SkipButton
                                     disabled={true}
                                     onClick={[Function]}
+                                    type="backward"
                                   >
                                     <button
                                       className="c-controls__button"
-                                      data-testid="PreviousButton"
+                                      data-testid="SkipButton--backward"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
@@ -624,7 +625,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                         />
                                       </Icon>
                                     </button>
-                                  </PreviousButton>
+                                  </SkipButton>
                                   <PlayButton
                                     disabled={true}
                                     onPause={[Function]}
@@ -650,13 +651,14 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                       </Icon>
                                     </button>
                                   </PlayButton>
-                                  <NextButton
+                                  <SkipButton
                                     disabled={true}
                                     onClick={[Function]}
+                                    type="forward"
                                   >
                                     <button
                                       className="c-controls__button"
-                                      data-testid="NextButton"
+                                      data-testid="SkipButton--forward"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
@@ -672,7 +674,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                         />
                                       </Icon>
                                     </button>
-                                  </NextButton>
+                                  </SkipButton>
                                 </div>
                               </Controls>
                             </div>
@@ -1420,13 +1422,14 @@ exports[`DashboardContainer online logged in should log error when refresh fails
                                 <div
                                   className="c-controls__wrapper"
                                 >
-                                  <PreviousButton
+                                  <SkipButton
                                     disabled={true}
                                     onClick={[Function]}
+                                    type="backward"
                                   >
                                     <button
                                       className="c-controls__button"
-                                      data-testid="PreviousButton"
+                                      data-testid="SkipButton--backward"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
@@ -1442,7 +1445,7 @@ exports[`DashboardContainer online logged in should log error when refresh fails
                                         />
                                       </Icon>
                                     </button>
-                                  </PreviousButton>
+                                  </SkipButton>
                                   <PlayButton
                                     disabled={true}
                                     onPause={[Function]}
@@ -1468,13 +1471,14 @@ exports[`DashboardContainer online logged in should log error when refresh fails
                                       </Icon>
                                     </button>
                                   </PlayButton>
-                                  <NextButton
+                                  <SkipButton
                                     disabled={true}
                                     onClick={[Function]}
+                                    type="forward"
                                   >
                                     <button
                                       className="c-controls__button"
-                                      data-testid="NextButton"
+                                      data-testid="SkipButton--forward"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
@@ -1490,7 +1494,7 @@ exports[`DashboardContainer online logged in should log error when refresh fails
                                         />
                                       </Icon>
                                     </button>
-                                  </NextButton>
+                                  </SkipButton>
                                 </div>
                               </Controls>
                             </div>
@@ -2238,13 +2242,14 @@ exports[`DashboardContainer online logged in should refresh the token 1`] = `
                                 <div
                                   className="c-controls__wrapper"
                                 >
-                                  <PreviousButton
+                                  <SkipButton
                                     disabled={true}
                                     onClick={[Function]}
+                                    type="backward"
                                   >
                                     <button
                                       className="c-controls__button"
-                                      data-testid="PreviousButton"
+                                      data-testid="SkipButton--backward"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
@@ -2260,7 +2265,7 @@ exports[`DashboardContainer online logged in should refresh the token 1`] = `
                                         />
                                       </Icon>
                                     </button>
-                                  </PreviousButton>
+                                  </SkipButton>
                                   <PlayButton
                                     disabled={true}
                                     onPause={[Function]}
@@ -2286,13 +2291,14 @@ exports[`DashboardContainer online logged in should refresh the token 1`] = `
                                       </Icon>
                                     </button>
                                   </PlayButton>
-                                  <NextButton
+                                  <SkipButton
                                     disabled={true}
                                     onClick={[Function]}
+                                    type="forward"
                                   >
                                     <button
                                       className="c-controls__button"
-                                      data-testid="NextButton"
+                                      data-testid="SkipButton--forward"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
@@ -2308,7 +2314,7 @@ exports[`DashboardContainer online logged in should refresh the token 1`] = `
                                         />
                                       </Icon>
                                     </button>
-                                  </NextButton>
+                                  </SkipButton>
                                 </div>
                               </Controls>
                             </div>
@@ -3096,13 +3102,14 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                 <div
                                   className="c-controls__wrapper"
                                 >
-                                  <PreviousButton
+                                  <SkipButton
                                     disabled={true}
                                     onClick={[Function]}
+                                    type="backward"
                                   >
                                     <button
                                       className="c-controls__button"
-                                      data-testid="PreviousButton"
+                                      data-testid="SkipButton--backward"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
@@ -3118,7 +3125,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                         />
                                       </Icon>
                                     </button>
-                                  </PreviousButton>
+                                  </SkipButton>
                                   <PlayButton
                                     disabled={true}
                                     onPause={[Function]}
@@ -3144,13 +3151,14 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                       </Icon>
                                     </button>
                                   </PlayButton>
-                                  <NextButton
+                                  <SkipButton
                                     disabled={true}
                                     onClick={[Function]}
+                                    type="forward"
                                   >
                                     <button
                                       className="c-controls__button"
-                                      data-testid="NextButton"
+                                      data-testid="SkipButton--forward"
                                       disabled={true}
                                       onClick={[Function]}
                                     >
@@ -3166,7 +3174,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                         />
                                       </Icon>
                                     </button>
-                                  </NextButton>
+                                  </SkipButton>
                                 </div>
                               </Controls>
                             </div>
