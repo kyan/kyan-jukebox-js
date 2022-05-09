@@ -51,9 +51,9 @@ describe('Controls', () => {
         </Provider>
       )
 
-      userEvent.click(getByTestId('NextButton'))
+      userEvent.click(getByTestId('SkipButton--forward'))
       expect(onNextMock).toHaveBeenCalled()
-      userEvent.click(getByTestId('PreviousButton'))
+      userEvent.click(getByTestId('SkipButton--backward'))
       expect(onPrevMock).toHaveBeenCalled()
     })
   })
@@ -91,9 +91,9 @@ describe('Controls', () => {
         </Provider>
       )
 
-      userEvent.click(getByTestId('NextButton'))
+      userEvent.click(getByTestId('SkipButton--forward'))
       expect(onNextMock).toHaveBeenCalled()
-      userEvent.click(getByTestId('PreviousButton'))
+      userEvent.click(getByTestId('SkipButton--backward'))
       expect(onPrevMock).toHaveBeenCalled()
     })
   })
@@ -132,9 +132,9 @@ describe('Controls', () => {
         </Provider>
       )
 
-      userEvent.click(getByTestId('NextButton'))
+      userEvent.click(getByTestId('SkipButton--forward'))
       expect(onNextMock).not.toHaveBeenCalled()
-      userEvent.click(getByTestId('PreviousButton'))
+      userEvent.click(getByTestId('SkipButton--backward'))
       expect(onPrevMock).not.toHaveBeenCalled()
     })
   })

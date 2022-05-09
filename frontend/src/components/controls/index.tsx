@@ -33,7 +33,7 @@ const SkipButton = ({ disabled, onClick, type }: SkipButtonProps) => {
       className='c-controls__button'
       onClick={onClick}
       disabled={disabled}
-      data-testid='PreviousButton'
+      data-testid={`SkipButton--${type}`}
     >
       <Icon name={`step ${type}`} size='big' />
     </button>
