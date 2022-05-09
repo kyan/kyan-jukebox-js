@@ -6,9 +6,10 @@ import './index.css'
 
 import type { JukeboxAppState } from 'reducers'
 
-interface NavigateButtonProps {
+interface SkipButtonProps {
   disabled: boolean
   onClick: () => void
+  type: 'forward' | 'backward'
 }
 
 interface PlayButtonProps {
@@ -26,7 +27,7 @@ interface ControlsProps {
   onNext: () => void
 }
 
-const PreviousButton = ({ disabled, onClick }: NavigateButtonProps) => {
+const SkipButton = ({ disabled, onClick, type }: SkipButtonProps) => {
   return (
     <button
       className='c-controls__button'
@@ -34,10 +35,11 @@ const PreviousButton = ({ disabled, onClick }: NavigateButtonProps) => {
       disabled={disabled}
       data-testid='PreviousButton'
     >
-      <Icon name='step backward' size='big' />
+      <Icon name={`step ${type}`} size='big' />
     </button>
   )
 }
+
 const PlayButton = ({ disabled, onPause, onPlay, state }: PlayButtonProps) => {
   const icon = state === MopidyApi.PLAYING ? 'pause' : 'play'
   const clickHandler = state === MopidyApi.PLAYING ? onPause : onPlay
@@ -53,18 +55,6 @@ const PlayButton = ({ disabled, onPause, onPlay, state }: PlayButtonProps) => {
     </button>
   )
 }
-const NextButton = ({ disabled, onClick }: NavigateButtonProps) => {
-  return (
-    <button
-      className='c-controls__button'
-      onClick={onClick}
-      disabled={disabled}
-      data-testid='NextButton'
-    >
-      <Icon name='step forward' size='big' />
-    </button>
-  )
-}
 
 const Controls = (props: ControlsProps) => {
   const jukebox = useSelector((state: JukeboxAppState) => state.jukebox)
@@ -72,14 +62,14 @@ const Controls = (props: ControlsProps) => {
 
   return (
     <div className='c-controls__wrapper'>
-      <PreviousButton onClick={onPrevious} disabled={disabled} />
+      <SkipButton onClick={onPrevious} disabled={disabled} type='backward' />
       <PlayButton
         onPlay={onPlay}
         onPause={onPause}
         state={jukebox.playbackState}
         disabled={disabled}
       />
-      <NextButton onClick={onNext} disabled={disabled} />
+      <SkipButton onClick={onNext} disabled={disabled} type='forward' />
     </div>
   )
 }
