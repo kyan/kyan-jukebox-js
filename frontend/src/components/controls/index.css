@@ -1,0 +1,30 @@
+.c-controls__wrapper {
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.c-controls__button {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.c-controls__button:focus {
+  outline: none;
+}
+
+.c-controls__button i.icon {
+  display: block;
+  width: auto;
+  margin: 0;
+  color: #181b22;
+  transition: color 0.3s;
+}
+
+.c-controls__button--skip i.icon {
+  color: #dedee0;
+}
+.c-controls__button--skip:hover i.icon {
+  color: #181b22;
+}
