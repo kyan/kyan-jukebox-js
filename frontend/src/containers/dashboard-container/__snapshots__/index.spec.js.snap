@@ -608,7 +608,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                     type="backward"
                                   >
                                     <button
-                                      className="c-controls__button"
+                                      className="c-controls__button c-controls__button--skip"
                                       data-testid="SkipButton--backward"
                                       disabled={true}
                                       onClick={[Function]}
@@ -616,11 +616,11 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                       <Icon
                                         as="i"
                                         name="step backward"
-                                        size="big"
+                                        size="large"
                                       >
                                         <i
                                           aria-hidden="true"
-                                          className="step backward big icon"
+                                          className="step backward large icon"
                                           onClick={[Function]}
                                         />
                                       </Icon>
@@ -657,7 +657,7 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                     type="forward"
                                   >
                                     <button
-                                      className="c-controls__button"
+                                      className="c-controls__button c-controls__button--skip"
                                       data-testid="SkipButton--forward"
                                       disabled={true}
                                       onClick={[Function]}
@@ -665,11 +665,11 @@ exports[`DashboardContainer online logged in renders as expected 1`] = `
                                       <Icon
                                         as="i"
                                         name="step forward"
-                                        size="big"
+                                        size="large"
                                       >
                                         <i
                                           aria-hidden="true"
-                                          className="step forward big icon"
+                                          className="step forward large icon"
                                           onClick={[Function]}
                                         />
                                       </Icon>
@@ -1428,7 +1428,7 @@ exports[`DashboardContainer online logged in should log error when refresh fails
                                     type="backward"
                                   >
                                     <button
-                                      className="c-controls__button"
+                                      className="c-controls__button c-controls__button--skip"
                                       data-testid="SkipButton--backward"
                                       disabled={true}
                                       onClick={[Function]}
@@ -1436,11 +1436,11 @@ exports[`DashboardContainer online logged in should log error when refresh fails
                                       <Icon
                                         as="i"
                                         name="step backward"
-                                        size="big"
+                                        size="large"
                                       >
                                         <i
                                           aria-hidden="true"
-                                          className="step backward big icon"
+                                          className="step backward large icon"
                                           onClick={[Function]}
                                         />
                                       </Icon>
@@ -1477,7 +1477,7 @@ exports[`DashboardContainer online logged in should log error when refresh fails
                                     type="forward"
                                   >
                                     <button
-                                      className="c-controls__button"
+                                      className="c-controls__button c-controls__button--skip"
                                       data-testid="SkipButton--forward"
                                       disabled={true}
                                       onClick={[Function]}
@@ -1485,11 +1485,11 @@ exports[`DashboardContainer online logged in should log error when refresh fails
                                       <Icon
                                         as="i"
                                         name="step forward"
-                                        size="big"
+                                        size="large"
                                       >
                                         <i
                                           aria-hidden="true"
-                                          className="step forward big icon"
+                                          className="step forward large icon"
                                           onClick={[Function]}
                                         />
                                       </Icon>
@@ -2248,7 +2248,7 @@ exports[`DashboardContainer online logged in should refresh the token 1`] = `
                                     type="backward"
                                   >
                                     <button
-                                      className="c-controls__button"
+                                      className="c-controls__button c-controls__button--skip"
                                       data-testid="SkipButton--backward"
                                       disabled={true}
                                       onClick={[Function]}
@@ -2256,11 +2256,11 @@ exports[`DashboardContainer online logged in should refresh the token 1`] = `
                                       <Icon
                                         as="i"
                                         name="step backward"
-                                        size="big"
+                                        size="large"
                                       >
                                         <i
                                           aria-hidden="true"
-                                          className="step backward big icon"
+                                          className="step backward large icon"
                                           onClick={[Function]}
                                         />
                                       </Icon>
@@ -2297,7 +2297,7 @@ exports[`DashboardContainer online logged in should refresh the token 1`] = `
                                     type="forward"
                                   >
                                     <button
-                                      className="c-controls__button"
+                                      className="c-controls__button c-controls__button--skip"
                                       data-testid="SkipButton--forward"
                                       disabled={true}
                                       onClick={[Function]}
@@ -2305,11 +2305,11 @@ exports[`DashboardContainer online logged in should refresh the token 1`] = `
                                       <Icon
                                         as="i"
                                         name="step forward"
-                                        size="big"
+                                        size="large"
                                       >
                                         <i
                                           aria-hidden="true"
-                                          className="step forward big icon"
+                                          className="step forward large icon"
                                           onClick={[Function]}
                                         />
                                       </Icon>
@@ -3108,7 +3108,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                     type="backward"
                                   >
                                     <button
-                                      className="c-controls__button"
+                                      className="c-controls__button c-controls__button--skip"
                                       data-testid="SkipButton--backward"
                                       disabled={true}
                                       onClick={[Function]}
@@ -3116,11 +3116,11 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                       <Icon
                                         as="i"
                                         name="step backward"
-                                        size="big"
+                                        size="large"
                                       >
                                         <i
                                           aria-hidden="true"
-                                          className="step backward big icon"
+                                          className="step backward large icon"
                                           onClick={[Function]}
                                         />
                                       </Icon>
@@ -3157,7 +3157,7 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                     type="forward"
                                   >
                                     <button
-                                      className="c-controls__button"
+                                      className="c-controls__button c-controls__button--skip"
                                       data-testid="SkipButton--forward"
                                       disabled={true}
                                       onClick={[Function]}
@@ -3165,11 +3165,11 @@ exports[`DashboardContainer online logged out renders as expected 1`] = `
                                       <Icon
                                         as="i"
                                         name="step forward"
-                                        size="big"
+                                        size="large"
                                       >
                                         <i
                                           aria-hidden="true"
-                                          className="step forward big icon"
+                                          className="step forward large icon"
                                           onClick={[Function]}
                                         />
                                       </Icon>
