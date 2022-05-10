@@ -1,6 +1,13 @@
 import MopidyApi from 'constants/mopidy-api'
 import Types from 'constants/common'
 
+export interface JukeboxState {
+  online: boolean
+  mopidyOnline: boolean
+  volume: number
+  playbackState: string
+}
+
 const initalState = {
   online: false,
   mopidyOnline: false,
@@ -8,7 +15,7 @@ const initalState = {
   playbackState: MopidyApi.STOPPED
 }
 
-const jukebox = (state = initalState, action) => {
+const jukebox = (state = initalState, action: any) => {
   switch (action.type) {
     case Types.CONNECTED:
       return Object.assign({}, state, {
