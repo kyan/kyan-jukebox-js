@@ -7,19 +7,19 @@ import defaultImage from 'components/current-track/default-artwork.png'
 import AddedBy from 'components/added-by'
 import VotedBy from 'components/voted-by'
 import RemoveTrack from 'components/remove-track'
-import './index.css'
+import './index.scss'
 
-const TrackImage = props => (
-  <Comment.Avatar className={props.isCurrent ? 'current-image' : null} src={props.src} />
-)
-
-const ImageChooser = props => {
+const TrackImage = props => {
   const image = props.image ? props.image : defaultImage
 
-  return <TrackImage src={image} isCurrent={props.isCurrent} />
+  return (
+    <img
+      src={image}
+      className={classnames('trackImage', { 'trackImage--current': props.isCurrent })}
+      alt={props.alt}
+    />
+  )
 }
-
-const TrackHeading = props => <Comment.Author>{props.name}</Comment.Author>
 
 const TrackDescription = props => (
   <Comment.Text>
@@ -83,10 +83,37 @@ const ListItems = props => {
     if (isCurrent) beenPlayed = beenPlayed || true
 
     return (
-      <Comment className={classnames({ 'current-track': isCurrent })} key={`${i}${track.uri}`}>
-        <ImageChooser image={track.image} isCurrent={isCurrent} />
-        <Comment.Content className={classnames({ 'track-info': !beenPlayed })}>
-          <TrackHeading name={track.name} />
+      <div
+        className={classnames('trackRow', { 'trackRow--current': isCurrent })}
+        key={`${i}${track.uri}`}
+      >
+        <div className='trackCell__title'>
+          <TrackImage image={track.image} alt={track.name} isCurrent={isCurrent} />
+          <p>{track.name}</p>
+        </div>
+        <div>
+          <p>{track.artist.name}</p>
+        </div>
+        <div>
+          <p>{track.length}</p>
+        </div>
+        <div>
+          <p>Plays</p>
+        </div>
+        <div></div>
+        <div>
+          <AddedBy users={addedBy} />
+        </div>
+        <div>
+          <ActionRemove
+            uri={track.uri}
+            name={track.name}
+            disabled={props.disabled}
+            isCurrent={isCurrent}
+            onClick={props.onRemove}
+          />
+        </div>
+        {/* <Comment.Content className={classnames({ 'track-info': !beenPlayed })}>
           <TrackDescription
             artistName={track.artist.name}
             trackLength={track.length}
@@ -96,18 +123,10 @@ const ListItems = props => {
             <CurrentVote metrics={track.metrics} />
             <CurrentPlays metrics={track.metrics} />
             <Comment.Action>
-              <AddedBy users={addedBy} />
             </Comment.Action>
-            <ActionRemove
-              uri={track.uri}
-              name={track.name}
-              disabled={props.disabled}
-              isCurrent={isCurrent}
-              onClick={props.onRemove}
-            />
           </Comment.Actions>
-        </Comment.Content>
-      </Comment>
+        </Comment.Content> */}
+      </div>
     )
   })
 }
@@ -118,15 +137,13 @@ const Tracklist = props => {
   }
 
   return (
-    <Comment.Group size='small'>
-      <ListItems
-        disabled={props.disabled}
-        tracks={props.tracks}
-        current={props.currentTrack}
-        onRemove={props.onRemoveTrack}
-        onArtistSearch={props.onArtistSearch}
-      />
-    </Comment.Group>
+    <ListItems
+      disabled={props.disabled}
+      tracks={props.tracks}
+      current={props.currentTrack}
+      onRemove={props.onRemoveTrack}
+      onArtistSearch={props.onArtistSearch}
+    />
   )
 }
 

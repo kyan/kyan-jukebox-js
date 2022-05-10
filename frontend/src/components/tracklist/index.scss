@@ -7,7 +7,7 @@
   margin-bottom: 2px;
 }
 
-.ui.list>.item .remove-image {
+.ui.list > .item .remove-image {
   cursor: pointer;
 }
 
@@ -16,13 +16,9 @@
   margin: 0 1em 0 0;
 }
 
-.comment .avatar .small img {
-  width: 110px;
-}
-
 .ui.comments .comment.current-track {
   background-color: #f7f7f7;
-  padding-bottom: .5em;
+  padding-bottom: 0.5em;
   padding: 1em;
 }
 
@@ -44,4 +40,26 @@
 .track-search-link {
   cursor: pointer;
   color: #555;
+}
+
+.trackRow {
+  display: grid;
+  grid-template-columns: 3fr 2fr 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+}
+
+.trackCell__title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.trackImage {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+
+  &--current {
+    box-shadow: 0 0 4px #191b23;
+  }
 }
