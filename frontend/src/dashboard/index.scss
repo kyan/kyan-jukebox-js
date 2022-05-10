@@ -6,12 +6,8 @@
   margin-right: 1em;
 }
 
-.body-wrapper {
+.jukeboxWrapper {
+  display: grid;
+  grid-template-columns: 400px 1fr;
   padding: 10px 20px 20px;
-}
-
-.dashboard-grid {
-  display: 'flex';
-  min-height: 100vh;
-  flex-flow: 'column nowrap';
 }
