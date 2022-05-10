@@ -31,12 +31,12 @@ interface ControlsProps {
 const SkipButton = ({ disabled, onClick, type }: SkipButtonProps) => {
   return (
     <button
-      className='c-controls__button'
+      className='c-controls__button c-controls__button--skip'
       onClick={onClick}
       disabled={disabled}
       data-testid={`SkipButton--${type}`}
     >
-      <Icon name={`step ${type}` as SemanticICONS} size='big' />
+      <Icon name={`step ${type}` as SemanticICONS} size='large' />
     </button>
   )
 }
