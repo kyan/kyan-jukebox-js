@@ -6,7 +6,16 @@ import './index.css'
 export const Settings = () => {
   const { googleUser, grantOfflineAccess, signOut } = useContext(GoogleAuthContext)
 
-  let avatar = (
+  let avatar = googleUser?.profileObj ? (
+    <Image
+      rounded
+      size='mini'
+      floated='right'
+      title={googleUser.profileObj.name}
+      src={googleUser.profileObj.imageUrl}
+      onClick={() => signOut()}
+    />
+  ) : (
     <Button
       icon='power off'
       floated='right'
@@ -15,18 +24,6 @@ export const Settings = () => {
       title='Login using Google'
     />
   )
-  if (googleUser && googleUser.profileObj) {
-    avatar = (
-      <Image
-        rounded
-        size='mini'
-        floated='right'
-        title={googleUser.profileObj.name}
-        src={googleUser.profileObj.imageUrl}
-        onClick={() => signOut()}
-      />
-    )
-  }
 
   return <React.Fragment>{avatar}</React.Fragment>
 }
