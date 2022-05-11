@@ -1,5 +1,5 @@
 .c-controls__wrapper {
-  width: 150px;
+  width: 15rem;
   display: flex;
   justify-content: space-between;
 }
@@ -18,13 +18,13 @@
   display: block;
   width: auto;
   margin: 0;
-  color: #181b22;
+  color: var(--iconDefault);
   transition: color 0.3s;
 }
 
 .c-controls__button--skip i.icon {
-  color: #dedee0;
+  color: var(--iconSecondary);
 }
 .c-controls__button--skip:hover i.icon {
-  color: #181b22;
+  color: var(--iconDefault);
 }
