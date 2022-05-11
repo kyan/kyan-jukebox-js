@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: 3fr 2fr 1fr 1fr 1fr 1fr 1fr;
   align-items: center;
+  padding: 25px 0;
 }
 
 .trackCell__title {
@@ -18,4 +19,8 @@
   &--current {
     box-shadow: 0 0 4px #191b23;
   }
+}
+
+.trackImage__wrapper {
+  margin-right: 30px;
 }

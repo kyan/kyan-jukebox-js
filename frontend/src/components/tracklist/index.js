@@ -13,33 +13,22 @@ const TrackImage = props => {
   const image = props.image ? props.image : defaultImage
 
   return (
-    <img
-      src={image}
-      className={classnames('trackImage', { 'trackImage--current': props.isCurrent })}
-      alt={props.alt}
-    />
+    <figure className='trackImage__wrapper'>
+      <img
+        src={image}
+        className={classnames('trackImage', { 'trackImage--current': props.isCurrent })}
+        alt={props.alt}
+      />
+    </figure>
   )
 }
-
-const TrackDescription = props => (
-  <Comment.Text>
-    <Item as='a' className='track-search-link' onClick={props.onClick}>
-      {props.artistName}
-    </Item>{' '}
-    <small>({millisToMinutesAndSeconds(props.trackLength)})</small>
-  </Comment.Text>
-)
 
 const CurrentVote = props => {
   if (!props.metrics) return null
   const show = props.metrics.votes > 0
   if (!show) return null
 
-  return (
-    <Comment.Action as='span'>
-      <VotedBy total={props.metrics.votesAverage} show={show} />
-    </Comment.Action>
-  )
+  return <VotedBy total={props.metrics.votesAverage} show={show} />
 }
 
 const ActionRemove = props => {
@@ -95,12 +84,14 @@ const ListItems = props => {
           <p>{track.artist.name}</p>
         </div>
         <div>
-          <p>{track.length}</p>
+          <p>{millisToMinutesAndSeconds(track.length)}</p>
         </div>
         <div>
           <p>Plays</p>
         </div>
-        <div></div>
+        <div>
+          <CurrentVote metrics={track.metrics} />
+        </div>
         <div>
           <AddedBy users={addedBy} />
         </div>
