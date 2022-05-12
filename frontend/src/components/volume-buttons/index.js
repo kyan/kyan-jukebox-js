@@ -31,6 +31,7 @@ const VolumeDownButton = props => (
     className='jb-volume-down'
     onClick={volumeDown(props.volume, props.onChange)}
     disabled={props.disabled}
+    size='huge'
   >
     <Icon name='volume down' />
   </Button>
@@ -41,6 +42,7 @@ const VolumeUpButton = props => (
     className='jb-volume-up'
     onClick={volumeUp(props.volume, props.onChange)}
     disabled={props.disabled}
+    size='huge'
   >
     <Icon name='volume up' />
   </Button>

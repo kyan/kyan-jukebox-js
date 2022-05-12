@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { Comment, Label } from 'semantic-ui-react'
 import { millisToMinutesAndSeconds } from 'utils/time'
 import defaultImage from 'components/current-track/default-artwork.png'
 import AddedBy from 'components/added-by'
@@ -28,7 +27,7 @@ const CurrentVote = props => {
   const show = props.metrics.votes > 0
   if (!show) return null
 
-  return <VotedBy total={props.metrics.votesAverage} show={show} />
+  return <VotedBy total={props.metrics.votesAverage} show={show} size='large' />
 }
 
 const ActionRemove = props => {
@@ -41,24 +40,6 @@ const ActionRemove = props => {
       name={props.name}
       onClick={removeTrack(props.uri, props.onClick)}
     />
-  )
-}
-
-const CurrentPlays = props => {
-  let basic = true
-  let color = 'grey'
-  if (!props.metrics) return null
-  if (props.metrics.plays > 0) {
-    basic = false
-    color = null
-  }
-
-  return (
-    <Comment.Action as='span'>
-      <Label className='track-label' size='tiny' color={color} basic={basic}>
-        Played <Label.Detail>{props.metrics.plays}</Label.Detail>
-      </Label>
-    </Comment.Action>
   )
 }
 
