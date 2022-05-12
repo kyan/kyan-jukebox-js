@@ -1,14 +1,21 @@
 .trackRow {
   display: grid;
-  grid-template-columns: 3fr 2fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 10rem 3fr 3fr 1fr 1fr 1fr 4rem 4rem;
   align-items: center;
   padding: 2.5rem 0;
 }
 
-.trackCell__title {
+.trackCell--title,
+.trackCell--artist {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  overflow: hidden;
+  padding-right: 2rem;
+}
+
+.trackCell__text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .trackImage {

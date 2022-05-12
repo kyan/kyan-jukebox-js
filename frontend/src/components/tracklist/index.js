@@ -57,12 +57,14 @@ const ListItems = props => {
         className={classnames('trackRow', { 'trackRow--current': isCurrent })}
         key={`${i}${track.uri}`}
       >
-        <div className='trackCell__title'>
+        <div className='trackCell--image'>
           <TrackImage image={track.image} alt={track.name} isCurrent={isCurrent} />
-          <p>{track.name}</p>
         </div>
-        <div>
-          <p>{track.artist.name}</p>
+        <div className='trackCell--title'>
+          <span className='trackCell__text'>{track.name}</span>
+        </div>
+        <div className='trackCell--artist'>
+          <span className='trackCell__text'>{track.artist.name}</span>
         </div>
         <div>
           <p>{millisToMinutesAndSeconds(track.length)}</p>
