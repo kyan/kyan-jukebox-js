@@ -67,10 +67,10 @@ const ListItems = props => {
           <span className='trackCell__text'>{track.artist.name}</span>
         </div>
         <div>
-          <p>{millisToMinutesAndSeconds(track.length)}</p>
+          <span className='trackCell__text'>{millisToMinutesAndSeconds(track.length)}</span>
         </div>
         <div>
-          <p>Plays</p>
+          <span className='trackCell__text'>{track.metrics.plays} Plays</span>
         </div>
         <div>
           <CurrentVote metrics={track.metrics} />

@@ -1,10 +1,11 @@
 :root {
   --black: #191b23;
-  --grey: rgba(25, 27, 35, 0.15);
+  --grey: rgba(100, 103, 113, 0.5);
+  --disabled: rgba(25, 27, 35, 0.15);
 
   --textDefault: var(--black);
   --textSecondary: var(--grey);
 
   --iconDefault: var(--black);
-  --iconSecondary: var(--grey);
+  --iconSecondary: var(--disabled);
 }

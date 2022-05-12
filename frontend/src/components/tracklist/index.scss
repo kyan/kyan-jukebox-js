@@ -18,6 +18,10 @@
   text-overflow: ellipsis;
 }
 
+.trackRow:not(.trackRow--current) .trackCell__text {
+  color: var(--grey);
+}
+
 .trackImage {
   width: 6.4rem;
   height: 6.4rem;
