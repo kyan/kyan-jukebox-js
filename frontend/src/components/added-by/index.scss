@@ -1,0 +1,44 @@
+.addedByList {
+  font-size: 1.2rem;
+  max-height: 300px;
+  overflow-y: scroll;
+  padding: 0 1rem;
+  list-style-type: none;
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+}
+
+.addedByList__item {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  list-style-type: none;
+  line-height: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+.addedByList__image {
+  margin: 0 1rem 0 0;
+}
+
+.userIcon {
+  display: block;
+  border-radius: 50%;
+}
+.userIcon--defaultSize {
+  width: 3rem;
+  height: 3rem;
+}
+.userIcon--smallSize {
+  width: 1.6rem;
+  height: 1.6rem;
+}
