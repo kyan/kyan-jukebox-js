@@ -18,6 +18,11 @@
   text-overflow: ellipsis;
 }
 
+.trackCell--clear {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .trackRow:not(.trackRow--current) .trackCell__text {
   color: var(--grey);
 }

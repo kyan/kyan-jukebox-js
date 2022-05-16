@@ -78,7 +78,7 @@ const ListItems = props => {
         <div>
           <AddedBy users={addedBy} />
         </div>
-        <div>
+        <div className='trackCell--clear'>
           <ActionRemove
             uri={track.uri}
             name={track.name}

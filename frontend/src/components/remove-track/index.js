@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Confirm } from 'semantic-ui-react'
+import ClearIcon from '../svg/ClearIcon'
+import './styles.scss'
 
 const RemoveTrack = props => {
   const [open, setOpen] = React.useState(false)
@@ -13,8 +15,8 @@ const RemoveTrack = props => {
 
   return (
     <>
-      <button className='remove-track' onClick={show}>
-        Remove
+      <button className='clearButton' onClick={show}>
+        <ClearIcon />
       </button>
       <Confirm
         content={`Are you sure you want to remove: ${props.name}`}
