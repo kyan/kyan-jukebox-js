@@ -1,0 +1,14 @@
+.clearButton {
+  border: none;
+  background: transparent;
+  padding: 0.5rem;
+
+  > svg {
+    display: block;
+    fill: #dee2e5;
+    transition: fill 0.3s;
+  }
+  &:hover > svg {
+    fill: red;
+  }
+}

@@ -1,0 +1,42 @@
+.trackRow {
+  display: grid;
+  grid-template-columns: 10rem 3fr 3fr 1fr 1fr 1fr 4rem 4rem;
+  align-items: center;
+  padding: 2.5rem 0;
+}
+
+.trackCell--title,
+.trackCell--artist {
+  display: flex;
+  overflow: hidden;
+  padding-right: 2rem;
+}
+
+.trackCell__text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.trackCell--clear {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.trackRow:not(.trackRow--current) .trackCell__text {
+  color: var(--grey);
+}
+
+.trackImage {
+  width: 6.4rem;
+  height: 6.4rem;
+  object-fit: cover;
+
+  &--current {
+    box-shadow: 0 0 4px #191b23;
+  }
+}
+
+.trackImage__wrapper {
+  margin: 0 3rem 0 0;
+}

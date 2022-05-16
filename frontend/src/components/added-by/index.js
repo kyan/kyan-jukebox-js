@@ -1,31 +1,34 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { List, Popup, Icon, Image } from 'semantic-ui-react'
+import { Popup, Icon } from 'semantic-ui-react'
 import dateFormat from 'dateformat'
-import './index.css'
+import './index.scss'
 
 const addedByContent = users => (
-  <List className='added-by-list'>
+  <ul className='addedByList'>
     {users.map((data, i) => {
       const fullName = data.user ? data.user.fullname : 'User unknown'
 
       return (
-        <List.Item key={i}>
-          {userPicture(data)}
-          <List.Content>
-            <List.Description>
-              <strong>{dateFormat(data.addedAt, 'dd mmm yyyy @ h:MM tt')}</strong> - {fullName}
-            </List.Description>
-          </List.Content>
-        </List.Item>
+        <li className='addedByList__item' key={i}>
+          <span className='addedByList__image'>{userPicture(data, 'small')}</span>
+          {dateFormat(data.addedAt, 'dd mmm yyyy @ h:MM tt')} - {fullName}
+        </li>
       )
     })}
-  </List>
+  </ul>
 )
 
-const userPicture = data => {
+const userPicture = (data, size = 'default') => {
   if (data && data.user && data.user.picture)
-    return <Image avatar className='added_by_avatar_image' src={data.user.picture} />
+    return (
+      <img
+        className={`userIcon userIcon--${size}Size`}
+        alt={data.user.fullname}
+        src={data.user.picture}
+      />
+    )
+
   return <Icon name='user' />
 }
 

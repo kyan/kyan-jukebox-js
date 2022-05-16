@@ -1,45 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { Comment, Label, Item } from 'semantic-ui-react'
 import { millisToMinutesAndSeconds } from 'utils/time'
 import defaultImage from 'components/current-track/default-artwork.png'
 import AddedBy from 'components/added-by'
 import VotedBy from 'components/voted-by'
 import RemoveTrack from 'components/remove-track'
-import './index.css'
+import './index.scss'
 
-const TrackImage = props => (
-  <Comment.Avatar className={props.isCurrent ? 'current-image' : null} src={props.src} />
-)
-
-const ImageChooser = props => {
+const TrackImage = props => {
   const image = props.image ? props.image : defaultImage
 
-  return <TrackImage src={image} isCurrent={props.isCurrent} />
+  return (
+    <figure className='trackImage__wrapper'>
+      <img
+        src={image}
+        className={classnames('trackImage', { 'trackImage--current': props.isCurrent })}
+        alt={props.alt}
+      />
+    </figure>
+  )
 }
-
-const TrackHeading = props => <Comment.Author>{props.name}</Comment.Author>
-
-const TrackDescription = props => (
-  <Comment.Text>
-    <Item as='a' className='track-search-link' onClick={props.onClick}>
-      {props.artistName}
-    </Item>{' '}
-    <small>({millisToMinutesAndSeconds(props.trackLength)})</small>
-  </Comment.Text>
-)
 
 const CurrentVote = props => {
   if (!props.metrics) return null
   const show = props.metrics.votes > 0
   if (!show) return null
 
-  return (
-    <Comment.Action as='span'>
-      <VotedBy total={props.metrics.votesAverage} show={show} />
-    </Comment.Action>
-  )
+  return <VotedBy total={props.metrics.votesAverage} show={show} size='large' />
 }
 
 const ActionRemove = props => {
@@ -55,24 +43,6 @@ const ActionRemove = props => {
   )
 }
 
-const CurrentPlays = props => {
-  let basic = true
-  let color = 'grey'
-  if (!props.metrics) return null
-  if (props.metrics.plays > 0) {
-    basic = false
-    color = null
-  }
-
-  return (
-    <Comment.Action as='span'>
-      <Label className='track-label' size='tiny' color={color} basic={basic}>
-        Played <Label.Detail>{props.metrics.plays}</Label.Detail>
-      </Label>
-    </Comment.Action>
-  )
-}
-
 const ListItems = props => {
   let beenPlayed = false
   const isCurrentTrack = (current, uri) => current && current.uri === uri
@@ -83,10 +53,41 @@ const ListItems = props => {
     if (isCurrent) beenPlayed = beenPlayed || true
 
     return (
-      <Comment className={classnames({ 'current-track': isCurrent })} key={`${i}${track.uri}`}>
-        <ImageChooser image={track.image} isCurrent={isCurrent} />
-        <Comment.Content className={classnames({ 'track-info': !beenPlayed })}>
-          <TrackHeading name={track.name} />
+      <div
+        className={classnames('trackRow', { 'trackRow--current': isCurrent })}
+        key={`${i}${track.uri}`}
+      >
+        <div className='trackCell--image'>
+          <TrackImage image={track.image} alt={track.name} isCurrent={isCurrent} />
+        </div>
+        <div className='trackCell--title'>
+          <span className='trackCell__text'>{track.name}</span>
+        </div>
+        <div className='trackCell--artist'>
+          <span className='trackCell__text'>{track.artist.name}</span>
+        </div>
+        <div>
+          <span className='trackCell__text'>{millisToMinutesAndSeconds(track.length)}</span>
+        </div>
+        <div>
+          <span className='trackCell__text'>{track.metrics.plays} Plays</span>
+        </div>
+        <div>
+          <CurrentVote metrics={track.metrics} />
+        </div>
+        <div>
+          <AddedBy users={addedBy} />
+        </div>
+        <div className='trackCell--clear'>
+          <ActionRemove
+            uri={track.uri}
+            name={track.name}
+            disabled={props.disabled}
+            isCurrent={isCurrent}
+            onClick={props.onRemove}
+          />
+        </div>
+        {/* <Comment.Content className={classnames({ 'track-info': !beenPlayed })}>
           <TrackDescription
             artistName={track.artist.name}
             trackLength={track.length}
@@ -96,18 +97,10 @@ const ListItems = props => {
             <CurrentVote metrics={track.metrics} />
             <CurrentPlays metrics={track.metrics} />
             <Comment.Action>
-              <AddedBy users={addedBy} />
             </Comment.Action>
-            <ActionRemove
-              uri={track.uri}
-              name={track.name}
-              disabled={props.disabled}
-              isCurrent={isCurrent}
-              onClick={props.onRemove}
-            />
           </Comment.Actions>
-        </Comment.Content>
-      </Comment>
+        </Comment.Content> */}
+      </div>
     )
   })
 }
@@ -118,15 +111,13 @@ const Tracklist = props => {
   }
 
   return (
-    <Comment.Group size='small'>
-      <ListItems
-        disabled={props.disabled}
-        tracks={props.tracks}
-        current={props.currentTrack}
-        onRemove={props.onRemoveTrack}
-        onArtistSearch={props.onArtistSearch}
-      />
-    </Comment.Group>
+    <ListItems
+      disabled={props.disabled}
+      tracks={props.tracks}
+      current={props.currentTrack}
+      onRemove={props.onRemoveTrack}
+      onArtistSearch={props.onArtistSearch}
+    />
   )
 }
 
