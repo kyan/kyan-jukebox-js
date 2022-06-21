@@ -69,32 +69,38 @@ You can also just ignore `make` and run everything manual if that's your thing.
 
 ### Running the app
 
-When running the app locally you get to run a Docker instance of Mopidy on your machine. You don't get any sound but it's by far the easiest way. You just need to run:
+When running the app locally you can use Docker to run the services required along side:
 
-Build the dependencies MongoDB and Mopidy
+- `mongodb`
+- `mopidy` (NOTE: You don't get any sound)
+- `caddy` Webserver (optional if you want everything running over HTTPS)
+
+You will need to build the Mopidy Image
 ```
-make build
+# If you are on an M1 mac you will need
+$ DOCKER_DEFAULT_PLATFORM=linux/amd64 make build
+
+# otherwise you can just run
+$ make build
 ```
 
-Note: If you are using an M1 Macbook, the above command may fail. To fix this, you will need to set the following environment variable in your shell:
+You can now start the dependencies:
 ```
-DOCKER_DEFAULT_PLATFORM=linux/amd64
-```
+# start just mongodb and mongodb
+$ make start services=mongodb mopidy # caddy (optional)
 
-Start the dependencies MongoDB and Mopidy
-```
-make start
-make start args=-D # run in the background
+# all service in the background
+$ make start args=-D
 ```
 
 Now you can just open a new terminal for the FE and the BE and run:
 
 ```
-make fe-server
+$ make be-server
 ```
 and
 ```
-make be-server
+$ make fe-server
 ```
 
 This will give you a working FE and BE plus the persistence layer. The Jukebox is available

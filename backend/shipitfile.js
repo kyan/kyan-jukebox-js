@@ -1,6 +1,6 @@
 const path = require('path')
 
-module.exports = shipit => {
+module.exports = (shipit) => {
   require('shipit-deploy')(shipit)
 
   shipit.initConfig({
@@ -20,7 +20,7 @@ module.exports = shipit => {
   })
 
   shipit.on('published', function () {
-    shipit.start(['restart_daemon', 'restart_api_service'])
+    shipit.start(['restart_daemon', 'restart_api_service', 'restart_api_proxy_service'])
   })
 
   shipit.on('updated', function () {
@@ -43,5 +43,9 @@ module.exports = shipit => {
 
   shipit.blTask('restart_api_service', function () {
     return shipit.remote('sudo /bin/systemctl restart jukebox-api.service')
+  })
+
+  shipit.blTask('restart_api_proxy_service', function () {
+    return shipit.remote('sudo /bin/systemctl restart jukebox-api-proxy.service')
   })
 }

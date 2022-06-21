@@ -27,3 +27,12 @@ services:
       - MOPIDY_PASSWORD=${MOPIDY_PASSWORD}
       - MOPIDY_CLIENT_ID=${MOPIDY_CLIENT_ID}
       - MOPIDY_CLIENT_SECRET=${MOPIDY_CLIENT_SECRET}
+  caddy:
+    image: caddy:2.0.0-alpine
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - $PWD/frontend/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy_data:/data
+      - ./caddy_config:/config

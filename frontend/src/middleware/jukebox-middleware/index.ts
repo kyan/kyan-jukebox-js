@@ -16,7 +16,7 @@ interface ActionInterface extends Action {
 }
 
 const JukeboxMiddleware: Middleware = (() => {
-  const url = `http://${process.env.REACT_APP_WS_URL}:${process.env.REACT_APP_WS_PORT}`
+  const url = `${process.env.REACT_APP_WS_URL}:${process.env.REACT_APP_WS_PORT}`
   let socket: Socket
   let progressTimer: any = null
 
