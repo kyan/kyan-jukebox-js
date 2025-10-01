@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import usePageVisibility from 'hooks/usePageVisibility'
-import { DragDropContext } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
-import GoogleAuthContext from 'contexts/google'
+// import { DragDropContext } from 'react-dnd'
+// import { HTML5Backend } from 'react-dnd-html5-backend'
 import Notify from 'utils/notify'
 import * as actions from 'actions'
 import * as searchActions from 'search/actions'
@@ -16,8 +15,7 @@ export const DashboardContainer = () => {
   const tracklist = useSelector(state => state.tracklist)
   const currentTrack = useSelector(state => state.track)
   const dispatch = useDispatch()
-  const { isSignedIn, googleUser, auth2 } = useContext(GoogleAuthContext)
-  const disable = !(isSignedIn && jukebox.mopidyOnline)
+  const disable = !jukebox.mopidyOnline
 
   useEffect(() => {
     dispatch(actions.wsConnect())
@@ -25,32 +23,6 @@ export const DashboardContainer = () => {
     /* istanbul ignore next */
     return () => dispatch(actions.wsDisconnect())
   }, [dispatch])
-
-  if (isSignedIn && isVisible) {
-    const shouldRefreshToken = () => {
-      // The token is within 5 minutes of expiring
-      return settings.tokenExpires > 0 && settings.tokenExpires - 300 * 1000 - Date.now() <= 0
-    }
-
-    if (googleUser.expiresAt > settings.tokenExpires) {
-      dispatch(actions.updateToken(googleUser.tokenId, googleUser.expiresAt))
-    }
-
-    if (shouldRefreshToken()) {
-      auth2.currentUser
-        .get()
-        .reloadAuthResponse()
-        .then(
-          response => {
-            console.info('Token Refreshed (expires): ', response.expires_at)
-            dispatch(actions.updateToken(response.id_token, response.expires_at))
-          },
-          err => console.warn('Token un-refreshable: ', err.message)
-        )
-    }
-  }
-
-  if (!isSignedIn) dispatch(actions.clearToken())
 
   const onPlay = useCallback(() => dispatch(actions.startPlaying()), [dispatch])
   const onStop = useCallback(() => dispatch(actions.stopPlaying()), [dispatch])
@@ -120,4 +92,5 @@ export const DashboardContainer = () => {
   )
 }
 
-export default DragDropContext(HTML5Backend)(DashboardContainer)
+// export default DragDropContext(HTML5Backend)(DashboardContainer)
+export default DashboardContainer

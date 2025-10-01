@@ -1,4 +1,4 @@
-export default {
+const common = {
   ADD_CURRENT_TRACK: 'actionAddCurrentTrack',
   ADD_TRACKS: 'actionAddTracks',
   CONNECT: 'actionConnect',
@@ -17,3 +17,5 @@ export default {
   MOPIDY_DISCONNECTED: 'actionMopidyDisconnected',
   SYNC_SOCIAL_DATA: 'syncSocialData'
 }
+
+export default common

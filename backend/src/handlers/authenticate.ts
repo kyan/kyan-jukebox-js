@@ -1,5 +1,4 @@
 import { Socket } from 'socket.io'
-import { OAuth2Client } from 'google-auth-library'
 import Broadcaster from '../utils/broadcaster'
 import AuthConsts from '../constants/auth'
 import MopidyConsts from '../constants/mopidy'
@@ -25,44 +24,29 @@ const AuthenticateHandler = (payload: Payload, socket: Socket): Promise<Payload>
   }
 
   return new Promise((resolve) => {
-    const token = payload.jwt
-    const client = new OAuth2Client(process.env.CLIENT_ID)
-
     const broadcastTo = (headers: any, message: any): void => {
       Broadcaster.toClient({ socket, headers, message })
     }
 
-    client
-      .verifyIdToken({ idToken: token, audience: process.env.CLIENT_ID })
-      .then((ticket) => {
-        const data = ticket.getPayload()
-        const responsePayload: Payload = {
-          data: payload.data,
-          key: payload.key,
-          user: {
-            _id: data['sub'],
-            fullname: data['name'],
-            picture: data['picture']
-          }
-        }
+    const responsePayload: Payload = {
+      data: payload.data,
+      key: payload.key,
+      user: {
+        _id: '111779595380184084299',
+        fullname: 'Duncan Robertson',
+        picture:
+          'https://lh3.googleusercontent.com/a-/AOh14GjwXol-s9_MiD_cgRM9UKPkXAVAs0yQDVd_dfOCtQ=s96-c'
+      },
+      hd: 'kyan'
+    }
 
-        if (
-          process.env.GOOGLE_AUTH_DOMAIN &&
-          data['hd'] === process.env.GOOGLE_AUTH_DOMAIN
-        ) {
-          return persistUser(responsePayload.user)
-            .then(() => resolve(responsePayload))
-            .catch((err: any) =>
-              logger.error('Error checking user', { error: err.message })
-            )
-        }
-
-        payload.key = AuthConsts.AUTHENTICATION_TOKEN_INVALID
-        broadcastTo(payload, { error: `Invalid domain: ${data['hd']}` })
-      })
-      .catch((err) => {
-        broadcastTo(payload, { error: err.message })
-      })
+    try {
+      return persistUser(responsePayload.user)
+        .then(() => resolve(responsePayload))
+        .catch((err: any) => logger.error('Error checking user', { error: err.message }))
+    } catch (err: any) {
+      broadcastTo(payload, { error: err.message })
+    }
   })
 }
 
