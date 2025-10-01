@@ -1,38 +1,15 @@
-const defaultRules = ['react-app', 'eslint:recommended', 'plugin:prettier/recommended']
-
 module.exports = {
   root: true,
-  parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'jest'],
-  extends: defaultRules,
+  extends: ['react-app', 'react-app/jest'],
   env: {
     es6: true,
     browser: true,
-    node: true,
-    'jest/globals': true
+    node: true
   },
   rules: {
     // no semi colons please
-    semi: ['error', 'never']
-  },
-  overrides: [
-    {
-      // enable the rule specifically for TypeScript files
-      files: ['*.ts', '*.tsx'],
-      plugins: ['@typescript-eslint'],
-      extends: [
-        ...defaultRules,
-        'plugin:@typescript-eslint/recommended',
-        'plugin:jest/recommended',
-        'prettier/@typescript-eslint'
-      ],
-      rules: {
-        // remove when all have been fixed
-        '@typescript-eslint/no-explicit-any': 'off',
-        '@typescript-eslint/explicit-module-boundary-types': 'off',
-        '@typescript-eslint/explicit-function-return-type': 'off',
-        '@typescript-eslint/ban-ts-ignore': 'off'
-      }
-    }
-  ]
+    semi: ['error', 'never'],
+    // fix the anonymous export warnings
+    'import/no-anonymous-default-export': 'off'
+  }
 }

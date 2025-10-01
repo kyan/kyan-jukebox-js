@@ -38,6 +38,7 @@ type SearchProps = {
   onAddTrackToMix: (track: any) => void
   totalPages: number
   onPageChange: (_: any, data: any) => void
+  children?: React.ReactNode
 }
 
 const SearchItems: React.FC<SearchItemsProps> = props => (
