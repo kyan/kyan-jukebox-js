@@ -45,10 +45,7 @@ RUN apt-get clean \
 RUN mkdir -p /config \
   && chown -R mopidy:audio /config
 
-# Create .config directory for mopidy user before switching
-RUN mkdir -p /var/lib/mopidy/.config \
-  && ln -s /config /var/lib/mopidy/.config/mopidy \
-  && chown -R mopidy:audio /var/lib/mopidy
+
 
 # Switch to user mopidy with group audio.
 USER mopidy:audio
