@@ -20,6 +20,7 @@ services:
       - "6680:6680"
     volumes:
       - ./mopidy-data:/var/lib/mopidy:delegated
+      - ./mopidy/config:/config:delegated
     environment:
       - MOPIDY_CLIENT_ID=${MOPIDY_CLIENT_ID}
       - MOPIDY_CLIENT_SECRET=${MOPIDY_CLIENT_SECRET}
