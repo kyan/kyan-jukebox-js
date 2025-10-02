@@ -4,6 +4,7 @@ export interface JBUser {
   _id: any
   fullname: string
   picture: string
+  email: string
 }
 
 interface User extends JBUser, Document {
@@ -14,7 +15,8 @@ const userSchema = new Schema(
   {
     _id: Schema.Types.String,
     fullname: Schema.Types.String,
-    picture: Schema.Types.String
+    picture: Schema.Types.String,
+    email: Schema.Types.String
   },
   { _id: false }
 )

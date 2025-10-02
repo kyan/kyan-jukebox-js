@@ -2,7 +2,6 @@ import ErrorHandler from '../handlers/errors'
 import { JBUser } from '../models/user'
 
 interface Payload {
-  jwt?: string
   key: string
   data: any
   user?: JBUser
@@ -10,14 +9,14 @@ interface Payload {
 
 const Payload = {
   decode: (payloadStr: string): Payload => {
-    const { jwt, key, data } = JSON.parse(payloadStr)
+    const { user, key, data } = JSON.parse(payloadStr)
 
     ErrorHandler.expectationThatThrows({
       expect: key,
       message: `[Payload.decode] No key provided! ${payloadStr}`
     })
 
-    return { jwt, key, data }
+    return { user, key, data }
   },
 
   encodeToJson: (payload: Payload): string => {
