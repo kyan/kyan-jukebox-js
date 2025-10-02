@@ -41,7 +41,7 @@ describe('CurrentTrackContainer', () => {
         timer: { duration: 180000, position: 60000, remaining: 120000 },
         jukebox: { mopidyOnline: true },
         settings: {
-          user: { fullname: 'Test User', email: 'test@example.com' },
+          user: { _id: '1117795953801840xxxxx', fullname: 'Test User', email: 'test@example.com' },
           isSignedIn: true
         }
       })
