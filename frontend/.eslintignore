@@ -4,3 +4,5 @@ coverage
 .eslintrc.js
 .prettierrc.js
 test
+config
+scripts
