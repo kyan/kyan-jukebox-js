@@ -52,7 +52,7 @@ describe('actions', () => {
   })
 
   describe('updateProgressTimer', () => {
-    it('should handle when Infinity is set', () => {
+    it('should handle normal position and duration values', () => {
       const position = 1230
       const duration = 55
       const expectedAction = {

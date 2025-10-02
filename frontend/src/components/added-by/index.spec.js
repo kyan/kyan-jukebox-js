@@ -43,7 +43,7 @@ describe('AddedBy', () => {
     })
 
     describe('and there is play history', () => {
-      it('displays a current user icon with a popup message containing previous ', () => {
+      it('displays a current user icon with a popup message containing previous', () => {
         wrapper = shallow(<AddedBy users={[firstUser, secondUser, thirdUser]} />)
         expect(wrapper).toMatchSnapshot()
       })

@@ -59,7 +59,7 @@ const onMessageHandler = (store, payload, progressTimer) => {
     case MopidyApi.VALIDATE_USER:
       confirmUserSignIn()
       break
-    case AuthApi.USER_NOT_FOUND:
+    case AuthApi.USER_NOT_FOUND: {
       console.error(`USER_NOT_FOUND: ${data.error}`)
       const errorMessage = data.error || 'User not found in database'
       Notify.warning({
@@ -69,6 +69,7 @@ const onMessageHandler = (store, payload, progressTimer) => {
       store.dispatch(actions.setAuthError(errorMessage))
       store.dispatch(actions.clearUser())
       break
+    }
     case MopidyApi.PLAYBACK_GET_CURRENT_TRACK:
     case MopidyApi.EVENT_TRACK_PLAYBACK_STARTED:
       confirmUserSignIn()

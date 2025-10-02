@@ -32,7 +32,9 @@ describe('avatar utils', () => {
 
       const result = getAvatarUrl(user)
 
-      expect(result).toBe('https://ui-avatars.com/api/?name=john%40example.com&size=50&background=random')
+      expect(result).toBe(
+        'https://ui-avatars.com/api/?name=john%40example.com&size=50&background=random'
+      )
     })
 
     it('should use custom size parameter', () => {
@@ -50,15 +52,21 @@ describe('avatar utils', () => {
 
       const result = getAvatarUrl(user)
 
-      expect(result).toBe('https://ui-avatars.com/api/?name=Unknown%20User&size=50&background=random')
+      expect(result).toBe(
+        'https://ui-avatars.com/api/?name=Unknown%20User&size=50&background=random'
+      )
     })
 
     it('should handle null or undefined user', () => {
       const result1 = getAvatarUrl(null)
       const result2 = getAvatarUrl(undefined)
 
-      expect(result1).toBe('https://ui-avatars.com/api/?name=Unknown%20User&size=50&background=random')
-      expect(result2).toBe('https://ui-avatars.com/api/?name=Unknown%20User&size=50&background=random')
+      expect(result1).toBe(
+        'https://ui-avatars.com/api/?name=Unknown%20User&size=50&background=random'
+      )
+      expect(result2).toBe(
+        'https://ui-avatars.com/api/?name=Unknown%20User&size=50&background=random'
+      )
     })
 
     it('should properly encode special characters in names', () => {
@@ -68,7 +76,9 @@ describe('avatar utils', () => {
 
       const result = getAvatarUrl(user)
 
-      expect(result).toBe('https://ui-avatars.com/api/?name=John%20%26%20Jane%20Doe&size=50&background=random')
+      expect(result).toBe(
+        'https://ui-avatars.com/api/?name=John%20%26%20Jane%20Doe&size=50&background=random'
+      )
     })
   })
 })

@@ -117,7 +117,7 @@ export const DashboardContainer = () => {
   )
   const onRemoveTrack = useCallback(evt => dispatch(actions.removeFromTracklist(evt)), [dispatch])
   const onArtistSearch = useCallback(
-    query => _ => {
+    query => _evt => {
       const searchOptions = { offset: 0 }
       dispatch(searchActions.search(query, searchOptions))
       dispatch(searchActions.storeSearchQuery(query, searchOptions))

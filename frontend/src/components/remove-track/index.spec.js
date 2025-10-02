@@ -24,7 +24,7 @@ describe('RemoveTrack', () => {
         expect(wrapper.find(Confirm).prop('open')).toEqual(false)
       })
 
-      it('it shows when the button is pressed', () => {
+      it('shows when the button is pressed', () => {
         wrapper.find(Comment.Action).simulate('click')
         expect(wrapper.find(Confirm).prop('open')).toEqual(true)
       })

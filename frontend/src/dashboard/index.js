@@ -20,7 +20,6 @@ const Dashboard = props => {
     onNext,
     onPrevious,
     onVolumeChange,
-    onDrop,
     onTracklistClear,
     onSearchClick,
     tracklist,

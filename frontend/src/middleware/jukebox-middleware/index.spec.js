@@ -44,7 +44,7 @@ describe('JukeboxMiddleware', () => {
       io.mockImplementation(() => ({ on: mockOn, emit: mockEmit, close: mockClose }))
       const store = mockStore()
       JukeboxMiddleware(store)(next)({ type: 'YEAHWHATEVER' })
-      expect(next).lastCalledWith({ type: 'YEAHWHATEVER' })
+      expect(next).toHaveBeenLastCalledWith({ type: 'YEAHWHATEVER' })
     })
 
     it('should handle connecting and getting new message', () => {
@@ -57,7 +57,7 @@ describe('JukeboxMiddleware', () => {
       jest.runOnlyPendingTimers()
       const actions = store.getActions()
 
-      expect(onMessageHandler).toHaveBeenCalledWith(store, payload, jasmine.any(Object))
+      expect(onMessageHandler).toHaveBeenCalledWith(store, payload, expect.any(Object))
 
       expect(actions).toEqual([
         { type: 'actionDisconnected' },
