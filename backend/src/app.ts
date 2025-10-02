@@ -1,6 +1,8 @@
 import { createServer } from 'http'
 import { Server, Socket } from 'socket.io'
 import MessageType from './constants/message'
+import AuthConsts from './constants/auth'
+import MopidyConsts from './constants/mopidy'
 import Broadcaster, { StateChange, BroadcastToAll } from './utils/broadcaster'
 import Scheduler from './utils/scheduler'
 import Payload from './utils/payload'
@@ -31,36 +33,60 @@ const initSocketioEventHandlers = (args: MopidySetting) => {
     socket.on(MessageType.GENERIC, (data) => {
       const payload = Payload.decode(data)
 
-      AuthenticateHandler(payload, socket).then((updatedPayload) =>
+      AuthenticateHandler(payload, socket).then((updatedPayload) => {
+        // Don't continue if authentication failed
+        if (updatedPayload.key === AuthConsts.USER_NOT_FOUND) {
+          return
+        }
+        // Don't continue to MopidyHandler if this was just a validation request
+        if (updatedPayload.key === MopidyConsts.VALIDATE_USER) {
+          return
+        }
         MopidyHandler({
           payload: updatedPayload,
           socketio: socketio,
           socket: socket,
           mopidy: args.mopidy
         })
-      )
+      })
     })
 
     socket.on(MessageType.SEARCH, (data) => {
       const payload = Payload.decode(data)
 
-      AuthenticateHandler(payload, socket).then((updatedPayload) =>
+      AuthenticateHandler(payload, socket).then((updatedPayload) => {
+        // Don't continue if authentication failed
+        if (updatedPayload.key === AuthConsts.USER_NOT_FOUND) {
+          return
+        }
+        // Don't continue to SearchHandler if this was just a validation request
+        if (updatedPayload.key === MopidyConsts.VALIDATE_USER) {
+          return
+        }
         SearchHandler({
           payload: updatedPayload,
           socket: socket
         })
-      )
+      })
     })
 
     socket.on(MessageType.VOTE, (data) => {
       const payload = Payload.decode(data)
 
-      AuthenticateHandler(payload, socket).then((updatedPayload) =>
+      AuthenticateHandler(payload, socket).then((updatedPayload) => {
+        // Don't continue if authentication failed
+        if (updatedPayload.key === AuthConsts.USER_NOT_FOUND) {
+          return
+        }
+        // Don't continue to VoteHandler if this was just a validation request
+        if (updatedPayload.key === MopidyConsts.VALIDATE_USER) {
+          return
+        }
         VoteHandler({
           payload: updatedPayload,
           socketio: socketio
         })
-      )
+      })
     })
   })
 

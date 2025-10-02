@@ -2,17 +2,39 @@ import MopidyApi from 'constants/mopidy-api'
 import Types from 'constants/common'
 import { transformUrl } from 'utils/spotify'
 
-export const updateToken = (token, expires) => {
+export const validateUser = (email, user) => {
   return {
-    type: Types.STORE_TOKEN,
-    tokenExpires: expires,
-    token
+    type: Types.VALIDATE_USER,
+    email,
+    user
   }
 }
 
-export const clearToken = () => {
+export const updateUser = (email, user) => {
   return {
-    type: Types.CLEAR_STORE_TOKEN
+    type: Types.STORE_USER,
+    email,
+    user
+  }
+}
+
+export const clearUser = () => {
+  return {
+    type: Types.CLEAR_USER
+  }
+}
+
+export const setAuthError = error => {
+  return {
+    type: Types.SET_AUTH_ERROR,
+    error
+  }
+}
+
+export const validateUserRequest = () => {
+  return {
+    type: Types.SEND,
+    key: MopidyApi.VALIDATE_USER
   }
 }
 

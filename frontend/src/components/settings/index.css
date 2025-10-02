@@ -1,3 +1,32 @@
 .jb-settings-toggle {
   cursor: pointer;
 }
+
+.jb-settings-avatar {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.jb-settings-avatar:hover {
+  opacity: 0.8;
+  border: 2px solid #2185d0;
+}
+
+.ui.popup {
+  min-width: 200px;
+}
+
+.ui.popup .list {
+  margin-bottom: 0;
+}
+
+.ui.popup .list .header {
+  font-weight: 600;
+  color: #333;
+}
+
+.ui.popup .list .description {
+  color: #666;
+  font-size: 0.9em;
+}

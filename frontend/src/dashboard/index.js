@@ -26,14 +26,17 @@ const Dashboard = props => {
     tracklist,
     currentTrack,
     onRemoveTrack,
-    onArtistSearch
+    onArtistSearch,
+    user,
+    isSignedIn,
+    onSignOut
   } = props
 
   return (
     <Dimmer.Dimmable blurring dimmed={!online}>
       <SearchContainer>
         <Container className='header-wrapper' fluid>
-          <Settings />
+          <Settings user={user} isSignedIn={isSignedIn} onSignOut={onSignOut} />
           <VolumeButtons disabled={disabled} onVolumeChange={onVolumeChange} />
           <SearchButton onClick={onSearchClick} disabled={disabled} />
           <Controls
@@ -49,7 +52,7 @@ const Dashboard = props => {
         <Container className='body-wrapper' fluid>
           <Grid stackable columns={2} className='dashboard-grid'>
             <Grid.Column width={4}>
-              <Header size='small'>Current Track</Header>
+              <Header size='small'>Now Playing</Header>
               <CurrentTrackContainer />
             </Grid.Column>
             <Grid.Column width={8}>

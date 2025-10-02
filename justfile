@@ -7,7 +7,7 @@ help:
   @echo "How to use:"
   @echo ""
   @echo "  $$ just build              build mongoDB and Mopidy images"
-  @echo "  $$ just start              start mongoDB and Mopidy"
+  @echo "  $$ just start-services     start mongoDB and Mopidy"
   @echo "  $$ just stop-all           stop all local development environment"
   @echo "  $$ just mongodb-shell      open bash shell in MongoDB container"
   @echo "  $$ just mopidy-shell       open bash shell in Mopidy container"
@@ -25,7 +25,7 @@ build:
   docker-compose build
 
 # Start mongoDB and Mopidy (pass args like: just start -d)
-start *ARGS:
+start-services *ARGS:
   docker-compose {{ARGS}} up
 
 # Stop all local development environment

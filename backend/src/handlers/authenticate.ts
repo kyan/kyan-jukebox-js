@@ -10,12 +10,17 @@ const isAuthorisedRequest = (key: string): boolean => {
   return (MopidyConsts.AUTHORISED_KEYS as ReadonlyArray<string>).includes(key)
 }
 
+const isValidationRequest = (key: string): boolean => {
+  return key === MopidyConsts.VALIDATE_USER
+}
+
 const findUserByEmail = (email: string) => {
   return User.findOne({ email })
 }
 
 const AuthenticateHandler = (payload: Payload, socket: Socket): Promise<Payload> => {
-  if (!isAuthorisedRequest(payload.key)) {
+  // Skip authentication for non-authorized and non-validation requests
+  if (!isAuthorisedRequest(payload.key) && !isValidationRequest(payload.key)) {
     return Promise.resolve(payload)
   }
 
@@ -26,39 +31,61 @@ const AuthenticateHandler = (payload: Payload, socket: Socket): Promise<Payload>
 
     // Check if user data is provided
     if (!payload.user || !payload.user.email) {
-      payload.key = AuthConsts.USER_NOT_FOUND
-      broadcastTo(payload, { error: 'No user data provided' })
+      const errorPayload = {
+        key: AuthConsts.USER_NOT_FOUND,
+        data: { error: 'No user data provided' },
+        user: payload.user
+      }
+      broadcastTo(errorPayload, { error: 'No user data provided' })
+      resolve(errorPayload)
       return
     }
 
-    const { email, fullname, picture } = payload.user
+    const { email } = payload.user
 
     // Look up user by email
     findUserByEmail(email)
       .then((user) => {
         if (!user) {
-          payload.key = AuthConsts.USER_NOT_FOUND
-          broadcastTo(payload, { error: `User not found with email: ${email}` })
+          const errorPayload = {
+            key: AuthConsts.USER_NOT_FOUND,
+            data: { error: `User not found with email: ${email}` },
+            user: payload.user
+          }
+          broadcastTo(errorPayload, { error: `User not found with email: ${email}` })
+          resolve(errorPayload)
           return
         }
 
-        // User found, create response payload
+        // User found, create response payload with user data from database
         const responsePayload: Payload = {
-          data: payload.data,
+          data: isValidationRequest(payload.key)
+            ? { success: true, message: 'User validated' }
+            : payload.data,
           key: payload.key,
           user: {
             _id: user._id,
-            fullname: fullname || user.fullname,
-            picture: picture || user.picture,
+            fullname: user.fullname,
             email: user.email
           }
+        }
+
+        // For validation requests, broadcast success response to client
+        if (isValidationRequest(payload.key)) {
+          broadcastTo(responsePayload, responsePayload.data)
         }
 
         resolve(responsePayload)
       })
       .catch((err: any) => {
         logger.error('Error looking up user', { error: err.message })
-        broadcastTo(payload, { error: err.message })
+        const errorPayload = {
+          key: AuthConsts.USER_NOT_FOUND,
+          data: { error: err.message },
+          user: payload.user
+        }
+        broadcastTo(errorPayload, { error: err.message })
+        resolve(errorPayload)
       })
   })
 }
