@@ -7,7 +7,7 @@ import './index.css'
 
 const addedByContent = users => (
   <List className='added-by-list'>
-    {users.map((data, i) => {
+    {users.slice(0, 10).map((data, i) => {
       const fullName = data.user ? data.user.fullname : 'User unknown'
 
       return (
