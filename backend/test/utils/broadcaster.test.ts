@@ -128,7 +128,7 @@ describe('Broadcaster', () => {
       })
     })
 
-    it('handles call to ', () => {
+    it('handles call to', () => {
       const emitMock = jest.fn()
       const message = { online: false }
 

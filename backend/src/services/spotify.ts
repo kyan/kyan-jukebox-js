@@ -127,7 +127,7 @@ const getRecommendations: GetRecommendations = (
       api
         .getRecommendations(options)
         .then((data) => {
-          const tracks = data.body.tracks as SpotifyApi.TrackObjectFull[]
+          const tracks = data.body.tracks as unknown as SpotifyApi.TrackObjectFull[]
           return Recommend.extractSuitableData(tracks)
         })
         .then((data) => Recommend.enrichWithPopularTracksIfNeeded(data))
@@ -177,7 +177,7 @@ const SpotifyService = {
         .getNextTlid()
         .then((tlid) => {
           if (!tlid) return resolve(getRecommendations)
-          resolve()
+          resolve(null)
         })
         .catch((error) => logger.error(`nextTrack: ${error.message}`))
     }),

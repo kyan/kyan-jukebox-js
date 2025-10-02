@@ -147,7 +147,7 @@ describe('SpotifyService', () => {
         expect(result).toEqual(expect.any(Function))
 
         return result(uris, mopidy as Mopidy).then((result) => {
-          return new Promise((resolve) => {
+          return new Promise<void>((resolve) => {
             setTimeout(() => {
               expect(result).toBeUndefined()
               expect(EventLogger.info).toHaveBeenCalledWith(
@@ -183,7 +183,7 @@ describe('SpotifyService', () => {
 
         const uris: string[] = []
         return result(uris, mopidy as Mopidy).then((result) => {
-          return new Promise((resolve) => {
+          return new Promise<void>((resolve) => {
             setTimeout(() => {
               expect(result).toBeUndefined()
               resolve()
@@ -202,7 +202,7 @@ describe('SpotifyService', () => {
       } as unknown
       SpotifyService.canRecommend(mopidy as Mopidy)
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(logger.error).toHaveBeenCalledWith('nextTrack: getNextTlid broke')
           resolve()
@@ -284,7 +284,7 @@ describe('SpotifyService', () => {
       jest.spyOn(SpotifyService, 'getTracks').mockRejectedValue(new Error('bang!'))
       SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW')
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(logger.error).toHaveBeenCalledWith('getTracks: bang!')
           resolve()
@@ -318,7 +318,7 @@ describe('SpotifyService', () => {
         }
       })
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(logger.error).toHaveBeenCalledWith('searchTracks: search bang!')
           resolve()

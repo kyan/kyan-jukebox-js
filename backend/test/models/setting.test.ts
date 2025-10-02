@@ -60,7 +60,7 @@ describe('test mongoose Settings model', () => {
 
       Setting.initializeState(currentTrack, currentTracklist)
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
             { key: 'state' },
@@ -104,7 +104,7 @@ describe('test mongoose Settings model', () => {
 
       Setting.clearState()
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(Setting.collection.findOneAndReplace).toHaveBeenCalledWith(
             { key: 'state' },
@@ -185,7 +185,7 @@ describe('test mongoose Settings model', () => {
 
       Setting.addToTrackSeedList(track)
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
           expect(logger.error).toHaveBeenCalledWith('addToTrackSeedList', {
@@ -249,7 +249,7 @@ describe('test mongoose Settings model', () => {
 
       Setting.trimTracklist(mopidyMock as Mopidy)
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
           expect(logger.error).toHaveBeenCalledWith('trimTracklist', { args: 'boom' })
@@ -281,7 +281,7 @@ describe('test mongoose Settings model', () => {
 
       Setting.updateCurrentTrack(uri)
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
             { key: 'state' },
@@ -319,7 +319,7 @@ describe('test mongoose Settings model', () => {
 
       Setting.updateTracklist(uris)
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
             { key: 'state' },
@@ -355,7 +355,7 @@ describe('test mongoose Settings model', () => {
 
       Setting.removeFromSeeds(uri)
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
             { key: 'state' },
@@ -402,7 +402,7 @@ describe('test mongoose Settings model', () => {
 
       Setting.getSeedTracks()
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
           expect(logger.error).toHaveBeenCalledWith('getSeedTracks', { args: 'boom' })
@@ -445,7 +445,7 @@ describe('test mongoose Settings model', () => {
 
       Setting.getTracklist()
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
           expect(logger.error).toHaveBeenCalledWith('getTracklist', { args: 'boom' })
@@ -489,7 +489,7 @@ describe('test mongoose Settings model', () => {
 
       Setting.getPlayedTracksFromTracklist()
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(Setting.findOne).toHaveBeenCalledWith({ key: 'state' })
           expect(logger.error).toHaveBeenCalledWith('getPlayedTracksFromTracklist', {

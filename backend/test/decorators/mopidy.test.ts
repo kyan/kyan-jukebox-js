@@ -71,7 +71,7 @@ describe('MopidyDecorator', () => {
       mockUpdateTracklist.mockResolvedValue(true)
       const returnData = await MopidyDecorator.parse(h('tracklist.getTracks'), data)
       expect(DecorateTracklist).toHaveBeenCalledWith(data)
-      expect(Setting.updateTracklist).toBeCalledWith(['123'])
+      expect(Setting.updateTracklist).toHaveBeenCalledWith(['123'])
       expect(returnData).toEqual([{ uri: '123', length: 2820123 }])
     })
   })
