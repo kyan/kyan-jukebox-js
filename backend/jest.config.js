@@ -14,6 +14,9 @@ module.exports = {
       }
     ]
   },
+  moduleNameMapper: {
+    '^uuid$': require.resolve('uuid')
+  },
   collectCoverageFrom: [
     'src/**/*.ts',
     '!src/**/*.d.ts',

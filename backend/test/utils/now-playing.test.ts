@@ -42,39 +42,68 @@ describe('NowPlaying', () => {
       ]
     }
 
-    it('returns the correct payload when full data', () => {
+    it('returns the correct payload when full data', async () => {
+      expect.assertions(11)
       const result = {} as any
       jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(result)
       jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
 
-      return NowPlaying.addTrack(trackObject).then((payload) => {
-        expect(payload).toMatchSnapshot()
-        expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
-          { key: 'json' },
-          { $set: { 'value.currentTrack': payload } },
-          { runValidators: true, setDefaultsOnInsert: true, upsert: true }
-        )
+      const payload = (await NowPlaying.addTrack(trackObject)) as any
+
+      expect(payload).toHaveProperty('title', 'Seasons (Waiting On You)')
+      expect(payload).toHaveProperty('artist', 'Future Islands')
+      expect(payload).toHaveProperty('album', 'Singles')
+      expect(payload).toHaveProperty('year', '1983')
+      expect(payload).toHaveProperty('image', 'the-album-art.jpg')
+      expect(payload).toHaveProperty('spotify', 'https://open.spotify.com/track/uri000')
+      expect(payload).toHaveProperty('added_by', 'Duncan')
+      expect(payload).toHaveProperty('added_at', '3 hours ago')
+      expect(payload).toHaveProperty('last_played', '6 hours ago')
+      expect(payload.metrics).toMatchObject({
+        plays: 2,
+        rating: 3,
+        votes: 2
       })
+      expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
+        { key: 'json' },
+        { $set: { 'value.currentTrack': payload } },
+        { runValidators: true, setDefaultsOnInsert: true, upsert: true }
+      )
     })
 
-    it('returns the correct payload when partial full data', () => {
+    it('returns the correct payload when partial full data', async () => {
+      expect.assertions(11)
       const result = {} as any
       jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(result)
       jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
       trackObject.metrics.plays = 1
       delete trackObject.addedBy[1]
 
-      return NowPlaying.addTrack(trackObject).then((payload) => {
-        expect(payload).toMatchSnapshot()
-        expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
-          { key: 'json' },
-          { $set: { 'value.currentTrack': payload } },
-          { runValidators: true, setDefaultsOnInsert: true, upsert: true }
-        )
+      const payload = (await NowPlaying.addTrack(trackObject)) as any
+
+      expect(payload).toHaveProperty('title', 'Seasons (Waiting On You)')
+      expect(payload).toHaveProperty('artist', 'Future Islands')
+      expect(payload).toHaveProperty('album', 'Singles')
+      expect(payload).toHaveProperty('year', '1983')
+      expect(payload).toHaveProperty('image', 'the-album-art.jpg')
+      expect(payload).toHaveProperty('spotify', 'https://open.spotify.com/track/uri000')
+      expect(payload).toHaveProperty('added_by', 'Duncan')
+      expect(payload).toHaveProperty('added_at', '3 hours ago')
+      expect(payload).toHaveProperty('last_played', null)
+      expect(payload.metrics).toMatchObject({
+        plays: 1,
+        rating: 3,
+        votes: 2
       })
+      expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
+        { key: 'json' },
+        { $set: { 'value.currentTrack': payload } },
+        { runValidators: true, setDefaultsOnInsert: true, upsert: true }
+      )
     })
 
     it('handles errors', () => {
+      expect.assertions(1)
       jest.spyOn(Setting, 'findOneAndUpdate').mockRejectedValue(new Error('oooops'))
       NowPlaying.addTrack(trackObject)
 

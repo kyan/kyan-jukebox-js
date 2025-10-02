@@ -16,9 +16,13 @@ describe('VoteHandler', () => {
     jest.clearAllMocks()
   })
 
-  it('should handle a valid vote', () => {
+  it('should handle a valid vote', async () => {
     expect.assertions(2)
-    const user = {} as JBUser
+    const user = {
+      _id: '123',
+      fullname: 'Test User',
+      email: 'test@example.com'
+    } as JBUser
     const payload = {
       key: 'castVote',
       user: user,
@@ -29,21 +33,19 @@ describe('VoteHandler', () => {
 
     VoteHandler({ payload, socketio })
 
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        expect(updateTrackVote).toHaveBeenCalledWith(
-          payload.data.uri,
-          payload.user,
-          payload.data.vote
-        )
-        expect(Broadcaster.toAll).toHaveBeenCalledWith({
-          socketio,
-          headers: { key: 'voteCasted', user: payload.user },
-          message: 'track',
-          type: 'vote'
-        })
-        resolve(null)
-      }, 0)
+    // Wait for the promise to resolve
+    await new Promise((resolve) => setImmediate(resolve))
+
+    expect(updateTrackVote).toHaveBeenCalledWith(
+      payload.data.uri,
+      payload.user,
+      payload.data.vote
+    )
+    expect(Broadcaster.toAll).toHaveBeenCalledWith({
+      socketio,
+      headers: { key: 'voteCasted', user: payload.user },
+      message: 'track',
+      type: 'vote'
     })
   })
 })

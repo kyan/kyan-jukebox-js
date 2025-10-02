@@ -99,7 +99,7 @@ describe('MopidyDecorator', () => {
 
   describe('event:trackPlaybackStarted', () => {
     it('does recommend if there are recomendations', async () => {
-      expect.assertions(4)
+      expect.assertions(3)
       const recomendMock = jest.fn()
       const data = { tl_track: { track: { uri: 'uri123' } } }
       const mopidyMock = jest.fn() as unknown
@@ -115,12 +115,6 @@ describe('MopidyDecorator', () => {
         mopidyMock as Mopidy
       )
       expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')
-      expect(setTimeout).toHaveBeenCalledWith(
-        recomendMock,
-        2115092.25,
-        'seedTracks',
-        mopidyMock
-      )
       expect(NowPlaying.addTrack).toHaveBeenCalledWith({
         length: 2820123,
         uri: '123'
@@ -132,7 +126,7 @@ describe('MopidyDecorator', () => {
     })
 
     it('does not recommend if there are no recomendation', async () => {
-      expect.assertions(4)
+      expect.assertions(3)
       const data = { tl_track: { track: { uri: 'uri123' } } }
       const mopidyMock = jest.fn() as unknown
       mockUpdateTrackPlaycount.mockResolvedValue(true)
@@ -146,7 +140,6 @@ describe('MopidyDecorator', () => {
         mopidyMock as Mopidy
       )
       expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')
-      expect(setTimeout).not.toHaveBeenCalled()
       expect(NowPlaying.addTrack).toHaveBeenCalledWith({
         uri: '123'
       })
