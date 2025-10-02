@@ -3,3 +3,4 @@ build
 coverage
 .eslintrc.js
 .prettierrc.js
+test
