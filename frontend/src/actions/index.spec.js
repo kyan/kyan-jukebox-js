@@ -4,13 +4,50 @@ import Types from 'constants/common'
 jest.mock('utils/notify')
 
 describe('actions', () => {
-  it('should handle updateToken', () => {
-    const token = 'token'
+  it('should handle validateUser', () => {
+    const email = 'test@example.com'
+    const user = { email, fullname: 'Test User' }
     const expectedAction = {
-      type: Types.STORE_TOKEN,
-      token
+      type: Types.VALIDATE_USER,
+      email,
+      user
     }
-    expect(actions.updateToken(token)).toEqual(expectedAction)
+    expect(actions.validateUser(email, user)).toEqual(expectedAction)
+  })
+
+  it('should handle updateUser', () => {
+    const email = 'test@example.com'
+    const user = { email, fullname: 'Test User', picture: 'avatar.jpg' }
+    const expectedAction = {
+      type: Types.STORE_USER,
+      email,
+      user
+    }
+    expect(actions.updateUser(email, user)).toEqual(expectedAction)
+  })
+
+  it('should handle clearUser', () => {
+    const expectedAction = {
+      type: Types.CLEAR_USER
+    }
+    expect(actions.clearUser()).toEqual(expectedAction)
+  })
+
+  it('should handle setAuthError', () => {
+    const error = 'Invalid credentials'
+    const expectedAction = {
+      type: Types.SET_AUTH_ERROR,
+      error
+    }
+    expect(actions.setAuthError(error)).toEqual(expectedAction)
+  })
+
+  it('should handle validateUserRequest', () => {
+    const expectedAction = {
+      type: Types.SEND,
+      key: MopidyApi.VALIDATE_USER
+    }
+    expect(actions.validateUserRequest()).toEqual(expectedAction)
   })
 
   it('should handle addNewTrack', () => {
@@ -108,6 +145,20 @@ describe('actions', () => {
       type: Types.DISCONNECTED
     }
     expect(actions.wsDisconnected()).toEqual(expectedAction)
+  })
+
+  it('should handle mopidyConnected', () => {
+    const expectedAction = {
+      type: Types.MOPIDY_CONNECTED
+    }
+    expect(actions.mopidyConnected()).toEqual(expectedAction)
+  })
+
+  it('should handle mopidyDisconnected', () => {
+    const expectedAction = {
+      type: Types.MOPIDY_DISCONNECTED
+    }
+    expect(actions.mopidyDisconnected()).toEqual(expectedAction)
   })
 
   it('should handle getCurrentTrack', () => {
@@ -223,10 +274,12 @@ describe('actions', () => {
     expect(actions.getState()).toEqual(expectedAction)
   })
 
-  it('should handle clearToken', () => {
+  it('should handle syncSocialData', () => {
+    const track = { uri: 'spotify:track:123', name: 'Test Track' }
     const expectedAction = {
-      type: Types.CLEAR_STORE_TOKEN
+      type: Types.SYNC_SOCIAL_DATA,
+      track
     }
-    expect(actions.clearToken()).toEqual(expectedAction)
+    expect(actions.syncSocialData(track)).toEqual(expectedAction)
   })
 })

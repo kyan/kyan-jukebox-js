@@ -1,11 +1,10 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { render } from '@testing-library/react'
 import App from './App'
-jest.mock('react-use-googlelogin')
 
 describe('App', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<App />)
-    expect(wrapper).toMatchSnapshot()
+    const { container } = render(<App />)
+    expect(container).toBeInTheDocument()
   })
 })

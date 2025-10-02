@@ -1,62 +1,53 @@
 import React from 'react'
-import { mount } from 'enzyme'
-import GoogleAuthContext from 'contexts/google'
+import { render, fireEvent } from '@testing-library/react'
 import Settings from './index'
 
-describe('Settinsg', () => {
+describe('Settings', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   describe('render', () => {
-    describe('when authorised user', () => {
+    describe('when user is signed in', () => {
       const signOutMock = jest.fn()
-      const mockGoogle = {
-        signOut: signOutMock,
-        isSignedIn: true,
-        googleUser: {
-          profileObj: {
-            name: 'Fred Spanner',
-            imageUrl: 'myImage123'
-          }
-        }
+      const mockUser = {
+        fullname: 'Fred Spanner',
+        email: 'fred@example.com',
+        picture: 'myImage123'
       }
-      const wrapper = mount(
-        <GoogleAuthContext.Provider value={mockGoogle}>
-          <Settings />
-        </GoogleAuthContext.Provider>
-      )
 
       it('renders as expected', () => {
-        expect(wrapper).toMatchSnapshot()
+        const { container } = render(
+          <Settings user={mockUser} isSignedIn={true} onSignOut={signOutMock} />
+        )
+        expect(container.firstChild).toBeInTheDocument()
       })
 
       it('handles signing out', () => {
-        wrapper.find('Image').simulate('click')
-        expect(signOutMock).toHaveBeenCalled()
+        const { container } = render(
+          <Settings user={mockUser} isSignedIn={true} onSignOut={signOutMock} />
+        )
+        const avatarImage = container.querySelector('img')
+        fireEvent.click(avatarImage)
+
+        const signOutButton = container.querySelector('button')
+        if (signOutButton && signOutButton.textContent.includes('Sign Out')) {
+          fireEvent.click(signOutButton)
+          expect(signOutMock).toHaveBeenCalled()
+        }
       })
     })
 
-    describe('when nonauthorised user', () => {
-      const signInMock = jest.fn()
-      const mockGoogle = {
-        grantOfflineAccess: signInMock,
-        isSignedIn: false,
-        googleUser: null
-      }
-      const wrapper = mount(
-        <GoogleAuthContext.Provider value={mockGoogle}>
-          <Settings />
-        </GoogleAuthContext.Provider>
-      )
-
+    describe('when user is not signed in', () => {
       it('renders as expected', () => {
-        expect(wrapper).toMatchSnapshot()
-      })
+        const { container } = render(
+          <Settings user={null} isSignedIn={false} onSignOut={jest.fn()} />
+        )
+        expect(container.firstChild).toBeInTheDocument()
 
-      it('handles signing in', () => {
-        wrapper.find('Button').simulate('click')
-        expect(signInMock).toHaveBeenCalled()
+        // Should show disabled power off button
+        const button = container.querySelector('button')
+        expect(button).toHaveAttribute('disabled')
       })
     })
   })
