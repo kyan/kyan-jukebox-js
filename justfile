@@ -18,6 +18,8 @@ help:
   @echo "  $$ just test               runs ALL tests (same as on CI)"
   @echo "  $$ just validate           validate formatting, types, and linting for all workspaces"
   @echo "  $$ just fix                auto-fix formatting and linting for all workspaces"
+  @echo "  $$ just fe-validate        validate frontend formatting, types, and linting"
+  @echo "  $$ just fe-fix             auto-fix frontend formatting and linting"
   @echo "  $$ just be-validate        validate backend formatting, types, and linting"
   @echo "  $$ just be-fix             auto-fix backend formatting and linting"
   @echo "  $$ just fe-deploy          production deploy of frontend to Github"
@@ -67,15 +69,29 @@ test:
 
 # Validate formatting, types, and linting for all workspaces
 validate:
+  @echo "Validating frontend..."
+  yarn workspace @jukebox/frontend validate
+  @echo "✓ Frontend validation passed"
   @echo "Validating backend..."
   yarn workspace @jukebox/backend validate
   @echo "✓ Backend validation passed"
 
 # Auto-fix formatting and linting for all workspaces
 fix:
+  @echo "Fixing frontend..."
+  yarn workspace @jukebox/frontend fix
+  @echo "✓ Frontend fixed"
   @echo "Fixing backend..."
   yarn workspace @jukebox/backend fix
   @echo "✓ Backend fixed"
+
+# Validate frontend formatting, types, and linting
+fe-validate:
+  yarn workspace @jukebox/frontend validate
+
+# Auto-fix frontend formatting and linting
+fe-fix:
+  yarn workspace @jukebox/frontend fix
 
 # Validate backend formatting, types, and linting
 be-validate:

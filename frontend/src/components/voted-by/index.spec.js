@@ -38,12 +38,12 @@ describe('VotedBy', () => {
       expect(wrapper).toMatchSnapshot()
     })
 
-    it('just shows a label with 0 vote', () => {
+    it('just shows a label with 50 votes', () => {
       wrapper = shallow(<VotedBy show total={50} />)
       expect(wrapper).toMatchSnapshot()
     })
 
-    it('just shows a label with +5 vote', () => {
+    it('just shows a label with 100 votes', () => {
       wrapper = shallow(<VotedBy show total={100} />)
       expect(wrapper).toMatchSnapshot()
     })

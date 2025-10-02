@@ -13,7 +13,7 @@ describe('onMessageHandler', () => {
   const progressStartMock = jest.fn()
   const progressStopMock = jest.fn()
   const progress = {
-    set: (start, end) => {
+    set: (_start, _end) => {
       return { start: progressStartMock }
     },
     start: progressStartMock,
@@ -29,7 +29,9 @@ describe('onMessageHandler', () => {
     it('handles unknown message', () => {
       const payload = { key: 'message_not_handled' }
       const store = mockStore({})
-      onMessageHandler(store, JSON.stringify(payload), progress)
+      expect(() => {
+        onMessageHandler(store, JSON.stringify(payload), progress)
+      }).not.toThrow()
     })
   })
 

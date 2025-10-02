@@ -18,7 +18,7 @@ describe('ClearPlaylist', () => {
         expect(wrapper.find(Confirm).prop('open')).toEqual(false)
       })
 
-      it('it shows when the button is pressed', () => {
+      it('shows when the button is pressed', () => {
         wrapper.find('Label').simulate('click')
         expect(wrapper.find(Confirm).prop('open')).toEqual(true)
       })
