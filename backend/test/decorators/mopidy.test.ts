@@ -100,7 +100,7 @@ describe('MopidyDecorator', () => {
   describe('event:trackPlaybackStarted', () => {
     it('does recommend if there are recomendations', async () => {
       expect.assertions(4)
-      const recomendMock = 'mockRecommend'
+      const recomendMock = jest.fn()
       const data = { tl_track: { track: { uri: 'uri123' } } }
       const mopidyMock = jest.fn() as unknown
       mockUpdateTrackPlaycount.mockResolvedValue(true)
@@ -116,7 +116,7 @@ describe('MopidyDecorator', () => {
       )
       expect(updateTrackPlaycount).toHaveBeenCalledWith('uri123')
       expect(setTimeout).toHaveBeenCalledWith(
-        'mockRecommend',
+        recomendMock,
         2115092.25,
         'seedTracks',
         mopidyMock
