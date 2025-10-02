@@ -9,6 +9,8 @@ help:
   @echo "  $$ just build              build mongoDB and Mopidy images"
   @echo "  $$ just start              start mongoDB and Mopidy"
   @echo "  $$ just stop-all           stop all local development environment"
+  @echo "  $$ just mongodb-shell      open bash shell in MongoDB container"
+  @echo "  $$ just mopidy-shell       open bash shell in Mopidy container"
   @echo "  $$ just fe [TASK]          start the frontend or run frontend scripts (e.g just fe lint)"
   @echo "  $$ just be [TASK]          start the backend or run backend scripts (e.g just be lint)"
   @echo "  $$ just fe-test [ARGS]     runs ALL frontend tests (pass any args)"
@@ -29,6 +31,14 @@ start *ARGS:
 # Stop all local development environment
 stop-all:
   docker-compose down
+
+# Open bash shell in MongoDB container
+mongodb-shell:
+  docker exec -it mongodb /bin/bash
+
+# Open bash shell in Mopidy container
+mopidy-shell:
+  docker exec -it mopidy /bin/bash
 
 # Run frontend scripts (defaults to start, e.g. just fe lint)
 fe TASK="start":
