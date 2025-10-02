@@ -3,23 +3,19 @@ import Broadcaster from '../utils/broadcaster'
 import AuthConsts from '../constants/auth'
 import MopidyConsts from '../constants/mopidy'
 import logger from '../config/logger'
-import User, { JBUser } from '../models/user'
+import User from '../models/user'
 import Payload from '../utils/payload'
 
 const isAuthorisedRequest = (key: string): boolean => {
   return (MopidyConsts.AUTHORISED_KEYS as ReadonlyArray<string>).includes(key)
 }
 
-const persistUser = (user: JBUser) => {
-  const query = { _id: user._id }
-  const update = user
-  const options = { upsert: true, new: true, setDefaultsOnInsert: true }
-  return User.findOneAndUpdate(query, update, options)
+const findUserByEmail = (email: string) => {
+  return User.findOne({ email })
 }
 
 const AuthenticateHandler = (payload: Payload, socket: Socket): Promise<Payload> => {
   if (!isAuthorisedRequest(payload.key)) {
-    delete payload.jwt
     return Promise.resolve(payload)
   }
 
@@ -28,25 +24,42 @@ const AuthenticateHandler = (payload: Payload, socket: Socket): Promise<Payload>
       Broadcaster.toClient({ socket, headers, message })
     }
 
-    const responsePayload: Payload = {
-      data: payload.data,
-      key: payload.key,
-      user: {
-        _id: '111779595380184084299',
-        fullname: 'Duncan Robertson',
-        picture:
-          'https://lh3.googleusercontent.com/a-/AOh14GjwXol-s9_MiD_cgRM9UKPkXAVAs0yQDVd_dfOCtQ=s96-c'
-      },
-      hd: 'kyan'
+    // Check if user data is provided
+    if (!payload.user || !payload.user.email) {
+      payload.key = AuthConsts.USER_NOT_FOUND
+      broadcastTo(payload, { error: 'No user data provided' })
+      return
     }
 
-    try {
-      return persistUser(responsePayload.user)
-        .then(() => resolve(responsePayload))
-        .catch((err: any) => logger.error('Error checking user', { error: err.message }))
-    } catch (err: any) {
-      broadcastTo(payload, { error: err.message })
-    }
+    const { email, fullname, picture } = payload.user
+
+    // Look up user by email
+    findUserByEmail(email)
+      .then((user) => {
+        if (!user) {
+          payload.key = AuthConsts.USER_NOT_FOUND
+          broadcastTo(payload, { error: `User not found with email: ${email}` })
+          return
+        }
+
+        // User found, create response payload
+        const responsePayload: Payload = {
+          data: payload.data,
+          key: payload.key,
+          user: {
+            _id: user._id,
+            fullname: fullname || user.fullname,
+            picture: picture || user.picture,
+            email: user.email
+          }
+        }
+
+        resolve(responsePayload)
+      })
+      .catch((err: any) => {
+        logger.error('Error looking up user', { error: err.message })
+        broadcastTo(payload, { error: err.message })
+      })
   })
 }
 
