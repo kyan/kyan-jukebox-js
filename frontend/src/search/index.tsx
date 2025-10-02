@@ -14,7 +14,7 @@ interface RootState {
 const selectSearch = (state: RootState) => state.search
 const selectCuratedList = (state: RootState) => state.curatedList
 
-export const SearchContainer: React.FC = props => {
+export const SearchContainer: React.FC<{ children?: React.ReactNode }> = props => {
   const search = useSelector(selectSearch)
   const curatedList = useSelector(selectCuratedList)
   const dispatch = useDispatch()

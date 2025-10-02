@@ -4,51 +4,105 @@ import Types from 'constants/common'
 describe('settings', () => {
   it('handles default state', () => {
     expect(reducer(undefined, {})).toEqual({
-      token: null,
-      tokenExpires: 0
+      email: null,
+      user: null,
+      isSignedIn: false,
+      isValidating: false,
+      authError: null
     })
   })
 
-  it('handles STORE_TOKEN', () => {
+  it('handles VALIDATE_USER', () => {
+    const email = 'test@example.com'
+    const user = { email, fullname: 'Test User' }
     expect(
       reducer(undefined, {
-        type: Types.STORE_TOKEN,
-        token: 'atoken',
-        tokenExpires: 12345
+        type: Types.VALIDATE_USER,
+        email,
+        user
       })
     ).toEqual({
-      tokenExpires: 12345,
-      token: 'atoken'
+      email: 'test@example.com',
+      user: { email: 'test@example.com', fullname: 'Test User' },
+      isSignedIn: false,
+      isValidating: true,
+      authError: null
     })
   })
 
-  it('handles STORE_TOKEN with same value', () => {
+  it('handles STORE_USER', () => {
+    const email = 'test@example.com'
+    const user = { email, fullname: 'Test User', picture: 'avatar.jpg' }
     expect(
-      reducer(
-        { token: '1234', tokenExpires: 12345 },
-        {
-          type: Types.STORE_TOKEN,
-          token: '1234',
-          tokenExpires: 98765
-        }
-      )
+      reducer(undefined, {
+        type: Types.STORE_USER,
+        email,
+        user
+      })
     ).toEqual({
-      tokenExpires: 12345,
-      token: '1234'
+      email: 'test@example.com',
+      user: { email: 'test@example.com', fullname: 'Test User', picture: 'avatar.jpg' },
+      isSignedIn: true,
+      isValidating: false,
+      authError: null
     })
   })
 
-  it('handles CLEAR_STORE_TOKEN', () => {
+  it('handles CLEAR_USER', () => {
+    const initialState = {
+      email: 'test@example.com',
+      user: { email: 'test@example.com', fullname: 'Test User' },
+      isSignedIn: true,
+      isValidating: false,
+      authError: null
+    }
     expect(
-      reducer(
-        { token: '1234', tokenExpires: 12345 },
-        {
-          type: Types.CLEAR_STORE_TOKEN
-        }
-      )
+      reducer(initialState, {
+        type: Types.CLEAR_USER
+      })
     ).toEqual({
-      token: null,
-      tokenExpires: 0
+      email: null,
+      user: null,
+      isSignedIn: false,
+      isValidating: false,
+      authError: null
+    })
+  })
+
+  it('handles SET_AUTH_ERROR with error', () => {
+    expect(
+      reducer(undefined, {
+        type: Types.SET_AUTH_ERROR,
+        error: 'Invalid credentials'
+      })
+    ).toEqual({
+      email: null,
+      user: null,
+      isSignedIn: false,
+      isValidating: false,
+      authError: 'Invalid credentials'
+    })
+  })
+
+  it('handles SET_AUTH_ERROR clearing error', () => {
+    const stateWithError = {
+      email: 'test@example.com',
+      user: { email: 'test@example.com', fullname: 'Test User' },
+      isSignedIn: true,
+      isValidating: false,
+      authError: 'Previous error'
+    }
+    expect(
+      reducer(stateWithError, {
+        type: Types.SET_AUTH_ERROR,
+        error: null
+      })
+    ).toEqual({
+      email: 'test@example.com',
+      user: { email: 'test@example.com', fullname: 'Test User' },
+      isSignedIn: true,
+      isValidating: false,
+      authError: null
     })
   })
 })

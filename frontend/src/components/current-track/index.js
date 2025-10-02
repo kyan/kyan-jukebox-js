@@ -32,7 +32,8 @@ const spotifyLink = uri => {
 }
 
 const AlbumDescription = props => {
-  const year = ` (${props.album.year})`
+  if (!props.album) return null
+  const year = props.album.year ? ` (${props.album.year})` : ''
   return (
     <Card.Description>
       {props.album.name}
@@ -101,7 +102,7 @@ const VoteLabel = props => {
 
 const CurrentTrack = props => {
   const { track, onVote, userID } = props
-  if (!track) {
+  if (!track || !track.name) {
     return noTrack()
   }
   const maxRating = 10
@@ -117,7 +118,7 @@ const CurrentTrack = props => {
       <Card.Content>
         <ProgressBar />
         <Card.Header>{track.name}</Card.Header>
-        <Card.Meta>{track.artist.name}</Card.Meta>
+        <Card.Meta>{track.artist && track.artist.name}</Card.Meta>
         <AlbumDescription album={track.album} />
       </Card.Content>
       <Card.Content extra>

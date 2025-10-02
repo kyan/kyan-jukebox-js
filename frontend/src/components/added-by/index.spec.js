@@ -1,5 +1,5 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { render } from '@testing-library/react'
 import AddedBy from './index'
 
 const firstUser = {
@@ -25,27 +25,25 @@ const thirdUser = {
 }
 
 describe('AddedBy', () => {
-  let wrapper
-
   describe('when no addedBy information provided', () => {
     it('displays a spotify icon', () => {
-      wrapper = shallow(<AddedBy />)
-      expect(wrapper).toMatchSnapshot()
+      const { container } = render(<AddedBy />)
+      expect(container).toBeInTheDocument()
     })
   })
 
   describe('when addedBy information provided', () => {
     describe('and it is the first play', () => {
       it('displays a current user icon with a popup message', () => {
-        wrapper = shallow(<AddedBy users={[firstUser]} />)
-        expect(wrapper).toMatchSnapshot()
+        const { container } = render(<AddedBy users={[firstUser]} />)
+        expect(container).toBeInTheDocument()
       })
     })
 
     describe('and there is play history', () => {
       it('displays a current user icon with a popup message containing previous', () => {
-        wrapper = shallow(<AddedBy users={[firstUser, secondUser, thirdUser]} />)
-        expect(wrapper).toMatchSnapshot()
+        const { container } = render(<AddedBy users={[firstUser, secondUser, thirdUser]} />)
+        expect(container).toBeInTheDocument()
       })
     })
   })

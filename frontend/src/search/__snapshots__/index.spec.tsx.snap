@@ -1,19 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SearchContainer render Adding a track to the mix works as expected 1`] = `
-Array [
-  Object {
+[
+  {
     "type": "actionRemoveFromSearchResults",
-    "uris": Array [
+    "uris": [
       "https://open.spotify.com/track/0c41pMosF5Kqwwetrack1",
     ],
   },
-  Object {
-    "track": Object {
-      "album": Object {
+  {
+    "track": {
+      "album": {
         "name": "Album name 1",
       },
-      "artist": Object {
+      "artist": {
         "name": "Artist name 1",
       },
       "image": "image1",
@@ -26,15 +26,15 @@ Array [
 `;
 
 exports[`SearchContainer render Adding a track works as expected 1`] = `
-Array [
-  Object {
+[
+  {
     "open": true,
     "type": "actionToggleSearchSidebar",
   },
-  Object {
+  {
     "key": "searchGetTracks",
-    "params": Object {
-      "options": Object {
+    "params": {
+      "options": {
         "limit": 20,
         "offset": 0,
       },
@@ -42,29 +42,29 @@ Array [
     },
     "type": "actionTrackSearch",
   },
-  Object {
+  {
     "type": "actionRemoveFromSearchResults",
-    "uris": Array [
+    "uris": [
       "https://open.spotify.com/track/0c41pMosF5Kqwwetrack1",
     ],
   },
-  Object {
+  {
     "key": "tracklist.add",
-    "params": Object {
-      "uris": Array [
+    "params": {
+      "uris": [
         "spotify:track:0c41pMosF5Kqwwetrack1",
       ],
     },
     "type": "actionSend",
   },
-  Object {
+  {
     "query": "spam",
     "type": "actionStoreSearchQuery",
   },
-  Object {
+  {
     "key": "searchGetTracks",
-    "params": Object {
-      "options": Object {
+    "params": {
+      "options": {
         "limit": 20,
         "offset": 20,
       },
@@ -76,30 +76,30 @@ Array [
 `;
 
 exports[`SearchContainer render Adding tracks from the mix works as expected 1`] = `
-Array [
-  Object {
+[
+  {
     "key": "tracklist.add",
-    "params": Object {
-      "uris": Array [
+    "params": {
+      "uris": [
         "spotify:track:0c41pMosF5Kqwwetrack2",
         "spotify:track:0c41pMosF5Kqwwetrack3",
       ],
     },
     "type": "actionSend",
   },
-  Object {
+  {
     "type": "searchClearMix",
   },
 ]
 `;
 
 exports[`SearchContainer render Does not add when more than 5 already added 1`] = `
-Array [
-  Object {
+[
+  {
     "open": true,
     "type": "actionToggleSearchSidebar",
   },
-  Object {
+  {
     "open": false,
     "type": "actionToggleSearchSidebar",
   },
@@ -107,15 +107,15 @@ Array [
 `;
 
 exports[`SearchContainer render Removing a track from the mix works as expected 1`] = `
-Array [
-  Object {
+[
+  {
     "type": "curateRemoveTracksFromMix",
     "uri": "https://open.spotify.com/track/0c41pMosF5Kqwwetrack2",
   },
-  Object {
+  {
     "key": "searchGetTracks",
-    "params": Object {
-      "options": Object {
+    "params": {
+      "options": {
         "limit": 20,
         "offset": 0,
       },
@@ -127,8 +127,8 @@ Array [
 `;
 
 exports[`SearchContainer render Swapping tracks from the mix works as expected 1`] = `
-Array [
-  Object {
+[
+  {
     "a": 2,
     "b": 1,
     "type": "searchSwapTracks",

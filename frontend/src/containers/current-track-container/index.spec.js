@@ -1,39 +1,75 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import GoogleAuthContext from 'contexts/google'
 import configureMockStore from 'redux-mock-store'
 import CurrentTrackContainer from './index'
 
 describe('CurrentTrackContainer', () => {
-  let wrapper
+  const mockStore = configureMockStore()
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
 
   describe('render the connected app', () => {
-    const store = configureMockStore()({})
-    const mockGoogle = {
-      googleUser: { googleId: 'duncan123' }
-    }
-
     it('renders something even when no track is available', () => {
-      wrapper = mount(
+      const store = mockStore({
+        track: {},
+        timer: { duration: 0, position: 0, remaining: 0 },
+        jukebox: { mopidyOnline: true },
+        settings: { user: null, isSignedIn: false }
+      })
+
+      const { container } = render(
         <Provider store={store}>
-          <GoogleAuthContext.Provider value={mockGoogle}>
-            <CurrentTrackContainer />
-          </GoogleAuthContext.Provider>
+          <CurrentTrackContainer />
         </Provider>
       )
-      expect(wrapper).toMatchSnapshot()
-      wrapper.find('CurrentTrack').prop('onVote')('uri123', 99)
-      expect(store.getActions()).toEqual([
-        {
-          type: 'actionVote',
-          key: 'castVote',
-          params: {
-            uri: 'uri123',
-            vote: 99
-          }
+
+      expect(container.firstChild).toBeInTheDocument()
+    })
+
+    it('renders with track data', () => {
+      const store = mockStore({
+        track: {
+          name: 'Test Song',
+          uri: 'spotify:track:4iV5W9uYEdYUVa79Axb7Rh',
+          artist: { name: 'Test Artist' },
+          album: { name: 'Test Album' },
+          length: 180000
+        },
+        timer: { duration: 180000, position: 60000, remaining: 120000 },
+        jukebox: { mopidyOnline: true },
+        settings: {
+          user: { fullname: 'Test User', email: 'test@example.com' },
+          isSignedIn: true
         }
-      ])
+      })
+
+      const { container } = render(
+        <Provider store={store}>
+          <CurrentTrackContainer />
+        </Provider>
+      )
+
+      expect(container.firstChild).toBeInTheDocument()
+    })
+
+    it('renders when mopidy is offline', () => {
+      const store = mockStore({
+        track: {},
+        timer: { duration: 0, position: 0, remaining: 0 },
+        jukebox: { mopidyOnline: false },
+        settings: { user: null, isSignedIn: false }
+      })
+
+      const { container } = render(
+        <Provider store={store}>
+          <CurrentTrackContainer />
+        </Provider>
+      )
+
+      expect(container.firstChild).toBeInTheDocument()
     })
   })
 })

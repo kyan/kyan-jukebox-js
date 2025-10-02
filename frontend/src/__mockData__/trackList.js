@@ -1,0 +1,92 @@
+const MockTrackListJson = () => {
+  return [
+    {
+      uri: 'spotify:track:1WaBuuaXGwrU4sFvxAjnkf',
+      name: 'Happiness',
+      length: 120000,
+      album: {
+        uri: 'spotify:album:1D7E2EHMoQM3nP9drEwv7o',
+        name: 'Ken Dodd',
+        year: '1991'
+      },
+      artist: {
+        uri: 'spotify:artist:76o4kCpWMmBGl8jIYfRHTk',
+        name: 'Ken Dodd'
+      },
+      year: '1991',
+      explicit: true,
+      metrics: { plays: 1, votes: 1, votesTotal: 80, votesAverage: 80 },
+      addedBy: [
+        {
+          played: [{ at: '2020-01-27T20:20:34.422Z' }],
+          votes: [
+            {
+              at: '2020-01-27T20:20:37.904Z',
+              vote: 80,
+              user: {
+                _id: '1117795953801840xxxxx',
+                __v: 0,
+                fullname: 'Duncan Robertson',
+                picture: 'https://via.placeholder.com/96/333333/ffffff?text=DR'
+              }
+            }
+          ],
+          user: {
+            _id: '1117795953801840xxxxx',
+            __v: 0,
+            fullname: 'Duncan Robertson',
+            picture: 'https://via.placeholder.com/96/333333/ffffff?text=DR'
+          },
+          addedAt: '2020-01-27T20:19:27.965Z'
+        }
+      ]
+    },
+    {
+      uri: 'spotify:track:6BitwTrBfUrTdztRrQiw52',
+      name: 'Chicken Song',
+      length: 60000,
+      image: 'https://i.scdn.co/image/e0fc5e87ca6e137d4d7ef434f73edbfb4543286b',
+      album: {
+        uri: 'spotify:album:1Ozoc3hrpvwEpwnFkTNOGR',
+        name: 'Chicken Song',
+        year: '2019'
+      },
+      artist: {
+        uri: 'spotify:artist:5YGwWwsOsMAwDN8mH0hn7M',
+        name: '3 Shades'
+      },
+      year: '2019',
+      metrics: { plays: 3, votes: 1, votesTotal: 40, votesAverage: 40 },
+      addedBy: [
+        {
+          played: [
+            { at: '2020-01-27T20:20:48.148Z' },
+            { at: '2020-01-27T20:20:44.403Z' },
+            { at: '2020-01-27T20:20:41.006Z' }
+          ],
+          votes: [
+            {
+              at: '2020-01-27T20:20:50.355Z',
+              vote: 40,
+              user: {
+                _id: '1117795953801840xxxxx',
+                __v: 0,
+                fullname: 'Duncan Robertson',
+                picture: 'https://via.placeholder.com/96/333333/ffffff?text=DR'
+              }
+            }
+          ],
+          user: {
+            _id: '1117795953801840xxxxx',
+            __v: 0,
+            fullname: 'Duncan Robertson',
+            picture: 'https://via.placeholder.com/96/333333/ffffff?text=DR'
+          },
+          addedAt: '2020-01-27T20:19:49.207Z'
+        }
+      ]
+    }
+  ]
+}
+
+export default MockTrackListJson

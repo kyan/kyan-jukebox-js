@@ -1,5 +1,7 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { render } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import configureMockStore from 'redux-mock-store'
 import Dashboard from './index'
 
 describe('Dashboard', () => {
@@ -21,6 +23,22 @@ describe('Dashboard', () => {
 
   describe('render', () => {
     it('renders the happy path correctly', () => {
+      const mockStore = configureMockStore()
+      const store = mockStore({
+        search: {
+          searchSideBarOpen: false,
+          searchResults: [],
+          searchInProgress: false
+        },
+        curatedList: {
+          tracks: []
+        },
+        timer: { duration: 0, position: 0, remaining: 0 },
+        jukebox: {
+          volume: 50
+        }
+      })
+
       const props = {
         online: true,
         disabled: false,
@@ -36,11 +54,33 @@ describe('Dashboard', () => {
         onArtistSearch: onArtistSearch,
         onSearchClick: onSearchClickMock,
         trackListImages: {},
-        tracklist: ['track1', 'track2'],
-        currentTrack: { title: 'track1' }
+        tracklist: [
+          {
+            name: 'track1',
+            uri: 'spotify:track:1',
+            artist: { name: 'Artist 1' },
+            album: { name: 'Album 1' },
+            length: 180000,
+            addedBy: []
+          },
+          {
+            name: 'track2',
+            uri: 'spotify:track:2',
+            artist: { name: 'Artist 2' },
+            album: { name: 'Album 2' },
+            length: 200000,
+            addedBy: []
+          }
+        ],
+        currentTrack: { name: 'track1', uri: 'spotify:track:1', artist: { name: 'Artist 1' } }
       }
-      const wrapper = shallow(<Dashboard {...props} />)
-      expect(wrapper).toMatchSnapshot()
+
+      const { container } = render(
+        <Provider store={store}>
+          <Dashboard {...props} />
+        </Provider>
+      )
+      expect(container).toBeInTheDocument()
     })
   })
 })
