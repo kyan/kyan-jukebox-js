@@ -1,5 +1,5 @@
 const authApi = {
-  AUTHENTICATION_TOKEN_INVALID: 'authenticationTokenInvalid'
+  USER_NOT_FOUND: 'userNotFound'
 }
 
 export default authApi

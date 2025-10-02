@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { List, Popup, Icon, Image } from 'semantic-ui-react'
 import dateFormat from 'dateformat'
+import { getAvatarUrl } from '../../utils/avatar'
 import './index.css'
 
 const addedByContent = users => (
@@ -24,8 +25,10 @@ const addedByContent = users => (
 )
 
 const userPicture = data => {
-  if (data && data.user && data.user.picture)
-    return <Image avatar className='added_by_avatar_image' src={data.user.picture} />
+  if (data && data.user) {
+    const avatarUrl = getAvatarUrl(data.user, 50)
+    return <Image avatar className='added_by_avatar_image' src={avatarUrl} />
+  }
   return <Icon name='user' />
 }
 

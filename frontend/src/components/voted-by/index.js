@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import dateFormat from 'dateformat'
 import { List, Popup, Image, Label } from 'semantic-ui-react'
+import { getAvatarUrl } from '../../utils/avatar'
 import './index.css'
 
 const voteNormaliser = v => Math.round(v / 10 - 5) // 100 is max a user can vote per play
@@ -32,8 +33,10 @@ const votedByContent = props => (
 )
 
 const userPicture = data => {
-  if (data && data.user && data.user.picture)
-    return <Image avatar className='voted_by_avatar_image' src={data.user.picture} />
+  if (data && data.user) {
+    const avatarUrl = getAvatarUrl(data.user, 50)
+    return <Image avatar className='voted_by_avatar_image' src={avatarUrl} />
+  }
   return null
 }
 

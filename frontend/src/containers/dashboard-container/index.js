@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useContext } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import usePageVisibility from 'hooks/usePageVisibility'
 // import { DragDropContext } from 'react-dnd'
@@ -7,6 +7,7 @@ import Notify from 'utils/notify'
 import * as actions from 'actions'
 import * as searchActions from 'search/actions'
 import Dashboard from 'dashboard'
+import LoginModal from 'components/login-modal'
 
 export const DashboardContainer = () => {
   const isVisible = usePageVisibility()
@@ -16,12 +17,66 @@ export const DashboardContainer = () => {
   const currentTrack = useSelector(state => state.track)
   const dispatch = useDispatch()
   const disable = !jukebox.mopidyOnline
+  const [showLoginModal, setShowLoginModal] = useState(false)
+
+  const isSignedIn = settings.isSignedIn
+  const authError = settings.authError
 
   useEffect(() => {
     dispatch(actions.wsConnect())
 
     /* istanbul ignore next */
     return () => dispatch(actions.wsDisconnect())
+  }, [dispatch])
+
+  useEffect(() => {
+    // Show login modal if not signed in
+    if (!isSignedIn && isVisible) {
+      setShowLoginModal(true)
+    } else if (isSignedIn) {
+      // User successfully signed in, store in localStorage and close modal
+      if (settings.user) {
+        localStorage.setItem('jukebox_user', JSON.stringify(settings.user))
+        setShowLoginModal(false)
+        // Clear any auth errors on successful login
+        dispatch(actions.setAuthError(null))
+      }
+    }
+  }, [isSignedIn, isVisible, settings.user, dispatch])
+
+  const handleLogin = useCallback(
+    async userData => {
+      // Clear any previous errors
+      dispatch(actions.setAuthError(null))
+      // Set user as validating (not signed in yet) with just email
+      // Fullname and picture will come from backend
+      dispatch(actions.validateUser(userData.email, { email: userData.email }))
+      // Send a validation request to backend
+      // The backend will respond with USER_NOT_FOUND if invalid
+      // or success with full user data, which will trigger the confirmed login
+      dispatch(actions.validateUserRequest())
+    },
+    [dispatch]
+  )
+
+  const handleSignOut = useCallback(() => {
+    localStorage.removeItem('jukebox_user')
+    dispatch(actions.clearUser())
+    dispatch(actions.setAuthError(null))
+    setShowLoginModal(true)
+  }, [dispatch])
+
+  // Try to restore user from localStorage on mount
+  useEffect(() => {
+    const storedUser = localStorage.getItem('jukebox_user')
+    if (storedUser) {
+      try {
+        const userData = JSON.parse(storedUser)
+        dispatch(actions.updateUser(userData.email, userData))
+      } catch (error) {
+        localStorage.removeItem('jukebox_user')
+      }
+    }
   }, [dispatch])
 
   const onPlay = useCallback(() => dispatch(actions.startPlaying()), [dispatch])
@@ -72,23 +127,29 @@ export const DashboardContainer = () => {
   )
 
   return (
-    <Dashboard
-      online={jukebox.online}
-      disabled={disable}
-      onPlay={onPlay}
-      onStop={onStop}
-      onPause={onPause}
-      onNext={onNext}
-      onPrevious={onPrevious}
-      onVolumeChange={onVolumeChange}
-      onDrop={onDrop}
-      onTracklistClear={onTracklistClear}
-      onSearchClick={onSearchClick}
-      tracklist={tracklist}
-      currentTrack={currentTrack}
-      onRemoveTrack={onRemoveTrack}
-      onArtistSearch={onArtistSearch}
-    />
+    <>
+      <LoginModal open={showLoginModal} onSubmit={handleLogin} error={authError} />
+      <Dashboard
+        online={jukebox.online}
+        disabled={disable}
+        onPlay={onPlay}
+        onStop={onStop}
+        onPause={onPause}
+        onNext={onNext}
+        onPrevious={onPrevious}
+        onVolumeChange={onVolumeChange}
+        onDrop={onDrop}
+        onTracklistClear={onTracklistClear}
+        onSearchClick={onSearchClick}
+        tracklist={tracklist}
+        currentTrack={currentTrack}
+        onRemoveTrack={onRemoveTrack}
+        onArtistSearch={onArtistSearch}
+        user={settings.user}
+        isSignedIn={isSignedIn}
+        onSignOut={handleSignOut}
+      />
+    </>
   )
 }
 

@@ -21,10 +21,10 @@ const JukeboxMiddleware: Middleware = (() => {
   let progressTimer: any = null
 
   return (store: MiddlewareAPI) => (next: Dispatch<any>) => (action: ActionInterface) => {
-    const getJWT = (): string => store.getState().settings.token
+    const getUser = () => store.getState().settings.user
     const packMessage = () =>
       Payload.encodeToJson({
-        jwt: getJWT(),
+        user: getUser(),
         key: action.key,
         data: action.params
       })

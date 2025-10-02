@@ -1,12 +1,18 @@
+export interface User {
+  email: string
+  fullname?: string
+}
+
 export interface PayLoadInterface {
-  jwt: string
+  user?: User
   key: string
   data: any
 }
 
 const Payload = {
   decode: (payload: string): PayLoadInterface => JSON.parse(payload),
-  encodeToJson: ({ jwt, key, data }: PayLoadInterface): string => JSON.stringify({ jwt, key, data })
+  encodeToJson: ({ user, key, data }: PayLoadInterface): string =>
+    JSON.stringify({ user, key, data })
 }
 
 export default Payload

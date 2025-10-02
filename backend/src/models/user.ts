@@ -3,7 +3,6 @@ import { Document, Schema, model } from 'mongoose'
 export interface JBUser {
   _id: any
   fullname: string
-  picture: string
   email: string
 }
 
@@ -15,7 +14,6 @@ const userSchema = new Schema(
   {
     _id: Schema.Types.String,
     fullname: Schema.Types.String,
-    picture: Schema.Types.String,
     email: Schema.Types.String
   },
   { _id: false }

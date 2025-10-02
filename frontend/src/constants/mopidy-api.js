@@ -20,7 +20,8 @@ const mopidyApi = {
   SET_VOLUME: 'mixer.setVolume',
   GET_VOLUME: 'mixer.getVolume',
   EVENT_VOLUME_CHANGED: 'event:volumeChanged',
-  VALIDATION_ERROR: 'validationError'
+  VALIDATION_ERROR: 'validationError',
+  VALIDATE_USER: 'validateUser'
 }
 
 export default mopidyApi
