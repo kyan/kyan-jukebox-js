@@ -41,7 +41,7 @@ Runing the app locally requires some enviroment variables to be set in the vario
 
 ## Development
 
-The app uses `make` to make running common tasks easier, so if you run `make help` you will see all the commands you can run against the app with a simple explaination. Some of the commands take args `make <something> args=--foo`
+The app uses `just` to make running common tasks easier, so if you run `just` or `just help` you will see all the commands you can run against the app with a simple explaination. Some of the commands take args `just <something> ARGS`
 
 ### Running the tests
 
@@ -49,23 +49,23 @@ There is currently 100% tests and coverage throughout the app as well as linting
 
 Run all the tests in the same way it does on CI:
 ```
-$ make test
+$ just test
 ```
 
 Run just the tests for the FE or BE:
 ```
-$ make fe-test
-$ make be-test
-$ make be-test args=--watchAll
-$ make be-test args=--watchAll --coverage
+$ just fe-test
+$ just be-test
+$ just be-test --watchAll
+$ just be-test --watchAll --coverage
 ```
 
 You can also just run any of the scripts in `package.json` file of that project:
 ```
-$ make be task=lint
+$ just be lint
 ```
 
-You can also just ignore `make` and run everything manual if that's your thing.
+You can also just ignore `just` and run everything manual if that's your thing.
 
 ### Running the app
 
@@ -73,7 +73,7 @@ When running the app locally you get to run a Docker instance of Mopidy on your 
 
 Build the dependencies MongoDB and Mopidy
 ```
-make build
+just build
 ```
 
 Note: If you are using an M1 Macbook, the above command may fail. To fix this, you will need to set the following environment variable in your shell:
@@ -83,18 +83,18 @@ DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 Start the dependencies MongoDB and Mopidy
 ```
-make start
-make start args=-D # run in the background
+just start
+just start -d # run in the background
 ```
 
 Now you can just open a new terminal for the FE and the BE and run:
 
 ```
-make fe-server
+just fe-serve
 ```
 and
 ```
-make be-server
+just be-serve
 ```
 
 This will give you a working FE and BE plus the persistence layer. The Jukebox is available
@@ -124,9 +124,9 @@ The API used `Mongodb` for it's perisistence layer. In development it will fire 
 
 ### Adding a new package to `package.json`
 
-The easiest way to do this is using `make api-console` or `make client-console`
+The easiest way to do this is using `just api-console` or `just client-console` (if those commands exist), or by attaching to the running container.
 
-Once you have a command line you can just run `$ npm install <package>`. This will install the package and update the `package.*` files. You will be able to continue development. When you shutdown the container though the package will be missing. You need to re-build the image to make it available. So remember to run `make build-all` when you start up next time.
+Once you have a command line you can just run `$ npm install <package>`. This will install the package and update the `package.*` files. You will be able to continue development. When you shutdown the container though the package will be missing. You need to re-build the image to make it available. So remember to run `just build` when you start up next time.
 
 ### Mopidy
 
