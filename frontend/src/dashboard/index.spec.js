@@ -9,7 +9,7 @@ describe('Dashboard', () => {
   const onNextMock = jest.fn().mockName('onNextMock')
   const onPreviousMock = jest.fn().mockName('onPreviousMock')
   const onVolumeChangeMock = jest.fn().mockName('onVolumeChangeMock')
-  const onDropMock = jest.fn().mockName('onDropMock')
+
   const onTracklistClearMock = jest.fn().mockName('onTracklistClearMock')
   const onRemoveTrackMock = jest.fn().mockName('onRemoveTrackMock')
   const onArtistSearch = jest.fn().mockName('onArtistSearch')
@@ -30,7 +30,7 @@ describe('Dashboard', () => {
         onNext: onNextMock,
         onPrevious: onPreviousMock,
         onVolumeChange: onVolumeChangeMock,
-        onDrop: onDropMock,
+
         onTracklistClear: onTracklistClearMock,
         onRemoveTrack: onRemoveTrackMock,
         onArtistSearch: onArtistSearch,

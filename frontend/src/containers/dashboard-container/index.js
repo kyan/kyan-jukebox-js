@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import usePageVisibility from 'hooks/usePageVisibility'
-// import { DragDropContext } from 'react-dnd'
-// import { HTML5Backend } from 'react-dnd-html5-backend'
-import Notify from 'utils/notify'
+
 import * as actions from 'actions'
 import * as searchActions from 'search/actions'
 import Dashboard from 'dashboard'
@@ -85,31 +83,7 @@ export const DashboardContainer = () => {
   const onNext = useCallback(() => dispatch(actions.nextPlaying()), [dispatch])
   const onPrevious = useCallback(() => dispatch(actions.previousPlaying()), [dispatch])
   const onVolumeChange = useCallback(evt => dispatch(actions.setVolume(evt)), [dispatch])
-  /* istanbul ignore next */
-  const onDrop = useCallback(
-    (_item, monitor) => {
-      const urls = monitor
-        .getItem()
-        .urls[0].split('https://')
-        .map(url => {
-          return 'https://' + url
-        })
-        .slice(1)
-      if (monitor) {
-        if (urls.length <= 5) {
-          urls.forEach(url => {
-            dispatch(actions.addNewTrack(url))
-          })
-        } else {
-          Notify.warning({
-            title: 'Oops',
-            message: 'You can only add a maximum of 5 tracks at a time!'
-          })
-        }
-      }
-    },
-    [dispatch]
-  )
+
   const onTracklistClear = useCallback(() => dispatch(actions.clearTrackList()), [dispatch])
   const onSearchClick = useCallback(
     () => dispatch(searchActions.toggleSearchSidebar(true)),
@@ -138,7 +112,6 @@ export const DashboardContainer = () => {
         onNext={onNext}
         onPrevious={onPrevious}
         onVolumeChange={onVolumeChange}
-        onDrop={onDrop}
         onTracklistClear={onTracklistClear}
         onSearchClick={onSearchClick}
         tracklist={tracklist}
@@ -153,5 +126,4 @@ export const DashboardContainer = () => {
   )
 }
 
-// export default DragDropContext(HTML5Backend)(DashboardContainer)
 export default DashboardContainer

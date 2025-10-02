@@ -6,7 +6,6 @@ const common = {
   CONNECTED: 'actionConnected',
   DISCONNECT: 'actionDisconnect',
   DISCONNECTED: 'actionDisconnected',
-  DROP_TYPES: ['__NATIVE_URL__'],
   SEND: 'actionSend',
   VALIDATE_USER: 'actionValidateUser',
   STORE_USER: 'actionStoreUser',
