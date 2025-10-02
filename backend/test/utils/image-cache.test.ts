@@ -57,7 +57,7 @@ describe('ImageCache', () => {
       expect(result).toEqual(null)
     })
 
-    it('handles resolving an image ', async () => {
+    it('handles resolving an image', async () => {
       expect.assertions(1)
       mockingoose.Image.toReturn({ url: 'path' }, 'findOneAndUpdate')
 
@@ -70,7 +70,7 @@ describe('ImageCache', () => {
       mockingoose.Image.toReturn(new Error('boom'), 'findOneAndUpdate')
       ImageCache.addAll({ spotify123: 'path/to/image' })
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(logger.error).toHaveBeenCalledWith(
             'storeImages:Image.findOneAndUpdate',

@@ -97,7 +97,7 @@ const Recommendations = {
         const currentTrackList = currentTrackListUris
         const results = await Track.aggregate([
           { $match: { 'metrics.votesAverage': { $gte: 70 } } },
-          { $sample: { size: newTracksAddedLimit } },
+          { $sample: { size: Number(newTracksAddedLimit) } },
           { $project: { _id: 1 } }
         ])
         const uris = results

@@ -16,6 +16,10 @@ help:
   @echo "  $$ just fe-test [ARGS]     runs ALL frontend tests (pass any args)"
   @echo "  $$ just be-test [ARGS]     runs ALL backend tests (pass any args)"
   @echo "  $$ just test               runs ALL tests (same as on CI)"
+  @echo "  $$ just validate           validate formatting, types, and linting for all workspaces"
+  @echo "  $$ just fix                auto-fix formatting and linting for all workspaces"
+  @echo "  $$ just be-validate        validate backend formatting, types, and linting"
+  @echo "  $$ just be-fix             auto-fix backend formatting and linting"
   @echo "  $$ just fe-deploy          production deploy of frontend to Github"
   @echo "  $$ just be-deploy          production deploy of backend using dist/ dir"
 
@@ -60,6 +64,26 @@ be-test *ARGS:
 test:
   CI=true yarn workspace @jukebox/frontend test:ci
   CI=true yarn workspace @jukebox/backend test:ci
+
+# Validate formatting, types, and linting for all workspaces
+validate:
+  @echo "Validating backend..."
+  yarn workspace @jukebox/backend validate
+  @echo "✓ Backend validation passed"
+
+# Auto-fix formatting and linting for all workspaces
+fix:
+  @echo "Fixing backend..."
+  yarn workspace @jukebox/backend fix
+  @echo "✓ Backend fixed"
+
+# Validate backend formatting, types, and linting
+be-validate:
+  yarn workspace @jukebox/backend validate
+
+# Auto-fix backend formatting and linting
+be-fix:
+  yarn workspace @jukebox/backend fix
 
 # Production deploy of frontend to Github
 fe-deploy:

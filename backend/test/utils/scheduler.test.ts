@@ -17,7 +17,7 @@ describe('Scheduler', () => {
         start: startMock,
         destroy: jest.fn(),
         getStatus: jest.fn()
-      }
+      } as any
     })
     jest.spyOn(logger, 'info').mockImplementation(infoMock)
   })
@@ -50,7 +50,7 @@ describe('Scheduler', () => {
       })
       mockCronSchedule.mock.calls[0][1]()
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(mockCronSchedule).toHaveBeenCalledTimes(1)
           expect(mockCronSchedule).toHaveBeenCalledWith(
@@ -90,7 +90,7 @@ describe('Scheduler', () => {
       })
       mockCronSchedule.mock.calls[0][1]()
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           expect(mockCronSchedule).toHaveBeenCalledTimes(1)
           expect(mockCronSchedule).toHaveBeenCalledWith(

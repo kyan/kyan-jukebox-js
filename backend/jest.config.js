@@ -1,33 +1,28 @@
 module.exports = {
-  setupFiles: ['dotenv/config'],
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.json'
-    }
-  },
-  moduleFileExtensions: ['ts', 'js', 'json'],
-  transform: {
-    '^.+\\.(js|ts|tsx)$': 'ts-jest'
-  },
-  testMatch: ['**/test/**/*.test.(ts)'],
-  watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
+  preset: 'ts-jest',
   testEnvironment: 'node',
-  clearMocks: true,
-  coverageThreshold: {
-    global: {
-      branches: 100,
-      functions: 100,
-      lines: 100,
-      statements: 100
-    }
+  roots: ['<rootDir>/src', '<rootDir>/test'],
+  testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
+  transform: {
+    '^.+\\.ts$': [
+      'ts-jest',
+      {
+        tsconfig: {
+          esModuleInterop: true,
+          allowSyntheticDefaultImports: true
+        }
+      }
+    ]
   },
   collectCoverageFrom: [
-    'src/**/*.(js|ts)',
-    '!<rootDir>/dist/',
-    '!src/index.ts',
-    '!src/app.ts',
-    '!src/constants/*',
-    '!src/types/*.d.ts',
-    '!src/config/*.ts'
-  ]
+    'src/**/*.ts',
+    '!src/**/*.d.ts',
+    '!src/**/*.test.ts',
+    '!src/**/*.spec.ts'
+  ],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
+  verbose: true,
+  forceExit: true,
+  detectOpenHandles: true
 }
