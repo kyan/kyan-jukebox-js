@@ -116,7 +116,7 @@ describe('SpotifyService', () => {
         }
       } as unknown
       return SpotifyService.canRecommend(mopidy as Mopidy).then((result) => {
-        expect(result).toBeUndefined()
+        expect(result).toBeNull()
       })
     })
 
