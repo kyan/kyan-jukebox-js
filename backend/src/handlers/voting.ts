@@ -5,6 +5,7 @@ import EventLogger from '../utils/event-logger'
 import Broadcaster from '../utils/broadcaster'
 import { updateTrackVote } from '../models/track'
 import Payload from '../utils/payload'
+import { JBUser } from '../models/user'
 
 interface VoteHandler {
   socketio: Server
@@ -15,7 +16,12 @@ const VoteHandler = ({ socketio, payload }: VoteHandler) => {
   const { user, data } = payload
   EventLogger.info('CAST_VOTE', payload, true)
 
-  updateTrackVote(data.uri, user, data.vote).then((track) => {
+  // Type guard: user should be fully populated at this point after authentication
+  if (!user || !user._id || !user.fullname || !user.email) {
+    return
+  }
+
+  updateTrackVote(data.uri, user as JBUser, data.vote).then((track) => {
     Broadcaster.toAll({
       socketio,
       headers: {

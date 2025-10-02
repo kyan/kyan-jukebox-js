@@ -4,7 +4,7 @@ import { JBUser } from '../models/user'
 interface Payload {
   key: string
   data: any
-  user?: JBUser
+  user?: Partial<JBUser>
 }
 
 const Payload = {
