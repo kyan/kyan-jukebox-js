@@ -15,7 +15,7 @@
     "validate": "yarn format:check && yarn type-check && yarn lint",
     "fix": "yarn format && yarn lint:fix",
     "test": "yarn validate && node scripts/test.js --forceExit --detectOpenHandles --maxWorkers=1 --watchAll=false",
-    "test:ci": "yarn validate && node scripts/test.js --forceExit --detectOpenHandles --maxWorkers=1 --silent"
+    "test:ci": "yarn validate && node scripts/test.js --forceExit --detectOpenHandles --maxWorkers=1 --silent --watchAll=false"
   },
   "dependencies": {
     "@babel/core": "^7.16.0",
