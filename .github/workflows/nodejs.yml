@@ -49,4 +49,3 @@ jobs:
           CLIENT_ID: abcdefg
           EXPLICIT_CONTENT: true
           SPOTIFY_NEW_TRACKS_ADDED_LIMIT: 3
-          GOOGLE_AUTH_DOMAIN: kyan.com

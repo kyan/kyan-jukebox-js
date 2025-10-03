@@ -36,7 +36,15 @@ describe('Dashboard', () => {
         timer: { duration: 0, position: 0, remaining: 0 },
         jukebox: {
           volume: 50
-        }
+        },
+        settings: {
+          email: null,
+          user: null,
+          isSignedIn: false,
+          isValidating: false,
+          authError: null
+        },
+        track: null
       })
 
       const props = {
