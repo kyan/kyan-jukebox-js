@@ -43,7 +43,7 @@ jobs:
         env:
           CI: true
           LOCAL_STORAGE_PATH: /tmp/jukebox
-          MONGODB_URL: mongodb://localhost:27017/jb-dev
+          MONGODB_URL: mongodb://localhost:27017/kyan-jukebox
           WS_MOPIDY_URL: mopidy-prod.local
           WS_MOPIDY_PORT: 6680
           CLIENT_ID: abcdefg

@@ -1,0 +1,51 @@
+# Frontend App Deployment Configuration
+service: jukebox-frontend
+
+# Name of the container image for frontend
+image: whomwah/kyan-jukebox-frontend
+
+# Deploy to these servers
+servers:
+  web:
+    hosts:
+      - 192.168.2.3
+    proxy: false
+
+# Credentials for your image host
+registry:
+  username: whomwah
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+# Frontend environment variables
+env:
+  clear:
+    REACT_APP_WS_URL: 192.168.2.3
+    REACT_APP_WS_PORT: 8080
+
+# Configure builder setup for frontend
+builder:
+  arch: arm64
+  dockerfile: Dockerfile.frontend
+  context: .
+
+# Enable proxy for frontend (serves the web interface)
+# proxy:
+#   ssl: false
+#   forward_headers: true
+#   host: jukebox-frontend.local
+#   app_port: 80
+
+# Configure rolling deploys
+boot:
+  limit: 10
+  wait: 2
+
+# Use a different ssh user than root
+ssh:
+  user: ubuntu
+
+# Aliases for frontend management
+aliases:
+  shell: app exec --interactive --reuse "sh"
+  logs: app logs --lines 100 --follow

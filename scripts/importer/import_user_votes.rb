@@ -11,7 +11,7 @@ Mongo::Logger.logger.level = Logger::FATAL
 data = File.open('user_votes.json')
 data = JSON.load(data)
 
-client = Mongo::Client.new('mongodb://localhost:27017/jb-dev')
+client = Mongo::Client.new('mongodb://localhost:27017/kyan-jukebox')
 
 progressbar = ProgressBar.create(
   format: "[USER VOTES] #{PROGRESS_FORMAT}",

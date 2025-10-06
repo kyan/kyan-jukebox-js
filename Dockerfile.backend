@@ -1,0 +1,76 @@
+# Backend Dockerfile for Kyan Jukebox
+# Build from project root: docker build -f backend/Dockerfile -t jukebox-backend .
+
+# Build stage
+FROM node:22-alpine AS build
+
+RUN apk add --no-cache python3 make g++
+
+WORKDIR /app
+
+# Copy package files for dependency installation
+COPY package.json yarn.lock ./
+COPY backend/package.json ./backend/
+
+# Install dependencies (including devDependencies for build)
+RUN yarn install --frozen-lockfile
+
+# Copy all source code (root and backend)
+COPY ./backend ./backend/
+
+# Build the application
+RUN yarn workspace @jukebox/backend build
+
+# Production stage
+FROM node:22-alpine
+
+# Build arguments for runtime environment variables
+ARG PORT=8080
+ARG NODE_ENV=production
+ARG SPOTIFY_ID
+ARG SPOTIFY_SECRET
+ARG SPOTIFY_NEW_TRACKS_ADDED_LIMIT=3
+ARG WS_MOPIDY_URL
+ARG WS_MOPIDY_PORT
+ARG MONGODB_URL
+ARG IS_ALIVE_TIMEOUT=30000
+ARG EXPLICIT_CONTENT=true
+ARG IMAGE_CACHE_EXPIRES=86400
+
+# Create non-root user
+RUN addgroup -g 1001 app && adduser -u 1001 -G app -s /bin/sh -D app
+
+WORKDIR /app
+
+# Copy package files for production dependency installation
+COPY --from=build /app/package.json ./
+COPY --from=build /app/yarn.lock ./
+COPY --from=build /app/backend/package.json ./backend/
+
+# Install only production dependencies
+RUN yarn install --frozen-lockfile --production && \
+  yarn cache clean
+
+# Copy built application
+COPY --from=build /app/backend/dist ./dist
+
+# Remove package files (not needed at runtime)
+RUN rm -f package.json yarn.lock && rm -rf backend/
+
+# Set runtime environment variables
+ENV NODE_ENV=$NODE_ENV
+ENV SPOTIFY_ID=$SPOTIFY_ID
+ENV SPOTIFY_SECRET=$SPOTIFY_SECRET
+ENV SPOTIFY_NEW_TRACKS_ADDED_LIMIT=$SPOTIFY_NEW_TRACKS_ADDED_LIMIT
+ENV WS_MOPIDY_URL=$WS_MOPIDY_URL
+ENV WS_MOPIDY_PORT=$WS_MOPIDY_PORT
+ENV MONGODB_URL=$MONGODB_URL
+ENV IS_ALIVE_TIMEOUT=$IS_ALIVE_TIMEOUT
+ENV EXPLICIT_CONTENT=$EXPLICIT_CONTENT
+ENV IMAGE_CACHE_EXPIRES=$IMAGE_CACHE_EXPIRES
+
+USER app
+
+EXPOSE 8080
+
+CMD ["node", "dist/index.js"]

@@ -1,0 +1,118 @@
+# ============================================================
+# Root .dockerignore
+# Goal: Minimise build context for multi-service (frontend+backend) build
+# ============================================================
+
+# VCS
+.git
+.gitmodules
+.github/
+
+# Environment & secrets
+.env
+.env.*.local
+**/.env
+**/.env.*
+!.env.example
+!.**/.env.example
+frontend/.env
+backend/.env
+*.pem
+*.key
+
+# Node dependencies
+**/node_modules/
+**/bower_components/
+
+# Package manager artifacts
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.npmrc
+.yarnrc
+.yarnrc.yml
+
+# Build artifacts / compiled output
+**/dist/
+**/build/
+**/.next/
+**/out/
+**/coverage/
+**/.turbo/
+**/.cache/
+**/.parcel-cache/
+**/.eslintcache
+**/.tsbuildinfo
+
+# Logs & reports
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+report.[0-9]*.json
+
+# OS/editor junk
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.orig
+
+# Test & tooling outputs
+.nyc_output
+.jest/
+**/jest-stare/
+.cypress/
+playwright-report/
+test-results/
+
+# Local data volumes (not needed in build)
+mongodb-data/
+mopidy-data/
+mongodb-data/**
+
+# Docker / Compose local overrides
+docker-compose.override.yml
+
+# Documentation & misc (keep README & LICENSE)
+docs/
+**/README-images/
+*.md
+!README.md
+!LICENSE
+
+# Scripts not required at runtime (adjust if build uses any)
+scripts/
+!scripts/importer/**
+
+# Images / media caches
+*.tiff
+*.psd
+*.ai
+*.xcf
+
+# Frontend specific transient
+frontend/.cache/
+frontend/public/*.map
+
+# Backend specific transient
+backend/debug/
+
+# Ignore Mopidy build context unless explicitly needed
+mopidy/
+!mopidy/config/*.conf
+
+# Misc
+node_modules.tar
+*.tgz
+
+# ============================================================
+# End of file
+# ============================================================

@@ -5,7 +5,7 @@ services:
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
-      - MONGO_INITDB_DATABASE=jb-dev
+      - MONGO_INITDB_DATABASE=kyan-jukebox
     volumes:
       - ./mongodb-data/db:/data/db:delegated
     ports:
