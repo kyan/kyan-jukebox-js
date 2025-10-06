@@ -1,110 +1,270 @@
-# List all available commands
+# justfile - Kyan Jukebox Development Tasks
+set shell := ["bash", "-cu"]
+
+# Workspace names
+FRONTEND_WS := "@jukebox/frontend"
+BACKEND_WS  := "@jukebox/backend"
+
+# Docker configuration
+IMAGE_BASE := "jukebox"
+DEFAULT_TAG := "latest"
+
+# List all available tasks
 default:
   @just --list
 
-# Show help information
-help:
-  @echo "How to use:"
-  @echo ""
-  @echo "  $$ just build              build mongoDB and Mopidy images"
-  @echo "  $$ just start-services     start mongoDB and Mopidy"
-  @echo "  $$ just stop-all           stop all local development environment"
-  @echo "  $$ just mongodb-shell      open bash shell in MongoDB container"
-  @echo "  $$ just mopidy-shell       open bash shell in Mopidy container"
-  @echo "  $$ just fe [TASK]          start the frontend or run frontend scripts (e.g just fe lint)"
-  @echo "  $$ just be [TASK]          start the backend or run backend scripts (e.g just be lint)"
-  @echo "  $$ just fe-test [ARGS]     runs ALL frontend tests (pass any args)"
-  @echo "  $$ just be-test [ARGS]     runs ALL backend tests (pass any args)"
-  @echo "  $$ just test               runs ALL tests (same as on CI)"
-  @echo "  $$ just validate           validate formatting, types, and linting for all workspaces"
-  @echo "  $$ just fix                auto-fix formatting and linting for all workspaces"
-  @echo "  $$ just fe-validate        validate frontend formatting, types, and linting"
-  @echo "  $$ just fe-fix             auto-fix frontend formatting and linting"
-  @echo "  $$ just be-validate        validate backend formatting, types, and linting"
-  @echo "  $$ just be-fix             auto-fix backend formatting and linting"
-  @echo "  $$ just fe-deploy          production deploy of frontend to Github"
-  @echo "  $$ just be-deploy          production deploy of backend using dist/ dir"
+# ===================================================================
+# SETUP & INFO
+# ===================================================================
 
-# Build mongoDB and Mopidy images
-build:
-  docker-compose down
-  docker-compose build
+# Install dependencies and start development environment
+[group('setup')]
+setup:
+  yarn install --frozen-lockfile
+  just deps-start
 
-# Start mongoDB and Mopidy (pass args like: just start -d)
-start-services *ARGS:
-  docker-compose {{ARGS}} up
+# Show current versions of tools and workspaces
+[group('setup')]
+version-info:
+  @echo "Node: $$(node -v)"
+  @echo "Yarn: $$(yarn -v)"
+  @echo "Frontend: $$(jq -r .version frontend/package.json)"
+  @echo "Backend:  $$(jq -r .version backend/package.json)"
 
-# Stop all local development environment
-stop-all:
-  docker-compose down
+# ===================================================================
+# DEVELOPMENT
+# ===================================================================
 
-# Open bash shell in MongoDB container
-mongodb-shell:
-  docker exec -it mongodb /bin/bash
+# Start full development environment with hot reload for both frontend and backend
+[group('dev')]
+dev:
+  ./scripts/run-all.sh
 
-# Open bash shell in Mopidy container
+# Start production mode for both frontend and backend
+[group('dev')]
+prod:
+  ./scripts/run-all.sh --prod
+
+# Start only backend with hot reload
+[group('dev')]
+be-start:
+  yarn workspace {{BACKEND_WS}} start
+
+# Start only frontend development server
+[group('dev')]
+fe-start:
+  yarn workspace {{FRONTEND_WS}} start
+
+# Run any frontend workspace command
+[group('dev')]
+fe TASK="start":
+  yarn workspace {{FRONTEND_WS}} {{TASK}}
+
+# Run any backend workspace command
+[group('dev')]
+be TASK="start":
+  yarn workspace {{BACKEND_WS}} {{TASK}}
+
+# ===================================================================
+# BUILDING & TESTING
+# ===================================================================
+
+# Build both frontend and backend for production
+[group('build')]
+build-all:
+  yarn workspace {{BACKEND_WS}} build
+  yarn workspace {{FRONTEND_WS}} build
+
+# Build only frontend
+[group('build')]
+build-frontend:
+  yarn workspace {{FRONTEND_WS}} build
+
+# Build only backend
+[group('build')]
+build-backend:
+  yarn workspace {{BACKEND_WS}} build
+
+# Clean all build artifacts and dependencies
+[group('build')]
+clean:
+  rm -rf backend/dist frontend/build node_modules frontend/node_modules backend/node_modules
+
+# Run all tests in CI mode
+[group('test')]
+test:
+  CI=true yarn workspace {{FRONTEND_WS}} test:ci
+  CI=true yarn workspace {{BACKEND_WS}} test:ci
+
+# Run backend tests in watch mode
+[group('test')]
+test-watch:
+  yarn workspace {{BACKEND_WS}} test --watchAll
+
+# Lint and type-check all code
+[group('test')]
+validate:
+  @echo "Validating frontend..."
+  yarn workspace {{FRONTEND_WS}} validate
+  @echo "Validating backend..."
+  yarn workspace {{BACKEND_WS}} validate
+
+# Auto-fix linting and formatting issues
+[group('test')]
+fix:
+  @echo "Fixing frontend..."
+  yarn workspace {{FRONTEND_WS}} fix
+  @echo "Fixing backend..."
+  yarn workspace {{BACKEND_WS}} fix
+
+# Quick pre-push validation (lint + test)
+[group('test')]
+pre-push: validate test
+
+# ===================================================================
+# DOCKER
+# ===================================================================
+
+# Build all Docker images (backend, frontend)
+[group('docker')]
+docker-build-all TAG=DEFAULT_TAG: (docker-build-backend TAG) (docker-build-frontend TAG)
+
+# Build backend Docker image
+[group('docker')]
+docker-build-backend TAG=DEFAULT_TAG SPOTIFY_ID="" SPOTIFY_SECRET="" MONGODB_URL="mongodb://host.docker.internal:27017/kyan-jukebox" WS_MOPIDY_URL="host.docker.internal" WS_MOPIDY_PORT="6680":
+  docker build -f Dockerfile.backend \
+    --build-arg SPOTIFY_ID={{SPOTIFY_ID}} \
+    --build-arg SPOTIFY_SECRET={{SPOTIFY_SECRET}} \
+    --build-arg MONGODB_URL={{MONGODB_URL}} \
+    --build-arg WS_MOPIDY_URL={{WS_MOPIDY_URL}} \
+    --build-arg WS_MOPIDY_PORT={{WS_MOPIDY_PORT}} \
+    --build-arg SPOTIFY_NEW_TRACKS_ADDED_LIMIT=3 \
+    --build-arg IS_ALIVE_TIMEOUT=30000 \
+    --build-arg EXPLICIT_CONTENT=true \
+    --build-arg IMAGE_CACHE_EXPIRES=86400 \
+    -t {{IMAGE_BASE}}-backend:{{TAG}} .
+
+# Build frontend Docker image
+[group('docker')]
+docker-build-frontend TAG=DEFAULT_TAG WS_URL="localhost" WS_PORT="8080":
+  docker build -f Dockerfile.frontend \
+    --build-arg REACT_APP_WS_URL={{WS_URL}} \
+    --build-arg REACT_APP_WS_PORT={{WS_PORT}} \
+    -t {{IMAGE_BASE}}-frontend:{{TAG}} .
+
+# Shell into running frontend Docker container
+[group('docker')]
+docker-shell-frontend TAG=DEFAULT_TAG:
+  docker run -it --rm {{IMAGE_BASE}}-frontend:{{TAG}} /bin/sh
+
+# Shell into running backend Docker container
+[group('docker')]
+docker-shell-backend TAG=DEFAULT_TAG:
+  docker run -it --rm {{IMAGE_BASE}}-backend:{{TAG}} /bin/sh
+
+# Run frontend container locally
+[group('docker')]
+docker-run-frontend TAG=DEFAULT_TAG PORT="3001":
+  docker run -d --name jukebox-frontend-local -p {{PORT}}:80 {{IMAGE_BASE}}-frontend:{{TAG}}
+
+# Run backend container locally
+[group('docker')]
+docker-run-backend TAG=DEFAULT_TAG PORT="8080":
+  docker run -d --name jukebox-backend-local -p {{PORT}}:8080 {{IMAGE_BASE}}-backend:{{TAG}}
+
+# Run both frontend and backend containers locally
+[group('docker')]
+docker-run-all TAG=DEFAULT_TAG FE_PORT="3001" BE_PORT="8080": (docker-run-backend TAG BE_PORT) (docker-run-frontend TAG FE_PORT)
+
+# Stop local frontend container
+[group('docker')]
+docker-stop-frontend:
+  docker stop jukebox-frontend-local || true
+  docker rm jukebox-frontend-local || true
+
+# Stop local backend container
+[group('docker')]
+docker-stop-backend:
+  docker stop jukebox-backend-local || true
+  docker rm jukebox-backend-local || true
+
+# Stop frontend and backend containers
+[group('docker')]
+docker-stop-all: docker-stop-frontend docker-stop-backend
+
+# ===================================================================
+# DEPENDENCIES
+# ===================================================================
+
+# Start dependency services (MongoDB + Mopidy)
+[group('deps')]
+deps-start:
+  docker compose up -d mongodb mopidy
+
+# Stop dependency services
+[group('deps')]
+deps-stop:
+  docker compose stop mongodb mopidy
+
+# Stop and remove dependency services
+[group('deps')]
+deps-down:
+  docker compose down
+
+# Connect to Mopidy container shell
+[group('deps')]
 mopidy-shell:
   docker exec -it mopidy /bin/bash
 
-# Run frontend scripts (defaults to start, e.g. just fe lint)
-fe TASK="start":
-  yarn workspace @jukebox/frontend {{TASK}}
+# Connect to MongoDB container shell
+[group('deps')]
+mongo-shell:
+  docker exec -it mongodb /bin/bash
 
-# Run backend scripts (defaults to start, e.g. just be lint)
-be TASK="start":
-  yarn workspace @jukebox/backend {{TASK}}
+# Connect to MongoDB CLI
+[group('deps')]
+mongo-cli:
+  docker exec -it mongodb mongosh
 
-# Run ALL frontend tests (pass any args)
-fe-test *ARGS:
-  yarn workspace @jukebox/frontend test {{ARGS}}
+# ===================================================================
+# DEPLOYMENT
+# ===================================================================
 
-# Run ALL backend tests (pass any args)
-be-test *ARGS:
-  yarn workspace @jukebox/backend test {{ARGS}}
+# Initial server setup and Docker installation (run once)
+[group('deploy')]
+kamal-setup:
+  @echo "Setting up servers and installing Docker..."
+  kamal setup
 
-# Run ALL tests (same as on CI)
-test:
-  CI=true yarn workspace @jukebox/frontend test:ci
-  CI=true yarn workspace @jukebox/backend test:ci
+# Deploy application to production
+[group('deploy')]
+kamal-deploy:
+  @just kamal-validate
+  @echo "Building and deploying application..."
+  kamal deploy
 
-# Validate formatting, types, and linting for all workspaces
-validate:
-  @echo "Validating frontend..."
-  yarn workspace @jukebox/frontend validate
-  @echo "✓ Frontend validation passed"
-  @echo "Validating backend..."
-  yarn workspace @jukebox/backend validate
-  @echo "✓ Backend validation passed"
+# Check deployment status
+[group('deploy')]
+kamal-status:
+  @echo "Checking application status..."
+  kamal ps
 
-# Auto-fix formatting and linting for all workspaces
-fix:
-  @echo "Fixing frontend..."
-  yarn workspace @jukebox/frontend fix
-  @echo "✓ Frontend fixed"
-  @echo "Fixing backend..."
-  yarn workspace @jukebox/backend fix
-  @echo "✓ Backend fixed"
+# Stream application logs
+[group('deploy')]
+kamal-logs LINES="100":
+  kamal app logs --lines {{LINES}} --follow
 
-# Validate frontend formatting, types, and linting
-fe-validate:
-  yarn workspace @jukebox/frontend validate
+# Rollback to previous version
+[group('deploy')]
+kamal-rollback:
+  @echo "Rolling back to previous version..."
+  kamal rollback
 
-# Auto-fix frontend formatting and linting
-fe-fix:
-  yarn workspace @jukebox/frontend fix
+# Access remote shell on deployed application
+[group('deploy')]
+kamal-shell:
+  kamal app exec --interactive bash
 
-# Validate backend formatting, types, and linting
-be-validate:
-  yarn workspace @jukebox/backend validate
-
-# Auto-fix backend formatting and linting
-be-fix:
-  yarn workspace @jukebox/backend fix
-
-# Production deploy of frontend to Github
-fe-deploy:
-  ./scripts/deploy-frontend.sh
-
-# Production deploy of backend using dist/ dir
-be-deploy:
-  ./scripts/deploy-backend.sh
+# Complete deployment pipeline (test + build + deploy)
+[group('deploy')]
+deploy: validate test docker-build-all kamal-deploy

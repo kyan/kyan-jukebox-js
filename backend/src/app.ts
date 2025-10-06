@@ -14,7 +14,19 @@ import SearchHandler from './handlers/search'
 import VoteHandler from './handlers/voting'
 import AuthenticateHandler from './handlers/authenticate'
 
-const server = createServer()
+const server = createServer((req, res) => {
+  // Health check endpoint for kamal-proxy
+  if (req.url === '/up' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'text/plain' })
+    res.end('OK')
+    return
+  }
+
+  // For all other requests, let Socket.IO handle them
+  res.writeHead(404)
+  res.end()
+})
+
 const socketio = new Server(server, { pingTimeout: 30000 })
 const isProduction = () => process.env.NODE_ENV === 'production'
 

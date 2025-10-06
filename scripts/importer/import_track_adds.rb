@@ -24,7 +24,7 @@ data = data.map do |v|
   v if users_with_uids.include?(v['user_id'])
 end.compact
 
-client = Mongo::Client.new('mongodb://localhost:27017/jb-dev')
+client = Mongo::Client.new('mongodb://localhost:27017/kyan-jukebox')
 
 progressbar = ProgressBar.create(
   format: "[TRACKS] #{PROGRESS_FORMAT}",
