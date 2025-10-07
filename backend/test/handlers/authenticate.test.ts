@@ -1,15 +1,24 @@
 import { Socket } from 'socket.io'
 import Broadcaster from '../../src/utils/broadcaster'
-import User from '../../src/models/user'
 import logger from '../../src/config/logger'
 import AuthenticateHandler from '../../src/handlers/authenticate'
 import AuthConsts from '../../src/constants/auth'
+import { getDatabase } from '../../src/services/database/factory'
 
 jest.mock('../../src/config/logger')
 jest.mock('../../src/utils/broadcaster')
-jest.mock('../../src/models/user')
+jest.mock('../../src/services/database/factory')
 
-const mockUserFindOne = User.findOne as jest.Mock
+// Mock database service
+const mockDatabase = {
+  users: {
+    findByEmail: jest.fn()
+  }
+}
+
+const mockGetDatabase = getDatabase as jest.Mock
+mockGetDatabase.mockReturnValue(mockDatabase)
+
 const mockLoggerError = logger.error as jest.Mock
 
 describe('AuthenticateHandler', () => {
@@ -54,10 +63,10 @@ describe('AuthenticateHandler', () => {
       email: 'duncan@kyan.com'
     }
 
-    mockUserFindOne.mockResolvedValue(mockUser)
+    mockDatabase.users.findByEmail.mockResolvedValue(mockUser)
     const response = await AuthenticateHandler(payload, wsMock)
 
-    expect(mockUserFindOne).toHaveBeenCalledWith({ email: 'duncan@kyan.com' })
+    expect(mockDatabase.users.findByEmail).toHaveBeenCalledWith('duncan@kyan.com')
     expect(response).toEqual({
       data: ['12'],
       key: 'mixer.setVolume',
@@ -87,10 +96,10 @@ describe('AuthenticateHandler', () => {
       email: 'duncan@kyan.com'
     }
 
-    mockUserFindOne.mockResolvedValue(mockUser)
+    mockDatabase.users.findByEmail.mockResolvedValue(mockUser)
     const response = await AuthenticateHandler(payload, wsMock)
 
-    expect(mockUserFindOne).toHaveBeenCalledWith({ email: 'duncan@kyan.com' })
+    expect(mockDatabase.users.findByEmail).toHaveBeenCalledWith('duncan@kyan.com')
     expect(response).toEqual({
       data: { success: true, message: 'User validated' },
       key: 'validateUser',
@@ -152,7 +161,7 @@ describe('AuthenticateHandler', () => {
       }
     }
 
-    mockUserFindOne.mockResolvedValue(null)
+    mockDatabase.users.findByEmail.mockResolvedValue(null)
     const response = await AuthenticateHandler(payload, wsMock)
 
     expect(response).toEqual({
@@ -187,7 +196,7 @@ describe('AuthenticateHandler', () => {
     }
 
     const error = new Error('Database connection failed')
-    mockUserFindOne.mockRejectedValue(error)
+    mockDatabase.users.findByEmail.mockRejectedValue(error)
     const response = await AuthenticateHandler(payload, wsMock)
 
     expect(mockLoggerError).toHaveBeenCalledWith('Error looking up user', {

@@ -1,5 +1,5 @@
 import ErrorHandler from '../handlers/errors'
-import { JBUser, JBPayload } from '../types/database'
+import { JBPayload } from '../types/database'
 
 interface Payload extends JBPayload {}
 

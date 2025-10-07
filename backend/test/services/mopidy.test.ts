@@ -3,18 +3,27 @@ import MopidyService from '../../src/services/mopidy'
 import logger from '../../src/config/logger'
 import Decorator from '../../src/decorators/mopidy'
 import EventLogger from '../../src/utils/event-logger'
-import Setting from '../../src/models/setting'
+import { getDatabase } from '../../src/services/database/factory'
+
 jest.mock('mopidy')
 jest.mock('../../src/decorators/mopidy')
 jest.mock('../../src/utils/event-logger')
 jest.mock('../../src/config/logger')
-jest.mock('../../src/models/setting')
+jest.mock('../../src/services/database/factory')
 
 const mockedDecorator = Decorator as jest.Mocked<typeof Decorator>
-const mockedInitializeState = Setting.initializeState as jest.Mock
-const mockedTrimTracklist = Setting.trimTracklist as jest.Mock
-const mockedUpdateTracklist = Setting.updateTracklist as jest.Mock
-const mockedClearState = Setting.clearState as jest.Mock
+const mockDatabase = {
+  settings: {
+    initializeState: jest.fn(),
+    trimTracklist: jest.fn(),
+    updateTracklist: jest.fn(),
+    clearState: jest.fn()
+  }
+}
+
+const mockGetDatabase = getDatabase as jest.Mock
+mockGetDatabase.mockReturnValue(mockDatabase)
+
 const mockedLogger = logger as jest.Mocked<typeof logger>
 const mockedEventLogger = EventLogger as jest.Mocked<typeof EventLogger>
 
@@ -29,9 +38,9 @@ describe('MopidyService', () => {
   it('handles call the global events', () => {
     mockedDecorator.parse.mockResolvedValue('unifiedMessage')
     mockedDecorator.mopidyCoreMessage.mockResolvedValue('unifiedMopidyMessage')
-    mockedInitializeState.mockResolvedValue(null)
-    mockedTrimTracklist.mockResolvedValue(null)
-    mockedUpdateTracklist.mockResolvedValue(null)
+    mockDatabase.settings.initializeState.mockResolvedValue(null)
+    mockDatabase.settings.trimTracklist.mockResolvedValue(null)
+    mockDatabase.settings.updateTracklist.mockResolvedValue(null)
 
     MopidyService(broadcastMock, mopidyStateMock)
 
@@ -54,14 +63,14 @@ describe('MopidyService', () => {
     expect(instance.on.mock.calls[0][0]).toEqual('websocket:error')
     instance.on.mock.calls[0][1]({ message: 'boooooooom!' })
     expect(mockedLogger.error.mock.calls[0][0]).toEqual('Mopidy Error: boooooooom!')
-    expect(Setting.clearState).toHaveBeenCalled()
-    mockedClearState.mockClear()
+    expect(mockDatabase.settings.clearState).toHaveBeenCalled()
+    mockDatabase.settings.clearState.mockClear()
 
     expect(instance.on.mock.calls[1][0]).toEqual('state:offline')
     instance.on.mock.calls[1][1]()
     expect(mockedLogger.info.mock.calls[0][0]).toEqual('Mopidy Offline')
     expect(mopidyStateMock.mock.calls[0][0]).toEqual({ online: false })
-    expect(Setting.clearState).toHaveBeenCalled()
+    expect(mockDatabase.settings.clearState).toHaveBeenCalled()
 
     expect(instance.on.mock.calls[2][0]).toEqual('state:online')
     instance.on.mock.calls[2][1]()

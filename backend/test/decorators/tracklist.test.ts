@@ -3,10 +3,12 @@ import TransformerTracklist from '../../src/decorators/tracklist'
 import ImageCache from '../../src/utils/image-cache'
 import Image from '../../src/models/image'
 import Mopidy from 'mopidy'
+import { getDatabase } from '../../src/services/database/factory'
 jest.mock('../../src/config/logger')
+jest.mock('../../src/services/database/factory')
 
 const firstTrack = {
-  _id: 'spotify:track:6IZWJhXyk1Z0rtWNxIi4o7',
+  uri: 'spotify:track:6IZWJhXyk1Z0rtWNxIi4o7',
   addedBy: [
     {
       user: {
@@ -18,7 +20,7 @@ const firstTrack = {
   __v: 0
 }
 const secondTrack = {
-  _id: 'spotify:track:14sOS5L36385FJ3OL8hew4',
+  uri: 'spotify:track:14sOS5L36385FJ3OL8hew4',
   addedBy: [
     {
       user: {
@@ -36,9 +38,15 @@ const firstImage = {
 const mockTrackData = [firstTrack, secondTrack]
 const mockImageData = [firstImage]
 
-jest.mock('../../src/models/track', () => ({
-  findTracks: jest.fn().mockImplementation(() => Promise.resolve(mockTrackData))
-}))
+// Mock database service
+const mockDatabase = {
+  tracks: {
+    findByUris: jest.fn().mockResolvedValue(mockTrackData)
+  }
+}
+
+const mockGetDatabase = getDatabase as jest.Mock
+mockGetDatabase.mockReturnValue(mockDatabase)
 
 describe('TransformerTracklist', () => {
   afterEach(() => {

@@ -1,8 +1,19 @@
 import EventLogger from '../../src/utils/event-logger'
-import Event from '../../src/models/event'
 import logger from '../../src/config/logger'
-jest.mock('../../src/models/event')
+import { getDatabase } from '../../src/services/database/factory'
+
 jest.mock('../../src/config/logger')
+jest.mock('../../src/services/database/factory')
+
+// Mock database service
+const mockDatabase = {
+  events: {
+    create: jest.fn().mockReturnValue(Promise.resolve())
+  }
+}
+
+const mockGetDatabase = getDatabase as jest.Mock
+mockGetDatabase.mockReturnValue(mockDatabase)
 
 describe('EventLogger', () => {
   afterEach(() => {
@@ -10,24 +21,20 @@ describe('EventLogger', () => {
   })
 
   it('logs output but does not create an Event', () => {
-    jest.spyOn(Event, 'create')
-
     EventLogger.info('mopidy::mixer.setVolume', { data: { name: 'Duncan' } })
-    expect(Event.create).not.toHaveBeenCalled()
+    expect(mockDatabase.events.create).not.toHaveBeenCalled()
     expect(logger.info).toHaveBeenCalledWith('mopidy::mixer.setVolume', {
       data: { name: 'Duncan' }
     })
   })
 
   it('logs output and creates an Event', () => {
-    jest.spyOn(Event, 'create')
-
     EventLogger.info(
       'mopidy::mixer.setVolume',
       { data: 'data', user: { _id: '12345' }, key: 'key123' },
       true
     )
-    expect(Event.create).toHaveBeenCalledWith({
+    expect(mockDatabase.events.create).toHaveBeenCalledWith({
       key: 'key123',
       payload: {
         data: 'data',

@@ -1,10 +1,23 @@
-import Setting from '../../src/models/setting'
-import Track from '../../src/models/track'
 import SpotifyService from '../../src/services/spotify'
 import Recommend, { SuitableExtractedData } from '../../src/utils/recommendations'
-jest.mock('../../src/models/track')
-jest.mock('../../src/models/setting')
+import { getDatabase } from '../../src/services/database/factory'
 jest.mock('../../src/services/spotify')
+jest.mock('../../src/services/database/factory')
+
+// Mock database service
+const mockDatabase = {
+  tracks: {
+    findTracksWithLowVotes: jest.fn(),
+    findTracksPlayedToday: jest.fn(),
+    findRandomTracksWithHighVotes: jest.fn()
+  },
+  settings: {
+    getTracklist: jest.fn()
+  }
+}
+
+const mockGetDatabase = getDatabase as jest.Mock
+mockGetDatabase.mockReturnValue(mockDatabase)
 
 describe('Recommend', () => {
   afterEach(() => {
@@ -76,19 +89,12 @@ describe('Recommend', () => {
         }
       ] as SpotifyApi.TrackObjectFull[]
       const currentUrisToIgnore = ['track3']
-      const resultsToIgnore = [{ _id: 'track1' }] as Track[]
-      const tracksPlayedToday = [{ _id: 'track2' }] as Track[]
-      const mockedTrackFind = Track.find as jest.Mock<any>
-      const mockedGetTracklist = Setting.getTracklist as jest.Mock<any>
+      const resultsToIgnore = ['track1']
+      const tracksPlayedToday = ['track2']
 
-      mockedTrackFind
-        .mockImplementationOnce(() => ({
-          select: jest.fn().mockResolvedValue(resultsToIgnore)
-        }))
-        .mockImplementationOnce(() => ({
-          select: jest.fn().mockResolvedValue(tracksPlayedToday)
-        }))
-      mockedGetTracklist.mockResolvedValue(currentUrisToIgnore)
+      mockDatabase.tracks.findTracksWithLowVotes.mockResolvedValue(resultsToIgnore)
+      mockDatabase.tracks.findTracksPlayedToday.mockResolvedValue(tracksPlayedToday)
+      mockDatabase.settings.getTracklist.mockResolvedValue(currentUrisToIgnore)
 
       const data = await Recommend.extractSuitableData(tracks)
       expect(data).toEqual({
@@ -126,15 +132,13 @@ describe('Recommend', () => {
         uris: [],
         images: { image: 'foo' }
       }
-      const results = [{ _id: 'track1' }, { _id: 'track2' }, { _id: 'track3' }]
+      const results = ['track1', 'track2', 'track3']
       const currentUrisToIgnore = ['track3'] as string[]
       const mockedGetTracks = SpotifyService.getTracks as jest.Mock<any>
-      const mockedTrackAggregate = Track.aggregate as jest.Mock<any>
-      const mockedGetTracklist = Setting.getTracklist as jest.Mock<any>
 
       mockedGetTracks.mockResolvedValue({} as SpotifyApi.MultipleTracksResponse)
-      mockedTrackAggregate.mockResolvedValue(results)
-      mockedGetTracklist.mockResolvedValue(currentUrisToIgnore)
+      mockDatabase.tracks.findRandomTracksWithHighVotes.mockResolvedValue(results)
+      mockDatabase.settings.getTracklist.mockResolvedValue(currentUrisToIgnore)
 
       const data = await Recommend.enrichWithPopularTracksIfNeeded(initialData)
       expect(data).toEqual({ images: { image: 'foo' }, uris: ['track1', 'track2'] })
