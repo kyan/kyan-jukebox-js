@@ -1,8 +1,20 @@
-import Setting from '../../src/models/setting'
 import logger from '../../src/config/logger'
 import NowPlaying from '../../src/utils/now-playing'
-import { JBTrack } from '../../src/models/track'
+import { getDatabase } from '../../src/services/database/factory'
+import { JBTrack } from '../../src/types/database'
+
 jest.mock('../../src/config/logger')
+jest.mock('../../src/services/database/factory')
+
+// Mock database service
+const mockDatabase = {
+  settings: {
+    updateJsonSetting: jest.fn()
+  }
+}
+
+const mockGetDatabase = getDatabase as jest.Mock
+mockGetDatabase.mockReturnValue(mockDatabase)
 
 describe('NowPlaying', () => {
   describe('addTrack', () => {
@@ -23,29 +35,37 @@ describe('NowPlaying', () => {
       },
       metrics: {
         votesAverage: 80,
+        votesTotal: 160,
         votes: 2,
         plays: 2
       },
       addedBy: [
         {
           user: {
-            fullname: 'Duncan'
+            _id: 'user1',
+            fullname: 'Duncan',
+            email: 'duncan@example.com'
           },
-          addedAt: new Date(1582010703141)
+          addedAt: new Date(1582010703141),
+          played: [],
+          votes: []
         },
         {
           user: {
-            fullname: 'BRH'
+            _id: 'user2',
+            fullname: 'BRH',
+            email: 'brh@example.com'
           },
-          addedAt: new Date(1582000703141)
+          addedAt: new Date(1582000703141),
+          played: [],
+          votes: []
         }
       ]
     }
 
     it('returns the correct payload when full data', async () => {
       expect.assertions(11)
-      const result = {} as any
-      jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(result)
+      mockDatabase.settings.updateJsonSetting.mockResolvedValue(undefined)
       jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
 
       const payload = (await NowPlaying.addTrack(trackObject)) as any
@@ -64,22 +84,27 @@ describe('NowPlaying', () => {
         rating: 3,
         votes: 2
       })
-      expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
-        { key: 'json' },
-        { $set: { 'value.currentTrack': payload } },
-        { runValidators: true, setDefaultsOnInsert: true, upsert: true }
+      expect(mockDatabase.settings.updateJsonSetting).toHaveBeenCalledWith(
+        'json',
+        payload
       )
     })
 
     it('returns the correct payload when partial full data', async () => {
       expect.assertions(11)
-      const result = {} as any
-      jest.spyOn(Setting, 'findOneAndUpdate').mockResolvedValue(result)
+      mockDatabase.settings.updateJsonSetting.mockResolvedValue(undefined)
       jest.spyOn(global.Date, 'now').mockImplementation(() => 1582020703141)
-      trackObject.metrics.plays = 1
-      delete trackObject.addedBy[1]
 
-      const payload = (await NowPlaying.addTrack(trackObject)) as any
+      const modifiedTrack = {
+        ...trackObject,
+        metrics: {
+          ...trackObject.metrics,
+          plays: 1
+        },
+        addedBy: [trackObject.addedBy[0]] // Only first user
+      }
+
+      const payload = (await NowPlaying.addTrack(modifiedTrack)) as any
 
       expect(payload).toHaveProperty('title', 'Seasons (Waiting On You)')
       expect(payload).toHaveProperty('artist', 'Future Islands')
@@ -95,16 +120,15 @@ describe('NowPlaying', () => {
         rating: 3,
         votes: 2
       })
-      expect(Setting.findOneAndUpdate).toHaveBeenCalledWith(
-        { key: 'json' },
-        { $set: { 'value.currentTrack': payload } },
-        { runValidators: true, setDefaultsOnInsert: true, upsert: true }
+      expect(mockDatabase.settings.updateJsonSetting).toHaveBeenCalledWith(
+        'json',
+        payload
       )
     })
 
     it('handles errors', () => {
       expect.assertions(1)
-      jest.spyOn(Setting, 'findOneAndUpdate').mockRejectedValue(new Error('oooops'))
+      mockDatabase.settings.updateJsonSetting.mockRejectedValue(new Error('oooops'))
       NowPlaying.addTrack(trackObject)
 
       return new Promise<void>((resolve) => {

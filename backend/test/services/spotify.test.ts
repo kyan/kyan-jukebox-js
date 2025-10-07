@@ -5,15 +5,13 @@ import EventLogger from '../../src/utils/event-logger'
 import ImageCache, { ImageCacheData } from '../../src/utils/image-cache'
 import Recommend, { SuitableExtractedData } from '../../src/utils/recommendations'
 import logger from '../../src/config/logger'
-import Track from '../../src/models/track'
-import Setting from '../../src/models/setting'
+import { getDatabase } from '../../src/services/database/factory'
 
 jest.mock('../../src/utils/recommendations')
-jest.mock('../../src/models/setting')
 jest.mock('../../src/utils/image-cache')
-jest.mock('../../src/models/track')
 jest.mock('../../src/utils/event-logger')
 jest.mock('../../src/config/logger')
+jest.mock('../../src/services/database/factory')
 jest.mock('spotify-web-api-node', () => {
   return function () {
     const tracks = [
@@ -73,9 +71,20 @@ jest.mock('lodash', () => ({
 
 const mockedRecommend = Recommend as jest.Mocked<typeof Recommend>
 const mockedImageCache = ImageCache as jest.Mocked<typeof ImageCache>
-const mockedAddTracks = Track.addTracks as jest.Mock
-const mockedGetTracklist = Setting.getTracklist as jest.Mock
-const mockedTrackFind = Track.find as jest.Mock<any>
+
+// Mock database service
+const mockDatabase = {
+  tracks: {
+    addTracks: jest.fn(),
+    findByUris: jest.fn()
+  },
+  settings: {
+    getTracklist: jest.fn()
+  }
+}
+
+const mockGetDatabase = getDatabase as jest.Mock
+mockGetDatabase.mockReturnValue(mockDatabase)
 
 describe('SpotifyService', () => {
   afterEach(() => {
@@ -134,12 +143,12 @@ describe('SpotifyService', () => {
         'spotify:track:1Ut1A8UaNqGuwsHgWq75PW'
       ]
       const images = {} as ImageCacheData
-      const results = [{ _id: 'meh' }] as Track[]
+      const results = [{ _id: 'meh' }] as any[]
       mockedRecommend.extractSuitableData.mockResolvedValue({} as SuitableExtractedData)
       mockedRecommend.enrichWithPopularTracksIfNeeded.mockResolvedValue({ images, uris })
-      mockedAddTracks.mockResolvedValue({ user: 'duncan' })
+      mockDatabase.tracks.addTracks.mockResolvedValue({ user: 'duncan' })
       mockedImageCache.addAll.mockResolvedValue({})
-      mockedTrackFind.mockImplementation(() => ({
+      mockDatabase.tracks.findByUris.mockImplementation(() => ({
         select: jest.fn().mockResolvedValue(results)
       }))
 
@@ -214,7 +223,7 @@ describe('SpotifyService', () => {
   describe('explicit content', () => {
     it('should resolve OK', () => {
       expect.assertions(1)
-      mockedGetTracklist.mockResolvedValue([
+      mockDatabase.settings.getTracklist.mockResolvedValue([
         'spotify:track:03fT3OHB9KyMtGMt2zwqCT',
         'spotify:track:1yzSSn5Sj1azuo7RgwvDb3'
       ])
@@ -239,7 +248,9 @@ describe('SpotifyService', () => {
       expect.assertions(1)
       const track = { explicit: true, name: 'Handbags' } as SpotifyApi.TrackObjectFull
       jest.spyOn(SpotifyService, 'getTracks').mockResolvedValue({ tracks: [track] })
-      mockedGetTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT'])
+      mockDatabase.settings.getTracklist.mockResolvedValue([
+        'spotify:track:03fT3OHB9KyMtGMt2zwqCT'
+      ])
 
       return SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW').catch(
         (error) => {
@@ -252,7 +263,7 @@ describe('SpotifyService', () => {
   describe('validateTrack', () => {
     it('should reject if track is already in tracklist', () => {
       expect.assertions(1)
-      mockedGetTracklist.mockResolvedValue([
+      mockDatabase.settings.getTracklist.mockResolvedValue([
         'spotify:track:03fT3OHB9KyMtGMt2zwqCT',
         'spotify:track:1yzSSn5Sj1azuo7RgwvDb3'
       ])
@@ -268,7 +279,9 @@ describe('SpotifyService', () => {
 
     it('should resolve if track is valid', async () => {
       expect.assertions(1)
-      mockedGetTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT'])
+      mockDatabase.settings.getTracklist.mockResolvedValue([
+        'spotify:track:03fT3OHB9KyMtGMt2zwqCT'
+      ])
       const track = { explicit: false, name: 'Handbags' } as SpotifyApi.TrackObjectFull
       jest.spyOn(SpotifyService, 'getTracks').mockResolvedValue({ tracks: [track] })
 
@@ -280,7 +293,9 @@ describe('SpotifyService', () => {
 
     it('should log if track is broken', () => {
       expect.assertions(1)
-      mockedGetTracklist.mockResolvedValue(['spotify:track:03fT3OHB9KyMtGMt2zwqCT'])
+      mockDatabase.settings.getTracklist.mockResolvedValue([
+        'spotify:track:03fT3OHB9KyMtGMt2zwqCT'
+      ])
       jest.spyOn(SpotifyService, 'getTracks').mockRejectedValue(new Error('bang!'))
       SpotifyService.validateTrack('spotify:track:03fT3OHB9KyMtGMtNEW')
 

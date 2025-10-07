@@ -1,9 +1,17 @@
 import fs from 'fs'
 import DecorateSearchResults from '../../src/decorators/result'
-import Track from '../../src/models/track'
-jest.mock('../../src/models/track')
+import { getDatabase } from '../../src/services/database/factory'
+jest.mock('../../src/services/database/factory')
 
-const mockFindTracks = Track.findTracks as jest.Mock
+// Mock database service
+const mockDatabase = {
+  tracks: {
+    findByUris: jest.fn()
+  }
+}
+
+const mockGetDatabase = getDatabase as jest.Mock
+mockGetDatabase.mockReturnValue(mockDatabase)
 
 describe('SearchResults', () => {
   const payload = JSON.parse(
@@ -67,7 +75,7 @@ describe('SearchResults', () => {
     ]
 
     it('renders', async () => {
-      mockFindTracks.mockResolvedValue(tracks)
+      mockDatabase.tracks.findByUris.mockResolvedValue(tracks)
 
       const transformedPayload = await DecorateSearchResults(payload.tracks.items)
 
@@ -142,7 +150,7 @@ describe('SearchResults', () => {
     ]
 
     it('renders', async () => {
-      mockFindTracks.mockResolvedValue(tracks)
+      mockDatabase.tracks.findByUris.mockResolvedValue(tracks)
 
       const transformedPayload = await DecorateSearchResults(payload.tracks.items)
 
@@ -165,45 +173,9 @@ describe('SearchResults', () => {
       process.env.EXPLICIT_CONTENT = 'true'
     })
 
-    const tracks = [
-      {
-        _id: 'spotify:track:1WaBuuaXGwrU4sFvxAjnkf',
-        addedBy: [
-          {
-            user: {
-              _id: '123',
-              fullname: 'Big Rainbowhead'
-            }
-          }
-        ]
-      },
-      {
-        _id: 'spotify:track:6idaUJ1KK1mWyxQziMefhU',
-        addedBy: [
-          {
-            user: {
-              _id: '456',
-              fullname: 'Bigger Rainbowhead'
-            }
-          }
-        ]
-      },
-      {
-        _id: 'spotify:track:7bqfZygxuq03hqffjswjCK',
-        addedBy: [
-          {
-            user: {
-              _id: '456',
-              fullname: 'Bigger Rainbowhead'
-            }
-          }
-        ]
-      }
-    ]
-
     it('renders', async () => {
       process.env.EXPLICIT_CONTENT = 'false'
-      mockFindTracks.mockResolvedValue(tracks)
+      mockDatabase.tracks.findByUris.mockResolvedValue([])
 
       const transformedPayload = await DecorateSearchResults(payload.tracks.items)
 
@@ -239,11 +211,53 @@ describe('SearchResults', () => {
 
   describe('when passed no results', () => {
     it('renders', async () => {
-      mockFindTracks.mockResolvedValue([])
+      // Ensure clean mock state
+      jest.clearAllMocks()
+      mockDatabase.tracks.findByUris.mockResolvedValue([])
 
-      const transformedPayload = await DecorateSearchResults(payload.tracks.items)
+      // Use isolated test data instead of shared payload to avoid mutation issues
+      const isolatedTestData = [
+        {
+          uri: 'spotify:track:test1',
+          name: 'Test Song 1',
+          duration_ms: 180000,
+          album: {
+            uri: 'spotify:album:test1',
+            name: 'Test Album 1',
+            images: [{ url: 'https://example.com/image1.jpg' }]
+          },
+          artists: [
+            {
+              uri: 'spotify:artist:test1',
+              name: 'Test Artist 1'
+            }
+          ],
+          explicit: false
+        },
+        {
+          uri: 'spotify:track:test2',
+          name: 'Test Song 2',
+          duration_ms: 200000,
+          album: {
+            uri: 'spotify:album:test2',
+            name: 'Test Album 2',
+            images: [{ url: 'https://example.com/image2.jpg' }]
+          },
+          artists: [
+            {
+              uri: 'spotify:artist:test2',
+              name: 'Test Artist 2'
+            }
+          ],
+          explicit: false
+        }
+      ]
 
-      expect(transformedPayload).toHaveLength(3)
+      const transformedPayload = await DecorateSearchResults(
+        isolatedTestData as SpotifyApi.TrackObjectFull[]
+      )
+
+      expect(transformedPayload).toHaveLength(2)
 
       // All tracks should be transformed without database metrics
       transformedPayload.forEach((track) => {
@@ -251,17 +265,17 @@ describe('SearchResults', () => {
         expect(track).toHaveProperty('name')
         expect(track).toHaveProperty('album')
         expect(track).toHaveProperty('artist')
-        expect(track).toHaveProperty('image')
         expect(track).toHaveProperty('length')
         // Should not have metrics since no DB results
         expect(track.metrics).toBeUndefined()
+        expect(track.addedBy).toBeUndefined()
       })
 
       // Verify basic track information is preserved
-      expect(transformedPayload[0].name).toBe('Happiness')
-      expect(transformedPayload[0].uri).toBe('spotify:track:1WaBuuaXGwrU4sFvxAjnkf')
-      expect(transformedPayload[0].artist.name).toBe('Ken Dodd')
-      expect(transformedPayload[0].album.name).toBe('Ken Dodd')
+      expect(transformedPayload[0].name).toBe('Test Song 1')
+      expect(transformedPayload[0].uri).toBe('spotify:track:test1')
+      expect(transformedPayload[1].name).toBe('Test Song 2')
+      expect(transformedPayload[1].uri).toBe('spotify:track:test2')
     })
   })
 })

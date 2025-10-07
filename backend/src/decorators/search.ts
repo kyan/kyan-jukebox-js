@@ -1,7 +1,7 @@
 import SearchConst from '../constants/search'
 import DecorateSearchResults from '../decorators/result'
 import Payload from '../utils/payload'
-import { JBTrack, JBSearchResults } from '../types/database'
+import { JBSearchResults } from '../types/database'
 
 const SearchDecorator = {
   parse: (

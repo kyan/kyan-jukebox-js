@@ -2,7 +2,30 @@ import Scheduler from '../../src/utils/scheduler'
 import cron from 'node-cron'
 import Mopidy from 'mopidy'
 import logger from '../../src/config/logger'
-import { DBSettingStatics } from '../../src/models/setting'
+import { getDatabase } from '../../src/services/database/factory'
+
+jest.mock('../../src/services/database/factory')
+
+// Mock database service
+const mockDatabase = {
+  settings: {
+    clearState: jest.fn(),
+    initializeState: jest.fn(),
+    addToTrackSeedList: jest.fn(),
+    trimTracklist: jest.fn(),
+    updateCurrentTrack: jest.fn(),
+    updateTracklist: jest.fn(),
+    removeFromSeeds: jest.fn(),
+    getSeedTracks: jest.fn(),
+    getTracklist: jest.fn(),
+    getPlayedTracksFromTracklist: jest.fn(),
+    getCurrentTrack: jest.fn(),
+    updateJsonSetting: jest.fn()
+  }
+}
+
+const mockGetDatabase = getDatabase as jest.Mock
+mockGetDatabase.mockReturnValue(mockDatabase)
 
 describe('Scheduler', () => {
   const mopidyRemoveMock = jest.fn().mockResolvedValue(null)
@@ -29,7 +52,7 @@ describe('Scheduler', () => {
   describe('scheduleAutoShutdown', () => {
     test('it should schedule a job to shutdown JB', () => {
       expect.assertions(7)
-      const getPlayedTracksFromTracklistMock = jest.fn().mockResolvedValue(['track1'])
+      mockDatabase.settings.getPlayedTracksFromTracklist.mockResolvedValue(['track1'])
       const mopidy = {
         playback: {
           stop: mopidyStopMock
@@ -38,15 +61,12 @@ describe('Scheduler', () => {
           remove: mopidyRemoveMock
         }
       } as unknown
-      const setting = {
-        getPlayedTracksFromTracklist: getPlayedTracksFromTracklistMock
-      } as unknown
 
       const mockCronSchedule = cron.schedule as jest.Mock
 
       Scheduler.scheduleAutoShutdown({
         mopidy: mopidy as Mopidy,
-        setting: setting as DBSettingStatics
+        setting: mockDatabase.settings
       })
       mockCronSchedule.mock.calls[0][1]()
 
@@ -69,7 +89,7 @@ describe('Scheduler', () => {
 
     test('it should not attempt to remove tracks if there are none', () => {
       expect.assertions(6)
-      const getPlayedTracksFromTracklistMock = jest.fn().mockResolvedValue([])
+      mockDatabase.settings.getPlayedTracksFromTracklist.mockResolvedValue([])
       const mopidy = {
         playback: {
           stop: mopidyStopMock
@@ -78,15 +98,12 @@ describe('Scheduler', () => {
           remove: mopidyRemoveMock
         }
       } as unknown
-      const setting = {
-        getPlayedTracksFromTracklist: getPlayedTracksFromTracklistMock
-      } as unknown
 
       const mockCronSchedule = cron.schedule as jest.Mock
 
       Scheduler.scheduleAutoShutdown({
         mopidy: mopidy as Mopidy,
-        setting: setting as DBSettingStatics
+        setting: mockDatabase.settings
       })
       mockCronSchedule.mock.calls[0][1]()
 

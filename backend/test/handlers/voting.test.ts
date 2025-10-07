@@ -1,13 +1,22 @@
 import { Server } from 'socket.io'
 import Broadcaster from '../../src/utils/broadcaster'
-import { updateTrackVote } from '../../src/models/track'
 import VoteHandler from '../../src/handlers/voting'
-import { JBUser } from '../../src/models/user'
+import { getDatabase } from '../../src/services/database/factory'
+import { JBUser } from '../../src/types/database'
+
 jest.mock('../../src/utils/event-logger')
 jest.mock('../../src/utils/broadcaster')
-jest.mock('../../src/models/track')
+jest.mock('../../src/services/database/factory')
 
-const mockUpdateTrackVote = updateTrackVote as jest.Mock
+// Mock database service
+const mockDatabase = {
+  tracks: {
+    updateVote: jest.fn()
+  }
+}
+
+const mockGetDatabase = getDatabase as jest.Mock
+mockGetDatabase.mockReturnValue(mockDatabase)
 
 describe('VoteHandler', () => {
   const socketio = {} as Server
@@ -29,14 +38,14 @@ describe('VoteHandler', () => {
       data: { uri: 'uri123', vote: 'vote' },
       payload: {}
     }
-    mockUpdateTrackVote.mockResolvedValue('track')
+    mockDatabase.tracks.updateVote.mockResolvedValue('track')
 
     VoteHandler({ payload, socketio })
 
     // Wait for the promise to resolve
     await new Promise((resolve) => setImmediate(resolve))
 
-    expect(updateTrackVote).toHaveBeenCalledWith(
+    expect(mockDatabase.tracks.updateVote).toHaveBeenCalledWith(
       payload.data.uri,
       payload.user,
       payload.data.vote
