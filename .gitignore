@@ -16,3 +16,7 @@ node_modules
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# SQLite database files
+*.db-wal
+*.db-shm
