@@ -1,22 +1,20 @@
-import { connect, ConnectOptions } from 'mongoose'
+import { initializeDatabase } from './database/factory'
+import { IDatabaseService } from './database/interfaces'
 import logger from '../config/logger'
 
-const mongodbUrl = process.env.MONGODB_URL
-const options = {
-  maxPoolSize: 10
-} as ConnectOptions
-
-const MongodbService = () =>
-  new Promise((resolve, reject): Promise<boolean | void> => {
-    return connect(mongodbUrl, options)
-      .then(() => {
-        logger.info(`Mongodb Connected`, { url: process.env.MONGODB_URL })
-        resolve(true)
-      })
-      .catch((err) => {
-        logger.error(`Mongodb: ${err}`, { url: process.env.MONGODB_URL })
-        reject(new Error('MongoDB failed to connect!'))
-      })
-  })
+/**
+ * Legacy MongoDB service wrapper for backward compatibility
+ * This replaces the original mongodb.ts file and uses the new database abstraction layer
+ */
+const MongodbService = async (): Promise<IDatabaseService> => {
+  try {
+    // Initialize the database service using environment configuration
+    const dbService = await initializeDatabase()
+    return dbService
+  } catch (error) {
+    logger.error(`MongoDB Service Error: ${error.message}`)
+    throw new Error('MongoDB failed to connect!')
+  }
+}
 
 export default MongodbService

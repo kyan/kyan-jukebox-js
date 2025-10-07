@@ -1,32 +1,33 @@
 import Mopidy from 'mopidy'
 import { Schema, model, Model, Document } from 'mongoose'
-import User, { JBUser } from '../models/user'
+import User from '../models/user'
 import EventLogger from '../utils/event-logger'
 import logger from '../config/logger'
-import VotingHelper from '../utils/voting'
+import {
+  JBUser,
+  JBTrack,
+  JBAddedBy,
+  JBVotes,
+  JBPlayed,
+  JBMetrics,
+  JBAlbum,
+  JBArtist,
+  MopidyTrackExt,
+  SpotifyTrackObjectFullExt
+} from '../types/database'
 
-export interface JBVotes {
-  user: JBUser
-  vote: number
-  at: Date
-}
-
-interface JBPlayed {
-  at: Date
-}
-
-export interface JBAddedBy {
-  user: JBUser
-  addedAt: Date
-  played: JBPlayed[]
-  votes: JBVotes[]
-}
-
-interface JBMetrics {
-  plays: number
-  votes: number
-  votesTotal: number
-  votesAverage: number
+// Re-export shared types for backwards compatibility
+export type {
+  JBUser,
+  JBTrack,
+  JBAddedBy,
+  JBVotes,
+  JBPlayed,
+  JBMetrics,
+  JBAlbum,
+  JBArtist,
+  MopidyTrackExt,
+  SpotifyTrackObjectFullExt
 }
 
 interface Track extends Document {
@@ -82,48 +83,8 @@ export interface MopidyAlbumExt extends Mopidy.models.Album {
   images: MopidyImageExt[]
 }
 
-export interface MopidyTrackExt extends Mopidy.models.Track {
-  album: MopidyAlbumExt
-  addedBy?: JBAddedBy[]
-  metrics?: JBMetrics
-  image?: string
-  genres?: string[]
-  duration_ms?: number
-  explicit?: boolean
-}
-
-export interface SpotifyTrackObjectFullExt extends SpotifyApi.TrackObjectFull {
-  addedBy: JBAddedBy[]
-  metrics: JBMetrics
-}
-
 export interface JBWTrack {
   track: JBTrack
-}
-
-export interface JBArtist {
-  uri: string
-  name: string
-}
-
-export interface JBAlbum {
-  uri: string
-  name: string
-  year: string
-}
-
-export interface JBTrack {
-  uri: string
-  name: string
-  length: number
-  year?: string
-  image?: string
-  album?: JBAlbum
-  artist?: JBArtist
-  addedBy?: any
-  metrics?: any
-  explicit?: boolean
-  genres?: string[]
 }
 
 const brh = {
@@ -194,72 +155,6 @@ TrackSchema.statics.addTracks = (
       )
   })
 
-const updateTrackPlaycount = (uri: string): Promise<Track> =>
-  new Promise((resolve) => {
-    Track.findById(uri)
-      .populate({ path: 'addedBy.user' })
-      .populate({ path: 'addedBy.votes.user' })
-      .then((track) => {
-        if (track && track.addedBy[0]) {
-          const played: JBPlayed = { at: new Date() }
-          track.addedBy[0].played.unshift(played)
-          track.metrics.plays = track.metrics.plays + 1
-          return track.save()
-        }
-
-        return Promise.resolve(track)
-      })
-      .then((track) => resolve(track))
-      .catch((error) => logger.error('updateTrackPlaycount', { message: error.message }))
-  })
-
-const updateTrackVote = (uri: string, user: JBUser, vote: number) =>
-  new Promise((resolve) => {
-    Track.findOrUseBRH(user)
-      .then((vUser: any) => {
-        Track.findById(uri)
-          .populate({ path: 'addedBy.user' })
-          .populate({ path: 'addedBy.votes.user' })
-          .then((track) => {
-            if (track && track.addedBy[0]) {
-              const currentVote = VotingHelper.voteNormalised(vote)
-              const newVote: JBVotes = {
-                at: new Date(),
-                vote: currentVote,
-                user: vUser
-              }
-              const votes = track.addedBy[0].votes
-              const currentVoteIndex = votes.findIndex(
-                (vote) => vote.user._id === vUser._id
-              )
-
-              if (currentVoteIndex !== -1) {
-                votes[currentVoteIndex].vote = currentVote
-              } else {
-                votes.unshift(newVote)
-                track.metrics.votes = VotingHelper.calcVoteCount(track.addedBy)
-              }
-
-              track.metrics.votesTotal = VotingHelper.calcVoteTotal(track.addedBy)
-              track.metrics.votesAverage = VotingHelper.calcWeightedMean(track.addedBy)
-
-              return track.save()
-            }
-
-            return Promise.resolve(track)
-          })
-          .then((track) =>
-            resolve({ uri: track.id, addedBy: track.addedBy, metrics: track.metrics })
-          )
-          .catch((error) =>
-            logger.error('updateTrackVote:findById', { message: error.message })
-          )
-      })
-      .catch((error: { message: string }) =>
-        logger.error('updateTrackVote:findOrUseBRH', { message: error.message })
-      )
-  })
-
 interface DBTrackStatics extends Model<Track> {
   /**
    * Lookup tracks in MongoDB
@@ -274,4 +169,3 @@ interface DBTrackStatics extends Model<Track> {
 const Track = model<Track, DBTrackStatics>('Track', TrackSchema)
 
 export default Track
-export { updateTrackPlaycount, updateTrackVote }

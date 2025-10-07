@@ -1,10 +1,8 @@
 import { Document, Schema, model } from 'mongoose'
+import { JBUser } from '../types/database'
 
-export interface JBUser {
-  _id: any
-  fullname: string
-  email: string
-}
+// Re-export shared types for backwards compatibility
+export type { JBUser }
 
 interface User extends JBUser, Document {
   _id: any

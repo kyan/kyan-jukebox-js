@@ -3,7 +3,7 @@ import Broadcaster from '../utils/broadcaster'
 import AuthConsts from '../constants/auth'
 import MopidyConsts from '../constants/mopidy'
 import logger from '../config/logger'
-import User from '../models/user'
+import { getDatabase } from '../services/database/factory'
 import Payload from '../utils/payload'
 
 const isAuthorisedRequest = (key: string): boolean => {
@@ -15,7 +15,8 @@ const isValidationRequest = (key: string): boolean => {
 }
 
 const findUserByEmail = (email: string) => {
-  return User.findOne({ email })
+  const db = getDatabase()
+  return db.users.findByEmail(email)
 }
 
 const AuthenticateHandler = (payload: Payload, socket: Socket): Promise<Payload> => {

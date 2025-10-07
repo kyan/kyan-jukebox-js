@@ -1,11 +1,7 @@
 import ErrorHandler from '../handlers/errors'
-import { JBUser } from '../models/user'
+import { JBUser, JBPayload } from '../types/database'
 
-interface Payload {
-  key: string
-  data: any
-  user?: Partial<JBUser>
-}
+interface Payload extends JBPayload {}
 
 const Payload = {
   decode: (payloadStr: string): Payload => {

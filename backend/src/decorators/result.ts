@@ -1,12 +1,14 @@
 import DecorateTrack from './track'
-import Track, { JBTrack, SpotifyTrackObjectFullExt } from '../models/track'
+import { getDatabase } from '../services/database/factory'
+import { JBTrack, SpotifyTrackObjectFullExt } from '../types/database'
 
 const DecorateSearchResults = (
   spotifyTracks: SpotifyApi.TrackObjectFull[]
 ): Promise<JBTrack[]> =>
   new Promise((resolve) => {
     const trackUris = spotifyTracks.map((track) => track.uri)
-    const requests = [Track.findTracks(trackUris)]
+    const db = getDatabase()
+    const requests = [db.tracks.findByUris(trackUris)]
 
     const compare = (a: JBTrack, b: JBTrack): number => {
       let comparison = 0
@@ -24,11 +26,13 @@ const DecorateSearchResults = (
       return comparison
     }
 
-    Promise.all<Track[]>(requests).then((responses) => {
-      const tracks: Track[] = responses[0]
+    Promise.all<JBTrack[]>(requests).then((responses) => {
+      const tracks: JBTrack[] = responses[0]
       const decoratedTracks = spotifyTracks.map(
         (spotifyTrack: SpotifyTrackObjectFullExt) => {
-          const trackData = tracks.find((track) => track._id === spotifyTrack.uri)
+          const trackData = tracks.find(
+            (track) => (track as any)._id === spotifyTrack.uri
+          )
 
           if (trackData) {
             spotifyTrack.addedBy = trackData.addedBy
