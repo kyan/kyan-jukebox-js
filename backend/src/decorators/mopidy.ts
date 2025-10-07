@@ -3,15 +3,17 @@ import Constants from '../constants/mopidy'
 import DecorateTracklist from '../decorators/tracklist'
 import NowPlaying from '../utils/now-playing'
 import Spotify from '../services/spotify'
-import Setting from '../models/setting'
-import Track, { updateTrackPlaycount, JBTrack } from '../models/track'
+import { getDatabase } from '../services/database/factory'
+import { JBTrack } from '../types/database'
 import { GetRecommendations } from '../services/spotify'
 
 let recommendTimer: NodeJS.Timeout | null
 
-const clearSetTimeout = (timeout: NodeJS.Timeout) => {
-  clearTimeout(timeout)
-  timeout = null
+const clearRecommendTimer = () => {
+  if (recommendTimer) {
+    clearTimeout(recommendTimer)
+    recommendTimer = null
+  }
 }
 
 const recommendTracks = (
@@ -21,9 +23,10 @@ const recommendTracks = (
 ): void => {
   if (!recommendFunc) return
 
-  Setting.getSeedTracks().then((uris) => {
+  const db = getDatabase()
+  db.settings.getSeedTracks().then((uris) => {
     const waitToRecommend = (trackLength / 4) * 3
-    clearSetTimeout(recommendTimer)
+    clearRecommendTimer()
     recommendTimer = setTimeout(recommendFunc, waitToRecommend, uris, mopidy)
   })
 }
@@ -34,24 +37,30 @@ const MopidyDecorator = {
       const { key } = headers
 
       switch (key) {
-        case Constants.CORE_EVENTS.PLAYBACK_ENDED:
+        case Constants.CORE_EVENTS.PLAYBACK_ENDED: {
+          const db = getDatabase()
           return DecorateTracklist([data.tl_track.track]).then((data) => {
-            return Setting.addToTrackSeedList(data[0])
-              .then(() => Setting.trimTracklist(mopidy))
+            return db.settings
+              .addToTrackSeedList(data[0])
+              .then(() => db.settings.trimTracklist(mopidy))
               .then(() => resolve(data[0].uri))
           })
-        case Constants.CORE_EVENTS.PLAYBACK_STARTED:
-          return updateTrackPlaycount(data.tl_track.track.uri)
+        }
+        case Constants.CORE_EVENTS.PLAYBACK_STARTED: {
+          const db = getDatabase()
+          return db.tracks
+            .updatePlaycount(data.tl_track.track.uri)
             .then(() => DecorateTracklist([data.tl_track.track]))
             .then(async (data) => {
               const payload = data[0]
               NowPlaying.addTrack(payload)
 
-              await Setting.updateCurrentTrack(payload.uri)
+              await db.settings.updateCurrentTrack(payload.uri)
               const recommend = await Spotify.canRecommend(mopidy)
               recommendTracks(recommend, payload.length, mopidy)
               resolve(payload)
             })
+        }
         case Constants.CORE_EVENTS.VOLUME_CHANGED:
           return resolve({ volume: data.volume })
         case Constants.CORE_EVENTS.PLAYBACK_STATE_CHANGED:
@@ -66,23 +75,25 @@ const MopidyDecorator = {
   parse: (headers: any, data: any): Promise<any> => {
     return new Promise((resolve) => {
       const { key, user } = headers
+      const db = getDatabase()
 
       switch (key) {
         case Constants.GET_CURRENT_TRACK:
           if (!data) return resolve(null)
           return DecorateTracklist([data]).then((TransformedData) => {
             const trackInfo = TransformedData[0]
-            return Setting.updateCurrentTrack(trackInfo.uri).then(() =>
-              resolve(trackInfo)
-            )
+            return db.settings
+              .updateCurrentTrack(trackInfo.uri)
+              .then(() => resolve(trackInfo))
           })
         case Constants.GET_TRACKS:
           return DecorateTracklist(data).then(async (tracks) => {
-            await Setting.updateTracklist(tracks.map((data) => data.uri))
+            await db.settings.updateTracklist(tracks.map((data) => data.uri))
             return resolve(tracks)
           })
         case Constants.TRACKLIST_REMOVE:
-          return Setting.removeFromSeeds(data[0].track.uri)
+          return db.settings
+            .removeFromSeeds(data[0].track.uri)
             .then(() => {
               const tracks: Mopidy.models.TlTrack[] = data
               return DecorateTracklist(tracks.map((item) => item.track))
@@ -94,13 +105,14 @@ const MopidyDecorator = {
               })
             })
         case Constants.TRACKLIST_ADD:
-          return Track.addTracks(headers.data.uris, user)
+          return db.tracks
+            .addTracks(headers.data.uris, user)
             .then(() => {
               const tracks: Mopidy.models.TlTrack[] = data
               return DecorateTracklist(tracks.map((item) => item.track))
             })
             .then((responses: JBTrack[]) => {
-              clearSetTimeout(recommendTimer)
+              clearRecommendTimer()
 
               resolve({
                 message: responses.map((r) => `${r.name} by ${r.artist.name}`).join(', '),
@@ -109,10 +121,10 @@ const MopidyDecorator = {
             })
         case Constants.PLAYBACK_NEXT:
         case Constants.PLAYBACK_PREVIOUS:
-          clearSetTimeout(recommendTimer)
+          clearRecommendTimer()
           return resolve(null)
         case Constants.TRACKLIST_CLEAR:
-          return Setting.clearState().then(() => resolve(data))
+          return db.settings.clearState().then(() => resolve(data))
         case Constants.MIXER_SET_VOLUME:
           return resolve({
             volume: headers.data[0],

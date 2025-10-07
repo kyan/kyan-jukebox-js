@@ -6,9 +6,8 @@ import MopidyConstants from '../constants/mopidy'
 import logger from '../config/logger'
 import ImageCache from '../utils/image-cache'
 import Recommend from '../utils/recommendations'
-import Track from '../models/track'
-import Setting from '../models/setting'
-import { JBUser } from '../models/user'
+import { getDatabase } from './database/factory'
+import { JBUser } from '../types/database'
 import { SuitableExtractedData } from '../utils/recommendations'
 
 interface SearchParams {
@@ -152,7 +151,8 @@ const getRecommendations: GetRecommendations = (
             }
 
             ImageCache.addAll(images).then(() => {
-              Track.addTracks(uris).then((data) => {
+              const db = getDatabase()
+              db.tracks.addTracks(Array.from(uris)).then((data) => {
                 mopidy.tracklist
                   .add({ uris: data.uris })
                   .then(successHandler(data.user), failureHandler)
@@ -184,7 +184,8 @@ const SpotifyService = {
 
   validateTrack: (uri: string) =>
     new Promise((resolve, reject) => {
-      return Setting.getTracklist().then((uris) => {
+      const db = getDatabase()
+      return db.settings.getTracklist().then((uris) => {
         if (uris.includes(uri)) {
           const message = `You've already added: ${uri}`
           return reject(new Error(message))
