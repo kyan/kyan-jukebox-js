@@ -15,12 +15,11 @@ CREATE INDEX IF NOT EXISTS idx_images_expire_at ON images(expire_at);
 CREATE INDEX IF NOT EXISTS idx_images_created_at ON images(created_at);
 
 -- Index for cleanup operations (finding expired images)
-CREATE INDEX IF NOT EXISTS idx_images_expired ON images(expire_at)
-    WHERE expire_at <= datetime('now');
+-- Note: Removed conditional WHERE clauses with datetime('now') as they are non-deterministic
+CREATE INDEX IF NOT EXISTS idx_images_expired ON images(expire_at);
 
--- Index for active images (not expired)
-CREATE INDEX IF NOT EXISTS idx_images_active ON images(expire_at)
-    WHERE expire_at > datetime('now');
+-- Index for active images (not expired) - now just a duplicate of expire_at index
+-- CREATE INDEX IF NOT EXISTS idx_images_active ON images(expire_at);
 
 -- Trigger to automatically update updated_at timestamp
 CREATE TRIGGER IF NOT EXISTS images_updated_at

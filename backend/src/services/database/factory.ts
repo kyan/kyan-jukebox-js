@@ -5,6 +5,7 @@ import {
   SQLiteConfig
 } from './interfaces'
 import { MongoDBService } from './mongodb-service'
+import { SQLiteService } from './sqlite-service'
 import logger from '../../config/logger'
 
 export class DatabaseFactory {
@@ -19,7 +20,7 @@ export class DatabaseFactory {
         return new MongoDBService(config as MongoDBConfig)
 
       case 'sqlite':
-        throw new Error('SQLite implementation not yet available. Coming soon!')
+        return new SQLiteService(config as SQLiteConfig)
 
       default:
         throw new Error(`Unsupported database type: ${(config as any).type}`)

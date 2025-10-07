@@ -180,10 +180,13 @@ CREATE TABLE IF NOT EXISTS images (
 CREATE INDEX IF NOT EXISTS idx_images_uri ON images(uri);
 CREATE INDEX IF NOT EXISTS idx_images_expire_at ON images(expire_at);
 CREATE INDEX IF NOT EXISTS idx_images_created_at ON images(created_at);
-CREATE INDEX IF NOT EXISTS idx_images_expired ON images(expire_at)
-    WHERE expire_at <= datetime('now');
-CREATE INDEX IF NOT EXISTS idx_images_active ON images(expire_at)
-    WHERE expire_at > datetime('now');
+
+-- Index for cleanup operations (finding expired images)
+-- Note: Removed conditional WHERE clauses with datetime('now') as they are non-deterministic
+CREATE INDEX IF NOT EXISTS idx_images_expired ON images(expire_at);
+
+-- Index for active images (not expired) - now just a duplicate of expire_at index
+-- CREATE INDEX IF NOT EXISTS idx_images_active ON images(expire_at);
 
 -- Images trigger
 CREATE TRIGGER IF NOT EXISTS images_updated_at
