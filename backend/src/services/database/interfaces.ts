@@ -6,7 +6,6 @@ import {
   PaginationOptions,
   QueryOptions,
   DatabaseConfig,
-  MongoDBConfig,
   SQLiteConfig
 } from '../../types/database'
 import Mopidy from 'mopidy'
@@ -104,7 +103,6 @@ export interface IDatabaseService {
 // Re-export configuration interfaces from shared types
 export type {
   DatabaseConfig,
-  MongoDBConfig,
   SQLiteConfig,
   DatabaseResult,
   PaginationOptions,

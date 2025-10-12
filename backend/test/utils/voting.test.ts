@@ -1,5 +1,5 @@
 import VotingHelper from '../../src/utils/voting'
-import { JBAddedBy, JBVotes } from '../../src/models/track'
+import { JBAddedBy, JBVotes } from '../../src/types/database'
 
 describe('VotingHelper', () => {
   afterEach(() => {

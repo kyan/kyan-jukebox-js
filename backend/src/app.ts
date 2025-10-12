@@ -7,7 +7,7 @@ import Broadcaster, { StateChange, BroadcastToAll } from './utils/broadcaster'
 import Scheduler from './utils/scheduler'
 import Payload from './utils/payload'
 import MopidyService, { MopidySetting } from './services/mopidy'
-import MongodbService from './services/mongodb'
+import { initializeDatabase } from './services/database/factory'
 
 import SocketErrorsHandler from './handlers/socket-errors'
 import MopidyHandler from './handlers/mopidy'
@@ -112,7 +112,7 @@ const initSocketioEventHandlers = (args: MopidySetting) => {
   return true
 }
 
-MongodbService()
+initializeDatabase()
   .then(() => {
     // Database service is now available globally via getDatabase()
     return MopidyService(broadcastToAll, broadcastMopidyStateChange)

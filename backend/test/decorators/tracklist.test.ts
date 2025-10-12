@@ -1,7 +1,7 @@
 import fs from 'fs'
 import TransformerTracklist from '../../src/decorators/tracklist'
 import ImageCache from '../../src/utils/image-cache'
-import Image from '../../src/models/image'
+
 import Mopidy from 'mopidy'
 import { getDatabase } from '../../src/services/database/factory'
 jest.mock('../../src/config/logger')
@@ -58,7 +58,7 @@ describe('TransformerTracklist', () => {
   )
   describe('when passed a tracklist', () => {
     it('transforms it', async () => {
-      jest.spyOn(ImageCache, 'findAll').mockResolvedValue(mockImageData as Image[])
+      jest.spyOn(ImageCache, 'findAll').mockResolvedValue(mockImageData)
 
       const transformedPayload = await TransformerTracklist(payload)
 

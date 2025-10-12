@@ -12,7 +12,7 @@ This is a work-in-progress replacement for our [existing office JukeBox](https:/
 
 ## Overview
 
-The Jukebox re-imagined still uses `Mopidy` but has been split into parts, Client and API (FE and BE). The BE is written in [TypeScript](https://www.typescriptlang.org/) and the FE currently is a mix of [JavaScript](https://www.javascript.com/) and TypeScript. It also uses smaller events messages passed back and forth over a websocket. Currently both the FE and BE live in this one monorepo.
+The Jukebox re-imagined still uses `Mopidy` but has been split into parts, Client and API (FE and BE). The BE is written in [TypeScript](https://www.typescriptlang.org/) and the FE currently is a mix of [JavaScript](https://www.javascript.com/) and TypeScript. It uses SQLite for data persistence and communicates via smaller event messages passed back and forth over a websocket. Currently both the FE and BE live in this one monorepo.
 
 ## Why not use an existing Mopidy frontend
 
@@ -37,7 +37,7 @@ $ cd jukebox-js
 
 ## Environment
 
-Runing the app locally requires some enviroment variables to be set in the various applications. There are a bunch of `.env.example` files that just need to be duplicated in the folder they are in and the various missing parts filled in. The comments in those files should help you.
+Running the app locally requires some environment variables to be set in the various applications. There are a bunch of `.env.example` files that just need to be duplicated in the folder they are in and the various missing parts filled in. The comments in those files should help you.
 
 ## Development
 
@@ -69,22 +69,16 @@ You can also just ignore `just` and run everything manual if that's your thing.
 
 ### Running the app
 
-When running the app locally you get to run a Docker instance of Mopidy on your machine. You don't get any sound but it's by far the easiest way. You just need to run:
+When running the app locally you get to run a Docker instance of Mopidy on your machine. You don't get any sound but it's by far the easiest way. The SQLite database will be stored in the `databases/` folder. You just need to run:
 
-Build the dependencies MongoDB and Mopidy
+Start the dependencies (Mopidy)
 ```
-just build
+just deps-start
 ```
 
 Note: If you are using an M1 Macbook, the above command may fail. To fix this, you will need to set the following environment variable in your shell:
 ```
 DOCKER_DEFAULT_PLATFORM=linux/amd64
-```
-
-Start the dependencies MongoDB and Mopidy
-```
-just start
-just start -d # run in the background
 ```
 
 Now you can just open a new terminal for the FE and the BE and run:
@@ -97,7 +91,7 @@ and
 just be-serve
 ```
 
-This will give you a working FE and BE plus the persistence layer. The Jukebox is available
+This will give you a working FE and BE with SQLite persistence. The Jukebox is available
 at http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart.
 
 ## Technology
@@ -108,7 +102,7 @@ A ReactJS application that communicates with the JukeBox API.
 
 ### API
 
-A NodeJS + Express application written in TypeScript that communicates with `Mongodb` and the `Mopidy` Websocket interface.
+A NodeJS + Express application written in TypeScript that communicates with `SQLite` for data persistence and the `Mopidy` Websocket interface.
 
 ##### TypeScript
 
@@ -118,9 +112,9 @@ You can do this in various ways. Either whilst you're serving the app locally, o
 
 Once you have done this once, the next time when you start the container, you should see an entry in the `Remote Exporer` containers section where you can attach again from there. You can also edit the configuration so you can install in extension you want when you are editing.
 
-### MongoDB
+### SQLite
 
-The API used `Mongodb` for it's perisistence layer. In development it will fire up a docker container running `Mongodb` and will point the API at it.
+The API uses `SQLite` for its persistence layer. In development, the database file is stored in the `databases/` folder. In production, it should be placed at `/var/lib/jukebox/jukebox.db` and the `SQLITE_PATH` environment variable should point to this location.
 
 ### Adding a new package to `package.json`
 
@@ -149,6 +143,6 @@ To push out a new release of the [BE](backend/) you need to run:
 $ ./scripts/deploy-backend.sh
 ```
 
-### mongodb
+### Database
 
-In production the API uses https://cloud.mongodb.com
+In production the API uses SQLite. The database file should be manually copied to `/var/lib/jukebox/jukebox.db` on the host machine and the `SQLITE_PATH` environment variable should be set to this path.

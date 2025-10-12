@@ -8,7 +8,7 @@ import './index.css'
 const addedByContent = users => (
   <List className='added-by-list'>
     {users.slice(0, 10).map((data, i) => {
-      const fullName = data.user ? data.user.fullname : 'User unknown'
+      const fullName = data.user && data.user.fullname ? data.user.fullname : 'User unknown'
 
       return (
         <List.Item key={i}>

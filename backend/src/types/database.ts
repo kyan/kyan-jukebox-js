@@ -6,7 +6,7 @@
  * ensuring consistency across all layers of the application.
  *
  * These types are implementation-agnostic and can be used with any database service
- * (MongoDB, SQLite, etc.) while maintaining type safety and consistency.
+ * while maintaining type safety and consistency.
  */
 
 import Mopidy from 'mopidy'
@@ -166,17 +166,9 @@ export interface QueryOptions {
 // ============================================================================
 
 export interface DatabaseConfig {
-  type: 'mongodb' | 'sqlite'
+  type: 'sqlite'
   connectionString?: string
   options?: Record<string, any>
-}
-
-export interface MongoDBConfig extends DatabaseConfig {
-  type: 'mongodb'
-  connectionString: string
-  options?: {
-    maxPoolSize?: number
-  }
 }
 
 export interface SQLiteConfig extends DatabaseConfig {
