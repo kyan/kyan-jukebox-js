@@ -6,8 +6,8 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log
-mongodb-data
 mopidy-data
+databases/*.db
 node_modules
 .pnp.*
 .yarn/*
