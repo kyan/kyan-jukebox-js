@@ -74,9 +74,7 @@ playwright-report/
 test-results/
 
 # Local data volumes (not needed in build)
-mongodb-data/
 mopidy-data/
-mongodb-data/**
 
 # Docker / Compose local overrides
 docker-compose.override.yml
