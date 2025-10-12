@@ -103,10 +103,10 @@ test-watch:
 
 # Lint and type-check all code
 [group('test')]
-validate:
-  @echo "Validating frontend..."
+check:
+  @echo "Checking frontend..."
   yarn workspace {{FRONTEND_WS}} validate
-  @echo "Validating backend..."
+  @echo "Checking backend..."
   yarn workspace {{BACKEND_WS}} validate
 
 # Auto-fix linting and formatting issues
@@ -119,7 +119,7 @@ fix:
 
 # Quick pre-push validation (lint + test)
 [group('test')]
-pre-push: validate test
+pre-push: check test
 
 # ===================================================================
 # DOCKER
@@ -131,14 +131,15 @@ docker-build-all TAG=DEFAULT_TAG: (docker-build-backend TAG) (docker-build-front
 
 # Build backend Docker image
 [group('docker')]
-docker-build-backend TAG=DEFAULT_TAG SPOTIFY_ID="" SPOTIFY_SECRET="" MONGODB_URL="mongodb://host.docker.internal:27017/kyan-jukebox" WS_MOPIDY_URL="host.docker.internal" WS_MOPIDY_PORT="6680":
+docker-build-backend TAG=DEFAULT_TAG SPOTIFY_ID="" SPOTIFY_SECRET="" SQLITE_PATH="/var/lib/jukebox/jukebox.db" WS_MOPIDY_URL="host.docker.internal" WS_MOPIDY_PORT="6680":
   docker build -f Dockerfile.backend \
     --build-arg SPOTIFY_ID={{SPOTIFY_ID}} \
     --build-arg SPOTIFY_SECRET={{SPOTIFY_SECRET}} \
-    --build-arg MONGODB_URL={{MONGODB_URL}} \
+    --build-arg SQLITE_PATH={{SQLITE_PATH}} \
     --build-arg WS_MOPIDY_URL={{WS_MOPIDY_URL}} \
     --build-arg WS_MOPIDY_PORT={{WS_MOPIDY_PORT}} \
     --build-arg SPOTIFY_NEW_TRACKS_ADDED_LIMIT=3 \
+    --build-arg SQLITE_TIMEOUT=30000 \
     --build-arg IS_ALIVE_TIMEOUT=30000 \
     --build-arg EXPLICIT_CONTENT=true \
     --build-arg IMAGE_CACHE_EXPIRES=86400 \
@@ -196,15 +197,15 @@ docker-stop-all: docker-stop-frontend docker-stop-backend
 # DEPENDENCIES
 # ===================================================================
 
-# Start dependency services (MongoDB + Mopidy)
+# Start dependency services (Mopidy)
 [group('deps')]
 deps-start:
-  docker compose up -d mongodb mopidy
+  docker compose up -d mopidy
 
 # Stop dependency services
 [group('deps')]
 deps-stop:
-  docker compose stop mongodb mopidy
+  docker compose stop mopidy
 
 # Stop and remove dependency services
 [group('deps')]
@@ -216,15 +217,12 @@ deps-down:
 mopidy-shell:
   docker exec -it mopidy /bin/bash
 
-# Connect to MongoDB container shell
+# Show SQLite database info
 [group('deps')]
-mongo-shell:
-  docker exec -it mongodb /bin/bash
-
-# Connect to MongoDB CLI
-[group('deps')]
-mongo-cli:
-  docker exec -it mongodb mongosh
+sqlite-info:
+  @echo "SQLite database location: ./databases/jukebox.db"
+  @echo "Production location: /var/lib/jukebox/jukebox.db"
+  @if [ -f "./databases/jukebox.db" ]; then echo "Development database exists"; else echo "Development database not found"; fi
 
 # ===================================================================
 # DEPLOYMENT
@@ -267,4 +265,4 @@ kamal-shell:
 
 # Complete deployment pipeline (test + build + deploy)
 [group('deploy')]
-deploy: validate test docker-build-all kamal-deploy
+deploy: check test docker-build-all kamal-deploy

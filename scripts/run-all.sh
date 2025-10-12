@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
-# Run backend API and frontend with hot reload plus dependent services (MongoDB + Mopidy).
+# Run backend API and frontend with hot reload plus dependent services (Mopidy).
 #
 # By default runs in development mode with hot reload:
-#  - Starts (or reuses) mongodb + mopidy via docker compose
+#  - Starts (or reuses) mopidy via docker compose
 #  - Runs the frontend development server with hot reload on port 3000
 #  - Runs the backend with ts-node-dev (auto reload) on port 8080 (or $PORT)
 #
@@ -103,15 +103,15 @@ if $USE_DOCKER; then
     fi
   fi
 
-  # M1 note (avoid silent build failures for Mopidy / Mongo images)
+  # M1 note (avoid silent build failures for Mopidy images)
   if [[ "$(uname -m)" == "arm64" && -z "${DOCKER_DEFAULT_PLATFORM:-}" ]]; then
     warn "On Apple Silicon. If you run into image issues try: export DOCKER_DEFAULT_PLATFORM=linux/amd64"
   fi
 
-  log "Starting dependency containers (mongodb + mopidy)..."
-  $compose_cmd up -d mongodb mopidy
+  log "Starting dependency containers (mopidy)..."
+  $compose_cmd up -d mopidy
 else
-  warn "--no-docker specified: assuming mongodb + mopidy already running/available."
+  warn "--no-docker specified: assuming mopidy already running/available."
 fi
 
 PIDS=()
@@ -252,7 +252,7 @@ if $USE_PROD; then
 else
   log "  Backend:   http://localhost:${BACKEND_PORT} (development with hot reload)"
 fi
-log "  MongoDB:   mongodb://localhost:27017 (container) (db: kyan-jukebox) (if docker enabled)"
+
 log "  Mopidy:    http://localhost:6680 (if docker enabled)"
 log ""
 log "Logs are prefixed with [frontend] and [backend] to distinguish sources."

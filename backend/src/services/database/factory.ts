@@ -1,10 +1,5 @@
-import {
-  IDatabaseService,
-  DatabaseConfig,
-  MongoDBConfig,
-  SQLiteConfig
-} from './interfaces'
-import { MongoDBService } from './mongodb-service'
+import { IDatabaseService, SQLiteConfig } from './interfaces'
+
 import { SQLiteService } from './sqlite-service'
 import logger from '../../config/logger'
 
@@ -12,25 +7,16 @@ export class DatabaseFactory {
   private static instance: IDatabaseService | null = null
 
   /**
-   * Create a database service instance based on configuration
+   * Create a SQLite database service instance
    */
-  static create(config: DatabaseConfig): IDatabaseService {
-    switch (config.type) {
-      case 'mongodb':
-        return new MongoDBService(config as MongoDBConfig)
-
-      case 'sqlite':
-        return new SQLiteService(config as SQLiteConfig)
-
-      default:
-        throw new Error(`Unsupported database type: ${(config as any).type}`)
-    }
+  static create(config: SQLiteConfig): IDatabaseService {
+    return new SQLiteService(config)
   }
 
   /**
    * Get or create a singleton database service instance
    */
-  static getInstance(config?: DatabaseConfig): IDatabaseService {
+  static getInstance(config?: SQLiteConfig): IDatabaseService {
     if (!this.instance) {
       if (!config) {
         throw new Error('Database configuration required for first initialization')
@@ -48,42 +34,16 @@ export class DatabaseFactory {
   }
 
   /**
-   * Create configuration from environment variables
+   * Create SQLite configuration from environment variables
    */
-  static createConfigFromEnv(): DatabaseConfig {
-    const dbType = process.env.DB_TYPE || 'mongodb'
-
-    switch (dbType) {
-      case 'mongodb':
-        return {
-          type: 'mongodb',
-          connectionString:
-            process.env.MONGODB_URL || 'mongodb://localhost:27017/jukebox',
-          options: {
-            maxPoolSize: parseInt(process.env.MONGODB_MAX_POOL_SIZE || '10', 10)
-          }
-        } as MongoDBConfig
-
-      case 'sqlite':
-        return {
-          type: 'sqlite',
-          connectionString: process.env.SQLITE_PATH || './data/jukebox.db',
-          options: {
-            enableWAL: process.env.SQLITE_WAL === 'true',
-            timeout: parseInt(process.env.SQLITE_TIMEOUT || '30000', 10)
-          }
-        } as SQLiteConfig
-
-      default:
-        logger.warn(`Unknown DB_TYPE: ${dbType}, falling back to MongoDB`)
-        return {
-          type: 'mongodb',
-          connectionString:
-            process.env.MONGODB_URL || 'mongodb://localhost:27017/jukebox',
-          options: {
-            maxPoolSize: 10
-          }
-        } as MongoDBConfig
+  static createConfigFromEnv(): SQLiteConfig {
+    return {
+      type: 'sqlite',
+      connectionString: process.env.SQLITE_PATH || '',
+      options: {
+        enableWAL: process.env.SQLITE_WAL === 'true',
+        timeout: parseInt(process.env.SQLITE_TIMEOUT || '30000', 10)
+      }
     }
   }
 }
@@ -98,7 +58,7 @@ let dbService: IDatabaseService | null = null
  * Initialize the global database service
  */
 export async function initializeDatabase(
-  config?: DatabaseConfig
+  config?: SQLiteConfig
 ): Promise<IDatabaseService> {
   if (dbService) {
     logger.warn('Database service already initialized')

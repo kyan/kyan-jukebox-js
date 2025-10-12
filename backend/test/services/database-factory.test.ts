@@ -1,5 +1,5 @@
 import { DatabaseFactory } from '../../src/services/database/factory'
-import { SQLiteConfig, MongoDBConfig } from '../../src/services/database/interfaces'
+import { SQLiteConfig } from '../../src/services/database/interfaces'
 import { initializeSQLiteDatabase } from '../../src/services/database/sqlite/schema-runner'
 import path from 'path'
 import fs from 'fs'
@@ -134,55 +134,32 @@ describe('DatabaseFactory', () => {
       }
     })
 
-    test('should create MongoDB config from environment variables', () => {
-      // Set environment variables
-      const originalDbType = process.env.DB_TYPE
-      const originalMongoUrl = process.env.MONGODB_URL
-      const originalPoolSize = process.env.MONGODB_MAX_POOL_SIZE
+    test('should create SQLite config with default values', () => {
+      const originalSqlitePath = process.env.SQLITE_PATH
+      const originalSqliteWal = process.env.SQLITE_WAL
+      const originalSqliteTimeout = process.env.SQLITE_TIMEOUT
 
-      process.env.DB_TYPE = 'mongodb'
-      process.env.MONGODB_URL = 'mongodb://localhost:27017/test'
-      process.env.MONGODB_MAX_POOL_SIZE = '15'
+      // Clear environment variables to test defaults
+      delete process.env.SQLITE_PATH
+      delete process.env.SQLITE_WAL
+      delete process.env.SQLITE_TIMEOUT
 
       const config = DatabaseFactory.createConfigFromEnv()
 
-      expect(config.type).toBe('mongodb')
-      expect(config.connectionString).toBe('mongodb://localhost:27017/test')
-      expect((config as MongoDBConfig).options?.maxPoolSize).toBe(15)
+      expect(config.type).toBe('sqlite')
+      expect(config.connectionString).toBe('')
+      expect((config as SQLiteConfig).options?.enableWAL).toBe(false)
+      expect((config as SQLiteConfig).options?.timeout).toBe(30000)
 
       // Restore original environment variables
-      if (originalDbType !== undefined) {
-        process.env.DB_TYPE = originalDbType
-      } else {
-        delete process.env.DB_TYPE
+      if (originalSqlitePath !== undefined) {
+        process.env.SQLITE_PATH = originalSqlitePath
       }
-      if (originalMongoUrl !== undefined) {
-        process.env.MONGODB_URL = originalMongoUrl
-      } else {
-        delete process.env.MONGODB_URL
+      if (originalSqliteWal !== undefined) {
+        process.env.SQLITE_WAL = originalSqliteWal
       }
-      if (originalPoolSize !== undefined) {
-        process.env.MONGODB_MAX_POOL_SIZE = originalPoolSize
-      } else {
-        delete process.env.MONGODB_MAX_POOL_SIZE
-      }
-    })
-
-    test('should default to MongoDB when DB_TYPE is unknown', () => {
-      const originalDbType = process.env.DB_TYPE
-
-      process.env.DB_TYPE = 'unknown'
-
-      const config = DatabaseFactory.createConfigFromEnv()
-
-      expect(config.type).toBe('mongodb')
-      expect(config.connectionString).toBe('mongodb://localhost:27017/jukebox')
-
-      // Restore original environment variable
-      if (originalDbType !== undefined) {
-        process.env.DB_TYPE = originalDbType
-      } else {
-        delete process.env.DB_TYPE
+      if (originalSqliteTimeout !== undefined) {
+        process.env.SQLITE_TIMEOUT = originalSqliteTimeout
       }
     })
   })
@@ -231,15 +208,18 @@ describe('DatabaseFactory', () => {
   })
 
   describe('Error Handling', () => {
-    test('should throw error for unsupported database type', () => {
-      const invalidConfig = {
-        type: 'unsupported',
-        connectionString: 'test'
-      } as any
+    test('should create SQLite service for valid config', () => {
+      const config: SQLiteConfig = {
+        type: 'sqlite',
+        connectionString: testDbPath,
+        options: {
+          enableWAL: true,
+          timeout: 5000
+        }
+      }
 
-      expect(() => {
-        DatabaseFactory.create(invalidConfig)
-      }).toThrow('Unsupported database type: unsupported')
+      const service = DatabaseFactory.create(config)
+      expect(service).toBeDefined()
     })
   })
 })

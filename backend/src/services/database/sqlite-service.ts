@@ -455,6 +455,82 @@ class SQLiteTrackService implements ITrackService {
   }
 
   private convertRowToTrack(row: any): JBTrack {
+    const addedBy = row.added_by ? JSON.parse(row.added_by) : []
+
+    // Convert date strings back to Date objects and populate user info
+    const processedAddedBy = addedBy.map((entry: any) => {
+      let user = entry.user
+
+      // If user exists but has empty fullname, try to populate from users table
+      if (user && user._id && (!user.fullname || user.fullname === '')) {
+        try {
+          const userStmt = this.db.prepare('SELECT * FROM users WHERE id = ?')
+          const userRow = userStmt.get(user._id) as any
+
+          if (userRow) {
+            user = {
+              _id: userRow.id,
+              fullname: userRow.fullname,
+              email: userRow.email
+            }
+          }
+        } catch (error) {
+          logger.error('Failed to populate user data for track', {
+            userId: user._id,
+            error: error.message
+          })
+        }
+      }
+
+      return {
+        ...entry,
+        user,
+        addedAt: entry.addedAt ? new Date(entry.addedAt) : entry.addedAt,
+        played: entry.played
+          ? entry.played.map((p: any) => ({
+              ...p,
+              at: p.at ? new Date(p.at) : p.at
+            }))
+          : [],
+        votes: entry.votes
+          ? entry.votes.map((v: any) => {
+              let voteUser = v.user
+
+              // If vote user exists but has empty fullname, populate from users table
+              if (
+                voteUser &&
+                voteUser._id &&
+                (!voteUser.fullname || voteUser.fullname === '')
+              ) {
+                try {
+                  const userStmt = this.db.prepare('SELECT * FROM users WHERE id = ?')
+                  const userRow = userStmt.get(voteUser._id) as any
+
+                  if (userRow) {
+                    voteUser = {
+                      _id: userRow.id,
+                      fullname: userRow.fullname,
+                      email: userRow.email
+                    }
+                  }
+                } catch (error) {
+                  logger.error('Failed to populate vote user data for track', {
+                    userId: voteUser._id,
+                    error: error.message
+                  })
+                }
+              }
+
+              return {
+                ...v,
+                user: voteUser,
+                at: v.at ? new Date(v.at) : v.at
+              }
+            })
+          : []
+      }
+    })
+
     return {
       uri: row.uri,
       name: row.name,
@@ -463,7 +539,7 @@ class SQLiteTrackService implements ITrackService {
       image: row.image,
       album: row.album ? JSON.parse(row.album) : undefined,
       artist: row.artist ? JSON.parse(row.artist) : undefined,
-      addedBy: row.added_by ? JSON.parse(row.added_by) : [],
+      addedBy: processedAddedBy,
       metrics: row.metrics
         ? JSON.parse(row.metrics)
         : { plays: 0, votes: 0, votesTotal: 0, votesAverage: 0 },
