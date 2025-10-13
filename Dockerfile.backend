@@ -11,9 +11,11 @@ WORKDIR /app
 # Copy package files for dependency installation
 COPY package.json bun.lock ./
 COPY backend/package.json ./backend/
+COPY frontend/package.json ./frontend/
 
 # Install dependencies (including devDependencies for build)
-RUN bun install --frozen-lockfile
+# Use hoisted linker to avoid workspace isolation issues in Docker
+RUN bun install --frozen-lockfile --linker=hoisted
 
 # Copy all source code (root and backend)
 COPY ./backend ./backend/
@@ -47,16 +49,18 @@ WORKDIR /app
 COPY --from=build /app/package.json ./
 COPY --from=build /app/bun.lock ./
 COPY --from=build /app/backend/package.json ./backend/
+COPY --from=build /app/frontend/package.json ./frontend/
 
 # Install only production dependencies
-RUN bun install --frozen-lockfile --production && \
+# Use hoisted linker to avoid workspace isolation issues in Docker
+RUN bun install --frozen-lockfile --production --linker=hoisted && \
   bun pm cache rm
 
 # Copy built application
 COPY --from=build /app/backend/dist ./dist
 
 # Remove package files (not needed at runtime)
-RUN rm -f package.json bun.lock && rm -rf backend/
+RUN rm -f package.json bun.lock && rm -rf backend/ frontend/
 
 # Set runtime environment variables
 ENV NODE_ENV=$NODE_ENV

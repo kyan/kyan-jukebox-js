@@ -21,7 +21,8 @@ COPY package.json bun.lock ./
 COPY ./frontend/package.json ./frontend/
 
 # Install dependencies
-RUN bun install --frozen-lockfile
+# Use hoisted linker to avoid workspace isolation issues in Docker
+RUN bun install --frozen-lockfile --linker=hoisted
 
 # Copy frontend source and environment file
 COPY ./frontend ./frontend/
