@@ -1,6 +1,7 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
+  ignorePatterns: ['test.ts', 'babel.config.js'],
   parserOptions: {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
