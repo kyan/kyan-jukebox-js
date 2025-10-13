@@ -20,14 +20,13 @@ default:
 # Install dependencies and start development environment
 [group('setup')]
 setup:
-  yarn install --frozen-lockfile
+  bun install --frozen-lockfile
   just deps-start
 
 # Show current versions of tools and workspaces
 [group('setup')]
 version-info:
-  @echo "Node: $$(node -v)"
-  @echo "Yarn: $$(yarn -v)"
+  @echo "Bun: $$(bun -v)"
   @echo "Frontend: $$(jq -r .version frontend/package.json)"
   @echo "Backend:  $$(jq -r .version backend/package.json)"
 
@@ -48,22 +47,22 @@ prod:
 # Start only backend with hot reload
 [group('dev')]
 be-start:
-  yarn workspace {{BACKEND_WS}} start
+  bun --filter {{BACKEND_WS}} start
 
 # Start only frontend development server
 [group('dev')]
 fe-start:
-  yarn workspace {{FRONTEND_WS}} start
+  bun --filter {{FRONTEND_WS}} start
 
 # Run any frontend workspace command
 [group('dev')]
 fe TASK="start":
-  yarn workspace {{FRONTEND_WS}} {{TASK}}
+  bun --filter {{FRONTEND_WS}} {{TASK}}
 
 # Run any backend workspace command
 [group('dev')]
 be TASK="start":
-  yarn workspace {{BACKEND_WS}} {{TASK}}
+  bun --filter {{BACKEND_WS}} {{TASK}}
 
 # ===================================================================
 # BUILDING & TESTING
@@ -72,18 +71,18 @@ be TASK="start":
 # Build both frontend and backend for production
 [group('build')]
 build-all:
-  yarn workspace {{BACKEND_WS}} build
-  yarn workspace {{FRONTEND_WS}} build
+  bun --filter {{BACKEND_WS}} build
+  bun --filter {{FRONTEND_WS}} build
 
 # Build only frontend
 [group('build')]
 build-frontend:
-  yarn workspace {{FRONTEND_WS}} build
+  bun --filter {{FRONTEND_WS}} build
 
 # Build only backend
 [group('build')]
 build-backend:
-  yarn workspace {{BACKEND_WS}} build
+  bun --filter {{BACKEND_WS}} build
 
 # Clean all build artifacts and dependencies
 [group('build')]
@@ -93,29 +92,29 @@ clean:
 # Run all tests in CI mode
 [group('test')]
 test:
-  CI=true yarn workspace {{FRONTEND_WS}} test:ci
-  CI=true yarn workspace {{BACKEND_WS}} test:ci
+  CI=true bun --filter {{FRONTEND_WS}} test:ci
+  CI=true bun --filter {{BACKEND_WS}} test:ci
 
 # Run backend tests in watch mode
 [group('test')]
 test-watch:
-  yarn workspace {{BACKEND_WS}} test --watchAll
+  bun --filter {{BACKEND_WS}} test --watchAll
 
 # Lint and type-check all code
 [group('test')]
 check:
   @echo "Checking frontend..."
-  yarn workspace {{FRONTEND_WS}} validate
+  bun --filter {{FRONTEND_WS}} validate
   @echo "Checking backend..."
-  yarn workspace {{BACKEND_WS}} validate
+  bun --filter {{BACKEND_WS}} validate
 
 # Auto-fix linting and formatting issues
 [group('test')]
 fix:
   @echo "Fixing frontend..."
-  yarn workspace {{FRONTEND_WS}} fix
+  bun --filter {{FRONTEND_WS}} fix
   @echo "Fixing backend..."
-  yarn workspace {{BACKEND_WS}} fix
+  bun --filter {{BACKEND_WS}} fix
 
 # Quick pre-push validation (lint + test)
 [group('test')]
