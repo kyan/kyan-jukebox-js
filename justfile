@@ -26,9 +26,9 @@ setup:
 # Show current versions of tools and workspaces
 [group('setup')]
 version-info:
-  @echo "Bun: $$(bun -v)"
-  @echo "Frontend: $$(jq -r .version frontend/package.json)"
-  @echo "Backend:  $$(jq -r .version backend/package.json)"
+  @echo "Bun: `bun --version`"
+  @echo "Frontend: `jq -r .version frontend/package.json`"
+  @echo "Backend:  `jq -r .version backend/package.json`"
 
 # ===================================================================
 # DEVELOPMENT

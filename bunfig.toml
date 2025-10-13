@@ -5,9 +5,6 @@
 # Link workspace packages for faster development
 linkWorkspacePackages = true
 
-# Enable caching for faster installs
-cache = true
-
 # Use npm registry (default, but explicit for clarity)
 registry = "https://registry.npmjs.org/"
 
@@ -46,20 +43,12 @@ disable = false
 save = true
 
 [test]
-# Test configuration for the workspace
-# Preload setup files for testing
-preload = []
-
 # Coverage configuration
 coverageDir = "coverage"
 coverageSkipTestFiles = true
 
 # Rerun each test once (0 = run once, increase for flaky test detection)
 rerunEach = 0
-
-[loader]
-# Custom loader configurations if needed
-# Example: ".custom" = "tsx"
 
 [define]
 # Environment variable replacements

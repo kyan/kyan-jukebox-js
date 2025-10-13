@@ -94,9 +94,9 @@ try {
     },
     external: [],
     naming: {
-      entry: isDev ? '[name]' : '[name].[hash]',
-      chunk: isDev ? '[name]' : '[name].[hash]',
-      asset: isDev ? '[name]' : '[name].[hash]'
+      entry: 'main.[hash]',
+      chunk: '[name].[hash]',
+      asset: '[name].[hash]'
     },
     plugins: [],
     drop: isDev ? [] : ['console', 'debugger']
