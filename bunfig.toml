@@ -29,13 +29,12 @@ linker = "hoisted"
 # Maximum concurrent scripts for performance
 concurrentScripts = 8
 
-# Global install directories
-globalDir = "~/.bun/install/global"
-globalBinDir = "~/.bun/bin"
+# Let Bun use default global install directories
+# globalDir and globalBinDir will use system defaults
 
 [install.cache]
-# Cache directory for faster subsequent installs
-dir = "~/.bun/install/cache"
+# Cache directory - use Bun's default location
+# dir will use system default
 disable = false
 
 [install.lockfile]
