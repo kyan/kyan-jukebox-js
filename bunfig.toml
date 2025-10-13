@@ -1,0 +1,74 @@
+# Bun configuration for Kyan Jukebox monorepo
+# This file configures Bun's behavior for the workspace setup
+
+[install]
+# Link workspace packages for faster development
+linkWorkspacePackages = true
+
+# Enable caching for faster installs
+cache = true
+
+# Use npm registry (default, but explicit for clarity)
+registry = "https://registry.npmjs.org/"
+
+# Install dev dependencies by default
+dev = true
+
+# Install optional dependencies
+optional = true
+
+# Install peer dependencies
+peer = true
+
+# Production mode disabled for development
+production = false
+
+# Save lockfile changes
+frozenLockfile = false
+
+# Use hoisted linking strategy for better compatibility
+linker = "hoisted"
+
+# Maximum concurrent scripts for performance
+concurrentScripts = 8
+
+# Global install directories
+globalDir = "~/.bun/install/global"
+globalBinDir = "~/.bun/bin"
+
+[install.cache]
+# Cache directory for faster subsequent installs
+dir = "~/.bun/install/cache"
+disable = false
+
+[install.lockfile]
+# Save lockfile to disk
+save = true
+
+[test]
+# Test configuration for the workspace
+# Preload setup files for testing
+preload = []
+
+# Coverage configuration
+coverageDir = "coverage"
+coverageSkipTestFiles = true
+
+# Rerun each test once (0 = run once, increase for flaky test detection)
+rerunEach = 0
+
+[loader]
+# Custom loader configurations if needed
+# Example: ".custom" = "tsx"
+
+[define]
+# Environment variable replacements
+# These will be replaced at build time
+"process.env.NODE_ENV" = "\"development\""
+
+# JSX configuration (can also be in tsconfig.json)
+jsx = "react-jsx"
+jsxImportSource = "react"
+
+# Runtime preload scripts (register plugins here)
+preload = []
