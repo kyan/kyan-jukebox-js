@@ -134,7 +134,7 @@ To push out a new release of the [FE](frontend/) you first need just need to run
 ```
 $ ./scripts/deploy-frontend.sh
 ```
-This will create a `build` directory in your local `frontend` folder and then push it to Github (where the frontend is hosted). You may have to wait a min for things to propergate, but you should now have pushed a new release. You can check at https://github.com/kyan/jukebox-js/tree/gh-pages. There are ENVs you can update in the deploy scripts if you need to customise.
+This will create a `build` directory in your local `frontend` folder with the production-ready static files. The built application can then be deployed to any static hosting service or served directly from your server infrastructure.
 
 ### Api
 

@@ -11,6 +11,10 @@ registry = "https://registry.npmjs.org/"
 # Install dev dependencies by default
 dev = true
 
+# Security configuration
+# Require packages to be published for at least 1 week before installation
+minimumReleaseAge = 604800 # 7 days in seconds
+
 # Install optional dependencies
 optional = true
 
@@ -31,6 +35,10 @@ concurrentScripts = 8
 
 # Let Bun use default global install directories
 # globalDir and globalBinDir will use system defaults
+
+[install.security]
+# Configure security scanner (uncomment to enable)
+# scanner = "@socketsecurity/bun-security-scanner"
 
 [install.cache]
 # Cache directory - use Bun's default location

@@ -29,6 +29,16 @@ jobs:
         run: |
           bun install --frozen-lockfile
 
+      - name: Security audit
+        run: |
+          bun audit
+        continue-on-error: true
+
+      - name: Check outdated dependencies
+        run: |
+          bun outdated --recursive
+        continue-on-error: true
+
       - name: Test frontend
         run: |
           bun --filter @jukebox/frontend build
@@ -49,3 +59,8 @@ jobs:
           CLIENT_ID: abcdefg
           EXPLICIT_CONTENT: true
           SPOTIFY_NEW_TRACKS_ADDED_LIMIT: 3
+
+      - name: Validate workspace dependencies
+        run: |
+          bun install --analyze
+        continue-on-error: true
