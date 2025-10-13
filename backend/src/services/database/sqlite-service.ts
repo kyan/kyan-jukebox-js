@@ -9,7 +9,7 @@ import {
   QueryOptions
 } from './interfaces'
 import { JBUser, JBTrack, JBAddedBy } from '../../types/database'
-import Database from 'better-sqlite3'
+import { Database } from 'bun:sqlite'
 import logger from '../../config/logger'
 import VotingHelper from '../../utils/voting'
 import Mopidy from 'mopidy'
@@ -18,7 +18,7 @@ import fs from 'fs'
 import { JBPlayed, JBVotes } from '../../types/database'
 
 class SQLiteUserService implements IUserService {
-  constructor(private db: Database.Database) {}
+  constructor(private db: Database) {}
 
   async findById(id: string): Promise<JBUser | null> {
     try {
@@ -151,7 +151,7 @@ class SQLiteUserService implements IUserService {
 }
 
 class SQLiteTrackService implements ITrackService {
-  constructor(private db: Database.Database) {}
+  constructor(private db: Database) {}
 
   async findByUri(uri: string): Promise<JBTrack | null> {
     try {
@@ -550,7 +550,7 @@ class SQLiteTrackService implements ITrackService {
 }
 
 class SQLiteSettingService implements ISettingService {
-  constructor(private db: Database.Database) {}
+  constructor(private db: Database) {}
 
   private readonly stateKey = 'state'
   private readonly HOW_MANY_PREVIOUS_TRACKS_IN_PLAYLIST = 4 as const
@@ -822,7 +822,7 @@ class SQLiteSettingService implements ISettingService {
 }
 
 class SQLiteEventService implements IEventService {
-  constructor(private db: Database.Database) {}
+  constructor(private db: Database) {}
 
   async create(eventData: { user: string; key: string; payload: any }): Promise<void> {
     try {
@@ -968,7 +968,7 @@ class SQLiteEventService implements IEventService {
 }
 
 class SQLiteImageService implements IImageService {
-  constructor(private db: Database.Database) {}
+  constructor(private db: Database) {}
 
   async findByUri(
     uri: string
@@ -1095,7 +1095,7 @@ export class SQLiteService implements IDatabaseService {
   public images: IImageService
 
   private config: SQLiteConfig
-  private db: Database.Database | null = null
+  private db: Database | null = null
   private connected: boolean = false
 
   constructor(config: SQLiteConfig) {
@@ -1190,16 +1190,16 @@ export class SQLiteService implements IDatabaseService {
     if (!this.db) return
 
     // Enable foreign keys
-    this.db.pragma('foreign_keys = ON')
+    this.db.exec('PRAGMA foreign_keys = ON')
 
     // Configure performance settings based on config
     if (this.config.options?.enableWAL) {
-      this.db.pragma('journal_mode = WAL')
+      this.db.exec('PRAGMA journal_mode = WAL')
     }
 
-    this.db.pragma('synchronous = NORMAL')
-    this.db.pragma('cache_size = 10000')
-    this.db.pragma('temp_store = memory')
+    this.db.exec('PRAGMA synchronous = NORMAL')
+    this.db.exec('PRAGMA cache_size = 10000')
+    this.db.exec('PRAGMA temp_store = memory')
 
     // Set timeout if specified
     if (this.config.options?.timeout) {

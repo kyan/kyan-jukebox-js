@@ -12,7 +12,6 @@
       "version": "0.1.0",
       "dependencies": {
         "@types/inquirer": "^9.0.9",
-        "better-sqlite3": "^12.4.1",
         "body-parser": "^1.20.2",
         "dotenv": "catalog:",
         "invariant": "^2.2.4",
@@ -26,7 +25,6 @@
         "uuid": "^9.0.1",
       },
       "devDependencies": {
-        "@types/better-sqlite3": "^7.6.13",
         "@types/body-parser": "^1.19.5",
         "@types/invariant": "^2.2.37",
         "@types/jest": "catalog:",
