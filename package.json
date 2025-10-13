@@ -11,8 +11,14 @@
     "frontend",
     "backend"
   ],
+  "trustedDependencies": [
+    "better-sqlite3"
+  ],
   "scripts": {
-    "test:frontend": "yarn workspace @jukebox/frontend test:ci",
-    "test:backend": "yarn workspace @jukebox/backend test:ci"
+    "test:frontend": "bun run --filter @jukebox/frontend test:ci",
+    "test:backend": "bun run --filter @jukebox/backend test:ci",
+    "test": "bun run --workspaces test:ci",
+    "build": "bun run --workspaces build",
+    "dev": "bun run --workspaces start"
   }
 }
