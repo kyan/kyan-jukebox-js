@@ -5,17 +5,19 @@
   "private": true,
   "scripts": {
     "deploy": "gh-pages -d build",
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "start": "bun dev-server.ts",
+    "start:webpack": "node scripts/start.js",
+    "build": "bun build.ts",
+    "build:webpack": "node scripts/build.js",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx}\"",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx",
     "lint:fix": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
     "type-check": "tsc --noEmit",
-    "validate": "yarn format:check && yarn type-check && yarn lint",
-    "fix": "yarn format && yarn lint:fix",
-    "test": "yarn validate && node scripts/test.js --forceExit --detectOpenHandles --maxWorkers=1 --watchAll=false",
-    "test:ci": "yarn validate && node scripts/test.js --forceExit --detectOpenHandles --maxWorkers=1 --silent --watchAll=false"
+    "validate": "bun run format:check && bun run type-check && bun run lint",
+    "fix": "bun run format && bun run lint:fix",
+    "test": "bun run validate && node scripts/test.js --forceExit --detectOpenHandles --maxWorkers=1 --watchAll=false",
+    "test:ci": "bun run validate && node scripts/test.js --forceExit --detectOpenHandles --maxWorkers=1 --silent --watchAll=false"
   },
   "dependencies": {
     "@babel/core": "^7.16.0",
@@ -99,7 +101,7 @@
     "jest-environment-jsdom": "^30.2.0",
     "prettier": "^3.1.1",
     "redux-mock-store": "^1.5.3",
-    "sass": "^1.51.0",
+    "sass": "^1.93.2",
     "typescript": "^4.9.5"
   },
   "jest": {

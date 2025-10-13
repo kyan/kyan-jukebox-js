@@ -135,11 +135,14 @@
         "jest-environment-jsdom": "^30.2.0",
         "prettier": "^3.1.1",
         "redux-mock-store": "^1.5.3",
-        "sass": "^1.51.0",
+        "sass": "^1.93.2",
         "typescript": "^4.9.5",
       },
     },
   },
+  "trustedDependencies": [
+    "better-sqlite3",
+  ],
   "packages": {
     "@adobe/css-tools": ["@adobe/css-tools@4.4.4", "", {}, "sha512-Elp+iwUx5rN5+Y8xLt5/GRoG20WGoDCQ/1Fb+1LiGtvwbDavuSk0jhD/eZdckHAuzcDzccnkv+rEjyWfRx18gg=="],
 
