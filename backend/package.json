@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "build:bun": "bun build src/index.ts --outdir dist --target node",
-    "start": "bun --watch --env-file=../.env src/index.ts",
+    "start": "bun --watch --env-file=./.env src/index.ts",
     "start:prod": "bun dist/index.js",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "@types/inquirer": "^9.0.9",
-    "better-sqlite3": "^12.4.1",
     "body-parser": "^1.20.2",
     "dotenv": "catalog:",
     "invariant": "^2.2.4",
@@ -40,7 +39,6 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
     "@types/body-parser": "^1.19.5",
     "@types/invariant": "^2.2.37",
     "@types/jest": "catalog:",
