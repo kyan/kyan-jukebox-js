@@ -13,8 +13,10 @@
     "type-check": "tsc --noEmit",
     "validate": "bun run format:check && bun run type-check && bun run lint",
     "fix": "bun run format && bun run lint:fix",
-    "test": "bun test.ts",
-    "test:ci": "bun test.ts --silent --watchAll=false"
+    "test": "bun test --bail --preload ./happydom.ts --preload ./src/setupTests-bun.ts",
+    "test:ci": "bun test --bail --preload ./happydom.ts --preload ./src/setupTests-bun.ts",
+    "test:debug": "bun test --preload ./happydom.ts --preload ./src/setupTests-bun.ts",
+    "test:dom": "bun test --preload ./happydom.ts --preload ./src/setupTests-bun.ts"
   },
   "dependencies": {
     "browserslist": "^4.18.1",
@@ -43,107 +45,29 @@
     "@babel/preset-env": "^7.28.3",
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
+    "@happy-dom/global-registrator": "^19.0.2",
     "@testing-library/dom": "^10.0.0",
-    "@testing-library/jest-dom": "^5.11.2",
+    "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "catalog:",
+    "@types/bun": "^1.2.23",
+    "@types/jsdom": "^27.0.0",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@types/react-redux": "^7.1.0",
     "@types/redux-mock-store": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "catalog:",
     "@typescript-eslint/parser": "catalog:",
-    "babel-jest": "^30.2.0",
     "eslint": "catalog:",
     "eslint-config-prettier": "catalog:",
     "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jest": "^27.6.1",
     "eslint-plugin-prettier": "catalog:",
     "eslint-plugin-react": "^7.20.5",
-    "jest": "catalog:",
-    "jest-environment-jsdom": "catalog:",
-    "jest-transform-stub": "^2.0.0",
+    "jsdom": "^27.0.0",
     "prettier": "catalog:",
     "redux-mock-store": "^1.5.3",
     "sass": "^1.93.2",
-    "ts-jest": "^29.4.4",
     "typescript": "^5.9.3"
-  },
-  "jest": {
-    "preset": "ts-jest/presets/default-esm",
-    "extensionsToTreatAsEsm": [
-      ".ts",
-      ".tsx"
-    ],
-    "globals": {
-      "ts-jest": {
-        "useESM": true,
-        "tsconfig": {
-          "jsx": "react-jsx"
-        }
-      }
-    },
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "collectCoverageFrom": [
-      "!<rootDir>/build/**",
-      "!src/index.tsx",
-      "!src/index-bun.tsx",
-      "!src/react-app-env.d.ts",
-      "!src/constants/*.js",
-      "!src/**/constants.js",
-      "!src/**/constants.ts",
-      "!src/components/error-boundary/*.js",
-      "!src/search/components/draggable-search-item/*.tsx",
-      "src/**/*.{ts,tsx,js,jsx}"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.js"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
-    ],
-    "testEnvironment": "jsdom",
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
-      "^.+\\.(css|sass|scss)$": "identity-obj-proxy",
-      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "jest-transform-stub",
-      "^actions$": "<rootDir>/src/actions",
-      "^dashboard$": "<rootDir>/src/dashboard",
-      "^search$": "<rootDir>/src/search",
-      "^reducers$": "<rootDir>/src/reducers",
-      "^components/(.*)$": "<rootDir>/src/components/$1",
-      "^constants/(.*)$": "<rootDir>/src/constants/$1",
-      "^utils/(.*)$": "<rootDir>/src/utils/$1",
-      "^search/(.*)$": "<rootDir>/src/search/$1",
-      "^votes/(.*)$": "<rootDir>/src/votes/$1",
-      "^containers/(.*)$": "<rootDir>/src/containers/$1",
-      "^hooks/(.*)$": "<rootDir>/src/hooks/$1",
-      "^middleware/(.*)$": "<rootDir>/src/middleware/$1",
-      "^reducers/(.*)$": "<rootDir>/src/reducers/$1",
-      "^__mockData__/(.*)$": "<rootDir>/src/__mockData__/$1"
-    },
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "ts",
-      "tsx",
-      "json"
-    ],
-    "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest",
-      "^.+\\.(js|jsx)$": "babel-jest"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!(.*\\.mjs$))"
-    ],
-    "resetMocks": true,
-    "restoreMocks": true,
-    "clearMocks": true
   },
   "browserslist": [
     ">0.2%",

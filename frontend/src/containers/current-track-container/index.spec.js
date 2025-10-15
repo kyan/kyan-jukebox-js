@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach } from 'bun:test'
 import React from 'react'
 import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
@@ -8,7 +9,7 @@ describe('CurrentTrackContainer', () => {
   const mockStore = configureMockStore()
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    // Bun mocks are cleared automatically between tests
   })
 
   describe('render the connected app', () => {

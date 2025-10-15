@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, mock } from 'bun:test'
 import React from 'react'
 import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
@@ -5,20 +6,20 @@ import configureMockStore from 'redux-mock-store'
 import Dashboard from './index'
 
 describe('Dashboard', () => {
-  const onPlayMock = jest.fn().mockName('onPlayMock')
-  const onStopMock = jest.fn().mockName('onStopMock')
-  const onPauseMock = jest.fn().mockName('onPauseMock')
-  const onNextMock = jest.fn().mockName('onNextMock')
-  const onPreviousMock = jest.fn().mockName('onPreviousMock')
-  const onVolumeChangeMock = jest.fn().mockName('onVolumeChangeMock')
+  const onPlayMock = mock(() => {}).mockName('onPlayMock')
+  const onStopMock = mock(() => {}).mockName('onStopMock')
+  const onPauseMock = mock(() => {}).mockName('onPauseMock')
+  const onNextMock = mock(() => {}).mockName('onNextMock')
+  const onPreviousMock = mock(() => {}).mockName('onPreviousMock')
+  const onVolumeChangeMock = mock(() => {}).mockName('onVolumeChangeMock')
 
-  const onTracklistClearMock = jest.fn().mockName('onTracklistClearMock')
-  const onRemoveTrackMock = jest.fn().mockName('onRemoveTrackMock')
-  const onArtistSearch = jest.fn().mockName('onArtistSearch')
-  const onSearchClickMock = jest.fn().mockName('onSearchClickMock')
+  const onTracklistClearMock = mock(() => {}).mockName('onTracklistClearMock')
+  const onRemoveTrackMock = mock(() => {}).mockName('onRemoveTrackMock')
+  const onArtistSearch = mock(() => {}).mockName('onArtistSearch')
+  const onSearchClickMock = mock(() => {}).mockName('onSearchClickMock')
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    // Bun mocks are cleared automatically between tests
   })
 
   describe('render', () => {
