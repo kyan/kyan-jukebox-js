@@ -1,8 +1,9 @@
 import * as actions from './index'
 import Search from 'search/constants'
+import { describe, it, expect } from 'bun:test'
 
 describe('actions', () => {
-  test('TOGGLE_SEARCH_SIDEBAR', () => {
+  it('TOGGLE_SEARCH_SIDEBAR', () => {
     const expectedAction = {
       type: Search.TOGGLE_SEARCH_SIDEBAR,
       open: true
@@ -10,7 +11,7 @@ describe('actions', () => {
     expect(actions.toggleSearchSidebar(true)).toEqual(expectedAction)
   })
 
-  test('STORE_SEARCH_RESULTS', () => {
+  it('STORE_SEARCH_RESULTS', () => {
     const expectedAction = {
       type: Search.STORE_SEARCH_RESULTS,
       results: ['results']
@@ -18,7 +19,7 @@ describe('actions', () => {
     expect(actions.storeSearchResults(['results'])).toEqual(expectedAction)
   })
 
-  test('STORE_SEARCH_QUERY', () => {
+  it('STORE_SEARCH_QUERY', () => {
     const expectedAction = {
       type: Search.STORE_SEARCH_QUERY,
       query: 'uri'
@@ -26,7 +27,7 @@ describe('actions', () => {
     expect(actions.storeSearchQuery('uri')).toEqual(expectedAction)
   })
 
-  test('SEARCH_GET_TRACKS', () => {
+  it('SEARCH_GET_TRACKS', () => {
     const options = { options: 'options' }
     const expectedAction = {
       type: Search.SEARCH,
@@ -39,7 +40,7 @@ describe('actions', () => {
     expect(actions.search('query', options)).toEqual(expectedAction)
   })
 
-  test('REMOVE_FROM_SEARCH_RESULTS', () => {
+  it('REMOVE_FROM_SEARCH_RESULTS', () => {
     const expectedAction = {
       type: Search.REMOVE_FROM_SEARCH_RESULTS,
       uris: ['uri']
@@ -47,7 +48,7 @@ describe('actions', () => {
     expect(actions.removeFromSearchResults(['uri'])).toEqual(expectedAction)
   })
 
-  test('ADD_TRACK_TO_MIX', () => {
+  it('ADD_TRACK_TO_MIX', () => {
     const expectedAction = {
       type: Search.ADD_TRACK_TO_MIX,
       track: 'track'
@@ -55,7 +56,7 @@ describe('actions', () => {
     expect(actions.addTrackToMix('track')).toEqual(expectedAction)
   })
 
-  test('REMOVE_TRACK_FROM_MIX', () => {
+  it('REMOVE_TRACK_FROM_MIX', () => {
     const expectedAction = {
       type: Search.REMOVE_TRACK_FROM_MIX,
       uri: 'uri1'
@@ -63,7 +64,7 @@ describe('actions', () => {
     expect(actions.removeFromMix('uri1')).toEqual(expectedAction)
   })
 
-  test('SWAP_TRACKS', () => {
+  it('SWAP_TRACKS', () => {
     const expectedAction = {
       type: Search.SWAP_TRACKS,
       a: 1,
@@ -72,7 +73,7 @@ describe('actions', () => {
     expect(actions.swapTracks(1, 3)).toEqual(expectedAction)
   })
 
-  test('CLEAR_MIX', () => {
+  it('CLEAR_MIX', () => {
     const expectedAction = {
       type: Search.CLEAR_MIX
     }

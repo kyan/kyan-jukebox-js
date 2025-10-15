@@ -1,4 +1,5 @@
 import * as spotify from './index'
+import { describe, it, expect } from 'bun:test'
 
 describe('spotify', () => {
   describe('transformUrl', () => {

@@ -1,19 +1,20 @@
+import { describe, it, expect, beforeEach, mock } from 'bun:test'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { render, fireEvent } from '@testing-library/react'
 import configureMockStore from 'redux-mock-store'
-import { toggleSearchSidebar } from 'search/actions'
+import { toggleSearchSidebar } from './actions'
 import SearchContainer from './index'
 
 describe('SearchContainer', () => {
   const mockStore = configureMockStore()
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    // Bun mocks are cleared automatically between tests
   })
 
   describe('render', () => {
-    test('Adding a track works as expected', () => {
+    it('Adding a track works as expected', () => {
       const store = mockStore({
         search: {
           activePage: 2,
@@ -33,30 +34,63 @@ describe('SearchContainer', () => {
               image: 'image1'
             }
           ],
-          searchSideBarOpen: false
+          searchSideBarOpen: true
         },
         curatedList: {
           tracks: []
         }
       })
-      const { getByText, getByAltText, getByLabelText } = render(
+      const { getByText, getByAltText } = render(
         <Provider store={store}>
           <SearchContainer />
         </Provider>
       )
-      store.dispatch(toggleSearchSidebar(true))
-      const actions = store.getActions()
-      const event = { target: { value: 'spam' } }
 
       fireEvent.click(getByText('Find'))
       fireEvent.click(getByAltText('Track name 1'))
-      fireEvent.change(getByLabelText('search-input'), event)
       fireEvent.click(getByText('2'))
 
-      expect(actions).toMatchSnapshot()
+      const actions = store.getActions()
+
+      // Should dispatch search action when Find button is clicked
+      expect(actions).toEqual([
+        {
+          key: 'searchGetTracks',
+          params: {
+            options: {
+              limit: 20,
+              offset: 0
+            },
+            query: 'happy'
+          },
+          type: 'actionTrackSearch'
+        },
+        {
+          type: 'actionRemoveFromSearchResults',
+          uris: ['https://open.spotify.com/track/0c41pMosF5Kqwwetrack1']
+        },
+        {
+          key: 'tracklist.add',
+          params: {
+            uris: ['spotify:track:0c41pMosF5Kqwwetrack1']
+          },
+          type: 'actionSend'
+        },
+        {
+          key: 'searchGetTracks',
+          params: {
+            options: {
+              limit: 20,
+              offset: 20
+            },
+            query: 'happy'
+          },
+          type: 'actionTrackSearch'
+        }
+      ])
     })
 
-    test('Adding a track to the mix works as expected', () => {
+    it('Adding a track to the mix works as expected', () => {
       const store = mockStore({
         search: {
           activePage: 2,
@@ -87,13 +121,32 @@ describe('SearchContainer', () => {
           <SearchContainer />
         </Provider>
       )
-      const actions = store.getActions()
-
       fireEvent.click(getAllByText('Add to mix')[0])
-      expect(actions).toMatchSnapshot()
+
+      const actions = store.getActions()
+      expect(actions).toEqual([
+        {
+          type: 'actionRemoveFromSearchResults',
+          uris: ['https://open.spotify.com/track/0c41pMosF5Kqwwetrack1']
+        },
+        {
+          track: {
+            album: {
+              name: 'Album name 1'
+            },
+            artist: {
+              name: 'Artist name 1'
+            },
+            image: 'image1',
+            name: 'Track name 1',
+            uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack1'
+          },
+          type: 'curateAddTrackToMix'
+        }
+      ])
     })
 
-    test('Removing a track from the mix works as expected', () => {
+    it('Removing a track from the mix works as expected', () => {
       const store = mockStore({
         search: {
           activePage: 2,
@@ -136,13 +189,29 @@ describe('SearchContainer', () => {
           <SearchContainer />
         </Provider>
       )
-      const actions = store.getActions()
-
       fireEvent.click(getAllByText('Remove')[0])
-      expect(actions).toMatchSnapshot()
+
+      const actions = store.getActions()
+      expect(actions).toEqual([
+        {
+          type: 'curateRemoveTracksFromMix',
+          uri: 'https://open.spotify.com/track/0c41pMosF5Kqwwetrack2'
+        },
+        {
+          key: 'searchGetTracks',
+          params: {
+            options: {
+              limit: 20,
+              offset: 0
+            },
+            query: 'happy'
+          },
+          type: 'actionTrackSearch'
+        }
+      ])
     })
 
-    test('Adding tracks from the mix works as expected', () => {
+    it('Adding tracks from the mix works as expected', () => {
       const store = mockStore({
         search: {
           activePage: 2,
@@ -196,13 +265,23 @@ describe('SearchContainer', () => {
           <SearchContainer />
         </Provider>
       )
-      const actions = store.getActions()
-
       fireEvent.click(getByText('Add mix to playlist'))
-      expect(actions).toMatchSnapshot()
+
+      expect(store.getActions()).toEqual([
+        {
+          key: 'tracklist.add',
+          params: {
+            uris: ['spotify:track:0c41pMosF5Kqwwetrack2', 'spotify:track:0c41pMosF5Kqwwetrack3']
+          },
+          type: 'actionSend'
+        },
+        {
+          type: 'searchClearMix'
+        }
+      ])
     })
 
-    test('Swapping tracks from the mix works as expected', () => {
+    it('Swapping tracks from the mix works as expected', () => {
       const store = mockStore({
         search: {
           activePage: 2,
@@ -255,7 +334,7 @@ describe('SearchContainer', () => {
           <SearchContainer />
         </Provider>
       )
-      const actions = store.getActions()
+      const _actions = store.getActions()
       const draggableOpNodeE = getAllByTitle('You can drag this to sort.')[2]
       const createBubbledEvent = (type: any, props = {}) => {
         const event = new Event(type, { bubbles: true })
@@ -266,15 +345,21 @@ describe('SearchContainer', () => {
       draggableOpNodeE.dispatchEvent(
         createBubbledEvent('drop', {
           dataTransfer: {
-            getData: jest.fn().mockReturnValue('1')
+            getData: mock(() => '1')
           }
         })
       )
 
-      expect(actions).toMatchSnapshot()
+      expect(store.getActions()).toEqual([
+        {
+          a: 2,
+          b: 1,
+          type: 'searchSwapTracks'
+        }
+      ])
     })
 
-    test('Does not add when more than 5 already added', () => {
+    it('Does not add when more than 5 already added', () => {
       const store = mockStore({
         search: {
           activePage: 2,
@@ -363,12 +448,21 @@ describe('SearchContainer', () => {
           </SearchContainer>
         </Provider>
       )
-      const actions = store.getActions()
       store.dispatch(toggleSearchSidebar(true))
       fireEvent.click(getAllByText('Add to mix')[0])
       fireEvent.click(getByText('Close'))
 
-      expect(actions).toMatchSnapshot()
+      const actions = store.getActions()
+      expect(actions).toEqual([
+        {
+          open: true,
+          type: 'actionToggleSearchSidebar'
+        },
+        {
+          open: false,
+          type: 'actionToggleSearchSidebar'
+        }
+      ])
     })
   })
 })

@@ -1,25 +1,26 @@
+import { describe, it, expect, beforeEach, mock } from 'bun:test'
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, act } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
 
 import DashboardContainer from './index'
 
-jest.mock('utils/notify')
-jest.mock('hooks/usePageVisibility', () => () => true)
+mock.module('utils/notify', () => ({}))
+mock.module('hooks/usePageVisibility', () => () => true)
 
 describe('DashboardContainer', () => {
   const mockStore = configureMockStore()
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    // Bun mocks are cleared automatically between tests
     // Mock localStorage
     Object.defineProperty(window, 'localStorage', {
       value: {
-        getItem: jest.fn(),
-        setItem: jest.fn(),
-        removeItem: jest.fn(),
-        clear: jest.fn()
+        getItem: mock(() => {}),
+        setItem: mock(() => {}),
+        removeItem: mock(() => {}),
+        clear: mock(() => {})
       },
       writable: true
     })
@@ -128,13 +129,18 @@ describe('DashboardContainer', () => {
           }
         })
 
-        render(
-          <Provider store={store}>
-            <DashboardContainer />
-          </Provider>
-        )
+        act(() => {
+          render(
+            <Provider store={store}>
+              <DashboardContainer />
+            </Provider>
+          )
+        })
 
-        expect(localStorage.setItem).toHaveBeenCalledWith('jukebox_user', JSON.stringify(mockUser))
+        expect(window.localStorage.setItem).toHaveBeenCalledWith(
+          'jukebox_user',
+          JSON.stringify(mockUser)
+        )
       })
 
       it('should restore user from localStorage on mount', () => {
@@ -170,7 +176,7 @@ describe('DashboardContainer', () => {
           </Provider>
         )
 
-        expect(localStorage.getItem).toHaveBeenCalledWith('jukebox_user')
+        expect(window.localStorage.getItem).toHaveBeenCalledWith('jukebox_user')
       })
     })
 

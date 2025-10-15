@@ -34,7 +34,7 @@ export const DashboardContainer = () => {
     } else if (isSignedIn) {
       // User successfully signed in, store in localStorage and close modal
       if (settings.user) {
-        localStorage.setItem('jukebox_user', JSON.stringify(settings.user))
+        window.localStorage.setItem('jukebox_user', JSON.stringify(settings.user))
         setShowLoginModal(false)
         // Clear any auth errors on successful login
         dispatch(actions.setAuthError(null))
@@ -58,7 +58,7 @@ export const DashboardContainer = () => {
   )
 
   const handleSignOut = useCallback(() => {
-    localStorage.removeItem('jukebox_user')
+    window.localStorage.removeItem('jukebox_user')
     dispatch(actions.clearUser())
     dispatch(actions.setAuthError(null))
     setShowLoginModal(true)
@@ -66,13 +66,13 @@ export const DashboardContainer = () => {
 
   // Try to restore user from localStorage on mount
   useEffect(() => {
-    const storedUser = localStorage.getItem('jukebox_user')
+    const storedUser = window.localStorage.getItem('jukebox_user')
     if (storedUser) {
       try {
         const userData = JSON.parse(storedUser)
         dispatch(actions.updateUser(userData.email, userData))
       } catch (error) {
-        localStorage.removeItem('jukebox_user')
+        window.localStorage.removeItem('jukebox_user')
       }
     }
   }, [dispatch])

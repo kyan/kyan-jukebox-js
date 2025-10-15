@@ -1,21 +1,26 @@
+import { describe, it, expect, beforeEach, afterEach, mock } from 'bun:test'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { render, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import configureMockStore from 'redux-mock-store'
-import MopidyApi from 'constants/mopidy-api'
+import MopidyApi from '../../constants/mopidy-api'
 import Controls from './index'
 
 describe('Controls', () => {
-  const onPlayMock = jest.fn()
-  const onPauseMock = jest.fn()
-  const onPrevMock = jest.fn()
-  const onNextMock = jest.fn()
+  const onPlayMock = mock(() => {})
+  const onPauseMock = mock(() => {})
+  const onPrevMock = mock(() => {})
+  const onNextMock = mock(() => {})
 
   const mockStore = configureMockStore()
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    // Reset mock calls for Bun
+    onPlayMock.mockRestore()
+    onPauseMock.mockRestore()
+    onPrevMock.mockRestore()
+    onNextMock.mockRestore()
   })
 
   afterEach(() => {

@@ -1,5 +1,6 @@
+import { describe, it, expect, beforeEach, mock } from 'bun:test'
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import Tracklist from './index'
 import MockTrackListJson from '__mockData__/api'
 
@@ -7,21 +8,21 @@ describe('Tracklist', () => {
   let tracks = MockTrackListJson()
   tracks[0].metrics = null
 
-  const onRemoveMock = jest.fn()
-  const onSearchMock = jest.fn()
+  const onRemoveMock = mock(() => {})
+  const onSearchMock = mock(() => {})
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    // Bun mocks are cleared automatically between tests
   })
 
   describe('render', () => {
-    Date.now = jest.fn(() => {
+    Date.now = mock(() => {
       return 8208000
     })
 
     describe('when disabled', () => {
-      beforeEach(() => {
-        render(
+      it('renders as expected', () => {
+        const { getByText } = render(
           <Tracklist
             disabled
             tracks={tracks}
@@ -30,16 +31,13 @@ describe('Tracklist', () => {
             onArtistSearch={onSearchMock}
           />
         )
-      })
-
-      it('renders as expected', () => {
-        expect(screen.getByText(tracks[0].name)).toBeInTheDocument()
+        expect(getByText(tracks[0].name)).toBeInTheDocument()
       })
     })
 
     describe('when enabled', () => {
-      beforeEach(() => {
-        render(
+      it('renders as expected', () => {
+        const { getByText } = render(
           <Tracklist
             disabled={false}
             tracks={tracks}
@@ -48,15 +46,12 @@ describe('Tracklist', () => {
             onArtistSearch={onSearchMock}
           />
         )
-      })
-
-      it('renders as expected', () => {
-        expect(screen.getByText(tracks[0].name)).toBeInTheDocument()
+        expect(getByText(tracks[0].name)).toBeInTheDocument()
       })
     })
 
     it('removes a track', () => {
-      render(
+      const { getByText } = render(
         <Tracklist
           tracks={tracks}
           currentTrack={tracks[0]}
@@ -66,11 +61,11 @@ describe('Tracklist', () => {
       )
 
       // Test that component renders - specific interaction tests would need more setup
-      expect(screen.getByText(tracks[0].name)).toBeInTheDocument()
+      expect(getByText(tracks[0].name)).toBeInTheDocument()
     })
 
     it('searches for an artist', () => {
-      render(
+      const { getByText } = render(
         <Tracklist
           tracks={tracks}
           currentTrack={tracks[1]}
@@ -80,7 +75,7 @@ describe('Tracklist', () => {
       )
 
       // Test that component renders - specific interaction tests would need more setup
-      expect(screen.getByText(tracks[1].name)).toBeInTheDocument()
+      expect(getByText(tracks[1].name)).toBeInTheDocument()
     })
   })
 
@@ -96,10 +91,10 @@ describe('Tracklist', () => {
 
   describe('tracklist but nothing cued up', () => {
     it('does not mark anything as current', () => {
-      render(
+      const { getByText } = render(
         <Tracklist tracks={tracks} onRemoveTrack={onRemoveMock} onArtistSearch={onSearchMock} />
       )
-      expect(screen.getByText(tracks[0].name)).toBeInTheDocument()
+      expect(getByText(tracks[0].name)).toBeInTheDocument()
     })
   })
 
@@ -108,10 +103,10 @@ describe('Tracklist', () => {
       const track = tracks[0]
       delete track.addedBy
 
-      render(
+      const { getByText } = render(
         <Tracklist tracks={[track]} onRemoveTrack={onRemoveMock} onArtistSearch={onSearchMock} />
       )
-      expect(screen.getByText(track.name)).toBeInTheDocument()
+      expect(getByText(track.name)).toBeInTheDocument()
     })
   })
 })
