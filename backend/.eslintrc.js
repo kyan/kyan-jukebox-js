@@ -7,17 +7,15 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module'
   },
-  plugins: ['@typescript-eslint', 'jest', 'prettier'],
+  plugins: ['@typescript-eslint', 'prettier'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:jest/recommended',
     'plugin:prettier/recommended'
   ],
   env: {
     es6: true,
-    node: true,
-    'jest/globals': true
+    node: true
   },
   rules: {
     // no semi colons please
@@ -29,7 +27,13 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     // prettier integration
     'prettier/prettier': 'error',
-    // allow conditional expects in tests for error handling patterns
-    'jest/no-conditional-expect': 'off'
+    // allow unused variables that start with underscore
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_'
+      }
+    ]
   }
 }

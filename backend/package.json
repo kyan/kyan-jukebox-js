@@ -14,9 +14,8 @@
     "type-check": "tsc --noEmit",
     "validate": "bun run format:check && bun run type-check && bun run lint",
     "fix": "bun run format && bun run lint:fix",
-    "test": "bun run validate && bun run jest",
-    "test:ci": "bun run validate && bun run jest --coverage",
-    "jest": "jest --forceExit --detectOpenHandles --verbose",
+    "test": "bun test",
+    "test:ci": "bun test",
     "migrate:scan": "bun scripts/migrate-to-db-service.ts scan",
     "migrate:report": "bun scripts/migrate-to-db-service.ts report",
     "migrate:dry-run": "bun scripts/migrate-to-db-service.ts dry-run",
@@ -41,7 +40,6 @@
   "devDependencies": {
     "@types/body-parser": "^1.19.5",
     "@types/invariant": "^2.2.37",
-    "@types/jest": "catalog:",
     "@types/json-stringify-safe": "^5.0.3",
     "@types/lodash": "catalog:",
     "@types/node-cron": "^3.0.11",
@@ -52,15 +50,11 @@
     "commander": "^12.1.0",
     "eslint": "catalog:",
     "eslint-config-prettier": "catalog:",
-    "eslint-plugin-jest": "^27.6.1",
     "eslint-plugin-prettier": "catalog:",
     "inquirer": "^9.3.8",
-    "jest": "catalog:",
-    "jest-watch-typeahead": "^2.2.2",
     "prettier": "catalog:",
     "shipit-cli": "^5.3.0",
     "shipit-deploy": "^5.3.0",
-    "ts-jest": "^29.1.1",
     "typescript": "catalog:"
   }
 }

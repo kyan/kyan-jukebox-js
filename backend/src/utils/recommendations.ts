@@ -16,17 +16,20 @@ const Recommendations = {
    * @param tracks - A list of Spotify tracks
    */
   getImageFromSpotifyTracks: (tracks: SpotifyApi.TrackObjectFull[]): ImageCacheData => {
-    const albumTracks = tracks.filter((track) => track.album)
-    const images = albumTracks.map((track) => {
-      if (track.linked_from && track.linked_from.type === 'track') {
-        return {
-          [track.uri]: track.album.images[0].url,
-          [track.linked_from.uri]: track.album.images[0].url
+    const images = tracks
+      .filter(
+        (track) => track.album && track.album.images && track.album.images.length > 0
+      )
+      .map((track) => {
+        if (track.linked_from && track.linked_from.type === 'track') {
+          return {
+            [track.uri]: track.album.images[0].url,
+            [track.linked_from.uri]: track.album.images[0].url
+          }
         }
-      }
 
-      return { [track.uri]: track.album.images[0].url }
-    })
+        return { [track.uri]: track.album.images[0].url }
+      })
     return Object.assign({}, ...images)
   },
 

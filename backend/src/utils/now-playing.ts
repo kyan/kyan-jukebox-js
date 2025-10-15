@@ -16,7 +16,14 @@ const spotifyLink = (uri: string) => {
 
 const NowPlaying = {
   addTrack: (track: JBTrack): Promise<unknown> => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
+      // Validate required properties
+      if (!track.metrics || !track.addedBy || track.addedBy.length === 0) {
+        const error = new Error('Track missing required metrics or addedBy data')
+        logger.error(`NowPlaying.addTrack: ${error.message}`)
+        return reject(error)
+      }
+
       const db = getDatabase()
       const payload: unknown = {
         spotify: spotifyLink(track.uri),
@@ -39,7 +46,10 @@ const NowPlaying = {
       db.settings
         .updateJsonSetting('json', payload)
         .then(() => resolve(payload))
-        .catch((error) => logger.error(`NowPlaying.addTrack: ${error.message}`))
+        .catch((error) => {
+          logger.error(`NowPlaying.addTrack: ${error.message}`)
+          reject(error)
+        })
     })
   }
 }

@@ -1,19 +1,20 @@
 import VotingHelper from '../../src/utils/voting'
 import { JBAddedBy, JBVotes } from '../../src/types/database'
+import { expect, test, describe, spyOn, afterEach } from 'bun:test'
 
 describe('VotingHelper', () => {
   afterEach(() => {
-    jest.clearAllMocks()
+    // Clear individual mocks as needed
   })
 
   describe('voteNormalised', () => {
-    it('should handle data', () => {
+    test('should handle data', () => {
       expect(VotingHelper.voteNormalised(2)).toEqual(20)
     })
   })
 
   describe('calcVoteCount', () => {
-    it('should handle data', () => {
+    test('should handle data', () => {
       const vote1 = { vote: 1 } as JBVotes
       const vote2 = { vote: 3 } as JBVotes
       const vote3 = { vote: 4 } as JBVotes
@@ -25,7 +26,7 @@ describe('VotingHelper', () => {
       expect(VotingHelper.calcVoteCount(data)).toEqual(3)
     })
 
-    it('should handle no data', () => {
+    test('should handle no data', () => {
       const data: JBAddedBy[] = []
 
       expect(VotingHelper.calcVoteCount(data)).toEqual(0)
@@ -33,7 +34,7 @@ describe('VotingHelper', () => {
   })
 
   describe('calcVoteTotal', () => {
-    it('should handle data', () => {
+    test('should handle data', () => {
       const vote1 = { vote: 10 } as JBVotes
       const vote2 = { vote: 20 } as JBVotes
       const vote3 = { vote: 30 } as JBVotes
@@ -46,7 +47,7 @@ describe('VotingHelper', () => {
       expect(VotingHelper.calcVoteTotal(data)).toEqual(100)
     })
 
-    it('should handle no data', () => {
+    test('should handle no data', () => {
       const data: JBAddedBy[] = []
 
       expect(VotingHelper.calcVoteTotal(data)).toEqual(0)
@@ -54,7 +55,7 @@ describe('VotingHelper', () => {
   })
 
   describe('calcVoteAverage', () => {
-    it('should handle data', () => {
+    test('should handle data', () => {
       const vote1 = { vote: 10 } as JBVotes
       const vote2 = { vote: 20 } as JBVotes
       const vote3 = { vote: 30 } as JBVotes
@@ -67,7 +68,7 @@ describe('VotingHelper', () => {
       expect(VotingHelper.calcVoteAverage(data)).toEqual(25)
     })
 
-    it('should handle no data', () => {
+    test('should handle no data', () => {
       const data: JBAddedBy[] = []
 
       expect(VotingHelper.calcVoteAverage(data)).toEqual(0)
@@ -75,7 +76,7 @@ describe('VotingHelper', () => {
   })
 
   describe('calcWeightedMean', () => {
-    it('should handle an above mid average', () => {
+    test('should handle an above mid average', () => {
       const vote1 = {
         vote: 90,
         at: new Date('2020-02-05T17:08:27.000Z')
@@ -122,11 +123,11 @@ describe('VotingHelper', () => {
       const mockDate = new Date(1582020703141)
 
       // @ts-ignore
-      jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
+      spyOn(global, 'Date').mockImplementation(() => mockDate)
       expect(VotingHelper.calcWeightedMean(data)).toEqual(54)
     })
 
-    it('should handle a below mid average', () => {
+    test('should handle a below mid average', () => {
       const vote1 = {
         vote: 90,
         at: new Date('2020-02-05T17:08:27.000Z')
@@ -173,11 +174,11 @@ describe('VotingHelper', () => {
       const mockDate = new Date(1782020703141)
 
       // @ts-ignore
-      jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
+      spyOn(global, 'Date').mockImplementation(() => mockDate)
       expect(VotingHelper.calcWeightedMean(data)).toEqual(46)
     })
 
-    it('should handle no data', () => {
+    test('should handle no data', () => {
       const data: JBAddedBy[] = []
 
       expect(VotingHelper.calcWeightedMean(data)).toEqual(0)
