@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Card, Image, Label, Icon } from 'semantic-ui-react'
 import Slider from 'rc-slider'
 import AddedBy from 'components/added-by'
@@ -10,7 +9,57 @@ import { flatten, mean } from 'lodash'
 import 'rc-slider/assets/index.css'
 import './index.css'
 
-const marks = {
+interface User {
+  _id: string
+  picture?: string
+  fullname?: string
+  email?: string
+}
+
+interface Vote {
+  user: User
+  vote: number
+  at: string
+}
+
+interface Artist {
+  name: string
+}
+
+interface Album {
+  name: string
+  year?: number
+}
+
+interface TrackMetrics {
+  plays: number
+  votes: number
+  votesAverage: number
+}
+
+interface AddedByData {
+  user?: User
+  addedAt: string
+  votes?: Vote[]
+}
+
+interface Track {
+  uri: string
+  name: string
+  artist?: Artist
+  album?: Album
+  image?: string
+  addedBy?: AddedByData[]
+  metrics?: TrackMetrics
+}
+
+interface CurrentTrackProps {
+  userID?: string
+  track?: Track
+  onVote?: (uri: string, rating: number) => void
+}
+
+const marks: Record<number, any> = {
   0: {
     style: {
       color: 'red'
@@ -26,17 +75,17 @@ const marks = {
   }
 }
 
-const spotifyLink = uri => {
+const spotifyLink = (uri: string) => {
   const code = uri.split(':').pop()
   return `https://open.spotify.com/track/${code}`
 }
 
-const AlbumDescription = props => {
-  if (!props.album) return null
-  const year = props.album.year ? ` (${props.album.year})` : ''
+const AlbumDescription: React.FC<{ album?: Album }> = ({ album }) => {
+  if (!album) return null
+  const year = album.year ? ` (${album.year})` : ''
   return (
     <Card.Description>
-      {props.album.name}
+      {album.name}
       {year}
     </Card.Description>
   )
@@ -52,56 +101,56 @@ const noTrack = () => (
   </Card>
 )
 
-const calcVoteAverage = data => {
+const calcVoteAverage = (data: Vote[]) => {
   const votes = data.map(i => i.vote)
   if (votes.length < 1) return 0
   return mean(flatten(votes))
 }
 
-const voteHandleColor = total => {
+const voteHandleColor = (total: number | null) => {
+  if (total === null) return 'gray'
   if (total > 50) return '#21ba45'
   if (total < 50) return 'red'
   return 'gray'
 }
 
-const TrackVotes = props => {
-  if (!props.metrics) return null
-  return <VotedBy total={props.metrics.votesAverage} show={props.metrics.votes > 0} ribbon />
+const TrackVotes: React.FC<{ metrics?: TrackMetrics }> = ({ metrics }) => {
+  if (!metrics) return null
+  return <VotedBy total={metrics.votesAverage} show={metrics.votes > 0} ribbon />
 }
 
-const AddLabel = props => {
+const AddLabel: React.FC<{ count: number }> = ({ count }) => {
   return (
     <Label size='mini'>
       Added
-      <Label.Detail>{props.count}</Label.Detail>
+      <Label.Detail>{count}</Label.Detail>
     </Label>
   )
 }
 
-const PlayLabel = props => {
-  if (!props.metrics) return null
+const PlayLabel: React.FC<{ metrics?: TrackMetrics }> = ({ metrics }) => {
+  if (!metrics) return null
 
   return (
     <Label size='mini'>
       Played
-      <Label.Detail>{props.metrics.plays}</Label.Detail>
+      <Label.Detail>{metrics.plays}</Label.Detail>
     </Label>
   )
 }
 
-const VoteLabel = props => {
-  if (!props.metrics) return null
+const VoteLabel: React.FC<{ metrics?: TrackMetrics }> = ({ metrics }) => {
+  if (!metrics) return null
 
   return (
     <Label size='mini'>
       Activity
-      <Label.Detail>{props.metrics.votes}</Label.Detail>
+      <Label.Detail>{metrics.votes}</Label.Detail>
     </Label>
   )
 }
 
-const CurrentTrack = props => {
-  const { track, onVote, userID } = props
+const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) => {
   if (!track || !track.name) {
     return noTrack()
   }
@@ -110,7 +159,7 @@ const CurrentTrack = props => {
   const votes = (addedBy[0] && addedBy[0].votes) || []
   const currentUserVoter = votes.find(u => u.user._id === userID)
   const currentUserVote = currentUserVoter ? currentUserVoter.vote : null
-  const doVote = uri => rating => onVote(uri, rating / maxRating)
+  const doVote = (uri: string) => (rating: number) => onVote?.(uri, rating / maxRating)
 
   return (
     <Card>
@@ -126,7 +175,7 @@ const CurrentTrack = props => {
           <Slider
             disabled={!userID}
             dots
-            value={currentUserVote}
+            value={currentUserVote ?? undefined}
             included={false}
             marks={marks}
             step={maxRating}
@@ -157,12 +206,6 @@ const CurrentTrack = props => {
       </Card.Content>
     </Card>
   )
-}
-
-CurrentTrack.propTypes = {
-  userID: PropTypes.string,
-  track: PropTypes.object,
-  onVote: PropTypes.func
 }
 
 export default CurrentTrack

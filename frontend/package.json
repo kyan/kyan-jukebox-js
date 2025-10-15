@@ -29,7 +29,6 @@
     "identity-obj-proxy": "^3.0.0",
     "lodash": "^4.17.21",
     "media-progress-timer": "^3.0.0",
-    "prop-types": "^15.8.1",
     "rc-progress": "^3.1.4",
     "rc-slider": "^9.7.4",
     "react": "catalog:",
