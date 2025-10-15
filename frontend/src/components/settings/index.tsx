@@ -3,7 +3,19 @@ import { Button, Image, Popup, List } from 'semantic-ui-react'
 import { getAvatarUrl } from '../../utils/avatar'
 import './index.css'
 
-export const Settings = ({ user, isSignedIn, onSignOut }) => {
+interface User {
+  fullname: string
+  email: string
+  picture?: string
+}
+
+interface SettingsProps {
+  user?: User
+  isSignedIn: boolean
+  onSignOut: () => void
+}
+
+export const Settings: React.FC<SettingsProps> = ({ user, isSignedIn, onSignOut }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   let avatar = (

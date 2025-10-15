@@ -3,9 +3,22 @@ import { useSelector } from 'react-redux'
 import { Line } from 'rc-progress'
 import { timerToPercentage, millisToMinutesAndSeconds } from 'utils/time'
 
-const ProgressBar = () => {
-  const timer = useSelector(state => state.timer)
-  const track = useSelector(state => state.track)
+interface TimerState {
+  remaining: number
+}
+
+interface TrackState {
+  length: number
+}
+
+interface RootState {
+  timer: TimerState
+  track: TrackState
+}
+
+const ProgressBar: React.FC = () => {
+  const timer = useSelector((state: RootState) => state.timer)
+  const track = useSelector((state: RootState) => state.track)
   const progressPercentage = timerToPercentage(timer)
 
   return (
