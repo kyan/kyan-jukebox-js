@@ -84,16 +84,21 @@ build-frontend:
 build-backend:
   bun --filter {{BACKEND_WS}} build
 
-# Clean all build artifacts and dependencies
-[group('build')]
-clean:
-  rm -rf backend/dist frontend/build node_modules frontend/node_modules backend/node_modules
-
 # Run all tests in CI mode
 [group('test')]
 test:
   CI=true bun --filter {{FRONTEND_WS}} test:ci
   CI=true bun --filter {{BACKEND_WS}} test:ci
+
+# Run only frontend tests with verbose output
+[group('test')]
+test-frontend:
+  bun --filter {{FRONTEND_WS}} test
+
+# Run only backend tests with verbose output
+[group('test')]
+test-backend:
+  bun --filter {{BACKEND_WS}} test
 
 # Run backend tests in watch mode
 [group('test')]
@@ -115,10 +120,6 @@ fix:
   bun --filter {{FRONTEND_WS}} fix
   @echo "Fixing backend..."
   bun --filter {{BACKEND_WS}} fix
-
-# Quick pre-push validation (lint + test)
-[group('test')]
-pre-push: check test
 
 # ===================================================================
 # DOCKER
