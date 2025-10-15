@@ -1,15 +1,20 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Label } from 'semantic-ui-react'
 
-const ClearPlaylist = props => {
+interface ClearPlaylistProps {
+  disabled?: boolean
+  onClear: (event: React.MouseEvent) => void
+}
+
+const ClearPlaylist: React.FC<ClearPlaylistProps> = ({ disabled, onClear }) => {
   const [open, setOpen] = React.useState(false)
-  if (props.disabled) {
+
+  if (disabled) {
     return null
   }
 
-  const confirm = ev => {
-    props.onClear(ev)
+  const confirm = (ev: React.MouseEvent) => {
+    onClear(ev)
     setOpen(false)
   }
   const cancel = () => setOpen(false)
@@ -78,11 +83,6 @@ const ClearPlaylist = props => {
       )}
     </>
   )
-}
-
-ClearPlaylist.propTypes = {
-  disabled: PropTypes.bool,
-  onClear: PropTypes.func.isRequired
 }
 
 export default ClearPlaylist

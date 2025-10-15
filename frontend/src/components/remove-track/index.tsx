@@ -1,11 +1,17 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Comment, Confirm } from 'semantic-ui-react'
 
-const RemoveTrack = props => {
+interface RemoveTrackProps {
+  uri?: string
+  name?: string
+  onClick: (event: React.MouseEvent) => void
+}
+
+const RemoveTrack: React.FC<RemoveTrackProps> = ({ uri: _uri, name, onClick }) => {
   const [open, setOpen] = React.useState(false)
-  const confirm = ev => {
-    props.onClick(ev)
+
+  const confirm = (ev: React.MouseEvent) => {
+    onClick(ev)
     setOpen(false)
   }
   const cancel = () => setOpen(false)
@@ -17,7 +23,7 @@ const RemoveTrack = props => {
         Remove
       </Comment.Action>
       <Confirm
-        content={`Are you sure you want to remove: ${props.name}`}
+        content={`Are you sure you want to remove: ${name}`}
         cancelButton='No thanks'
         confirmButton='Do it!'
         open={open}
@@ -26,12 +32,6 @@ const RemoveTrack = props => {
       />
     </>
   )
-}
-
-RemoveTrack.propTypes = {
-  uri: PropTypes.string,
-  name: PropTypes.string,
-  onClick: PropTypes.func.isRequired
 }
 
 export default RemoveTrack
