@@ -1,24 +1,31 @@
-import React from 'react'
+import React, { ErrorInfo, ReactNode } from 'react'
 
-// uses code from https://reactjs.org/blog/2017/07/26/error-handling-in-react-16.html
-class ErrorBoundary extends React.Component {
-  constructor(props) {
+interface Props {
+  children: ReactNode
+}
+
+interface State {
+  hasError: boolean
+}
+
+class ErrorBoundary extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props)
     this.state = { hasError: false }
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Display fallback UI
     this.setState({ hasError: true })
 
     // You can also log the error to an error reporting service
     if (process.env.NODE_ENV === 'development') {
       console.log(`error: ${error}`)
-      console.log(`info: ${info}`)
+      console.log(`info: ${errorInfo}`)
     }
   }
 
-  render() {
+  render(): ReactNode {
     if (this.state.hasError) {
       return <h1>Ouch! I broke a bit.</h1>
     }

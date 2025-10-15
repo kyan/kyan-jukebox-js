@@ -2,7 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { Modal, Form, Button, Message } from 'semantic-ui-react'
 import './index.css'
 
-export const LoginModal = ({ open, onSubmit, error }) => {
+interface LoginData {
+  email: string
+}
+
+interface LoginModalProps {
+  open: boolean
+  onSubmit: (data: LoginData) => Promise<void>
+  error?: string
+}
+
+export const LoginModal: React.FC<LoginModalProps> = ({ open, onSubmit, error }) => {
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
@@ -13,7 +23,7 @@ export const LoginModal = ({ open, onSubmit, error }) => {
     }
   }, [error])
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (email) {
       setIsLoading(true)
