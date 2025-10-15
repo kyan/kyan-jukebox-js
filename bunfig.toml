@@ -57,6 +57,20 @@ coverageSkipTestFiles = true
 # Rerun each test once (0 = run once, increase for flaky test detection)
 rerunEach = 0
 
+# Set per-test timeout to prevent hanging (5 seconds)
+timeout = 5000
+
+# Load Happy DOM first, then Testing Library setup
+preload = ["./happydom.ts", "./src/setupTests-bun.ts"]
+
+# Set root directory for tests
+root = "./frontend"
+
+# Enable concurrent test execution for better performance
+concurrent = true
+
+
+
 [define]
 # Environment variable replacements
 # These will be replaced at build time
