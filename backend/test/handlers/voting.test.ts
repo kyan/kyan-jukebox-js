@@ -1,31 +1,46 @@
 import { Server } from 'socket.io'
 import Broadcaster from '../../src/utils/broadcaster'
-import VoteHandler from '../../src/handlers/voting'
-import { getDatabase } from '../../src/services/database/factory'
+import VotingHandler from '../../src/handlers/voting'
 import { JBUser } from '../../src/types/database'
+import { expect, test, describe, mock, beforeEach } from 'bun:test'
 
-jest.mock('../../src/utils/event-logger')
-jest.mock('../../src/utils/broadcaster')
-jest.mock('../../src/services/database/factory')
+// Mock EventLogger
+mock.module('../../src/utils/event-logger', () => ({
+  default: {
+    info: mock(() => {})
+  }
+}))
+
+// Mock Broadcaster
+mock.module('../../src/utils/broadcaster', () => ({
+  default: {
+    toClient: mock(() => {}),
+    toAll: mock(() => {})
+  }
+}))
+
+// Mock database factory
+mock.module('../../src/services/database/factory', () => ({
+  getDatabase: mock(() => mockDatabase)
+}))
 
 // Mock database service
 const mockDatabase = {
   tracks: {
-    updateVote: jest.fn()
+    updateVote: mock()
   }
 }
 
-const mockGetDatabase = getDatabase as jest.Mock
-mockGetDatabase.mockReturnValue(mockDatabase)
+// Mock variables are already defined above
 
 describe('VoteHandler', () => {
   const socketio = {} as Server
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    mockDatabase.tracks.updateVote.mockClear()
   })
 
-  it('should handle a valid vote', async () => {
+  test('should handle a valid vote', async () => {
     expect.assertions(2)
     const user = {
       _id: '123',
@@ -40,7 +55,7 @@ describe('VoteHandler', () => {
     }
     mockDatabase.tracks.updateVote.mockResolvedValue('track')
 
-    VoteHandler({ payload, socketio })
+    VotingHandler({ payload, socketio })
 
     // Wait for the promise to resolve
     await new Promise((resolve) => setImmediate(resolve))

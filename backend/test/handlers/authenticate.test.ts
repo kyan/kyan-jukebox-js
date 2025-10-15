@@ -3,33 +3,65 @@ import Broadcaster from '../../src/utils/broadcaster'
 import logger from '../../src/config/logger'
 import AuthenticateHandler from '../../src/handlers/authenticate'
 import AuthConsts from '../../src/constants/auth'
-import { getDatabase } from '../../src/services/database/factory'
+import { expect, test, describe, mock, beforeEach } from 'bun:test'
 
-jest.mock('../../src/config/logger')
-jest.mock('../../src/utils/broadcaster')
-jest.mock('../../src/services/database/factory')
+mock.module('../../src/config/logger', () => ({
+  default: {
+    info: mock(() => {}),
+    error: mock(() => {}),
+    warn: mock(() => {}),
+    debug: mock(() => {})
+  }
+}))
+mock.module('../../src/utils/broadcaster', () => ({
+  default: {
+    toClient: mock(() => {}),
+    toAll: mock(() => {}),
+    stateChange: mock(() => {})
+  }
+}))
+mock.module('../../src/services/database/factory', () => ({
+  getDatabase: mock(() => mockDatabase)
+}))
 
 // Mock database service
 const mockDatabase = {
   users: {
-    findByEmail: jest.fn()
+    findByEmail: mock()
+  },
+  events: {
+    create: mock(),
+    findByUser: mock(),
+    findByKey: mock(),
+    findRecent: mock()
+  },
+  settings: {
+    updateCurrentTrack: mock(),
+    getCurrentTrack: mock(),
+    updateTracklist: mock(),
+    getTracklist: mock(),
+    getSeedTracks: mock(),
+    clearState: mock(),
+    trimTracklist: mock(),
+    addToTrackSeedList: mock(),
+    removeFromSeeds: mock(),
+    updateJsonSetting: mock()
   }
 }
 
-const mockGetDatabase = getDatabase as jest.Mock
-mockGetDatabase.mockReturnValue(mockDatabase)
+// mockGetDatabase is mocked via mock.module above
 
-const mockLoggerError = logger.error as jest.Mock
+const mockLoggerError = logger.error as any
 
 describe('AuthenticateHandler', () => {
   const mock = {} as unknown
   const wsMock = mock as Socket
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    // Clear individual mocks as needed
   })
 
-  it('handles non-authorised requests without authentication', async () => {
+  test('handles non-authorised requests without authentication', async () => {
     expect.assertions(2)
 
     const payload = {
@@ -46,7 +78,7 @@ describe('AuthenticateHandler', () => {
     expect(Broadcaster.toClient).not.toHaveBeenCalled()
   })
 
-  it('handles successful authentication for authorised request', async () => {
+  test('handles successful authentication for authorised request', async () => {
     expect.assertions(3)
 
     const payload = {
@@ -79,7 +111,7 @@ describe('AuthenticateHandler', () => {
     expect(Broadcaster.toClient).not.toHaveBeenCalled()
   })
 
-  it('handles successful user validation', async () => {
+  test('handles successful user validation', async () => {
     expect.assertions(3)
 
     const payload = {
@@ -124,7 +156,7 @@ describe('AuthenticateHandler', () => {
     })
   })
 
-  it('handles missing user data', async () => {
+  test('handles missing user data', async () => {
     expect.assertions(2)
 
     const payload = {
@@ -150,7 +182,7 @@ describe('AuthenticateHandler', () => {
     })
   })
 
-  it('handles user not found', async () => {
+  test('handles user not found', async () => {
     expect.assertions(2)
 
     const payload = {
@@ -184,7 +216,7 @@ describe('AuthenticateHandler', () => {
     })
   })
 
-  it('handles database error', async () => {
+  test('handles database error', async () => {
     expect.assertions(3)
 
     const payload = {

@@ -1,15 +1,23 @@
-import DecorateSearchResults from '../../src/decorators/result'
+import { expect, test, beforeEach, describe, mock, afterEach } from 'bun:test'
 import SearchDecorator from '../../src/decorators/search'
-jest.mock('../../src/decorators/result')
 
-const mockDecorateSearchResults = DecorateSearchResults as jest.Mock
+// Mock the DecorateSearchResults module
+const mockDecorateSearchResults = mock()
+mock.module('../../src/decorators/result', () => ({
+  default: mockDecorateSearchResults
+}))
 
 describe('SearchDecorator', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    mockDecorateSearchResults.mockClear()
   })
 
-  it('should handle skipping', async () => {
+  afterEach(() => {
+    // Restore the original module after each test
+    mock.restore()
+  })
+
+  test('should handle skipping', async () => {
     expect.assertions(1)
     const header = {
       key: 'keynotused',
@@ -22,7 +30,7 @@ describe('SearchDecorator', () => {
   })
 
   describe('SEARCH_GET_TRACKS', () => {
-    it('calls the DecorateSearchResults function', async () => {
+    test('calls the DecorateSearchResults function', async () => {
       const header = {
         key: 'searchGetTracks',
         data: {}
@@ -36,7 +44,7 @@ describe('SearchDecorator', () => {
         } as unknown
       }
       expect.assertions(1)
-      mockDecorateSearchResults.mockResolvedValue('tracks')
+      mockDecorateSearchResults.mockResolvedValue([])
       const returnData = await SearchDecorator.parse(
         header,
         data as SpotifyApi.SearchResponse
@@ -45,7 +53,7 @@ describe('SearchDecorator', () => {
         limit: 10,
         offset: 10,
         total: 1,
-        tracks: 'tracks'
+        tracks: []
       })
     })
   })

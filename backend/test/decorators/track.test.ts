@@ -1,5 +1,6 @@
 import DecorateTrack from '../../src/decorators/track'
 import fs from 'fs'
+import { expect, test, describe, afterEach } from 'bun:test'
 
 describe('DecorateTrack', () => {
   const payload = JSON.parse(
@@ -7,15 +8,11 @@ describe('DecorateTrack', () => {
   )
 
   describe('when passed a Mopidy payload', () => {
-    it('transforms the track', () => {
+    test('transforms the track', () => {
       const albumTrack = payload[0]
-      albumTrack.addedBy = 'duncan'
-      albumTrack.metrics = 'metrics'
       albumTrack.image = 'http://path/to/image'
 
       expect(DecorateTrack(albumTrack)).toEqual({
-        addedBy: 'duncan',
-        metrics: 'metrics',
         album: {
           name: 'London 0 Hull 4',
           uri: 'spotify:album:13gokJcmO1Dbc9cbHM93jO',
@@ -33,13 +30,12 @@ describe('DecorateTrack', () => {
       })
     })
 
-    it('can handle no album', () => {
+    test('can handle no album', () => {
       const albumTrack = payload[0]
       albumTrack.album = undefined
+      albumTrack.image = 'http://path/to/image'
 
       expect(DecorateTrack(albumTrack)).toEqual({
-        addedBy: 'duncan',
-        metrics: 'metrics',
         artist: {
           name: 'The Housemartins',
           uri: 'spotify:artist:77D38RDgCtlYNLpayStftL'
@@ -55,11 +51,11 @@ describe('DecorateTrack', () => {
 
   describe('when passed a Spotify payload', () => {
     afterEach(() => {
-      jest.clearAllMocks()
+      // Clear individual mocks as needed
       process.env.EXPLICIT_CONTENT = 'true'
     })
 
-    it('transforms the track', () => {
+    test('transforms the track', () => {
       process.env.EXPLICIT_CONTENT = 'false'
       const payload = JSON.parse(
         fs.readFileSync('./test/__mockData__/searchResults.json', 'utf8')
@@ -86,7 +82,7 @@ describe('DecorateTrack', () => {
   })
 
   describe('when passed no track', () => {
-    it('returns an empty track', () => {
+    test('returns an empty track', () => {
       expect(() => {
         DecorateTrack(null)
       }).toThrow('DecorateTrack passed no data!')

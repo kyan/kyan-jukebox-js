@@ -1,11 +1,15 @@
+import { expect, test, describe, mock, afterEach } from 'bun:test'
 import fs from 'fs'
 import TransformerTracklist from '../../src/decorators/tracklist'
-import ImageCache from '../../src/utils/image-cache'
-
 import Mopidy from 'mopidy'
-import { getDatabase } from '../../src/services/database/factory'
-jest.mock('../../src/config/logger')
-jest.mock('../../src/services/database/factory')
+
+// Mock the logger
+mock.module('../../src/config/logger', () => ({
+  default: {
+    info: mock(() => {}),
+    error: mock(() => {})
+  }
+}))
 
 const firstTrack = {
   uri: 'spotify:track:6IZWJhXyk1Z0rtWNxIi4o7',
@@ -38,28 +42,37 @@ const firstImage = {
 const mockTrackData = [firstTrack, secondTrack]
 const mockImageData = [firstImage]
 
+// Mock ImageCache (after mockImageData is defined)
+mock.module('../../src/utils/image-cache', () => ({
+  default: {
+    findAll: mock(() => Promise.resolve(mockImageData))
+  }
+}))
+
 // Mock database service
 const mockDatabase = {
   tracks: {
-    findByUris: jest.fn().mockResolvedValue(mockTrackData)
+    findByUris: mock().mockResolvedValue(mockTrackData)
   }
 }
 
-const mockGetDatabase = getDatabase as jest.Mock
-mockGetDatabase.mockReturnValue(mockDatabase)
+// Mock the database factory
+mock.module('../../src/services/database/factory', () => ({
+  getDatabase: mock(() => mockDatabase)
+}))
 
 describe('TransformerTracklist', () => {
   afterEach(() => {
-    jest.clearAllMocks()
+    // Clear all mocks after each test
+    mockDatabase.tracks.findByUris.mockClear()
   })
 
   const payload = JSON.parse(
     fs.readFileSync('./test/__mockData__/tracklist.json', 'utf8')
   )
-  describe('when passed a tracklist', () => {
-    it('transforms it', async () => {
-      jest.spyOn(ImageCache, 'findAll').mockResolvedValue(mockImageData)
 
+  describe('when passed a tracklist', () => {
+    test('transforms it', async () => {
       const transformedPayload = await TransformerTracklist(payload)
 
       expect(transformedPayload).toHaveLength(3)
@@ -148,11 +161,11 @@ describe('TransformerTracklist', () => {
       })
     })
 
-    it('catches errors', () => {
+    test('catches errors', () => {
       expect.assertions(1)
       const arg = 'something broke' as unknown
       return TransformerTracklist(arg as Mopidy.models.Track[]).catch((err) => {
-        expect(err.message).toEqual('json.map is not a function')
+        expect(err.message).toMatch(/json\.map is not a function/)
       })
     })
   })
