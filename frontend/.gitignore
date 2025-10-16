@@ -3,11 +3,15 @@
 # dependencies
 /node_modules
 
+# binaries
+frontend/jukebox-frontend-bin
+
 # testing
 /coverage
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store

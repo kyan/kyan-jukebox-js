@@ -7,7 +7,8 @@ module.exports = {
     'build.ts',
     'dev-server.ts',
     'happydom.ts',
-    'matchers.d.ts'
+    'matchers.d.ts',
+    'server.tsx'
   ],
   parserOptions: {
     project: './tsconfig.json',

@@ -166,7 +166,7 @@ docker-shell-backend TAG=DEFAULT_TAG:
 # Run frontend container locally
 [group('docker')]
 docker-run-frontend TAG=DEFAULT_TAG PORT="3001":
-  docker run -d --name jukebox-frontend-local -p {{PORT}}:80 {{IMAGE_BASE}}-frontend:{{TAG}}
+  docker run -d --name jukebox-frontend-local -p {{PORT}}:3000 {{IMAGE_BASE}}-frontend:{{TAG}}
 
 # Run backend container locally
 [group('docker')]
