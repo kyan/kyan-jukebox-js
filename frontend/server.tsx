@@ -88,3 +88,26 @@ const server = serve({
 })
 
 console.log(`🎵 Kyan Jukebox running at http://localhost:${PORT}`)
+
+// Handle graceful shutdown
+const gracefulShutdown = () => {
+  console.log('\n🛑 Shutting down server gracefully...')
+  server.stop()
+  process.exit(0)
+}
+
+// Listen for termination signals
+process.on('SIGINT', gracefulShutdown) // Ctrl+C
+process.on('SIGTERM', gracefulShutdown) // Terminate signal
+process.on('SIGHUP', gracefulShutdown) // Hang up signal
+
+// Handle uncaught exceptions
+process.on('uncaughtException', error => {
+  console.error('Uncaught Exception:', error)
+  gracefulShutdown()
+})
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason)
+  gracefulShutdown()
+})
