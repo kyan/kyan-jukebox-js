@@ -49,11 +49,6 @@ prod:
 be-start:
   bun --filter {{BACKEND_WS}} start
 
-# Start only frontend development server
-[group('dev')]
-fe-start:
-  bun --filter {{FRONTEND_WS}} start
-
 # Run any frontend workspace command
 [group('dev')]
 fe TASK="start":
