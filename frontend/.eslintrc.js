@@ -2,6 +2,7 @@ module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
   ignorePatterns: [
+    'dist',
     'test.ts',
     'babel.config.js',
     'build.ts',
