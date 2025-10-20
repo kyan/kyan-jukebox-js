@@ -44,17 +44,32 @@ dev:
 prod:
   ./scripts/run-all.sh --prod
 
-# Start only backend with hot reload
+# Start only frontend in development mode with hot reload
 [group('dev')]
-be-start:
+dev-fe:
+  bun --filter {{FRONTEND_WS}} dev
+
+# Start only backend in development mode with hot reload
+[group('dev')]
+dev-be:
   bun --filter {{BACKEND_WS}} start
 
-# Run any frontend workspace command
+# Start frontend production server (must build first)
 [group('dev')]
-fe TASK="start":
+start-fe PORT="3000":
+  cd frontend && PORT={{PORT}} NODE_ENV=production bun server.tsx
+
+# Start backend production server (must build first)
+[group('dev')]
+start-be PORT="8080":
+  cd backend && PORT={{PORT}} NODE_ENV=production bun start:prod
+
+# Run any frontend workspace command (e.g., just fe build, just fe test)
+[group('dev')]
+fe TASK="dev":
   bun --filter {{FRONTEND_WS}} {{TASK}}
 
-# Run any backend workspace command
+# Run any backend workspace command (e.g., just be test, just be lint)
 [group('dev')]
 be TASK="start":
   bun --filter {{BACKEND_WS}} {{TASK}}

@@ -14,6 +14,53 @@ This is a work-in-progress replacement for our [existing office JukeBox](https:/
 
 The Jukebox re-imagined still uses `Mopidy` but has been split into parts, Client and API (FE and BE). The BE is written in [TypeScript](https://www.typescriptlang.org/) and the FE currently is a mix of [JavaScript](https://www.javascript.com/) and TypeScript. It uses SQLite for data persistence and communicates via smaller event messages passed back and forth over a websocket. Currently both the FE and BE live in this one monorepo.
 
+### Tech Stack
+
+- **Runtime**: [Bun](https://bun.sh/) - Fast JavaScript runtime and package manager
+- **Monorepo**: Bun workspaces with two packages:
+  - `@jukebox/frontend` - React application with Bun dev server
+  - `@jukebox/backend` - Node.js API with Socket.IO
+- **Task Runner**: [Just](https://github.com/casey/just) command runner
+- **Music Server**: Mopidy (running in Docker)
+- **Database**: SQLite
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        justfile                             │
+│              (Single Source of Truth)                       │
+│  All commands defined here: dev, build, test, deploy       │
+└───────────────────┬─────────────────────────────────────────┘
+                    │
+                    ├─→ Direct Commands (just dev-fe, just dev-be)
+                    │
+                    └─→ scripts/run-all.sh (Orchestration)
+                         ├─→ Docker Compose (Mopidy)
+                         ├─→ just dev-fe (parallel)
+                         └─→ just dev-be (parallel)
+```
+
+## Quick Start
+
+```bash
+# Install dependencies
+bun install --frozen-lockfile
+
+# Start full development environment (frontend + backend + Mopidy)
+just dev
+
+# Or start services individually
+just dev-fe    # Frontend only
+just dev-be    # Backend only
+
+# Run tests
+just test
+
+# Validate code (lint + type-check)
+just check
+```
+
 ## Why not use an existing Mopidy frontend
 
 We have extra requirements for our office Jukebox to make it more interactive and office friendly, Mopidy just handles playing music. This projects adds some of these extra features:
@@ -41,7 +88,21 @@ Running the app locally requires some environment variables to be set in the var
 
 ## Development
 
-The app uses `just` to make running common tasks easier, so if you run `just` or `just help` you will see all the commands you can run against the app with a simple explaination. Some of the commands take args `just <something> ARGS`
+The app uses `just` to make running common tasks easier. Run `just` or `just --list` to see all available commands.
+
+### Common Commands
+
+| Command | Description |
+|---------|-------------|
+| `just dev` | Start both frontend and backend with hot reload + Mopidy |
+| `just dev-fe` | Start only frontend with hot reload |
+| `just dev-be` | Start only backend with hot reload |
+| `just build-all` | Build both frontend and backend for production |
+| `just test` | Run all tests |
+| `just check` | Lint and type-check all code |
+| `just fix` | Auto-fix linting and formatting issues |
+
+See [docs/DEV_WORKFLOW.md](docs/DEV_WORKFLOW.md) for detailed documentation.
 
 ### Running the tests
 
