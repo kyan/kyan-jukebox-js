@@ -75,6 +75,12 @@ ENV IS_ALIVE_TIMEOUT=$IS_ALIVE_TIMEOUT
 ENV EXPLICIT_CONTENT=$EXPLICIT_CONTENT
 ENV IMAGE_CACHE_EXPIRES=$IMAGE_CACHE_EXPIRES
 
+# Create directory for SQLite database mount point
+RUN mkdir -p /app/data && chown -R app:app /app/data
+
+# Declare volume for SQLite database
+VOLUME ["/app/data"]
+
 USER app
 
 EXPOSE 8080
