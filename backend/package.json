@@ -6,7 +6,6 @@
     "build": "tsc -p tsconfig.build.json",
     "build:bun": "bun build src/index.ts --outdir dist --target node",
     "start": "bun --watch --env-file=./.env src/index.ts",
-    "start:prod": "bun dist/index.js",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint . --ext .ts",
@@ -15,13 +14,7 @@
     "validate": "bun run format:check && bun run type-check && bun run lint",
     "fix": "bun run format && bun run lint:fix",
     "test": "bun test",
-    "test:ci": "bun test",
-    "migrate:scan": "bun scripts/migrate-to-db-service.ts scan",
-    "migrate:report": "bun scripts/migrate-to-db-service.ts report",
-    "migrate:dry-run": "bun scripts/migrate-to-db-service.ts dry-run",
-    "migrate:migrate": "bun scripts/migrate-to-db-service.ts migrate",
-    "migrate:validate": "bun scripts/migrate-to-db-service.ts validate",
-    "migrate:rollback": "bun scripts/migrate-to-db-service.ts rollback"
+    "test:ci": "CI=true;bun test"
   },
   "dependencies": {
     "@types/inquirer": "^9.0.9",
