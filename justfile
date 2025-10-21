@@ -34,35 +34,21 @@ version-info:
 # DEVELOPMENT
 # ===================================================================
 
-# Start full development environment with hot reload for both frontend and backend
+# Start frontend and backend in dev mode with hot reload
 [group('dev')]
 dev:
-  ./scripts/run-all.sh
-
-# Start production mode for both frontend and backend
-[group('dev')]
-prod:
-  ./scripts/run-all.sh --prod
+  #!/usr/bin/env sh
+  bun --filter {{BACKEND_WS}} start & bun --filter {{FRONTEND_WS}} start
 
 # Start only frontend in development mode with hot reload
 [group('dev')]
 dev-fe:
-  bun --filter {{FRONTEND_WS}} dev
+  bun --filter {{FRONTEND_WS}} start
 
 # Start only backend in development mode with hot reload
 [group('dev')]
 dev-be:
   bun --filter {{BACKEND_WS}} start
-
-# Start frontend production server (must build first)
-[group('dev')]
-start-fe PORT="3000":
-  cd frontend && PORT={{PORT}} NODE_ENV=production bun server.tsx
-
-# Start backend production server (must build first)
-[group('dev')]
-start-be PORT="8080":
-  cd backend && PORT={{PORT}} NODE_ENV=production bun start:prod
 
 # Run any frontend workspace command (e.g., just fe build, just fe test)
 [group('dev')]
@@ -142,18 +128,7 @@ docker-build-all TAG=DEFAULT_TAG: (docker-build-backend TAG) (docker-build-front
 # Build backend Docker image
 [group('docker')]
 docker-build-backend TAG=DEFAULT_TAG SPOTIFY_ID="" SPOTIFY_SECRET="" SQLITE_PATH="/var/lib/jukebox/jukebox.db" WS_MOPIDY_URL="host.docker.internal" WS_MOPIDY_PORT="6680":
-  docker build -f Dockerfile.backend \
-    --build-arg SPOTIFY_ID={{SPOTIFY_ID}} \
-    --build-arg SPOTIFY_SECRET={{SPOTIFY_SECRET}} \
-    --build-arg SQLITE_PATH={{SQLITE_PATH}} \
-    --build-arg WS_MOPIDY_URL={{WS_MOPIDY_URL}} \
-    --build-arg WS_MOPIDY_PORT={{WS_MOPIDY_PORT}} \
-    --build-arg SPOTIFY_NEW_TRACKS_ADDED_LIMIT=3 \
-    --build-arg SQLITE_TIMEOUT=30000 \
-    --build-arg IS_ALIVE_TIMEOUT=30000 \
-    --build-arg EXPLICIT_CONTENT=true \
-    --build-arg IMAGE_CACHE_EXPIRES=86400 \
-    -t {{IMAGE_BASE}}-backend:{{TAG}} .
+  docker build -f Dockerfile.backend -t {{IMAGE_BASE}}-backend:{{TAG}} .
 
 # Build frontend Docker image
 [group('docker')]
@@ -176,12 +151,21 @@ docker-shell-backend TAG=DEFAULT_TAG:
 # Run frontend container locally
 [group('docker')]
 docker-run-frontend TAG=DEFAULT_TAG PORT="3001":
-  docker run -d --name jukebox-frontend-local -p {{PORT}}:3000 {{IMAGE_BASE}}-frontend:{{TAG}}
+  docker run -d \
+    --name jukebox-frontend-local \
+    --env-file ./frontend/.env.production.local \
+    -p {{PORT}}:3000 \
+    {{IMAGE_BASE}}-frontend:{{TAG}}
 
 # Run backend container locally
 [group('docker')]
 docker-run-backend TAG=DEFAULT_TAG PORT="8080":
-  docker run -d --name jukebox-backend-local -p {{PORT}}:8080 {{IMAGE_BASE}}-backend:{{TAG}}
+  docker run -d \
+    --name jukebox-backend-local \
+    --env-file ./backend/.env.production.local \
+    -p {{PORT}}:8080 \
+    -v ./databases:/app/data \
+    {{IMAGE_BASE}}-backend:{{TAG}}
 
 # Run both frontend and backend containers locally
 [group('docker')]
