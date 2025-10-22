@@ -233,8 +233,14 @@ kamal-deploy-backend:
   @echo "Building and deploying backend application..."
   kamal deploy -c config/deploy-backend.yml
 
-# Check deployment status
+# Check deployment status (frontend)
 [group('deploy')]
-kamal-status:
-  @echo "Checking application status..."
-  kamal details
+kamal-status-frontend:
+  @echo "Checking frontends status..."
+  kamal detail -c config/deploy-frontend.yml
+
+# Check deployment status (backend)
+[group('deploy')]
+kamal-status-backend:
+  @echo "Checking backends status..."
+  kamal detail -c config/deploy-backend.yml
