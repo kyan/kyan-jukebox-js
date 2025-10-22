@@ -222,41 +222,19 @@ sqlite-info:
 # DEPLOYMENT
 # ===================================================================
 
-# Initial server setup and Docker installation (run once)
-[group('deploy')]
-kamal-setup:
-  @echo "Setting up servers and installing Docker..."
-  kamal setup
-
 # Deploy application to production
 [group('deploy')]
-kamal-deploy:
-  @just kamal-validate
-  @echo "Building and deploying application..."
-  kamal deploy
+kamal-deploy-frontend:
+  @echo "Building and deploying frontend application..."
+  kamal deploy -c config/deploy-frontend.yml
+
+[group('deploy')]
+kamal-deploy-backend:
+  @echo "Building and deploying backend application..."
+  kamal deploy -c config/deploy-backend.yml
 
 # Check deployment status
 [group('deploy')]
 kamal-status:
   @echo "Checking application status..."
-  kamal ps
-
-# Stream application logs
-[group('deploy')]
-kamal-logs LINES="100":
-  kamal app logs --lines {{LINES}} --follow
-
-# Rollback to previous version
-[group('deploy')]
-kamal-rollback:
-  @echo "Rolling back to previous version..."
-  kamal rollback
-
-# Access remote shell on deployed application
-[group('deploy')]
-kamal-shell:
-  kamal app exec --interactive bash
-
-# Complete deployment pipeline (test + build + deploy)
-[group('deploy')]
-deploy: check test docker-build-all kamal-deploy
+  kamal details

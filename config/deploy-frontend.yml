@@ -8,8 +8,7 @@ image: whomwah/kyan-jukebox-frontend
 servers:
   web:
     hosts:
-      - 192.168.2.3
-    proxy: false
+      - robot
 
 # Credentials for your image host
 registry:
@@ -17,24 +16,17 @@ registry:
   password:
     - KAMAL_REGISTRY_PASSWORD
 
-# Frontend environment variables
-env:
-  clear:
-    REACT_APP_WS_URL: 192.168.2.3
-    REACT_APP_WS_PORT: 8080
-
 # Configure builder setup for frontend
 builder:
-  arch: arm64
+  arch: amd64
   dockerfile: Dockerfile.frontend
   context: .
 
 # Enable proxy for frontend (serves the web interface)
-# proxy:
-#   ssl: false
-#   forward_headers: true
-#   host: jukebox-frontend.local
-#   app_port: 80
+proxy:
+  ssl: false
+  host: robot.local
+  app_port: 3000
 
 # Configure rolling deploys
 boot:
@@ -43,7 +35,7 @@ boot:
 
 # Use a different ssh user than root
 ssh:
-  user: ubuntu
+  user: duncan
 
 # Aliases for frontend management
 aliases:

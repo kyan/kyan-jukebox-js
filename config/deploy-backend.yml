@@ -8,8 +8,7 @@ image: whomwah/kyan-jukebox-backend
 servers:
   web:
     hosts:
-      - 192.168.2.3
-    proxy: false
+      - robot
 
 # Credentials for your image host
 registry:
@@ -19,18 +18,16 @@ registry:
 
 # Configure builder setup for backend
 builder:
-  arch: arm64
+  arch: amd64
   dockerfile: Dockerfile.backend
   context: .
 
 # Enable proxy for backend (serves the api)
 proxy:
   ssl: false
+  host: robot.local
+  path_prefix: /api
   app_port: 8080
-  healthcheck:
-    path: /up
-    interval: 10
-    timeout: 2
 
 # Backend environment variables
 env:
@@ -44,14 +41,15 @@ env:
     - SPOTIFY_SECRET
     - WS_MOPIDY_URL
     - WS_MOPIDY_PORT
+    - SQLITE_PATH
 
 # Use a different ssh user than root
 ssh:
-  user: ubuntu
+  user: duncan
 
 # Use persistent storage volume
 volumes:
-  - "/db:/databases"
+  - /app/data:/app/data
 
 # Configure rolling deploys
 boot:
