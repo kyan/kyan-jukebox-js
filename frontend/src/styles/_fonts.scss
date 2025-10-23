@@ -1,39 +1,28 @@
-@font-face {
-  font-family: 'Biotif';
-  font-style: normal;
-  font-weight: 300;
-  src: url('/fonts/Biotif-Light.woff2') format('woff2'),
-    url('/fonts/Biotif-Light.woff') format('woff');
+// Using system font stack for better performance and reliability
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@font-face {
-  font-family: 'Biotif';
-  font-style: italic;
+// Font weight classes for consistency
+.font-light {
   font-weight: 300;
-  src: url('/fonts/Biotif-LightItalic.woff2') format('woff2'),
-    url('/fonts/Biotif-LightItalic.woff') format('woff');
 }
 
-@font-face {
-  font-family: 'Biotif';
-  font-style: normal;
+.font-regular {
   font-weight: 400;
-  src: url('/fonts/Biotif-Regular.woff2') format('woff2'),
-    url('/fonts/Biotif-Regular.woff') format('woff');
 }
 
-@font-face {
-  font-family: 'Biotif';
-  font-style: normal;
+.font-medium {
   font-weight: 500;
-  src: url('/fonts/Biotif-SemiBold.woff2') format('woff2'),
-    url('/fonts/Biotif-SemiBold.woff') format('woff');
 }
 
-@font-face {
-  font-family: 'Biotif';
-  font-style: normal;
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-bold {
   font-weight: 700;
-  src: url('/fonts/Biotif-Bold.woff2') format('woff2'),
-    url('/fonts/Biotif-Bold.woff') format('woff');
 }

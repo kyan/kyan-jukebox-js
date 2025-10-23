@@ -1,20 +1,29 @@
 import { Socket } from 'socket.io'
 import logger from '../../src/config/logger'
-import ErrorsHandler from '../../src/handlers/socket-errors'
-jest.mock('../../src/config/logger')
-jest.useFakeTimers()
+import SocketErrorHandler from '../../src/handlers/socket-errors'
+import { expect, test, describe, mock } from 'bun:test'
 
-const mockLoggerInfo = logger.info as jest.Mock
+mock.module('../../src/config/logger', () => ({
+  default: {
+    info: mock(() => {}),
+    error: mock(() => {}),
+    warn: mock(() => {}),
+    debug: mock(() => {})
+  }
+}))
+// jest.useFakeTimers() - TODO: Convert to bun equivalent
+
+const mockLoggerInfo = logger.info as any
 
 describe('ErrorsHandler', () => {
-  const onMock = jest.fn()
+  const onMock = mock()
   const ws = {
     id: '12345',
     on: onMock
   } as unknown
 
-  it('sets everything up before interval', () => {
-    ErrorsHandler(ws as Socket)
+  test('sets everything up before interval', () => {
+    SocketErrorHandler(ws as Socket)
     expect(onMock.mock.calls[0][0]).toEqual('error')
     expect(onMock.mock.calls[0][1]).toEqual(expect.any(Function))
     expect(onMock.mock.calls[0][1]({ code: 'ECONNRESET' })).toBeUndefined()

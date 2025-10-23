@@ -1,67 +1,92 @@
 import { Socket } from 'socket.io'
-import { OAuth2Client } from 'google-auth-library'
 import Broadcaster from '../utils/broadcaster'
 import AuthConsts from '../constants/auth'
 import MopidyConsts from '../constants/mopidy'
 import logger from '../config/logger'
-import User, { JBUser } from '../models/user'
+import { getDatabase } from '../services/database/factory'
 import Payload from '../utils/payload'
 
 const isAuthorisedRequest = (key: string): boolean => {
   return (MopidyConsts.AUTHORISED_KEYS as ReadonlyArray<string>).includes(key)
 }
 
-const persistUser = (user: JBUser) => {
-  const query = { _id: user._id }
-  const update = user
-  const options = { upsert: true, new: true, setDefaultsOnInsert: true }
-  return User.findOneAndUpdate(query, update, options)
+const isValidationRequest = (key: string): boolean => {
+  return key === MopidyConsts.VALIDATE_USER
+}
+
+const findUserByEmail = (email: string) => {
+  const db = getDatabase()
+  return db.users.findByEmail(email)
 }
 
 const AuthenticateHandler = (payload: Payload, socket: Socket): Promise<Payload> => {
-  if (!isAuthorisedRequest(payload.key)) {
-    delete payload.jwt
+  // Skip authentication for non-authorized and non-validation requests
+  if (!isAuthorisedRequest(payload.key) && !isValidationRequest(payload.key)) {
     return Promise.resolve(payload)
   }
 
   return new Promise((resolve) => {
-    const token = payload.jwt
-    const client = new OAuth2Client(process.env.CLIENT_ID)
-
     const broadcastTo = (headers: any, message: any): void => {
       Broadcaster.toClient({ socket, headers, message })
     }
 
-    client
-      .verifyIdToken({ idToken: token, audience: process.env.CLIENT_ID })
-      .then((ticket) => {
-        const data = ticket.getPayload()
+    // Check if user data is provided
+    if (!payload.user || !payload.user.email) {
+      const errorPayload = {
+        key: AuthConsts.USER_NOT_FOUND,
+        data: { error: 'No user data provided' },
+        user: payload.user
+      }
+      broadcastTo(errorPayload, { error: 'No user data provided' })
+      resolve(errorPayload)
+      return
+    }
+
+    const { email } = payload.user
+
+    // Look up user by email
+    findUserByEmail(email)
+      .then((user) => {
+        if (!user) {
+          const errorPayload = {
+            key: AuthConsts.USER_NOT_FOUND,
+            data: { error: `User not found with email: ${email}` },
+            user: payload.user
+          }
+          broadcastTo(errorPayload, { error: `User not found with email: ${email}` })
+          resolve(errorPayload)
+          return
+        }
+
+        // User found, create response payload with user data from database
         const responsePayload: Payload = {
-          data: payload.data,
+          data: isValidationRequest(payload.key)
+            ? { success: true, message: 'User validated' }
+            : payload.data,
           key: payload.key,
           user: {
-            _id: data['sub'],
-            fullname: data['name'],
-            picture: data['picture']
+            _id: user._id,
+            fullname: user.fullname,
+            email: user.email
           }
         }
 
-        if (
-          process.env.GOOGLE_AUTH_DOMAIN &&
-          data['hd'] === process.env.GOOGLE_AUTH_DOMAIN
-        ) {
-          return persistUser(responsePayload.user)
-            .then(() => resolve(responsePayload))
-            .catch((err: any) =>
-              logger.error('Error checking user', { error: err.message })
-            )
+        // For validation requests, broadcast success response to client
+        if (isValidationRequest(payload.key)) {
+          broadcastTo(responsePayload, responsePayload.data)
         }
 
-        payload.key = AuthConsts.AUTHENTICATION_TOKEN_INVALID
-        broadcastTo(payload, { error: `Invalid domain: ${data['hd']}` })
+        resolve(responsePayload)
       })
-      .catch((err) => {
-        broadcastTo(payload, { error: err.message })
+      .catch((err: any) => {
+        logger.error('Error looking up user', { error: err.message })
+        const errorPayload = {
+          key: AuthConsts.USER_NOT_FOUND,
+          data: { error: err.message },
+          user: payload.user
+        }
+        broadcastTo(errorPayload, { error: err.message })
+        resolve(errorPayload)
       })
   })
 }

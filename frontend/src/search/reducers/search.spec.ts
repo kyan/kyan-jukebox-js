@@ -1,5 +1,6 @@
 import reducer, { SearchState } from './search'
 import Constant from 'search/constants'
+import { describe, it, expect } from 'bun:test'
 
 const getInitialState = (initial?: Partial<SearchState>): any =>
   reducer(initial as SearchState, {} as any)

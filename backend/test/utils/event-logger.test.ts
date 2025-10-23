@@ -1,33 +1,50 @@
+import { expect, test, afterEach, describe, mock } from 'bun:test'
 import EventLogger from '../../src/utils/event-logger'
-import Event from '../../src/models/event'
 import logger from '../../src/config/logger'
-jest.mock('../../src/models/event')
-jest.mock('../../src/config/logger')
+
+// Mock logger
+mock.module('../../src/config/logger', () => ({
+  default: {
+    info: mock(() => {}),
+    error: mock(() => {}),
+    warn: mock(() => {}),
+    debug: mock(() => {})
+  }
+}))
+
+// Mock database service
+const mockDatabase = {
+  events: {
+    create: mock().mockReturnValue(Promise.resolve())
+  }
+}
+
+// Mock the database factory
+mock.module('../../src/services/database/factory', () => ({
+  getDatabase: mock(() => mockDatabase)
+}))
 
 describe('EventLogger', () => {
   afterEach(() => {
-    jest.clearAllMocks()
+    mockDatabase.events.create.mockClear()
+    ;(logger.info as any).mockClear()
   })
 
-  it('logs output but does not create an Event', () => {
-    jest.spyOn(Event, 'create')
-
+  test('logs output but does not create an Event', () => {
     EventLogger.info('mopidy::mixer.setVolume', { data: { name: 'Duncan' } })
-    expect(Event.create).not.toHaveBeenCalled()
+    expect(mockDatabase.events.create).not.toHaveBeenCalled()
     expect(logger.info).toHaveBeenCalledWith('mopidy::mixer.setVolume', {
       data: { name: 'Duncan' }
     })
   })
 
-  it('logs output and creates an Event', () => {
-    jest.spyOn(Event, 'create')
-
+  test('logs output and creates an Event', () => {
     EventLogger.info(
       'mopidy::mixer.setVolume',
       { data: 'data', user: { _id: '12345' }, key: 'key123' },
       true
     )
-    expect(Event.create).toHaveBeenCalledWith({
+    expect(mockDatabase.events.create).toHaveBeenCalledWith({
       key: 'key123',
       payload: {
         data: 'data',

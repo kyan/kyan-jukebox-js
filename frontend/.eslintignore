@@ -1,3 +1,10 @@
 node_modules
 build
 coverage
+.eslintrc.js
+.prettierrc.js
+test
+config
+scripts
+build.ts
+dev-server.ts

@@ -1,11 +1,11 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`search handles initial state 1`] = `
-Object {
+{
   "limit": 20,
   "offset": 0,
   "query": "",
-  "results": Array [],
+  "results": [],
   "searchSideBarOpen": false,
   "total": 0,
 }

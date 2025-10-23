@@ -1,25 +1,50 @@
 import { Socket } from 'socket.io'
-import Spotify from '../../src/services/spotify'
-import Broadcaster from '../../src/utils/broadcaster'
-import Decorator from '../../src/decorators/search'
 import SearchHandler from '../../src/handlers/search'
-jest.mock('../../src/utils/event-logger')
-jest.mock('../../src/services/spotify')
-jest.mock('../../src/utils/broadcaster')
-jest.mock('../../src/decorators/search')
+import Broadcaster from '../../src/utils/broadcaster'
+import { expect, test, describe, mock, beforeEach } from 'bun:test'
 
-const mockSpotifySearch = Spotify.search as jest.Mock
-const mockDecoratorParse = Decorator.parse as jest.Mock
+// Mock Spotify
+const mockSpotifySearch = mock()
+mock.module('../../src/services/spotify', () => ({
+  default: {
+    search: mockSpotifySearch
+  }
+}))
+
+// Mock EventLogger
+mock.module('../../src/utils/event-logger', () => ({
+  default: {
+    info: mock(() => {})
+  }
+}))
+
+// Mock Spotify service (already mocked above)
+
+// Mock Broadcaster
+mock.module('../../src/utils/broadcaster', () => ({
+  default: {
+    toClient: mock(() => {})
+  }
+}))
+
+// Mock Search Decorator
+const mockDecoratorParse = mock()
+mock.module('../../src/decorators/search', () => ({
+  default: {
+    parse: mockDecoratorParse
+  }
+}))
 
 describe('SearchHandler', () => {
   const socket = {} as unknown
   const mockSocket = socket as Socket
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    mockSpotifySearch.mockClear()
+    mockDecoratorParse.mockClear()
   })
 
-  it('should handle a valid search', () => {
+  test('should handle a valid search', () => {
     expect.assertions(2)
     const payload = {
       key: 'searchGetTracks',
@@ -32,7 +57,7 @@ describe('SearchHandler', () => {
 
     return new Promise((resolve) => {
       setTimeout(() => {
-        expect(Spotify.search).toHaveBeenCalledWith('search')
+        expect(mockSpotifySearch).toHaveBeenCalledWith('search')
         expect(Broadcaster.toClient).toHaveBeenCalledWith({
           socket,
           headers: payload,

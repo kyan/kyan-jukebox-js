@@ -1,47 +1,57 @@
+import { describe, it, expect, beforeEach, mock } from 'bun:test'
 import React from 'react'
-import { shallow } from 'enzyme'
-import { Comment, Confirm } from 'semantic-ui-react'
+import { render, fireEvent } from '@testing-library/react'
 import RemoveTrack from './index'
 
 describe('RemoveTrack', () => {
-  const onClickMock = jest.fn()
+  const onClickMock = mock(() => {})
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    // Bun mocks are cleared automatically between tests
   })
 
   describe('render', () => {
-    const wrapper = shallow(
-      <RemoveTrack uri='uri123' name='The track title' onClick={onClickMock} />
-    )
+    let renderResult
+
+    beforeEach(() => {
+      renderResult = render(
+        <RemoveTrack uri='uri123' name='The track title' onClick={onClickMock} />
+      )
+    })
 
     it('renders the as expected', () => {
-      expect(wrapper).toMatchSnapshot()
+      expect(renderResult.getByText('Remove')).toBeInTheDocument()
     })
 
     describe('confirm dialog', () => {
-      it('is not shown default', () => {
-        expect(wrapper.find(Confirm).prop('open')).toEqual(false)
+      it('is not shown by default', () => {
+        expect(renderResult.queryByText('Are you sure you want to remove')).not.toBeInTheDocument()
       })
 
-      it('it shows when the button is pressed', () => {
-        wrapper.find(Comment.Action).simulate('click')
-        expect(wrapper.find(Confirm).prop('open')).toEqual(true)
+      it('shows when the button is pressed', () => {
+        fireEvent.click(renderResult.getByText('Remove'))
+        expect(
+          renderResult.getByText('Are you sure you want to remove: The track title')
+        ).toBeInTheDocument()
       })
     })
 
     describe('callbacks', () => {
+      beforeEach(() => {
+        fireEvent.click(renderResult.getByText('Remove'))
+      })
+
       it('calls the onConfirm callback', () => {
-        wrapper.find(Comment.Action).simulate('click')
-        expect(wrapper.find('Confirm').prop('open')).toEqual(true)
-        wrapper.find(Confirm).prop('onConfirm')()
+        fireEvent.click(renderResult.getByText('Do it!'))
         expect(onClickMock).toHaveBeenCalled()
       })
 
       it('calls the onCancel callback', () => {
-        wrapper.find(Comment.Action).simulate('click')
-        wrapper.find(Confirm).prop('onCancel')()
-        expect(wrapper.find('Confirm').prop('open')).toEqual(false)
+        fireEvent.click(renderResult.getByText('Remove'))
+        fireEvent.click(renderResult.getByText('No thanks'))
+        expect(
+          renderResult.queryByText('Are you sure you want to remove: The track title')
+        ).not.toBeInTheDocument()
       })
     })
   })

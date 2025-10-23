@@ -1,4 +1,4 @@
-export default {
+const mopidyApi = {
   PLAYBACK_GET_CURRENT_TRACK: 'playback.getCurrentTrack',
   EVENT_TRACK_PLAYBACK_STARTED: 'event:trackPlaybackStarted',
   EVENT_PLAYBACK_STATE_CHANGED: 'event:playbackStateChanged',
@@ -20,5 +20,8 @@ export default {
   SET_VOLUME: 'mixer.setVolume',
   GET_VOLUME: 'mixer.getVolume',
   EVENT_VOLUME_CHANGED: 'event:volumeChanged',
-  VALIDATION_ERROR: 'validationError'
+  VALIDATION_ERROR: 'validationError',
+  VALIDATE_USER: 'validateUser'
 }
+
+export default mopidyApi

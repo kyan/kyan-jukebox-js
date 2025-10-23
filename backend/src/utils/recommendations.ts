@@ -1,5 +1,4 @@
-import Track from '../models/track'
-import Setting from '../models/setting'
+import { getDatabase } from '../services/database/factory'
 import { ImageCacheData } from './image-cache'
 import SpotifyService from '../services/spotify'
 
@@ -17,17 +16,20 @@ const Recommendations = {
    * @param tracks - A list of Spotify tracks
    */
   getImageFromSpotifyTracks: (tracks: SpotifyApi.TrackObjectFull[]): ImageCacheData => {
-    const albumTracks = tracks.filter((track) => track.album)
-    const images = albumTracks.map((track) => {
-      if (track.linked_from && track.linked_from.type === 'track') {
-        return {
-          [track.uri]: track.album.images[0].url,
-          [track.linked_from.uri]: track.album.images[0].url
+    const images = tracks
+      .filter(
+        (track) => track.album && track.album.images && track.album.images.length > 0
+      )
+      .map((track) => {
+        if (track.linked_from && track.linked_from.type === 'track') {
+          return {
+            [track.uri]: track.album.images[0].url,
+            [track.linked_from.uri]: track.album.images[0].url
+          }
         }
-      }
 
-      return { [track.uri]: track.album.images[0].url }
-    })
+        return { [track.uri]: track.album.images[0].url }
+      })
     return Object.assign({}, ...images)
   },
 
@@ -49,25 +51,20 @@ const Recommendations = {
     tracks: SpotifyApi.TrackObjectFull[]
   ): Promise<SuitableExtractedData> =>
     new Promise((resolve) => {
-      Setting.getTracklist().then(async (currentTrackListUris) => {
+      const db = getDatabase()
+      db.settings.getTracklist().then(async (currentTrackListUris) => {
         const trackUris = tracks.map((t) => t.uri)
         const images = Recommendations.getImageFromSpotifyTracks(tracks)
         const currentTrackList = currentTrackListUris
-        const urisToIgnore = await Track.find({
-          _id: { $in: trackUris },
-          'metrics.votesAverage': { $lt: 50 },
-          'metrics.votes': { $gt: 0 }
-        }).select('_id')
-        const startOfToday = new Date()
-        startOfToday.setHours(0, 0, 0, 0)
-        const tracksPlayedToday = await Track.find({
-          'addedBy.addedAt': { $gt: startOfToday }
-        }).select('_id')
+
+        const urisToIgnore = await db.tracks.findTracksWithLowVotes(trackUris)
+        const tracksPlayedToday = await db.tracks.findTracksPlayedToday()
+
         const uris = tracks
           .filter((track) => !track.explicit)
-          .filter((track_1) => !tracksPlayedToday.map((r) => r._id).includes(track_1.uri))
+          .filter((track_1) => !tracksPlayedToday.includes(track_1.uri))
           .filter((track_2) => !currentTrackList.includes(track_2.uri))
-          .filter((track_3) => !urisToIgnore.map((r) => r._id).includes(track_3.uri))
+          .filter((track_3) => !urisToIgnore.includes(track_3.uri))
           .sort((a, b) => a.popularity - b.popularity)
           .slice(-newTracksAddedLimit)
           .map((track_4) => track_4.uri)
@@ -93,16 +90,15 @@ const Recommendations = {
     const images = data.images
 
     return new Promise((resolve) => {
-      Setting.getTracklist().then(async (currentTrackListUris) => {
+      const db = getDatabase()
+      db.settings.getTracklist().then(async (currentTrackListUris) => {
         const currentTrackList = currentTrackListUris
-        const results = await Track.aggregate([
-          { $match: { 'metrics.votesAverage': { $gte: 70 } } },
-          { $sample: { size: newTracksAddedLimit } },
-          { $project: { _id: 1 } }
-        ])
-        const uris = results
-          .filter((result) => !currentTrackList.includes(result._id))
-          .map((r) => r._id)
+
+        const randomTrackUris = await db.tracks.findRandomTracksWithHighVotes(
+          Number(newTracksAddedLimit)
+        )
+        const uris = randomTrackUris.filter((uri) => !currentTrackList.includes(uri))
+
         await SpotifyService.getTracks(uris)
 
         resolve({ images, uris })

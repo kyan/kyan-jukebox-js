@@ -19,6 +19,7 @@ export default {
   TRACKLIST_CLEAR: 'tracklist.clear',
   TRACKLIST_REMOVE: 'tracklist.remove',
   VALIDATION_ERROR: 'validationError',
+  VALIDATE_USER: 'validateUser',
   AUTHORISED_KEYS: [
     'tracklist.add',
     'tracklist.remove',

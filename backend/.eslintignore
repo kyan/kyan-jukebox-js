@@ -8,3 +8,5 @@ coverage
 src/types/*.d.ts
 # don't lint shipitfile
 shipitfile.js
+# don't lint scripts directory
+scripts

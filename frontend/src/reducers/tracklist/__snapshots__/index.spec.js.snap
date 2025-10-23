@@ -1,15 +1,15 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`tracklist ADD_TRACKS handles default state 1`] = `Array []`;
+exports[`tracklist ADD_TRACKS handles default state 1`] = `[]`;
 
 exports[`tracklist ADD_TRACKS handles empty tracklist 1`] = `
-Array [
-  Object {
+[
+  {
     "addedBy": null,
-    "album": Object {
+    "album": {
       "name": "album1",
     },
-    "artist": Object {
+    "artist": {
       "name": "artist1",
     },
     "metrics": null,
@@ -20,25 +20,25 @@ Array [
 `;
 
 exports[`tracklist ADD_TRACKS handles when some new tracks added 1`] = `
-Array [
-  Object {
+[
+  {
     "addedBy": null,
-    "album": Object {
+    "album": {
       "name": "album2",
     },
-    "artist": Object {
+    "artist": {
       "name": "artist2",
     },
     "metrics": null,
     "name": "track2",
     "uri": "t2",
   },
-  Object {
+  {
     "addedBy": null,
-    "artist": Object {
+    "artist": {
       "name": "artist3",
     },
-    "composer": Object {
+    "composer": {
       "name": "composer3",
     },
     "metrics": null,
@@ -49,25 +49,25 @@ Array [
 `;
 
 exports[`tracklist ADD_TRACKS handles when some tracks removed 1`] = `
-Array [
-  Object {
+[
+  {
     "addedBy": null,
-    "album": Object {
+    "album": {
       "name": "album2",
     },
-    "artist": Object {
+    "artist": {
       "name": "artist2",
     },
     "metrics": null,
     "name": "track2",
     "uri": "t2",
   },
-  Object {
+  {
     "addedBy": null,
-    "artist": Object {
+    "artist": {
       "name": "artist3",
     },
-    "composer": Object {
+    "composer": {
       "name": "composer3",
     },
     "metrics": null,
@@ -78,25 +78,25 @@ Array [
 `;
 
 exports[`tracklist SYNC_SOCIAL_DATA handles a change 1`] = `
-Array [
-  Object {
+[
+  {
     "addedBy": "duncan",
-    "album": Object {
+    "album": {
       "name": "album2",
     },
-    "artist": Object {
+    "artist": {
       "name": "artist2",
     },
     "metrics": "metrics",
     "name": "track2",
     "uri": "t2",
   },
-  Object {
+  {
     "addedBy": null,
-    "artist": Object {
+    "artist": {
       "name": "artist3",
     },
-    "composer": Object {
+    "composer": {
       "name": "composer3",
     },
     "metrics": null,
@@ -107,13 +107,13 @@ Array [
 `;
 
 exports[`tracklist SYNC_SOCIAL_DATA handles no change 1`] = `
-Array [
-  Object {
+[
+  {
     "addedBy": null,
-    "album": Object {
+    "album": {
       "name": "album1",
     },
-    "artist": Object {
+    "artist": {
       "name": "artist1",
     },
     "metrics": null,

@@ -1,12 +1,12 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`track ADD_CURRENT_TRACK handles a track 1`] = `
-Object {
+{
   "addedBy": null,
-  "album": Object {
+  "album": {
     "name": "album1",
   },
-  "artist": Object {
+  "artist": {
     "name": "artist1",
   },
   "metrics": null,
@@ -16,12 +16,12 @@ Object {
 `;
 
 exports[`track SYNC_SOCIAL_DATA handles a change 1`] = `
-Object {
+{
   "addedBy": "duncan",
-  "album": Object {
+  "album": {
     "name": "album1",
   },
-  "artist": Object {
+  "artist": {
     "name": "artist1",
   },
   "metrics": "metrics",
@@ -31,12 +31,12 @@ Object {
 `;
 
 exports[`track SYNC_SOCIAL_DATA handles no change 1`] = `
-Object {
+{
   "addedBy": undefined,
-  "album": Object {
+  "album": {
     "name": "album1",
   },
-  "artist": Object {
+  "artist": {
     "name": "artist1",
   },
   "metrics": undefined,

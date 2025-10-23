@@ -1,0 +1,62 @@
+# Backend API Deployment Configuration
+service: jukebox-backend
+
+# Name of the container image for backend
+image: whomwah/kyan-jukebox-backend
+
+# Deploy to these servers
+servers:
+  web:
+    hosts:
+      - robot
+
+# Credentials for your image host
+registry:
+  username: whomwah
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+# Configure builder setup for backend
+builder:
+  arch: amd64
+  dockerfile: Dockerfile.backend
+  context: .
+
+# Enable proxy for backend (serves the api)
+proxy:
+  ssl: false
+  host: robot.local
+  path_prefix: /api
+  app_port: 8080
+
+# Backend environment variables
+env:
+  clear:
+    PORT: 8080
+    NODE_ENV: production
+    EXPLICIT_CONTENT: true
+    SPOTIFY_NEW_TRACKS_ADDED_LIMIT: 10
+  secret:
+    - SPOTIFY_ID
+    - SPOTIFY_SECRET
+    - WS_MOPIDY_URL
+    - WS_MOPIDY_PORT
+    - SQLITE_PATH
+
+# Use a different ssh user than root
+ssh:
+  user: duncan
+
+# Use persistent storage volume
+volumes:
+  - /app/data:/app/data
+
+# Configure rolling deploys
+boot:
+  limit: 10
+  wait: 2
+
+# Aliases for backend management
+aliases:
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs --lines 100 --follow
