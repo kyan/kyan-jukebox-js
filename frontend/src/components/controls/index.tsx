@@ -1,10 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import MopidyApi from 'constants/mopidy-api'
-import { Icon } from 'semantic-ui-react'
-import './index.css'
+import { Icon } from '@/components/ui/icon'
+import { cn } from '@/lib/utils'
 
-import type { SemanticICONS } from 'semantic-ui-react/dist/commonjs/generic'
 import type { JukeboxAppState } from 'reducers'
 
 interface SkipButtonProps {
@@ -29,14 +28,27 @@ interface ControlsProps {
 }
 
 const SkipButton = ({ disabled, onClick, type }: SkipButtonProps) => {
+  const iconName = type === 'forward' ? 'step forward' : 'step backward'
+
   return (
     <button
-      className='c-controls__button c-controls__button--skip'
+      className={cn(
+        'border-none bg-transparent p-0 transition-colors',
+        'focus:outline-none',
+        disabled ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-80'
+      )}
       onClick={onClick}
       disabled={disabled}
       data-testid={`SkipButton--${type}`}
     >
-      <Icon name={`step ${type}` as SemanticICONS} size='large' />
+      <Icon
+        name={iconName}
+        size='large'
+        className={cn(
+          'transition-colors',
+          disabled ? 'text-muted' : 'text-muted-foreground hover:text-foreground'
+        )}
+      />
     </button>
   )
 }
@@ -47,12 +59,20 @@ const PlayButton = ({ disabled, onPause, onPlay, state }: PlayButtonProps) => {
 
   return (
     <button
-      className='c-controls__button'
+      className={cn(
+        'border-none bg-transparent p-0 transition-colors',
+        'focus:outline-none',
+        disabled ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90'
+      )}
       onClick={clickHandler}
       disabled={disabled}
       data-testid='PlayButton'
     >
-      <Icon name={icon} size='big' />
+      <Icon
+        name={icon}
+        size='big'
+        className={cn('transition-colors', disabled ? 'text-muted' : 'text-foreground')}
+      />
     </button>
   )
 }
@@ -61,7 +81,7 @@ const Controls = ({ disabled, onPlay, onPause, onPrevious, onNext }: ControlsPro
   const jukebox = useSelector((state: JukeboxAppState) => state.jukebox)
 
   return (
-    <div className='c-controls__wrapper'>
+    <div className='w-[150px] flex justify-between items-center'>
       <SkipButton onClick={onPrevious} disabled={disabled} type='backward' />
       <PlayButton
         onPlay={onPlay}

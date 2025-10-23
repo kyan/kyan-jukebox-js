@@ -1,8 +1,11 @@
 import React from 'react'
 import dateFormat from 'dateformat'
-import { List, Popup, Image, Label } from 'semantic-ui-react'
 import { getAvatarUrl } from '../../utils/avatar'
-import './index.css'
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { Icon } from '@/components/ui/icon'
+import { cn } from '@/lib/utils'
 
 interface User {
   picture?: string
@@ -27,64 +30,83 @@ interface VotedByProps {
 const voteNormaliser = (v: number) => Math.round(v / 10 - 5) // 100 is max a user can vote per play
 
 const votedByContent = (votes: Vote[]) => (
-  <List>
+  <div className='space-y-3'>
     {votes.map((data, i) => {
       const fullName = data.user ? data.user.fullname : 'User unknown'
-      const voteScore = (
-        <Label circular size='mini'>
-          {voteNormaliser(data.vote)}
-        </Label>
-      )
+      const voteScore = voteNormaliser(data.vote)
 
       return (
-        <List.Item key={i}>
+        <div key={i} className='flex items-center gap-2'>
           {userPicture(data)}
-          <List.Content>
-            <List.Description>
-              <strong>{dateFormat(data.at, 'dd mmm yyyy @ h:MM tt')}</strong> - {fullName}{' '}
-              {voteScore}
-            </List.Description>
-          </List.Content>
-        </List.Item>
+          <div className='flex-1'>
+            <div className='text-xs text-muted-foreground'>
+              <strong className='font-semibold text-foreground'>
+                {dateFormat(data.at, 'dd mmm yyyy @ h:MM tt')}
+              </strong>{' '}
+              - {fullName}{' '}
+              <Badge variant='secondary' className='ml-1 rounded-full px-2 py-0 text-xs'>
+                {voteScore}
+              </Badge>
+            </div>
+          </div>
+        </div>
       )
     })}
-  </List>
+  </div>
 )
 
 const userPicture = (data: Vote) => {
   if (data && data.user) {
     const avatarUrl = getAvatarUrl(data.user, 50)
-    return <Image avatar className='voted_by_avatar_image' src={avatarUrl} />
+    return (
+      <Avatar className='w-4 h-4'>
+        <AvatarImage src={avatarUrl} alt={data.user.fullname || 'User'} />
+        <AvatarFallback className='text-[8px]'>
+          <Icon name='user' size='mini' />
+        </AvatarFallback>
+      </Avatar>
+    )
   }
   return null
 }
 
+const sizeMap = {
+  mini: 'text-[10px] px-1.5 py-0',
+  tiny: 'text-xs px-2 py-0.5',
+  small: 'text-sm px-2.5 py-0.5',
+  medium: 'text-base px-3 py-1',
+  large: 'text-lg px-3.5 py-1',
+  big: 'text-xl px-4 py-1.5',
+  huge: 'text-2xl px-5 py-2',
+  massive: 'text-3xl px-6 py-2.5'
+}
+
 const voteLabel = ({ total, size, ribbon }: { total: number; size?: string; ribbon?: boolean }) => {
-  let basic = true
-  let color: 'grey' | 'green' | 'red' = 'grey'
-  let icon: 'thumbs up' | 'thumbs down' = 'thumbs up'
   const normalisedTotal = voteNormaliser(total)
 
+  let variant: 'default' | 'secondary' | 'destructive' = 'secondary'
+  let icon: 'thumbs up' | 'thumbs down' = 'thumbs up'
+
   if (normalisedTotal < 0) icon = 'thumbs down'
-  if (normalisedTotal > 4) {
-    color = 'green'
-    basic = false
-  }
-  if (normalisedTotal < -4) {
-    color = 'red'
-    basic = false
-  }
+  if (normalisedTotal > 4) variant = 'default' // green equivalent
+  if (normalisedTotal < -4) variant = 'destructive' // red equivalent
+
+  const sizeClass = sizeMap[(size as keyof typeof sizeMap) || 'tiny']
 
   return (
-    <Label
-      className='track-label vote-track-label'
-      size={(size as any) || 'tiny'}
-      color={color}
-      basic={basic}
-      icon={icon}
-      content={normalisedTotal}
-      ribbon={ribbon ? 'right' : undefined}
-    />
+    <Badge
+      variant={variant}
+      className={cn(
+        'inline-flex items-center gap-1 font-semibold',
+        sizeClass,
+        ribbon && 'absolute right-0 top-2 rounded-l-md rounded-r-none',
+        normalisedTotal > 4 && 'bg-green-600 hover:bg-green-700 text-white border-green-600',
+        normalisedTotal < -4 && 'bg-red-600 hover:bg-red-700 text-white border-red-600'
+      )}
+    >
+      <Icon name={icon} size='mini' />
+      <span>{normalisedTotal}</span>
+    </Badge>
   )
 }
 
@@ -94,11 +116,16 @@ const VotedBy: React.FC<VotedByProps> = ({ show, ribbon, votes = [], total, size
   if (voteCount < 1) return voteLabel({ total, size, ribbon })
 
   return (
-    <Popup
-      wide='very'
-      content={votedByContent(votes)}
-      trigger={voteLabel({ total, size, ribbon })}
-    />
+    <Popover>
+      <PopoverTrigger asChild>
+        <button className='cursor-pointer hover:opacity-90 transition-opacity border-none bg-transparent p-0'>
+          {voteLabel({ total, size, ribbon })}
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className='w-auto min-w-[320px]' align='start'>
+        {votedByContent(votes)}
+      </PopoverContent>
+    </Popover>
   )
 }
 
