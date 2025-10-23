@@ -1,4 +1,4 @@
-import Database from 'better-sqlite3'
+import { Database } from 'bun:sqlite'
 import fs from 'fs'
 import path from 'path'
 import logger from '../../../config/logger'
@@ -21,7 +21,7 @@ export interface MigrationResult {
  * Handles database schema initialization and migration management
  */
 export class SQLiteSchemaRunner {
-  private db: Database.Database
+  private db: Database
   private schemasPath: string
   private verbose: boolean
 
@@ -38,11 +38,11 @@ export class SQLiteSchemaRunner {
    * Configure SQLite pragmas for optimal performance
    */
   private configurePragmas(): void {
-    this.db.pragma('foreign_keys = ON')
-    this.db.pragma('journal_mode = WAL')
-    this.db.pragma('synchronous = NORMAL')
-    this.db.pragma('cache_size = 10000')
-    this.db.pragma('temp_store = memory')
+    this.db.exec('PRAGMA foreign_keys = ON')
+    this.db.exec('PRAGMA journal_mode = WAL')
+    this.db.exec('PRAGMA synchronous = NORMAL')
+    this.db.exec('PRAGMA cache_size = 10000')
+    this.db.exec('PRAGMA temp_store = memory')
   }
 
   /**
@@ -63,7 +63,7 @@ export class SQLiteSchemaRunner {
       }
 
       // Execute the entire schema file at once
-      // better-sqlite3's exec method handles multiple statements correctly
+      // Bun SQLite's exec method handles multiple statements correctly
       this.db.exec(schemaSQL)
 
       // Verify the schema was created successfully
@@ -168,9 +168,8 @@ export class SQLiteSchemaRunner {
         return null
       }
 
-      const result = this.db
-        .prepare('SELECT MAX(version) as version FROM schema_version')
-        .get() as { version: number }
+      const stmt = this.db.query('SELECT MAX(version) as version FROM schema_version')
+      const result = stmt.get() as { version: number }
       return result?.version || null
     } catch (error) {
       logger.error('Failed to get current schema version', { error: error.message })
@@ -187,9 +186,7 @@ export class SQLiteSchemaRunner {
         return []
       }
 
-      return this.db
-        .prepare(
-          `
+      const stmt = this.db.query(`
         SELECT version, name, description, applied_at,
                CASE
                  WHEN applied_at IS NOT NULL THEN 'APPLIED'
@@ -197,9 +194,8 @@ export class SQLiteSchemaRunner {
                END as status
         FROM migration_versions
         ORDER BY version
-      `
-        )
-        .all()
+      `)
+      return stmt.all()
     } catch (error) {
       logger.error('Failed to get migration status', { error: error.message })
       return []
@@ -224,13 +220,15 @@ export class SQLiteSchemaRunner {
       }
 
       // Check foreign key integrity
-      const integrityCheck = this.db.prepare('PRAGMA foreign_key_check').all()
+      const integrityCheckStmt = this.db.query('PRAGMA foreign_key_check')
+      const integrityCheck = integrityCheckStmt.all()
       if (integrityCheck.length > 0) {
         errors.push(`Foreign key integrity violations: ${integrityCheck.length}`)
       }
 
       // Check database integrity
-      const integrityResult = this.db.prepare('PRAGMA integrity_check').get() as {
+      const integrityStmt = this.db.query('PRAGMA integrity_check')
+      const integrityResult = integrityStmt.get() as {
         integrity_check: string
       }
       if (integrityResult.integrity_check !== 'ok') {
@@ -263,9 +261,8 @@ export class SQLiteSchemaRunner {
 
       for (const table of tables) {
         try {
-          const count = this.db
-            .prepare(`SELECT COUNT(*) as count FROM ${table}`)
-            .get() as { count: number }
+          const countStmt = this.db.query(`SELECT COUNT(*) as count FROM ${table}`)
+          const count = countStmt.get() as { count: number }
           stats.tables[table] = {
             rowCount: count.count
           }
@@ -278,12 +275,10 @@ export class SQLiteSchemaRunner {
       }
 
       // Get database size
-      const sizeResult = this.db.prepare('PRAGMA page_count').get() as {
-        page_count: number
-      }
-      const pageSizeResult = this.db.prepare('PRAGMA page_size').get() as {
-        page_size: number
-      }
+      const sizeStmt = this.db.query('PRAGMA page_count')
+      const sizeResult = sizeStmt.get() as { page_count: number }
+      const pageSizeStmt = this.db.query('PRAGMA page_size')
+      const pageSizeResult = pageSizeStmt.get() as { page_size: number }
       stats.databaseSize = sizeResult.page_count * pageSizeResult.page_size
 
       return stats
@@ -310,28 +305,22 @@ export class SQLiteSchemaRunner {
    */
 
   private getTableList(): string[] {
-    const result = this.db
-      .prepare(
-        `
+    const stmt = this.db.query(`
       SELECT name FROM sqlite_master
       WHERE type='table' AND name NOT LIKE 'sqlite_%'
       ORDER BY name
-    `
-      )
-      .all() as { name: string }[]
+    `)
+    const result = stmt.all() as { name: string }[]
 
     return result.map((row) => row.name)
   }
 
   private tableExists(tableName: string): boolean {
-    const result = this.db
-      .prepare(
-        `
+    const stmt = this.db.query(`
       SELECT name FROM sqlite_master
       WHERE type='table' AND name = ?
-    `
-      )
-      .get(tableName)
+    `)
+    const result = stmt.get(tableName)
 
     return !!result
   }

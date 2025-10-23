@@ -1,28 +1,30 @@
-# Backend Dockerfile for Kyan Jukebox
-# Build from project root: docker build -f backend/Dockerfile -t jukebox-backend .
+# Backend Dockerfile for Kyan Jukebox (Bun Runtime)
+# Build from project root: docker build -f Dockerfile.backend -t jukebox-backend .
 
 # Build stage
-FROM node:22-alpine AS build
+FROM oven/bun:1.3-alpine AS build
 
 RUN apk add --no-cache python3 make g++
 
 WORKDIR /app
 
 # Copy package files for dependency installation
-COPY package.json yarn.lock ./
+COPY package.json bun.lock ./
 COPY backend/package.json ./backend/
+COPY frontend/package.json ./frontend/
 
 # Install dependencies (including devDependencies for build)
-RUN yarn install --frozen-lockfile
+# Use hoisted linker to avoid workspace isolation issues in Docker
+RUN bun install --frozen-lockfile --linker=hoisted
 
 # Copy all source code (root and backend)
 COPY ./backend ./backend/
 
 # Build the application
-RUN yarn workspace @jukebox/backend build
+RUN bun --filter @jukebox/backend build
 
 # Production stage
-FROM node:22-alpine
+FROM oven/bun:1.3-alpine
 
 # Build arguments for runtime environment variables
 ARG PORT=8080
@@ -45,18 +47,20 @@ WORKDIR /app
 
 # Copy package files for production dependency installation
 COPY --from=build /app/package.json ./
-COPY --from=build /app/yarn.lock ./
+COPY --from=build /app/bun.lock ./
 COPY --from=build /app/backend/package.json ./backend/
+COPY --from=build /app/frontend/package.json ./frontend/
 
 # Install only production dependencies
-RUN yarn install --frozen-lockfile --production && \
-  yarn cache clean
+# Use hoisted linker to avoid workspace isolation issues in Docker
+RUN bun install --frozen-lockfile --production --linker=hoisted && \
+  bun pm cache rm
 
 # Copy built application
 COPY --from=build /app/backend/dist ./dist
 
 # Remove package files (not needed at runtime)
-RUN rm -f package.json yarn.lock && rm -rf backend/
+RUN rm -f package.json bun.lock && rm -rf backend/ frontend/
 
 # Set runtime environment variables
 ENV NODE_ENV=$NODE_ENV
@@ -71,8 +75,14 @@ ENV IS_ALIVE_TIMEOUT=$IS_ALIVE_TIMEOUT
 ENV EXPLICIT_CONTENT=$EXPLICIT_CONTENT
 ENV IMAGE_CACHE_EXPIRES=$IMAGE_CACHE_EXPIRES
 
+# Create directory for SQLite database mount point
+RUN mkdir -p /app/data && chown -R app:app /app/data
+
+# Declare volume for SQLite database
+VOLUME ["/app/data"]
+
 USER app
 
 EXPOSE 8080
 
-CMD ["node", "dist/index.js"]
+CMD ["bun", "dist/index.js"]

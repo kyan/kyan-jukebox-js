@@ -11,8 +11,48 @@
     "frontend",
     "backend"
   ],
+  "catalog": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "typescript": "^5.9.3",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "prettier": "^3.1.1",
+    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.2",
+    "lodash": "^4.17.21",
+    "@types/lodash": "^4.14.202",
+    "dotenv": "^16.3.1",
+    "socket.io": "^4.6.0",
+    "socket.io-client": "^4.2.0"
+  },
+  "trustedDependencies": [
+    "better-sqlite3"
+  ],
   "scripts": {
-    "test:frontend": "yarn workspace @jukebox/frontend test:ci",
-    "test:backend": "yarn workspace @jukebox/backend test:ci"
+    "test:frontend": "bun run --filter @jukebox/frontend test:ci",
+    "test:backend": "bun run --filter @jukebox/backend test:ci",
+    "test": "bun run --workspaces test:ci",
+    "build": "bun run --workspaces build",
+    "dev": "bun run --workspaces start",
+    "deps:why": "bun why",
+    "deps:outdated": "bun outdated --recursive",
+    "deps:update": "bun update --interactive",
+    "deps:update-all": "bun update --recursive",
+    "deps:audit": "bun audit",
+    "deps:info": "bun info",
+    "security:scan": "bun install --dry-run",
+    "workspace:clean": "bun run --workspaces clean || true",
+    "workspace:lint": "bun run --workspaces lint",
+    "workspace:format": "bun run --workspaces format"
+  },
+  "dependencies": {
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "bun-types": "^1.2.23"
   }
 }

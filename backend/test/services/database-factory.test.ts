@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeAll, afterAll } from 'bun:test'
 import { DatabaseFactory } from '../../src/services/database/factory'
 import { SQLiteConfig } from '../../src/services/database/interfaces'
 import { initializeSQLiteDatabase } from '../../src/services/database/sqlite/schema-runner'

@@ -6,3 +6,5 @@ coverage
 test
 config
 scripts
+build.ts
+dev-server.ts

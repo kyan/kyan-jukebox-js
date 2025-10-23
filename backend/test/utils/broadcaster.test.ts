@@ -1,38 +1,52 @@
 import { Server, Socket } from 'socket.io'
-import broadcaster from '../../src/utils/broadcaster'
+import Broadcaster from '../../src/utils/broadcaster'
 import logger from '../../src/config/logger'
-import EventLogger from '../../src/utils/event-logger'
-jest.mock('../../src/config/logger')
-jest.mock('../../src/utils/event-logger')
+import { expect, test, describe, mock, beforeEach } from 'bun:test'
+
+// Mock logger
+const mockLogger = {
+  info: mock(() => {}),
+  error: mock(() => {}),
+  warn: mock(() => {}),
+  debug: mock(() => {})
+}
+mock.module('../../src/config/logger', () => ({ default: mockLogger }))
+
+// Mock EventLogger
+const mockEventLogger = {
+  info: mock(() => {})
+}
+mock.module('../../src/utils/event-logger', () => ({ default: mockEventLogger }))
 
 describe('Broadcaster', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    mockLogger.info.mockClear()
+    mockEventLogger.info.mockClear()
   })
 
   describe('#toClient', () => {
-    it('handles unauthorised call', () => {
-      const emitMock = jest.fn()
+    test('handles unauthorised call', () => {
+      const emitMock = mock()
       const headers = { key: 'playback.next' }
       const message = 'hello mum'
 
       const socket = { id: '123', emit: emitMock } as any
       const mockSocket = socket as Socket
 
-      broadcaster.toClient({ socket: mockSocket, headers, message })
+      Broadcaster.toClient({ socket: mockSocket, headers, message })
 
       expect(socket.emit).toHaveBeenCalledWith(
         'message',
         '{"key":"playback.next","data":"hello mum"}'
       )
-      expect(EventLogger.info).toHaveBeenCalledWith('OUTGOING API', {
+      expect(mockEventLogger.info).toHaveBeenCalledWith('OUTGOING API', {
         data: 'hello mum',
         key: 'playback.next'
       })
     })
 
-    it('handles authorised call', () => {
-      const emitMock = jest.fn()
+    test('handles authorised call', () => {
+      const emitMock = mock()
       const headers = {
         key: 'playback.next',
         user: 'duncan'
@@ -42,19 +56,19 @@ describe('Broadcaster', () => {
       const socket = { id: '123', emit: emitMock } as any
       const mockSocket = socket as Socket
 
-      broadcaster.toClient({ socket: mockSocket, headers, message })
+      Broadcaster.toClient({ socket: mockSocket, headers, message })
       expect(emitMock).toHaveBeenCalledWith(
         'message',
         '{"key":"playback.next","data":"hello mum","user":"duncan"}'
       )
-      expect(EventLogger.info).toHaveBeenCalledWith('OUTGOING API [AUTHED]', {
+      expect(mockEventLogger.info).toHaveBeenCalledWith('OUTGOING API [AUTHED]', {
         data: 'hello mum',
         key: 'playback.next'
       })
     })
 
-    it('handles error', () => {
-      const emitMock = jest.fn(() => {
+    test('handles error', () => {
+      const emitMock = mock(() => {
         throw Error('oops')
       })
       const headers = {
@@ -66,7 +80,7 @@ describe('Broadcaster', () => {
       const socket = { id: '123', emit: emitMock } as any
       const mockSocket = socket as Socket
 
-      broadcaster.toClient({ socket: mockSocket, headers, message })
+      Broadcaster.toClient({ socket: mockSocket, headers, message })
       expect(logger.error).toHaveBeenCalledWith('Broadcaster#toClient', {
         message: 'oops'
       })
@@ -74,27 +88,27 @@ describe('Broadcaster', () => {
   })
 
   describe('#toAll', () => {
-    it('handles call', () => {
-      const emitMock = jest.fn()
+    test('handles call', () => {
+      const emitMock = mock()
       const headers = { key: 'playback.next' }
       const message = 'hello mum'
 
       const socket = { emit: emitMock } as any
       const mockSocket = socket as Server
 
-      broadcaster.toAll({ socketio: mockSocket, headers, message })
+      Broadcaster.toAll({ socketio: mockSocket, headers, message })
       expect(emitMock).toHaveBeenCalledWith(
         'message',
         '{"key":"playback.next","data":"hello mum"}'
       )
-      expect(EventLogger.info).toHaveBeenCalledWith('OUTGOING BROADCAST', {
+      expect(mockEventLogger.info).toHaveBeenCalledWith('OUTGOING BROADCAST', {
         data: 'hello mum',
         key: 'playback.next'
       })
     })
 
-    it('handles error', () => {
-      const emitMock = jest.fn(() => {
+    test('handles error', () => {
+      const emitMock = mock(() => {
         throw Error('oops')
       })
       const headers = { key: 'playback.next' }
@@ -103,48 +117,50 @@ describe('Broadcaster', () => {
       const socket = { emit: emitMock } as any
       const mockSocket = socket as Server
 
-      broadcaster.toAll({ socketio: mockSocket, headers, message })
+      Broadcaster.toAll({ socketio: mockSocket, headers, message })
       expect(emitMock).toHaveBeenCalledWith(
         'message',
         '{"key":"playback.next","data":"hello mum"}'
       )
-      expect(logger.error).toHaveBeenCalledWith('Broadcaster#toAll', { message: 'oops' })
+      expect(mockLogger.error).toHaveBeenCalledWith('Broadcaster#toAll', {
+        message: 'oops'
+      })
     })
   })
 
   describe('#stateChange', () => {
-    it('handles call to user', () => {
-      const emitMock = jest.fn()
+    test('handles call to user', () => {
+      const emitMock = mock()
       const message = { online: false }
 
       const socket = { emit: emitMock } as any
       const mockSocket = socket as Socket
 
-      broadcaster.stateChange({ socket: mockSocket, message })
+      Broadcaster.stateChange({ socket: mockSocket, message })
       expect(emitMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
-      expect(EventLogger.info).toHaveBeenCalledWith('OUTGOING STATE CHANGE', {
+      expect(mockEventLogger.info).toHaveBeenCalledWith('OUTGOING STATE CHANGE', {
         data: { online: false },
         key: 'state'
       })
     })
 
-    it('handles call to', () => {
-      const emitMock = jest.fn()
+    test('handles call to', () => {
+      const emitMock = mock()
       const message = { online: false }
 
       const socket = { emit: emitMock } as any
       const mockSocket = socket as Server
 
-      broadcaster.stateChange({ socketio: mockSocket, message })
+      Broadcaster.stateChange({ socketio: mockSocket, message })
       expect(emitMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
-      expect(EventLogger.info).toHaveBeenCalledWith('OUTGOING STATE CHANGE', {
+      expect(mockEventLogger.info).toHaveBeenCalledWith('OUTGOING STATE CHANGE', {
         data: { online: false },
         key: 'state'
       })
     })
 
-    it('handles error', () => {
-      const emitMock = jest.fn(() => {
+    test('handles error', () => {
+      const emitMock = mock(() => {
         throw Error('oops')
       })
       const message = { online: false }
@@ -152,9 +168,9 @@ describe('Broadcaster', () => {
       const socket = { emit: emitMock } as any
       const mockSocket = socket as Socket
 
-      broadcaster.stateChange({ socket: mockSocket, message })
+      Broadcaster.stateChange({ socket: mockSocket, message })
       expect(emitMock).toHaveBeenCalledWith('mopidy', '{"online":false}')
-      expect(logger.error).toHaveBeenCalledWith('Broadcaster#stateChange', {
+      expect(mockLogger.error).toHaveBeenCalledWith('Broadcaster#stateChange', {
         message: 'oops'
       })
     })

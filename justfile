@@ -20,50 +20,45 @@ default:
 # Install dependencies and start development environment
 [group('setup')]
 setup:
-  yarn install --frozen-lockfile
+  bun install --frozen-lockfile
   just deps-start
 
 # Show current versions of tools and workspaces
 [group('setup')]
 version-info:
-  @echo "Node: $$(node -v)"
-  @echo "Yarn: $$(yarn -v)"
-  @echo "Frontend: $$(jq -r .version frontend/package.json)"
-  @echo "Backend:  $$(jq -r .version backend/package.json)"
+  @echo "Bun: `bun --version`"
+  @echo "Frontend: `jq -r .version frontend/package.json`"
+  @echo "Backend:  `jq -r .version backend/package.json`"
 
 # ===================================================================
 # DEVELOPMENT
 # ===================================================================
 
-# Start full development environment with hot reload for both frontend and backend
+# Start frontend and backend in dev mode with hot reload
 [group('dev')]
 dev:
-  ./scripts/run-all.sh
+  #!/usr/bin/env sh
+  bun --filter {{BACKEND_WS}} start & bun --filter {{FRONTEND_WS}} start
 
-# Start production mode for both frontend and backend
+# Start only frontend in development mode with hot reload
 [group('dev')]
-prod:
-  ./scripts/run-all.sh --prod
+dev-fe:
+  bun --filter {{FRONTEND_WS}} start
 
-# Start only backend with hot reload
+# Start only backend in development mode with hot reload
 [group('dev')]
-be-start:
-  yarn workspace {{BACKEND_WS}} start
+dev-be:
+  bun --filter {{BACKEND_WS}} start
 
-# Start only frontend development server
+# Run any frontend workspace command (e.g., just fe build, just fe test)
 [group('dev')]
-fe-start:
-  yarn workspace {{FRONTEND_WS}} start
+fe TASK="dev":
+  bun --filter {{FRONTEND_WS}} {{TASK}}
 
-# Run any frontend workspace command
-[group('dev')]
-fe TASK="start":
-  yarn workspace {{FRONTEND_WS}} {{TASK}}
-
-# Run any backend workspace command
+# Run any backend workspace command (e.g., just be test, just be lint)
 [group('dev')]
 be TASK="start":
-  yarn workspace {{BACKEND_WS}} {{TASK}}
+  bun --filter {{BACKEND_WS}} {{TASK}}
 
 # ===================================================================
 # BUILDING & TESTING
@@ -72,54 +67,55 @@ be TASK="start":
 # Build both frontend and backend for production
 [group('build')]
 build-all:
-  yarn workspace {{BACKEND_WS}} build
-  yarn workspace {{FRONTEND_WS}} build
+  bun --filter {{BACKEND_WS}} build
+  bun --filter {{FRONTEND_WS}} build
 
 # Build only frontend
 [group('build')]
 build-frontend:
-  yarn workspace {{FRONTEND_WS}} build
+  bun --filter {{FRONTEND_WS}} build
 
 # Build only backend
 [group('build')]
 build-backend:
-  yarn workspace {{BACKEND_WS}} build
-
-# Clean all build artifacts and dependencies
-[group('build')]
-clean:
-  rm -rf backend/dist frontend/build node_modules frontend/node_modules backend/node_modules
+  bun --filter {{BACKEND_WS}} build
 
 # Run all tests in CI mode
 [group('test')]
 test:
-  CI=true yarn workspace {{FRONTEND_WS}} test:ci
-  CI=true yarn workspace {{BACKEND_WS}} test:ci
+  CI=true bun --filter {{FRONTEND_WS}} test:ci
+  CI=true bun --filter {{BACKEND_WS}} test:ci
+
+# Run only frontend tests with verbose output
+[group('test')]
+test-frontend:
+  bun --filter {{FRONTEND_WS}} test
+
+# Run only backend tests with verbose output
+[group('test')]
+test-backend:
+  bun --filter {{BACKEND_WS}} test
 
 # Run backend tests in watch mode
 [group('test')]
 test-watch:
-  yarn workspace {{BACKEND_WS}} test --watchAll
+  bun --filter {{BACKEND_WS}} test --watchAll
 
 # Lint and type-check all code
 [group('test')]
 check:
   @echo "Checking frontend..."
-  yarn workspace {{FRONTEND_WS}} validate
+  bun --filter {{FRONTEND_WS}} validate
   @echo "Checking backend..."
-  yarn workspace {{BACKEND_WS}} validate
+  bun --filter {{BACKEND_WS}} validate
 
 # Auto-fix linting and formatting issues
 [group('test')]
 fix:
   @echo "Fixing frontend..."
-  yarn workspace {{FRONTEND_WS}} fix
+  bun --filter {{FRONTEND_WS}} fix
   @echo "Fixing backend..."
-  yarn workspace {{BACKEND_WS}} fix
-
-# Quick pre-push validation (lint + test)
-[group('test')]
-pre-push: check test
+  bun --filter {{BACKEND_WS}} fix
 
 # ===================================================================
 # DOCKER
@@ -132,18 +128,7 @@ docker-build-all TAG=DEFAULT_TAG: (docker-build-backend TAG) (docker-build-front
 # Build backend Docker image
 [group('docker')]
 docker-build-backend TAG=DEFAULT_TAG SPOTIFY_ID="" SPOTIFY_SECRET="" SQLITE_PATH="/var/lib/jukebox/jukebox.db" WS_MOPIDY_URL="host.docker.internal" WS_MOPIDY_PORT="6680":
-  docker build -f Dockerfile.backend \
-    --build-arg SPOTIFY_ID={{SPOTIFY_ID}} \
-    --build-arg SPOTIFY_SECRET={{SPOTIFY_SECRET}} \
-    --build-arg SQLITE_PATH={{SQLITE_PATH}} \
-    --build-arg WS_MOPIDY_URL={{WS_MOPIDY_URL}} \
-    --build-arg WS_MOPIDY_PORT={{WS_MOPIDY_PORT}} \
-    --build-arg SPOTIFY_NEW_TRACKS_ADDED_LIMIT=3 \
-    --build-arg SQLITE_TIMEOUT=30000 \
-    --build-arg IS_ALIVE_TIMEOUT=30000 \
-    --build-arg EXPLICIT_CONTENT=true \
-    --build-arg IMAGE_CACHE_EXPIRES=86400 \
-    -t {{IMAGE_BASE}}-backend:{{TAG}} .
+  docker build -f Dockerfile.backend -t {{IMAGE_BASE}}-backend:{{TAG}} .
 
 # Build frontend Docker image
 [group('docker')]
@@ -166,12 +151,21 @@ docker-shell-backend TAG=DEFAULT_TAG:
 # Run frontend container locally
 [group('docker')]
 docker-run-frontend TAG=DEFAULT_TAG PORT="3001":
-  docker run -d --name jukebox-frontend-local -p {{PORT}}:80 {{IMAGE_BASE}}-frontend:{{TAG}}
+  docker run -d \
+    --name jukebox-frontend-local \
+    --env-file ./frontend/.env.production.local \
+    -p {{PORT}}:3000 \
+    {{IMAGE_BASE}}-frontend:{{TAG}}
 
 # Run backend container locally
 [group('docker')]
 docker-run-backend TAG=DEFAULT_TAG PORT="8080":
-  docker run -d --name jukebox-backend-local -p {{PORT}}:8080 {{IMAGE_BASE}}-backend:{{TAG}}
+  docker run -d \
+    --name jukebox-backend-local \
+    --env-file ./backend/.env.production.local \
+    -p {{PORT}}:8080 \
+    -v ./databases:/app/data \
+    {{IMAGE_BASE}}-backend:{{TAG}}
 
 # Run both frontend and backend containers locally
 [group('docker')]
@@ -228,41 +222,25 @@ sqlite-info:
 # DEPLOYMENT
 # ===================================================================
 
-# Initial server setup and Docker installation (run once)
-[group('deploy')]
-kamal-setup:
-  @echo "Setting up servers and installing Docker..."
-  kamal setup
-
 # Deploy application to production
 [group('deploy')]
-kamal-deploy:
-  @just kamal-validate
-  @echo "Building and deploying application..."
-  kamal deploy
+kamal-deploy-frontend:
+  @echo "Building and deploying frontend application..."
+  kamal deploy -c config/deploy-frontend.yml
 
-# Check deployment status
 [group('deploy')]
-kamal-status:
-  @echo "Checking application status..."
-  kamal ps
+kamal-deploy-backend:
+  @echo "Building and deploying backend application..."
+  kamal deploy -c config/deploy-backend.yml
 
-# Stream application logs
+# Check deployment status (frontend)
 [group('deploy')]
-kamal-logs LINES="100":
-  kamal app logs --lines {{LINES}} --follow
+kamal-status-frontend:
+  @echo "Checking frontends status..."
+  kamal detail -c config/deploy-frontend.yml
 
-# Rollback to previous version
+# Check deployment status (backend)
 [group('deploy')]
-kamal-rollback:
-  @echo "Rolling back to previous version..."
-  kamal rollback
-
-# Access remote shell on deployed application
-[group('deploy')]
-kamal-shell:
-  kamal app exec --interactive bash
-
-# Complete deployment pipeline (test + build + deploy)
-[group('deploy')]
-deploy: check test docker-build-all kamal-deploy
+kamal-status-backend:
+  @echo "Checking backends status..."
+  kamal detail -c config/deploy-backend.yml

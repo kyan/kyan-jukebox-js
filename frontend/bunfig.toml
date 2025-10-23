@@ -1,0 +1,2 @@
+[serve.static]
+env = "REACT_APP_*"

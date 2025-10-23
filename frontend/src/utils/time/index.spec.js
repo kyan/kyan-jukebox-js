@@ -1,23 +1,22 @@
+import { describe, it, expect, mock } from 'bun:test'
 import * as time from './index'
 
-// Mock media-progress-timer locally for this test file
-jest.mock('media-progress-timer', () => {
-  return jest.fn(options => {
+// Mock media-progress-timer for Bun test
+mock.module('media-progress-timer', () => {
+  return mock(options => {
     // Immediately call the callback when timer is created
     if (options && options.callback) {
       options.callback(1000, 5000)
     }
     return {
-      reset: jest.fn(),
-      start: jest.fn(),
-      stop: jest.fn(),
-      pause: jest.fn(),
-      destroy: jest.fn()
+      reset: mock(() => {}),
+      start: mock(() => {}),
+      stop: mock(() => {}),
+      pause: mock(() => {}),
+      destroy: mock(() => {})
     }
   })
 })
-
-jest.useFakeTimers()
 
 describe('time', () => {
   describe('millisToMinutesAndSeconds', () => {

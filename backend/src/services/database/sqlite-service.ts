@@ -9,7 +9,7 @@ import {
   QueryOptions
 } from './interfaces'
 import { JBUser, JBTrack, JBAddedBy } from '../../types/database'
-import Database from 'better-sqlite3'
+import { Database } from 'bun:sqlite'
 import logger from '../../config/logger'
 import VotingHelper from '../../utils/voting'
 import Mopidy from 'mopidy'
@@ -18,11 +18,11 @@ import fs from 'fs'
 import { JBPlayed, JBVotes } from '../../types/database'
 
 class SQLiteUserService implements IUserService {
-  constructor(private db: Database.Database) {}
+  constructor(private db: Database) {}
 
   async findById(id: string): Promise<JBUser | null> {
     try {
-      const stmt = this.db.prepare('SELECT * FROM users WHERE id = ?')
+      const stmt = this.db.query('SELECT * FROM users WHERE id = ?')
       const row = stmt.get(id) as any
 
       if (!row) return null
@@ -40,7 +40,7 @@ class SQLiteUserService implements IUserService {
 
   async findByEmail(email: string): Promise<JBUser | null> {
     try {
-      const stmt = this.db.prepare('SELECT * FROM users WHERE email = ?')
+      const stmt = this.db.query('SELECT * FROM users WHERE email = ?')
       const row = stmt.get(email) as any
 
       if (!row) return null
@@ -59,7 +59,7 @@ class SQLiteUserService implements IUserService {
   async create(userData: Omit<JBUser, '_id'>): Promise<JBUser> {
     try {
       const id = new Date().getTime().toString() + Math.random().toString(36).substr(2, 9)
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         INSERT INTO users (id, fullname, email)
         VALUES (?, ?, ?)
       `)
@@ -98,7 +98,7 @@ class SQLiteUserService implements IUserService {
 
       values.push(id)
 
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         UPDATE users
         SET ${setClauses.join(', ')}, updated_at = CURRENT_TIMESTAMP
         WHERE id = ?
@@ -121,7 +121,7 @@ class SQLiteUserService implements IUserService {
 
   async delete(id: string): Promise<boolean> {
     try {
-      const stmt = this.db.prepare('DELETE FROM users WHERE id = ?')
+      const stmt = this.db.query('DELETE FROM users WHERE id = ?')
       const result = stmt.run(id)
       return result.changes > 0
     } catch (error) {
@@ -151,11 +151,11 @@ class SQLiteUserService implements IUserService {
 }
 
 class SQLiteTrackService implements ITrackService {
-  constructor(private db: Database.Database) {}
+  constructor(private db: Database) {}
 
   async findByUri(uri: string): Promise<JBTrack | null> {
     try {
-      const stmt = this.db.prepare('SELECT * FROM tracks WHERE uri = ?')
+      const stmt = this.db.query('SELECT * FROM tracks WHERE uri = ?')
       const row = stmt.get(uri) as any
 
       if (!row) return null
@@ -172,7 +172,7 @@ class SQLiteTrackService implements ITrackService {
       if (uris.length === 0) return []
 
       const placeholders = uris.map(() => '?').join(',')
-      const stmt = this.db.prepare(`SELECT * FROM tracks WHERE uri IN (${placeholders})`)
+      const stmt = this.db.query(`SELECT * FROM tracks WHERE uri IN (${placeholders})`)
       const rows = stmt.all(...uris) as any[]
 
       return rows.map((row) => this.convertRowToTrack(row))
@@ -192,12 +192,12 @@ class SQLiteTrackService implements ITrackService {
 
       // This is a simplified implementation - in a real scenario, you'd fetch track data from Spotify/Mopidy
       // For now, we'll just ensure the tracks exist with basic data
-      const insertStmt = this.db.prepare(`
+      const insertStmt = this.db.query(`
         INSERT OR IGNORE INTO tracks (uri, name, length, added_by, metrics)
         VALUES (?, ?, ?, ?, ?)
       `)
 
-      const updateStmt = this.db.prepare(`
+      const updateStmt = this.db.query(`
         UPDATE tracks
         SET added_by = json_insert(added_by, '$[#]', json(?))
         WHERE uri = ? AND json_extract(added_by, '$') NOT LIKE '%' || ? || '%'
@@ -259,7 +259,7 @@ class SQLiteTrackService implements ITrackService {
       }
       track.metrics.plays = track.metrics.plays + 1
 
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         UPDATE tracks
         SET added_by = ?, metrics = ?, updated_at = CURRENT_TIMESTAMP
         WHERE uri = ?
@@ -308,7 +308,7 @@ class SQLiteTrackService implements ITrackService {
       track.metrics.votesTotal = VotingHelper.calcVoteTotal(track.addedBy)
       track.metrics.votesAverage = VotingHelper.calcWeightedMean(track.addedBy)
 
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         UPDATE tracks
         SET added_by = ?, metrics = ?, updated_at = CURRENT_TIMESTAMP
         WHERE uri = ?
@@ -334,7 +334,7 @@ class SQLiteTrackService implements ITrackService {
 
   async getTrackMetrics(uri: string): Promise<any | null> {
     try {
-      const stmt = this.db.prepare('SELECT metrics FROM tracks WHERE uri = ?')
+      const stmt = this.db.query('SELECT metrics FROM tracks WHERE uri = ?')
       const row = stmt.get(uri) as any
 
       if (!row) return null
@@ -351,7 +351,7 @@ class SQLiteTrackService implements ITrackService {
 
   async bulkCreate(tracks: Partial<JBTrack>[]): Promise<JBTrack[]> {
     try {
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         INSERT OR REPLACE INTO tracks
         (uri, name, length, year, image, album, artist, added_by, metrics, explicit, genres)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -396,7 +396,7 @@ class SQLiteTrackService implements ITrackService {
       if (trackUris.length === 0) return []
 
       const placeholders = trackUris.map(() => '?').join(',')
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         SELECT uri FROM tracks
         WHERE uri IN (${placeholders})
         AND json_extract(metrics, '$.votesAverage') < 50
@@ -419,7 +419,7 @@ class SQLiteTrackService implements ITrackService {
       const startOfToday = new Date()
       startOfToday.setHours(0, 0, 0, 0)
 
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         SELECT uri FROM tracks
         WHERE created_at > ?
       `)
@@ -436,7 +436,7 @@ class SQLiteTrackService implements ITrackService {
 
   async findRandomTracksWithHighVotes(limit: number): Promise<string[]> {
     try {
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         SELECT uri FROM tracks
         WHERE json_extract(metrics, '$.votesAverage') >= 70
         ORDER BY RANDOM()
@@ -464,7 +464,7 @@ class SQLiteTrackService implements ITrackService {
       // If user exists but has empty fullname, try to populate from users table
       if (user && user._id && (!user.fullname || user.fullname === '')) {
         try {
-          const userStmt = this.db.prepare('SELECT * FROM users WHERE id = ?')
+          const userStmt = this.db.query('SELECT * FROM users WHERE id = ?')
           const userRow = userStmt.get(user._id) as any
 
           if (userRow) {
@@ -503,7 +503,7 @@ class SQLiteTrackService implements ITrackService {
                 (!voteUser.fullname || voteUser.fullname === '')
               ) {
                 try {
-                  const userStmt = this.db.prepare('SELECT * FROM users WHERE id = ?')
+                  const userStmt = this.db.query('SELECT * FROM users WHERE id = ?')
                   const userRow = userStmt.get(voteUser._id) as any
 
                   if (userRow) {
@@ -550,14 +550,14 @@ class SQLiteTrackService implements ITrackService {
 }
 
 class SQLiteSettingService implements ISettingService {
-  constructor(private db: Database.Database) {}
+  constructor(private db: Database) {}
 
   private readonly stateKey = 'state'
   private readonly HOW_MANY_PREVIOUS_TRACKS_IN_PLAYLIST = 4 as const
 
   async clearState(): Promise<void> {
     try {
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         INSERT OR REPLACE INTO settings (key, value)
         VALUES (?, ?)
       `)
@@ -586,7 +586,7 @@ class SQLiteSettingService implements ISettingService {
         trackSeeds: [] as string[]
       }
 
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         INSERT OR REPLACE INTO settings (key, value)
         VALUES (?, ?)
       `)
@@ -613,7 +613,7 @@ class SQLiteSettingService implements ISettingService {
         seeds.add(track.uri)
         state.trackSeeds = Array.from(seeds)
 
-        const stmt = this.db.prepare(`
+        const stmt = this.db.query(`
           UPDATE settings
           SET value = ?, updated_at = CURRENT_TIMESTAMP
           WHERE key = ?
@@ -644,7 +644,7 @@ class SQLiteSettingService implements ISettingService {
           const tracksToTrim = currentTracklist.slice(0, indexToDeleteTo)
           state.currentTracklist = currentTracklist.slice(indexToDeleteTo)
 
-          const stmt = this.db.prepare(`
+          const stmt = this.db.query(`
             UPDATE settings
             SET value = ?, updated_at = CURRENT_TIMESTAMP
             WHERE key = ?
@@ -669,7 +669,7 @@ class SQLiteSettingService implements ISettingService {
       const state = (await this.getState()) || this.getDefaultState()
       state.currentTrack = uri
 
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         INSERT OR REPLACE INTO settings (key, value)
         VALUES (?, ?)
       `)
@@ -690,7 +690,7 @@ class SQLiteSettingService implements ISettingService {
       const state = (await this.getState()) || this.getDefaultState()
       state.currentTracklist = uris
 
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         INSERT OR REPLACE INTO settings (key, value)
         VALUES (?, ?)
       `)
@@ -712,7 +712,7 @@ class SQLiteSettingService implements ISettingService {
       if (state) {
         state.trackSeeds = state.trackSeeds.filter((seed: string) => seed !== uri)
 
-        const stmt = this.db.prepare(`
+        const stmt = this.db.query(`
           UPDATE settings
           SET value = ?, updated_at = CURRENT_TIMESTAMP
           WHERE key = ?
@@ -782,7 +782,7 @@ class SQLiteSettingService implements ISettingService {
 
   async updateJsonSetting(key: string, value: any): Promise<void> {
     try {
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         INSERT OR REPLACE INTO settings (key, value)
         VALUES (?, ?)
       `)
@@ -800,7 +800,7 @@ class SQLiteSettingService implements ISettingService {
 
   private async getState(): Promise<any | null> {
     try {
-      const stmt = this.db.prepare('SELECT value FROM settings WHERE key = ?')
+      const stmt = this.db.query('SELECT value FROM settings WHERE key = ?')
       const row = stmt.get(this.stateKey) as any
 
       if (!row) return null
@@ -822,11 +822,11 @@ class SQLiteSettingService implements ISettingService {
 }
 
 class SQLiteEventService implements IEventService {
-  constructor(private db: Database.Database) {}
+  constructor(private db: Database) {}
 
   async create(eventData: { user: string; key: string; payload: any }): Promise<void> {
     try {
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         INSERT INTO events (user_id, key, payload)
         VALUES (?, ?, ?)
       `)
@@ -864,7 +864,7 @@ class SQLiteEventService implements IEventService {
         }
       }
 
-      const stmt = this.db.prepare(query)
+      const stmt = this.db.query(query)
       const rows = stmt.all(...params) as any[]
 
       return rows.map((row) => ({
@@ -909,7 +909,7 @@ class SQLiteEventService implements IEventService {
         }
       }
 
-      const stmt = this.db.prepare(query)
+      const stmt = this.db.query(query)
       const rows = stmt.all(...params) as any[]
 
       return rows.map((row) => ({
@@ -931,7 +931,7 @@ class SQLiteEventService implements IEventService {
 
   async findRecent(limit: number = 100): Promise<any[]> {
     try {
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         SELECT * FROM events
         ORDER BY id DESC
         LIMIT ?
@@ -954,7 +954,7 @@ class SQLiteEventService implements IEventService {
 
   async deleteOld(beforeDate: Date): Promise<number> {
     try {
-      const stmt = this.db.prepare('DELETE FROM events WHERE created_at < ?')
+      const stmt = this.db.query('DELETE FROM events WHERE created_at < ?')
       const result = stmt.run(beforeDate.toISOString())
       return result.changes
     } catch (error) {
@@ -968,13 +968,13 @@ class SQLiteEventService implements IEventService {
 }
 
 class SQLiteImageService implements IImageService {
-  constructor(private db: Database.Database) {}
+  constructor(private db: Database) {}
 
   async findByUri(
     uri: string
   ): Promise<{ _id: string; url: string; expireAt: Date } | null> {
     try {
-      const stmt = this.db.prepare('SELECT * FROM images WHERE uri = ?')
+      const stmt = this.db.query('SELECT * FROM images WHERE uri = ?')
       const row = stmt.get(uri) as any
 
       if (!row) return null
@@ -997,7 +997,7 @@ class SQLiteImageService implements IImageService {
       if (uris.length === 0) return []
 
       const placeholders = uris.map(() => '?').join(',')
-      const stmt = this.db.prepare(`SELECT * FROM images WHERE uri IN (${placeholders})`)
+      const stmt = this.db.query(`SELECT * FROM images WHERE uri IN (${placeholders})`)
       const rows = stmt.all(...uris) as any[]
 
       return rows.map((row) => ({
@@ -1014,7 +1014,7 @@ class SQLiteImageService implements IImageService {
   async store(uri: string, url: string): Promise<void> {
     try {
       const expireAt = this.calculateExpiration()
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         INSERT OR REPLACE INTO images (uri, url, expire_at)
         VALUES (?, ?, ?)
       `)
@@ -1029,7 +1029,7 @@ class SQLiteImageService implements IImageService {
   async storeMany(imageData: Record<string, string>): Promise<void> {
     try {
       const expireAt = this.calculateExpiration()
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         INSERT OR REPLACE INTO images (uri, url, expire_at)
         VALUES (?, ?, ?)
       `)
@@ -1052,7 +1052,7 @@ class SQLiteImageService implements IImageService {
 
   async deleteExpired(): Promise<number> {
     try {
-      const stmt = this.db.prepare('DELETE FROM images WHERE expire_at < ?')
+      const stmt = this.db.query('DELETE FROM images WHERE expire_at < ?')
       const result = stmt.run(new Date().toISOString())
       return result.changes
     } catch (error) {
@@ -1063,9 +1063,9 @@ class SQLiteImageService implements IImageService {
 
   async updateExpiration(uri: string, expireAt: Date): Promise<void> {
     try {
-      const stmt = this.db.prepare(`
+      const stmt = this.db.query(`
         UPDATE images
-        SET expire_at = ?, updated_at = CURRENT_TIMESTAMP
+        SET expire_at = ?
         WHERE uri = ?
       `)
 
@@ -1095,7 +1095,7 @@ export class SQLiteService implements IDatabaseService {
   public images: IImageService
 
   private config: SQLiteConfig
-  private db: Database.Database | null = null
+  private db: Database | null = null
   private connected: boolean = false
 
   constructor(config: SQLiteConfig) {
@@ -1156,7 +1156,7 @@ export class SQLiteService implements IDatabaseService {
   }
 
   isConnected(): boolean {
-    return this.connected && this.db !== null && this.db.open
+    return this.connected && this.db !== null
   }
 
   async transaction<T>(callback: () => Promise<T>): Promise<T> {
@@ -1164,10 +1164,12 @@ export class SQLiteService implements IDatabaseService {
       throw new Error('Database not connected')
     }
 
-    // better-sqlite3 transactions must be synchronous
-    // For now, we'll execute the callback without transaction wrapping
-    // In a production system, you'd need to restructure to use sync operations
-    return await callback()
+    // Use Bun SQLite transaction API
+    const transactionFn = this.db.transaction(async () => {
+      return await callback()
+    })
+
+    return transactionFn()
   }
 
   async healthCheck(): Promise<boolean> {
@@ -1177,7 +1179,7 @@ export class SQLiteService implements IDatabaseService {
       }
 
       // Simple query to verify connection
-      const stmt = this.db.prepare('SELECT 1 as test')
+      const stmt = this.db.query('SELECT 1 as test')
       const result = stmt.get()
       return result !== undefined
     } catch (error) {
@@ -1190,16 +1192,16 @@ export class SQLiteService implements IDatabaseService {
     if (!this.db) return
 
     // Enable foreign keys
-    this.db.pragma('foreign_keys = ON')
+    this.db.exec('PRAGMA foreign_keys = ON')
 
     // Configure performance settings based on config
     if (this.config.options?.enableWAL) {
-      this.db.pragma('journal_mode = WAL')
+      this.db.exec('PRAGMA journal_mode = WAL')
     }
 
-    this.db.pragma('synchronous = NORMAL')
-    this.db.pragma('cache_size = 10000')
-    this.db.pragma('temp_store = memory')
+    this.db.exec('PRAGMA synchronous = NORMAL')
+    this.db.exec('PRAGMA cache_size = 10000')
+    this.db.exec('PRAGMA temp_store = memory')
 
     // Set timeout if specified
     if (this.config.options?.timeout) {

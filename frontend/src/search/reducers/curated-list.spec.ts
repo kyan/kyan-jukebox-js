@@ -1,16 +1,17 @@
 import reducer, { CurateState } from './curated-list'
 import Constant from 'search/constants'
+import { describe, it, expect } from 'bun:test'
 
 const getInitialState = (initial?: Partial<CurateState>) =>
   reducer(initial as CurateState, {} as any)
 
 describe('curated-list', () => {
-  test('initial state is correct', () => {
+  it('initial state is correct', () => {
     const initialState = getInitialState()
     expect(initialState).toMatchSnapshot()
   })
 
-  test('ADD_TRACK_TO_MIX', () => {
+  it('ADD_TRACK_TO_MIX', () => {
     const initialState = getInitialState()
     expect(initialState.tracks).toHaveLength(0)
     const state = reducer(initialState, {
@@ -20,7 +21,7 @@ describe('curated-list', () => {
     expect(state.tracks).toHaveLength(1)
   })
 
-  test('REMOVE_TRACK_FROM_MIX', () => {
+  it('REMOVE_TRACK_FROM_MIX', () => {
     const initialState = getInitialState({
       tracks: [{ uri: '123' }]
     })
@@ -32,7 +33,7 @@ describe('curated-list', () => {
     expect(state.tracks).toHaveLength(0)
   })
 
-  test('ADD_TRACK_TO_MIX does not add items that exist', () => {
+  it('ADD_TRACK_TO_MIX does not add items that exist', () => {
     const initialState = getInitialState({
       tracks: [{ uri: '123' }, { uri: '456' }]
     })
@@ -44,7 +45,7 @@ describe('curated-list', () => {
     expect(state.tracks).toHaveLength(2)
   })
 
-  test('SWAP_TRACKS', () => {
+  it('SWAP_TRACKS', () => {
     const initialState = getInitialState({
       tracks: [{ uri: '123' }, { uri: '456' }, { uri: '789' }]
     })
@@ -59,7 +60,7 @@ describe('curated-list', () => {
     expect(state.tracks[2].uri).toEqual('123')
   })
 
-  test('CLEAR_MIX', () => {
+  it('CLEAR_MIX', () => {
     const initialState = getInitialState({
       tracks: [{ uri: '123' }, { uri: '456' }, { uri: '789' }]
     })

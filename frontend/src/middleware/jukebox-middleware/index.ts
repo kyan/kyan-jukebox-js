@@ -16,7 +16,11 @@ interface ActionInterface extends Action {
 }
 
 const JukeboxMiddleware: Middleware = (() => {
-  const url = `http://${process.env.REACT_APP_WS_URL}:${process.env.REACT_APP_WS_PORT}`
+  const host = process.env.REACT_APP_WS_HOST || 'localhost'
+  const port = process.env.REACT_APP_WS_PORT ?? '8080'
+  const path = process.env.REACT_APP_WS_PATH || ''
+  const url = port && port !== '' ? `http://${host}:${port}` : `http://${host}`
+  const socketPath = path ? `${path}/socket.io/` : '/socket.io/'
   let socket: Socket
   let progressTimer: any = null
 
@@ -46,7 +50,7 @@ const JukeboxMiddleware: Middleware = (() => {
     const onVote = (data: string) => onMessageHandler(store, data, progressTimer)
     const onConnect = () => {
       if (socket != null) socket.close()
-      socket = io(url, { transports: ['websocket'] })
+      socket = io(url, { path: socketPath, transports: ['websocket'] })
       socket.on('vote', onVote)
       socket.on('search', onSearchResults)
       socket.on('mopidy', onMopidyStateChange)
