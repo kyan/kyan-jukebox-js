@@ -1,52 +1,45 @@
+import { describe, it, expect, mock } from 'bun:test'
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import ClearPlaylist from './index'
 
 describe('ClearPlaylist', () => {
-  const onClearMock = jest.fn()
-
-  beforeEach(() => {
-    jest.clearAllMocks()
-  })
+  const onClearMock = mock(() => {})
 
   describe('render', () => {
     it('renders the clear button', () => {
-      render(<ClearPlaylist onClear={onClearMock} />)
-      expect(screen.getByText('CLEAR')).toBeInTheDocument()
+      const { getByText } = render(<ClearPlaylist onClear={onClearMock} />)
+      expect(getByText('CLEAR')).toBeInTheDocument()
     })
 
     describe('confirm dialog', () => {
       it('is not shown by default', () => {
-        render(<ClearPlaylist onClear={onClearMock} />)
-        expect(
-          screen.queryByText('Are you sure you want to nuke the playlist?')
-        ).not.toBeInTheDocument()
+        const { queryByText } = render(<ClearPlaylist onClear={onClearMock} />)
+        expect(queryByText('Are you sure you want to nuke the playlist?')).not.toBeInTheDocument()
       })
 
       it('shows when the button is pressed', () => {
-        render(<ClearPlaylist onClear={onClearMock} />)
-        fireEvent.click(screen.getByText('CLEAR'))
-        expect(screen.getByText('Are you sure you want to nuke the playlist?')).toBeInTheDocument()
+        const { getByText } = render(<ClearPlaylist onClear={onClearMock} />)
+        fireEvent.click(getByText('CLEAR'))
+        expect(getByText('Are you sure you want to nuke the playlist?')).toBeInTheDocument()
       })
     })
 
     describe('callbacks', () => {
       it('calls the onConfirm callback', () => {
-        render(<ClearPlaylist onClear={onClearMock} />)
-        fireEvent.click(screen.getByText('CLEAR'))
-        expect(screen.getByText('Are you sure you want to nuke the playlist?')).toBeInTheDocument()
-        fireEvent.click(screen.getByText('Do it!'))
+        const { getByText } = render(<ClearPlaylist onClear={onClearMock} />)
+        fireEvent.click(getByText('CLEAR'))
+        expect(getByText('Are you sure you want to nuke the playlist?')).toBeInTheDocument()
+        fireEvent.click(getByText('Do it!'))
         expect(onClearMock).toHaveBeenCalled()
       })
 
       it('hides dialog on cancel', () => {
-        render(<ClearPlaylist onClear={onClearMock} />)
-        fireEvent.click(screen.getByText('CLEAR'))
-        expect(screen.getByText('Are you sure you want to nuke the playlist?')).toBeInTheDocument()
-        fireEvent.click(screen.getByText('No thanks'))
-        expect(
-          screen.queryByText('Are you sure you want to nuke the playlist?')
-        ).not.toBeInTheDocument()
+        const { getByText, queryByText } = render(<ClearPlaylist onClear={onClearMock} />)
+        fireEvent.click(getByText('CLEAR'))
+        expect(getByText('Are you sure you want to nuke the playlist?')).toBeInTheDocument()
+        fireEvent.click(getByText('No thanks'))
+        expect(queryByText('Are you sure you want to nuke the playlist?')).not.toBeInTheDocument()
       })
     })
   })

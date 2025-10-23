@@ -15,31 +15,42 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [22.x]
+        bun-version: [latest]
 
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+
+      - name: Setup Bun ${{ matrix.bun-version }}
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: "yarn"
+          bun-version: ${{ matrix.bun-version }}
 
       - name: Install dependencies
         run: |
-          yarn install
+          bun install --frozen-lockfile
+
+      - name: Security audit
+        run: |
+          bun audit
+        continue-on-error: true
+
+      - name: Check outdated dependencies
+        run: |
+          bun outdated --recursive
+        continue-on-error: true
 
       - name: Test frontend
         run: |
-          yarn workspace @jukebox/frontend build
-          yarn workspace @jukebox/frontend test:ci
+          bun --filter @jukebox/frontend build
+          bun --filter @jukebox/frontend test:ci
         env:
           CI: true
           SKIP_PREFLIGHT_CHECK: true
+
       - name: Test backend
         run: |
-          yarn workspace @jukebox/backend build
-          yarn workspace @jukebox/backend test:ci
+          bun --filter @jukebox/backend build
+          bun --filter @jukebox/backend test:ci
         env:
           CI: true
           LOCAL_STORAGE_PATH: /tmp/jukebox
@@ -48,3 +59,8 @@ jobs:
           CLIENT_ID: abcdefg
           EXPLICIT_CONTENT: true
           SPOTIFY_NEW_TRACKS_ADDED_LIMIT: 3
+
+      - name: Validate workspace dependencies
+        run: |
+          bun install --analyze
+        continue-on-error: true

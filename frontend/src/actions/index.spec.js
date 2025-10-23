@@ -1,7 +1,9 @@
 import * as actions from './index'
 import MopidyApi from 'constants/mopidy-api'
 import Types from 'constants/common'
-jest.mock('utils/notify')
+import { describe, it, expect, mock } from 'bun:test'
+
+mock.module('utils/notify', () => ({}))
 
 describe('actions', () => {
   it('should handle validateUser', () => {

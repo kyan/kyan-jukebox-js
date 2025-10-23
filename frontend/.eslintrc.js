@@ -1,6 +1,16 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
+  ignorePatterns: [
+    'dist',
+    'test.ts',
+    'babel.config.js',
+    'build.ts',
+    'dev-server.ts',
+    'happydom.ts',
+    'matchers.d.ts',
+    'server.tsx'
+  ],
   parserOptions: {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
@@ -10,19 +20,17 @@ module.exports = {
       jsx: true
     }
   },
-  plugins: ['@typescript-eslint', 'jest', 'prettier', 'react', 'import'],
+  plugins: ['@typescript-eslint', 'prettier', 'react', 'import'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
-    'plugin:jest/recommended',
     'plugin:prettier/recommended'
   ],
   env: {
     es6: true,
     browser: true,
-    node: true,
-    'jest/globals': true
+    node: true
   },
   settings: {
     react: {
@@ -45,8 +53,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     // TypeScript provides type checking, no need for prop-types
     'react/prop-types': 'off',
-    // allow conditional expects in tests for error handling patterns
-    'jest/no-conditional-expect': 'off',
+
     // React 18 migration is a larger task, disable deprecation warnings for now
     'react/no-deprecated': 'off',
     // allow unused variables that start with underscore
@@ -57,5 +64,6 @@ module.exports = {
         varsIgnorePattern: '^_'
       }
     ]
-  }
+  },
+  overrides: []
 }

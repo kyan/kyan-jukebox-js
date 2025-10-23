@@ -14,6 +14,52 @@ This is a work-in-progress replacement for our [existing office JukeBox](https:/
 
 The Jukebox re-imagined still uses `Mopidy` but has been split into parts, Client and API (FE and BE). The BE is written in [TypeScript](https://www.typescriptlang.org/) and the FE currently is a mix of [JavaScript](https://www.javascript.com/) and TypeScript. It uses SQLite for data persistence and communicates via smaller event messages passed back and forth over a websocket. Currently both the FE and BE live in this one monorepo.
 
+### Tech Stack
+
+- **Runtime**: [Bun](https://bun.sh/) - Fast JavaScript runtime and package manager
+- **Monorepo**: Bun workspaces with two packages:
+  - `@jukebox/frontend` - React application with Bun dev server
+  - `@jukebox/backend` - Node.js API with Socket.IO
+- **Task Runner**: [Just](https://github.com/casey/just) command runner
+- **Music Server**: Mopidy (running in Docker)
+- **Database**: SQLite
+
+### Architecture
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                         justfile                             │
+│               (Single Source of Truth)                       │
+│   All commands defined here: dev, build, test, deploy       │
+└────────────────────────┬─────────────────────────────────────┘
+                         │
+                         ├─→ Development: dev, dev-fe, dev-be
+                         ├─→ Testing: test, test-frontend, test-backend
+                         ├─→ Building: build-all, build-frontend, build-backend
+                         ├─→ Docker: docker-build-all, docker-run-all
+                         └─→ Deployment: kamal-deploy, kamal-setup
+```
+
+## Quick Start
+
+```bash
+# Install dependencies and start Mopidy
+just setup
+
+# Start full development environment (frontend + backend)
+just dev
+
+# Or start services individually
+just dev-fe    # Frontend only
+just dev-be    # Backend only
+
+# Run tests
+just test
+
+# Validate code (lint + type-check)
+just check
+```
+
 ## Why not use an existing Mopidy frontend
 
 We have extra requirements for our office Jukebox to make it more interactive and office friendly, Mopidy just handles playing music. This projects adds some of these extra features:
@@ -41,7 +87,27 @@ Running the app locally requires some environment variables to be set in the var
 
 ## Development
 
-The app uses `just` to make running common tasks easier, so if you run `just` or `just help` you will see all the commands you can run against the app with a simple explaination. Some of the commands take args `just <something> ARGS`
+The app uses `just` to make running common tasks easier. Run `just` or `just --list` to see all available commands.
+
+### Common Commands
+
+| Command | Description |
+|---------|-------------|
+| `just setup` | Install dependencies and start Mopidy |
+| `just dev` | Start both frontend and backend with hot reload |
+| `just dev-fe` | Start only frontend with hot reload |
+| `just dev-be` | Start only backend with hot reload |
+| `just build-all` | Build both frontend and backend for production |
+| `just test` | Run all tests in CI mode |
+| `just test-frontend` | Run only frontend tests |
+| `just test-backend` | Run only backend tests |
+| `just test-watch` | Run backend tests in watch mode |
+| `just check` | Lint and type-check all code |
+| `just fix` | Auto-fix linting and formatting issues |
+| `just deps-start` | Start Mopidy Docker container |
+| `just deps-stop` | Stop Mopidy Docker container |
+
+See [docs/DEV_WORKFLOW.md](docs/DEV_WORKFLOW.md) for detailed documentation.
 
 ### Running the tests
 
@@ -54,45 +120,46 @@ $ just test
 
 Run just the tests for the FE or BE:
 ```
-$ just fe-test
-$ just be-test
-$ just be-test --watchAll
-$ just be-test --watchAll --coverage
+$ just test-frontend
+$ just test-backend
+$ just test-watch       # Backend tests in watch mode
 ```
 
-You can also just run any of the scripts in `package.json` file of that project:
+You can also run any workspace command directly:
 ```
-$ just be lint
+$ just fe test          # Run frontend tests
+$ just be test          # Run backend tests
+$ just be validate      # Lint and type-check backend
+$ just fe validate      # Lint and type-check frontend
 ```
 
-You can also just ignore `just` and run everything manual if that's your thing.
+You can also just ignore `just` and run everything manually if that's your thing.
 
 ### Running the app
 
-When running the app locally you get to run a Docker instance of Mopidy on your machine. You don't get any sound but it's by far the easiest way. The SQLite database will be stored in the `databases/` folder. You just need to run:
+When running the app locally you get to run a Docker instance of Mopidy on your machine. You don't get any sound but it's by far the easiest way. The SQLite database will be stored in the `databases/` folder.
 
-Start the dependencies (Mopidy)
+The easiest way to get started:
 ```
-just deps-start
+just setup    # Installs dependencies and starts Mopidy
+just dev      # Starts both frontend and backend
 ```
 
-Note: If you are using an M1 Macbook, the above command may fail. To fix this, you will need to set the following environment variable in your shell:
+Or start services individually in separate terminals:
+```
+just dev-fe   # Frontend at http://localhost:3000
+```
+and
+```
+just dev-be   # Backend at http://localhost:8080
+```
+
+Note: If you are using an M1 Macbook and Docker fails, you will need to set the following environment variable in your shell:
 ```
 DOCKER_DEFAULT_PLATFORM=linux/amd64
 ```
 
-Now you can just open a new terminal for the FE and the BE and run:
-
-```
-just fe-serve
-```
-and
-```
-just be-serve
-```
-
-This will give you a working FE and BE with SQLite persistence. The Jukebox is available
-at http://localhost:3001 running in dev mode, meaning any changes will cause the server to restart.
+This will give you a working FE and BE with SQLite persistence running in dev mode, meaning any changes will cause hot reload.
 
 ## Technology
 
@@ -128,19 +195,39 @@ If you so want to run your own version of Mopidy for running in production, you 
 
 ## Deployment
 
-### Client
+The application uses [Kamal](https://kamal-deploy.org/) for deployment to production servers.
 
-To push out a new release of the [FE](frontend/) you first need just need to run:
-```
-$ ./scripts/deploy-frontend.sh
-```
-This will create a `build` directory in your local `frontend` folder and then push it to Github (where the frontend is hosted). You may have to wait a min for things to propergate, but you should now have pushed a new release. You can check at https://github.com/kyan/jukebox-js/tree/gh-pages. There are ENVs you can update in the deploy scripts if you need to customise.
+### Initial Setup
 
-### Api
-
-To push out a new release of the [BE](backend/) you need to run:
+First time deployment requires setting up the server and installing Docker:
 ```
-$ ./scripts/deploy-backend.sh
+$ just kamal-setup
+```
+
+### Deploy to Production
+
+Build Docker images and deploy:
+```
+$ just deploy              # Full pipeline: test + build + deploy
+$ just kamal-deploy        # Deploy only (skips tests/builds)
+```
+
+### Manage Deployment
+
+```
+$ just kamal-status        # Check deployment status
+$ just kamal-logs          # Stream application logs
+$ just kamal-rollback      # Rollback to previous version
+$ just kamal-shell         # Access remote shell
+```
+
+### Building Docker Images
+
+You can build Docker images locally:
+```
+$ just docker-build-all              # Build both frontend and backend
+$ just docker-build-frontend         # Build frontend only
+$ just docker-build-backend          # Build backend only
 ```
 
 ### Database

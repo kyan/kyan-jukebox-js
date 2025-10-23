@@ -1,45 +1,68 @@
 import DecorateTrack from '../../src/decorators/track'
 import DecorateTracklist from '../../src/decorators/tracklist'
-import Spotify from '../../src/services/spotify'
 import NowPlaying from '../../src/utils/now-playing'
 import MopidyDecorator from '../../src/decorators/mopidy'
-import { getDatabase } from '../../src/services/database/factory'
 import Mopidy from 'mopidy'
+import { expect, test, describe, afterEach, mock } from 'bun:test'
 
-jest.mock('../../src/services/spotify')
-jest.mock('../../src/utils/now-playing')
-jest.mock('../../src/decorators/track')
-jest.mock('../../src/decorators/tracklist')
-jest.mock('../../src/services/database/factory')
+// Mock DecorateTrack
+const mockDecorateTrack = mock()
+mock.module('../../src/decorators/track', () => ({
+  default: mockDecorateTrack
+}))
 
-jest.useFakeTimers()
+// Mock DecorateTracklist
+const mockDecorateTracklist = mock()
+mock.module('../../src/decorators/tracklist', () => ({
+  default: mockDecorateTracklist
+}))
+
+// Mock Spotify service
+const mockSpotifyCanRecommend = mock()
+mock.module('../../src/services/spotify', () => ({
+  default: {
+    canRecommend: mockSpotifyCanRecommend
+  }
+}))
+
+// Mock NowPlaying
+mock.module('../../src/utils/now-playing', () => ({
+  default: {
+    addTrack: mock()
+  }
+}))
+
+// Mock database factory
+mock.module('../../src/services/database/factory', () => ({
+  getDatabase: mock(() => mockDatabase)
+}))
+
+// jest.useFakeTimers() - TODO: Convert to bun equivalent
 
 // Mock database service
 const mockDatabase = {
   settings: {
-    updateCurrentTrack: jest.fn(),
-    updateTracklist: jest.fn(),
-    clearState: jest.fn(),
-    trimTracklist: jest.fn(),
-    addToTrackSeedList: jest.fn(),
-    getSeedTracks: jest.fn(),
-    removeFromSeeds: jest.fn()
+    updateCurrentTrack: mock(),
+    updateTracklist: mock(),
+    clearState: mock(),
+    trimTracklist: mock(),
+    addToTrackSeedList: mock(),
+    getSeedTracks: mock(),
+    removeFromSeeds: mock()
   },
   tracks: {
-    addTracks: jest.fn(),
-    updatePlaycount: jest.fn()
+    addTracks: mock(),
+    updatePlaycount: mock()
   }
 }
 
-const mockGetDatabase = getDatabase as jest.Mock
-mockGetDatabase.mockReturnValue(mockDatabase)
-
-const mockDecorateTracklist = DecorateTracklist as jest.Mock
-const mockSpotifyCanRecommend = Spotify.canRecommend as jest.Mock
+// Mock variables are already defined above
 
 describe('MopidyDecorator', () => {
   afterEach(() => {
-    jest.clearAllMocks()
+    mockDecorateTracklist.mockClear()
+    mockSpotifyCanRecommend.mockClear()
+    mockDecorateTrack.mockClear()
   })
 
   const h = (key: string): any => {
@@ -47,17 +70,17 @@ describe('MopidyDecorator', () => {
   }
 
   describe('playback.getCurrentTrack', () => {
-    it('transforms when we have data', async () => {
+    test('transforms when we have data', async () => {
       const data = 'data'
       expect.assertions(2)
       mockDatabase.settings.updateCurrentTrack.mockResolvedValue(true)
       mockDecorateTracklist.mockResolvedValue([{ uri: '123', length: 2820123 }])
       const response = await MopidyDecorator.parse(h('playback.getCurrentTrack'), data)
-      expect(DecorateTracklist).toHaveBeenCalledWith([data])
+      expect(mockDecorateTracklist).toHaveBeenCalledWith([data])
       expect(response).toEqual({ length: 2820123, uri: '123' })
     })
 
-    it('does not transform when we have no data', async () => {
+    test('does not transform when we have no data', async () => {
       expect.assertions(1)
       await MopidyDecorator.parse(h('playback.getCurrentTrack'), null)
       return expect(DecorateTrack).not.toHaveBeenCalled()
@@ -65,7 +88,7 @@ describe('MopidyDecorator', () => {
   })
 
   describe('playback.getTimePosition', () => {
-    it('returns the data that was passed in', async () => {
+    test('returns the data that was passed in', async () => {
       const data = 'data'
       expect.assertions(1)
       const returnData = await MopidyDecorator.parse(h('playback.getTimePosition'), data)
@@ -74,24 +97,24 @@ describe('MopidyDecorator', () => {
   })
 
   describe('tracklist.getTracks', () => {
-    it('calls the DecorateTracklist class, passes it into the settings and returns the result', async () => {
+    test('calls the DecorateTracklist class, passes it into the settings and returns the result', async () => {
       const data = 'data'
       expect.assertions(3)
       mockDecorateTracklist.mockResolvedValue([{ uri: '123', length: 2820123 }])
       mockDatabase.settings.updateTracklist.mockResolvedValue(true)
       const returnData = await MopidyDecorator.parse(h('tracklist.getTracks'), data)
-      expect(DecorateTracklist).toHaveBeenCalledWith(data)
+      expect(mockDecorateTracklist).toHaveBeenCalledWith(data)
       expect(mockDatabase.settings.updateTracklist).toHaveBeenCalledWith(['123'])
       expect(returnData).toEqual([{ uri: '123', length: 2820123 }])
     })
   })
 
   describe('event:trackPlaybackEnded', () => {
-    it('correctly calls through', async () => {
+    test('correctly calls through', async () => {
       expect.assertions(3)
       const data = { tl_track: { track: 'track' } }
       const decoratedData = [{ uri: '123', length: 2820123 }]
-      const mopidyMock = jest.fn() as unknown
+      const mopidyMock = mock() as unknown
       mockDecorateTracklist.mockResolvedValue(decoratedData)
       mockDatabase.settings.addToTrackSeedList.mockResolvedValue(true)
       mockDatabase.settings.trimTracklist.mockResolvedValue(true)
@@ -110,11 +133,11 @@ describe('MopidyDecorator', () => {
   })
 
   describe('event:trackPlaybackStarted', () => {
-    it('does recommend if there are recomendations', async () => {
+    test('does recommend if there are recomendations', async () => {
       expect.assertions(3)
-      const recomendMock = jest.fn()
+      const recomendMock = mock()
       const data = { tl_track: { track: { uri: 'uri123' } } }
-      const mopidyMock = jest.fn() as unknown
+      const mopidyMock = mock() as unknown
       mockDatabase.tracks.updatePlaycount.mockResolvedValue(true)
       mockDecorateTracklist.mockResolvedValue([{ uri: '123', length: 2820123 }])
       mockDatabase.settings.updateCurrentTrack.mockResolvedValue(true)
@@ -137,10 +160,10 @@ describe('MopidyDecorator', () => {
       })
     })
 
-    it('does not recommend if there are no recomendation', async () => {
+    test('does not recommend if there are no recomendation', async () => {
       expect.assertions(3)
       const data = { tl_track: { track: { uri: 'uri123' } } }
-      const mopidyMock = jest.fn() as unknown
+      const mopidyMock = mock() as unknown
       mockDatabase.tracks.updatePlaycount.mockResolvedValue(true)
       mockDecorateTracklist.mockResolvedValue([{ uri: '123' }])
       mockSpotifyCanRecommend.mockResolvedValue(null)
@@ -162,9 +185,9 @@ describe('MopidyDecorator', () => {
   })
 
   describe('event:volumeChanged', () => {
-    it('returns the volume data passed in', async () => {
+    test('returns the volume data passed in', async () => {
       const data = { volume: 99 }
-      const mopidyMock = jest.fn() as unknown
+      const mopidyMock = mock() as unknown
       expect.assertions(1)
       const returnData = await MopidyDecorator.mopidyCoreMessage(
         h('event:volumeChanged'),
@@ -176,9 +199,9 @@ describe('MopidyDecorator', () => {
   })
 
   describe('event:playbackResumed', () => {
-    it('returns the seek position', async () => {
+    test('returns the seek position', async () => {
       const data = { time_position: 99 }
-      const mopidyMock = jest.fn() as unknown
+      const mopidyMock = mock() as unknown
       expect.assertions(1)
       const returnData = await MopidyDecorator.mopidyCoreMessage(
         h('event:trackPlaybackResumed'),
@@ -190,9 +213,9 @@ describe('MopidyDecorator', () => {
   })
 
   describe('event:playbackStateChanged', () => {
-    it('returns the playback state data passed in', async () => {
+    test('returns the playback state data passed in', async () => {
       const data = { new_state: 'playing' }
-      const mopidyMock = jest.fn() as unknown
+      const mopidyMock = mock() as unknown
       expect.assertions(1)
       const returnData = await MopidyDecorator.mopidyCoreMessage(
         h('event:playbackStateChanged'),
@@ -204,7 +227,7 @@ describe('MopidyDecorator', () => {
   })
 
   describe('tracklist.remove', () => {
-    it('removes the track from the recently played array returns the data passed in', async () => {
+    test('removes the track from the recently played array returns the data passed in', async () => {
       const data = [
         {
           track: { uri: 'spotify:track:43xy5ZmjM9tdzmrXu1pmSG' }
@@ -227,7 +250,7 @@ describe('MopidyDecorator', () => {
   })
 
   describe('tracklist.clear', () => {
-    it('returns the data passed in', async () => {
+    test('returns the data passed in', async () => {
       expect.assertions(1)
       mockDatabase.settings.clearState.mockResolvedValue(true)
       const data = 'data'
@@ -237,7 +260,7 @@ describe('MopidyDecorator', () => {
   })
 
   describe('mixer.getVolume', () => {
-    it('returns the data passed in', async () => {
+    test('returns the data passed in', async () => {
       expect.assertions(1)
       const data = 12
       const returnData = await MopidyDecorator.parse(h('mixer.getVolume'), data)
@@ -246,7 +269,7 @@ describe('MopidyDecorator', () => {
   })
 
   describe('mixer.setVolume', () => {
-    it('returns the data passed in', async () => {
+    test('returns the data passed in', async () => {
       expect.assertions(1)
       const headers = h('mixer.setVolume')
       headers.data = [12]
@@ -260,7 +283,7 @@ describe('MopidyDecorator', () => {
   })
 
   describe('tracklist.add', () => {
-    it('returns the data passed in', async () => {
+    test('returns the data passed in', async () => {
       expect.assertions(3)
       const data = [
         {
@@ -298,7 +321,7 @@ describe('MopidyDecorator', () => {
   })
 
   describe('playback.next', () => {
-    it('returns null', async () => {
+    test('returns null', async () => {
       expect.assertions(1)
       const returnData = await MopidyDecorator.parse(h('playback.next'), [])
       return expect(returnData).toBeNull()
@@ -306,7 +329,7 @@ describe('MopidyDecorator', () => {
   })
 
   describe('playback.previous', () => {
-    it('returns null', async () => {
+    test('returns null', async () => {
       expect.assertions(1)
       const returnData = await MopidyDecorator.parse(h('playback.previous'), [])
       return expect(returnData).toBeNull()
@@ -314,7 +337,7 @@ describe('MopidyDecorator', () => {
   })
 
   describe('when passing an unknown key into Transform.message', () => {
-    it('returns with a skippedTransform message', async () => {
+    test('returns with a skippedTransform message', async () => {
       expect.assertions(1)
       const data = 'data'
       const returnData = await MopidyDecorator.parse(h('unknown'), data)
@@ -323,9 +346,9 @@ describe('MopidyDecorator', () => {
   })
 
   describe('when passing an unknown key into Transform.mopidyCoreMessage', () => {
-    it('returns with a skippedTransform message', async () => {
+    test('returns with a skippedTransform message', async () => {
       expect.assertions(1)
-      const mopidyMock = jest.fn() as unknown
+      const mopidyMock = mock() as unknown
       const data = 'data'
       const returnData = await MopidyDecorator.mopidyCoreMessage(
         h('unknown'),

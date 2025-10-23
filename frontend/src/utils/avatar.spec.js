@@ -1,4 +1,5 @@
 import { getAvatarUrl } from './avatar'
+import { describe, it, expect } from 'bun:test'
 
 describe('avatar utils', () => {
   describe('getAvatarUrl', () => {

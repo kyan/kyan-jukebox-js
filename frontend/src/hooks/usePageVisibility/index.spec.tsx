@@ -1,6 +1,6 @@
+import { it, expect } from 'bun:test'
 import React from 'react'
-import { render, screen } from '@testing-library/react'
-import '@testing-library/jest-dom'
+import { render } from '@testing-library/react'
 import usePageVisibility from './index'
 
 interface VisDoc extends Document {
@@ -10,19 +10,19 @@ interface VisDoc extends Document {
   webkitvisibilitychange: any
 }
 
-test('should handle default', async () => {
+it('should handle default', async () => {
   function TestComponent() {
     const isVisible = usePageVisibility()
 
     return isVisible ? <span>lookatme</span> : null
   }
 
-  render(<TestComponent />)
-  const lookatme = screen.queryByText('lookatme')
+  const { queryByText } = render(<TestComponent />)
+  const lookatme = queryByText('lookatme')
   expect(lookatme).not.toBeNull()
 })
 
-test('should handle ms', async () => {
+it('should handle ms', async () => {
   ;(document as VisDoc).msHidden = true
   ;(document as VisDoc).msvisibilitychange = true
 
@@ -32,12 +32,12 @@ test('should handle ms', async () => {
     return isVisible ? <span>lookatme</span> : null
   }
 
-  render(<TestComponent />)
-  const lookatme = screen.queryByText('lookatme')
+  const { queryByText } = render(<TestComponent />)
+  const lookatme = queryByText('lookatme')
   expect(lookatme).toBeNull()
 })
 
-test('should handle webkit', async () => {
+it('should handle webkit', async () => {
   ;(document as VisDoc).msHidden = undefined
   ;(document as VisDoc).msvisibilitychange = undefined
   ;(document as VisDoc).webkitHidden = true
@@ -49,7 +49,7 @@ test('should handle webkit', async () => {
     return isVisible ? <span>lookatme</span> : null
   }
 
-  render(<TestComponent />)
-  const lookatme = screen.queryByText('lookatme')
+  const { queryByText } = render(<TestComponent />)
+  const lookatme = queryByText('lookatme')
   expect(lookatme).toBeNull()
 })

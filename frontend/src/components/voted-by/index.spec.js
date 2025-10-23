@@ -1,10 +1,11 @@
+import { describe, it, expect, beforeEach } from 'bun:test'
 import React from 'react'
 import { render } from '@testing-library/react'
 import VotedBy from './index'
 
 describe('VotedBy', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    // Bun mocks are cleared automatically between tests
   })
 
   describe('render', () => {
