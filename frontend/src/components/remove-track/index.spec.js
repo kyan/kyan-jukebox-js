@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, mock } from 'bun:test'
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import RemoveTrack from './index'
 
 describe('RemoveTrack', () => {
@@ -28,11 +28,13 @@ describe('RemoveTrack', () => {
         expect(renderResult.queryByText('Are you sure you want to remove')).not.toBeInTheDocument()
       })
 
-      it('shows when the button is pressed', () => {
+      it('shows when the button is pressed', async () => {
         fireEvent.click(renderResult.getByText('Remove'))
-        expect(
-          renderResult.getByText('Are you sure you want to remove: The track title')
-        ).toBeInTheDocument()
+        await waitFor(() => {
+          expect(
+            renderResult.getByText('Are you sure you want to remove: The track title')
+          ).toBeInTheDocument()
+        })
       })
     })
 
@@ -41,17 +43,24 @@ describe('RemoveTrack', () => {
         fireEvent.click(renderResult.getByText('Remove'))
       })
 
-      it('calls the onConfirm callback', () => {
+      it('calls the onConfirm callback', async () => {
+        await waitFor(() => {
+          expect(renderResult.getByText('Do it!')).toBeInTheDocument()
+        })
         fireEvent.click(renderResult.getByText('Do it!'))
         expect(onClickMock).toHaveBeenCalled()
       })
 
-      it('calls the onCancel callback', () => {
-        fireEvent.click(renderResult.getByText('Remove'))
+      it('calls the onCancel callback', async () => {
+        await waitFor(() => {
+          expect(renderResult.getByText('No thanks')).toBeInTheDocument()
+        })
         fireEvent.click(renderResult.getByText('No thanks'))
-        expect(
-          renderResult.queryByText('Are you sure you want to remove: The track title')
-        ).not.toBeInTheDocument()
+        await waitFor(() => {
+          expect(
+            renderResult.queryByText('Are you sure you want to remove: The track title')
+          ).not.toBeInTheDocument()
+        })
       })
     })
   })

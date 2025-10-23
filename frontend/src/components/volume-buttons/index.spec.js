@@ -15,7 +15,7 @@ describe('VolumeButtons', () => {
 
     const mockOnVolumeChange = mock(() => {})
 
-    const { container } = render(
+    const { container, getByText } = render(
       <Provider store={store}>
         <VolumeButtons onVolumeChange={mockOnVolumeChange} />
       </Provider>
@@ -24,11 +24,11 @@ describe('VolumeButtons', () => {
     expect(container.firstChild).toBeInTheDocument()
 
     // Check that volume buttons are present
-    const volumeDownButton = container.querySelector('.jb-volume-down')
-    const volumeUpButton = container.querySelector('.jb-volume-up')
+    const buttons = container.querySelectorAll('button')
+    expect(buttons.length).toBe(2)
 
-    expect(volumeDownButton).toBeInTheDocument()
-    expect(volumeUpButton).toBeInTheDocument()
+    // Check that volume display is present
+    expect(getByText('50')).toBeInTheDocument()
   })
 
   it('renders with disabled state', () => {
@@ -47,11 +47,9 @@ describe('VolumeButtons', () => {
     expect(container.firstChild).toBeInTheDocument()
 
     // Check that buttons are disabled
-    const volumeDownButton = container.querySelector('.jb-volume-down')
-    const volumeUpButton = container.querySelector('.jb-volume-up')
-
-    expect(volumeDownButton).toBeDisabled()
-    expect(volumeUpButton).toBeDisabled()
+    const buttons = container.querySelectorAll('button')
+    expect(buttons[0]).toBeDisabled()
+    expect(buttons[1]).toBeDisabled()
   })
 
   it('displays current volume', () => {
@@ -61,15 +59,14 @@ describe('VolumeButtons', () => {
 
     const mockOnVolumeChange = mock(() => {})
 
-    const { container } = render(
+    const { getByText } = render(
       <Provider store={store}>
         <VolumeButtons onVolumeChange={mockOnVolumeChange} />
       </Provider>
     )
 
-    // Check that the volume is displayed in data-text attribute
-    const volumeDisplay = container.querySelector('[data-text="75"]')
-    expect(volumeDisplay).toBeInTheDocument()
+    // Check that the volume is displayed
+    expect(getByText('75')).toBeInTheDocument()
   })
 
   it('calls onVolumeChange when volume up button is clicked', () => {
@@ -85,7 +82,8 @@ describe('VolumeButtons', () => {
       </Provider>
     )
 
-    const volumeUpButton = container.querySelector('.jb-volume-up')
+    // Volume up button is the second button
+    const volumeUpButton = container.querySelectorAll('button')[1]
     fireEvent.click(volumeUpButton)
 
     expect(mockOnVolumeChange).toHaveBeenCalledWith(55)
@@ -104,7 +102,8 @@ describe('VolumeButtons', () => {
       </Provider>
     )
 
-    const volumeDownButton = container.querySelector('.jb-volume-down')
+    // Volume down button is the first button
+    const volumeDownButton = container.querySelectorAll('button')[0]
     fireEvent.click(volumeDownButton)
 
     expect(mockOnVolumeChange).toHaveBeenCalledWith(45)
@@ -123,12 +122,47 @@ describe('VolumeButtons', () => {
       </Provider>
     )
 
-    const volumeUpButton = container.querySelector('.jb-volume-up')
-    const volumeDownButton = container.querySelector('.jb-volume-down')
+    const buttons = container.querySelectorAll('button')
+    const volumeDownButton = buttons[0]
+    const volumeUpButton = buttons[1]
 
     fireEvent.click(volumeUpButton)
     fireEvent.click(volumeDownButton)
 
     expect(mockOnVolumeChange).not.toHaveBeenCalled()
+  })
+
+  it('disables volume down button at minimum volume', () => {
+    const store = mockStore({
+      jukebox: { volume: 0 }
+    })
+
+    const mockOnVolumeChange = mock(() => {})
+
+    const { container } = render(
+      <Provider store={store}>
+        <VolumeButtons onVolumeChange={mockOnVolumeChange} />
+      </Provider>
+    )
+
+    const volumeDownButton = container.querySelectorAll('button')[0]
+    expect(volumeDownButton).toBeDisabled()
+  })
+
+  it('disables volume up button at maximum volume', () => {
+    const store = mockStore({
+      jukebox: { volume: 100 }
+    })
+
+    const mockOnVolumeChange = mock(() => {})
+
+    const { container } = render(
+      <Provider store={store}>
+        <VolumeButtons onVolumeChange={mockOnVolumeChange} />
+      </Provider>
+    )
+
+    const volumeUpButton = container.querySelectorAll('button')[1]
+    expect(volumeUpButton).toBeDisabled()
   })
 })

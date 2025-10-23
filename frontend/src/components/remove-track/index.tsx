@@ -1,5 +1,16 @@
 import React from 'react'
-import { Comment, Confirm } from 'semantic-ui-react'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from '@/components/ui/alert-dialog'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 interface RemoveTrackProps {
   uri?: string
@@ -8,29 +19,30 @@ interface RemoveTrackProps {
 }
 
 const RemoveTrack: React.FC<RemoveTrackProps> = ({ uri: _uri, name, onClick }) => {
-  const [open, setOpen] = React.useState(false)
-
-  const confirm = (ev: React.MouseEvent) => {
+  const handleConfirm = (ev: React.MouseEvent) => {
     onClick(ev)
-    setOpen(false)
   }
-  const cancel = () => setOpen(false)
-  const show = () => setOpen(true)
 
   return (
-    <>
-      <Comment.Action className='remove-track' onClick={show}>
-        Remove
-      </Comment.Action>
-      <Confirm
-        content={`Are you sure you want to remove: ${name}`}
-        cancelButton='No thanks'
-        confirmButton='Do it!'
-        open={open}
-        onCancel={cancel}
-        onConfirm={confirm}
-      />
-    </>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <button className='text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-colors'>
+          Remove
+        </button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <VisuallyHidden>
+            <AlertDialogTitle>Remove Track</AlertDialogTitle>
+          </VisuallyHidden>
+          <AlertDialogDescription>Are you sure you want to remove: {name}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>No thanks</AlertDialogCancel>
+          <AlertDialogAction onClick={handleConfirm}>Do it!</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }
 
