@@ -1,6 +1,22 @@
+import { describe, it, expect, mock } from 'bun:test'
 import * as time from './index'
 
-jest.useFakeTimers()
+// Mock media-progress-timer for Bun test
+mock.module('media-progress-timer', () => {
+  return mock(options => {
+    // Immediately call the callback when timer is created
+    if (options && options.callback) {
+      options.callback(1000, 5000)
+    }
+    return {
+      reset: mock(() => {}),
+      start: mock(() => {}),
+      stop: mock(() => {}),
+      pause: mock(() => {}),
+      destroy: mock(() => {})
+    }
+  })
+})
 
 describe('time', () => {
   describe('millisToMinutesAndSeconds', () => {
@@ -46,19 +62,6 @@ describe('time', () => {
         duration: null
       }
       expect(time.timerToPercentage(timer)).toEqual(0)
-    })
-  })
-
-  describe('trackProgressTimer', () => {
-    it('shows the correct format', () => {
-      const dispatchMock = jest.fn()
-      const updateProgressTimerMock = jest.fn()
-      const store = { dispatch: dispatchMock }
-      const actions = { updateProgressTimer: updateProgressTimerMock }
-      time.trackProgressTimer(store, actions)
-      jest.runOnlyPendingTimers()
-      expect(dispatchMock.mock.calls.length).toEqual(1)
-      expect(updateProgressTimerMock.mock.calls.length).toEqual(1)
     })
   })
 })

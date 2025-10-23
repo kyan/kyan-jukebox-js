@@ -1,14 +1,7 @@
 import SearchConst from '../constants/search'
 import DecorateSearchResults from '../decorators/result'
 import Payload from '../utils/payload'
-import { JBTrack } from '../models/track'
-
-interface JBSearchResults {
-  limit: number
-  offset: number
-  total: number
-  tracks: JBTrack[]
-}
+import { JBSearchResults } from '../types/database'
 
 const SearchDecorator = {
   parse: (

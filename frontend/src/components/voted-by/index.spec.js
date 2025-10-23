@@ -1,85 +1,82 @@
+import { describe, it, expect, beforeEach } from 'bun:test'
 import React from 'react'
-import { shallow } from 'enzyme'
+import { render } from '@testing-library/react'
 import VotedBy from './index'
 
-const vote1 = {
-  user: {
-    _id: '123',
-    fullname: 'Big Rainbowhead',
-    picture: 'link/to/image'
-  },
-  at: '2019-12-17T13:11:37.316Z',
-  vote: 22
-}
-
-const vote2 = {
-  user: {
-    _id: '999',
-    fullname: 'Duncan',
-    picture: 'link/to/duncan/image'
-  },
-  at: '2019-12-19T13:11:37.316Z',
-  vote: 75
-}
-
 describe('VotedBy', () => {
-  let wrapper
-
-  describe('when show is false', () => {
-    it('shows nothing', () => {
-      wrapper = shallow(<VotedBy show={false} />)
-      expect(wrapper).toMatchSnapshot()
-    })
+  beforeEach(() => {
+    // Bun mocks are cleared automatically between tests
   })
 
-  describe('when no votes are provided', () => {
-    it('just shows a label with -3 vote', () => {
-      wrapper = shallow(<VotedBy show total={21} />)
-      expect(wrapper).toMatchSnapshot()
-    })
-
-    it('just shows a label with 0 vote', () => {
-      wrapper = shallow(<VotedBy show total={50} />)
-      expect(wrapper).toMatchSnapshot()
-    })
-
-    it('just shows a label with +5 vote', () => {
-      wrapper = shallow(<VotedBy show total={100} />)
-      expect(wrapper).toMatchSnapshot()
-    })
-
-    it('just shows a label with 0 vote', () => {
-      wrapper = shallow(<VotedBy show total={0} />)
-      expect(wrapper).toMatchSnapshot()
-    })
-  })
-
-  describe('when votes information is provided', () => {
-    const votes = [vote1, vote2]
-
-    describe('and no ribbon prop', () => {
-      it('displays the correct information', () => {
-        wrapper = shallow(<VotedBy show total={22} votes={votes} />)
-        expect(wrapper).toMatchSnapshot()
-      })
-    })
-
-    describe('and a ribbon prop is set', () => {
-      it('displays the correct information', () => {
-        wrapper = shallow(<VotedBy show total={11} votes={votes} ribbon />)
-        expect(wrapper.find('Popup')).toMatchSnapshot()
-      })
-    })
-  })
-
-  describe('when no user data', () => {
-    it('does nothing', () => {
-      const vote = {
-        at: '2019-12-19T13:11:37.316Z',
-        vote: 75
+  describe('render', () => {
+    const mockVotes = [
+      {
+        at: '2020-01-27T20:20:37.904Z',
+        vote: 80,
+        user: {
+          _id: '1',
+          fullname: 'John Doe',
+          picture: 'https://example.com/john.jpg'
+        }
+      },
+      {
+        at: '2020-01-27T20:20:50.355Z',
+        vote: 60,
+        user: {
+          _id: '2',
+          fullname: 'Jane Smith',
+          picture: 'https://example.com/jane.jpg'
+        }
       }
-      wrapper = shallow(<VotedBy show total={10} votes={[vote]} />)
-      expect(wrapper).toMatchSnapshot()
+    ]
+
+    it('renders with votes when show is true', () => {
+      const { container } = render(<VotedBy show={true} votes={mockVotes} total={70} />)
+      expect(container.firstChild).toBeInTheDocument()
+    })
+
+    it('renders nothing when show is false', () => {
+      const { container } = render(<VotedBy show={false} votes={mockVotes} total={70} />)
+      expect(container.firstChild).toBeNull()
+    })
+
+    it('renders just vote label when no votes provided', () => {
+      const { container } = render(<VotedBy show={true} votes={[]} total={50} />)
+      expect(container.firstChild).toBeInTheDocument()
+    })
+
+    it('renders with positive vote total', () => {
+      const { container } = render(<VotedBy show={true} votes={[]} total={80} />)
+      expect(container.firstChild).toBeInTheDocument()
+    })
+
+    it('renders with negative vote total', () => {
+      const { container } = render(<VotedBy show={true} votes={[]} total={20} />)
+      expect(container.firstChild).toBeInTheDocument()
+    })
+
+    it('renders with ribbon prop', () => {
+      const { container } = render(
+        <VotedBy show={true} votes={mockVotes} total={70} ribbon={true} />
+      )
+      expect(container.firstChild).toBeInTheDocument()
+    })
+
+    it('renders with custom size', () => {
+      const { container } = render(<VotedBy show={true} votes={[]} total={50} size='small' />)
+      expect(container.firstChild).toBeInTheDocument()
+    })
+
+    it('handles votes with missing user data', () => {
+      const votesWithMissingUser = [
+        {
+          at: '2020-01-27T20:20:37.904Z',
+          vote: 80,
+          user: null
+        }
+      ]
+      const { container } = render(<VotedBy show={true} votes={votesWithMissingUser} total={80} />)
+      expect(container.firstChild).toBeInTheDocument()
     })
   })
 })

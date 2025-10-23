@@ -1,0 +1,24 @@
+.login-modal {
+  text-align: center;
+}
+
+.login-modal .ui.form {
+  text-align: left;
+}
+
+.login-modal .ui.form .field label {
+  font-weight: 600;
+  color: #333;
+}
+
+.login-modal .ui.form input {
+  font-size: 1rem;
+}
+
+.login-modal .ui.button {
+  margin-top: 1rem;
+}
+
+.login-modal .ui.error.message {
+  margin-top: 1rem;
+}

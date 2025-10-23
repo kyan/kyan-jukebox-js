@@ -1,13 +1,11 @@
-import React, { useCallback, useEffect, useContext } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import usePageVisibility from 'hooks/usePageVisibility'
-import { DragDropContext } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
-import GoogleAuthContext from 'contexts/google'
-import Notify from 'utils/notify'
+
 import * as actions from 'actions'
 import * as searchActions from 'search/actions'
 import Dashboard from 'dashboard'
+import LoginModal from 'components/login-modal'
 
 export const DashboardContainer = () => {
   const isVisible = usePageVisibility()
@@ -16,8 +14,11 @@ export const DashboardContainer = () => {
   const tracklist = useSelector(state => state.tracklist)
   const currentTrack = useSelector(state => state.track)
   const dispatch = useDispatch()
-  const { isSignedIn, googleUser, auth2 } = useContext(GoogleAuthContext)
-  const disable = !(isSignedIn && jukebox.mopidyOnline)
+  const disable = !jukebox.mopidyOnline
+  const [showLoginModal, setShowLoginModal] = useState(false)
+
+  const isSignedIn = settings.isSignedIn
+  const authError = settings.authError
 
   useEffect(() => {
     dispatch(actions.wsConnect())
@@ -26,31 +27,55 @@ export const DashboardContainer = () => {
     return () => dispatch(actions.wsDisconnect())
   }, [dispatch])
 
-  if (isSignedIn && isVisible) {
-    const shouldRefreshToken = () => {
-      // The token is within 5 minutes of expiring
-      return settings.tokenExpires > 0 && settings.tokenExpires - 300 * 1000 - Date.now() <= 0
+  useEffect(() => {
+    // Show login modal if not signed in
+    if (!isSignedIn && isVisible) {
+      setShowLoginModal(true)
+    } else if (isSignedIn) {
+      // User successfully signed in, store in localStorage and close modal
+      if (settings.user) {
+        window.localStorage.setItem('jukebox_user', JSON.stringify(settings.user))
+        setShowLoginModal(false)
+        // Clear any auth errors on successful login
+        dispatch(actions.setAuthError(null))
+      }
     }
+  }, [isSignedIn, isVisible, settings.user, dispatch])
 
-    if (googleUser.expiresAt > settings.tokenExpires) {
-      dispatch(actions.updateToken(googleUser.tokenId, googleUser.expiresAt))
+  const handleLogin = useCallback(
+    async userData => {
+      // Clear any previous errors
+      dispatch(actions.setAuthError(null))
+      // Set user as validating (not signed in yet) with just email
+      // Fullname and picture will come from backend
+      dispatch(actions.validateUser(userData.email, { email: userData.email }))
+      // Send a validation request to backend
+      // The backend will respond with USER_NOT_FOUND if invalid
+      // or success with full user data, which will trigger the confirmed login
+      dispatch(actions.validateUserRequest())
+    },
+    [dispatch]
+  )
+
+  const handleSignOut = useCallback(() => {
+    window.localStorage.removeItem('jukebox_user')
+    dispatch(actions.clearUser())
+    dispatch(actions.setAuthError(null))
+    setShowLoginModal(true)
+  }, [dispatch])
+
+  // Try to restore user from localStorage on mount
+  useEffect(() => {
+    const storedUser = window.localStorage.getItem('jukebox_user')
+    if (storedUser) {
+      try {
+        const userData = JSON.parse(storedUser)
+        dispatch(actions.updateUser(userData.email, userData))
+      } catch (error) {
+        window.localStorage.removeItem('jukebox_user')
+      }
     }
-
-    if (shouldRefreshToken()) {
-      auth2.currentUser
-        .get()
-        .reloadAuthResponse()
-        .then(
-          response => {
-            console.info('Token Refreshed (expires): ', response.expires_at)
-            dispatch(actions.updateToken(response.id_token, response.expires_at))
-          },
-          err => console.warn('Token un-refreshable: ', err.message)
-        )
-    }
-  }
-
-  if (!isSignedIn) dispatch(actions.clearToken())
+  }, [dispatch])
 
   const onPlay = useCallback(() => dispatch(actions.startPlaying()), [dispatch])
   const onStop = useCallback(() => dispatch(actions.stopPlaying()), [dispatch])
@@ -58,31 +83,7 @@ export const DashboardContainer = () => {
   const onNext = useCallback(() => dispatch(actions.nextPlaying()), [dispatch])
   const onPrevious = useCallback(() => dispatch(actions.previousPlaying()), [dispatch])
   const onVolumeChange = useCallback(evt => dispatch(actions.setVolume(evt)), [dispatch])
-  /* istanbul ignore next */
-  const onDrop = useCallback(
-    (_item, monitor) => {
-      const urls = monitor
-        .getItem()
-        .urls[0].split('https://')
-        .map(url => {
-          return 'https://' + url
-        })
-        .slice(1)
-      if (monitor) {
-        if (urls.length <= 5) {
-          urls.forEach(url => {
-            dispatch(actions.addNewTrack(url))
-          })
-        } else {
-          Notify.warning({
-            title: 'Oops',
-            message: 'You can only add a maximum of 5 tracks at a time!'
-          })
-        }
-      }
-    },
-    [dispatch]
-  )
+
   const onTracklistClear = useCallback(() => dispatch(actions.clearTrackList()), [dispatch])
   const onSearchClick = useCallback(
     () => dispatch(searchActions.toggleSearchSidebar(true)),
@@ -90,7 +91,7 @@ export const DashboardContainer = () => {
   )
   const onRemoveTrack = useCallback(evt => dispatch(actions.removeFromTracklist(evt)), [dispatch])
   const onArtistSearch = useCallback(
-    query => _ => {
+    query => _evt => {
       const searchOptions = { offset: 0 }
       dispatch(searchActions.search(query, searchOptions))
       dispatch(searchActions.storeSearchQuery(query, searchOptions))
@@ -100,24 +101,29 @@ export const DashboardContainer = () => {
   )
 
   return (
-    <Dashboard
-      online={jukebox.online}
-      disabled={disable}
-      onPlay={onPlay}
-      onStop={onStop}
-      onPause={onPause}
-      onNext={onNext}
-      onPrevious={onPrevious}
-      onVolumeChange={onVolumeChange}
-      onDrop={onDrop}
-      onTracklistClear={onTracklistClear}
-      onSearchClick={onSearchClick}
-      tracklist={tracklist}
-      currentTrack={currentTrack}
-      onRemoveTrack={onRemoveTrack}
-      onArtistSearch={onArtistSearch}
-    />
+    <>
+      <LoginModal open={showLoginModal} onSubmit={handleLogin} error={authError} />
+      <Dashboard
+        online={jukebox.online}
+        disabled={disable}
+        onPlay={onPlay}
+        onStop={onStop}
+        onPause={onPause}
+        onNext={onNext}
+        onPrevious={onPrevious}
+        onVolumeChange={onVolumeChange}
+        onTracklistClear={onTracklistClear}
+        onSearchClick={onSearchClick}
+        tracklist={tracklist}
+        currentTrack={currentTrack}
+        onRemoveTrack={onRemoveTrack}
+        onArtistSearch={onArtistSearch}
+        user={settings.user}
+        isSignedIn={isSignedIn}
+        onSignOut={handleSignOut}
+      />
+    </>
   )
 }
 
-export default DragDropContext(HTML5Backend)(DashboardContainer)
+export default DashboardContainer

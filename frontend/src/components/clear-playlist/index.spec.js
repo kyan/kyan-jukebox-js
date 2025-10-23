@@ -1,50 +1,53 @@
+import { describe, it, expect, mock } from 'bun:test'
 import React from 'react'
-import { shallow } from 'enzyme'
-import { Confirm } from 'semantic-ui-react'
+import { render, fireEvent } from '@testing-library/react'
 import ClearPlaylist from './index'
 
 describe('ClearPlaylist', () => {
-  const onClearMock = jest.fn()
+  const onClearMock = mock(() => {})
 
   describe('render', () => {
-    const wrapper = shallow(<ClearPlaylist onClear={onClearMock} />)
-
-    it('renders the as expected', () => {
-      expect(wrapper).toMatchSnapshot()
+    it('renders the clear button', () => {
+      const { getByText } = render(<ClearPlaylist onClear={onClearMock} />)
+      expect(getByText('CLEAR')).toBeInTheDocument()
     })
 
     describe('confirm dialog', () => {
-      it('is not shown default', () => {
-        expect(wrapper.find(Confirm).prop('open')).toEqual(false)
+      it('is not shown by default', () => {
+        const { queryByText } = render(<ClearPlaylist onClear={onClearMock} />)
+        expect(queryByText('Are you sure you want to nuke the playlist?')).not.toBeInTheDocument()
       })
 
-      it('it shows when the button is pressed', () => {
-        wrapper.find('Label').simulate('click')
-        expect(wrapper.find(Confirm).prop('open')).toEqual(true)
+      it('shows when the button is pressed', () => {
+        const { getByText } = render(<ClearPlaylist onClear={onClearMock} />)
+        fireEvent.click(getByText('CLEAR'))
+        expect(getByText('Are you sure you want to nuke the playlist?')).toBeInTheDocument()
       })
     })
 
     describe('callbacks', () => {
       it('calls the onConfirm callback', () => {
-        wrapper.find('Label').simulate('click')
-        expect(wrapper.find('Confirm').prop('open')).toEqual(true)
-        wrapper.find(Confirm).prop('onConfirm')()
+        const { getByText } = render(<ClearPlaylist onClear={onClearMock} />)
+        fireEvent.click(getByText('CLEAR'))
+        expect(getByText('Are you sure you want to nuke the playlist?')).toBeInTheDocument()
+        fireEvent.click(getByText('Do it!'))
         expect(onClearMock).toHaveBeenCalled()
       })
 
-      it('calls the onCancel callback', () => {
-        wrapper.find('Label').simulate('click')
-        wrapper.find(Confirm).prop('onCancel')()
-        expect(wrapper.find('Confirm').prop('open')).toEqual(false)
+      it('hides dialog on cancel', () => {
+        const { getByText, queryByText } = render(<ClearPlaylist onClear={onClearMock} />)
+        fireEvent.click(getByText('CLEAR'))
+        expect(getByText('Are you sure you want to nuke the playlist?')).toBeInTheDocument()
+        fireEvent.click(getByText('No thanks'))
+        expect(queryByText('Are you sure you want to nuke the playlist?')).not.toBeInTheDocument()
       })
     })
   })
 
   describe('when disabled', () => {
-    const wrapper = shallow(<ClearPlaylist onClear={onClearMock} disabled />)
-
-    it('renders the as expected', () => {
-      expect(wrapper).toMatchSnapshot()
+    it('does not render anything', () => {
+      const { container } = render(<ClearPlaylist onClear={onClearMock} disabled />)
+      expect(container.firstChild).toBeNull()
     })
   })
 })

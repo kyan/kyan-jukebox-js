@@ -1,17 +1,4 @@
-version: '3'
-
 services:
-  mongodb:
-    image: mongo:5
-    container_name: mongodb
-    environment:
-      - MONGO_DATA_DIR=/data/db
-      - MONGO_LOG_DIR=/dev/null
-      - MONGO_INITDB_DATABASE=jb-dev
-    volumes:
-      - ./mongodb-data/db:/data/db:delegated
-    ports:
-      - 27017:27017
   mopidy:
     container_name: mopidy
     build:
@@ -22,8 +9,7 @@ services:
       - "6680:6680"
     volumes:
       - ./mopidy-data:/var/lib/mopidy:delegated
+      - ./mopidy/config:/config:delegated
     environment:
-      - MOPIDY_USERNAME=${MOPIDY_USERNAME}
-      - MOPIDY_PASSWORD=${MOPIDY_PASSWORD}
       - MOPIDY_CLIENT_ID=${MOPIDY_CLIENT_ID}
       - MOPIDY_CLIENT_SECRET=${MOPIDY_CLIENT_SECRET}

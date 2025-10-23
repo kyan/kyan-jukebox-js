@@ -1,0 +1,43 @@
+# Frontend App Deployment Configuration
+service: jukebox-frontend
+
+# Name of the container image for frontend
+image: whomwah/kyan-jukebox-frontend
+
+# Deploy to these servers
+servers:
+  web:
+    hosts:
+      - robot
+
+# Credentials for your image host
+registry:
+  username: whomwah
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+# Configure builder setup for frontend
+builder:
+  arch: amd64
+  dockerfile: Dockerfile.frontend
+  context: .
+
+# Enable proxy for frontend (serves the web interface)
+proxy:
+  ssl: false
+  host: robot.local
+  app_port: 3000
+
+# Configure rolling deploys
+boot:
+  limit: 10
+  wait: 2
+
+# Use a different ssh user than root
+ssh:
+  user: duncan
+
+# Aliases for frontend management
+aliases:
+  shell: app exec --interactive --reuse "sh"
+  logs: app logs --lines 100 --follow

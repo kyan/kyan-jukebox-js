@@ -1,17 +1,16 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import GoogleAuthContext from 'contexts/google'
 import * as voteActions from 'votes/actions'
 import CurrentTrack from 'components/current-track'
 
 export const CurrentTrackContainer = () => {
-  const { googleUser } = useContext(GoogleAuthContext)
   const track = useSelector(state => state.track)
+  const user = useSelector(state => state.settings.user)
   const dispatch = useDispatch()
 
   return (
     <CurrentTrack
-      userID={googleUser && googleUser.googleId}
+      userID={user ? user._id : null}
       track={track}
       onVote={(uri, rating) => dispatch(voteActions.vote(uri, rating))}
     />

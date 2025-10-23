@@ -6,9 +6,16 @@ then
     export PULSE_COOKIE=$HOME/pulse.cookie
 fi
 
+# Ensure the .config/mopidy directory exists and symlink is properly set up
+mkdir -p /var/lib/mopidy/.config
+if [ ! -L /var/lib/mopidy/.config/mopidy ]; then
+  rm -rf /var/lib/mopidy/.config/mopidy
+  ln -s /config /var/lib/mopidy/.config/mopidy
+fi
+
 MOPIDY_CONF='/config/mopidy.conf'
 if [[ -f "$MOPIDY_CONF" ]]; then
-  sed -i "s~%MOPIDY_USERNAME%~$MOPIDY_USERNAME~g; s~%MOPIDY_PASSWORD%~$MOPIDY_PASSWORD~g; s~%MOPIDY_CLIENT_ID%~$MOPIDY_CLIENT_ID~g; s~%MOPIDY_CLIENT_SECRET%~$MOPIDY_CLIENT_SECRET~g" $MOPIDY_CONF
+  sed -i "s~%MOPIDY_CLIENT_ID%~$MOPIDY_CLIENT_ID~g; s~%MOPIDY_CLIENT_SECRET%~$MOPIDY_CLIENT_SECRET~g" $MOPIDY_CONF
 fi
 
 exec "$@"

@@ -38,11 +38,12 @@ type SearchProps = {
   onAddTrackToMix: (track: any) => void
   totalPages: number
   onPageChange: (_: any, data: any) => void
+  children?: React.ReactNode
 }
 
 const SearchItems: React.FC<SearchItemsProps> = props => (
   <>
-    {props.tracks.map(track => (
+    {(props.tracks || []).map(track => (
       <SearchItem
         key={track.uri}
         track={track}
@@ -55,7 +56,7 @@ const SearchItems: React.FC<SearchItemsProps> = props => (
 
 const MixItems: React.FC<MixItemsProps> = props => (
   <>
-    {props.tracks.map((track, i) => (
+    {(props.tracks || []).map((track, i) => (
       <DraggableSearchItem
         i={i}
         key={i}
@@ -68,7 +69,7 @@ const MixItems: React.FC<MixItemsProps> = props => (
 )
 
 const YourMix: React.FC<YourMixProps> = props => {
-  if (props.tracks.length === 0) return null
+  if (!props.tracks || props.tracks.length === 0) return null
   const uris = props.tracks.map(track => track.uri)
 
   return (

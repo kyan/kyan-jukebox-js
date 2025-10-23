@@ -1,7 +1,7 @@
 import lodash from 'lodash'
-import Event from '../models/event'
+import { getDatabase } from '../services/database/factory'
 import logger from '../config/logger'
-import { JBUser } from '../models/user'
+import { JBUser } from '../types/database'
 
 interface LoggerPayload {
   key: string
@@ -18,11 +18,16 @@ const EventLogger = {
     logger.info(label, data)
 
     if (data.user && createEvent) {
-      Event.create({
-        user: data.user._id,
-        key: data.key,
-        payload: data
-      })
+      const db = getDatabase()
+      db.events
+        .create({
+          user: data.user._id,
+          key: data.key,
+          payload: data
+        })
+        .catch((error) => {
+          logger.error('Failed to create event', { error: error.message })
+        })
     }
   }
 }

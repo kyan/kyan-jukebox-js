@@ -1,7 +1,7 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`jukebox handles a CONNECTED 1`] = `
-Object {
+{
   "mopidyOnline": false,
   "online": true,
   "playbackState": "stopped",
@@ -10,13 +10,13 @@ Object {
 `;
 
 exports[`jukebox handles a DISCONNECTED 1`] = `
-Object {
+{
   "online": false,
 }
 `;
 
 exports[`jukebox handles a MOPIDY_CONNECTED 1`] = `
-Object {
+{
   "mopidyOnline": true,
   "online": false,
   "playbackState": "stopped",
@@ -25,13 +25,13 @@ Object {
 `;
 
 exports[`jukebox handles a MOPIDY_DISCONNECTED 1`] = `
-Object {
+{
   "mopidyOnline": false,
 }
 `;
 
 exports[`jukebox handles a UPDATE_PLAYBACK_STATE playing 1`] = `
-Object {
+{
   "mopidyOnline": false,
   "online": false,
   "playbackState": "playing",
@@ -40,7 +40,7 @@ Object {
 `;
 
 exports[`jukebox handles a UPDATE_PLAYBACK_STATE playing when already playing 1`] = `
-Object {
+{
   "online": false,
   "playbackState": "playing",
   "volume": 0,
@@ -48,7 +48,7 @@ Object {
 `;
 
 exports[`jukebox handles a UPDATE_VOLUME 1`] = `
-Object {
+{
   "mopidyOnline": false,
   "online": false,
   "playbackState": "stopped",
@@ -57,21 +57,21 @@ Object {
 `;
 
 exports[`jukebox handles a UPDATE_VOLUME decreased 1`] = `
-Object {
+{
   "online": false,
   "volume": 5,
 }
 `;
 
 exports[`jukebox handles a UPDATE_VOLUME increased 1`] = `
-Object {
+{
   "online": false,
   "volume": 32,
 }
 `;
 
 exports[`jukebox handles default state 1`] = `
-Object {
+{
   "mopidyOnline": false,
   "online": false,
   "playbackState": "stopped",

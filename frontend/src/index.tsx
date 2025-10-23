@@ -1,6 +1,8 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import App from './App'
-import './styles/index.scss'
+// Note: SCSS is compiled separately in the build process
 
-ReactDOM.render(<App />, document.getElementById('root'))
+const container = document.getElementById('root')
+const root = createRoot(container!)
+root.render(<App />)

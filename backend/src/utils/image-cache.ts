@@ -1,5 +1,5 @@
 import EventLogger from '../utils/event-logger'
-import Image from '../models/image'
+import { getDatabase } from '../services/database/factory'
 import logger from '../config/logger'
 
 // Expects an imageData structure like:
@@ -11,51 +11,36 @@ export interface ImageCacheData {
   [key: string]: string
 }
 
-const expiresDate = () => {
-  const day = 12 * 3600 * 1000
-  const today = new Date()
-  return new Date(today.getTime() + day * 30)
-}
-
-const storeImages = (imageData: ImageCacheData): Promise<any> => {
+const storeImages = async (imageData: ImageCacheData): Promise<any> => {
   if (!imageData) return Promise.resolve(imageData)
-  const options = { upsert: true, new: true, setDefaultsOnInsert: true }
 
-  return new Promise((resolve, reject) => {
-    const requests: any = Object.keys(imageData).map((uri) => {
-      const imageUri = imageData[uri]
-      if (!imageUri) return reject(new Error('storeImages: Bad data'))
-
-      return Image.findOneAndUpdate(
-        { _id: uri },
-        { url: imageUri, expireAt: expiresDate() },
-        options
-      ).exec()
-    })
-
-    Promise.all(requests)
-      .then((responses) => resolve(responses))
-      .catch((error) =>
-        logger.error('storeImages:Image.findOneAndUpdate', { message: error.message })
-      )
-  })
+  try {
+    const db = getDatabase()
+    await db.images.storeMany(imageData)
+    return imageData
+  } catch (error) {
+    logger.error('storeImages:Image.storeMany', { message: error.message })
+    throw error
+  }
 }
 
 const ImageCache = {
   /**
-   * Lookup images in MongoDB
+   * Lookup images in database
    *
    * @param uris - A list of Track uris
    */
-  findAll: (uris: ReadonlyArray<string>): Promise<Image[]> =>
-    new Promise((resolve, reject) => {
-      Image.find({ _id: { $in: uris } })
-        .then((images) => {
-          if (images.length > 0) EventLogger.info('FOUND CACHED IMAGES', { data: uris })
-          return resolve(images)
-        })
-        .catch((err) => reject(err))
-    }),
+  findAll: async (uris: ReadonlyArray<string>): Promise<any[]> => {
+    try {
+      const db = getDatabase()
+      const images = await db.images.findByUris(Array.from(uris))
+      if (images.length > 0) EventLogger.info('FOUND CACHED IMAGES', { data: uris })
+      return images
+    } catch (error) {
+      logger.error('ImageCache.findAll', { message: error.message })
+      throw error
+    }
+  },
 
   addAll: (imageData: ImageCacheData): Promise<any> => storeImages(imageData)
 }

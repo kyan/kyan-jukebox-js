@@ -4,7 +4,8 @@ import EventLogger from '../utils/event-logger'
 import MopidyConstants from '../constants/mopidy'
 import MessageType from '../constants/message'
 import Decorator from '../decorators/mopidy'
-import Setting, { DBSettingStatics } from '../models/setting'
+import { getDatabase } from '../services/database/factory'
+import { ISettingService } from '../services/database/interfaces'
 import { StateChange, BroadcastToAll } from '../utils/broadcaster'
 
 type BroadcastToAllType = (options: BroadcastToAll) => void
@@ -12,7 +13,7 @@ type BroadcastStateChangeType = (message: StateChange['message']) => void
 
 export interface MopidySetting {
   mopidy: Mopidy
-  setting: DBSettingStatics
+  setting: ISettingService
 }
 
 const mopidyUrl = process.env.WS_MOPIDY_URL
@@ -29,13 +30,14 @@ const MopidyService = (
     })
 
     const initCurrentTrackState = (mopidy: Mopidy) => {
+      const db = getDatabase()
       Promise.all([mopidy.playback.getCurrentTrack(), mopidy.tracklist.getTracks()]).then(
         async (responses) => {
-          await Setting.initializeState(responses[0], responses[1])
-          await Setting.trimTracklist(mopidy)
+          await db.settings.initializeState(responses[0], responses[1])
+          await db.settings.trimTracklist(mopidy)
           firstTime
             ? broadcastStateChange({ online: true })
-            : resolve({ mopidy, setting: Setting })
+            : resolve({ mopidy, setting: db.settings })
           firstTime = true
         }
       )
@@ -43,13 +45,15 @@ const MopidyService = (
 
     mopidy.on('websocket:error', (err: any) => {
       logger.error(`Mopidy Error: ${err.message}`, { url: `${mopidyUrl}:${mopidyPort}` })
-      Setting.clearState()
+      const db = getDatabase()
+      db.settings.clearState()
     })
 
     mopidy.on('state:offline', () => {
       logger.info('Mopidy Offline', { url: `${mopidyUrl}:${mopidyPort}` })
       broadcastStateChange({ online: false })
-      Setting.clearState()
+      const db = getDatabase()
+      db.settings.clearState()
     })
 
     mopidy.on('state:online', () => {
@@ -72,12 +76,15 @@ const MopidyService = (
         }
 
         if (key === MopidyConstants.CORE_EVENTS.TRACKLIST_CHANGED) {
+          const db = getDatabase()
           mopidy.tracklist
             .getTracks()
             .then((tracks) =>
-              Setting.updateTracklist(tracks.map((track) => track.uri)).then(() =>
-                packAndSend({ key: MopidyConstants.GET_TRACKS }, tracks, 'parse')
-              )
+              db.settings
+                .updateTracklist(tracks.map((track) => track.uri))
+                .then(() =>
+                  packAndSend({ key: MopidyConstants.GET_TRACKS }, tracks, 'parse')
+                )
             )
         } else {
           packAndSend({ key }, message, 'mopidyCoreMessage')

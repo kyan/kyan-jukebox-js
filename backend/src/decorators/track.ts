@@ -1,4 +1,4 @@
-import { JBTrack } from '../models/track'
+import { JBTrack } from '../types/database'
 
 export default function (json: any): JBTrack {
   if (!json) throw new Error('DecorateTrack passed no data!')

@@ -1,4 +1,4 @@
-export default {
+const searchConstants = {
   SEARCH: 'actionTrackSearch',
   SEARCH_GET_TRACKS: 'searchGetTracks',
   STORE_SEARCH_RESULTS: 'actionStoreSearchResults',
@@ -10,3 +10,5 @@ export default {
   SWAP_TRACKS: 'searchSwapTracks',
   CLEAR_MIX: 'searchClearMix'
 }
+
+export default searchConstants

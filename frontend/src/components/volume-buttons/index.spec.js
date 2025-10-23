@@ -1,63 +1,134 @@
+import { describe, it, expect, mock } from 'bun:test'
 import React from 'react'
 import { Provider } from 'react-redux'
 import configureMockStore from 'redux-mock-store'
-import { mount } from 'enzyme'
+import { render, fireEvent } from '@testing-library/react'
 import VolumeButtons from './index'
 
 describe('VolumeButtons', () => {
-  const volMock = jest.fn()
   const mockStore = configureMockStore()
-  const buildWrapper = (store, props) =>
-    mount(
-      <Provider store={store}>
-        <VolumeButtons {...props} onVolumeChange={volMock} />
-      </Provider>
-    ).find('VolumeButtons')
 
-  beforeEach(() => {
-    jest.clearAllMocks()
+  it('renders as expected', () => {
+    const store = mockStore({
+      jukebox: { volume: 50 }
+    })
+
+    const mockOnVolumeChange = mock(() => {})
+
+    const { container } = render(
+      <Provider store={store}>
+        <VolumeButtons onVolumeChange={mockOnVolumeChange} />
+      </Provider>
+    )
+
+    expect(container.firstChild).toBeInTheDocument()
+
+    // Check that volume buttons are present
+    const volumeDownButton = container.querySelector('.jb-volume-down')
+    const volumeUpButton = container.querySelector('.jb-volume-up')
+
+    expect(volumeDownButton).toBeInTheDocument()
+    expect(volumeUpButton).toBeInTheDocument()
   })
 
-  describe('render', () => {
-    it('render', () => {
-      const store = mockStore({ jukebox: { volume: 0 } })
-      const wrapper = buildWrapper(store, { disabled: false })
-      expect(wrapper).toMatchSnapshot()
+  it('renders with disabled state', () => {
+    const store = mockStore({
+      jukebox: { volume: 50 }
     })
 
-    it('handles a volume down click', () => {
-      const store = mockStore({ jukebox: { volume: 30 } })
-      const wrapper = buildWrapper(store, { disabled: false })
-      wrapper.find('VolumeDownButton').simulate('click')
-      expect(volMock).toHaveBeenCalledWith(25)
+    const mockOnVolumeChange = mock(() => {})
+
+    const { container } = render(
+      <Provider store={store}>
+        <VolumeButtons disabled={true} onVolumeChange={mockOnVolumeChange} />
+      </Provider>
+    )
+
+    expect(container.firstChild).toBeInTheDocument()
+
+    // Check that buttons are disabled
+    const volumeDownButton = container.querySelector('.jb-volume-down')
+    const volumeUpButton = container.querySelector('.jb-volume-up')
+
+    expect(volumeDownButton).toBeDisabled()
+    expect(volumeUpButton).toBeDisabled()
+  })
+
+  it('displays current volume', () => {
+    const store = mockStore({
+      jukebox: { volume: 75 }
     })
 
-    it('handles a volume down click when min is reached', () => {
-      const store = mockStore({ jukebox: { volume: 0 } })
-      const wrapper = buildWrapper(store, { disabled: false })
-      wrapper.find('VolumeDownButton').simulate('click')
-      expect(volMock).not.toHaveBeenCalled()
+    const mockOnVolumeChange = mock(() => {})
+
+    const { container } = render(
+      <Provider store={store}>
+        <VolumeButtons onVolumeChange={mockOnVolumeChange} />
+      </Provider>
+    )
+
+    // Check that the volume is displayed in data-text attribute
+    const volumeDisplay = container.querySelector('[data-text="75"]')
+    expect(volumeDisplay).toBeInTheDocument()
+  })
+
+  it('calls onVolumeChange when volume up button is clicked', () => {
+    const store = mockStore({
+      jukebox: { volume: 50 }
     })
 
-    it('handles a volume up click', () => {
-      const store = mockStore({ jukebox: { volume: 30 } })
-      const wrapper = buildWrapper(store, { disabled: false })
-      wrapper.find('VolumeUpButton').simulate('click')
-      expect(volMock).toHaveBeenCalledWith(35)
+    const mockOnVolumeChange = mock(() => {})
+
+    const { container } = render(
+      <Provider store={store}>
+        <VolumeButtons onVolumeChange={mockOnVolumeChange} />
+      </Provider>
+    )
+
+    const volumeUpButton = container.querySelector('.jb-volume-up')
+    fireEvent.click(volumeUpButton)
+
+    expect(mockOnVolumeChange).toHaveBeenCalledWith(55)
+  })
+
+  it('calls onVolumeChange when volume down button is clicked', () => {
+    const store = mockStore({
+      jukebox: { volume: 50 }
     })
 
-    it('handles a volume up click when max is reached', () => {
-      const store = mockStore({ jukebox: { volume: 100 } })
-      const wrapper = buildWrapper(store, { disabled: false })
-      wrapper.find('VolumeUpButton').simulate('click')
-      expect(volMock).not.toHaveBeenCalled()
+    const mockOnVolumeChange = mock(() => {})
+
+    const { container } = render(
+      <Provider store={store}>
+        <VolumeButtons onVolumeChange={mockOnVolumeChange} />
+      </Provider>
+    )
+
+    const volumeDownButton = container.querySelector('.jb-volume-down')
+    fireEvent.click(volumeDownButton)
+
+    expect(mockOnVolumeChange).toHaveBeenCalledWith(45)
+  })
+
+  it('does not call onVolumeChange when disabled', () => {
+    const store = mockStore({
+      jukebox: { volume: 50 }
     })
 
-    it('handles a button being disabled', () => {
-      const store = mockStore({ jukebox: { volume: 32 } })
-      const wrapper = buildWrapper(store, { disabled: true })
-      wrapper.find('VolumeUpButton').simulate('click')
-      expect(volMock).not.toHaveBeenCalled()
-    })
+    const mockOnVolumeChange = mock(() => {})
+
+    const { container } = render(
+      <Provider store={store}>
+        <VolumeButtons disabled={true} onVolumeChange={mockOnVolumeChange} />
+      </Provider>
+    )
+
+    const volumeUpButton = container.querySelector('.jb-volume-up')
+    const volumeDownButton = container.querySelector('.jb-volume-down')
+
+    fireEvent.click(volumeUpButton)
+    fireEvent.click(volumeDownButton)
+
+    expect(mockOnVolumeChange).not.toHaveBeenCalled()
   })
 })

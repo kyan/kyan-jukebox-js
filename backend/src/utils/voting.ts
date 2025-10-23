@@ -1,5 +1,5 @@
 import lodash from 'lodash'
-import { JBAddedBy } from '../models/track'
+import { JBAddedBy } from '../types/database'
 const { flatten, mean, sumBy } = lodash
 
 const VOTE_NORMALISER = 10 as const // asuming a vote comes in as 1-10

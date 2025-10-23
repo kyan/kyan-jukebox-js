@@ -1,5 +1,5 @@
-import Setting from '../models/setting'
-import { JBTrack } from '../models/track'
+import { getDatabase } from '../services/database/factory'
+import { JBTrack } from '../types/database'
 import logger from '../config/logger'
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
@@ -7,8 +7,6 @@ import en from 'javascript-time-ago/locale/en'
 TimeAgo.addLocale(en)
 
 // This is the Settings key where we store any JSON
-const slackFind = { key: 'json' }
-const options = { upsert: true, runValidators: true, setDefaultsOnInsert: true }
 const timeAgo = new TimeAgo('en-GB')
 const voteNormaliser = (v: number) => Math.round(v / 10 - 5) // 100 is max a user can vote per play
 const spotifyLink = (uri: string) => {
@@ -18,7 +16,15 @@ const spotifyLink = (uri: string) => {
 
 const NowPlaying = {
   addTrack: (track: JBTrack): Promise<unknown> => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
+      // Validate required properties
+      if (!track.metrics || !track.addedBy || track.addedBy.length === 0) {
+        const error = new Error('Track missing required metrics or addedBy data')
+        logger.error(`NowPlaying.addTrack: ${error.message}`)
+        return reject(error)
+      }
+
+      const db = getDatabase()
       const payload: unknown = {
         spotify: spotifyLink(track.uri),
         title: track.name,
@@ -36,10 +42,14 @@ const NowPlaying = {
         last_played: track.addedBy[1] ? timeAgo.format(track.addedBy[1].addedAt) : null
       }
 
-      const updateValue = { $set: { 'value.currentTrack': payload } }
-      return Setting.findOneAndUpdate(slackFind, updateValue, options)
+      // Note: This functionality updates the JSON setting which is used for external integrations
+      db.settings
+        .updateJsonSetting('json', payload)
         .then(() => resolve(payload))
-        .catch((error) => logger.error(`NowPlaying.addTrack: ${error.message}`))
+        .catch((error) => {
+          logger.error(`NowPlaying.addTrack: ${error.message}`)
+          reject(error)
+        })
     })
   }
 }
