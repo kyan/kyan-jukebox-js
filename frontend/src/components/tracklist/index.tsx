@@ -1,12 +1,12 @@
 import React from 'react'
-import classnames from 'classnames'
-import { Comment, Label, Item } from 'semantic-ui-react'
+import { cn } from '@/lib/utils'
 import { millisToMinutesAndSeconds } from 'utils/time'
 import defaultImage from 'components/current-track/default-artwork.png'
 import AddedBy from 'components/added-by'
 import VotedBy from 'components/voted-by'
 import RemoveTrack from 'components/remove-track'
-import './index.css'
+import { Badge } from '@/components/ui/badge'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 
 interface User {
   _id: string
@@ -92,7 +92,12 @@ interface ListItemsProps {
 }
 
 const TrackImage: React.FC<TrackImageProps> = ({ src, isCurrent }) => (
-  <Comment.Avatar className={isCurrent ? 'current-image' : undefined} src={src} />
+  <Avatar className={cn('h-[70px] w-[70px] rounded-md', isCurrent && 'ring-2 ring-primary')}>
+    <AvatarImage src={src} alt='Track artwork' className='object-cover' />
+    <AvatarFallback className='rounded-md'>
+      <img src={defaultImage} alt='Default artwork' />
+    </AvatarFallback>
+  </Avatar>
 )
 
 const ImageChooser: React.FC<ImageChooserProps> = ({ image, isCurrent }) => {
@@ -101,7 +106,7 @@ const ImageChooser: React.FC<ImageChooserProps> = ({ image, isCurrent }) => {
 }
 
 const TrackHeading: React.FC<TrackHeadingProps> = ({ name }) => (
-  <Comment.Author>{name}</Comment.Author>
+  <h3 className='text-base font-semibold leading-tight mb-1 text-foreground'>{name}</h3>
 )
 
 const TrackDescription: React.FC<TrackDescriptionProps> = ({
@@ -109,12 +114,18 @@ const TrackDescription: React.FC<TrackDescriptionProps> = ({
   trackLength,
   onClick
 }) => (
-  <Comment.Text>
-    <Item as='a' className='track-search-link' onClick={onClick}>
+  <div className='text-sm text-muted-foreground'>
+    <button
+      type='button'
+      onClick={onClick}
+      className='hover:text-foreground hover:underline transition-colors cursor-pointer inline-block'
+    >
       {artistName}
-    </Item>{' '}
-    <small>({millisToMinutesAndSeconds(trackLength)})</small>
-  </Comment.Text>
+    </button>{' '}
+    <span className='text-xs text-muted-foreground/70'>
+      ({millisToMinutesAndSeconds(trackLength)})
+    </span>
+  </div>
 )
 
 const CurrentVote: React.FC<CurrentVoteProps> = ({ metrics }) => {
@@ -123,9 +134,9 @@ const CurrentVote: React.FC<CurrentVoteProps> = ({ metrics }) => {
   if (!show) return null
 
   return (
-    <Comment.Action as='span'>
+    <div className='inline-flex items-center'>
       <VotedBy total={metrics.votesAverage} show={show} />
-    </Comment.Action>
+    </div>
   )
 }
 
@@ -137,20 +148,17 @@ const ActionRemove: React.FC<ActionRemoveProps> = ({ uri, name, disabled, isCurr
 }
 
 const CurrentPlays: React.FC<CurrentPlaysProps> = ({ metrics }) => {
-  let basic = true
-  let color: 'grey' | undefined = 'grey'
   if (!metrics) return null
-  if (metrics.plays > 0) {
-    basic = false
-    color = undefined
-  }
+
+  const hasPlays = metrics.plays > 0
 
   return (
-    <Comment.Action as='span'>
-      <Label className='track-label' size='tiny' color={color} basic={basic}>
-        Played <Label.Detail>{metrics.plays}</Label.Detail>
-      </Label>
-    </Comment.Action>
+    <Badge
+      variant={hasPlays ? 'default' : 'outline'}
+      className={cn('mr-2 text-xs', !hasPlays && 'text-muted-foreground')}
+    >
+      Played <span className='ml-1 font-semibold'>{metrics.plays}</span>
+    </Badge>
   )
 }
 
@@ -166,28 +174,37 @@ const ListItems: React.FC<ListItemsProps> = ({
     currentTrack && currentTrack.uri === uri
 
   return (
-    <>
+    <div className='space-y-6'>
       {tracks.map((track, i) => {
         const { addedBy } = track
         const isCurrent = !!isCurrentTrack(current, track.uri)
         if (isCurrent) beenPlayed = beenPlayed || true
 
         return (
-          <Comment className={classnames({ 'current-track': isCurrent })} key={`${i}${track.uri}`}>
-            <ImageChooser image={track.image} isCurrent={isCurrent} />
-            <Comment.Content className={classnames({ 'track-info': !beenPlayed })}>
+          <div
+            key={`${i}${track.uri}`}
+            className={cn(
+              'flex gap-4 transition-colors',
+              isCurrent && 'bg-accent/50 p-4 rounded-lg',
+              !beenPlayed && 'opacity-60'
+            )}
+          >
+            <div className='flex-shrink-0'>
+              <ImageChooser image={track.image} isCurrent={isCurrent} />
+            </div>
+            <div className='flex-1 min-w-0'>
               <TrackHeading name={track.name} />
               <TrackDescription
                 artistName={track.artist.name}
                 trackLength={track.length}
                 onClick={onArtistSearch(track.artist.name)}
               />
-              <Comment.Actions>
+              <div className='flex flex-wrap items-center gap-2 mt-3'>
                 <CurrentVote metrics={track.metrics} />
                 <CurrentPlays metrics={track.metrics} />
-                <Comment.Action>
+                <div className='inline-flex items-center'>
                   <AddedBy users={addedBy} />
-                </Comment.Action>
+                </div>
                 <ActionRemove
                   uri={track.uri}
                   name={track.name}
@@ -195,12 +212,12 @@ const ListItems: React.FC<ListItemsProps> = ({
                   isCurrent={!!isCurrent}
                   onClick={onRemove}
                 />
-              </Comment.Actions>
-            </Comment.Content>
-          </Comment>
+              </div>
+            </div>
+          </div>
         )
       })}
-    </>
+    </div>
   )
 }
 
@@ -216,7 +233,7 @@ const Tracklist: React.FC<TracklistProps> = ({
   }
 
   return (
-    <Comment.Group size='small'>
+    <div className='space-y-1'>
       <ListItems
         disabled={disabled}
         tracks={tracks}
@@ -224,7 +241,7 @@ const Tracklist: React.FC<TracklistProps> = ({
         onRemove={onRemoveTrack}
         onArtistSearch={onArtistSearch}
       />
-    </Comment.Group>
+    </div>
   )
 }
 
