@@ -32,10 +32,7 @@ const SkeletonText = React.forwardRef<
   return (
     <div ref={ref} className={cn('space-y-2', className)} {...props}>
       {Array.from({ length: lines }).map((_, i) => (
-        <Skeleton
-          key={i}
-          className={cn('h-4', i === lines - 1 && lines > 1 && 'w-4/5')}
-        />
+        <Skeleton key={i} className={cn('h-4', i === lines - 1 && lines > 1 && 'w-4/5')} />
       ))}
     </div>
   )
@@ -87,11 +84,7 @@ const SkeletonAvatar = React.forwardRef<
   }
 
   return (
-    <Skeleton
-      ref={ref}
-      className={cn('rounded-full', sizeClasses[size], className)}
-      {...props}
-    />
+    <Skeleton ref={ref} className={cn('rounded-full', sizeClasses[size], className)} {...props} />
   )
 })
 
@@ -108,21 +101,10 @@ const SkeletonButton = React.forwardRef<
   }
 
   return (
-    <Skeleton
-      ref={ref}
-      className={cn('rounded-md', sizeClasses[size], className)}
-      {...props}
-    />
+    <Skeleton ref={ref} className={cn('rounded-md', sizeClasses[size], className)} {...props} />
   )
 })
 
 SkeletonButton.displayName = 'SkeletonButton'
 
-export {
-  Skeleton,
-  SkeletonText,
-  SkeletonCard,
-  SkeletonTrack,
-  SkeletonAvatar,
-  SkeletonButton
-}
+export { Skeleton, SkeletonText, SkeletonCard, SkeletonTrack, SkeletonAvatar, SkeletonButton }

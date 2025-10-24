@@ -20,7 +20,7 @@ import './index.css'
 type SearchItemsProps = {
   tracks: ReadonlyArray<any>
   onClick: (uri: string) => void
-  onAdd: (track: any) => void
+  onAdd?: (track: any) => void
 }
 
 type MixItemsProps = {
@@ -61,7 +61,7 @@ const SearchItems: React.FC<SearchItemsProps> = props => (
         key={track.uri}
         track={track}
         onClick={() => props.onClick(track.uri)}
-        onAdd={() => props.onAdd(track)}
+        onAdd={props.onAdd ? () => props.onAdd!(track) : undefined}
       />
     ))}
   </>
@@ -255,7 +255,11 @@ const Search: React.FC<SearchProps> = props => {
             )}
 
             <div className='space-y-4'>
-              <SearchItems tracks={results} onClick={onAddTrack} onAdd={onAddTrackToMix} />
+              <SearchItems
+                tracks={results}
+                onClick={onAddTrack}
+                onAdd={curatedList.length < 5 ? onAddTrackToMix : undefined}
+              />
             </div>
           </SheetContent>
         </SheetPortal>
