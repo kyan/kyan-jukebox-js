@@ -10,13 +10,13 @@ type SearchButtonProps = {
 const SearchButton: React.FC<SearchButtonProps> = props => (
   <Button
     variant='default'
-    size='default'
+    size='lg'
     onClick={props.onClick}
     disabled={props.disabled}
-    className='float-right group'
+    className='h-[45px] group shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 bg-gradient-to-r from-primary to-primary/90'
   >
-    <Search className='h-4 w-4 mr-2' />
-    <span className='hidden group-hover:inline'>Search</span>
+    <Search className='h-5 w-5 mr-2 transition-transform group-hover:rotate-12' />
+    <span className='font-semibold'>Search Music</span>
   </Button>
 )
 

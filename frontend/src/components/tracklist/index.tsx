@@ -92,9 +92,14 @@ interface ListItemsProps {
 }
 
 const TrackImage: React.FC<TrackImageProps> = ({ src, isCurrent }) => (
-  <Avatar className={cn('h-[70px] w-[70px] rounded-md', isCurrent && 'ring-2 ring-primary')}>
+  <Avatar
+    className={cn(
+      'h-[80px] w-[80px] rounded-xl shadow-md transition-all duration-300',
+      isCurrent && 'ring-2 ring-primary ring-offset-2 ring-offset-background scale-105'
+    )}
+  >
     <AvatarImage src={src} alt='Track artwork' className='object-cover' />
-    <AvatarFallback className='rounded-md'>
+    <AvatarFallback className='rounded-xl'>
       <img src={defaultImage} alt='Default artwork' />
     </AvatarFallback>
   </Avatar>
@@ -106,7 +111,9 @@ const ImageChooser: React.FC<ImageChooserProps> = ({ image, isCurrent }) => {
 }
 
 const TrackHeading: React.FC<TrackHeadingProps> = ({ name }) => (
-  <h3 className='text-base font-semibold leading-tight mb-1 text-foreground'>{name}</h3>
+  <h3 className='text-base font-bold leading-tight mb-1.5 text-foreground hover:text-primary transition-colors'>
+    {name}
+  </h3>
 )
 
 const TrackDescription: React.FC<TrackDescriptionProps> = ({
@@ -114,16 +121,17 @@ const TrackDescription: React.FC<TrackDescriptionProps> = ({
   trackLength,
   onClick
 }) => (
-  <div className='text-sm text-muted-foreground'>
+  <div className='text-sm text-muted-foreground flex items-center gap-2'>
     <button
       type='button'
       onClick={onClick}
-      className='hover:text-foreground hover:underline transition-colors cursor-pointer inline-block'
+      className='hover:text-foreground hover:underline transition-colors cursor-pointer inline-block font-medium'
     >
       {artistName}
-    </button>{' '}
-    <span className='text-xs text-muted-foreground/70'>
-      ({millisToMinutesAndSeconds(trackLength)})
+    </button>
+    <span className='text-muted-foreground/50'>•</span>
+    <span className='text-xs text-muted-foreground/70 font-medium'>
+      {millisToMinutesAndSeconds(trackLength)}
     </span>
   </div>
 )
@@ -155,9 +163,9 @@ const CurrentPlays: React.FC<CurrentPlaysProps> = ({ metrics }) => {
   return (
     <Badge
       variant={hasPlays ? 'default' : 'outline'}
-      className={cn('mr-2 text-xs', !hasPlays && 'text-muted-foreground')}
+      className={cn('text-xs shadow-sm', !hasPlays && 'text-muted-foreground')}
     >
-      Played <span className='ml-1 font-semibold'>{metrics.plays}</span>
+      Played <span className='ml-1 font-bold'>{metrics.plays}</span>
     </Badge>
   )
 }
@@ -174,7 +182,7 @@ const ListItems: React.FC<ListItemsProps> = ({
     currentTrack && currentTrack.uri === uri
 
   return (
-    <div className='space-y-6'>
+    <div className='space-y-4'>
       {tracks.map((track, i) => {
         const { addedBy } = track
         const isCurrent = !!isCurrentTrack(current, track.uri)
@@ -184,9 +192,11 @@ const ListItems: React.FC<ListItemsProps> = ({
           <div
             key={`${i}${track.uri}`}
             className={cn(
-              'flex gap-4 transition-colors',
-              isCurrent && 'bg-accent/50 p-4 rounded-lg',
-              !beenPlayed && 'opacity-60'
+              'flex gap-4 transition-all duration-300 p-4 rounded-xl hover:bg-accent/30',
+              isCurrent &&
+                'bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 shadow-md',
+              !beenPlayed && 'opacity-50 hover:opacity-70',
+              beenPlayed && !isCurrent && 'hover:shadow-md'
             )}
           >
             <div className='flex-shrink-0'>
@@ -228,12 +238,32 @@ const Tracklist: React.FC<TracklistProps> = ({
   onRemoveTrack,
   onArtistSearch
 }) => {
-  if (!tracks) {
-    return null
+  if (!tracks || tracks.length === 0) {
+    return (
+      <div className='text-center py-12'>
+        <div className='inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted/50 mb-4'>
+          <svg
+            className='w-8 h-8 text-muted-foreground'
+            fill='none'
+            viewBox='0 0 24 24'
+            stroke='currentColor'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth={2}
+              d='M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3'
+            />
+          </svg>
+        </div>
+        <h3 className='text-lg font-semibold text-foreground mb-2'>No tracks in playlist</h3>
+        <p className='text-sm text-muted-foreground'>Search and add tracks to build your queue</p>
+      </div>
+    )
   }
 
   return (
-    <div className='space-y-1'>
+    <div>
       <ListItems
         disabled={disabled}
         tracks={tracks}

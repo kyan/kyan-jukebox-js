@@ -33,9 +33,11 @@ const SkipButton = ({ disabled, onClick, type }: SkipButtonProps) => {
   return (
     <button
       className={cn(
-        'border-none bg-transparent p-0 transition-colors',
-        'focus:outline-none',
-        disabled ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-80'
+        'h-[45px] w-[45px] rounded-full transition-all duration-200 flex items-center justify-center',
+        'focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        disabled
+          ? 'opacity-40 cursor-not-allowed'
+          : 'hover:bg-accent hover:scale-110 active:scale-95 hover:shadow-lg'
       )}
       onClick={onClick}
       disabled={disabled}
@@ -44,10 +46,7 @@ const SkipButton = ({ disabled, onClick, type }: SkipButtonProps) => {
       <Icon
         name={iconName}
         size='large'
-        className={cn(
-          'transition-colors',
-          disabled ? 'text-muted' : 'text-muted-foreground hover:text-foreground'
-        )}
+        className={cn('transition-colors', disabled ? 'text-muted' : 'text-foreground')}
       />
     </button>
   )
@@ -60,19 +59,18 @@ const PlayButton = ({ disabled, onPause, onPlay, state }: PlayButtonProps) => {
   return (
     <button
       className={cn(
-        'border-none bg-transparent p-0 transition-colors',
-        'focus:outline-none',
-        disabled ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90'
+        'h-[40px] w-[40px] rounded-full transition-all duration-200 flex items-center justify-center',
+        'bg-primary text-primary-foreground shadow-lg',
+        'focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        disabled
+          ? 'opacity-40 cursor-not-allowed'
+          : 'hover:bg-primary/90 hover:scale-110 hover:shadow-xl active:scale-95'
       )}
       onClick={clickHandler}
       disabled={disabled}
       data-testid='PlayButton'
     >
-      <Icon
-        name={icon}
-        size='big'
-        className={cn('transition-colors', disabled ? 'text-muted' : 'text-foreground')}
-      />
+      <Icon name={icon} size='large' className='transition-colors' />
     </button>
   )
 }
@@ -81,7 +79,7 @@ const Controls = ({ disabled, onPlay, onPause, onPrevious, onNext }: ControlsPro
   const jukebox = useSelector((state: JukeboxAppState) => state.jukebox)
 
   return (
-    <div className='w-[150px] flex justify-between items-center'>
+    <div className='flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-full px-2 border border-border/50 shadow-sm h-[45px]'>
       <SkipButton onClick={onPrevious} disabled={disabled} type='backward' />
       <PlayButton
         onPlay={onPlay}

@@ -52,9 +52,9 @@ const VolumeDownButton: React.FC<VolumeButtonProps> = ({ volume, onChange, disab
     size='icon'
     onClick={volumeDown(volume, onChange)}
     disabled={disabled || volume <= VOLUME_MIN}
-    className='rounded-r-none border-r-0'
+    className='h-[45px] w-[45px] rounded-r-none border-r-0 hover:bg-accent transition-all duration-200 hover:scale-105 active:scale-95'
   >
-    <VolumeX className='h-4 w-4' />
+    <VolumeX className='h-4 w-4 transition-transform hover:scale-110' />
   </Button>
 )
 
@@ -64,9 +64,9 @@ const VolumeUpButton: React.FC<VolumeButtonProps> = ({ volume, onChange, disable
     size='icon'
     onClick={volumeUp(volume, onChange)}
     disabled={disabled || volume >= VOLUME_MAX}
-    className='rounded-l-none'
+    className='h-[45px] w-[45px] rounded-l-none hover:bg-accent transition-all duration-200 hover:scale-105 active:scale-95'
   >
-    <Volume2 className='h-4 w-4' />
+    <Volume2 className='h-4 w-4 transition-transform hover:scale-110' />
   </Button>
 )
 
@@ -74,9 +74,9 @@ const VolumeButtons: React.FC<VolumeButtonsProps> = ({ disabled, onVolumeChange 
   const jukebox = useSelector((state: RootState) => state.jukebox)
 
   return (
-    <div className='flex items-center float-right'>
+    <div className='flex items-center gap-0 bg-card/50 backdrop-blur-sm rounded-lg border border-border/50 shadow-sm overflow-hidden h-[45px]'>
       <VolumeDownButton volume={jukebox.volume} onChange={onVolumeChange} disabled={disabled} />
-      <div className='flex items-center justify-center border border-x-0 border-input bg-background px-3 h-10 text-sm font-medium min-w-[3rem]'>
+      <div className='flex items-center justify-center px-4 h-full text-sm font-bold tabular-nums min-w-[3.5rem] bg-muted/30'>
         {jukebox.volume}
       </div>
       <VolumeUpButton volume={jukebox.volume} onChange={onVolumeChange} disabled={disabled} />
