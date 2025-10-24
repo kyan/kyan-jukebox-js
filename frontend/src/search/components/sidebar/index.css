@@ -1,8 +1,10 @@
+/* Search Sidebar Styles */
 .sidebar-search {
   background-color: rgb(71, 71, 71);
   padding: 25px;
 }
 
+/* Search List Item Styles */
 .search-list-item {
   display: flex;
   color: white;
@@ -53,6 +55,8 @@
   margin-block-start: auto;
   margin-bottom: 15px;
   color: white;
+  cursor: pointer;
+  transition: color 0.2s;
 }
 
 .search-list-item__add:hover,
@@ -60,19 +64,54 @@
   color: #999;
 }
 
-.search-list-pagination.menu .item {
+/* Draggable Styles */
+.draggable {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+.draggable:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+/* Pagination Styles */
+.search-list-pagination .menu .item {
   color: white;
 }
 
-.search-list-pagination.menu .active.item {
+.search-list-pagination .menu .active.item {
   color: white !important;
   font-weight: bold !important;
   border-color: tomato !important;
 }
 
-.draggable {
-  cursor: move; /* fallback if grab cursor is unsupported */
-  cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
+/* Sheet Overlay Customization */
+.sidebar-search input {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.sidebar-search input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.sidebar-search input:focus {
+  border-color: rgba(255, 255, 255, 0.4);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+/* Separator in dark theme */
+.sidebar-search [role='separator'] {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Button customizations */
+.search-list-item__add_to_mix {
+  margin-bottom: 1rem;
 }
