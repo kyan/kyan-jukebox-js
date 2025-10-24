@@ -4,6 +4,8 @@ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/icon'
+import { Separator } from '@/components/ui/separator'
+import ThemeToggle from 'components/theme-toggle'
 
 interface User {
   fullname: string
@@ -49,21 +51,25 @@ export const Settings: React.FC<SettingsProps> = ({ user, isSignedIn, onSignOut 
             </Avatar>
           </button>
         </PopoverTrigger>
-        <PopoverContent className='w-[200px] p-4' align='end'>
+        <PopoverContent className='w-[240px] p-4 animate-slide-down' align='end'>
           <div className='space-y-4'>
             <div className='space-y-1'>
-              <div className='font-semibold text-sm text-foreground'>{user.fullname}</div>
-              <div className='text-xs text-muted-foreground'>{user.email}</div>
+              <div className='font-semibold text-sm text-foreground transition-colors'>
+                {user.fullname}
+              </div>
+              <div className='text-xs text-muted-foreground transition-colors'>{user.email}</div>
             </div>
+            <Separator />
             <Button
               variant='default'
               size='sm'
-              className='w-full'
+              className='w-full transition-smooth hover-lift'
               onClick={() => {
                 setIsOpen(false)
                 onSignOut()
               }}
             >
+              <Icon name='sign out' className='mr-2' size='small' />
               Sign Out
             </Button>
           </div>
@@ -72,7 +78,12 @@ export const Settings: React.FC<SettingsProps> = ({ user, isSignedIn, onSignOut 
     )
   }
 
-  return <>{avatar}</>
+  return (
+    <div className='flex items-center gap-2'>
+      <ThemeToggle />
+      {avatar}
+    </div>
+  )
 }
 
 export default Settings

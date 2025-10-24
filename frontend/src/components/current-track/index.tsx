@@ -172,26 +172,28 @@ const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) =>
   const sliderValue = currentUserVote !== null ? currentUserVote * 10 : 50
 
   return (
-    <Card className='overflow-hidden'>
-      <div className='relative'>
+    <Card className='overflow-hidden shadow-medium hover:shadow-hard transition-all duration-300 animate-scale-in'>
+      <div className='relative group'>
         <img
           src={track.image || defaultImage}
           alt={`${track.name} artwork`}
-          className='w-full h-auto'
+          className='w-full h-auto current-track-image'
         />
         <TrackVotes metrics={track.metrics} />
       </div>
 
-      <CardContent className='p-6 pb-0'>
+      <CardContent className='p-6 pb-0 track-content'>
         <ProgressBar />
-        <h3 className='text-xl font-semibold mt-2 mb-1'>{track.name}</h3>
-        <p className='text-sm text-muted-foreground font-medium mb-1'>
+        <h3 className='text-xl font-semibold mt-2 mb-1 transition-colors hover:text-primary'>
+          {track.name}
+        </h3>
+        <p className='text-sm text-muted-foreground font-medium mb-1 transition-colors'>
           {track.artist && track.artist.name}
         </p>
         <AlbumDescription album={track.album} />
       </CardContent>
 
-      <CardContent className='px-6 py-4'>
+      <CardContent className='px-6 py-4 card-section'>
         <div className='track-rating-container mx-auto'>
           <Slider
             disabled={!userID}
@@ -211,11 +213,17 @@ const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) =>
         </div>
       </CardContent>
 
-      <CardContent className='px-6 py-3 border-t'>
+      <CardContent className='px-6 py-3 border-t card-section'>
         <div className='flex items-center gap-2 flex-wrap'>
-          <AddLabel count={addedBy.length} />
-          <PlayLabel metrics={track.metrics} />
-          <VoteLabel metrics={track.metrics} />
+          <div className='track-badge'>
+            <AddLabel count={addedBy.length} />
+          </div>
+          <div className='track-badge'>
+            <PlayLabel metrics={track.metrics} />
+          </div>
+          <div className='track-badge'>
+            <VoteLabel metrics={track.metrics} />
+          </div>
           <VotedBy
             size='mini'
             show={votes.length > 0}
@@ -225,11 +233,11 @@ const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) =>
         </div>
       </CardContent>
 
-      <CardContent className='px-6 py-3 border-t'>
-        <div className='flex items-center justify-between'>
+      <CardContent className='px-6 py-3 border-t card-section'>
+        <div className='flex items-center justify-between gap-3'>
           <AddedBy users={track.addedBy} />
           <a
-            className='track-uri text-xs font-bold text-muted-foreground hover:text-foreground transition-colors'
+            className='track-uri text-xs font-bold text-muted-foreground hover:text-foreground transition-all'
             href={spotifyLink(track.uri)}
             target='_blank'
             rel='noopener noreferrer'

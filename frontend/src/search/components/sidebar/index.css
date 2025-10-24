@@ -1,6 +1,6 @@
 /* Search Sidebar Styles */
 .sidebar-search {
-  background-color: rgb(71, 71, 71);
+  background: linear-gradient(135deg, rgb(71, 71, 71) 0%, rgb(60, 60, 60) 100%);
   padding: 25px;
 }
 
@@ -8,6 +8,13 @@
 .search-list-item {
   display: flex;
   color: white;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.search-list-item:hover {
+  transform: translateX(2px);
 }
 
 .search-list-item .content {
@@ -17,6 +24,7 @@
 .search-list-item.disabled {
   color: #a6a6a6;
   cursor: default;
+  opacity: 0.6;
 }
 
 .search-list-item__header {
@@ -24,10 +32,21 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 500;
 }
 
 .search-list-item__image {
   cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.search-list-item__image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .draggable .search-list-item__image {
@@ -39,11 +58,14 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .search-list-item__add {
   cursor: pointer;
   font-size: 10px;
+  transition: all 0.2s ease;
 }
 
 .search-list-item-draggable {
@@ -56,12 +78,19 @@
   margin-bottom: 15px;
   color: white;
   cursor: pointer;
-  transition: color 0.2s;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
-.search-list-item__add:hover,
+.search-list-item__add:hover {
+  color: #1db954;
+  transform: scale(1.1);
+}
+
 .search-list-item__remove:hover {
-  color: #999;
+  color: #ef4444;
+  transform: scale(1.1);
 }
 
 /* Draggable Styles */
@@ -70,23 +99,31 @@
   cursor: grab;
   cursor: -moz-grab;
   cursor: -webkit-grab;
+  transition: opacity 0.2s ease;
 }
 
 .draggable:active {
   cursor: grabbing;
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
+  opacity: 0.8;
 }
 
 /* Pagination Styles */
 .search-list-pagination .menu .item {
   color: white;
+  transition: background-color 0.2s ease;
+}
+
+.search-list-pagination .menu .item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .search-list-pagination .menu .active.item {
   color: white !important;
   font-weight: bold !important;
-  border-color: tomato !important;
+  border-color: #1db954 !important;
+  background-color: rgba(29, 185, 84, 0.1) !important;
 }
 
 /* Sheet Overlay Customization */
@@ -94,6 +131,7 @@
   background-color: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
   color: white;
+  transition: all 0.2s ease;
 }
 
 .sidebar-search input::placeholder {
@@ -101,17 +139,52 @@
 }
 
 .sidebar-search input:focus {
-  border-color: rgba(255, 255, 255, 0.4);
+  border-color: #1db954;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 2px rgba(29, 185, 84, 0.2);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 /* Separator in dark theme */
 .sidebar-search [role='separator'] {
   background-color: rgba(255, 255, 255, 0.2);
+  margin: 1.5rem 0;
 }
 
 /* Button customizations */
 .search-list-item__add_to_mix {
   margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.search-list-item__add_to_mix:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Smooth scrolling for search results */
+.sidebar-search [data-radix-scroll-area-viewport] {
+  scroll-behavior: smooth;
+}
+
+/* Loading states */
+.search-list-item.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Animation for new items */
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.search-list-item.animate-in {
+  animation: slideInFromRight 0.3s ease-out;
 }

@@ -49,11 +49,11 @@ const Dashboard: React.FC<DashboardProps> = props => {
   } = props
 
   return (
-    <div className='relative'>
+    <div className='relative min-h-screen'>
       {/* Offline Dimmer Overlay */}
       {!online && (
-        <div className='fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center'>
-          <div className='text-center'>
+        <div className='fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center animate-fade-in'>
+          <div className='text-center animate-pulse-slow'>
             <h2 className='text-2xl font-semibold mb-2'>Offline</h2>
             <p className='text-muted-foreground'>Waiting for connection...</p>
           </div>
@@ -62,7 +62,7 @@ const Dashboard: React.FC<DashboardProps> = props => {
 
       <SearchContainer>
         {/* Header Section */}
-        <div className='w-full px-5 sm:px-8 pt-5 pb-2.5'>
+        <div className='w-full px-5 sm:px-8 pt-5 pb-2.5 animate-slide-down'>
           <div className='flex flex-wrap items-center gap-4'>
             <Settings user={user} isSignedIn={isSignedIn} onSignOut={onSignOut} />
             <VolumeButtons disabled={disabled} onVolumeChange={onVolumeChange} />
@@ -77,30 +77,38 @@ const Dashboard: React.FC<DashboardProps> = props => {
           </div>
         </div>
 
-        <Separator />
+        <Separator className='transition-colors' />
 
         {/* Body Section */}
         <div className='w-full px-4 sm:px-5 pt-2.5 pb-5'>
           <div className='grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-screen'>
             {/* Now Playing Column */}
-            <div className='lg:col-span-4'>
-              <h2 className='text-sm font-semibold mb-4'>Now Playing</h2>
-              <CurrentTrackContainer />
+            <div className='lg:col-span-4 animate-fade-in' style={{ animationDelay: '0.1s' }}>
+              <h2 className='text-sm font-semibold mb-4 text-muted-foreground uppercase tracking-wide'>
+                Now Playing
+              </h2>
+              <div className='transition-all duration-300'>
+                <CurrentTrackContainer />
+              </div>
             </div>
 
             {/* Playlist Column */}
-            <div className='lg:col-span-8'>
+            <div className='lg:col-span-8 animate-fade-in' style={{ animationDelay: '0.2s' }}>
               <div className='flex items-center gap-2 mb-4'>
-                <h2 className='text-sm font-semibold'>Playlist</h2>
+                <h2 className='text-sm font-semibold text-muted-foreground uppercase tracking-wide'>
+                  Playlist
+                </h2>
                 <ClearPlaylist disabled={disabled} onClear={onTracklistClear} />
               </div>
-              <TrackList
-                disabled={disabled}
-                tracks={tracklist}
-                currentTrack={currentTrack}
-                onRemoveTrack={onRemoveTrack}
-                onArtistSearch={onArtistSearch}
-              />
+              <div className='transition-all duration-300'>
+                <TrackList
+                  disabled={disabled}
+                  tracks={tracklist}
+                  currentTrack={currentTrack}
+                  onRemoveTrack={onRemoveTrack}
+                  onArtistSearch={onArtistSearch}
+                />
+              </div>
             </div>
           </div>
         </div>

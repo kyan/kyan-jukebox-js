@@ -17,8 +17,31 @@ const App = () => {
         toastOptions={{
           duration: 4000,
           style: {
-            background: '#363636',
-            color: '#fff'
+            background: 'hsl(var(--card))',
+            color: 'hsl(var(--card-foreground))',
+            border: '1px solid hsl(var(--border))',
+            borderRadius: 'var(--radius)',
+            boxShadow: '0 4px 16px 0 rgba(0, 0, 0, 0.12)',
+            fontSize: '14px',
+            fontWeight: '500'
+          },
+          success: {
+            iconTheme: {
+              primary: 'hsl(var(--success))',
+              secondary: 'hsl(var(--card))'
+            }
+          },
+          error: {
+            iconTheme: {
+              primary: 'hsl(var(--destructive))',
+              secondary: 'hsl(var(--card))'
+            }
+          },
+          loading: {
+            iconTheme: {
+              primary: 'hsl(var(--primary))',
+              secondary: 'hsl(var(--card))'
+            }
           }
         }}
       />
