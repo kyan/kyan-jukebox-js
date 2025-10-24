@@ -1,6 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
-import { List, Image } from 'semantic-ui-react'
+import { cn } from '@/lib/utils'
 import VotedBy from 'components/voted-by'
 
 type SearchItemProps = {
@@ -21,30 +20,39 @@ const VoteInfo: React.FC<VoteInfoProps> = props => {
 
 const SearchItem: React.FC<SearchItemProps> = props => (
   <div
-    className={classnames(props.className, 'search-list-item', { disabled: props.track.explicit })}
+    className={cn(
+      'flex text-white',
+      props.track.explicit && 'text-[#a6a6a6] cursor-default',
+      props.className
+    )}
   >
-    <Image
+    <img
       alt={props.track.name}
-      floated='left'
       src={props.track.image}
-      size='tiny'
       title={`Click to add - ${props.track.name} - ${props.track.artist.name}`}
-      className='search-list-item__image'
-      disabled={props.track.explicit}
+      className={cn(
+        'float-left w-[80px] h-[80px] object-cover cursor-pointer',
+        props.track.explicit && 'opacity-50 cursor-default'
+      )}
       onClick={props.track.explicit ? undefined : props.onClick}
     />
-    <List.Content>
-      <div className='search-list-item__header'>
+    <div className='w-[80%] ml-4'>
+      <div className='leading-[18px] whitespace-nowrap overflow-hidden text-ellipsis'>
         {props.track.name} - {props.track.artist.name}
       </div>
-      <div className='search-list-item__content'>{props.track.album.name}</div>
+      <div className='mb-1.5 whitespace-nowrap overflow-hidden text-ellipsis'>
+        {props.track.album.name}
+      </div>
       <VoteInfo metrics={props.track.metrics} />
       {props.onAdd ? (
-        <span onClick={props.onAdd} className='search-list-item__add'>
+        <span
+          onClick={props.onAdd}
+          className='cursor-pointer text-[10px] hover:text-[#999] transition-colors'
+        >
           Add to mix
         </span>
       ) : null}
-    </List.Content>
+    </div>
   </div>
 )
 
