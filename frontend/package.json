@@ -72,6 +72,7 @@
     "@typescript-eslint/eslint-plugin": "catalog:",
     "@typescript-eslint/parser": "catalog:",
     "autoprefixer": "^10.4.21",
+    "bun-plugin-tailwind": "^0.1.2",
     "eslint": "catalog:",
     "eslint-config-prettier": "catalog:",
     "eslint-plugin-import": "^2.22.0",
