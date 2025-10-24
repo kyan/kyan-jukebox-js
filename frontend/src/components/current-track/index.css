@@ -21,13 +21,13 @@
   color: #bbb;
 }
 
-.track-uri {
-  font-size: 10px;
-  font-weight: bold;
-  float: right;
-}
-
 .track-rating-container {
   width: 233px;
-  margin: 10px auto 20px auto;
+  max-width: 100%;
+}
+
+/* Custom slider thumb styling with dynamic color */
+.track-rating-container [role='slider'] {
+  border-color: var(--thumb-color, hsl(var(--muted-foreground)));
+  background-color: var(--thumb-color, hsl(var(--muted-foreground)));
 }

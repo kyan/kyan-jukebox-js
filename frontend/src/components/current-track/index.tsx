@@ -1,12 +1,13 @@
 import React from 'react'
-import { Card, Image, Label, Icon } from 'semantic-ui-react'
-import Slider from 'rc-slider'
+import { Icon } from 'components/ui/icon'
+import { Slider } from 'components/ui/slider'
+import { Badge } from 'components/ui/badge'
+import { Card, CardContent } from 'components/ui/card'
 import AddedBy from 'components/added-by'
 import VotedBy from 'components/voted-by'
 import ProgressBar from 'components/progress-bar'
 import defaultImage from './default-artwork.png'
 import { flatten, mean } from 'lodash'
-import 'rc-slider/assets/index.css'
 import './index.css'
 
 interface User {
@@ -59,22 +60,6 @@ interface CurrentTrackProps {
   onVote?: (uri: string, rating: number) => void
 }
 
-const marks: Record<number, any> = {
-  0: {
-    style: {
-      color: 'red'
-    },
-    label: <Icon name='thumbs down' color='red' />
-  },
-  50: <Icon name='handshake' />,
-  100: {
-    style: {
-      color: 'green'
-    },
-    label: <Icon name='thumbs up' color='green' />
-  }
-}
-
 const spotifyLink = (uri: string) => {
   const code = uri.split(':').pop()
   return `https://open.spotify.com/track/${code}`
@@ -84,20 +69,22 @@ const AlbumDescription: React.FC<{ album?: Album }> = ({ album }) => {
   if (!album) return null
   const year = album.year ? ` (${album.year})` : ''
   return (
-    <Card.Description>
+    <p className='text-sm text-muted-foreground'>
       {album.name}
       {year}
-    </Card.Description>
+    </p>
   )
 }
 
 const noTrack = () => (
-  <Card>
-    <Image src={defaultImage} />
-    <Card.Content>
-      <Card.Header>Nothing playing</Card.Header>
-      <Card.Description>Drag some music here or press play.</Card.Description>
-    </Card.Content>
+  <Card className='overflow-hidden'>
+    <div className='relative'>
+      <img src={defaultImage} alt='No track playing' className='w-full h-auto' />
+    </div>
+    <CardContent className='p-6'>
+      <h3 className='text-xl font-semibold mb-2'>Nothing playing</h3>
+      <p className='text-sm text-muted-foreground'>Drag some music here or press play.</p>
+    </CardContent>
   </Card>
 )
 
@@ -108,23 +95,26 @@ const calcVoteAverage = (data: Vote[]) => {
 }
 
 const voteHandleColor = (total: number | null) => {
-  if (total === null) return 'gray'
+  if (total === null) return 'hsl(var(--muted-foreground))'
   if (total > 50) return '#21ba45'
-  if (total < 50) return 'red'
-  return 'gray'
+  if (total < 50) return '#ef4444'
+  return 'hsl(var(--muted-foreground))'
 }
 
 const TrackVotes: React.FC<{ metrics?: TrackMetrics }> = ({ metrics }) => {
   if (!metrics) return null
-  return <VotedBy total={metrics.votesAverage} show={metrics.votes > 0} ribbon />
+  return (
+    <div className='absolute top-0 right-0'>
+      <VotedBy total={metrics.votesAverage} show={metrics.votes > 0} ribbon />
+    </div>
+  )
 }
 
 const AddLabel: React.FC<{ count: number }> = ({ count }) => {
   return (
-    <Label size='mini'>
-      Added
-      <Label.Detail>{count}</Label.Detail>
-    </Label>
+    <Badge variant='secondary' className='text-xs'>
+      Added <span className='ml-1 font-bold'>{count}</span>
+    </Badge>
   )
 }
 
@@ -132,10 +122,9 @@ const PlayLabel: React.FC<{ metrics?: TrackMetrics }> = ({ metrics }) => {
   if (!metrics) return null
 
   return (
-    <Label size='mini'>
-      Played
-      <Label.Detail>{metrics.plays}</Label.Detail>
-    </Label>
+    <Badge variant='secondary' className='text-xs'>
+      Played <span className='ml-1 font-bold'>{metrics.plays}</span>
+    </Badge>
   )
 }
 
@@ -143,67 +132,112 @@ const VoteLabel: React.FC<{ metrics?: TrackMetrics }> = ({ metrics }) => {
   if (!metrics) return null
 
   return (
-    <Label size='mini'>
-      Activity
-      <Label.Detail>{metrics.votes}</Label.Detail>
-    </Label>
+    <Badge variant='secondary' className='text-xs'>
+      Activity <span className='ml-1 font-bold'>{metrics.votes}</span>
+    </Badge>
   )
 }
+
+const SliderMarks: React.FC<{ disabled?: boolean }> = () => (
+  <div className='relative w-full h-6 mt-2 pointer-events-none'>
+    <div className='absolute left-0 flex flex-col items-center' style={{ marginLeft: '-12px' }}>
+      <Icon name='thumbs down' size='small' className='text-red-500' />
+    </div>
+    <div className='absolute left-1/2 flex flex-col items-center' style={{ marginLeft: '-12px' }}>
+      <Icon name='handshake' size='small' className='text-muted-foreground' />
+    </div>
+    <div className='absolute right-0 flex flex-col items-center' style={{ marginRight: '-12px' }}>
+      <Icon name='thumbs up' size='small' className='text-green-500' />
+    </div>
+  </div>
+)
 
 const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) => {
   if (!track || !track.name) {
     return noTrack()
   }
-  const maxRating = 10
+
   const { addedBy = [] } = track
   const votes = (addedBy[0] && addedBy[0].votes) || []
   const currentUserVoter = votes.find(u => u.user._id === userID)
   const currentUserVote = currentUserVoter ? currentUserVoter.vote : null
-  const doVote = (uri: string) => (rating: number) => onVote?.(uri, rating / maxRating)
+
+  const handleValueChange = (value: number[]) => {
+    if (onVote && value.length > 0) {
+      onVote(track.uri, value[0] / 100)
+    }
+  }
+
+  // Convert 0-10 scale to 0-100 for the slider
+  const sliderValue = currentUserVote !== null ? currentUserVote * 10 : 50
 
   return (
-    <Card>
-      <Image src={track.image || defaultImage} label={<TrackVotes metrics={track.metrics} />} />
-      <Card.Content>
+    <Card className='overflow-hidden'>
+      <div className='relative'>
+        <img
+          src={track.image || defaultImage}
+          alt={`${track.name} artwork`}
+          className='w-full h-auto'
+        />
+        <TrackVotes metrics={track.metrics} />
+      </div>
+
+      <CardContent className='p-6 pb-0'>
         <ProgressBar />
-        <Card.Header>{track.name}</Card.Header>
-        <Card.Meta>{track.artist && track.artist.name}</Card.Meta>
+        <h3 className='text-xl font-semibold mt-2 mb-1'>{track.name}</h3>
+        <p className='text-sm text-muted-foreground font-medium mb-1'>
+          {track.artist && track.artist.name}
+        </p>
         <AlbumDescription album={track.album} />
-      </Card.Content>
-      <Card.Content extra>
-        <div className='track-rating-container'>
+      </CardContent>
+
+      <CardContent className='px-6 py-4'>
+        <div className='track-rating-container mx-auto'>
           <Slider
             disabled={!userID}
-            dots
-            value={currentUserVote ?? undefined}
-            included={false}
-            marks={marks}
-            step={maxRating}
-            onChange={doVote(track.uri)}
-            handleStyle={{
-              borderColor: voteHandleColor(currentUserVote),
-              backgroundColor: voteHandleColor(currentUserVote)
-            }}
+            value={[sliderValue]}
+            min={0}
+            max={100}
+            step={10}
+            onValueChange={handleValueChange}
+            className='mb-2'
+            style={
+              {
+                '--thumb-color': voteHandleColor(currentUserVote)
+              } as React.CSSProperties
+            }
+          />
+          <SliderMarks disabled={!userID} />
+        </div>
+      </CardContent>
+
+      <CardContent className='px-6 py-3 border-t'>
+        <div className='flex items-center gap-2 flex-wrap'>
+          <AddLabel count={addedBy.length} />
+          <PlayLabel metrics={track.metrics} />
+          <VoteLabel metrics={track.metrics} />
+          <VotedBy
+            size='mini'
+            show={votes.length > 0}
+            total={calcVoteAverage(votes)}
+            votes={votes}
           />
         </div>
-      </Card.Content>
-      <Card.Content extra>
-        <AddLabel count={addedBy.length} />
-        <PlayLabel metrics={track.metrics} />
-        <VoteLabel metrics={track.metrics} />
-        <VotedBy size='mini' show={votes.length > 0} total={calcVoteAverage(votes)} votes={votes} />
-      </Card.Content>
-      <Card.Content extra>
-        <AddedBy users={track.addedBy} />
-        <a
-          className='track-uri'
-          href={spotifyLink(track.uri)}
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          {track.uri}
-        </a>
-      </Card.Content>
+      </CardContent>
+
+      <CardContent className='px-6 py-3 border-t'>
+        <div className='flex items-center justify-between'>
+          <AddedBy users={track.addedBy} />
+          <a
+            className='track-uri text-xs font-bold text-muted-foreground hover:text-foreground transition-colors'
+            href={spotifyLink(track.uri)}
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            {track.uri}
+          </a>
+        </div>
+      </CardContent>
     </Card>
   )
 }
