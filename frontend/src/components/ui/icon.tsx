@@ -28,7 +28,10 @@ import {
   X,
   Check,
   AlertCircle,
-  Info
+  Info,
+  Sun,
+  Moon,
+  Monitor
 } from 'lucide-react'
 
 // Icon variant styles
@@ -99,7 +102,16 @@ const iconMap = {
 
   // Media
   music: Music,
-  clock: Clock
+  clock: Clock,
+
+  // Theme
+  sun: Sun,
+  moon: Moon,
+  desktop: Monitor,
+  monitor: Monitor,
+
+  // Additional Actions
+  'sign out': LogOut
 } as const
 
 export type IconName = keyof typeof iconMap

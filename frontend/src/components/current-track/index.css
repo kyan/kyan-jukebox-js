@@ -1,3 +1,4 @@
+/* Progress container with better visual hierarchy */
 .progress-container {
   position: relative;
   margin-bottom: 10px;
@@ -10,6 +11,8 @@
   line-height: 6px;
   font-size: 12px;
   color: #bbb;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
 .remaining-text {
@@ -19,15 +22,129 @@
   line-height: 6px;
   font-size: 12px;
   color: #bbb;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
+/* Track rating container with smooth animations */
 .track-rating-container {
   width: 233px;
   max-width: 100%;
+  transition: all 0.3s ease;
 }
 
-/* Custom slider thumb styling with dynamic color */
+/* Custom slider thumb styling with dynamic color and smooth transitions */
 .track-rating-container [role='slider'] {
   border-color: var(--thumb-color, hsl(var(--muted-foreground)));
   background-color: var(--thumb-color, hsl(var(--muted-foreground)));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.track-rating-container [role='slider']:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.track-rating-container [role='slider']:active {
+  transform: scale(1.05);
+}
+
+/* Slider track styling */
+.track-rating-container [data-orientation='horizontal'] {
+  transition: all 0.2s ease;
+}
+
+/* Image hover effect */
+.current-track-image {
+  transition: transform 0.3s ease;
+}
+
+.current-track-image:hover {
+  transform: scale(1.02);
+}
+
+/* Badge animations */
+.track-badge {
+  transition: all 0.2s ease;
+}
+
+.track-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Link hover states */
+.track-uri {
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.track-uri:hover {
+  text-decoration: underline;
+  transform: translateX(2px);
+}
+
+/* Card sections with subtle separators */
+.card-section {
+  transition: background-color 0.2s ease;
+}
+
+.card-section:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Smooth fade-in for content */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.track-content {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Skeleton loading state */
+.track-skeleton {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .track-rating-container {
+    width: 100%;
+  }
+}
+
+/* Focus states for accessibility */
+.track-rating-container [role='slider']:focus-visible {
+  outline: 2px solid var(--thumb-color, hsl(var(--ring)));
+  outline-offset: 2px;
+}
+
+/* Disabled state styling */
+.track-rating-container [role='slider']:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.track-rating-container [role='slider']:disabled:hover {
+  transform: none;
+  box-shadow: none;
 }
