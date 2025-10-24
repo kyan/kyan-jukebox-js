@@ -31,21 +31,28 @@ const ClearPlaylist: React.FC<ClearPlaylistProps> = ({ disabled, onClear }) => {
       <AlertDialogTrigger asChild>
         <Badge
           variant='destructive'
-          className='cursor-pointer hover:bg-destructive/90 text-xs font-semibold px-2 py-1'
+          className='cursor-pointer hover:bg-destructive/90 transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-lg text-xs font-bold px-3 py-1.5 shadow-md'
         >
           CLEAR
         </Badge>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className='shadow-2xl border-border/50 bg-card/95 backdrop-blur-sm'>
         <AlertDialogHeader>
-          <AlertDialogTitle>Clear Playlist</AlertDialogTitle>
-          <AlertDialogDescription>
-            Are you sure you want to nuke the playlist?
+          <AlertDialogTitle className='text-xl font-bold'>Clear Playlist</AlertDialogTitle>
+          <AlertDialogDescription className='text-base text-muted-foreground'>
+            Are you sure you want to clear the entire playlist? This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>No thanks</AlertDialogCancel>
-          <AlertDialogAction onClick={handleConfirm}>Do it!</AlertDialogAction>
+          <AlertDialogCancel className='transition-all duration-200 hover:scale-105 active:scale-95'>
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={handleConfirm}
+            className='bg-gradient-to-r from-destructive to-destructive/90 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg font-semibold'
+          >
+            Clear Playlist
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

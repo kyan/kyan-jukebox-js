@@ -1,35 +1,21 @@
-/* Progress container with better visual hierarchy */
-.progress-container {
-  position: relative;
-  margin-bottom: 10px;
+/* Progress bar animations */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
-.track-length {
-  position: absolute;
-  top: 0;
-  left: 0;
-  line-height: 6px;
-  font-size: 12px;
-  color: #bbb;
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.remaining-text {
-  position: absolute;
-  top: 0;
-  right: 0;
-  line-height: 6px;
-  font-size: 12px;
-  color: #bbb;
-  font-weight: 500;
-  transition: color 0.2s ease;
+.animate-shimmer {
+  animation: shimmer 2s infinite;
 }
 
 /* Track rating container with smooth animations */
 .track-rating-container {
-  width: 233px;
-  max-width: 100%;
+  max-width: 400px;
+  width: 100%;
   transition: all 0.3s ease;
 }
 
@@ -53,52 +39,55 @@
 /* Slider track styling */
 .track-rating-container [data-orientation='horizontal'] {
   transition: all 0.2s ease;
+  height: 8px;
+  border-radius: 9999px;
 }
 
-/* Image hover effect */
+/* Slider range styling */
+.track-rating-container [role='slider'] ~ span {
+  border-radius: 9999px;
+}
+
+/* Image styling */
 .current-track-image {
-  transition: transform 0.3s ease;
-}
-
-.current-track-image:hover {
-  transform: scale(1.02);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
 }
 
 /* Badge animations */
 .track-badge {
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .track-badge:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* Link hover states */
 .track-uri {
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
 }
 
 .track-uri:hover {
-  text-decoration: underline;
   transform: translateX(2px);
 }
 
 /* Card sections with subtle separators */
 .card-section {
-  transition: background-color 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.card-section:hover {
-  background-color: rgba(0, 0, 0, 0.02);
+/* Content animations */
+.track-content {
+  animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Smooth fade-in for content */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -106,45 +95,42 @@
   }
 }
 
-.track-content {
-  animation: fadeIn 0.4s ease-out;
-}
-
-/* Skeleton loading state */
-.track-skeleton {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .track-rating-container {
-    width: 100%;
+    max-width: 100%;
+  }
+
+  .track-badge {
+    font-size: 0.75rem;
   }
 }
 
 /* Focus states for accessibility */
 .track-rating-container [role='slider']:focus-visible {
-  outline: 2px solid var(--thumb-color, hsl(var(--ring)));
+  outline: none;
+  box-shadow: 0 0 0 3px var(--thumb-color, hsl(var(--ring)));
   outline-offset: 2px;
 }
 
 /* Disabled state styling */
 .track-rating-container [role='slider']:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
 .track-rating-container [role='slider']:disabled:hover {
   transform: none;
-  box-shadow: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .card-section:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+
+  .track-badge:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
 }

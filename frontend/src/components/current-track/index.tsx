@@ -77,13 +77,25 @@ const AlbumDescription: React.FC<{ album?: Album }> = ({ album }) => {
 }
 
 const noTrack = () => (
-  <Card className='overflow-hidden'>
-    <div className='relative'>
-      <img src={defaultImage} alt='No track playing' className='w-full h-auto' />
+  <Card className='overflow-hidden shadow-xl border-border/50 rounded-2xl bg-gradient-to-br from-card to-muted/20'>
+    <div className='relative overflow-hidden'>
+      <div className='absolute inset-0 bg-gradient-to-t from-black/40 to-transparent'></div>
+      <img src={defaultImage} alt='No track playing' className='w-full h-auto opacity-80' />
     </div>
-    <CardContent className='p-6'>
-      <h3 className='text-xl font-semibold mb-2'>Nothing playing</h3>
-      <p className='text-sm text-muted-foreground'>Drag some music here or press play.</p>
+    <CardContent className='p-8 text-center'>
+      <h3 className='text-2xl font-bold mb-3 text-foreground'>Nothing playing</h3>
+      <p className='text-base text-muted-foreground mb-4'>Add some music to get started</p>
+      <div className='flex items-center justify-center gap-2 text-sm text-muted-foreground'>
+        <svg className='w-5 h-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            strokeWidth={2}
+            d='M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3'
+          />
+        </svg>
+        <span>Search for tracks or press play</span>
+      </div>
     </CardContent>
   </Card>
 )
@@ -172,29 +184,35 @@ const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) =>
   const sliderValue = currentUserVote !== null ? currentUserVote * 10 : 50
 
   return (
-    <Card className='overflow-hidden shadow-medium hover:shadow-hard transition-all duration-300 animate-scale-in'>
-      <div className='relative group'>
+    <Card className='overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border-border/50 rounded-2xl bg-gradient-to-br from-card to-card/95'>
+      <div className='relative group overflow-hidden'>
+        <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10'></div>
         <img
           src={track.image || defaultImage}
           alt={`${track.name} artwork`}
-          className='w-full h-auto current-track-image'
+          className='w-full h-auto current-track-image transform group-hover:scale-105 transition-transform duration-500'
         />
         <TrackVotes metrics={track.metrics} />
       </div>
 
-      <CardContent className='p-6 pb-0 track-content'>
+      <CardContent className='p-6 pb-4 track-content bg-gradient-to-b from-transparent to-muted/5'>
         <ProgressBar />
-        <h3 className='text-xl font-semibold mt-2 mb-1 transition-colors hover:text-primary'>
+        <h3 className='text-2xl font-bold mt-3 mb-2 transition-colors hover:text-primary leading-tight'>
           {track.name}
         </h3>
-        <p className='text-sm text-muted-foreground font-medium mb-1 transition-colors'>
+        <p className='text-base text-muted-foreground font-semibold mb-1 transition-colors hover:text-foreground'>
           {track.artist && track.artist.name}
         </p>
         <AlbumDescription album={track.album} />
       </CardContent>
 
-      <CardContent className='px-6 py-4 card-section'>
+      <CardContent className='px-6 py-5 card-section bg-muted/10'>
         <div className='track-rating-container mx-auto'>
+          <div className='mb-3 text-center'>
+            <p className='text-xs font-semibold text-muted-foreground uppercase tracking-wider'>
+              Rate This Track
+            </p>
+          </div>
           <Slider
             disabled={!userID}
             value={[sliderValue]}
@@ -213,8 +231,8 @@ const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) =>
         </div>
       </CardContent>
 
-      <CardContent className='px-6 py-3 border-t card-section'>
-        <div className='flex items-center gap-2 flex-wrap'>
+      <CardContent className='px-6 py-4 border-t border-border/50 card-section'>
+        <div className='flex items-center gap-2 flex-wrap justify-center'>
           <div className='track-badge'>
             <AddLabel count={addedBy.length} />
           </div>
@@ -233,15 +251,18 @@ const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) =>
         </div>
       </CardContent>
 
-      <CardContent className='px-6 py-3 border-t card-section'>
-        <div className='flex items-center justify-between gap-3'>
+      <CardContent className='px-6 py-4 border-t border-border/50 card-section bg-muted/5'>
+        <div className='flex items-center justify-between gap-3 flex-wrap'>
           <AddedBy users={track.addedBy} />
           <a
-            className='track-uri text-xs font-bold text-muted-foreground hover:text-foreground transition-all'
+            className='track-uri text-xs font-bold text-muted-foreground hover:text-primary transition-all hover:underline inline-flex items-center gap-1'
             href={spotifyLink(track.uri)}
             target='_blank'
             rel='noopener noreferrer'
           >
+            <svg className='w-3 h-3' fill='currentColor' viewBox='0 0 24 24'>
+              <path d='M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z' />
+            </svg>
             {track.uri}
           </a>
         </div>

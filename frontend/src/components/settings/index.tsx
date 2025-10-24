@@ -4,7 +4,6 @@ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/icon'
-import { Separator } from '@/components/ui/separator'
 import ThemeToggle from 'components/theme-toggle'
 
 interface User {
@@ -23,8 +22,14 @@ export const Settings: React.FC<SettingsProps> = ({ user, isSignedIn, onSignOut 
   const [isOpen, setIsOpen] = useState(false)
 
   let avatar = (
-    <Button variant='ghost' size='icon' className='float-right' title='Not signed in' disabled>
-      <Icon name='power off' size='default' />
+    <Button
+      variant='outline'
+      size='icon'
+      className='h-[45px] w-[45px] rounded-full border-border/50 bg-card/50 backdrop-blur-sm shadow-sm'
+      title='Not signed in'
+      disabled
+    >
+      <Icon name='power off' size='default' className='text-muted-foreground' />
     </Button>
   )
 
@@ -35,12 +40,12 @@ export const Settings: React.FC<SettingsProps> = ({ user, isSignedIn, onSignOut 
       <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
           <button
-            className='float-right cursor-pointer border-2 border-transparent rounded-full transition-all hover:opacity-80 hover:border-primary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'
+            className='h-[45px] w-[45px] cursor-pointer border-2 border-transparent rounded-full transition-all duration-300 hover:scale-110 hover:border-primary/50 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2'
             aria-label='Open settings'
           >
-            <Avatar className='w-[50px] h-[50px]'>
-              <AvatarImage src={avatarUrl} alt={user.fullname} />
-              <AvatarFallback className='text-sm font-semibold'>
+            <Avatar className='h-full w-full shadow-md'>
+              <AvatarImage src={avatarUrl} alt={user.fullname} className='object-cover' />
+              <AvatarFallback className='text-sm font-bold bg-gradient-to-br from-primary to-primary/80 text-primary-foreground'>
                 {user.fullname
                   .split(' ')
                   .map(n => n[0])
@@ -51,19 +56,23 @@ export const Settings: React.FC<SettingsProps> = ({ user, isSignedIn, onSignOut 
             </Avatar>
           </button>
         </PopoverTrigger>
-        <PopoverContent className='w-[240px] p-4 animate-slide-down' align='end'>
+        <PopoverContent
+          className='w-[280px] p-5 animate-slide-down shadow-xl border-border/50 bg-card/95 backdrop-blur-sm'
+          align='end'
+        >
           <div className='space-y-4'>
-            <div className='space-y-1'>
-              <div className='font-semibold text-sm text-foreground transition-colors'>
+            <div className='space-y-2 pb-3 border-b border-border/50'>
+              <div className='font-bold text-base text-foreground transition-colors'>
                 {user.fullname}
               </div>
-              <div className='text-xs text-muted-foreground transition-colors'>{user.email}</div>
+              <div className='text-sm text-muted-foreground transition-colors font-medium'>
+                {user.email}
+              </div>
             </div>
-            <Separator />
             <Button
               variant='default'
-              size='sm'
-              className='w-full transition-smooth hover-lift'
+              size='default'
+              className='w-full transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95 bg-gradient-to-r from-primary to-primary/90 font-semibold'
               onClick={() => {
                 setIsOpen(false)
                 onSignOut()
@@ -79,7 +88,7 @@ export const Settings: React.FC<SettingsProps> = ({ user, isSignedIn, onSignOut 
   }
 
   return (
-    <div className='flex items-center gap-2'>
+    <div className='flex items-center gap-3'>
       <ThemeToggle />
       {avatar}
     </div>
