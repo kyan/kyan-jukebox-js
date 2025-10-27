@@ -78,7 +78,7 @@ const AlbumDescription: React.FC<{ album?: Album }> = ({ album }) => {
 
 const noTrack = () => (
   <Card className='overflow-hidden shadow-xl border-border/50 rounded-2xl bg-gradient-to-br from-card to-muted/20'>
-    <div className='relative overflow-hidden max-w-md mx-auto'>
+    <div className='relative overflow-hidden'>
       <div className='absolute inset-0 bg-gradient-to-t from-black/40 to-transparent'></div>
       <img src={defaultImage} alt='No track playing' className='w-full h-auto opacity-80' />
     </div>
@@ -106,11 +106,36 @@ const calcVoteAverage = (data: Vote[]) => {
   return mean(flatten(votes))
 }
 
-const voteHandleColor = (total: number | null) => {
-  if (total === null) return 'hsl(var(--muted-foreground))'
-  if (total > 50) return '#21ba45'
-  if (total < 50) return '#ef4444'
+const voteHandleColor = (rating: number | null) => {
+  if (rating === null) return 'hsl(var(--muted-foreground))'
+  // Rating is on 0-10 scale: 0-4 = negative (red), 5 = neutral, 6-10 = positive (green)
+  if (rating > 5) return '#21ba45'
+  if (rating < 5) return '#ef4444'
   return 'hsl(var(--muted-foreground))'
+}
+
+const getRatingGradient = (rating: number | null) => {
+  if (rating === null)
+    return 'linear-gradient(to right, #ef4444 0%, hsl(var(--muted)) 50%, #21ba45 100%)'
+
+  // Rating is on 0-10 scale where 5 is neutral (50% position)
+  const position = (rating / 10) * 100
+
+  if (rating < 5) {
+    return `linear-gradient(to right, #ef4444 0%, #f87171 ${position}%, hsl(var(--muted)) 50%, hsl(var(--muted)) 100%)`
+  } else if (rating > 5) {
+    return `linear-gradient(to right, hsl(var(--muted)) 0%, hsl(var(--muted)) 50%, #4ade80 ${position}%, #21ba45 100%)`
+  }
+  return 'linear-gradient(to right, #ef4444 0%, hsl(var(--muted)) 50%, #21ba45 100%)'
+}
+
+const getRatingLabel = (rating: number | null) => {
+  if (rating === null) return 'No rating'
+  // Convert 0-10 scale to -5 to +5 for display
+  const displayRating = rating !== null ? rating - 5 : 0
+  if (displayRating === 0) return '0'
+  const sign = displayRating > 0 ? '+' : ''
+  return `${sign}${displayRating}`
 }
 
 const TrackVotes: React.FC<{ metrics?: TrackMetrics }> = ({ metrics }) => {
@@ -151,15 +176,18 @@ const VoteLabel: React.FC<{ metrics?: TrackMetrics }> = ({ metrics }) => {
 }
 
 const SliderMarks: React.FC<{ disabled?: boolean }> = () => (
-  <div className='relative w-full h-6 mt-2 pointer-events-none'>
-    <div className='absolute left-0 flex flex-col items-center' style={{ marginLeft: '-12px' }}>
-      <Icon name='thumbs down' size='small' className='text-red-500' />
+  <div className='relative w-full h-8 mt-3 pointer-events-none flex justify-between'>
+    <div className='flex flex-col items-center' style={{ marginLeft: '-6px' }}>
+      <Icon name='thumbs down' size='small' className='text-red-500 opacity-80' />
+      <span className='text-xs font-semibold text-red-500 mt-1'>-5</span>
     </div>
-    <div className='absolute left-1/2 flex flex-col items-center' style={{ marginLeft: '-12px' }}>
-      <Icon name='handshake' size='small' className='text-muted-foreground' />
+    <div className='flex flex-col items-center'>
+      <Icon name='handshake' size='small' className='text-muted-foreground opacity-80' />
+      <span className='text-xs font-semibold text-muted-foreground mt-1'>0</span>
     </div>
-    <div className='absolute right-0 flex flex-col items-center' style={{ marginRight: '-12px' }}>
-      <Icon name='thumbs up' size='small' className='text-green-500' />
+    <div className='flex flex-col items-center' style={{ marginRight: '-6px' }}>
+      <Icon name='thumbs up' size='small' className='text-green-500 opacity-80' />
+      <span className='text-xs font-semibold text-green-500 mt-1'>+5</span>
     </div>
   </div>
 )
@@ -171,21 +199,47 @@ const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) =>
 
   const { addedBy = [] } = track
   const votes = (addedBy[0] && addedBy[0].votes) || []
-  const currentUserVoter = votes.find(u => u.user._id === userID)
-  const currentUserVote = currentUserVoter ? currentUserVoter.vote : null
+
+  // Serialize votes array to detect deep changes
+  const votesKey = React.useMemo(() => JSON.stringify(votes), [votes])
+
+  // Use useMemo to properly track derived values and prevent render bailout
+  const currentUserVote = React.useMemo(() => {
+    const voter = votes.find(u => u.user._id === userID)
+    return voter ? voter.vote : null
+  }, [votesKey, userID])
+
+  // Backend stores and returns votes on 0-10 scale (0=-5, 5=0, 10=+5)
+  // Slider also works on 0-10 scale internally
+  const currentRating = React.useMemo(() => {
+    return currentUserVote !== null ? Math.round(currentUserVote) : null
+  }, [currentUserVote])
+
+  // Local state for slider value (0-10 scale)
+  const [sliderValue, setSliderValue] = React.useState<number[]>([currentRating ?? 5])
+
+  // Update slider when currentRating changes OR when track changes
+  React.useEffect(() => {
+    setSliderValue([currentRating ?? 5])
+  }, [currentRating, track.uri, votesKey])
 
   const handleValueChange = (value: number[]) => {
+    setSliderValue(value)
+  }
+
+  const handleValueCommit = (value: number[]) => {
     if (onVote && value.length > 0) {
-      onVote(track.uri, value[0] / 100)
+      // Slider value is already on 0-10 scale, convert to 0-1 for backend
+      const rating = value[0]
+      const vote = rating / 10
+
+      onVote(track.uri, vote)
     }
   }
 
-  // Convert 0-10 scale to 0-100 for the slider
-  const sliderValue = currentUserVote !== null ? currentUserVote * 10 : 50
-
   return (
     <Card className='overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border-border/50 rounded-2xl bg-gradient-to-br from-card to-card/95'>
-      <div className='relative group overflow-hidden max-w-md mx-auto'>
+      <div className='relative group overflow-hidden'>
         <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10'></div>
         <img
           src={track.image || defaultImage}
@@ -206,28 +260,45 @@ const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) =>
         <AlbumDescription album={track.album} />
       </CardContent>
 
-      <CardContent className='px-6 py-5 card-section bg-muted/10'>
+      <CardContent className='px-6 py-5 card-section bg-gradient-to-br from-muted/5 to-muted/20'>
         <div className='track-rating-container mx-auto'>
-          <div className='mb-3 text-center'>
-            <p className='text-xs font-semibold text-muted-foreground uppercase tracking-wider'>
-              Rate This Track
-            </p>
+          <div className='mb-4 text-center'>
+            <div className='flex items-center justify-center gap-2'>
+              <span className='text-xs font-semibold text-muted-foreground uppercase tracking-wider'>
+                Rate This Track
+              </span>
+              <span
+                className={`text-xs font-semibold px-2 py-0.5 rounded-md transition-all duration-300 ${
+                  sliderValue[0] === 5
+                    ? 'bg-muted/50 text-muted-foreground'
+                    : sliderValue[0] > 5
+                      ? 'bg-green-500/20 text-green-700 dark:text-green-400'
+                      : 'bg-red-500/20 text-red-700 dark:text-red-400'
+                }`}
+              >
+                {getRatingLabel(sliderValue[0])}
+              </span>
+            </div>
           </div>
-          <Slider
-            disabled={!userID}
-            value={[sliderValue]}
-            min={0}
-            max={100}
-            step={10}
-            onValueChange={handleValueChange}
-            className='mb-2'
-            style={
-              {
-                '--thumb-color': voteHandleColor(currentUserVote)
-              } as React.CSSProperties
-            }
-          />
-          <SliderMarks disabled={!userID} />
+          <div className='relative'>
+            <Slider
+              disabled={!userID}
+              value={sliderValue}
+              min={0}
+              max={10}
+              step={1}
+              onValueChange={handleValueChange}
+              onValueCommit={handleValueCommit}
+              className='mb-2'
+              style={
+                {
+                  '--thumb-color': voteHandleColor(sliderValue[0]),
+                  '--track-gradient': getRatingGradient(sliderValue[0])
+                } as React.CSSProperties
+              }
+            />
+            <SliderMarks disabled={!userID} />
+          </div>
         </div>
       </CardContent>
 

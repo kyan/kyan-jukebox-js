@@ -38,7 +38,7 @@ version-info:
 [group('dev')]
 dev:
   #!/usr/bin/env sh
-  bun --filter {{BACKEND_WS}} start & bun --filter {{FRONTEND_WS}} start
+  bun --elide-lines 0 --filter {{BACKEND_WS}} start & bun --elide-lines 0 --filter {{FRONTEND_WS}} start
 
 # Start only frontend in development mode with hot reload
 [group('dev')]
