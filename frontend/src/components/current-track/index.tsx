@@ -78,7 +78,7 @@ const AlbumDescription: React.FC<{ album?: Album }> = ({ album }) => {
 
 const noTrack = () => (
   <Card className='overflow-hidden shadow-xl border-border/50 rounded-2xl bg-gradient-to-br from-card to-muted/20'>
-    <div className='relative overflow-hidden'>
+    <div className='relative overflow-hidden max-w-md mx-auto'>
       <div className='absolute inset-0 bg-gradient-to-t from-black/40 to-transparent'></div>
       <img src={defaultImage} alt='No track playing' className='w-full h-auto opacity-80' />
     </div>
@@ -185,7 +185,7 @@ const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) =>
 
   return (
     <Card className='overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border-border/50 rounded-2xl bg-gradient-to-br from-card to-card/95'>
-      <div className='relative group overflow-hidden'>
+      <div className='relative group overflow-hidden max-w-md mx-auto'>
         <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10'></div>
         <img
           src={track.image || defaultImage}
