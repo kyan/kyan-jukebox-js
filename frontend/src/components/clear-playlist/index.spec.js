@@ -15,31 +15,53 @@ describe('ClearPlaylist', () => {
     describe('confirm dialog', () => {
       it('is not shown by default', () => {
         const { queryByText } = render(<ClearPlaylist onClear={onClearMock} />)
-        expect(queryByText('Are you sure you want to nuke the playlist?')).not.toBeInTheDocument()
+        expect(
+          queryByText(
+            'Are you sure you want to clear the entire playlist? This action cannot be undone.'
+          )
+        ).not.toBeInTheDocument()
       })
 
       it('shows when the button is pressed', () => {
         const { getByText } = render(<ClearPlaylist onClear={onClearMock} />)
         fireEvent.click(getByText('CLEAR'))
-        expect(getByText('Are you sure you want to nuke the playlist?')).toBeInTheDocument()
+        expect(
+          getByText(
+            'Are you sure you want to clear the entire playlist? This action cannot be undone.'
+          )
+        ).toBeInTheDocument()
       })
     })
 
     describe('callbacks', () => {
       it('calls the onConfirm callback', () => {
-        const { getByText } = render(<ClearPlaylist onClear={onClearMock} />)
+        const { getByText, getAllByText } = render(<ClearPlaylist onClear={onClearMock} />)
         fireEvent.click(getByText('CLEAR'))
-        expect(getByText('Are you sure you want to nuke the playlist?')).toBeInTheDocument()
-        fireEvent.click(getByText('Do it!'))
+        expect(
+          getByText(
+            'Are you sure you want to clear the entire playlist? This action cannot be undone.'
+          )
+        ).toBeInTheDocument()
+        // Get the button (second occurrence of "Clear Playlist")
+        const buttons = getAllByText('Clear Playlist')
+        fireEvent.click(buttons[1])
         expect(onClearMock).toHaveBeenCalled()
       })
 
       it('hides dialog on cancel', () => {
         const { getByText, queryByText } = render(<ClearPlaylist onClear={onClearMock} />)
         fireEvent.click(getByText('CLEAR'))
-        expect(getByText('Are you sure you want to nuke the playlist?')).toBeInTheDocument()
-        fireEvent.click(getByText('No thanks'))
-        expect(queryByText('Are you sure you want to nuke the playlist?')).not.toBeInTheDocument()
+        expect(
+          getByText(
+            'Are you sure you want to clear the entire playlist? This action cannot be undone.'
+          )
+        ).toBeInTheDocument()
+        fireEvent.click(getByText('Cancel'))
+        expect(
+          queryByText(
+            'Are you sure you want to clear the entire playlist? This action cannot be undone.'
+          )
+        ).not.toBeInTheDocument()
       })
     })
   })

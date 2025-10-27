@@ -52,11 +52,11 @@ describe('SearchButton', () => {
     expect(onClickMock).not.toHaveBeenCalled()
   })
 
-  it('has float-right styling', () => {
+  it('has modern gradient styling', () => {
     const { container } = render(<SearchButton disabled={false} onClick={onClickMock} />)
 
     const button = container.querySelector('button')
-    expect(button).toHaveClass('float-right')
+    expect(button).toHaveClass('bg-gradient-to-r')
   })
 
   it('shows Search text on hover via group class', () => {

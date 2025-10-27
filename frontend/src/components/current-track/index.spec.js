@@ -99,7 +99,7 @@ describe('CurrentTrack', () => {
 
       expect(container.firstChild).not.toBeNull()
       expect(getByText('Nothing playing')).toBeInTheDocument()
-      expect(getByText('Drag some music here or press play.')).toBeInTheDocument()
+      expect(getByText('Search for tracks or press play')).toBeInTheDocument()
     })
   })
 

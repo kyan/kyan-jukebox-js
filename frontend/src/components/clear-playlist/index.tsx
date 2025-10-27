@@ -49,7 +49,7 @@ const ClearPlaylist: React.FC<ClearPlaylistProps> = ({ disabled, onClear }) => {
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleConfirm}
-            className='bg-gradient-to-r from-destructive to-destructive/90 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg font-semibold'
+            className='bg-linear-to-r from-destructive to-destructive/90 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg font-semibold'
           >
             Clear Playlist
           </AlertDialogAction>

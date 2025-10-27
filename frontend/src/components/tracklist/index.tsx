@@ -94,7 +94,7 @@ interface ListItemsProps {
 const TrackImage: React.FC<TrackImageProps> = ({ src, isCurrent }) => (
   <Avatar
     className={cn(
-      'h-[80px] w-[80px] rounded-xl shadow-md transition-all duration-300',
+      'h-20 w-20 rounded-xl shadow-md transition-all duration-300',
       isCurrent && 'ring-2 ring-primary ring-offset-2 ring-offset-background scale-105'
     )}
   >
@@ -194,12 +194,12 @@ const ListItems: React.FC<ListItemsProps> = ({
             className={cn(
               'flex gap-4 transition-all duration-300 p-4 rounded-xl hover:bg-accent/30',
               isCurrent &&
-                'bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 shadow-md',
+                'bg-linear-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 shadow-md',
               !beenPlayed && 'opacity-50 hover:opacity-70',
               beenPlayed && !isCurrent && 'hover:shadow-md'
             )}
           >
-            <div className='flex-shrink-0'>
+            <div className='shrink-0'>
               <ImageChooser image={track.image} isCurrent={isCurrent} />
             </div>
             <div className='flex-1 min-w-0'>
