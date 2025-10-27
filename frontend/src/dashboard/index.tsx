@@ -103,7 +103,7 @@ const Dashboard: React.FC<DashboardProps> = props => {
           <div className='max-w-[1800px] mx-auto'>
             <div className='grid grid-cols-1 lg:grid-cols-12 gap-8'>
               {/* Now Playing Column */}
-              <div className='lg:col-span-4 xl:col-span-3'>
+              <div className='lg:col-span-5 xl:col-span-4'>
                 <div className='sticky top-24'>
                   <div className='flex items-center gap-3 mb-6'>
                     <div className='h-8 w-1 bg-primary rounded-full'></div>
@@ -118,7 +118,7 @@ const Dashboard: React.FC<DashboardProps> = props => {
               </div>
 
               {/* Playlist Column */}
-              <div className='lg:col-span-8 xl:col-span-9'>
+              <div className='lg:col-span-7 xl:col-span-8'>
                 <div className='flex items-center justify-between mb-6'>
                   <div className='flex items-center gap-3'>
                     <div className='h-8 w-1 bg-primary rounded-full'></div>

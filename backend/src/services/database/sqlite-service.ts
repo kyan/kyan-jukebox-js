@@ -300,6 +300,7 @@ class SQLiteTrackService implements ITrackService {
 
       if (currentVoteIndex !== -1) {
         votes[currentVoteIndex].vote = currentVote
+        votes[currentVoteIndex].at = new Date()
       } else {
         votes.unshift(newVote)
         track.metrics.votes = VotingHelper.calcVoteCount(track.addedBy)
@@ -318,8 +319,8 @@ class SQLiteTrackService implements ITrackService {
 
       return {
         uri: track.uri,
-        addedBy: track.addedBy,
-        metrics: track.metrics
+        addedBy: JSON.parse(JSON.stringify(track.addedBy)),
+        metrics: JSON.parse(JSON.stringify(track.metrics))
       }
     } catch (error) {
       logger.error('SQLiteTrackService.updateVote error', {

@@ -27,7 +27,11 @@ interface VotedByProps {
   size?: 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive'
 }
 
-const voteNormaliser = (v: number) => Math.round(v / 10 - 5) // 100 is max a user can vote per play
+const voteNormaliser = (v: number) => {
+  // Backend stores votes on 0-10 scale, we display -5 to +5
+  // Simply subtract 5 to convert: 0 -> -5, 5 -> 0, 10 -> +5
+  return Math.round(v - 5)
+}
 
 const votedByContent = (votes: Vote[]) => (
   <div className='space-y-3'>

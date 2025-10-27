@@ -19,33 +19,58 @@
   transition: all 0.3s ease;
 }
 
+/* Slider track styling with gradient */
+.track-rating-container [data-orientation='horizontal'] {
+  height: 10px;
+  border-radius: 9999px;
+  position: relative;
+}
+
+/* Apply gradient to the track background */
+.track-rating-container [data-orientation='horizontal'] > span:first-child {
+  background: var(
+    --track-gradient,
+    linear-gradient(to right, #ef4444 0%, hsl(var(--muted)) 50%, #21ba45 100%)
+  ) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
+  height: 10px;
+}
+
+/* Hide the default range as we use gradient on track */
+.track-rating-container [data-orientation='horizontal'] > span:last-of-type {
+  background: transparent !important;
+}
+
 /* Custom slider thumb styling with dynamic color and smooth transitions */
 .track-rating-container [role='slider'] {
-  border-color: var(--thumb-color, hsl(var(--muted-foreground)));
-  background-color: var(--thumb-color, hsl(var(--muted-foreground)));
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-color: var(--thumb-color, hsl(var(--muted-foreground))) !important;
+  background-color: var(--thumb-color, hsl(var(--muted-foreground))) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    0 0 0 3px rgba(255, 255, 255, 0.5) !important;
+  width: 24px !important;
+  height: 24px !important;
+  border-width: 3px !important;
+  cursor: grab !important;
+  z-index: 10;
+  position: relative;
 }
 
 .track-rating-container [role='slider']:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.2) !important;
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.4),
+    0 0 0 4px rgba(255, 255, 255, 0.6) !important;
+  cursor: grab !important;
 }
 
 .track-rating-container [role='slider']:active {
-  transform: scale(1.05);
-}
-
-/* Slider track styling */
-.track-rating-container [data-orientation='horizontal'] {
-  transition: all 0.2s ease;
-  height: 8px;
-  border-radius: 9999px;
-}
-
-/* Slider range styling */
-.track-rating-container [role='slider'] ~ span {
-  border-radius: 9999px;
+  transform: scale(1.1) !important;
+  cursor: grabbing !important;
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.4),
+    0 0 0 3px rgba(255, 255, 255, 0.7) !important;
 }
 
 /* Image styling */
