@@ -58,17 +58,28 @@ const userPicture = (data: AddedByData) => {
 }
 
 const AddedBy: React.FC<AddedByProps> = ({ users = [] }) => {
+  const [open, setOpen] = React.useState(false)
   const avatar = userPicture(users[0])
   if (!users.length) return avatar
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <button className='cursor-pointer hover:opacity-80 transition-opacity border-none bg-transparent p-0'>
+        <button
+          type='button'
+          className='cursor-pointer hover:opacity-80 transition-opacity border-none bg-transparent p-0 focus-visible:outline-none'
+          onMouseEnter={() => setOpen(true)}
+          onMouseLeave={() => setOpen(false)}
+        >
           {avatar}
         </button>
       </PopoverTrigger>
-      <PopoverContent className='w-auto min-w-[300px]' align='start'>
+      <PopoverContent
+        className='w-auto min-w-[300px]'
+        align='start'
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
+      >
         {addedByContent(users)}
       </PopoverContent>
     </Popover>
