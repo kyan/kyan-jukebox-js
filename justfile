@@ -83,8 +83,9 @@ build-backend:
 # Run all tests in CI mode
 [group('test')]
 test:
-  CI=true bun --filter {{FRONTEND_WS}} test:ci
-  CI=true bun --filter {{BACKEND_WS}} test:ci
+  #!/usr/bin/env sh
+  bun --filter {{FRONTEND_WS}} test:ci
+  bun --filter {{BACKEND_WS}} test:ci
 
 # Run only frontend tests with verbose output
 [group('test')]

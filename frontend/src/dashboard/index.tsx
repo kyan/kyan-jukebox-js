@@ -48,7 +48,7 @@ const Dashboard: React.FC<DashboardProps> = props => {
   } = props
 
   return (
-    <div className='relative min-h-screen bg-gradient-to-br from-background via-background to-muted/10'>
+    <div className='relative min-h-screen bg-linear-to-br from-background via-background to-muted/10'>
       {/* Offline Dimmer Overlay */}
       {!online && (
         <div className='fixed inset-0 bg-background/90 backdrop-blur-md z-50 flex items-center justify-center animate-fade-in'>

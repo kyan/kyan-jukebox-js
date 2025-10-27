@@ -77,9 +77,9 @@ const AlbumDescription: React.FC<{ album?: Album }> = ({ album }) => {
 }
 
 const noTrack = () => (
-  <Card className='overflow-hidden shadow-xl border-border/50 rounded-2xl bg-gradient-to-br from-card to-muted/20'>
+  <Card className='overflow-hidden shadow-xl border-border/50 rounded-2xl bg-linear-to-br from-card to-muted/20'>
     <div className='relative overflow-hidden'>
-      <div className='absolute inset-0 bg-gradient-to-t from-black/40 to-transparent'></div>
+      <div className='absolute inset-0 bg-linear-to-t from-black/40 to-transparent'></div>
       <img src={defaultImage} alt='No track playing' className='w-full h-auto opacity-80' />
     </div>
     <CardContent className='p-8 text-center'>
@@ -238,9 +238,9 @@ const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) =>
   }
 
   return (
-    <Card className='overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border-border/50 rounded-2xl bg-gradient-to-br from-card to-card/95'>
+    <Card className='overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border-border/50 rounded-2xl bg-linear-to-br from-card to-card/95'>
       <div className='relative group overflow-hidden'>
-        <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10'></div>
+        <div className='absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10'></div>
         <img
           src={track.image || defaultImage}
           alt={`${track.name} artwork`}
@@ -249,7 +249,7 @@ const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) =>
         <TrackVotes metrics={track.metrics} />
       </div>
 
-      <CardContent className='p-6 pb-4 track-content bg-gradient-to-b from-transparent to-muted/5'>
+      <CardContent className='p-6 pb-4 track-content bg-linear-to-b from-transparent to-muted/5'>
         <ProgressBar />
         <h3 className='text-2xl font-bold mt-3 mb-2 transition-colors hover:text-primary leading-tight'>
           {track.name}
@@ -260,7 +260,7 @@ const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) =>
         <AlbumDescription album={track.album} />
       </CardContent>
 
-      <CardContent className='px-6 py-5 card-section bg-gradient-to-br from-muted/5 to-muted/20'>
+      <CardContent className='px-6 py-5 card-section bg-linear-to-br from-muted/5 to-muted/20'>
         <div className='track-rating-container mx-auto'>
           <div className='mb-4 text-center'>
             <div className='flex items-center justify-center gap-2'>

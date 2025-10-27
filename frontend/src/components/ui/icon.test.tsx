@@ -1,4 +1,5 @@
 import React from 'react'
+import { describe, it, expect, jest } from 'bun:test'
 import { render } from '@testing-library/react'
 import { Icon } from './icon'
 
@@ -105,7 +106,7 @@ describe('Icon Component', () => {
   })
 
   it('warns for unknown icon names', () => {
-    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation()
+    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
     const { container } = render(<Icon name={'unknown' as any} />)
     expect(container.firstChild).toBeNull()
     expect(consoleSpy).toHaveBeenCalledWith('Icon "unknown" not found in icon map')
