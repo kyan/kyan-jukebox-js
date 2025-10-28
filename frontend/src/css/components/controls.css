@@ -2,13 +2,153 @@
  * Controls Component
  *
  * Styles for the player controls component.
- * This file will be populated in Phase 6 with conversions from src/components/controls/index.css.
+ * Converted from src/components/controls/index.css.
  */
 
-/* Player controls container styles will be defined here */
-/* Play/pause button styles will be defined here */
-/* Skip buttons styles will be defined here */
-/* Volume controls styles will be defined here */
-/* Progress bar styles will be defined here */
-/* Control button hover states will be defined here */
-/* Control layout and positioning will be defined here */
+/* ============================================
+   CONTROLS WRAPPER
+   ============================================ */
+
+/* Main controls wrapper with glass morphism effect */
+.controls-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  background-color: color-mix(in srgb, var(--color-card) 50%, transparent);
+  backdrop-filter: blur(4px);
+  border-radius: var(--radius-full);
+  padding-left: var(--spacing-2);
+  padding-right: var(--spacing-2);
+  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  box-shadow: var(--shadow-sm);
+  height: 45px;
+}
+
+/* ============================================
+   BASE BUTTON STYLES
+   ============================================ */
+
+/* Base button styles shared by all control buttons */
+.controls-button {
+  height: 45px;
+  width: 45px;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls-button:focus {
+  outline: none;
+}
+
+.controls-button:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-ring);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   SKIP BUTTON
+   ============================================ */
+
+/* Skip button specific styles */
+.controls-button--skip {
+  height: 45px;
+  width: 45px;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls-button--skip:focus {
+  outline: none;
+}
+
+.controls-button--skip:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-ring);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.controls-button--skip:not(:disabled):hover {
+  background-color: var(--color-accent);
+  transform: scale(1.1);
+  box-shadow: var(--shadow-lg);
+}
+
+.controls-button--skip:not(:disabled):active {
+  transform: scale(0.95);
+}
+
+.controls-button--skip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   PLAY/PAUSE BUTTON
+   ============================================ */
+
+/* Play/Pause button specific styles */
+.controls-button--play {
+  height: 40px;
+  width: 40px;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+  box-shadow: var(--shadow-lg);
+}
+
+.controls-button--play:focus {
+  outline: none;
+}
+
+.controls-button--play:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-ring);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.controls-button--play:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--color-primary) 90%, transparent);
+  transform: scale(1.1);
+  box-shadow: var(--shadow-xl);
+}
+
+.controls-button--play:not(:disabled):active {
+  transform: scale(0.95);
+}
+
+.controls-button--play:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   ICON STATES
+   ============================================ */
+
+/* Icon color states */
+.controls-icon {
+  transition: color var(--transition-duration-200) var(--ease-in-out);
+}
+
+.controls-icon--enabled {
+  color: var(--color-foreground);
+}
+
+.controls-icon--disabled {
+  color: var(--color-muted);
+}
+
+.controls-icon--play {
+  transition: color var(--transition-duration-200) var(--ease-in-out);
+}
