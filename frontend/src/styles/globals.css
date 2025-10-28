@@ -244,6 +244,28 @@
    DARK MODE
    ============================================ */
 
+.dark {
+  --color-background: oklch(0.2 0.02 265);
+  --color-foreground: oklch(0.98 0.001 265);
+  --color-card: oklch(0.2 0.02 265);
+  --color-card-foreground: oklch(0.98 0.001 265);
+  --color-popover: oklch(0.2 0.02 265);
+  --color-popover-foreground: oklch(0.98 0.001 265);
+  --color-primary: oklch(0.98 0.001 265);
+  --color-primary-foreground: oklch(0.25 0.02 265);
+  --color-secondary: oklch(0.27 0.02 260);
+  --color-secondary-foreground: oklch(0.98 0.001 265);
+  --color-muted: oklch(0.27 0.02 260);
+  --color-muted-foreground: oklch(0.7 0.01 260);
+  --color-accent: oklch(0.27 0.02 260);
+  --color-accent-foreground: oklch(0.98 0.001 265);
+  --color-destructive: oklch(0.45 0.15 25);
+  --color-destructive-foreground: oklch(0.98 0.001 265);
+  --color-border: oklch(0.27 0.02 260);
+  --color-input: oklch(0.27 0.02 260);
+  --color-ring: oklch(0.85 0.005 260);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: oklch(0.2 0.02 265);
@@ -266,6 +288,28 @@
     --color-input: oklch(0.27 0.02 260);
     --color-ring: oklch(0.85 0.005 260);
   }
+}
+
+.light {
+  --color-background: oklch(1 0 0);
+  --color-foreground: oklch(0.2 0.02 265);
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.2 0.02 265);
+  --color-popover: oklch(1 0 0);
+  --color-popover-foreground: oklch(0.2 0.02 265);
+  --color-primary: oklch(0.25 0.02 265);
+  --color-primary-foreground: oklch(0.98 0.001 265);
+  --color-secondary: oklch(0.96 0.002 265);
+  --color-secondary-foreground: oklch(0.25 0.02 265);
+  --color-muted: oklch(0.96 0.002 265);
+  --color-muted-foreground: oklch(0.55 0.015 265);
+  --color-accent: oklch(0.96 0.002 265);
+  --color-accent-foreground: oklch(0.25 0.02 265);
+  --color-destructive: oklch(0.64 0.23 25);
+  --color-destructive-foreground: oklch(0.98 0.001 265);
+  --color-border: oklch(0.92 0.003 265);
+  --color-input: oklch(0.92 0.003 265);
+  --color-ring: oklch(0.2 0.02 265);
 }
 
 /* ============================================

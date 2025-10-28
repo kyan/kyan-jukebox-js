@@ -4,7 +4,7 @@
 @layer components {
   /* Main volume control wrapper with glass morphism */
   .volume-wrapper {
-    @apply flex items-center gap-0 bg-card/50 backdrop-blur-sm rounded-lg border border-border/50 shadow-sm overflow-hidden h-[45px];
+    @apply flex items-center gap-0 rounded-lg overflow-hidden h-[45px];
   }
 
   /* Volume button base styles */
@@ -14,12 +14,12 @@
 
   /* Volume down button (left side) */
   .volume-button--down {
-    @apply h-[45px] w-[45px] hover:bg-accent transition-all duration-200 hover:scale-105 active:scale-95 rounded-r-none border-r-0;
+    @apply h-[45px] w-[45px] hover:bg-accent transition-all duration-200 hover:scale-105 active:scale-95 rounded-r-none border-r-0 bg-card/50 backdrop-blur-sm border border-border/50 shadow-sm;
   }
 
   /* Volume up button (right side) */
   .volume-button--up {
-    @apply h-[45px] w-[45px] hover:bg-accent transition-all duration-200 hover:scale-105 active:scale-95 rounded-l-none;
+    @apply h-[45px] w-[45px] hover:bg-accent transition-all duration-200 hover:scale-105 active:scale-95 rounded-l-none border-l-0 bg-card/50 backdrop-blur-sm border border-border/50 shadow-sm;
   }
 
   /* Volume icon animation */
@@ -29,6 +29,6 @@
 
   /* Volume display */
   .volume-display {
-    @apply flex items-center justify-center px-4 h-full text-sm font-bold tabular-nums min-w-[3.5rem] bg-muted/30;
+    @apply flex items-center justify-center px-4 h-full text-sm font-bold tabular-nums min-w-[3.5rem] bg-card/50 backdrop-blur-sm;
   }
 }
