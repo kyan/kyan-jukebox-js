@@ -1,6 +1,4 @@
 import React from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
 import {
   Play,
   Pause,
@@ -33,25 +31,6 @@ import {
   Moon,
   Monitor
 } from 'lucide-react'
-
-// Icon variant styles
-const iconVariants = cva('inline-block', {
-  variants: {
-    size: {
-      mini: 'w-3 h-3',
-      tiny: 'w-3.5 h-3.5',
-      small: 'w-4 h-4',
-      default: 'w-5 h-5',
-      large: 'w-6 h-6',
-      big: 'w-8 h-8',
-      huge: 'w-10 h-10',
-      massive: 'w-12 h-12'
-    }
-  },
-  defaultVariants: {
-    size: 'default'
-  }
-})
 
 // Icon name to component mapping
 const iconMap = {
@@ -116,15 +95,16 @@ const iconMap = {
 
 export type IconName = keyof typeof iconMap
 
-export interface IconProps extends VariantProps<typeof iconVariants> {
+export interface IconProps {
   name: IconName
+  size?: 'mini' | 'tiny' | 'small' | 'default' | 'large' | 'big' | 'huge' | 'massive'
   className?: string
   color?: string
   style?: React.CSSProperties
 }
 
 export const Icon = React.forwardRef<HTMLElement, IconProps>(
-  ({ name, size, className, color, style, ...props }, ref) => {
+  ({ name, size = 'default', className, color, style, ...props }, ref) => {
     const IconComponent = iconMap[name]
 
     if (!IconComponent) {
@@ -132,19 +112,15 @@ export const Icon = React.forwardRef<HTMLElement, IconProps>(
       return null
     }
 
+    const sizeClass = size ? `icon--${size}` : ''
+    const classes = ['icon', sizeClass, className].filter(Boolean).join(' ')
+
     const combinedStyle = {
       ...style,
       ...(color && { color })
     }
 
-    return (
-      <IconComponent
-        ref={ref as any}
-        className={cn(iconVariants({ size }), className)}
-        style={combinedStyle}
-        {...props}
-      />
-    )
+    return <IconComponent ref={ref as any} className={classes} style={combinedStyle} {...props} />
   }
 )
 
