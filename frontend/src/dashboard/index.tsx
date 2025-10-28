@@ -1,12 +1,12 @@
 import React from 'react'
-import Controls from 'components/controls'
-import CurrentTrackContainer from 'containers/current-track-container'
-import Settings from 'components/settings'
-import TrackList from 'components/tracklist'
-import SearchButton from 'search/components/button'
-import VolumeButtons from 'components/volume-buttons'
-import ClearPlaylist from 'components/clear-playlist'
-import SearchContainer from 'search'
+import Controls from '@/components/controls'
+import CurrentTrackContainer from '@/containers/current-track-container'
+import Settings from '@/components/settings'
+import TrackList from '@/components/tracklist'
+import SearchButton from '@/search/components/button'
+import VolumeButtons from '@/components/volume-buttons'
+import ClearPlaylist from '@/components/clear-playlist'
+import SearchContainer from '@/search'
 
 interface DashboardProps {
   online: boolean

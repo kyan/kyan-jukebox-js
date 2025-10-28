@@ -1,10 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import MopidyApi from 'constants/mopidy-api'
+import MopidyApi from '@/constants/mopidy-api'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 
-import type { JukeboxAppState } from 'reducers'
+import type { JukeboxAppState } from '@/reducers'
 import './index.css'
 
 interface SkipButtonProps {

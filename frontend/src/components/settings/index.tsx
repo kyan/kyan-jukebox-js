@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { getAvatarUrl } from '../../utils/avatar'
+import { getAvatarUrl } from '@/utils/avatar'
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/icon'
-import ThemeToggle from 'components/theme-toggle'
+import ThemeToggle from '@/components/theme-toggle'
 
 interface User {
   fullname: string

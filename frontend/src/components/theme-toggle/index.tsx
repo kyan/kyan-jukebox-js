@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Icon } from 'components/ui/icon'
-import { Button } from 'components/ui/button'
+import { Icon } from '@/components/ui/icon'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
-} from 'components/ui/dropdown-menu'
+} from '@/components/ui/dropdown-menu'
 
 type Theme = 'light' | 'dark' | 'system'
 
