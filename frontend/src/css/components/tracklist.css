@@ -2,19 +2,200 @@
  * Tracklist Component
  *
  * Styles for the tracklist/queue component.
- * This file will be populated in Phase 6 with conversions from src/components/tracklist/index.css.
+ * Converted from src/components/tracklist/index.css.
  */
 
-/* Tracklist container styles will be defined here */
-/* Track list items styles will be defined here */
-/* Track row styles will be defined here */
-/* Track selection states will be defined here */
-/* Track hover effects will be defined here */
-/* Track artwork thumbnail styles will be defined here */
-/* Track metadata (title, artist, album) styles will be defined here */
-/* Track duration/time styles will be defined here */
-/* Track vote/action button styles will be defined here */
-/* Currently playing track indicator will be defined here */
-/* Empty tracklist state will be defined here */
-/* Track list scrolling and overflow will be defined here */
-/* Track item animations (add/remove) will be defined here */
+/* ============================================
+   TRACK LIST CONTAINER
+   ============================================ */
+
+.tracklist-container > * + * {
+  margin-top: 0.75rem;
+}
+
+/* ============================================
+   TRACK ITEM
+   ============================================ */
+
+/* Individual track item */
+.track-item {
+  display: flex;
+  gap: var(--spacing-4);
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-xl);
+}
+
+.track-item:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+
+/* Current track highlight */
+.track-item--current {
+  background-image: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-primary) 10%, transparent),
+    color-mix(in srgb, var(--color-primary) 5%, transparent),
+    transparent
+  );
+  border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Unplayed track (dimmed) */
+.track-item--unplayed {
+  opacity: 0.5;
+}
+
+.track-item--unplayed:hover {
+  opacity: 0.7;
+}
+
+/* Played track hover */
+.track-item--played:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============================================
+   TRACK ARTWORK
+   ============================================ */
+
+/* Track artwork container */
+.track-artwork {
+  flex-shrink: 0;
+}
+
+/* Track artwork avatar */
+.track-artwork-avatar {
+  height: 5rem;
+  width: 5rem;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+}
+
+/* Current track artwork ring */
+.track-artwork--current {
+  box-shadow:
+    0 0 0 2px var(--color-primary),
+    0 0 0 4px var(--color-background);
+}
+
+/* Track artwork image */
+.track-artwork-image {
+  object-fit: cover;
+}
+
+/* ============================================
+   TRACK CONTENT
+   ============================================ */
+
+/* Track content wrapper */
+.track-content {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+/* Track title */
+.track-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  margin-bottom: 0.5rem;
+  color: var(--color-foreground);
+}
+
+/* ============================================
+   TRACK METADATA
+   ============================================ */
+
+/* Track metadata container */
+.track-metadata {
+  font-size: var(--font-size-sm);
+  color: var(--color-muted-foreground);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  margin-bottom: 0.75rem;
+}
+
+/* Track artist button */
+.track-artist {
+  transition: color var(--transition-duration-200) var(--ease-in-out);
+  cursor: pointer;
+  display: inline-block;
+  font-weight: var(--font-weight-medium);
+}
+
+.track-artist:hover {
+  color: var(--color-foreground);
+  text-decoration: underline;
+}
+
+/* Metadata separator */
+.track-metadata-separator {
+  color: color-mix(in srgb, var(--color-muted-foreground) 50%, transparent);
+}
+
+/* Track duration */
+.track-duration {
+  font-size: var(--font-size-xs);
+  color: color-mix(in srgb, var(--color-muted-foreground) 70%, transparent);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ============================================
+   TRACK ACTIONS
+   ============================================ */
+
+/* Track actions/badges container */
+.track-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+
+/* Empty state container */
+.tracklist-empty {
+  text-align: center;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+/* Empty state icon wrapper */
+.tracklist-empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: var(--radius-full);
+  background-color: color-mix(in srgb, var(--color-muted) 50%, transparent);
+  margin-bottom: 1rem;
+}
+
+/* Empty state icon */
+.tracklist-empty-icon svg {
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-muted-foreground);
+}
+
+/* Empty state title */
+.tracklist-empty-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-foreground);
+  margin-bottom: 0.5rem;
+}
+
+/* Empty state description */
+.tracklist-empty-description {
+  font-size: var(--font-size-sm);
+  color: var(--color-muted-foreground);
+}
