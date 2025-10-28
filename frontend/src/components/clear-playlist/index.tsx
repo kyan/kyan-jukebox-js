@@ -11,6 +11,7 @@ import {
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
 import { Badge } from '@/components/ui/badge'
+import './index.css'
 
 interface ClearPlaylistProps {
   disabled?: boolean
@@ -29,28 +30,20 @@ const ClearPlaylist: React.FC<ClearPlaylistProps> = ({ disabled, onClear }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Badge
-          variant='destructive'
-          className='cursor-pointer hover:bg-destructive/90 transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-lg text-xs font-bold px-3 py-1.5 shadow-md'
-        >
+        <Badge variant='destructive' className='clear-playlist-badge'>
           CLEAR
         </Badge>
       </AlertDialogTrigger>
-      <AlertDialogContent className='shadow-2xl border-border/50 bg-card/95 backdrop-blur-sm'>
+      <AlertDialogContent className='clear-playlist-dialog'>
         <AlertDialogHeader>
-          <AlertDialogTitle className='text-xl font-bold'>Clear Playlist</AlertDialogTitle>
-          <AlertDialogDescription className='text-base text-muted-foreground'>
+          <AlertDialogTitle className='clear-playlist-title'>Clear Playlist</AlertDialogTitle>
+          <AlertDialogDescription className='clear-playlist-description'>
             Are you sure you want to clear the entire playlist? This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className='transition-all duration-200 hover:scale-105 active:scale-95'>
-            Cancel
-          </AlertDialogCancel>
-          <AlertDialogAction
-            onClick={handleConfirm}
-            className='bg-linear-to-r from-destructive to-destructive/90 transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg font-semibold'
-          >
+          <AlertDialogCancel className='clear-playlist-cancel'>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleConfirm} className='clear-playlist-confirm'>
             Clear Playlist
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -1,0 +1,109 @@
+/* Tracklist Component Styles */
+@reference '../../styles/globals.css';
+
+@layer components {
+  /* Track list container */
+  .tracklist-container {
+    @apply space-y-3;
+  }
+
+  /* Individual track item */
+  .track-item {
+    @apply flex gap-4 transition-all duration-200 p-4 rounded-xl hover:bg-accent/20;
+  }
+
+  /* Current track highlight */
+  .track-item--current {
+    @apply bg-linear-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 shadow-lg;
+  }
+
+  /* Unplayed track (dimmed) */
+  .track-item--unplayed {
+    @apply opacity-50 hover:opacity-70;
+  }
+
+  /* Played track hover */
+  .track-item--played {
+    @apply hover:shadow-sm;
+  }
+
+  /* Track artwork container */
+  .track-artwork {
+    @apply shrink-0;
+  }
+
+  /* Track artwork avatar */
+  .track-artwork-avatar {
+    @apply h-20 w-20 rounded-xl shadow-sm transition-all duration-200;
+  }
+
+  /* Current track artwork ring */
+  .track-artwork--current {
+    @apply ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+
+  /* Track artwork image */
+  .track-artwork-image {
+    @apply object-cover;
+  }
+
+  /* Track content wrapper */
+  .track-content {
+    @apply flex-1 min-w-0;
+  }
+
+  /* Track title */
+  .track-title {
+    @apply text-base font-bold leading-tight mb-2 text-foreground;
+  }
+
+  /* Track metadata container */
+  .track-metadata {
+    @apply text-sm text-muted-foreground flex items-center gap-2 mb-3;
+  }
+
+  /* Track artist button */
+  .track-artist {
+    @apply hover:text-foreground hover:underline transition-colors cursor-pointer inline-block font-medium;
+  }
+
+  /* Metadata separator */
+  .track-metadata-separator {
+    @apply text-muted-foreground/50;
+  }
+
+  /* Track duration */
+  .track-duration {
+    @apply text-xs text-muted-foreground/70 font-medium;
+  }
+
+  /* Track actions/badges container */
+  .track-actions {
+    @apply flex flex-wrap items-center gap-2;
+  }
+
+  /* Empty state container */
+  .tracklist-empty {
+    @apply text-center py-16;
+  }
+
+  /* Empty state icon wrapper */
+  .tracklist-empty-icon {
+    @apply inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted/50 mb-4;
+  }
+
+  /* Empty state icon */
+  .tracklist-empty-icon svg {
+    @apply w-8 h-8 text-muted-foreground;
+  }
+
+  /* Empty state title */
+  .tracklist-empty-title {
+    @apply text-lg font-semibold text-foreground mb-2;
+  }
+
+  /* Empty state description */
+  .tracklist-empty-description {
+    @apply text-sm text-muted-foreground;
+  }
+}

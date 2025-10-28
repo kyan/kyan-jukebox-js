@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { timerToPercentage, millisToMinutesAndSeconds } from 'utils/time'
+import './index.css'
 
 interface TimerState {
   remaining: number
@@ -21,21 +22,16 @@ const ProgressBar: React.FC = () => {
   const progressPercentage = timerToPercentage(timer)
 
   return (
-    <div className='relative mb-4'>
-      <div className='flex justify-between items-center mb-2'>
-        <span className='text-xs font-semibold text-muted-foreground tabular-nums'>
+    <div className='progress-bar-container'>
+      <div className='progress-bar-times'>
+        <span className='progress-bar-time'>
           {millisToMinutesAndSeconds(track.length - timer.remaining)}
         </span>
-        <span className='text-xs font-semibold text-muted-foreground tabular-nums'>
-          {millisToMinutesAndSeconds(track.length)}
-        </span>
+        <span className='progress-bar-time'>{millisToMinutesAndSeconds(track.length)}</span>
       </div>
-      <div className='relative h-2 bg-muted/50 rounded-full overflow-hidden shadow-inner'>
-        <div
-          className='absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-primary/80 rounded-full transition-all duration-300 ease-linear shadow-sm'
-          style={{ width: `${progressPercentage}%` }}
-        >
-          <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer'></div>
+      <div className='progress-bar-track'>
+        <div className='progress-bar-fill' style={{ width: `${progressPercentage}%` }}>
+          <div className='progress-bar-shimmer'></div>
         </div>
       </div>
     </div>

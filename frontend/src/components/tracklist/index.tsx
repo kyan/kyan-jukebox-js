@@ -7,6 +7,7 @@ import VotedBy from 'components/voted-by'
 import RemoveTrack from 'components/remove-track'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import './index.css'
 
 interface User {
   _id: string
@@ -92,13 +93,8 @@ interface ListItemsProps {
 }
 
 const TrackImage: React.FC<TrackImageProps> = ({ src, isCurrent }) => (
-  <Avatar
-    className={cn(
-      'h-20 w-20 rounded-xl shadow-md transition-all duration-300',
-      isCurrent && 'ring-2 ring-primary ring-offset-2 ring-offset-background scale-105'
-    )}
-  >
-    <AvatarImage src={src} alt='Track artwork' className='object-cover' />
+  <Avatar className={cn('track-artwork-avatar', isCurrent && 'track-artwork--current')}>
+    <AvatarImage src={src} alt='Track artwork' className='track-artwork-image' />
     <AvatarFallback className='rounded-xl'>
       <img src={defaultImage} alt='Default artwork' />
     </AvatarFallback>
@@ -111,9 +107,7 @@ const ImageChooser: React.FC<ImageChooserProps> = ({ image, isCurrent }) => {
 }
 
 const TrackHeading: React.FC<TrackHeadingProps> = ({ name }) => (
-  <h3 className='text-base font-bold leading-tight mb-1.5 text-foreground hover:text-primary transition-colors'>
-    {name}
-  </h3>
+  <h3 className='track-title'>{name}</h3>
 )
 
 const TrackDescription: React.FC<TrackDescriptionProps> = ({
@@ -121,18 +115,12 @@ const TrackDescription: React.FC<TrackDescriptionProps> = ({
   trackLength,
   onClick
 }) => (
-  <div className='text-sm text-muted-foreground flex items-center gap-2'>
-    <button
-      type='button'
-      onClick={onClick}
-      className='hover:text-foreground hover:underline transition-colors cursor-pointer inline-block font-medium'
-    >
+  <div className='track-metadata'>
+    <button type='button' onClick={onClick} className='track-artist'>
       {artistName}
     </button>
-    <span className='text-muted-foreground/50'>•</span>
-    <span className='text-xs text-muted-foreground/70 font-medium'>
-      {millisToMinutesAndSeconds(trackLength)}
-    </span>
+    <span className='track-metadata-separator'>•</span>
+    <span className='track-duration'>{millisToMinutesAndSeconds(trackLength)}</span>
   </div>
 )
 
@@ -182,7 +170,7 @@ const ListItems: React.FC<ListItemsProps> = ({
     currentTrack && currentTrack.uri === uri
 
   return (
-    <div className='space-y-4'>
+    <div className='tracklist-container'>
       {tracks.map((track, i) => {
         const { addedBy } = track
         const isCurrent = !!isCurrentTrack(current, track.uri)
@@ -192,24 +180,23 @@ const ListItems: React.FC<ListItemsProps> = ({
           <div
             key={`${i}${track.uri}`}
             className={cn(
-              'flex gap-4 transition-all duration-300 p-4 rounded-xl hover:bg-accent/30',
-              isCurrent &&
-                'bg-linear-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 shadow-md',
-              !beenPlayed && 'opacity-50 hover:opacity-70',
-              beenPlayed && !isCurrent && 'hover:shadow-md'
+              'track-item',
+              isCurrent && 'track-item--current',
+              !beenPlayed && 'track-item--unplayed',
+              beenPlayed && !isCurrent && 'track-item--played'
             )}
           >
-            <div className='shrink-0'>
+            <div className='track-artwork'>
               <ImageChooser image={track.image} isCurrent={isCurrent} />
             </div>
-            <div className='flex-1 min-w-0'>
+            <div className='track-content'>
               <TrackHeading name={track.name} />
               <TrackDescription
                 artistName={track.artist.name}
                 trackLength={track.length}
                 onClick={onArtistSearch(track.artist.name)}
               />
-              <div className='flex flex-wrap items-center gap-2 mt-3'>
+              <div className='track-actions'>
                 <CurrentVote metrics={track.metrics} />
                 <CurrentPlays metrics={track.metrics} />
                 <div className='inline-flex items-center'>
@@ -240,14 +227,9 @@ const Tracklist: React.FC<TracklistProps> = ({
 }) => {
   if (!tracks || tracks.length === 0) {
     return (
-      <div className='text-center py-12'>
-        <div className='inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted/50 mb-4'>
-          <svg
-            className='w-8 h-8 text-muted-foreground'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-          >
+      <div className='tracklist-empty'>
+        <div className='tracklist-empty-icon'>
+          <svg fill='none' viewBox='0 0 24 24' stroke='currentColor'>
             <path
               strokeLinecap='round'
               strokeLinejoin='round'
@@ -256,8 +238,8 @@ const Tracklist: React.FC<TracklistProps> = ({
             />
           </svg>
         </div>
-        <h3 className='text-lg font-semibold text-foreground mb-2'>No tracks in playlist</h3>
-        <p className='text-sm text-muted-foreground'>Search and add tracks to build your queue</p>
+        <h3 className='tracklist-empty-title'>No tracks in playlist</h3>
+        <p className='tracklist-empty-description'>Search and add tracks to build your queue</p>
       </div>
     )
   }

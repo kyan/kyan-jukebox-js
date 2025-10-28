@@ -1,0 +1,36 @@
+/* Progress Bar Component Styles */
+@reference '../../styles/globals.css';
+
+@layer components {
+  /* Progress bar container */
+  .progress-bar-container {
+    @apply relative;
+  }
+
+  /* Time labels wrapper */
+  .progress-bar-times {
+    @apply flex justify-between items-center mb-2.5;
+  }
+
+  /* Time label styling */
+  .progress-bar-time {
+    @apply text-xs font-bold text-muted-foreground/60 tabular-nums tracking-tight;
+  }
+
+  /* Progress bar track */
+  .progress-bar-track {
+    @apply relative h-1.5 bg-muted/40 rounded-full overflow-hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Progress bar fill */
+  .progress-bar-fill {
+    @apply absolute inset-y-0 left-0 bg-gradient-to-r from-primary via-primary to-primary/90 rounded-full transition-all duration-300 ease-linear;
+    box-shadow: 0 0 8px rgba(var(--primary-rgb, 59, 130, 246), 0.3);
+  }
+
+  /* Shimmer effect on progress bar - uses shimmer animation from globals.css */
+  .progress-bar-shimmer {
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer;
+  }
+}
