@@ -1,5 +1,5 @@
 import { serve } from 'bun'
-import indexHtml from './index.html'
+import indexHtml from './index.development.html'
 
 const PORT = 3000
 
