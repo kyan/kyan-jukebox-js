@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Button } from '@/components/ui/button'
 import { VolumeX, Volume2 } from 'lucide-react'
+import './index.css'
 
 const VOLUME_INC = 5
 const VOLUME_MAX = 100
@@ -52,9 +53,9 @@ const VolumeDownButton: React.FC<VolumeButtonProps> = ({ volume, onChange, disab
     size='icon'
     onClick={volumeDown(volume, onChange)}
     disabled={disabled || volume <= VOLUME_MIN}
-    className='h-[45px] w-[45px] rounded-r-none border-r-0 hover:bg-accent transition-all duration-200 hover:scale-105 active:scale-95'
+    className='volume-button--down'
   >
-    <VolumeX className='h-4 w-4 transition-transform hover:scale-110' />
+    <VolumeX className='volume-icon' />
   </Button>
 )
 
@@ -64,9 +65,9 @@ const VolumeUpButton: React.FC<VolumeButtonProps> = ({ volume, onChange, disable
     size='icon'
     onClick={volumeUp(volume, onChange)}
     disabled={disabled || volume >= VOLUME_MAX}
-    className='h-[45px] w-[45px] rounded-l-none hover:bg-accent transition-all duration-200 hover:scale-105 active:scale-95'
+    className='volume-button--up'
   >
-    <Volume2 className='h-4 w-4 transition-transform hover:scale-110' />
+    <Volume2 className='volume-icon' />
   </Button>
 )
 
@@ -74,11 +75,9 @@ const VolumeButtons: React.FC<VolumeButtonsProps> = ({ disabled, onVolumeChange 
   const jukebox = useSelector((state: RootState) => state.jukebox)
 
   return (
-    <div className='flex items-center gap-0 bg-card/50 backdrop-blur-sm rounded-lg border border-border/50 shadow-sm overflow-hidden h-[45px]'>
+    <div className='volume-wrapper'>
       <VolumeDownButton volume={jukebox.volume} onChange={onVolumeChange} disabled={disabled} />
-      <div className='flex items-center justify-center px-4 h-full text-sm font-bold tabular-nums min-w-[3.5rem] bg-muted/30'>
-        {jukebox.volume}
-      </div>
+      <div className='volume-display'>{jukebox.volume}</div>
       <VolumeUpButton volume={jukebox.volume} onChange={onVolumeChange} disabled={disabled} />
     </div>
   )

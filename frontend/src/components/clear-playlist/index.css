@@ -1,0 +1,35 @@
+/* Clear Playlist Component Styles */
+@reference '../../styles/globals.css';
+
+@layer components {
+  /* Clear playlist badge/button */
+  .clear-playlist-badge {
+    @apply cursor-pointer hover:bg-destructive/90 transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-lg text-xs font-bold px-3 py-1.5 shadow-md;
+  }
+
+  /* Alert dialog content styling */
+  .clear-playlist-dialog {
+    @apply shadow-2xl border-border/50 bg-card/95 backdrop-blur-sm;
+  }
+
+  /* Dialog title */
+  .clear-playlist-title {
+    @apply text-xl font-bold;
+  }
+
+  /* Dialog description */
+  .clear-playlist-description {
+    @apply text-base text-muted-foreground;
+  }
+
+  /* Cancel button */
+  .clear-playlist-cancel {
+    @apply transition-all duration-200 hover:scale-105 active:scale-95;
+  }
+
+  /* Confirm button */
+  .clear-playlist-confirm {
+    @apply transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg font-semibold;
+    @apply bg-linear-to-r from-destructive to-destructive/90;
+  }
+}

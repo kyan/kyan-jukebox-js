@@ -79,12 +79,12 @@ const Dashboard: React.FC<DashboardProps> = props => {
       <SearchContainer>
         {/* Header Section */}
         <div className='sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border/50 shadow-sm'>
-          <div className='w-full px-6 sm:px-8 py-4'>
-            <div className='flex flex-wrap items-center gap-3 justify-center sm:justify-start h-[45px]'>
+          <div className='w-full px-6 sm:px-8 py-5'>
+            <div className='flex flex-wrap items-center gap-4 justify-center sm:justify-start min-h-[48px]'>
               <Settings user={user} isSignedIn={isSignedIn} onSignOut={onSignOut} />
-              <div className='h-6 w-px bg-border hidden sm:block'></div>
+              <div className='h-6 w-px bg-border/60 hidden sm:block'></div>
               <VolumeButtons disabled={disabled} onVolumeChange={onVolumeChange} />
-              <div className='h-6 w-px bg-border hidden sm:block'></div>
+              <div className='h-6 w-px bg-border/60 hidden sm:block'></div>
               <Controls
                 disabled={disabled}
                 onPlay={onPlay}
@@ -99,21 +99,19 @@ const Dashboard: React.FC<DashboardProps> = props => {
         </div>
 
         {/* Body Section */}
-        <div className='w-full px-4 sm:px-6 lg:px-8 py-8'>
+        <div className='w-full px-6 sm:px-8 py-8'>
           <div className='max-w-[1800px] mx-auto'>
             <div className='grid grid-cols-1 lg:grid-cols-12 gap-8'>
               {/* Now Playing Column */}
               <div className='lg:col-span-5 xl:col-span-4'>
-                <div className='sticky top-24'>
+                <div className='sticky top-28'>
                   <div className='flex items-center gap-3 mb-6'>
                     <div className='h-8 w-1 bg-primary rounded-full'></div>
-                    <h2 className='text-lg font-bold text-foreground tracking-tight'>
+                    <h2 className='text-xl font-bold text-foreground tracking-tight'>
                       Now Playing
                     </h2>
                   </div>
-                  <div className='transform transition-all duration-300 hover:scale-[1.01]'>
-                    <CurrentTrackContainer />
-                  </div>
+                  <CurrentTrackContainer />
                 </div>
               </div>
 
@@ -122,11 +120,11 @@ const Dashboard: React.FC<DashboardProps> = props => {
                 <div className='flex items-center justify-between mb-6'>
                   <div className='flex items-center gap-3'>
                     <div className='h-8 w-1 bg-primary rounded-full'></div>
-                    <h2 className='text-lg font-bold text-foreground tracking-tight'>Playlist</h2>
+                    <h2 className='text-xl font-bold text-foreground tracking-tight'>Playlist</h2>
                   </div>
                   <ClearPlaylist disabled={disabled} onClear={onTracklistClear} />
                 </div>
-                <div className='bg-card/50 backdrop-blur-sm rounded-xl border border-border/50 p-6 shadow-lg'>
+                <div className='bg-card/50 backdrop-blur-sm rounded-xl border border-border/50 px-6 py-5 shadow-lg'>
                   <TrackList
                     disabled={disabled}
                     tracks={tracklist}

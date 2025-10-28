@@ -1,0 +1,61 @@
+/* Controls Component Styles */
+@reference '../../styles/globals.css';
+
+@layer components {
+  /* Main controls wrapper with glass morphism effect */
+  .controls-wrapper {
+    @apply flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-full px-2 border border-border/50 shadow-sm h-[45px];
+  }
+
+  /* Base button styles shared by all control buttons */
+  .controls-button {
+    @apply h-[45px] w-[45px] rounded-full transition-all duration-200 flex items-center justify-center;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
+
+  /* Skip button specific styles */
+  .controls-button--skip {
+    @apply h-[45px] w-[45px] rounded-full transition-all duration-200 flex items-center justify-center;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
+
+  .controls-button--skip:not(:disabled) {
+    @apply hover:bg-accent hover:scale-110 active:scale-95 hover:shadow-lg;
+  }
+
+  .controls-button--skip:disabled {
+    @apply opacity-40 cursor-not-allowed;
+  }
+
+  /* Play/Pause button specific styles */
+  .controls-button--play {
+    @apply h-[40px] w-[40px] rounded-full transition-all duration-200 flex items-center justify-center;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply bg-primary text-primary-foreground shadow-lg;
+  }
+
+  .controls-button--play:not(:disabled) {
+    @apply hover:bg-primary/90 hover:scale-110 hover:shadow-xl active:scale-95;
+  }
+
+  .controls-button--play:disabled {
+    @apply opacity-40 cursor-not-allowed;
+  }
+
+  /* Icon color states */
+  .controls-icon {
+    @apply transition-colors;
+  }
+
+  .controls-icon--enabled {
+    @apply text-foreground;
+  }
+
+  .controls-icon--disabled {
+    @apply text-muted;
+  }
+
+  .controls-icon--play {
+    @apply transition-colors;
+  }
+}

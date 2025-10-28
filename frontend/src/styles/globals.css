@@ -1,78 +1,301 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-background: hsl(0 0% 100%);
-  --color-foreground: hsl(222.2 84% 4.9%);
-  --color-card: hsl(0 0% 100%);
-  --color-card-foreground: hsl(222.2 84% 4.9%);
-  --color-popover: hsl(0 0% 100%);
-  --color-popover-foreground: hsl(222.2 84% 4.9%);
-  --color-primary: hsl(222.2 47.4% 11.2%);
-  --color-primary-foreground: hsl(210 40% 98%);
-  --color-secondary: hsl(210 40% 96.1%);
-  --color-secondary-foreground: hsl(222.2 47.4% 11.2%);
-  --color-muted: hsl(210 40% 96.1%);
-  --color-muted-foreground: hsl(215.4 16.3% 46.9%);
-  --color-accent: hsl(210 40% 96.1%);
-  --color-accent-foreground: hsl(222.2 47.4% 11.2%);
-  --color-destructive: hsl(0 84.2% 60.2%);
-  --color-destructive-foreground: hsl(210 40% 98%);
-  --color-border: hsl(214.3 31.8% 91.4%);
-  --color-input: hsl(214.3 31.8% 91.4%);
-  --color-ring: hsl(222.2 84% 4.9%);
+  /* ============================================
+     COLOR SYSTEM
+     ============================================ */
 
-  /* Custom Jukebox colors */
-  --color-spotify-green: hsl(142 76% 36%);
-  --color-success: hsl(142 76% 36%);
-  --color-warning: hsl(38 92% 50%);
-  --color-info: hsl(199 89% 48%);
+  /* Base Colors */
+  --color-background: oklch(1 0 0);
+  --color-foreground: oklch(0.2 0.02 265);
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.2 0.02 265);
+  --color-popover: oklch(1 0 0);
+  --color-popover-foreground: oklch(0.2 0.02 265);
+
+  /* Primary Colors */
+  --color-primary: oklch(0.25 0.02 265);
+  --color-primary-foreground: oklch(0.98 0.001 265);
+
+  /* Secondary Colors */
+  --color-secondary: oklch(0.96 0.002 265);
+  --color-secondary-foreground: oklch(0.25 0.02 265);
+
+  /* Muted Colors */
+  --color-muted: oklch(0.96 0.002 265);
+  --color-muted-foreground: oklch(0.55 0.015 265);
+
+  /* Accent Colors */
+  --color-accent: oklch(0.96 0.002 265);
+  --color-accent-foreground: oklch(0.25 0.02 265);
+
+  /* Destructive Colors */
+  --color-destructive: oklch(0.64 0.23 25);
+  --color-destructive-foreground: oklch(0.98 0.001 265);
+
+  /* Border & Input */
+  --color-border: oklch(0.92 0.003 265);
+  --color-input: oklch(0.92 0.003 265);
+  --color-ring: oklch(0.2 0.02 265);
+
+  /* Custom Jukebox Colors */
+  --color-spotify-green: oklch(0.55 0.15 155);
+  --color-success: oklch(0.55 0.15 155);
+  --color-warning: oklch(0.68 0.19 75);
+  --color-info: oklch(0.63 0.17 235);
+
+  /* ============================================
+     SPACING & SIZING
+     ============================================ */
+
+  --spacing-18: 4.5rem;
+  --spacing-88: 22rem;
+  --spacing-100: 25rem;
+  --spacing-128: 32rem;
+
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+
+  --font-size-xxs: 0.625rem;
+
+  /* ============================================
+     BORDER RADIUS
+     ============================================ */
 
   --radius: 0.5rem;
+  --radius-lg: 0.5rem;
+  --radius-md: calc(0.5rem - 2px);
+  --radius-sm: calc(0.5rem - 4px);
+
+  /* ============================================
+     TRANSITIONS
+     ============================================ */
+
+  --transition-duration-0: 0ms;
+  --transition-duration-2000: 2000ms;
+
+  /* ============================================
+     EFFECTS
+     ============================================ */
+
+  --backdrop-blur-xs: 2px;
+
+  /* Box Shadows */
+  --shadow-soft: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 4px 16px 0 rgba(0, 0, 0, 0.12);
+  --shadow-hard: 0 8px 32px 0 rgba(0, 0, 0, 0.16);
+  --shadow-inner-soft: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+  /* ============================================
+     ANIMATIONS
+     ============================================ */
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-fade-out: fade-out 0.3s ease-out;
+  --animate-slide-in-right: slide-in-right 0.3s ease-out;
+  --animate-slide-in-left: slide-in-left 0.3s ease-out;
+  --animate-slide-up: slide-up 0.3s ease-out;
+  --animate-slide-down: slide-down 0.3s ease-out;
+  --animate-shimmer: shimmer 2s infinite linear;
+  --animate-pulse-slow: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-bounce-subtle: bounce-subtle 1s ease-in-out infinite;
+  --animate-scale-in: scale-in 0.2s ease-out;
+
+  /* Keyframes */
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+
+  @keyframes slide-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-in-left {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  @keyframes pulse-slow {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes bounce-subtle {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
 }
 
+/* ============================================
+   DARK MODE
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: oklch(0.2 0.02 265);
+    --color-foreground: oklch(0.98 0.001 265);
+    --color-card: oklch(0.2 0.02 265);
+    --color-card-foreground: oklch(0.98 0.001 265);
+    --color-popover: oklch(0.2 0.02 265);
+    --color-popover-foreground: oklch(0.98 0.001 265);
+    --color-primary: oklch(0.98 0.001 265);
+    --color-primary-foreground: oklch(0.25 0.02 265);
+    --color-secondary: oklch(0.27 0.02 260);
+    --color-secondary-foreground: oklch(0.98 0.001 265);
+    --color-muted: oklch(0.27 0.02 260);
+    --color-muted-foreground: oklch(0.7 0.01 260);
+    --color-accent: oklch(0.27 0.02 260);
+    --color-accent-foreground: oklch(0.98 0.001 265);
+    --color-destructive: oklch(0.45 0.15 25);
+    --color-destructive-foreground: oklch(0.98 0.001 265);
+    --color-border: oklch(0.27 0.02 260);
+    --color-input: oklch(0.27 0.02 260);
+    --color-ring: oklch(0.85 0.005 260);
+  }
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
 @layer base {
-  .dark {
-    --color-background: hsl(222.2 84% 4.9%);
-    --color-foreground: hsl(210 40% 98%);
-    --color-card: hsl(222.2 84% 4.9%);
-    --color-card-foreground: hsl(210 40% 98%);
-    --color-popover: hsl(222.2 84% 4.9%);
-    --color-popover-foreground: hsl(210 40% 98%);
-    --color-primary: hsl(210 40% 98%);
-    --color-primary-foreground: hsl(222.2 47.4% 11.2%);
-    --color-secondary: hsl(217.2 32.6% 17.5%);
-    --color-secondary-foreground: hsl(210 40% 98%);
-    --color-muted: hsl(217.2 32.6% 17.5%);
-    --color-muted-foreground: hsl(215 20.2% 65.1%);
-    --color-accent: hsl(217.2 32.6% 17.5%);
-    --color-accent-foreground: hsl(210 40% 98%);
-    --color-destructive: hsl(0 62.8% 30.6%);
-    --color-destructive-foreground: hsl(210 40% 98%);
-    --color-border: hsl(217.2 32.6% 17.5%);
-    --color-input: hsl(217.2 32.6% 17.5%);
-    --color-ring: hsl(212.7 26.8% 83.9%);
+  * {
+    border-color: var(--color-border);
   }
 
   body {
-    background-color: hsl(var(--color-background));
-    color: hsl(var(--color-foreground));
+    background-color: var(--color-background);
+    color: var(--color-foreground);
     font-feature-settings:
       'rlig' 1,
       'calt' 1;
-  }
-
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Better text rendering */
-  body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
 }
+
+/* ============================================
+   COMPONENT PATTERNS
+   ============================================ */
 
 @layer components {
   /* Smooth transitions for interactive elements */
@@ -96,57 +319,62 @@
   .focus-ring:focus-visible {
     outline: 2px solid transparent;
     outline-offset: 2px;
-    box-shadow: 0 0 0 2px hsl(var(--color-ring));
+    box-shadow: 0 0 0 2px var(--color-ring);
   }
 
   /* Glass morphism effect */
   .glass {
-    background-color: hsl(var(--color-background) / 0.8);
+    background-color: color-mix(in srgb, var(--color-background) 80%, transparent);
     backdrop-filter: blur(12px);
-    border: 1px solid hsl(var(--color-border) / 0.5);
+    border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
   }
 
   /* Gradient backgrounds */
   .gradient-primary {
     background: linear-gradient(
       135deg,
-      hsl(var(--color-primary)) 0%,
-      hsl(var(--color-primary) / 0.8) 100%
+      var(--color-primary) 0%,
+      color-mix(in srgb, var(--color-primary) 80%, transparent) 100%
     );
   }
 
   .gradient-success {
     background: linear-gradient(
       135deg,
-      hsl(var(--color-success)) 0%,
-      hsl(var(--color-success) / 0.8) 100%
+      var(--color-success) 0%,
+      color-mix(in srgb, var(--color-success) 80%, transparent) 100%
     );
   }
 
   /* Text gradients */
   .text-gradient {
     background-clip: text;
+    -webkit-background-clip: text;
     color: transparent;
     background-image: linear-gradient(
       to right,
-      hsl(var(--color-primary)),
-      hsl(var(--color-primary) / 0.7)
+      var(--color-primary),
+      color-mix(in srgb, var(--color-primary) 70%, transparent)
     );
   }
 
   /* Spotify-inspired styles */
   .spotify-green {
-    color: hsl(var(--color-spotify-green));
+    color: var(--color-spotify-green);
   }
 
   .bg-spotify-green {
-    background-color: hsl(var(--color-spotify-green));
+    background-color: var(--color-spotify-green);
   }
 
   .border-spotify-green {
-    border-color: hsl(var(--color-spotify-green));
+    border-color: var(--color-spotify-green);
   }
 }
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
 
 @layer utilities {
   /* Animation utilities */
@@ -202,7 +430,10 @@
   }
 }
 
-/* Keyframe animations */
+/* ============================================
+   ADDITIONAL KEYFRAMES
+   ============================================ */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -247,36 +478,6 @@
   }
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.6;
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 @keyframes slideInFromRight {
   from {
     opacity: 0;
@@ -299,25 +500,31 @@
   }
 }
 
-/* Loading skeleton */
+/* ============================================
+   LOADING SKELETON
+   ============================================ */
+
 .skeleton {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  background-color: hsl(var(--color-muted));
+  background-color: var(--color-muted);
   border-radius: 0.25rem;
 }
 
 .skeleton-shimmer {
   background: linear-gradient(
     90deg,
-    hsl(var(--color-muted)) 0%,
-    hsl(var(--color-muted-foreground) / 0.1) 50%,
-    hsl(var(--color-muted)) 100%
+    var(--color-muted) 0%,
+    color-mix(in srgb, var(--color-muted-foreground) 10%, transparent) 50%,
+    var(--color-muted) 100%
   );
   background-size: 1000px 100%;
   animation: shimmer 2s infinite linear;
 }
 
-/* Custom scrollbar */
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -328,33 +535,41 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--color-muted-foreground) / 0.2);
+  background: color-mix(in srgb, var(--color-muted-foreground) 20%, transparent);
   border-radius: 10px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--color-muted-foreground) / 0.4);
+  background: color-mix(in srgb, var(--color-muted-foreground) 40%, transparent);
   background-clip: padding-box;
 }
 
 /* Firefox scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: hsl(var(--color-muted-foreground) / 0.3) hsl(var(--color-muted));
+  scrollbar-color: color-mix(in srgb, var(--color-muted-foreground) 30%, transparent)
+    var(--color-muted);
 }
 
-/* Selection color */
+/* ============================================
+   SELECTION COLOR
+   ============================================ */
+
 ::selection {
-  background-color: hsl(var(--color-primary) / 0.2);
-  color: hsl(var(--color-foreground));
+  background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+  color: var(--color-foreground);
 }
 
 ::-moz-selection {
-  background-color: hsl(var(--color-primary) / 0.2);
-  color: hsl(var(--color-foreground));
+  background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+  color: var(--color-foreground);
 }
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {

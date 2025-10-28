@@ -1,0 +1,459 @@
+/* Theme CSS - Common Reusable Component Patterns */
+
+@layer components {
+  /* ============================================
+     GLASS MORPHISM EFFECTS
+     ============================================ */
+
+  /* Standard glass wrapper - used by controls, volume buttons, etc */
+  .glass-wrapper {
+    @apply bg-card/50 backdrop-blur-sm border border-border/50 shadow-sm;
+  }
+
+  .glass-wrapper--rounded {
+    @apply glass-wrapper rounded-full;
+  }
+
+  .glass-wrapper--rounded-lg {
+    @apply glass-wrapper rounded-lg;
+  }
+
+  /* Enhanced glass effect for dialogs/modals */
+  .glass-dialog {
+    @apply shadow-2xl border-border/50 bg-card/95 backdrop-blur-sm;
+  }
+
+  /* ============================================
+     BUTTON PATTERNS
+     ============================================ */
+
+  /* Circular icon button base */
+  .icon-button {
+    @apply rounded-full transition-all duration-200 flex items-center justify-center;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
+
+  /* Standard size icon button (45px) */
+  .icon-button--md {
+    @apply icon-button h-[45px] w-[45px];
+  }
+
+  /* Small size icon button (40px) */
+  .icon-button--sm {
+    @apply icon-button h-[40px] w-[40px];
+  }
+
+  /* Interactive icon button (not disabled) */
+  .icon-button--interactive {
+    @apply hover:bg-accent hover:scale-110 active:scale-95;
+  }
+
+  /* Primary icon button */
+  .icon-button--primary {
+    @apply bg-primary text-primary-foreground shadow-lg;
+    @apply hover:bg-primary/90 hover:scale-110 hover:shadow-xl active:scale-95;
+  }
+
+  /* Disabled icon button */
+  .icon-button--disabled {
+    @apply opacity-40 cursor-not-allowed;
+  }
+
+  /* ============================================
+     CARD PATTERNS
+     ============================================ */
+
+  /* Elevated card with gradient background */
+  .card-elevated {
+    @apply overflow-hidden shadow-xl border-border/50 rounded-2xl;
+    @apply bg-linear-to-br from-card to-card/95;
+  }
+
+  /* Card with hover lift effect */
+  .card-hover {
+    @apply transition-all duration-500 hover:shadow-2xl;
+  }
+
+  /* Card section divider */
+  .card-section {
+    @apply border-t border-border/50;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Card section with subtle background */
+  .card-section--subtle {
+    @apply card-section bg-muted/5;
+  }
+
+  /* Card section with gradient background */
+  .card-section--gradient {
+    @apply card-section bg-linear-to-br from-muted/5 to-muted/20;
+  }
+
+  /* ============================================
+     TEXT & TYPOGRAPHY
+     ============================================ */
+
+  /* Section title */
+  .section-title {
+    @apply text-2xl font-bold leading-tight transition-colors hover:text-primary;
+  }
+
+  /* Subsection title */
+  .subsection-title {
+    @apply text-xl font-bold;
+  }
+
+  /* Metadata text */
+  .metadata-text {
+    @apply text-sm text-muted-foreground;
+  }
+
+  /* Emphasized metadata */
+  .metadata-text--emphasized {
+    @apply metadata-text font-semibold transition-colors hover:text-foreground;
+  }
+
+  /* Label text */
+  .label-text {
+    @apply text-xs font-semibold text-muted-foreground uppercase tracking-wider;
+  }
+
+  /* Tabular numbers (for time, counts, etc) */
+  .tabular-text {
+    @apply tabular-nums font-bold;
+  }
+
+  /* ============================================
+     INTERACTIVE ELEMENTS
+     ============================================ */
+
+  /* Standard hover lift */
+  .hover-lift {
+    @apply transition-all duration-200 hover:scale-105 active:scale-95;
+  }
+
+  /* Hover lift with shadow */
+  .hover-lift--shadow {
+    @apply hover-lift hover:shadow-lg;
+  }
+
+  /* Subtle hover effect */
+  .hover-subtle {
+    @apply transition-all duration-300 hover:bg-accent/30;
+  }
+
+  /* Link with underline on hover */
+  .link-hover {
+    @apply transition-all hover:underline cursor-pointer;
+  }
+
+  /* Link with color change */
+  .link-colored {
+    @apply transition-colors hover:text-foreground;
+  }
+
+  /* Link with translation effect */
+  .link-translate {
+    @apply transition-all duration-200;
+  }
+
+  .link-translate:hover {
+    transform: translateX(2px);
+  }
+
+  /* ============================================
+     BADGES & PILLS
+     ============================================ */
+
+  /* Badge with hover animation */
+  .badge-animated {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .badge-animated:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Badge with interaction */
+  .badge-interactive {
+    @apply badge-animated cursor-pointer hover-lift--shadow;
+  }
+
+  /* ============================================
+     ARTWORK & IMAGES
+     ============================================ */
+
+  /* Image wrapper with hover effect */
+  .artwork-wrapper {
+    @apply relative overflow-hidden;
+  }
+
+  /* Artwork overlay on hover */
+  .artwork-overlay {
+    @apply absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent;
+    @apply opacity-0 transition-opacity duration-300 z-10;
+  }
+
+  .artwork-wrapper:hover .artwork-overlay {
+    @apply opacity-100;
+  }
+
+  /* Artwork image with scale effect */
+  .artwork-image {
+    @apply w-full h-auto transform transition-transform duration-500;
+    will-change: transform;
+  }
+
+  .artwork-wrapper:hover .artwork-image {
+    @apply scale-105;
+  }
+
+  /* Rounded artwork container */
+  .artwork-rounded {
+    @apply rounded-xl shadow-md transition-all duration-300;
+  }
+
+  /* Current/active artwork ring */
+  .artwork-ring {
+    @apply ring-2 ring-primary ring-offset-2 ring-offset-background scale-105;
+  }
+
+  /* ============================================
+     EMPTY STATES
+     ============================================ */
+
+  /* Empty state container */
+  .empty-state {
+    @apply text-center py-12;
+  }
+
+  /* Empty state icon wrapper */
+  .empty-state-icon {
+    @apply inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted/50 mb-4;
+  }
+
+  /* Empty state icon */
+  .empty-state-icon svg {
+    @apply w-8 h-8 text-muted-foreground;
+  }
+
+  /* Empty state title */
+  .empty-state-title {
+    @apply text-lg font-semibold text-foreground mb-2;
+  }
+
+  /* Empty state description */
+  .empty-state-description {
+    @apply text-sm text-muted-foreground;
+  }
+
+  /* ============================================
+     LAYOUT UTILITIES
+     ============================================ */
+
+  /* Flexbox centered container */
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  /* Flexbox with gap */
+  .flex-gap-sm {
+    @apply flex items-center gap-2;
+  }
+
+  .flex-gap-md {
+    @apply flex items-center gap-4;
+  }
+
+  /* Flexible content wrapper */
+  .content-wrapper {
+    @apply flex-1 min-w-0;
+  }
+
+  /* Fixed dimension containers */
+  .container-45 {
+    @apply h-[45px];
+  }
+
+  /* ============================================
+     ICON UTILITIES
+     ============================================ */
+
+  /* Icon with smooth transitions */
+  .icon-transition {
+    @apply transition-colors duration-200;
+  }
+
+  /* Icon with transform on hover */
+  .icon-hover-scale {
+    @apply transition-transform hover:scale-110;
+  }
+
+  /* Small icon size */
+  .icon-sm {
+    @apply h-4 w-4;
+  }
+
+  /* Medium icon size */
+  .icon-md {
+    @apply h-5 w-5;
+  }
+
+  /* Large icon size */
+  .icon-lg {
+    @apply h-8 h-8;
+  }
+
+  /* ============================================
+     GRADIENT OVERLAYS
+     ============================================ */
+
+  /* Top-to-bottom gradient overlay */
+  .gradient-overlay-t {
+    @apply absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent;
+  }
+
+  .gradient-overlay-b {
+    @apply absolute inset-0 bg-linear-to-b from-black/60 via-transparent to-transparent;
+  }
+
+  /* ============================================
+     ANIMATION HELPERS
+     ============================================ */
+
+  /* Fade in animation */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Scale in animation */
+  .animate-scale-in-smooth {
+    animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Shimmer effect (for loading/progress) */
+  .shimmer-effect {
+    @apply animate-shimmer;
+  }
+
+  /* ============================================
+     STATE CLASSES
+     ============================================ */
+
+  /* Active/current state */
+  .state-active {
+    @apply bg-linear-to-r from-primary/10 via-primary/5 to-transparent;
+    @apply border border-primary/20 shadow-md;
+  }
+
+  /* Disabled state */
+  .state-disabled {
+    @apply opacity-40 cursor-not-allowed;
+  }
+
+  /* Dimmed/unplayed state */
+  .state-dimmed {
+    @apply opacity-50 hover:opacity-70;
+  }
+
+  /* Loading state */
+  .state-loading {
+    @apply pointer-events-none opacity-60;
+  }
+
+  /* ============================================
+     RATING/VOTING STYLES
+     ============================================ */
+
+  /* Rating value badge base */
+  .rating-badge {
+    @apply text-xs font-semibold px-2 py-0.5 rounded-md transition-all duration-300;
+  }
+
+  /* Neutral rating */
+  .rating-badge--neutral {
+    @apply rating-badge bg-muted/50 text-muted-foreground;
+  }
+
+  /* Positive rating */
+  .rating-badge--positive {
+    @apply rating-badge bg-green-500/20 text-green-700 dark:text-green-400;
+  }
+
+  /* Negative rating */
+  .rating-badge--negative {
+    @apply rating-badge bg-red-500/20 text-red-700 dark:text-red-400;
+  }
+
+  /* ============================================
+     SPACING & CONTAINERS
+     ============================================ */
+
+  /* Standard vertical spacing */
+  .space-y-tracks {
+    @apply space-y-4;
+  }
+
+  /* Content padding standard */
+  .content-padding {
+    @apply px-6 py-4;
+  }
+
+  .content-padding--lg {
+    @apply px-6 py-5;
+  }
+
+  .content-padding--xl {
+    @apply p-8;
+  }
+}
+
+/* ============================================
+   KEYFRAME ANIMATIONS
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Dark mode specific adjustments */
+@media (prefers-color-scheme: dark) {
+  .card-section:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+
+  .badge-animated:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .badge-animated {
+    font-size: 0.75rem;
+  }
+
+  .content-padding--xl {
+    @apply p-4;
+  }
+}
