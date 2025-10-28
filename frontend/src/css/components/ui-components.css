@@ -2,26 +2,740 @@
  * UI Components
  *
  * Styles for UI components (Button, Card, Badge, Dialog, etc.)
- * This file will be populated in Phase 5 with conversions from the @layer components section in theme.css.
+ * Converted from @layer components section in theme.css.
  */
 
-/* Button component styles will be defined here */
-/* Card component styles will be defined here */
-/* Badge component styles will be defined here */
-/* Dialog component styles will be defined here */
-/* Dropdown component styles will be defined here */
-/* Input component styles will be defined here */
-/* Label component styles will be defined here */
-/* Popover component styles will be defined here */
-/* Separator component styles will be defined here */
-/* Slider component styles will be defined here */
-/* Skeleton component styles will be defined here */
-/* Alert dialog component styles will be defined here */
+/* ============================================
+   GLASS MORPHISM EFFECTS
+   ============================================ */
 
-/* Glass morphism effects will be defined here */
-/* Typography patterns will be defined here */
-/* Interactive elements will be defined here */
-/* Badges & pills will be defined here */
-/* Artwork & images will be defined here */
-/* Empty states will be defined here */
-/* Icon utilities will be defined here */
+/* Standard glass wrapper - used by controls, volume buttons, etc */
+.glass-wrapper {
+  background-color: color-mix(in srgb, var(--color-card) 50%, transparent);
+  backdrop-filter: blur(4px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  box-shadow: var(--shadow-sm);
+}
+
+.glass-wrapper--rounded {
+  background-color: color-mix(in srgb, var(--color-card) 50%, transparent);
+  backdrop-filter: blur(4px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-full);
+}
+
+.glass-wrapper--rounded-lg {
+  background-color: color-mix(in srgb, var(--color-card) 50%, transparent);
+  backdrop-filter: blur(4px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-lg);
+}
+
+/* Enhanced glass effect for dialogs/modals */
+.glass-dialog {
+  box-shadow: var(--shadow-2xl);
+  border-color: color-mix(in srgb, var(--color-border) 50%, transparent);
+  background-color: color-mix(in srgb, var(--color-card) 95%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+/* ============================================
+   BUTTON PATTERNS
+   ============================================ */
+
+/* Circular icon button base */
+.icon-button {
+  border-radius: var(--radius-full);
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-button:focus {
+  outline: none;
+}
+
+.icon-button:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-ring);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* Standard size icon button (45px) */
+.icon-button--md {
+  border-radius: var(--radius-full);
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 45px;
+  width: 45px;
+}
+
+.icon-button--md:focus {
+  outline: none;
+}
+
+.icon-button--md:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-ring);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* Small size icon button (40px) */
+.icon-button--sm {
+  border-radius: var(--radius-full);
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+}
+
+.icon-button--sm:focus {
+  outline: none;
+}
+
+.icon-button--sm:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-ring);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* Interactive icon button (not disabled) */
+.icon-button--interactive:hover {
+  background-color: var(--color-accent);
+  transform: scale(1.1);
+}
+
+.icon-button--interactive:active {
+  transform: scale(0.95);
+}
+
+/* Primary icon button */
+.icon-button--primary {
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+  box-shadow: var(--shadow-lg);
+}
+
+.icon-button--primary:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 90%, transparent);
+  transform: scale(1.1);
+  box-shadow: var(--shadow-xl);
+}
+
+.icon-button--primary:active {
+  transform: scale(0.95);
+}
+
+/* Disabled icon button */
+.icon-button--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   CARD PATTERNS
+   ============================================ */
+
+/* Elevated card with gradient background */
+.card-elevated {
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  border-color: color-mix(in srgb, var(--color-border) 50%, transparent);
+  border-radius: var(--radius-2xl);
+  background-image: linear-gradient(
+    to bottom right,
+    var(--color-card),
+    color-mix(in srgb, var(--color-card) 95%, transparent)
+  );
+}
+
+/* Card with hover lift effect */
+.card-hover {
+  transition: all 500ms var(--ease-in-out);
+}
+
+.card-hover:hover {
+  box-shadow: var(--shadow-2xl);
+}
+
+/* Card section divider */
+.card-section {
+  border-top: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Card section with subtle background */
+.card-section--subtle {
+  border-top: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: color-mix(in srgb, var(--color-muted) 5%, transparent);
+}
+
+/* Card section with gradient background */
+.card-section--gradient {
+  border-top: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-image: linear-gradient(
+    to bottom right,
+    color-mix(in srgb, var(--color-muted) 5%, transparent),
+    color-mix(in srgb, var(--color-muted) 20%, transparent)
+  );
+}
+
+/* ============================================
+   TEXT & TYPOGRAPHY
+   ============================================ */
+
+/* Section title */
+.section-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  transition: color var(--transition-duration-200) var(--ease-in-out);
+}
+
+.section-title:hover {
+  color: var(--color-primary);
+}
+
+/* Subsection title */
+.subsection-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Metadata text */
+.metadata-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-muted-foreground);
+}
+
+/* Emphasized metadata */
+.metadata-text--emphasized {
+  font-size: var(--font-size-sm);
+  color: var(--color-muted-foreground);
+  font-weight: var(--font-weight-semibold);
+  transition: color var(--transition-duration-200) var(--ease-in-out);
+}
+
+.metadata-text--emphasized:hover {
+  color: var(--color-foreground);
+}
+
+/* Label text */
+.label-text {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Tabular numbers (for time, counts, etc) */
+.tabular-text {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-bold);
+}
+
+/* ============================================
+   INTERACTIVE ELEMENTS
+   ============================================ */
+
+/* Standard hover lift */
+.hover-lift {
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+}
+
+.hover-lift:hover {
+  transform: scale(1.05);
+}
+
+.hover-lift:active {
+  transform: scale(0.95);
+}
+
+/* Hover lift with shadow */
+.hover-lift--shadow {
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+}
+
+.hover-lift--shadow:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+.hover-lift--shadow:active {
+  transform: scale(0.95);
+}
+
+/* Subtle hover effect */
+.hover-subtle {
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+}
+
+.hover-subtle:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+/* Link with underline on hover */
+.link-hover {
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+  cursor: pointer;
+}
+
+.link-hover:hover {
+  text-decoration: underline;
+}
+
+/* Link with color change */
+.link-colored {
+  transition: color var(--transition-duration-200) var(--ease-in-out);
+}
+
+.link-colored:hover {
+  color: var(--color-foreground);
+}
+
+/* Link with translation effect */
+.link-translate {
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+}
+
+.link-translate:hover {
+  transform: translateX(2px);
+}
+
+/* ============================================
+   BADGES & PILLS
+   ============================================ */
+
+/* Badge with hover animation */
+.badge-animated {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.badge-animated:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Badge with interaction */
+.badge-interactive {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.badge-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+.badge-interactive:active {
+  transform: scale(0.95);
+}
+
+/* ============================================
+   ARTWORK & IMAGES
+   ============================================ */
+
+/* Image wrapper with hover effect */
+.artwork-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Artwork overlay on hover */
+.artwork-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent, transparent);
+  opacity: 0;
+  transition: opacity var(--transition-duration-300) var(--ease-in-out);
+  z-index: 10;
+}
+
+.artwork-wrapper:hover .artwork-overlay {
+  opacity: 1;
+}
+
+/* Artwork image with scale effect */
+.artwork-image {
+  width: 100%;
+  height: auto;
+  transform: scale(1);
+  transition: transform 500ms var(--ease-in-out);
+  will-change: transform;
+}
+
+.artwork-wrapper:hover .artwork-image {
+  transform: scale(1.05);
+}
+
+/* Rounded artwork container */
+.artwork-rounded {
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+}
+
+/* Current/active artwork ring */
+.artwork-ring {
+  box-shadow:
+    0 0 0 2px var(--color-primary),
+    0 0 0 4px var(--color-background);
+  transform: scale(1.05);
+}
+
+/* ============================================
+   EMPTY STATES
+   ============================================ */
+
+/* Empty state container */
+.empty-state {
+  text-align: center;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+/* Empty state icon wrapper */
+.empty-state-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: var(--radius-full);
+  background-color: color-mix(in srgb, var(--color-muted) 50%, transparent);
+  margin-bottom: 1rem;
+}
+
+/* Empty state icon */
+.empty-state-icon svg {
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-muted-foreground);
+}
+
+/* Empty state title */
+.empty-state-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-foreground);
+  margin-bottom: 0.5rem;
+}
+
+/* Empty state description */
+.empty-state-description {
+  font-size: var(--font-size-sm);
+  color: var(--color-muted-foreground);
+}
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+
+/* Flexbox centered container */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Flexbox with gap */
+.flex-gap-sm {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.flex-gap-md {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+/* Flexible content wrapper */
+.content-wrapper {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+/* Fixed dimension containers */
+.container-45 {
+  height: 45px;
+}
+
+/* ============================================
+   ICON UTILITIES
+   ============================================ */
+
+/* Icon with smooth transitions */
+.icon-transition {
+  transition: color var(--transition-duration-200) var(--ease-in-out);
+}
+
+/* Icon with transform on hover */
+.icon-hover-scale {
+  transition: transform var(--transition-duration-200) var(--ease-in-out);
+}
+
+.icon-hover-scale:hover {
+  transform: scale(1.1);
+}
+
+/* Small icon size */
+.icon-sm {
+  height: 1rem;
+  width: 1rem;
+}
+
+/* Medium icon size */
+.icon-md {
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+/* Large icon size */
+.icon-lg {
+  height: 2rem;
+  width: 2rem;
+}
+
+/* ============================================
+   GRADIENT OVERLAYS
+   ============================================ */
+
+/* Top-to-bottom gradient overlay */
+.gradient-overlay-t {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent, transparent);
+}
+
+.gradient-overlay-b {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent, transparent);
+}
+
+/* ============================================
+   ANIMATION HELPERS
+   ============================================ */
+
+/* Fade in animation */
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scale in animation */
+.animate-scale-in-smooth {
+  animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Shimmer effect (for loading/progress) */
+.shimmer-effect {
+  animation: var(--animate-shimmer);
+}
+
+/* ============================================
+   STATE CLASSES
+   ============================================ */
+
+/* Active/current state */
+.state-active {
+  background-image: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-primary) 10%, transparent),
+    color-mix(in srgb, var(--color-primary) 5%, transparent),
+    transparent
+  );
+  border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+  box-shadow: var(--shadow-md);
+}
+
+/* Disabled state */
+.state-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Dimmed/unplayed state */
+.state-dimmed {
+  opacity: 0.5;
+}
+
+.state-dimmed:hover {
+  opacity: 0.7;
+}
+
+/* Loading state */
+.state-loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* ============================================
+   RATING/VOTING STYLES
+   ============================================ */
+
+/* Rating value badge base */
+.rating-badge {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+}
+
+/* Neutral rating */
+.rating-badge--neutral {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+  background-color: color-mix(in srgb, var(--color-muted) 50%, transparent);
+  color: var(--color-muted-foreground);
+}
+
+/* Positive rating */
+.rating-badge--positive {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+  background-color: rgba(34, 197, 94, 0.2);
+  color: rgb(21, 128, 61);
+}
+
+.dark .rating-badge--positive {
+  color: rgb(134, 239, 172);
+}
+
+/* Negative rating */
+.rating-badge--negative {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+  background-color: rgba(239, 68, 68, 0.2);
+  color: rgb(185, 28, 28);
+}
+
+.dark .rating-badge--negative {
+  color: rgb(252, 165, 165);
+}
+
+/* ============================================
+   SPACING & CONTAINERS
+   ============================================ */
+
+/* Standard vertical spacing */
+.space-y-tracks > * + * {
+  margin-top: var(--spacing-4);
+}
+
+/* Content padding standard */
+.content-padding {
+  padding-left: var(--spacing-6);
+  padding-right: var(--spacing-6);
+  padding-top: var(--spacing-4);
+  padding-bottom: var(--spacing-4);
+}
+
+.content-padding--lg {
+  padding-left: var(--spacing-6);
+  padding-right: var(--spacing-6);
+  padding-top: var(--spacing-5);
+  padding-bottom: var(--spacing-5);
+}
+
+.content-padding--xl {
+  padding: var(--spacing-8);
+}
+
+/* ============================================
+   KEYFRAME ANIMATIONS
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   DARK MODE SPECIFIC ADJUSTMENTS
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  .card-section:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+
+  .badge-animated:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 640px) {
+  .badge-animated {
+    font-size: 0.75rem;
+  }
+
+  .content-padding--xl {
+    padding: var(--spacing-4);
+  }
+}
