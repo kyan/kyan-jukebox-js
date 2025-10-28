@@ -140,6 +140,30 @@
   );
 }
 
+/* Tailwind-style gradient backgrounds */
+.bg-gradient-to-r {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+}
+
+.bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+/* Gradient stop utilities */
+.from-primary {
+  --tw-gradient-from: var(--color-primary);
+  --tw-gradient-to: color-mix(in srgb, var(--color-primary) 0%, transparent);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-primary\/90 {
+  --tw-gradient-to: color-mix(in srgb, var(--color-primary) 90%, transparent);
+}
+
+.to-primary\/80 {
+  --tw-gradient-to: color-mix(in srgb, var(--color-primary) 80%, transparent);
+}
+
 /* ============================================
    GLASS MORPHISM
    ============================================ */

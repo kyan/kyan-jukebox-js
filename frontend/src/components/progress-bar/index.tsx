@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { timerToPercentage, millisToMinutesAndSeconds } from 'utils/time'
-import './index.css'
 
 interface TimerState {
   remaining: number

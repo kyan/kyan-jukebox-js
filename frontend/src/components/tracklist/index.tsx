@@ -7,7 +7,6 @@ import VotedBy from 'components/voted-by'
 import RemoveTrack from 'components/remove-track'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
-import './index.css'
 
 interface User {
   _id: string
