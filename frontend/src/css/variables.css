@@ -1,0 +1,27 @@
+/**
+ * CSS Custom Properties (Variables)
+ *
+ * Design tokens and theme variables for the application.
+ * This file will be populated in Phase 2 with conversions from the Tailwind @theme block.
+ */
+
+:root {
+  /* Color variables will be defined here */
+  /* Spacing variables will be defined here */
+  /* Font variables will be defined here */
+  /* Border radius variables will be defined here */
+  /* Shadow variables will be defined here */
+  /* Animation variables will be defined here */
+}
+
+/* Dark mode overrides */
+.dark {
+  /* Dark mode color overrides will be defined here */
+}
+
+/* Prefer dark color scheme media query */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    /* Auto dark mode color overrides will be defined here */
+  }
+}

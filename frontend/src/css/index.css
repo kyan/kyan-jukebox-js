@@ -1,0 +1,33 @@
+/**
+ * Main CSS Entry Point
+ *
+ * This file imports all CSS modules in the correct order.
+ * Import this file in your main application entry point (index.tsx).
+ */
+
+/* CSS Variables - Design tokens and theme */
+@import './variables.css';
+
+/* CSS Reset - Browser normalization */
+@import './reset.css';
+
+/* Base Styles - Element defaults */
+@import './base.css';
+
+/* Animations - Keyframe definitions */
+@import './animations.css';
+
+/* Layout - Layout utilities and patterns */
+@import './layout.css';
+
+/* Utilities - Reusable utility classes */
+@import './utilities.css';
+
+/* Components - Component-specific styles */
+@import './components/ui-components.css';
+@import './components/controls.css';
+@import './components/current-track.css';
+@import './components/tracklist.css';
+@import './components/progress-bar.css';
+@import './components/volume-buttons.css';
+@import './components/clear-playlist.css';
