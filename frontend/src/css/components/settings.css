@@ -1,0 +1,257 @@
+/**
+ * Settings Component Styles
+ *
+ * Styles for the settings panel including user avatar,
+ * theme toggle, and user information popover.
+ */
+
+/* ============================================
+   SETTINGS WRAPPER
+   ============================================ */
+
+.settings {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+/* ============================================
+   SETTINGS AVATAR BUTTON
+   ============================================ */
+
+.settings-avatar-button {
+  height: 45px;
+  width: 45px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: var(--radius-full);
+  padding: 0;
+  background: none;
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+  outline: none;
+}
+
+.settings-avatar-button:hover {
+  transform: scale(1.1);
+  border-color: color-mix(in oklch, var(--color-primary), transparent 50%);
+  box-shadow: var(--shadow-lg);
+}
+
+.settings-avatar-button:active {
+  transform: scale(0.95);
+}
+
+.settings-avatar-button:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   SETTINGS AVATAR
+   ============================================ */
+
+.settings-avatar {
+  height: 100%;
+  width: 100%;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-card);
+}
+
+.settings-avatar-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.settings-avatar-fallback {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  background: linear-gradient(135deg, var(--color-primary), color-mix(in oklch, var(--color-primary), transparent 20%));
+  color: var(--color-primary-foreground);
+}
+
+/* ============================================
+   SETTINGS DISABLED STATE
+   ============================================ */
+
+.settings-button-disabled {
+  height: 45px;
+  width: 45px;
+  border-radius: var(--radius-full);
+  border: 1px solid color-mix(in oklch, var(--color-border), transparent 50%);
+  background: color-mix(in oklch, var(--color-card), transparent 50%);
+  backdrop-filter: blur(var(--backdrop-blur-sm));
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-muted-foreground);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ============================================
+   SETTINGS POPOVER
+   ============================================ */
+
+.settings-popover {
+  width: 280px;
+  padding: var(--spacing-5);
+  animation: var(--animate-slide-down);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid color-mix(in oklch, var(--color-border), transparent 50%);
+  background: color-mix(in oklch, var(--color-card), transparent 5%);
+  backdrop-filter: blur(var(--backdrop-blur-sm));
+  border-radius: var(--radius-lg);
+}
+
+.settings-popover-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+/* ============================================
+   SETTINGS USER INFO
+   ============================================ */
+
+.settings-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid color-mix(in oklch, var(--color-border), transparent 50%);
+}
+
+.settings-user-name {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-base);
+  color: var(--color-foreground);
+  transition: color var(--transition-duration-200) var(--ease-in-out);
+}
+
+.settings-user-email {
+  font-size: var(--font-size-sm);
+  color: var(--color-muted-foreground);
+  transition: color var(--transition-duration-200) var(--ease-in-out);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ============================================
+   SETTINGS SIGN OUT BUTTON
+   ============================================ */
+
+.settings-signout-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-4);
+  background: linear-gradient(90deg, var(--color-primary), color-mix(in oklch, var(--color-primary), transparent 10%));
+  color: var(--color-primary-foreground);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+  box-shadow: var(--shadow-sm);
+}
+
+.settings-signout-button:hover {
+  box-shadow: var(--shadow-lg);
+  transform: scale(1.05);
+}
+
+.settings-signout-button:active {
+  transform: scale(0.95);
+}
+
+.settings-signout-button:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+.settings-signout-button .icon {
+  font-size: var(--font-size-sm);
+}
+
+/* ============================================
+   THEME TOGGLE (Settings specific styles)
+   ============================================ */
+
+.settings-theme-toggle {
+  height: 45px;
+  width: 45px;
+  border-radius: var(--radius-full);
+  border: 1px solid color-mix(in oklch, var(--color-border), transparent 50%);
+  background: color-mix(in oklch, var(--color-card), transparent 50%);
+  backdrop-filter: blur(var(--backdrop-blur-sm));
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+  padding: 0;
+}
+
+.settings-theme-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-lg);
+}
+
+.settings-theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.settings-theme-toggle:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 640px) {
+  .settings {
+    gap: var(--spacing-2);
+  }
+
+  .settings-avatar-button,
+  .settings-button-disabled,
+  .settings-theme-toggle {
+    height: 40px;
+    width: 40px;
+  }
+
+  .settings-popover {
+    width: 260px;
+    padding: var(--spacing-4);
+  }
+}
+
+/* ============================================
+   DARK MODE SPECIFIC ADJUSTMENTS
+   ============================================ */
+
+.dark .settings-avatar-fallback {
+  background: linear-gradient(135deg, var(--color-primary), color-mix(in oklch, var(--color-primary), #000 20%));
+}
+
+.dark .settings-popover {
+  background: color-mix(in oklch, var(--color-card), transparent 5%);
+  border-color: color-mix(in oklch, var(--color-border), transparent 30%);
+}

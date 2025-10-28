@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Button } from '@/components/ui/button'
-import { VolumeX, Volume2 } from 'lucide-react'
+import { Icon } from '@/components/ui/icon'
 
 const VOLUME_INC = 5
 const VOLUME_MAX = 100
@@ -47,27 +46,25 @@ const volumeDown = (volume: number, cb: (volume: number) => void) => {
 }
 
 const VolumeDownButton: React.FC<VolumeButtonProps> = ({ volume, onChange, disabled }) => (
-  <Button
-    variant='outline'
-    size='icon'
+  <button
+    className='volume-button volume-button--down'
     onClick={volumeDown(volume, onChange)}
     disabled={disabled || volume <= VOLUME_MIN}
-    className='volume-button--down'
+    title='Decrease volume'
   >
-    <VolumeX className='volume-icon' />
-  </Button>
+    <Icon name='volume down' className='volume-icon' />
+  </button>
 )
 
 const VolumeUpButton: React.FC<VolumeButtonProps> = ({ volume, onChange, disabled }) => (
-  <Button
-    variant='outline'
-    size='icon'
+  <button
+    className='volume-button volume-button--up'
     onClick={volumeUp(volume, onChange)}
     disabled={disabled || volume >= VOLUME_MAX}
-    className='volume-button--up'
+    title='Increase volume'
   >
-    <Volume2 className='volume-icon' />
-  </Button>
+    <Icon name='volume up' className='volume-icon' />
+  </button>
 )
 
 const VolumeButtons: React.FC<VolumeButtonsProps> = ({ disabled, onVolumeChange }) => {

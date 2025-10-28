@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Icon } from '@/components/ui/icon'
-import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,66 +47,52 @@ const ThemeToggle: React.FC = () => {
   // Prevent hydration mismatch
   if (!mounted) {
     return (
-      <Button
-        variant='outline'
-        size='icon'
-        className='h-[45px] w-[45px] rounded-full border-border/50 bg-card/50 backdrop-blur-sm shadow-sm'
-        disabled
-      >
+      <button className='theme-toggle-button' disabled aria-label='Toggle theme'>
         <Icon name='sun' />
-      </Button>
+      </button>
     )
   }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant='outline'
-          size='icon'
-          className='h-[45px] w-[45px] rounded-full border-border/50 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:scale-110 hover:shadow-lg active:scale-95'
-        >
+        <button className='theme-toggle-button' aria-label='Toggle theme'>
           {theme === 'light' && (
-            <Icon name='sun' className='transition-transform hover:rotate-45' />
+            <Icon name='sun' className='theme-toggle-icon theme-toggle-icon--sun' />
           )}
           {theme === 'dark' && (
-            <Icon name='moon' className='transition-transform hover:-rotate-12' />
+            <Icon name='moon' className='theme-toggle-icon theme-toggle-icon--moon' />
           )}
           {theme === 'system' && (
-            <Icon name='desktop' className='transition-transform hover:scale-110' />
+            <Icon name='desktop' className='theme-toggle-icon theme-toggle-icon--system' />
           )}
-          <span className='sr-only'>Toggle theme</span>
-        </Button>
+          <span className='theme-toggle-sr-only'>Toggle theme</span>
+        </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align='end'
-        className='animate-slide-down shadow-xl border-border/50 bg-card/95 backdrop-blur-sm p-2'
-      >
+      <DropdownMenuContent align='end' className='theme-toggle-menu'>
         <DropdownMenuItem
           onClick={() => handleThemeChange('light')}
-          className='cursor-pointer transition-all duration-200 hover:bg-accent rounded-md font-medium'
+          className='theme-toggle-menu-item'
         >
-          <Icon name='sun' className='mr-2' />
+          <Icon name='sun' />
           <span>Light</span>
-          {theme === 'light' && <Icon name='check' className='ml-auto text-primary' size='small' />}
+          {theme === 'light' && <Icon name='check' className='theme-toggle-check' size='small' />}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => handleThemeChange('dark')}
-          className='cursor-pointer transition-all duration-200 hover:bg-accent rounded-md font-medium'
+          className='theme-toggle-menu-item'
         >
-          <Icon name='moon' className='mr-2' />
+          <Icon name='moon' />
           <span>Dark</span>
-          {theme === 'dark' && <Icon name='check' className='ml-auto text-primary' size='small' />}
+          {theme === 'dark' && <Icon name='check' className='theme-toggle-check' size='small' />}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => handleThemeChange('system')}
-          className='cursor-pointer transition-all duration-200 hover:bg-accent rounded-md font-medium'
+          className='theme-toggle-menu-item'
         >
-          <Icon name='desktop' className='mr-2' />
+          <Icon name='desktop' />
           <span>System</span>
-          {theme === 'system' && (
-            <Icon name='check' className='ml-auto text-primary' size='small' />
-          )}
+          {theme === 'system' && <Icon name='check' className='theme-toggle-check' size='small' />}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

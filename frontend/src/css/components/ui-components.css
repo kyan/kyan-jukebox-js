@@ -760,6 +760,7 @@
 .btn:focus-visible {
   outline: 2px solid var(--color-ring);
   outline-offset: 2px;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-ring) 20%, transparent);
 }
 
 .btn:disabled {
@@ -776,48 +777,100 @@
 
 /* Button Variants */
 .btn--default {
-  background-color: var(--color-primary);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    color-mix(in srgb, var(--color-primary) 90%, transparent)
+  );
   color: var(--color-primary-foreground);
+  box-shadow:
+    0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent),
+    0 1px 3px rgb(0 0 0 / 0.1);
 }
 
 .btn--default:hover {
-  background-color: var(--color-primary);
-  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 16px color-mix(in srgb, var(--color-primary) 40%, transparent),
+    0 2px 8px rgb(0 0 0 / 0.15);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-primary) 95%, transparent),
+    color-mix(in srgb, var(--color-primary) 85%, transparent)
+  );
 }
 
 .btn--destructive {
-  background-color: var(--color-destructive);
+  background: linear-gradient(
+    135deg,
+    var(--color-destructive),
+    color-mix(in srgb, var(--color-destructive) 85%, transparent)
+  );
   color: var(--color-destructive-foreground);
+  box-shadow:
+    0 2px 8px color-mix(in srgb, var(--color-destructive) 30%, transparent),
+    0 1px 3px rgb(0 0 0 / 0.1);
 }
 
 .btn--destructive:hover {
-  background-color: var(--color-destructive);
-  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 16px color-mix(in srgb, var(--color-destructive) 40%, transparent),
+    0 2px 8px rgb(0 0 0 / 0.15);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-destructive) 95%, transparent),
+    color-mix(in srgb, var(--color-destructive) 80%, transparent)
+  );
 }
 
 .btn--outline {
-  border: 1px solid var(--color-input);
-  background-color: var(--color-background);
+  border-color: color-mix(in srgb, var(--color-border) 60%, transparent);
+  background: color-mix(in srgb, var(--color-card) 30%, transparent);
+  backdrop-filter: blur(8px);
 }
 
 .btn--outline:hover {
-  background-color: var(--color-accent);
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--color-accent) 40%, transparent);
   color: var(--color-accent-foreground);
+  border-color: color-mix(in srgb, var(--color-border) 80%, transparent);
+  box-shadow:
+    0 4px 12px rgb(0 0 0 / 0.1),
+    0 2px 6px rgb(0 0 0 / 0.06);
 }
 
 .btn--secondary {
-  background-color: var(--color-secondary);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-secondary) 90%, transparent),
+    color-mix(in srgb, var(--color-secondary) 70%, transparent)
+  );
   color: var(--color-secondary-foreground);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
 }
 
 .btn--secondary:hover {
-  background-color: var(--color-secondary);
-  opacity: 0.8;
+  transform: translateY(-1px);
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary),
+    color-mix(in srgb, var(--color-secondary) 85%, transparent)
+  );
+  box-shadow:
+    0 4px 12px rgb(0 0 0 / 0.12),
+    0 2px 6px rgb(0 0 0 / 0.08);
+}
+
+.btn--ghost {
+  background: transparent;
 }
 
 .btn--ghost:hover {
-  background-color: var(--color-accent);
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--color-accent) 30%, transparent);
   color: var(--color-accent-foreground);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
 }
 
 .btn--link {
@@ -908,15 +961,15 @@
 .badge {
   display: inline-flex;
   align-items: center;
-  border-radius: 9999px;
+  gap: 0.25rem;
+  border-radius: var(--radius-full);
   border: 1px solid;
-  padding-left: 0.625rem;
-  padding-right: 0.625rem;
-  padding-top: 0.125rem;
-  padding-bottom: 0.125rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  transition: colors 0.2s;
+  padding: 0.25rem 0.75rem;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+  letter-spacing: 0.01em;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
 }
 
 .badge:focus {
@@ -926,40 +979,81 @@
 
 /* Badge Variants */
 .badge--default {
-  border-color: transparent;
-  background-color: var(--color-primary);
+  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    color-mix(in srgb, var(--color-primary) 90%, transparent)
+  );
   color: var(--color-primary-foreground);
+  box-shadow:
+    0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent),
+    0 1px 3px rgb(0 0 0 / 0.1);
 }
 
 .badge--default:hover {
-  background-color: var(--color-primary);
-  opacity: 0.8;
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 12px color-mix(in srgb, var(--color-primary) 40%, transparent),
+    0 2px 6px rgb(0 0 0 / 0.15);
+  border-color: color-mix(in srgb, var(--color-primary) 50%, transparent);
 }
 
 .badge--secondary {
-  border-color: transparent;
-  background-color: var(--color-secondary);
+  border-color: color-mix(in srgb, var(--color-border) 40%, transparent);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-secondary) 90%, transparent),
+    color-mix(in srgb, var(--color-secondary) 70%, transparent)
+  );
   color: var(--color-secondary-foreground);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
 }
 
 .badge--secondary:hover {
-  background-color: var(--color-secondary);
-  opacity: 0.8;
+  transform: translateY(-1px);
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary),
+    color-mix(in srgb, var(--color-secondary) 85%, transparent)
+  );
+  box-shadow:
+    0 4px 12px rgb(0 0 0 / 0.12),
+    0 2px 6px rgb(0 0 0 / 0.08);
 }
 
 .badge--destructive {
-  border-color: transparent;
-  background-color: var(--color-destructive);
+  border-color: color-mix(in srgb, var(--color-destructive) 30%, transparent);
+  background: linear-gradient(
+    135deg,
+    var(--color-destructive),
+    color-mix(in srgb, var(--color-destructive) 85%, transparent)
+  );
   color: var(--color-destructive-foreground);
+  box-shadow:
+    0 2px 8px color-mix(in srgb, var(--color-destructive) 30%, transparent),
+    0 1px 3px rgb(0 0 0 / 0.1);
 }
 
 .badge--destructive:hover {
-  background-color: var(--color-destructive);
-  opacity: 0.8;
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 12px color-mix(in srgb, var(--color-destructive) 40%, transparent),
+    0 2px 6px rgb(0 0 0 / 0.15);
 }
 
 .badge--outline {
   color: var(--color-foreground);
+  background: color-mix(in srgb, var(--color-card) 40%, transparent);
+  border-color: color-mix(in srgb, var(--color-border) 50%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.badge--outline:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--color-card) 60%, transparent);
+  border-color: color-mix(in srgb, var(--color-border) 70%, transparent);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
 }
 
 /* ============================================

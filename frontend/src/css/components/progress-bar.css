@@ -22,16 +22,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.625rem;
+  margin-bottom: var(--spacing-3);
 }
 
 /* Time label styling */
 .progress-bar-time {
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
-  color: color-mix(in srgb, var(--color-muted-foreground) 60%, transparent);
+  color: color-mix(in srgb, var(--color-foreground) 70%, transparent);
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
 }
 
 /* ============================================
@@ -41,11 +42,18 @@
 /* Progress bar track */
 .progress-bar-track {
   position: relative;
-  height: 0.375rem;
-  background-color: color-mix(in srgb, var(--color-muted) 40%, transparent);
+  height: 0.5rem;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-muted) 50%, transparent),
+    color-mix(in srgb, var(--color-muted) 35%, transparent)
+  );
   border-radius: var(--radius-full);
   overflow: hidden;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    inset 0 2px 4px rgb(0 0 0 / 0.15),
+    inset 0 1px 2px rgb(0 0 0 / 0.1);
+  border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
 }
 
 /* ============================================
@@ -58,15 +66,31 @@
   top: 0;
   bottom: 0;
   left: 0;
-  background-image: linear-gradient(
-    to right,
+  background: linear-gradient(
+    90deg,
     var(--color-primary),
-    var(--color-primary),
-    color-mix(in srgb, var(--color-primary) 90%, transparent)
+    color-mix(in srgb, var(--color-primary) 95%, transparent),
+    color-mix(in srgb, var(--color-primary) 85%, transparent)
   );
   border-radius: var(--radius-full);
-  transition: all var(--transition-duration-300) linear;
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  transition: width var(--transition-duration-300) linear;
+  box-shadow:
+    0 0 12px color-mix(in srgb, var(--color-primary) 50%, transparent),
+    0 0 6px color-mix(in srgb, var(--color-primary) 30%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 20%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 100%;
+  background: linear-gradient(to right, transparent, color-mix(in srgb, white 30%, transparent));
+  border-radius: var(--radius-full);
 }
 
 /* ============================================
@@ -80,6 +104,19 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-image: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
   animation: var(--animate-shimmer);
+}
+
+/* Hover effect for progress bar */
+.progress-bar-track:hover .progress-bar-fill {
+  box-shadow:
+    0 0 16px color-mix(in srgb, var(--color-primary) 60%, transparent),
+    0 0 8px color-mix(in srgb, var(--color-primary) 40%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 25%, transparent);
 }

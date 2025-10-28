@@ -12,11 +12,12 @@
   position: relative;
   min-height: 100vh;
   background: linear-gradient(
-    to bottom right,
-    var(--color-background),
-    var(--color-background),
-    color-mix(in srgb, var(--color-muted) 10%, transparent)
+    135deg,
+    var(--color-background) 0%,
+    color-mix(in srgb, var(--color-muted) 3%, transparent) 50%,
+    color-mix(in srgb, var(--color-primary) 2%, transparent) 100%
   );
+  animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ============================================
@@ -90,18 +91,19 @@
   position: sticky;
   top: 0;
   z-index: 40;
-  background-color: color-mix(in srgb, var(--color-background) 95%, transparent);
-  backdrop-filter: blur(4px);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
-  box-shadow: var(--shadow-sm);
+  background-color: color-mix(in srgb, var(--color-background) 98%, transparent);
+  backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
+  box-shadow:
+    0 1px 3px 0 rgb(0 0 0 / 0.05),
+    0 1px 2px -1px rgb(0 0 0 / 0.05);
 }
 
 .dashboard-header-inner {
   width: 100%;
-  padding-left: var(--spacing-6);
-  padding-right: var(--spacing-6);
-  padding-top: var(--spacing-5);
-  padding-bottom: var(--spacing-5);
+  padding: var(--spacing-4) var(--spacing-6);
+  max-width: 1920px;
+  margin: 0 auto;
 }
 
 .dashboard-header-controls {
@@ -110,14 +112,20 @@
   align-items: center;
   gap: var(--spacing-4);
   justify-content: center;
-  min-height: 48px;
+  min-height: 60px;
 }
 
 .dashboard-divider {
-  height: 1.5rem;
+  height: 2.5rem;
   width: 1px;
-  background-color: color-mix(in srgb, var(--color-border) 60%, transparent);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in srgb, var(--color-border) 50%, transparent),
+    transparent
+  );
   display: none;
+  opacity: 0.6;
 }
 
 .dashboard-spacer {
@@ -130,22 +138,18 @@
 
 .dashboard-body {
   width: 100%;
-  padding-left: var(--spacing-6);
-  padding-right: var(--spacing-6);
-  padding-top: var(--spacing-8);
-  padding-bottom: var(--spacing-8);
+  padding: var(--spacing-10) var(--spacing-6) var(--spacing-12);
 }
 
 .dashboard-container {
-  max-width: 1800px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 1920px;
+  margin: 0 auto;
 }
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--spacing-8);
+  gap: var(--spacing-10);
 }
 
 /* ============================================
@@ -158,11 +162,13 @@
 
 .dashboard-now-playing-sticky {
   position: sticky;
-  top: 7rem;
+  top: 6rem;
+  animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dashboard-playlist {
   /* Mobile: full width */
+  animation: slideUp 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ============================================
@@ -173,7 +179,8 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-3);
-  margin-bottom: var(--spacing-6);
+  margin-bottom: var(--spacing-8);
+  transition: all var(--transition-duration-300) var(--ease-in-out);
 }
 
 .dashboard-section-header--space-between {
@@ -182,16 +189,22 @@
 
 .dashboard-section-accent {
   height: 2rem;
-  width: 0.25rem;
-  background-color: var(--color-primary);
+  width: 4px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-primary),
+    color-mix(in srgb, var(--color-primary) 70%, transparent)
+  );
   border-radius: var(--radius-full);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--color-primary) 30%, transparent);
 }
 
 .dashboard-section-title {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-extrabold);
   color: var(--color-foreground);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
 /* ============================================
@@ -199,15 +212,45 @@
    ============================================ */
 
 .dashboard-playlist-wrapper {
-  background-color: color-mix(in srgb, var(--color-card) 50%, transparent);
-  backdrop-filter: blur(4px);
-  border-radius: var(--radius-xl);
-  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
-  padding-left: var(--spacing-6);
-  padding-right: var(--spacing-6);
-  padding-top: var(--spacing-5);
-  padding-bottom: var(--spacing-5);
-  box-shadow: var(--shadow-lg);
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--color-card) 60%, transparent),
+    color-mix(in srgb, var(--color-card) 40%, transparent)
+  );
+  backdrop-filter: blur(16px) saturate(180%);
+  border-radius: var(--radius-2xl);
+  border: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent);
+  padding: var(--spacing-8);
+  box-shadow:
+    0 10px 40px -10px rgb(0 0 0 / 0.1),
+    0 4px 16px -4px rgb(0 0 0 / 0.06),
+    inset 0 1px 0 0 color-mix(in srgb, var(--color-card) 80%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-playlist-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--color-border) 60%, transparent),
+    transparent
+  );
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+}
+
+.dashboard-playlist-wrapper:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 48px -12px rgb(0 0 0 / 0.15),
+    0 8px 20px -6px rgb(0 0 0 / 0.08),
+    inset 0 1px 0 0 color-mix(in srgb, var(--color-card) 90%, transparent);
 }
 
 /* ============================================
@@ -223,6 +266,7 @@
 
   .dashboard-header-controls {
     justify-content: flex-start;
+    gap: var(--spacing-5);
   }
 
   .dashboard-divider {
@@ -239,6 +283,7 @@
 @media (min-width: 1024px) {
   .dashboard-grid {
     grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--spacing-12);
   }
 
   .dashboard-now-playing {
@@ -247,6 +292,11 @@
 
   .dashboard-playlist {
     grid-column: span 7 / span 7;
+  }
+
+  .dashboard-body {
+    padding-top: var(--spacing-12);
+    padding-bottom: var(--spacing-16);
   }
 }
 
