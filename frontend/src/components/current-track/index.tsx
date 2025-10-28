@@ -9,7 +9,6 @@ import ProgressBar from 'components/progress-bar'
 import defaultImage from './default-artwork.png'
 import { flatten, mean } from 'lodash'
 import { cn } from '@/lib/utils'
-import './index.css'
 
 interface User {
   _id: string

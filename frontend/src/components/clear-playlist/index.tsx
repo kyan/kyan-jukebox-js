@@ -11,7 +11,6 @@ import {
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
 import { Badge } from '@/components/ui/badge'
-import './index.css'
 
 interface ClearPlaylistProps {
   disabled?: boolean

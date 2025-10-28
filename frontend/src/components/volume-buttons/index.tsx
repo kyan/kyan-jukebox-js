@@ -2,7 +2,6 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Button } from '@/components/ui/button'
 import { VolumeX, Volume2 } from 'lucide-react'
-import './index.css'
 
 const VOLUME_INC = 5
 const VOLUME_MAX = 100

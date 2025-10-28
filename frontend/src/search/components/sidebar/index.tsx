@@ -15,7 +15,6 @@ import {
 import SearchItem from '../search-item'
 import DraggableSearchItem from '../draggable-search-item'
 import { cn } from '@/lib/utils'
-import './index.css'
 
 type SearchItemsProps = {
   tracks: ReadonlyArray<any>

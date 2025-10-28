@@ -5,7 +5,6 @@ import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 
 import type { JukeboxAppState } from '@/reducers'
-import './index.css'
 
 interface SkipButtonProps {
   disabled: boolean
