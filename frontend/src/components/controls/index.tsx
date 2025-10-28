@@ -2,7 +2,6 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import MopidyApi from '@/constants/mopidy-api'
 import { Icon } from '@/components/ui/icon'
-import { cn } from '@/lib/utils'
 
 import type { JukeboxAppState } from '@/reducers'
 
@@ -32,19 +31,13 @@ const SkipButton = ({ disabled, onClick, type }: SkipButtonProps) => {
 
   return (
     <button
-      className='controls-button--skip'
+      className='controls-button controls-button--skip'
       onClick={onClick}
       disabled={disabled}
       data-testid={`SkipButton--${type}`}
+      title={type === 'forward' ? 'Next track' : 'Previous track'}
     >
-      <Icon
-        name={iconName}
-        size='large'
-        className={cn(
-          'controls-icon',
-          disabled ? 'controls-icon--disabled' : 'controls-icon--enabled'
-        )}
-      />
+      <Icon name={iconName} size='large' className='controls-icon' />
     </button>
   )
 }
@@ -52,15 +45,17 @@ const SkipButton = ({ disabled, onClick, type }: SkipButtonProps) => {
 const PlayButton = ({ disabled, onPause, onPlay, state }: PlayButtonProps) => {
   const icon = state === MopidyApi.PLAYING ? 'pause' : 'play'
   const clickHandler = state === MopidyApi.PLAYING ? onPause : onPlay
+  const isPlaying = state === MopidyApi.PLAYING
 
   return (
     <button
-      className='controls-button--play'
+      className='controls-button controls-button--play'
       onClick={clickHandler}
       disabled={disabled}
       data-testid='PlayButton'
+      title={isPlaying ? 'Pause' : 'Play'}
     >
-      <Icon name={icon} size='large' className='controls-icon--play' />
+      <Icon name={icon} size='large' className='controls-icon controls-icon--play' />
     </button>
   )
 }

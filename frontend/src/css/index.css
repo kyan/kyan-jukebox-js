@@ -33,3 +33,5 @@
 @import './components/clear-playlist.css';
 @import './components/search-sidebar.css';
 @import './components/dashboard.css';
+@import './components/theme-toggle.css';
+@import './components/settings.css';

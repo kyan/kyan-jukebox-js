@@ -2,41 +2,70 @@
  * Volume Buttons Component
  *
  * Styles for the volume buttons/control component.
- * Converted from src/components/volume-buttons/index.css.
  */
 
 /* ============================================
    MAIN VOLUME CONTROL WRAPPER
    ============================================ */
 
-/* Main volume control wrapper with glass morphism */
+/* Main volume control wrapper with grouped glass morphism effect */
 .volume-wrapper {
   display: flex;
   align-items: center;
   gap: 0;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+  background-color: color-mix(in srgb, var(--color-card) 50%, transparent);
+  backdrop-filter: blur(4px);
+  border-radius: var(--radius-full);
+  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  box-shadow: var(--shadow-sm);
   height: 45px;
+  overflow: hidden;
 }
 
 /* ============================================
    VOLUME BUTTON BASE
    ============================================ */
 
-/* Volume button base styles */
+/* Base volume button styles */
 .volume-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 45px;
   width: 45px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
   transition: all var(--transition-duration-200) var(--ease-in-out);
 }
 
-.volume-button:hover {
+.volume-button:focus {
+  outline: none;
+}
+
+.volume-button:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-ring);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.volume-button:not(:disabled):hover {
   background-color: var(--color-accent);
   transform: scale(1.05);
 }
 
-.volume-button:active {
+.volume-button:not(:disabled):active {
   transform: scale(0.95);
+}
+
+.volume-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.volume-button:disabled:hover {
+  transform: none;
+  background: transparent;
 }
 
 /* ============================================
@@ -45,25 +74,8 @@
 
 /* Volume down button (left side) */
 .volume-button--down {
-  height: 45px;
-  width: 45px;
-  transition: all var(--transition-duration-200) var(--ease-in-out);
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-right: 0;
-  background-color: color-mix(in srgb, var(--color-card) 50%, transparent);
-  backdrop-filter: blur(4px);
-  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
-  box-shadow: var(--shadow-sm);
-}
-
-.volume-button--down:hover {
-  background-color: var(--color-accent);
-  transform: scale(1.05);
-}
-
-.volume-button--down:active {
-  transform: scale(0.95);
+  border-top-left-radius: var(--radius-full);
+  border-bottom-left-radius: var(--radius-full);
 }
 
 /* ============================================
@@ -72,58 +84,42 @@
 
 /* Volume up button (right side) */
 .volume-button--up {
-  height: 45px;
-  width: 45px;
-  transition: all var(--transition-duration-200) var(--ease-in-out);
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-left: 0;
-  background-color: color-mix(in srgb, var(--color-card) 50%, transparent);
-  backdrop-filter: blur(4px);
-  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
-  box-shadow: var(--shadow-sm);
-}
-
-.volume-button--up:hover {
-  background-color: var(--color-accent);
-  transform: scale(1.05);
-}
-
-.volume-button--up:active {
-  transform: scale(0.95);
+  border-top-right-radius: var(--radius-full);
+  border-bottom-right-radius: var(--radius-full);
 }
 
 /* ============================================
    VOLUME ICON
    ============================================ */
 
-/* Volume icon animation */
+/* Volume icon base styles */
 .volume-icon {
-  height: 1rem;
-  width: 1rem;
   transition: transform var(--transition-duration-200) var(--ease-in-out);
+  color: var(--color-foreground);
 }
 
-.volume-icon:hover {
-  transform: scale(1.1);
+.volume-button:disabled .volume-icon {
+  opacity: 0.5;
 }
 
 /* ============================================
    VOLUME DISPLAY
    ============================================ */
 
-/* Volume display */
+/* Volume display in the center */
 .volume-display {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100%;
+  min-width: 3.5rem;
   padding-left: var(--spacing-4);
   padding-right: var(--spacing-4);
-  height: 100%;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   font-variant-numeric: tabular-nums;
-  min-width: 3.5rem;
-  background-color: color-mix(in srgb, var(--color-card) 50%, transparent);
-  backdrop-filter: blur(4px);
+  color: var(--color-foreground);
+  background-color: color-mix(in srgb, var(--color-card) 30%, transparent);
+  border-left: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  border-right: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
 }

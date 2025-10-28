@@ -9,8 +9,10 @@
    TRACK LIST CONTAINER
    ============================================ */
 
-.tracklist-container > * + * {
-  margin-top: 0.75rem;
+.tracklist-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
 }
 
 /* ============================================
@@ -21,39 +23,88 @@
 .track-item {
   display: flex;
   gap: var(--spacing-4);
-  transition: all var(--transition-duration-200) var(--ease-in-out);
+  transition: all var(--transition-duration-300) var(--ease-in-out);
   padding: var(--spacing-4);
   border-radius: var(--radius-xl);
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-card) 40%, transparent),
+    color-mix(in srgb, var(--color-card) 20%, transparent)
+  );
+  border: 1px solid color-mix(in srgb, var(--color-border) 20%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+.track-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: transparent;
+  transition: all var(--transition-duration-300) var(--ease-in-out);
 }
 
 .track-item:hover {
-  background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-accent) 30%, transparent),
+    color-mix(in srgb, var(--color-accent) 15%, transparent)
+  );
+  border-color: color-mix(in srgb, var(--color-border) 40%, transparent);
+  transform: translateX(4px);
+  box-shadow:
+    0 4px 20px -4px rgb(0 0 0 / 0.1),
+    0 2px 8px -2px rgb(0 0 0 / 0.06);
+}
+
+.track-item:hover::before {
+  background: linear-gradient(
+    to bottom,
+    var(--color-primary),
+    color-mix(in srgb, var(--color-primary) 50%, transparent)
+  );
 }
 
 /* Current track highlight */
 .track-item--current {
-  background-image: linear-gradient(
-    to right,
-    color-mix(in srgb, var(--color-primary) 10%, transparent),
-    color-mix(in srgb, var(--color-primary) 5%, transparent),
-    transparent
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-primary) 15%, transparent),
+    color-mix(in srgb, var(--color-primary) 8%, transparent),
+    color-mix(in srgb, var(--color-card) 30%, transparent)
   );
-  border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
-  box-shadow: var(--shadow-lg);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  box-shadow:
+    0 8px 32px -8px color-mix(in srgb, var(--color-primary) 40%, transparent),
+    0 4px 16px -4px rgb(0 0 0 / 0.1),
+    inset 0 1px 0 0 color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.track-item--current::before {
+  background: linear-gradient(
+    to bottom,
+    var(--color-primary),
+    color-mix(in srgb, var(--color-primary) 60%, transparent)
+  );
 }
 
 /* Unplayed track (dimmed) */
 .track-item--unplayed {
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 .track-item--unplayed:hover {
-  opacity: 0.7;
+  opacity: 0.85;
 }
 
 /* Played track hover */
 .track-item--played:hover {
-  box-shadow: var(--shadow-sm);
+  box-shadow:
+    0 4px 20px -4px rgb(0 0 0 / 0.1),
+    0 2px 8px -2px rgb(0 0 0 / 0.06);
 }
 
 /* ============================================
@@ -69,16 +120,38 @@
 .track-artwork-avatar {
   height: 5rem;
   width: 5rem;
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-duration-200) var(--ease-in-out);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 4px 12px -2px rgb(0 0 0 / 0.15),
+    0 2px 6px -1px rgb(0 0 0 / 0.1);
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+  overflow: hidden;
+  position: relative;
+}
+
+.track-item:hover .track-artwork-avatar {
+  box-shadow:
+    0 8px 24px -4px rgb(0 0 0 / 0.2),
+    0 4px 12px -2px rgb(0 0 0 / 0.15);
+  transform: scale(1.05);
 }
 
 /* Current track artwork ring */
 .track-artwork--current {
   box-shadow:
-    0 0 0 2px var(--color-primary),
-    0 0 0 4px var(--color-background);
+    0 0 0 3px var(--color-primary),
+    0 0 0 5px var(--color-background),
+    0 0 20px color-mix(in srgb, var(--color-primary) 40%, transparent),
+    0 8px 24px -4px rgb(0 0 0 / 0.2);
+}
+
+.track-item--current:hover .track-artwork--current {
+  box-shadow:
+    0 0 0 3px var(--color-primary),
+    0 0 0 5px var(--color-background),
+    0 0 24px color-mix(in srgb, var(--color-primary) 50%, transparent),
+    0 8px 28px -4px rgb(0 0 0 / 0.25);
+  transform: scale(1.05);
 }
 
 /* Track artwork image */
@@ -98,11 +171,12 @@
 
 /* Track title */
 .track-title {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
   margin-bottom: 0.5rem;
   color: var(--color-foreground);
+  letter-spacing: -0.01em;
 }
 
 /* ============================================
@@ -116,20 +190,22 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.875rem;
 }
 
 /* Track artist button */
 .track-artist {
-  transition: color var(--transition-duration-200) var(--ease-in-out);
+  transition: all var(--transition-duration-200) var(--ease-in-out);
   cursor: pointer;
   display: inline-block;
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
 }
 
 .track-artist:hover {
-  color: var(--color-foreground);
+  color: var(--color-primary);
   text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
 }
 
 /* Metadata separator */
@@ -154,6 +230,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--spacing-2);
+  margin-top: auto;
 }
 
 /* ============================================
@@ -163,8 +240,11 @@
 /* Empty state container */
 .tracklist-empty {
   text-align: center;
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding: var(--spacing-20) var(--spacing-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Empty state icon wrapper */
@@ -172,30 +252,39 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 4rem;
-  height: 4rem;
+  width: 5rem;
+  height: 5rem;
   border-radius: var(--radius-full);
-  background-color: color-mix(in srgb, var(--color-muted) 50%, transparent);
-  margin-bottom: 1rem;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-muted) 60%, transparent),
+    color-mix(in srgb, var(--color-muted) 30%, transparent)
+  );
+  margin-bottom: var(--spacing-6);
+  border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
 }
 
 /* Empty state icon */
 .tracklist-empty-icon svg {
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   color: var(--color-muted-foreground);
+  opacity: 0.8;
 }
 
 /* Empty state title */
 .tracklist-empty-title {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
   color: var(--color-foreground);
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-3);
+  letter-spacing: -0.02em;
 }
 
 /* Empty state description */
 .tracklist-empty-description {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
   color: var(--color-muted-foreground);
+  max-width: 32rem;
+  line-height: var(--line-height-relaxed);
 }
