@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
+import { cn } from '@/lib/utils'
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean
@@ -13,9 +14,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantClass = variant ? `btn--${variant}` : ''
     const sizeClass = size === 'default' ? 'btn--default-size' : `btn--${size}`
-    const classes = ['btn', variantClass, sizeClass, className].filter(Boolean).join(' ')
 
-    return <Comp className={classes} ref={ref} {...props} />
+    return <Comp className={cn('btn', variantClass, sizeClass, className)} ref={ref} {...props} />
   }
 )
 Button.displayName = 'Button'

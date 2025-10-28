@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { cn } from '@/lib/utils'
 
 interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'shimmer'
@@ -7,9 +8,7 @@ interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
 const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
   ({ className, variant = 'default', ...props }, ref) => {
     const variantClass = variant === 'default' ? 'skeleton--pulse' : 'skeleton--shimmer'
-    const classes = ['skeleton', variantClass, className].filter(Boolean).join(' ')
-
-    return <div ref={ref} className={classes} {...props} />
+    return <div ref={ref} className={cn('skeleton', variantClass, className)} {...props} />
   }
 )
 
@@ -20,10 +19,8 @@ const SkeletonText = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { lines?: number }
 >(({ className, lines = 1, ...props }, ref) => {
-  const classes = ['skeleton-text--lines', className].filter(Boolean).join(' ')
-
   return (
-    <div ref={ref} className={classes} {...props}>
+    <div ref={ref} className={cn('skeleton-text--lines', className)} {...props}>
       {Array.from({ length: lines }).map((_, i) => (
         <Skeleton
           key={i}
@@ -38,10 +35,8 @@ SkeletonText.displayName = 'SkeletonText'
 
 const SkeletonCard = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
-    const classes = ['skeleton-card', className].filter(Boolean).join(' ')
-
     return (
-      <div ref={ref} className={classes} {...props}>
+      <div ref={ref} className={cn('skeleton-card', className)} {...props}>
         <Skeleton className='skeleton-card-image' />
         <div className='skeleton-card-content'>
           <Skeleton className='skeleton-text' />
@@ -56,10 +51,8 @@ SkeletonCard.displayName = 'SkeletonCard'
 
 const SkeletonTrack = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
-    const classes = ['skeleton-track', className].filter(Boolean).join(' ')
-
     return (
-      <div ref={ref} className={classes} {...props}>
+      <div ref={ref} className={cn('skeleton-track', className)} {...props}>
         <Skeleton className='skeleton-track-artwork' />
         <div className='skeleton-track-content'>
           <Skeleton className='skeleton-text' />
@@ -78,9 +71,9 @@ const SkeletonAvatar = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement> & { size?: 'sm' | 'md' | 'lg' }
 >(({ className, size = 'md', ...props }, ref) => {
   const sizeClass = `skeleton-avatar--${size}`
-  const classes = ['skeleton', 'skeleton-avatar', sizeClass, className].filter(Boolean).join(' ')
-
-  return <div ref={ref} className={classes} {...props} />
+  return (
+    <div ref={ref} className={cn('skeleton', 'skeleton-avatar', sizeClass, className)} {...props} />
+  )
 })
 
 SkeletonAvatar.displayName = 'SkeletonAvatar'
@@ -90,9 +83,9 @@ const SkeletonButton = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement> & { size?: 'sm' | 'md' | 'lg' }
 >(({ className, size = 'md', ...props }, ref) => {
   const sizeClass = `skeleton-button--${size}`
-  const classes = ['skeleton', 'skeleton-button', sizeClass, className].filter(Boolean).join(' ')
-
-  return <div ref={ref} className={classes} {...props} />
+  return (
+    <div ref={ref} className={cn('skeleton', 'skeleton-button', sizeClass, className)} {...props} />
+  )
 })
 
 SkeletonButton.displayName = 'SkeletonButton'

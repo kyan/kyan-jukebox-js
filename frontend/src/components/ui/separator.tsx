@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import * as SeparatorPrimitive from '@radix-ui/react-separator'
+import { cn } from '@/lib/utils'
 
 const Separator = React.forwardRef<
   React.ElementRef<typeof SeparatorPrimitive.Root>,
@@ -9,14 +10,13 @@ const Separator = React.forwardRef<
 >(({ className, orientation = 'horizontal', decorative = true, ...props }, ref) => {
   const orientationClass =
     orientation === 'horizontal' ? 'separator--horizontal' : 'separator--vertical'
-  const classes = ['separator', orientationClass, className].filter(Boolean).join(' ')
 
   return (
     <SeparatorPrimitive.Root
       ref={ref}
       decorative={decorative}
       orientation={orientation}
-      className={classes}
+      className={cn('separator', orientationClass, className)}
       {...props}
     />
   )

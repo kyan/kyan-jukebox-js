@@ -1,4 +1,5 @@
 import React from 'react'
+import { cn } from '@/lib/utils'
 import {
   Play,
   Pause,
@@ -113,14 +114,20 @@ export const Icon = React.forwardRef<HTMLElement, IconProps>(
     }
 
     const sizeClass = size ? `icon--${size}` : ''
-    const classes = ['icon', sizeClass, className].filter(Boolean).join(' ')
 
     const combinedStyle = {
       ...style,
       ...(color && { color })
     }
 
-    return <IconComponent ref={ref as any} className={classes} style={combinedStyle} {...props} />
+    return (
+      <IconComponent
+        ref={ref as any}
+        className={cn('icon', sizeClass, className)}
+        style={combinedStyle}
+        {...props}
+      />
+    )
   }
 )
 

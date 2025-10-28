@@ -3,6 +3,7 @@
 import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 const Dialog = DialogPrimitive.Root
 
@@ -16,8 +17,9 @@ const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => {
-  const classes = ['dialog-overlay', className].filter(Boolean).join(' ')
-  return <DialogPrimitive.Overlay ref={ref} className={classes} {...props} />
+  return (
+    <DialogPrimitive.Overlay ref={ref} className={cn('dialog-overlay', className)} {...props} />
+  )
 })
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
@@ -25,12 +27,10 @@ const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
-  const classes = ['dialog-content', className].filter(Boolean).join(' ')
-
   return (
     <DialogPortal>
       <DialogOverlay />
-      <DialogPrimitive.Content ref={ref} className={classes} {...props}>
+      <DialogPrimitive.Content ref={ref} className={cn('dialog-content', className)} {...props}>
         {children}
         <DialogPrimitive.Close className='dialog-close'>
           <X />
@@ -43,14 +43,12 @@ const DialogContent = React.forwardRef<
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
 const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
-  const classes = ['dialog-header', className].filter(Boolean).join(' ')
-  return <div className={classes} {...props} />
+  return <div className={cn('dialog-header', className)} {...props} />
 }
 DialogHeader.displayName = 'DialogHeader'
 
 const DialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
-  const classes = ['dialog-footer', className].filter(Boolean).join(' ')
-  return <div className={classes} {...props} />
+  return <div className={cn('dialog-footer', className)} {...props} />
 }
 DialogFooter.displayName = 'DialogFooter'
 
@@ -58,8 +56,7 @@ const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(({ className, ...props }, ref) => {
-  const classes = ['dialog-title', className].filter(Boolean).join(' ')
-  return <DialogPrimitive.Title ref={ref} className={classes} {...props} />
+  return <DialogPrimitive.Title ref={ref} className={cn('dialog-title', className)} {...props} />
 })
 DialogTitle.displayName = DialogPrimitive.Title.displayName
 
@@ -67,8 +64,13 @@ const DialogDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
 >(({ className, ...props }, ref) => {
-  const classes = ['dialog-description', className].filter(Boolean).join(' ')
-  return <DialogPrimitive.Description ref={ref} className={classes} {...props} />
+  return (
+    <DialogPrimitive.Description
+      ref={ref}
+      className={cn('dialog-description', className)}
+      {...props}
+    />
+  )
 })
 DialogDescription.displayName = DialogPrimitive.Description.displayName
 
