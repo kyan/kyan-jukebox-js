@@ -8,5 +8,3 @@ config
 scripts
 build.ts
 dev-server.ts
-tailwind.config.js
-postcss.config.js

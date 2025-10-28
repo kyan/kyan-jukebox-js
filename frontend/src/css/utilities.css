@@ -2,55 +2,50 @@
  * Utility Classes
  *
  * Reusable utility classes for common patterns.
- * Converted from @layer utilities section in globals.css.
+ * Only includes utilities that are actually used in the application.
  */
 
 /* ============================================
    ANIMATION UTILITIES
    ============================================ */
 
-.animate-in {
-  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.animate-out {
-  animation: fadeOut 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.animate-slide-up {
-  animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.animate-slide-down {
-  animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.animate-scale-in {
-  animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 .animate-fade-in {
   animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ============================================
-   HOVER EFFECTS
-   ============================================ */
-
-.hover-lift {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.hover-lift:hover {
-  transform: translateY(-0.375rem);
-  box-shadow:
-    0 20px 25px -5px rgb(0 0 0 / 0.1),
-    0 8px 10px -6px rgb(0 0 0 / 0.1);
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* ============================================
-   TEXT TRUNCATION
+   FLEXBOX UTILITIES
    ============================================ */
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ============================================
+   TEXT UTILITIES
+   ============================================ */
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .truncate-2 {
   display: -webkit-box;
@@ -64,13 +59,6 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-/* Standard single-line truncate */
-.truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 /* ============================================
@@ -100,83 +88,19 @@
 }
 
 /* ============================================
-   FOCUS UTILITIES
+   HOVER EFFECTS
    ============================================ */
 
-.focus-ring:focus-visible {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 2px var(--color-ring);
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ============================================
-   GRADIENT UTILITIES
-   ============================================ */
-
-.gradient-primary {
-  background: linear-gradient(
-    135deg,
-    var(--color-primary) 0%,
-    color-mix(in srgb, var(--color-primary) 80%, transparent) 100%
-  );
+.hover-lift:hover {
+  transform: translateY(-0.375rem);
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
-
-.gradient-success {
-  background: linear-gradient(
-    135deg,
-    var(--color-success) 0%,
-    color-mix(in srgb, var(--color-success) 80%, transparent) 100%
-  );
-}
-
-.text-gradient {
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  background-image: linear-gradient(
-    to right,
-    var(--color-primary),
-    color-mix(in srgb, var(--color-primary) 70%, transparent)
-  );
-}
-
-/* Tailwind-style gradient backgrounds */
-.bg-gradient-to-r {
-  background-image: linear-gradient(to right, var(--tw-gradient-stops));
-}
-
-.bg-gradient-to-br {
-  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
-}
-
-/* Gradient stop utilities */
-.from-primary {
-  --tw-gradient-from: var(--color-primary);
-  --tw-gradient-to: color-mix(in srgb, var(--color-primary) 0%, transparent);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.to-primary\/90 {
-  --tw-gradient-to: color-mix(in srgb, var(--color-primary) 90%, transparent);
-}
-
-.to-primary\/80 {
-  --tw-gradient-to: color-mix(in srgb, var(--color-primary) 80%, transparent);
-}
-
-/* ============================================
-   GLASS MORPHISM
-   ============================================ */
-
-.glass {
-  background-color: color-mix(in srgb, var(--color-background) 80%, transparent);
-  backdrop-filter: blur(12px);
-  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
-}
-
-/* ============================================
-   CARD UTILITIES
-   ============================================ */
 
 .card-hover {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -190,47 +114,13 @@
 }
 
 /* ============================================
-   SPOTIFY THEME UTILITIES
+   FOCUS UTILITIES
    ============================================ */
 
-.spotify-green {
-  color: var(--color-spotify-green);
-}
-
-.bg-spotify-green {
-  background-color: var(--color-spotify-green);
-}
-
-.border-spotify-green {
-  border-color: var(--color-spotify-green);
-}
-
-/* ============================================
-   FLEXBOX UTILITIES
-   ============================================ */
-
-.flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.flex-start {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.flex-end {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+.focus-ring:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--color-ring);
 }
 
 /* ============================================
@@ -338,7 +228,7 @@
 }
 
 /* ============================================
-   SCROLLBAR HIDE UTILITY
+   SCROLLBAR UTILITIES
    ============================================ */
 
 .scrollbar-hide {
@@ -351,25 +241,27 @@
 }
 
 /* ============================================
-   FONT WEIGHT UTILITIES
+   SPOTIFY THEME UTILITIES
    ============================================ */
 
-.font-light {
-  font-weight: 300;
+.spotify-green {
+  color: var(--color-spotify-green);
 }
 
-.font-regular {
-  font-weight: 400;
+.bg-spotify-green {
+  background-color: var(--color-spotify-green);
 }
 
-.font-medium {
-  font-weight: 500;
+.border-spotify-green {
+  border-color: var(--color-spotify-green);
 }
 
-.font-semibold {
-  font-weight: 600;
-}
+/* ============================================
+   GLASS MORPHISM
+   ============================================ */
 
-.font-bold {
-  font-weight: 700;
+.glass {
+  background-color: color-mix(in srgb, var(--color-background) 80%, transparent);
+  backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
 }

@@ -48,15 +48,15 @@ const Dashboard: React.FC<DashboardProps> = props => {
   } = props
 
   return (
-    <div className='relative min-h-screen bg-linear-to-br from-background via-background to-muted/10'>
+    <div className='dashboard'>
       {/* Offline Dimmer Overlay */}
       {!online && (
-        <div className='fixed inset-0 bg-background/90 backdrop-blur-md z-50 flex items-center justify-center animate-fade-in'>
-          <div className='text-center animate-pulse bg-card border border-border rounded-lg p-8 shadow-2xl'>
-            <div className='mb-4 flex justify-center'>
-              <div className='h-16 w-16 rounded-full bg-muted flex items-center justify-center'>
+        <div className='dashboard-offline-overlay'>
+          <div className='dashboard-offline-content'>
+            <div className='dashboard-offline-icon-wrapper'>
+              <div className='dashboard-offline-icon-circle'>
                 <svg
-                  className='h-8 w-8 text-muted-foreground'
+                  className='dashboard-offline-icon'
                   fill='none'
                   viewBox='0 0 24 24'
                   stroke='currentColor'
@@ -70,21 +70,21 @@ const Dashboard: React.FC<DashboardProps> = props => {
                 </svg>
               </div>
             </div>
-            <h2 className='text-3xl font-bold mb-2 text-foreground'>Offline</h2>
-            <p className='text-muted-foreground text-lg'>Waiting for connection...</p>
+            <h2 className='dashboard-offline-title'>Offline</h2>
+            <p className='dashboard-offline-message'>Waiting for connection...</p>
           </div>
         </div>
       )}
 
       <SearchContainer>
         {/* Header Section */}
-        <div className='sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border/50 shadow-sm'>
-          <div className='w-full px-6 sm:px-8 py-5'>
-            <div className='flex flex-wrap items-center gap-4 justify-center sm:justify-start min-h-[48px]'>
+        <div className='dashboard-header'>
+          <div className='dashboard-header-inner'>
+            <div className='dashboard-header-controls'>
               <Settings user={user} isSignedIn={isSignedIn} onSignOut={onSignOut} />
-              <div className='h-6 w-px bg-border/60 hidden sm:block'></div>
+              <div className='dashboard-divider'></div>
               <VolumeButtons disabled={disabled} onVolumeChange={onVolumeChange} />
-              <div className='h-6 w-px bg-border/60 hidden sm:block'></div>
+              <div className='dashboard-divider'></div>
               <Controls
                 disabled={disabled}
                 onPlay={onPlay}
@@ -92,39 +92,37 @@ const Dashboard: React.FC<DashboardProps> = props => {
                 onNext={onNext}
                 onPrevious={onPrevious}
               />
-              <div className='flex-1'></div>
+              <div className='dashboard-spacer'></div>
               <SearchButton onClick={onSearchClick} disabled={disabled} />
             </div>
           </div>
         </div>
 
         {/* Body Section */}
-        <div className='w-full px-6 sm:px-8 py-8'>
-          <div className='max-w-[1800px] mx-auto'>
-            <div className='grid grid-cols-1 lg:grid-cols-12 gap-8'>
+        <div className='dashboard-body'>
+          <div className='dashboard-container'>
+            <div className='dashboard-grid'>
               {/* Now Playing Column */}
-              <div className='lg:col-span-5 xl:col-span-4'>
-                <div className='sticky top-28'>
-                  <div className='flex items-center gap-3 mb-6'>
-                    <div className='h-8 w-1 bg-primary rounded-full'></div>
-                    <h2 className='text-xl font-bold text-foreground tracking-tight'>
-                      Now Playing
-                    </h2>
+              <div className='dashboard-now-playing'>
+                <div className='dashboard-now-playing-sticky'>
+                  <div className='dashboard-section-header'>
+                    <div className='dashboard-section-accent'></div>
+                    <h2 className='dashboard-section-title'>Now Playing</h2>
                   </div>
                   <CurrentTrackContainer />
                 </div>
               </div>
 
               {/* Playlist Column */}
-              <div className='lg:col-span-7 xl:col-span-8'>
-                <div className='flex items-center justify-between mb-6'>
-                  <div className='flex items-center gap-3'>
-                    <div className='h-8 w-1 bg-primary rounded-full'></div>
-                    <h2 className='text-xl font-bold text-foreground tracking-tight'>Playlist</h2>
+              <div className='dashboard-playlist'>
+                <div className='dashboard-section-header dashboard-section-header--space-between'>
+                  <div className='dashboard-section-header'>
+                    <div className='dashboard-section-accent'></div>
+                    <h2 className='dashboard-section-title'>Playlist</h2>
                   </div>
                   <ClearPlaylist disabled={disabled} onClear={onTracklistClear} />
                 </div>
-                <div className='bg-card/50 backdrop-blur-sm rounded-xl border border-border/50 px-6 py-5 shadow-lg'>
+                <div className='dashboard-playlist-wrapper'>
                   <TrackList
                     disabled={disabled}
                     tracks={tracklist}
