@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 const AlertDialog = AlertDialogPrimitive.Root
 
@@ -13,9 +14,13 @@ const AlertDialogOverlay = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => {
-  const classes = ['alert-dialog-overlay', className].filter(Boolean).join(' ')
-
-  return <AlertDialogPrimitive.Overlay className={classes} {...props} ref={ref} />
+  return (
+    <AlertDialogPrimitive.Overlay
+      className={cn('alert-dialog-overlay', className)}
+      {...props}
+      ref={ref}
+    />
+  )
 })
 AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName
 
@@ -23,26 +28,26 @@ const AlertDialogContent = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
 >(({ className, ...props }, ref) => {
-  const classes = ['alert-dialog-content', className].filter(Boolean).join(' ')
-
   return (
     <AlertDialogPortal>
       <AlertDialogOverlay />
-      <AlertDialogPrimitive.Content ref={ref} className={classes} {...props} />
+      <AlertDialogPrimitive.Content
+        ref={ref}
+        className={cn('alert-dialog-content', className)}
+        {...props}
+      />
     </AlertDialogPortal>
   )
 })
 AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
 
 const AlertDialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
-  const classes = ['alert-dialog-header', className].filter(Boolean).join(' ')
-  return <div className={classes} {...props} />
+  return <div className={cn('alert-dialog-header', className)} {...props} />
 }
 AlertDialogHeader.displayName = 'AlertDialogHeader'
 
 const AlertDialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
-  const classes = ['alert-dialog-footer', className].filter(Boolean).join(' ')
-  return <div className={classes} {...props} />
+  return <div className={cn('alert-dialog-footer', className)} {...props} />
 }
 AlertDialogFooter.displayName = 'AlertDialogFooter'
 
@@ -50,8 +55,13 @@ const AlertDialogTitle = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>
 >(({ className, ...props }, ref) => {
-  const classes = ['alert-dialog-title', className].filter(Boolean).join(' ')
-  return <AlertDialogPrimitive.Title ref={ref} className={classes} {...props} />
+  return (
+    <AlertDialogPrimitive.Title
+      ref={ref}
+      className={cn('alert-dialog-title', className)}
+      {...props}
+    />
+  )
 })
 AlertDialogTitle.displayName = AlertDialogPrimitive.Title.displayName
 
@@ -59,8 +69,13 @@ const AlertDialogDescription = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>
 >(({ className, ...props }, ref) => {
-  const classes = ['alert-dialog-description', className].filter(Boolean).join(' ')
-  return <AlertDialogPrimitive.Description ref={ref} className={classes} {...props} />
+  return (
+    <AlertDialogPrimitive.Description
+      ref={ref}
+      className={cn('alert-dialog-description', className)}
+      {...props}
+    />
+  )
 })
 AlertDialogDescription.displayName = AlertDialogPrimitive.Description.displayName
 
@@ -68,10 +83,9 @@ const AlertDialogAction = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Action>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>
 >(({ className, ...props }, ref) => {
-  const classes = ['alert-dialog-action', className].filter(Boolean).join(' ')
   return (
     <AlertDialogPrimitive.Action ref={ref} asChild {...props}>
-      <Button className={classes} />
+      <Button className={cn('alert-dialog-action', className)} />
     </AlertDialogPrimitive.Action>
   )
 })
@@ -81,10 +95,9 @@ const AlertDialogCancel = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Cancel>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>
 >(({ className, ...props }, ref) => {
-  const classes = ['alert-dialog-cancel', className].filter(Boolean).join(' ')
   return (
     <AlertDialogPrimitive.Cancel ref={ref} asChild {...props}>
-      <Button variant='outline' className={classes} />
+      <Button variant='outline' className={cn('alert-dialog-cancel', className)} />
     </AlertDialogPrimitive.Cancel>
   )
 })

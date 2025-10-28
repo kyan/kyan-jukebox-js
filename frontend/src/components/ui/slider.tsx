@@ -1,14 +1,13 @@
 import * as React from 'react'
 import * as SliderPrimitive from '@radix-ui/react-slider'
+import { cn } from '@/lib/utils'
 
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
 >(({ className, ...props }, ref) => {
-  const classes = ['slider-root', className].filter(Boolean).join(' ')
-
   return (
-    <SliderPrimitive.Root ref={ref} className={classes} {...props}>
+    <SliderPrimitive.Root ref={ref} className={cn('slider-root', className)} {...props}>
       <SliderPrimitive.Track className='slider-track'>
         <SliderPrimitive.Range className='slider-range' />
       </SliderPrimitive.Track>

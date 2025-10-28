@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as SheetPrimitive from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 const Sheet = SheetPrimitive.Root
 
@@ -14,8 +15,7 @@ const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
 >(({ className, ...props }, ref) => {
-  const classes = ['sheet-overlay', className].filter(Boolean).join(' ')
-  return <SheetPrimitive.Overlay className={classes} {...props} ref={ref} />
+  return <SheetPrimitive.Overlay className={cn('sheet-overlay', className)} {...props} ref={ref} />
 })
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
@@ -28,12 +28,15 @@ const SheetContent = React.forwardRef<
   SheetContentProps
 >(({ side = 'right', className, children, ...props }, ref) => {
   const sideClass = `sheet-content--${side}`
-  const classes = ['sheet-content', sideClass, className].filter(Boolean).join(' ')
 
   return (
     <SheetPortal>
       <SheetOverlay />
-      <SheetPrimitive.Content ref={ref} className={classes} {...props}>
+      <SheetPrimitive.Content
+        ref={ref}
+        className={cn('sheet-content', sideClass, className)}
+        {...props}
+      >
         {children}
         <SheetPrimitive.Close className='sheet-close'>
           <X />
@@ -46,14 +49,12 @@ const SheetContent = React.forwardRef<
 SheetContent.displayName = SheetPrimitive.Content.displayName
 
 const SheetHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
-  const classes = ['sheet-header', className].filter(Boolean).join(' ')
-  return <div className={classes} {...props} />
+  return <div className={cn('sheet-header', className)} {...props} />
 }
 SheetHeader.displayName = 'SheetHeader'
 
 const SheetFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
-  const classes = ['sheet-footer', className].filter(Boolean).join(' ')
-  return <div className={classes} {...props} />
+  return <div className={cn('sheet-footer', className)} {...props} />
 }
 SheetFooter.displayName = 'SheetFooter'
 
@@ -61,8 +62,7 @@ const SheetTitle = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
 >(({ className, ...props }, ref) => {
-  const classes = ['sheet-title', className].filter(Boolean).join(' ')
-  return <SheetPrimitive.Title ref={ref} className={classes} {...props} />
+  return <SheetPrimitive.Title ref={ref} className={cn('sheet-title', className)} {...props} />
 })
 SheetTitle.displayName = SheetPrimitive.Title.displayName
 
@@ -70,8 +70,13 @@ const SheetDescription = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>
 >(({ className, ...props }, ref) => {
-  const classes = ['sheet-description', className].filter(Boolean).join(' ')
-  return <SheetPrimitive.Description ref={ref} className={classes} {...props} />
+  return (
+    <SheetPrimitive.Description
+      ref={ref}
+      className={cn('sheet-description', className)}
+      {...props}
+    />
+  )
 })
 SheetDescription.displayName = SheetPrimitive.Description.displayName
 
