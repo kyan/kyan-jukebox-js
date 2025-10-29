@@ -22,6 +22,13 @@
   overflow: hidden;
 }
 
+@media (max-width: 640px) {
+  .volume-wrapper {
+    height: 40px;
+    gap: 0;
+  }
+}
+
 /* ============================================
    VOLUME BUTTON BASE
    ============================================ */
@@ -37,6 +44,13 @@
   background: transparent;
   cursor: pointer;
   transition: all var(--transition-duration-200) var(--ease-in-out);
+}
+
+@media (max-width: 640px) {
+  .volume-button {
+    height: 40px;
+    width: 40px;
+  }
 }
 
 .volume-button:focus {
@@ -122,4 +136,13 @@
   background-color: color-mix(in srgb, var(--color-card) 30%, transparent);
   border-left: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
   border-right: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+}
+
+@media (max-width: 640px) {
+  .volume-display {
+    min-width: 3rem;
+    padding-left: var(--spacing-3);
+    padding-right: var(--spacing-3);
+    font-size: var(--font-size-xs);
+  }
 }
