@@ -26,9 +26,7 @@ const RemoveTrack: React.FC<RemoveTrackProps> = ({ uri: _uri, name, onClick }) =
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <button className='text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-colors'>
-          Remove
-        </button>
+        <button className='track-remove-button'>Remove</button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

@@ -128,11 +128,7 @@ const CurrentVote: React.FC<CurrentVoteProps> = ({ metrics }) => {
   const show = metrics.votes > 0
   if (!show) return null
 
-  return (
-    <div className='inline-flex items-center'>
-      <VotedBy total={metrics.votesAverage} show={show} />
-    </div>
-  )
+  return <VotedBy total={metrics.votesAverage} show={show} />
 }
 
 const ActionRemove: React.FC<ActionRemoveProps> = ({ uri, name, disabled, isCurrent, onClick }) => {
@@ -198,9 +194,7 @@ const ListItems: React.FC<ListItemsProps> = ({
               <div className='track-actions'>
                 <CurrentVote metrics={track.metrics} />
                 <CurrentPlays metrics={track.metrics} />
-                <div className='inline-flex items-center'>
-                  <AddedBy users={addedBy} />
-                </div>
+                <AddedBy users={addedBy} />
                 <ActionRemove
                   uri={track.uri}
                   name={track.name}
