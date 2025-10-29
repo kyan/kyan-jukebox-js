@@ -230,7 +230,45 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--spacing-2);
-  margin-top: auto;
+}
+
+/* Ensure all direct children align properly */
+.track-actions > * {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Remove button styling */
+.track-remove-button {
+  font-size: var(--font-size-xs);
+  color: var(--color-muted-foreground);
+  background: transparent;
+  border: none;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+  line-height: 1.25rem;
+}
+
+.track-remove-button:hover {
+  color: var(--color-destructive);
+  background: color-mix(in srgb, var(--color-destructive) 10%, transparent);
+  transform: translateY(-1px);
+}
+
+.track-remove-button:active {
+  transform: translateY(0);
+}
+
+.track-remove-button:focus {
+  outline: none;
+}
+
+.track-remove-button:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-ring);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 
 /* ============================================

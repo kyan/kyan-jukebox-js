@@ -246,7 +246,6 @@
 }
 
 .dashboard-playlist-wrapper:hover {
-  transform: translateY(-2px);
   box-shadow:
     0 16px 48px -12px rgb(0 0 0 / 0.15),
     0 8px 20px -6px rgb(0 0 0 / 0.08),

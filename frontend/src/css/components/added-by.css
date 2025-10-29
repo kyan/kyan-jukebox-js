@@ -1,0 +1,86 @@
+/* ==========================================================================
+   Added By Component
+   ========================================================================== */
+
+/* Added By Button */
+.added-by-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
+  outline: none;
+}
+
+.added-by-trigger:focus {
+  outline: none;
+}
+
+.added-by-trigger:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-ring);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* Popover Sizing */
+.added-by-popover {
+  min-width: 300px;
+  width: auto;
+}
+
+/* Content Wrapper */
+.added-by-content {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 0.625rem;
+}
+
+/* User List */
+.added-by-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.added-by-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.added-by-item-content {
+  flex: 1;
+}
+
+.added-by-item-text {
+  color: var(--color-muted-foreground);
+}
+
+.added-by-item-date {
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+/* User Avatar */
+.added-by-avatar {
+  width: 1.6rem;
+  height: 1.6rem;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.added-by-avatar-fallback {
+  font-size: 0.5rem;
+  line-height: 0.75rem;
+}
+
+/* User Icon */
+.added-by-icon {
+  width: 1rem;
+  height: 1rem;
+}
