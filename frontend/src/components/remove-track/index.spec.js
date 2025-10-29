@@ -25,15 +25,13 @@ describe('RemoveTrack', () => {
 
     describe('confirm dialog', () => {
       it('is not shown by default', () => {
-        expect(renderResult.queryByText('Are you sure you want to remove')).not.toBeInTheDocument()
+        expect(renderResult.queryByText('Remove Track?')).not.toBeInTheDocument()
       })
 
       it('shows when the button is pressed', async () => {
         fireEvent.click(renderResult.getByText('Remove'))
         await waitFor(() => {
-          expect(
-            renderResult.getByText('Are you sure you want to remove: The track title')
-          ).toBeInTheDocument()
+          expect(renderResult.getByText('Remove Track?')).toBeInTheDocument()
         })
       })
     })
@@ -45,21 +43,19 @@ describe('RemoveTrack', () => {
 
       it('calls the onConfirm callback', async () => {
         await waitFor(() => {
-          expect(renderResult.getByText('Do it!')).toBeInTheDocument()
+          expect(renderResult.getAllByText('Remove')[1]).toBeInTheDocument()
         })
-        fireEvent.click(renderResult.getByText('Do it!'))
+        fireEvent.click(renderResult.getAllByText('Remove')[1])
         expect(onClickMock).toHaveBeenCalled()
       })
 
       it('calls the onCancel callback', async () => {
         await waitFor(() => {
-          expect(renderResult.getByText('No thanks')).toBeInTheDocument()
+          expect(renderResult.getByText('Cancel')).toBeInTheDocument()
         })
-        fireEvent.click(renderResult.getByText('No thanks'))
+        fireEvent.click(renderResult.getByText('Cancel'))
         await waitFor(() => {
-          expect(
-            renderResult.queryByText('Are you sure you want to remove: The track title')
-          ).not.toBeInTheDocument()
+          expect(renderResult.queryByText('Remove Track?')).not.toBeInTheDocument()
         })
       })
     })

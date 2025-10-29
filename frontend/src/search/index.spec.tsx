@@ -189,7 +189,7 @@ describe('SearchContainer', () => {
           <SearchContainer />
         </Provider>
       )
-      fireEvent.click(getAllByText('Remove')[0])
+      fireEvent.click(getAllByText('✕')[0])
 
       const actions = store.getActions()
       expect(actions).toEqual([

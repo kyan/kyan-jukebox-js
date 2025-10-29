@@ -10,7 +10,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 interface RemoveTrackProps {
   uri?: string
