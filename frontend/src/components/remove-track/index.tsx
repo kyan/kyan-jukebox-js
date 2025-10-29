@@ -30,14 +30,14 @@ const RemoveTrack: React.FC<RemoveTrackProps> = ({ uri: _uri, name, onClick }) =
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <VisuallyHidden>
-            <AlertDialogTitle>Remove Track</AlertDialogTitle>
-          </VisuallyHidden>
-          <AlertDialogDescription>Are you sure you want to remove: {name}</AlertDialogDescription>
+          <AlertDialogTitle>Remove Track?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to remove <strong>{name}</strong> from the playlist?
+          </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>No thanks</AlertDialogCancel>
-          <AlertDialogAction onClick={handleConfirm}>Do it!</AlertDialogAction>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleConfirm}>Remove</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
