@@ -116,7 +116,7 @@ const Dashboard: React.FC<DashboardProps> = props => {
               {/* Playlist Column */}
               <div className='dashboard-playlist'>
                 <div className='dashboard-section-header dashboard-section-header--space-between'>
-                  <div className='dashboard-section-header'>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)' }}>
                     <div className='dashboard-section-accent'></div>
                     <h2 className='dashboard-section-title'>Playlist</h2>
                   </div>

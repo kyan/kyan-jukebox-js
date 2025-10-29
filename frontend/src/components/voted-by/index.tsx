@@ -92,8 +92,8 @@ const voteLabel = ({ total, size, ribbon }: { total: number; size?: string; ribb
   let icon: 'thumbs up' | 'thumbs down' = 'thumbs up'
 
   if (normalisedTotal < 0) icon = 'thumbs down'
-  if (normalisedTotal > 4) variant = 'default' // green equivalent
-  if (normalisedTotal < -4) variant = 'destructive' // red equivalent
+  if (normalisedTotal > 0) variant = 'default' // green equivalent
+  if (normalisedTotal < 0) variant = 'destructive' // red equivalent
 
   const sizeClass = sizeMap[(size as keyof typeof sizeMap) || 'tiny']
 
@@ -101,11 +101,14 @@ const voteLabel = ({ total, size, ribbon }: { total: number; size?: string; ribb
     <Badge
       variant={variant}
       className={cn(
-        'inline-flex items-center gap-1 font-semibold',
+        'inline-flex items-center gap-1.5 font-bold',
         sizeClass,
-        ribbon && 'absolute right-0 top-2 rounded-l-md rounded-r-none',
-        normalisedTotal > 4 && 'bg-green-600 hover:bg-green-700 text-white border-green-600',
-        normalisedTotal < -4 && 'bg-red-600 hover:bg-red-700 text-white border-red-600'
+        ribbon && 'rounded-lg shadow-lg backdrop-blur-sm border-2',
+        normalisedTotal > 0 && 'bg-green-600/90 hover:bg-green-700 text-white border-white/30',
+        normalisedTotal < 0 && 'bg-red-600/90 hover:bg-red-700 text-white border-white/30',
+        normalisedTotal === 0 &&
+          ribbon &&
+          'bg-gray-800/80 hover:bg-gray-800/90 text-white border-white/30'
       )}
     >
       <Icon name={icon} size='mini' />

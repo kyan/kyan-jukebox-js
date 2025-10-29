@@ -979,7 +979,7 @@
 
 /* Badge Variants */
 .badge--default {
-  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  border-color: color-mix(in srgb, var(--color-secondary) 10%, transparent);
   background: linear-gradient(
     135deg,
     var(--color-primary),
