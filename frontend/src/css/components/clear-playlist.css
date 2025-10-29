@@ -15,7 +15,6 @@
   transition: all var(--transition-duration-300) var(--ease-in-out);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
-  padding: var(--spacing-2-5) var(--spacing-4);
   box-shadow:
     0 2px 8px -2px rgb(0 0 0 / 0.1),
     0 1px 4px -1px rgb(0 0 0 / 0.06);

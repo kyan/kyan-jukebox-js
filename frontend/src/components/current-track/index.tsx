@@ -1,13 +1,11 @@
 import React from 'react'
 import { Icon } from 'components/ui/icon'
 import { Slider } from 'components/ui/slider'
-import { Badge } from 'components/ui/badge'
 import { Card, CardContent } from 'components/ui/card'
 import AddedBy from 'components/added-by'
 import VotedBy from 'components/voted-by'
 import ProgressBar from 'components/progress-bar'
 import defaultImage from './default-artwork.png'
-import { flatten, mean } from 'lodash'
 import { cn } from '@/lib/utils'
 
 interface User {
@@ -105,12 +103,6 @@ const noTrack = () => (
   </Card>
 )
 
-const calcVoteAverage = (data: Vote[]) => {
-  const votes = data.map(i => i.vote)
-  if (votes.length < 1) return 0
-  return mean(flatten(votes))
-}
-
 const voteHandleColor = (rating: number | null) => {
   if (rating === null) return 'hsl(var(--muted-foreground))'
   // Rating is on 0-10 scale: 0-4 = negative (red), 5 = neutral, 6-10 = positive (green)
@@ -143,40 +135,18 @@ const getRatingLabel = (rating: number | null) => {
   return `${sign}${displayRating}`
 }
 
-const TrackVotes: React.FC<{ metrics?: TrackMetrics }> = ({ metrics }) => {
+const TrackVotes: React.FC<{ metrics?: TrackMetrics; votes: Vote[] }> = ({ metrics, votes }) => {
   if (!metrics) return null
   return (
     <div className='current-track-votes'>
-      <VotedBy total={metrics.votesAverage} show={metrics.votes > 0} ribbon />
+      <VotedBy
+        total={metrics.votesAverage}
+        show={metrics.votes > 0}
+        ribbon
+        size='small'
+        votes={votes}
+      />
     </div>
-  )
-}
-
-const AddLabel: React.FC<{ count: number }> = ({ count }) => {
-  return (
-    <Badge variant='secondary' className='text-xs'>
-      Added <span className='ml-1 font-bold'>{count}</span>
-    </Badge>
-  )
-}
-
-const PlayLabel: React.FC<{ metrics?: TrackMetrics }> = ({ metrics }) => {
-  if (!metrics) return null
-
-  return (
-    <Badge variant='secondary' className='text-xs'>
-      Played <span className='ml-1 font-bold'>{metrics.plays}</span>
-    </Badge>
-  )
-}
-
-const VoteLabel: React.FC<{ metrics?: TrackMetrics }> = ({ metrics }) => {
-  if (!metrics) return null
-
-  return (
-    <Badge variant='secondary' className='text-xs'>
-      Activity <span className='ml-1 font-bold'>{metrics.votes}</span>
-    </Badge>
   )
 }
 
@@ -255,7 +225,7 @@ const CurrentTrack: React.FC<CurrentTrackProps> = ({ track, onVote, userID }) =>
           alt={`${track.name} artwork`}
           className='current-track-image'
         />
-        <TrackVotes metrics={track.metrics} />
+        <TrackVotes metrics={track.metrics} votes={votes} />
       </div>
 
       <CardContent className='current-track-content'>
