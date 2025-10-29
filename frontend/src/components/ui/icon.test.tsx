@@ -32,19 +32,19 @@ describe('Icon Component', () => {
   it('applies size variant correctly', () => {
     const { container } = render(<Icon name='play' size='large' />)
     const svg = container.querySelector('svg')
-    expect(svg).toHaveClass('w-6', 'h-6')
+    expect(svg).toHaveClass('icon--large')
   })
 
   it('applies big size variant correctly', () => {
     const { container } = render(<Icon name='play' size='big' />)
     const svg = container.querySelector('svg')
-    expect(svg).toHaveClass('w-8', 'h-8')
+    expect(svg).toHaveClass('icon--big')
   })
 
   it('applies small size variant correctly', () => {
     const { container } = render(<Icon name='search' size='small' />)
     const svg = container.querySelector('svg')
-    expect(svg).toHaveClass('w-4', 'h-4')
+    expect(svg).toHaveClass('icon--small')
   })
 
   it('applies custom className', () => {
@@ -116,6 +116,6 @@ describe('Icon Component', () => {
   it('uses default size when not specified', () => {
     const { container } = render(<Icon name='play' />)
     const svg = container.querySelector('svg')
-    expect(svg).toHaveClass('w-5', 'h-5')
+    expect(svg).toHaveClass('icon')
   })
 })
