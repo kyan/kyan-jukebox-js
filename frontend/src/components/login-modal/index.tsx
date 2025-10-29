@@ -39,18 +39,19 @@ export const LoginModal: React.FC<LoginModalProps> = ({ open, onSubmit, error })
   return (
     <Dialog open={open} modal>
       <DialogContent
-        className='sm:max-w-md'
+        showClose={false}
         onInteractOutside={e => e.preventDefault()}
         onEscapeKeyDown={e => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle className='text-center'>Sign in to Jukebox</DialogTitle>
+          <DialogTitle>Sign in to Jukebox</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className='space-y-4'>
-          <div className='space-y-2'>
-            <Label htmlFor='email' className='font-semibold text-gray-700'>
-              Email Address
-            </Label>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <Label htmlFor='email'>Email Address</Label>
             <Input
               id='email'
               type='email'
@@ -59,7 +60,6 @@ export const LoginModal: React.FC<LoginModalProps> = ({ open, onSubmit, error })
               onChange={e => setEmail(e.target.value)}
               required
               disabled={isLoading}
-              className='text-base'
             />
           </div>
           {error && (
@@ -68,8 +68,13 @@ export const LoginModal: React.FC<LoginModalProps> = ({ open, onSubmit, error })
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-          <Button type='submit' className='w-full' disabled={!email || isLoading}>
-            {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+          <Button type='submit' disabled={!email || isLoading} style={{ width: '100%' }}>
+            {isLoading && (
+              <Loader2
+                style={{ marginRight: '0.5rem', height: '1rem', width: '1rem' }}
+                className='animate-spin'
+              />
+            )}
             Sign In
           </Button>
         </form>
