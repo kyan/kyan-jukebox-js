@@ -36,17 +36,6 @@
   overflow: hidden;
 }
 
-.track-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 3px;
-  height: 100%;
-  background: transparent;
-  transition: all var(--transition-duration-300) var(--ease-in-out);
-}
-
 .track-item:hover {
   background: linear-gradient(
     to right,
@@ -54,41 +43,18 @@
     color-mix(in srgb, var(--color-accent) 15%, transparent)
   );
   border-color: color-mix(in srgb, var(--color-border) 40%, transparent);
-  transform: translateX(4px);
   box-shadow:
     0 4px 20px -4px rgb(0 0 0 / 0.1),
     0 2px 8px -2px rgb(0 0 0 / 0.06);
 }
 
-.track-item:hover::before {
-  background: linear-gradient(
-    to bottom,
-    var(--color-primary),
-    color-mix(in srgb, var(--color-primary) 50%, transparent)
-  );
-}
-
 /* Current track highlight */
 .track-item--current {
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--color-primary) 15%, transparent),
-    color-mix(in srgb, var(--color-primary) 8%, transparent),
-    color-mix(in srgb, var(--color-card) 30%, transparent)
-  );
-  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-card));
+  border: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
   box-shadow:
-    0 8px 32px -8px color-mix(in srgb, var(--color-primary) 40%, transparent),
-    0 4px 16px -4px rgb(0 0 0 / 0.1),
-    inset 0 1px 0 0 color-mix(in srgb, var(--color-primary) 20%, transparent);
-}
-
-.track-item--current::before {
-  background: linear-gradient(
-    to bottom,
-    var(--color-primary),
-    color-mix(in srgb, var(--color-primary) 60%, transparent)
-  );
+    0 4px 20px -4px color-mix(in srgb, var(--color-primary) 20%, transparent),
+    0 2px 8px -2px rgb(0 0 0 / 0.08);
 }
 
 /* Unplayed track (dimmed) */
@@ -174,7 +140,7 @@
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.15rem;
   color: var(--color-foreground);
   letter-spacing: -0.01em;
 }
