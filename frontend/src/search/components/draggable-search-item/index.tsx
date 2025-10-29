@@ -1,5 +1,4 @@
 import React from 'react'
-import classnames from 'classnames'
 import SearchItem from '../search-item'
 
 type DraggableSearchItemProps = {
@@ -21,17 +20,22 @@ const DraggableSearchItem: React.FC<DraggableSearchItemProps> = props => {
     if (b) props.action(parseInt(a, 10), parseInt(b, 10))
   }
 
+  const onDragOver = (ev: React.DragEvent): void => {
+    ev.preventDefault()
+  }
+
   return (
     <div
       draggable
-      className={classnames('draggable', 'search-list-item-draggable')}
+      className='draggable search-list-item-draggable'
       onDragStart={e => onDragStart(e, String(i))}
       onDrop={e => onDrop(e, String(i))}
+      onDragOver={onDragOver}
       title='You can drag this to sort.'
     >
       <SearchItem key={props.track.uri} track={props.track} />
       <span onClick={props.onRemove} className='search-list-item__remove'>
-        Remove
+        ✕
       </span>
     </div>
   )
