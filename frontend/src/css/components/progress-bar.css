@@ -69,8 +69,8 @@
   background: linear-gradient(
     90deg,
     var(--color-primary),
-    color-mix(in srgb, var(--color-primary) 95%, transparent),
-    color-mix(in srgb, var(--color-primary) 85%, transparent)
+    color-mix(in srgb, var(--color-primary) 90%, white),
+    color-mix(in srgb, var(--color-primary) 80%, white)
   );
   border-radius: var(--radius-full);
   transition: width var(--transition-duration-300) linear;
@@ -78,7 +78,6 @@
     0 0 12px color-mix(in srgb, var(--color-primary) 50%, transparent),
     0 0 6px color-mix(in srgb, var(--color-primary) 30%, transparent),
     inset 0 1px 0 color-mix(in srgb, white 20%, transparent);
-  position: relative;
   overflow: hidden;
 }
 

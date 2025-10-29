@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux'
 import { timerToPercentage, millisToMinutesAndSeconds } from 'utils/time'
 
 interface TimerState {
+  position: number
+  duration: number
   remaining: number
 }
 
