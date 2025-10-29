@@ -1,11 +1,12 @@
 import React from 'react'
 import dateFormat from 'dateformat'
-import { getAvatarUrl } from '../../utils/avatar'
+import { getAvatarUrl } from '@/utils/avatar'
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
+import '@/css/components/voted-by.css'
 
 interface User {
   picture?: string
@@ -34,24 +35,21 @@ const voteNormaliser = (v: number) => {
 }
 
 const votedByContent = (votes: Vote[]) => (
-  <div className='space-y-3'>
+  <div className='voted-by-list'>
     {votes.map((data, i) => {
       const fullName = data.user ? data.user.fullname : 'User unknown'
       const voteScore = voteNormaliser(data.vote)
 
       return (
-        <div key={i} className='flex items-center gap-2'>
+        <div key={i} className='voted-by-item'>
           {userPicture(data)}
-          <div className='flex-1'>
-            <div className='text-xs text-muted-foreground'>
-              <strong className='font-semibold text-foreground'>
-                {dateFormat(data.at, 'dd mmm yyyy @ h:MM tt')}
-              </strong>{' '}
-              - {fullName}{' '}
-              <Badge variant='secondary' className='ml-1 rounded-full px-2 py-0 text-xs'>
-                {voteScore}
-              </Badge>
-            </div>
+          <div className='voted-by-content'>
+            <span className='voted-by-date'>{dateFormat(data.at, 'dd mmm yyyy @ h:MM tt')}</span>
+            <span className='voted-by-separator'>-</span>
+            <span className='voted-by-name'>{fullName}</span>
+            <Badge variant='secondary' className='voted-by-badge'>
+              {voteScore}
+            </Badge>
           </div>
         </div>
       )
@@ -62,12 +60,18 @@ const votedByContent = (votes: Vote[]) => (
 const userPicture = (data: Vote) => {
   if (data && data.user) {
     const avatarUrl = getAvatarUrl(data.user, 50)
+    const initials = data.user.fullname
+      ? data.user.fullname
+          .split(' ')
+          .map(n => n[0])
+          .join('')
+          .toUpperCase()
+          .slice(0, 2)
+      : 'U'
     return (
-      <Avatar className='w-4 h-4'>
+      <Avatar className='voted-by-avatar'>
         <AvatarImage src={avatarUrl} alt={data.user.fullname || 'User'} />
-        <AvatarFallback className='text-[8px]'>
-          <Icon name='user' size='mini' />
-        </AvatarFallback>
+        <AvatarFallback className='voted-by-avatar-fallback'>{initials}</AvatarFallback>
       </Avatar>
     )
   }
@@ -129,7 +133,7 @@ const VotedBy: React.FC<VotedByProps> = ({ show, ribbon, votes = [], total, size
           {voteLabel({ total, size, ribbon })}
         </button>
       </PopoverTrigger>
-      <PopoverContent className='w-auto min-w-[320px]' align='start'>
+      <PopoverContent className='popover-voted-by' align='end'>
         {votedByContent(votes)}
       </PopoverContent>
     </Popover>

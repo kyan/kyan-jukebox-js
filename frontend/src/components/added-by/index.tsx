@@ -1,6 +1,6 @@
 import React from 'react'
 import dateFormat from 'dateformat'
-import { getAvatarUrl } from '../../utils/avatar'
+import { getAvatarUrl } from '@/utils/avatar'
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Icon } from '@/components/ui/icon'
