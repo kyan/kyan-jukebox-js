@@ -23,6 +23,14 @@
   height: 45px;
 }
 
+@media (max-width: 640px) {
+  .controls-wrapper {
+    height: 40px;
+    padding: var(--spacing-1-5);
+    gap: var(--spacing-1);
+  }
+}
+
 /* ============================================
    BASE BUTTON STYLES
    ============================================ */
@@ -59,6 +67,13 @@
   width: 45px;
 }
 
+@media (max-width: 640px) {
+  .controls-button--skip {
+    height: 38px;
+    width: 38px;
+  }
+}
+
 .controls-button--skip:not(:disabled):hover {
   transform: scale(1.1);
 }
@@ -83,6 +98,13 @@
   background-color: var(--color-primary);
   color: var(--color-primary-foreground);
   box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 640px) {
+  .controls-button--play {
+    height: 42px;
+    width: 42px;
+  }
 }
 
 .controls-button--play:not(:disabled):hover {

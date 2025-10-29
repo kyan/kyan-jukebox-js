@@ -55,6 +55,12 @@
     inset 0 1px 0 0 color-mix(in srgb, var(--color-card) 90%, transparent);
 }
 
+@media (max-width: 640px) {
+  .current-track-card {
+    border-radius: var(--radius-xl);
+  }
+}
+
 /* ============================================
    ALBUM ARTWORK SECTION
    ============================================ */
@@ -119,6 +125,13 @@
   );
 }
 
+@media (max-width: 640px) {
+  .current-track-content {
+    padding: var(--spacing-5);
+    padding-bottom: var(--spacing-4);
+  }
+}
+
 .current-track-progress {
   margin-bottom: var(--spacing-6);
 }
@@ -145,6 +158,13 @@
   transition: all var(--transition-duration-200) var(--ease-in-out);
 }
 
+@media (max-width: 640px) {
+  .current-track-title {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-2);
+  }
+}
+
 .current-track-card:hover .current-track-title {
   color: var(--color-primary);
   text-shadow: 0 2px 12px color-mix(in srgb, var(--color-primary) 20%, transparent);
@@ -158,12 +178,24 @@
   letter-spacing: -0.015em;
 }
 
+@media (max-width: 640px) {
+  .current-track-artist {
+    font-size: var(--font-size-lg);
+  }
+}
+
 .current-track-album {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   color: color-mix(in srgb, var(--color-muted-foreground) 75%, transparent);
   line-height: 1.5;
   letter-spacing: -0.005em;
+}
+
+@media (max-width: 640px) {
+  .current-track-album {
+    font-size: var(--font-size-sm);
+  }
 }
 
 /* ============================================
@@ -179,6 +211,12 @@
     color-mix(in srgb, var(--color-muted) 10%, transparent)
   );
   border-top: 1px solid color-mix(in srgb, var(--color-border) 20%, transparent);
+}
+
+@media (max-width: 640px) {
+  .current-track-rating-section {
+    padding: var(--spacing-5);
+  }
 }
 
 .track-rating-container {
@@ -366,6 +404,12 @@
   );
 }
 
+@media (max-width: 640px) {
+  .current-track-metadata {
+    padding: var(--spacing-5);
+  }
+}
+
 .current-track-stats-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -471,6 +515,12 @@
     color-mix(in srgb, var(--color-muted) 8%, transparent),
     color-mix(in srgb, var(--color-muted) 4%, transparent)
   );
+}
+
+@media (max-width: 640px) {
+  .current-track-footer {
+    padding: var(--spacing-4) var(--spacing-5);
+  }
 }
 
 .current-track-footer-content {
