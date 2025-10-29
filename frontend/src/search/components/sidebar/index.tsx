@@ -1,20 +1,7 @@
 import React from 'react'
 import { Sheet, SheetContent, SheetPortal, SheetOverlay } from '@/components/ui/sheet'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Separator } from '@/components/ui/separator'
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious
-} from '@/components/ui/pagination'
 import SearchItem from '../search-item'
 import DraggableSearchItem from '../draggable-search-item'
-import { cn } from '@/lib/utils'
 
 type SearchItemsProps = {
   tracks: ReadonlyArray<any>
@@ -85,28 +72,24 @@ const YourMix: React.FC<YourMixProps> = props => {
   const uris = props.tracks.map(track => track.uri)
 
   return (
-    <>
-      <div className='flex items-center justify-center mb-4'>
-        <Separator className='flex-1' />
-        <h4 className='px-4 text-sm font-semibold text-white uppercase tracking-wide'>Your Mix</h4>
-        <Separator className='flex-1' />
+    <div className='your-mix-container'>
+      <div className='search-section-header'>
+        <div className='search-section-separator' />
+        <h4>Your Mix</h4>
+        <div className='search-section-separator' />
       </div>
-      <div className='space-y-2 mb-4'>
+      <div className='your-mix-items'>
         <MixItems
           tracks={props.tracks}
           onRemove={props.onRemoveFromMix}
           onSwap={props.onSwapTracks}
         />
       </div>
-      <Button
-        onClick={() => props.onAddTracks(uris)}
-        className='w-full mb-4 search-list-item__add_to_mix'
-        variant='secondary'
-      >
+      <button onClick={() => props.onAddTracks(uris)} className='search-list-item__add_to_mix'>
         Add mix to playlist
-      </Button>
-      <Separator className='my-4' />
-    </>
+      </button>
+      <div className='search-section-separator' style={{ marginTop: '24px' }} />
+    </div>
   )
 }
 
@@ -150,7 +133,7 @@ const Search: React.FC<SearchProps> = props => {
           <SheetOverlay onClick={onClose} />
           <SheetContent
             side='right'
-            className='w-full sm:max-w-2xl overflow-y-auto sidebar-search bg-[rgb(71,71,71)] text-white border-l-0'
+            className='sidebar-search'
             onOpenAutoFocus={e => {
               e.preventDefault()
               inputEl.current?.focus()
@@ -168,92 +151,75 @@ const Search: React.FC<SearchProps> = props => {
                 e.preventDefault()
                 onSubmit()
               }}
-              className='space-y-4 mb-6'
+              className='search-form'
             >
-              <div className='space-y-2'>
-                <Label
-                  htmlFor='search-input'
-                  className='text-white uppercase text-xs font-semibold'
-                >
+              <div className='search-form-group'>
+                <label htmlFor='search-input' className='search-form-label'>
                   Search
-                </Label>
-                <Input
+                </label>
+                <input
                   ref={inputEl}
                   id='search-input'
                   aria-label='search-input'
                   placeholder='track, artist or album'
                   onChange={onQueryChange}
                   value={query}
-                  className='bg-white/10 border-white/20 text-white placeholder:text-white/50'
+                  className='search-form-input'
                 />
               </div>
-              <Button type='submit' className='w-full' variant='secondary'>
+              <button type='submit' className='search-form-button'>
                 Find
-              </Button>
+              </button>
             </form>
 
-            <div className='flex items-center justify-center mb-4'>
-              <Separator className='flex-1' />
-              <h4 className='px-4 text-sm font-semibold text-white uppercase tracking-wide'>
-                Results
-              </h4>
-              <Separator className='flex-1' />
+            <div className='search-section-header'>
+              <div className='search-section-separator' />
+              <h4>Results</h4>
+              <div className='search-section-separator' />
             </div>
 
             {totalPages > 1 && (
-              <Pagination className='mb-4'>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      onClick={() => handlePageChange(Math.max(1, activePage - 1))}
-                      className={cn(
-                        'text-white hover:bg-white/10 cursor-pointer',
-                        activePage === 1 && 'pointer-events-none opacity-50'
-                      )}
-                    />
-                  </PaginationItem>
-                  {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
-                    let pageNumber: number
-                    if (totalPages <= 5) {
-                      pageNumber = i + 1
-                    } else if (activePage <= 3) {
-                      pageNumber = i + 1
-                    } else if (activePage >= totalPages - 2) {
-                      pageNumber = totalPages - 4 + i
-                    } else {
-                      pageNumber = activePage - 2 + i
-                    }
+              <div className='search-list-pagination'>
+                <button
+                  onClick={() => handlePageChange(Math.max(1, activePage - 1))}
+                  className={`search-list-pagination__item${activePage === 1 ? ' disabled' : ''}`}
+                  disabled={activePage === 1}
+                >
+                  ‹
+                </button>
+                {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                  let pageNumber: number
+                  if (totalPages <= 5) {
+                    pageNumber = i + 1
+                  } else if (activePage <= 3) {
+                    pageNumber = i + 1
+                  } else if (activePage >= totalPages - 2) {
+                    pageNumber = totalPages - 4 + i
+                  } else {
+                    pageNumber = activePage - 2 + i
+                  }
 
-                    return (
-                      <PaginationItem key={pageNumber}>
-                        <PaginationLink
-                          onClick={() => handlePageChange(pageNumber)}
-                          isActive={activePage === pageNumber}
-                          className={cn(
-                            'text-white hover:bg-white/10 cursor-pointer',
-                            activePage === pageNumber &&
-                              'bg-white/20 font-bold border-b-2 border-[tomato]'
-                          )}
-                        >
-                          {pageNumber}
-                        </PaginationLink>
-                      </PaginationItem>
-                    )
-                  })}
-                  <PaginationItem>
-                    <PaginationNext
-                      onClick={() => handlePageChange(Math.min(totalPages, activePage + 1))}
-                      className={cn(
-                        'text-white hover:bg-white/10 cursor-pointer',
-                        activePage === totalPages && 'pointer-events-none opacity-50'
-                      )}
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
+                  return (
+                    <button
+                      key={pageNumber}
+                      onClick={() => handlePageChange(pageNumber)}
+                      className={`search-list-pagination__item${activePage === pageNumber ? ' active' : ''}`}
+                    >
+                      {pageNumber}
+                    </button>
+                  )
+                })}
+                <button
+                  onClick={() => handlePageChange(Math.min(totalPages, activePage + 1))}
+                  className={`search-list-pagination__item${activePage === totalPages ? ' disabled' : ''}`}
+                  disabled={activePage === totalPages}
+                >
+                  ›
+                </button>
+              </div>
             )}
 
-            <div className='space-y-4'>
+            <div className='search-results-container'>
               <SearchItems
                 tracks={results}
                 onClick={onAddTrack}
@@ -263,12 +229,7 @@ const Search: React.FC<SearchProps> = props => {
           </SheetContent>
         </SheetPortal>
       </Sheet>
-      <div
-        className={cn('transition-opacity duration-300', visible && 'pointer-events-auto')}
-        onClick={visible ? onClose : undefined}
-      >
-        {props.children}
-      </div>
+      {props.children}
     </>
   )
 }
