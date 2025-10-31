@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { Button, Image, Popup, List } from 'semantic-ui-react'
-import { getAvatarUrl } from '../../utils/avatar'
-import './index.css'
+import { getAvatarUrl } from '@/utils/avatar'
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { Icon } from '@/components/ui/icon'
+import ThemeToggle from '@/components/theme-toggle'
 
 interface User {
   fullname: string
@@ -19,61 +21,65 @@ export const Settings: React.FC<SettingsProps> = ({ user, isSignedIn, onSignOut 
   const [isOpen, setIsOpen] = useState(false)
 
   let avatar = (
-    <Button
-      icon='power off'
-      floated='right'
-      className='jb-settings-toggle'
+    <button
+      className='settings-button-disabled'
       title='Not signed in'
       disabled
-    />
+      aria-label='Not signed in'
+    >
+      <Icon name='power off' size='default' />
+    </button>
   )
 
   if (isSignedIn && user) {
     const avatarUrl = getAvatarUrl(user, 50)
 
     avatar = (
-      <Popup
-        trigger={
-          <Image
-            rounded
-            size='mini'
-            floated='right'
-            src={avatarUrl}
-            className='jb-settings-avatar'
-            style={{ cursor: 'pointer' }}
-          />
-        }
-        content={
-          <div>
-            <List>
-              <List.Item>
-                <List.Header>{user.fullname}</List.Header>
-                <List.Description>{user.email}</List.Description>
-              </List.Item>
-            </List>
-            <Button
-              fluid
-              size='small'
+      <Popover open={isOpen} onOpenChange={setIsOpen}>
+        <PopoverTrigger asChild>
+          <button className='settings-avatar-button' aria-label='Open settings'>
+            <Avatar className='settings-avatar'>
+              <AvatarImage src={avatarUrl} alt={user.fullname} className='settings-avatar-image' />
+              <AvatarFallback className='settings-avatar-fallback'>
+                {user.fullname
+                  .split(' ')
+                  .map(n => n[0])
+                  .join('')
+                  .toUpperCase()
+                  .slice(0, 2)}
+              </AvatarFallback>
+            </Avatar>
+          </button>
+        </PopoverTrigger>
+        <PopoverContent className='settings-popover' align='end'>
+          <div className='settings-popover-content'>
+            <div className='settings-user-info'>
+              <div className='settings-user-name'>{user.fullname}</div>
+              <div className='settings-user-email'>{user.email}</div>
+            </div>
+            <button
+              className='settings-signout-button'
               onClick={() => {
                 setIsOpen(false)
                 onSignOut()
               }}
-              style={{ marginTop: '10px' }}
+              aria-label='Sign out'
             >
+              <Icon name='sign out' size='small' />
               Sign Out
-            </Button>
+            </button>
           </div>
-        }
-        on='click'
-        position='bottom right'
-        open={isOpen}
-        onOpen={() => setIsOpen(true)}
-        onClose={() => setIsOpen(false)}
-      />
+        </PopoverContent>
+      </Popover>
     )
   }
 
-  return <React.Fragment>{avatar}</React.Fragment>
+  return (
+    <div className='settings'>
+      <ThemeToggle />
+      {avatar}
+    </div>
+  )
 }
 
 export default Settings

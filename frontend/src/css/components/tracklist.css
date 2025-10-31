@@ -1,0 +1,337 @@
+/**
+ * Tracklist Component
+ *
+ * Styles for the tracklist/queue component.
+ * Converted from src/components/tracklist/index.css.
+ */
+
+/* ============================================
+   TRACK LIST CONTAINER
+   ============================================ */
+
+.tracklist-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+/* ============================================
+   TRACK ITEM
+   ============================================ */
+
+/* Individual track item */
+.track-item {
+  display: flex;
+  gap: var(--spacing-4);
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-card) 40%, transparent),
+    color-mix(in srgb, var(--color-card) 20%, transparent)
+  );
+  border: 1px solid color-mix(in srgb, var(--color-border) 20%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .track-item {
+    gap: var(--spacing-3);
+    padding: var(--spacing-3);
+    border-radius: var(--radius-lg);
+  }
+}
+
+.track-item:hover {
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-accent) 30%, transparent),
+    color-mix(in srgb, var(--color-accent) 15%, transparent)
+  );
+  border-color: color-mix(in srgb, var(--color-border) 40%, transparent);
+  box-shadow:
+    0 4px 20px -4px rgb(0 0 0 / 0.1),
+    0 2px 8px -2px rgb(0 0 0 / 0.06);
+}
+
+/* Current track highlight */
+.track-item--current {
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-card));
+  border: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
+  box-shadow:
+    0 4px 20px -4px color-mix(in srgb, var(--color-primary) 20%, transparent),
+    0 2px 8px -2px rgb(0 0 0 / 0.08);
+}
+
+/* Unplayed track (dimmed) */
+.track-item--unplayed {
+  opacity: 0.6;
+}
+
+.track-item--unplayed:hover {
+  opacity: 0.85;
+}
+
+/* Played track hover */
+.track-item--played:hover {
+  box-shadow:
+    0 4px 20px -4px rgb(0 0 0 / 0.1),
+    0 2px 8px -2px rgb(0 0 0 / 0.06);
+}
+
+/* ============================================
+   TRACK ARTWORK
+   ============================================ */
+
+/* Track artwork container */
+.track-artwork {
+  flex-shrink: 0;
+}
+
+/* Track artwork avatar */
+.track-artwork-avatar {
+  height: 5rem;
+  width: 5rem;
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 4px 12px -2px rgb(0 0 0 / 0.15),
+    0 2px 6px -1px rgb(0 0 0 / 0.1);
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+  overflow: hidden;
+  position: relative;
+}
+
+@media (max-width: 640px) {
+  .track-artwork-avatar {
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: var(--radius-md);
+  }
+}
+
+.track-item:hover .track-artwork-avatar {
+  box-shadow:
+    0 8px 24px -4px rgb(0 0 0 / 0.2),
+    0 4px 12px -2px rgb(0 0 0 / 0.15);
+  transform: scale(1.05);
+}
+
+/* Current track artwork ring */
+.track-artwork--current {
+  box-shadow:
+    0 0 0 3px var(--color-primary),
+    0 0 0 5px var(--color-background),
+    0 0 20px color-mix(in srgb, var(--color-primary) 40%, transparent),
+    0 8px 24px -4px rgb(0 0 0 / 0.2);
+}
+
+.track-item--current:hover .track-artwork--current {
+  box-shadow:
+    0 0 0 3px var(--color-primary),
+    0 0 0 5px var(--color-background),
+    0 0 24px color-mix(in srgb, var(--color-primary) 50%, transparent),
+    0 8px 28px -4px rgb(0 0 0 / 0.25);
+  transform: scale(1.05);
+}
+
+/* Track artwork image */
+.track-artwork-image {
+  object-fit: cover;
+}
+
+/* ============================================
+   TRACK CONTENT
+   ============================================ */
+
+/* Track content wrapper */
+.track-content {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+/* Track title */
+.track-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  margin-bottom: 0.15rem;
+  color: var(--color-foreground);
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 640px) {
+  .track-title {
+    font-size: var(--font-size-base);
+    margin-bottom: 0.25rem;
+  }
+}
+
+/* ============================================
+   TRACK METADATA
+   ============================================ */
+
+/* Track metadata container */
+.track-metadata {
+  font-size: var(--font-size-sm);
+  color: var(--color-muted-foreground);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  margin-bottom: 0.875rem;
+}
+
+@media (max-width: 640px) {
+  .track-metadata {
+    font-size: var(--font-size-xs);
+    gap: var(--spacing-1-5);
+    margin-bottom: 0.625rem;
+  }
+}
+
+/* Track artist button */
+.track-artist {
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+  cursor: pointer;
+  display: inline-block;
+  font-weight: var(--font-weight-semibold);
+}
+
+.track-artist:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
+/* Metadata separator */
+.track-metadata-separator {
+  color: color-mix(in srgb, var(--color-muted-foreground) 50%, transparent);
+}
+
+/* Track duration */
+.track-duration {
+  font-size: var(--font-size-xs);
+  color: color-mix(in srgb, var(--color-muted-foreground) 70%, transparent);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ============================================
+   TRACK ACTIONS
+   ============================================ */
+
+/* Track actions/badges container */
+.track-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+@media (max-width: 640px) {
+  .track-actions {
+    gap: var(--spacing-1-5);
+  }
+}
+
+/* Ensure all direct children align properly */
+.track-actions > * {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Remove button styling */
+.track-remove-button {
+  font-size: var(--font-size-xs);
+  color: var(--color-muted-foreground);
+  background: transparent;
+  border: none;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+  line-height: 1.25rem;
+}
+
+.track-remove-button:hover {
+  color: var(--color-destructive);
+  background: color-mix(in srgb, var(--color-destructive) 10%, transparent);
+  transform: translateY(-1px);
+}
+
+.track-remove-button:active {
+  transform: translateY(0);
+}
+
+.track-remove-button:focus {
+  outline: none;
+}
+
+.track-remove-button:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-ring);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+
+/* Empty state container */
+.tracklist-empty {
+  text-align: center;
+  padding: var(--spacing-20) var(--spacing-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .tracklist-empty {
+    padding: var(--spacing-12) var(--spacing-4);
+  }
+}
+
+/* Empty state icon wrapper */
+.tracklist-empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-muted) 60%, transparent),
+    color-mix(in srgb, var(--color-muted) 30%, transparent)
+  );
+  margin-bottom: var(--spacing-6);
+  border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
+}
+
+/* Empty state icon */
+.tracklist-empty-icon svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--color-muted-foreground);
+  opacity: 0.8;
+}
+
+/* Empty state title */
+.tracklist-empty-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-foreground);
+  margin-bottom: var(--spacing-3);
+  letter-spacing: -0.02em;
+}
+
+/* Empty state description */
+.tracklist-empty-description {
+  font-size: var(--font-size-base);
+  color: var(--color-muted-foreground);
+  max-width: 32rem;
+  line-height: var(--line-height-relaxed);
+}

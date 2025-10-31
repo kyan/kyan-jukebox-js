@@ -80,12 +80,14 @@ describe('Tracklist', () => {
   })
 
   describe('when no track', () => {
-    it('renders nothing', () => {
-      const { container } = render(
+    it('renders empty state message', () => {
+      const { container, getByText } = render(
         <Tracklist onRemoveTrack={onRemoveMock} onArtistSearch={onSearchMock} />
       )
 
-      expect(container.firstChild).toBeNull()
+      expect(container.firstChild).not.toBeNull()
+      expect(getByText('No tracks in playlist')).toBeInTheDocument()
+      expect(getByText('Search and add tracks to build your queue')).toBeInTheDocument()
     })
   })
 

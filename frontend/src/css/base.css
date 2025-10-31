@@ -1,0 +1,168 @@
+/**
+ * Base Styles
+ *
+ * Base element styles and defaults.
+ * Converted from @layer base section in globals.css.
+ */
+
+/* ============================================
+   UNIVERSAL BORDER COLOR
+   ============================================ */
+
+* {
+  border-color: var(--color-border);
+}
+
+/* ============================================
+   BODY STYLES
+   ============================================ */
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-feature-settings:
+    'rlig' 1,
+    'calt' 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(
+      circle at 25% 25%,
+      color-mix(in srgb, var(--color-primary) 2%, transparent) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      color-mix(in srgb, var(--color-primary) 2%, transparent) 0%,
+      transparent 50%
+    );
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ============================================
+   HTML STYLES
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-muted-foreground) 20%, transparent);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--color-muted-foreground) 40%, transparent);
+  background-clip: padding-box;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-muted-foreground) 30%, transparent)
+    var(--color-muted);
+}
+
+/* ============================================
+   TEXT SELECTION
+   ============================================ */
+
+::selection {
+  background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+  color: var(--color-foreground);
+}
+
+::-moz-selection {
+  background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+  color: var(--color-foreground);
+}
+
+/* ============================================
+   LOADING SKELETON
+   ============================================ */
+
+.skeleton {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background-color: var(--color-muted);
+  border-radius: 0.25rem;
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-muted) 0%,
+    color-mix(in srgb, var(--color-muted-foreground) 10%, transparent) 50%,
+    var(--color-muted) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  * {
+    border-width: 2px;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]::after {
+    content: ' (' attr(href) ')';
+  }
+}

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, mock } from 'bun:test'
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import RemoveTrack from './index'
 
 describe('RemoveTrack', () => {
@@ -25,14 +25,14 @@ describe('RemoveTrack', () => {
 
     describe('confirm dialog', () => {
       it('is not shown by default', () => {
-        expect(renderResult.queryByText('Are you sure you want to remove')).not.toBeInTheDocument()
+        expect(renderResult.queryByText('Remove Track?')).not.toBeInTheDocument()
       })
 
-      it('shows when the button is pressed', () => {
+      it('shows when the button is pressed', async () => {
         fireEvent.click(renderResult.getByText('Remove'))
-        expect(
-          renderResult.getByText('Are you sure you want to remove: The track title')
-        ).toBeInTheDocument()
+        await waitFor(() => {
+          expect(renderResult.getByText('Remove Track?')).toBeInTheDocument()
+        })
       })
     })
 
@@ -41,17 +41,22 @@ describe('RemoveTrack', () => {
         fireEvent.click(renderResult.getByText('Remove'))
       })
 
-      it('calls the onConfirm callback', () => {
-        fireEvent.click(renderResult.getByText('Do it!'))
+      it('calls the onConfirm callback', async () => {
+        await waitFor(() => {
+          expect(renderResult.getAllByText('Remove')[1]).toBeInTheDocument()
+        })
+        fireEvent.click(renderResult.getAllByText('Remove')[1])
         expect(onClickMock).toHaveBeenCalled()
       })
 
-      it('calls the onCancel callback', () => {
-        fireEvent.click(renderResult.getByText('Remove'))
-        fireEvent.click(renderResult.getByText('No thanks'))
-        expect(
-          renderResult.queryByText('Are you sure you want to remove: The track title')
-        ).not.toBeInTheDocument()
+      it('calls the onCancel callback', async () => {
+        await waitFor(() => {
+          expect(renderResult.getByText('Cancel')).toBeInTheDocument()
+        })
+        fireEvent.click(renderResult.getByText('Cancel'))
+        await waitFor(() => {
+          expect(renderResult.queryByText('Remove Track?')).not.toBeInTheDocument()
+        })
       })
     })
   })

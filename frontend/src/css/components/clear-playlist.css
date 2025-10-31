@@ -1,0 +1,136 @@
+/**
+ * Clear Playlist Component
+ *
+ * Styles for the clear playlist component.
+ * Converted from src/components/clear-playlist/index.css.
+ */
+
+/* ============================================
+   CLEAR PLAYLIST BADGE/BUTTON
+   ============================================ */
+
+/* Clear playlist badge/button */
+.clear-playlist-badge {
+  cursor: pointer;
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  box-shadow:
+    0 2px 8px -2px rgb(0 0 0 / 0.1),
+    0 1px 4px -1px rgb(0 0 0 / 0.06);
+  border-radius: var(--radius-lg);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 640px) {
+  .clear-playlist-badge {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-1) var(--spacing-2-5);
+  }
+}
+
+.clear-playlist-badge:hover {
+  background-color: color-mix(in srgb, var(--color-destructive) 90%, transparent);
+  transform: translateY(-1px);
+  box-shadow:
+    0 8px 24px -6px color-mix(in srgb, var(--color-destructive) 40%, transparent),
+    0 4px 12px -4px rgb(0 0 0 / 0.15);
+}
+
+.clear-playlist-badge:active {
+  transform: translateY(0);
+  box-shadow:
+    0 4px 12px -4px rgb(0 0 0 / 0.1),
+    0 2px 6px -2px rgb(0 0 0 / 0.06);
+}
+
+/* ============================================
+   ALERT DIALOG CONTENT
+   ============================================ */
+
+/* Alert dialog content styling */
+.clear-playlist-dialog {
+  box-shadow:
+    0 25px 60px -15px rgb(0 0 0 / 0.3),
+    0 10px 30px -10px rgb(0 0 0 / 0.2);
+  border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
+  background: linear-gradient(
+    150deg,
+    color-mix(in srgb, var(--color-card) 98%, transparent),
+    color-mix(in srgb, var(--color-card) 95%, transparent)
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* ============================================
+   DIALOG TEXT
+   ============================================ */
+
+/* Dialog title */
+.clear-playlist-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* Dialog description */
+.clear-playlist-description {
+  font-size: var(--font-size-lg);
+  color: var(--color-muted-foreground);
+  line-height: var(--line-height-relaxed);
+}
+
+/* ============================================
+   DIALOG BUTTONS
+   ============================================ */
+
+/* Cancel button */
+.clear-playlist-cancel {
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+}
+
+.clear-playlist-cancel:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px -4px rgb(0 0 0 / 0.1);
+}
+
+.clear-playlist-cancel:active {
+  transform: translateY(0);
+}
+
+/* Confirm button */
+.clear-playlist-confirm {
+  transition: all var(--transition-duration-300) var(--ease-in-out);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-base);
+  background: linear-gradient(
+    135deg,
+    var(--color-destructive),
+    color-mix(in srgb, var(--color-destructive) 85%, transparent)
+  );
+  box-shadow:
+    0 4px 16px -4px color-mix(in srgb, var(--color-destructive) 50%, transparent),
+    0 2px 8px -2px rgb(0 0 0 / 0.15);
+}
+
+.clear-playlist-confirm:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 28px -6px color-mix(in srgb, var(--color-destructive) 60%, transparent),
+    0 4px 16px -4px rgb(0 0 0 / 0.2);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-destructive) 95%, transparent),
+    color-mix(in srgb, var(--color-destructive) 80%, transparent)
+  );
+}
+
+.clear-playlist-confirm:active {
+  transform: translateY(0);
+  box-shadow:
+    0 4px 12px -4px color-mix(in srgb, var(--color-destructive) 40%, transparent),
+    0 2px 6px -2px rgb(0 0 0 / 0.1);
+}

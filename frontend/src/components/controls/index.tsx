@@ -1,11 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import MopidyApi from 'constants/mopidy-api'
-import { Icon } from 'semantic-ui-react'
-import './index.css'
+import MopidyApi from '@/constants/mopidy-api'
+import { Icon } from '@/components/ui/icon'
 
-import type { SemanticICONS } from 'semantic-ui-react/dist/commonjs/generic'
-import type { JukeboxAppState } from 'reducers'
+import type { JukeboxAppState } from '@/reducers'
 
 interface SkipButtonProps {
   disabled: boolean
@@ -29,14 +27,17 @@ interface ControlsProps {
 }
 
 const SkipButton = ({ disabled, onClick, type }: SkipButtonProps) => {
+  const iconName = type === 'forward' ? 'step forward' : 'step backward'
+
   return (
     <button
-      className='c-controls__button c-controls__button--skip'
+      className='controls-button controls-button--skip'
       onClick={onClick}
       disabled={disabled}
       data-testid={`SkipButton--${type}`}
+      title={type === 'forward' ? 'Next track' : 'Previous track'}
     >
-      <Icon name={`step ${type}` as SemanticICONS} size='large' />
+      <Icon name={iconName} size='large' className='controls-icon' />
     </button>
   )
 }
@@ -44,15 +45,17 @@ const SkipButton = ({ disabled, onClick, type }: SkipButtonProps) => {
 const PlayButton = ({ disabled, onPause, onPlay, state }: PlayButtonProps) => {
   const icon = state === MopidyApi.PLAYING ? 'pause' : 'play'
   const clickHandler = state === MopidyApi.PLAYING ? onPause : onPlay
+  const isPlaying = state === MopidyApi.PLAYING
 
   return (
     <button
-      className='c-controls__button'
+      className='controls-button controls-button--play'
       onClick={clickHandler}
       disabled={disabled}
       data-testid='PlayButton'
+      title={isPlaying ? 'Pause' : 'Play'}
     >
-      <Icon name={icon} size='big' />
+      <Icon name={icon} size='large' className='controls-icon controls-icon--play' />
     </button>
   )
 }
@@ -61,7 +64,7 @@ const Controls = ({ disabled, onPlay, onPause, onPrevious, onNext }: ControlsPro
   const jukebox = useSelector((state: JukeboxAppState) => state.jukebox)
 
   return (
-    <div className='c-controls__wrapper'>
+    <div className='controls-wrapper'>
       <SkipButton onClick={onPrevious} disabled={disabled} type='backward' />
       <PlayButton
         onPlay={onPlay}

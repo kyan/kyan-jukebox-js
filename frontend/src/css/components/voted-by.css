@@ -1,0 +1,85 @@
+/**
+ * Voted By Component
+ *
+ * Styles for the voted by component that displays vote information.
+ */
+
+/* ============================================
+   VOTE LIST CONTAINER
+   ============================================ */
+
+.voted-by-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+/* ============================================
+   VOTE ITEM
+   ============================================ */
+
+.voted-by-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+/* ============================================
+   VOTE CONTENT
+   ============================================ */
+
+.voted-by-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--font-size-sm);
+}
+
+.voted-by-date {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-foreground);
+}
+
+.voted-by-separator {
+  color: var(--color-muted-foreground);
+}
+
+.voted-by-name {
+  color: var(--color-muted-foreground);
+}
+
+/* ============================================
+   AVATAR SIZING
+   ============================================ */
+
+.voted-by-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+}
+
+.voted-by-avatar-fallback {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ============================================
+   VOTE BADGE
+   ============================================ */
+
+.voted-by-badge {
+  border-radius: var(--radius-full);
+  padding: 0 var(--spacing-2);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ============================================
+   POPOVER CONTAINER
+   ============================================ */
+
+.popover-voted-by {
+  width: auto;
+  min-width: 20rem;
+  padding: var(--spacing-4);
+}

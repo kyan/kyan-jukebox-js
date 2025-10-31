@@ -1,0 +1,141 @@
+/**
+ * Controls Component
+ *
+ * Styles for the player controls component.
+ * Converted from src/components/controls/index.css.
+ */
+
+/* ============================================
+   CONTROLS WRAPPER
+   ============================================ */
+
+/* Main controls wrapper with grouped glass morphism effect */
+.controls-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  background-color: color-mix(in srgb, var(--color-card) 50%, transparent);
+  backdrop-filter: blur(4px);
+  border-radius: var(--radius-full);
+  padding: var(--spacing-2);
+  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  box-shadow: var(--shadow-sm);
+  height: 45px;
+}
+
+@media (max-width: 640px) {
+  .controls-wrapper {
+    height: 40px;
+    padding: var(--spacing-1-5);
+    gap: var(--spacing-1);
+  }
+}
+
+/* ============================================
+   BASE BUTTON STYLES
+   ============================================ */
+
+/* Base button styles shared by all control buttons */
+.controls-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+}
+
+.controls-button:focus {
+  outline: none;
+}
+
+.controls-button:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-ring);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   SKIP BUTTON
+   ============================================ */
+
+/* Skip button specific styles */
+.controls-button--skip {
+  height: 45px;
+  width: 45px;
+}
+
+@media (max-width: 640px) {
+  .controls-button--skip {
+    height: 38px;
+    width: 38px;
+  }
+}
+
+.controls-button--skip:not(:disabled):hover {
+  transform: scale(1.1);
+}
+
+.controls-button--skip:not(:disabled):active {
+  transform: scale(0.95);
+}
+
+.controls-button--skip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   PLAY/PAUSE BUTTON
+   ============================================ */
+
+/* Play/Pause button specific styles - slightly larger for emphasis */
+.controls-button--play {
+  height: 50px;
+  width: 50px;
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+  box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 640px) {
+  .controls-button--play {
+    height: 42px;
+    width: 42px;
+  }
+}
+
+.controls-button--play:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--color-primary) 90%, transparent);
+  transform: scale(1.1);
+  box-shadow: var(--shadow-lg);
+}
+
+.controls-button--play:not(:disabled):active {
+  transform: scale(0.95);
+}
+
+.controls-button--play:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   ICON STATES
+   ============================================ */
+
+/* Icon base styles */
+.controls-icon {
+  transition: transform var(--transition-duration-200) var(--ease-in-out);
+  color: var(--color-foreground);
+}
+
+.controls-icon--play {
+  color: var(--color-primary-foreground);
+}
+
+.controls-button:disabled .controls-icon {
+  opacity: 0.5;
+}
