@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, Form, Button, Message } from 'semantic-ui-react'
-import './index.css'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Loader2 } from 'lucide-react'
 
 interface LoginData {
   email: string
@@ -33,13 +37,23 @@ export const LoginModal: React.FC<LoginModalProps> = ({ open, onSubmit, error })
   }
 
   return (
-    <Modal open={open} size='small' closeOnDimmerClick={false} closeOnEscape={false}>
-      <Modal.Header>Sign in to Jukebox</Modal.Header>
-      <Modal.Content>
-        <Form onSubmit={handleSubmit} error={!!error}>
-          <Form.Field>
-            <label>Email Address</label>
-            <input
+    <Dialog open={open} modal>
+      <DialogContent
+        showClose={false}
+        onInteractOutside={e => e.preventDefault()}
+        onEscapeKeyDown={e => e.preventDefault()}
+      >
+        <DialogHeader>
+          <DialogTitle>Sign in to Jukebox</DialogTitle>
+        </DialogHeader>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <Label htmlFor='email'>Email Address</Label>
+            <Input
+              id='email'
               type='email'
               placeholder='your.email@example.com'
               value={email}
@@ -47,14 +61,25 @@ export const LoginModal: React.FC<LoginModalProps> = ({ open, onSubmit, error })
               required
               disabled={isLoading}
             />
-          </Form.Field>
-          {error && <Message error header='Authentication Failed' content={error} />}
-          <Button type='submit' primary fluid disabled={!email || isLoading} loading={isLoading}>
+          </div>
+          {error && (
+            <Alert variant='destructive'>
+              <AlertTitle>Authentication Failed</AlertTitle>
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+          <Button type='submit' disabled={!email || isLoading} style={{ width: '100%' }}>
+            {isLoading && (
+              <Loader2
+                style={{ marginRight: '0.5rem', height: '1rem', width: '1rem' }}
+                className='animate-spin'
+              />
+            )}
             Sign In
           </Button>
-        </Form>
-      </Modal.Content>
-    </Modal>
+        </form>
+      </DialogContent>
+    </Dialog>
   )
 }
 

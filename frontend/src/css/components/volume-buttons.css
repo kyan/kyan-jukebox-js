@@ -1,0 +1,148 @@
+/**
+ * Volume Buttons Component
+ *
+ * Styles for the volume buttons/control component.
+ */
+
+/* ============================================
+   MAIN VOLUME CONTROL WRAPPER
+   ============================================ */
+
+/* Main volume control wrapper with grouped glass morphism effect */
+.volume-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background-color: color-mix(in srgb, var(--color-card) 50%, transparent);
+  backdrop-filter: blur(4px);
+  border-radius: var(--radius-full);
+  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  box-shadow: var(--shadow-sm);
+  height: 45px;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .volume-wrapper {
+    height: 40px;
+    gap: 0;
+  }
+}
+
+/* ============================================
+   VOLUME BUTTON BASE
+   ============================================ */
+
+/* Base volume button styles */
+.volume-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 45px;
+  width: 45px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-duration-200) var(--ease-in-out);
+}
+
+@media (max-width: 640px) {
+  .volume-button {
+    height: 40px;
+    width: 40px;
+  }
+}
+
+.volume-button:focus {
+  outline: none;
+}
+
+.volume-button:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-ring);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.volume-button:not(:disabled):hover {
+  background-color: var(--color-accent);
+  transform: scale(1.05);
+}
+
+.volume-button:not(:disabled):active {
+  transform: scale(0.95);
+}
+
+.volume-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.volume-button:disabled:hover {
+  transform: none;
+  background: transparent;
+}
+
+/* ============================================
+   VOLUME DOWN BUTTON
+   ============================================ */
+
+/* Volume down button (left side) */
+.volume-button--down {
+  border-top-left-radius: var(--radius-full);
+  border-bottom-left-radius: var(--radius-full);
+}
+
+/* ============================================
+   VOLUME UP BUTTON
+   ============================================ */
+
+/* Volume up button (right side) */
+.volume-button--up {
+  border-top-right-radius: var(--radius-full);
+  border-bottom-right-radius: var(--radius-full);
+}
+
+/* ============================================
+   VOLUME ICON
+   ============================================ */
+
+/* Volume icon base styles */
+.volume-icon {
+  transition: transform var(--transition-duration-200) var(--ease-in-out);
+  color: var(--color-foreground);
+}
+
+.volume-button:disabled .volume-icon {
+  opacity: 0.5;
+}
+
+/* ============================================
+   VOLUME DISPLAY
+   ============================================ */
+
+/* Volume display in the center */
+.volume-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-width: 3.5rem;
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-foreground);
+  background-color: color-mix(in srgb, var(--color-card) 30%, transparent);
+  border-left: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  border-right: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+}
+
+@media (max-width: 640px) {
+  .volume-display {
+    min-width: 3rem;
+    padding-left: var(--spacing-3);
+    padding-right: var(--spacing-3);
+    font-size: var(--font-size-xs);
+  }
+}

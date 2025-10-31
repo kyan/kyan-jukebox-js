@@ -12,14 +12,14 @@ This is a work-in-progress replacement for our [existing office JukeBox](https:/
 
 ## Overview
 
-The Jukebox re-imagined still uses `Mopidy` but has been split into parts, Client and API (FE and BE). The BE is written in [TypeScript](https://www.typescriptlang.org/) and the FE currently is a mix of [JavaScript](https://www.javascript.com/) and TypeScript. It uses SQLite for data persistence and communicates via smaller event messages passed back and forth over a websocket. Currently both the FE and BE live in this one monorepo.
+The Jukebox re-imagined still uses `Mopidy` but has been split into parts, Client and API (FE and BE). Both the FE and BE are written in [TypeScript](https://www.typescriptlang.org/) and run on the [Bun](https://bun.sh/) runtime. It uses SQLite for data persistence and communicates via smaller event messages passed back and forth over a websocket. Currently both the FE and BE live in this one monorepo.
 
 ### Tech Stack
 
 - **Runtime**: [Bun](https://bun.sh/) - Fast JavaScript runtime and package manager
 - **Monorepo**: Bun workspaces with two packages:
   - `@jukebox/frontend` - React application with Bun dev server
-  - `@jukebox/backend` - Node.js API with Socket.IO
+  - `@jukebox/backend` - TypeScript API running on Bun with Socket.IO
 - **Task Runner**: [Just](https://github.com/casey/just) command runner
 - **Music Server**: Mopidy (running in Docker)
 - **Database**: SQLite
@@ -42,7 +42,7 @@ The Jukebox re-imagined still uses `Mopidy` but has been split into parts, Clien
 
 ## Quick Start
 
-```bash
+```kyan-jukebox-v2/README.md#L44-57
 # Install dependencies and start Mopidy
 just setup
 
@@ -72,11 +72,13 @@ We have extra requirements for our office Jukebox to make it more interactive an
 
 ## Requirements
 
-* A machine that can run `nodejs`
+* [Bun](https://bun.sh/) runtime (v1.3 or later)
+* [Docker](https://www.docker.com/) (for running Mopidy)
+* [Just](https://github.com/casey/just) command runner
 * A `Google` account (for easy user management)
 * A premium `Spotify` account (for the music)
 
-```
+```kyan-jukebox-v2/README.md#L82-84
 $ git clone https://github.com/kyan/jukebox-js
 $ cd jukebox-js
 ```
@@ -114,19 +116,19 @@ See [docs/DEV_WORKFLOW.md](docs/DEV_WORKFLOW.md) for detailed documentation.
 There is currently 100% tests and coverage throughout the app as well as linting and prettier via ESLint.
 
 Run all the tests in the same way it does on CI:
-```
+```kyan-jukebox-v2/README.md#L120-121
 $ just test
 ```
 
 Run just the tests for the FE or BE:
-```
+```kyan-jukebox-v2/README.md#L124-127
 $ just test-frontend
 $ just test-backend
 $ just test-watch       # Backend tests in watch mode
 ```
 
 You can also run any workspace command directly:
-```
+```kyan-jukebox-v2/README.md#L130-134
 $ just fe test          # Run frontend tests
 $ just be test          # Run backend tests
 $ just be validate      # Lint and type-check backend
@@ -140,23 +142,18 @@ You can also just ignore `just` and run everything manually if that's your thing
 When running the app locally you get to run a Docker instance of Mopidy on your machine. You don't get any sound but it's by far the easiest way. The SQLite database will be stored in the `databases/` folder.
 
 The easiest way to get started:
-```
+```kyan-jukebox-v2/README.md#L145-147
 just setup    # Installs dependencies and starts Mopidy
 just dev      # Starts both frontend and backend
 ```
 
 Or start services individually in separate terminals:
-```
+```kyan-jukebox-v2/README.md#L150-151
 just dev-fe   # Frontend at http://localhost:3000
 ```
 and
-```
+```kyan-jukebox-v2/README.md#L153-154
 just dev-be   # Backend at http://localhost:8080
-```
-
-Note: If you are using an M1 Macbook and Docker fails, you will need to set the following environment variable in your shell:
-```
-DOCKER_DEFAULT_PLATFORM=linux/amd64
 ```
 
 This will give you a working FE and BE with SQLite persistence running in dev mode, meaning any changes will cause hot reload.
@@ -169,25 +166,31 @@ A ReactJS application that communicates with the JukeBox API.
 
 ### API
 
-A NodeJS + Express application written in TypeScript that communicates with `SQLite` for data persistence and the `Mopidy` Websocket interface.
+A Bun runtime application written in TypeScript that communicates with `SQLite` for data persistence and the `Mopidy` Websocket interface using Socket.IO.
 
 ##### TypeScript
 
-In order to use Intellisense and TypeChecking in VSCode you will need to connect VSCode to the source running in the container as that's where all the node modules are installed. To do this you need to have the `VSCode Remote - Containers` extension installed.
-
-You can do this in various ways. Either whilst you're serving the app locally, or just via having the `*-console` script running. You run `Remote Containers - Attach to running container...` and choose the jukebox container that you started and want to connect to. This should then start a new window connecting to the container where you can edit your code. You should now get all the Intellisense and TypeChecking working in that window.
-
-Once you have done this once, the next time when you start the container, you should see an entry in the `Remote Exporer` containers section where you can attach again from there. You can also edit the configuration so you can install in extension you want when you are editing.
+The project uses TypeScript for type safety and better developer experience. All TypeScript dependencies are managed by Bun and installed locally in the project, so your IDE should have full Intellisense and TypeChecking support out of the box.
 
 ### SQLite
 
 The API uses `SQLite` for its persistence layer. In development, the database file is stored in the `databases/` folder. In production, it should be placed at `/var/lib/jukebox/jukebox.db` and the `SQLITE_PATH` environment variable should point to this location.
 
-### Adding a new package to `package.json`
+### Adding a new package
 
-The easiest way to do this is using `just api-console` or `just client-console` (if those commands exist), or by attaching to the running container.
+To add a new package to the project, use Bun's package manager:
 
-Once you have a command line you can just run `$ npm install <package>`. This will install the package and update the `package.*` files. You will be able to continue development. When you shutdown the container though the package will be missing. You need to re-build the image to make it available. So remember to run `just build` when you start up next time.
+```kyan-jukebox-v2/README.md#L183-190
+# Add to a specific workspace
+bun add <package> --filter @jukebox/backend
+bun add <package> --filter @jukebox/frontend
+
+# Or add from within the workspace directory
+cd backend && bun add <package>
+cd frontend && bun add <package>
+```
+
+The package will be automatically added to the appropriate `package.json` file and `bun.lock` will be updated.
 
 ### Mopidy
 
@@ -197,34 +200,25 @@ If you so want to run your own version of Mopidy for running in production, you 
 
 The application uses [Kamal](https://kamal-deploy.org/) for deployment to production servers.
 
-### Initial Setup
-
-First time deployment requires setting up the server and installing Docker:
-```
-$ just kamal-setup
-```
-
 ### Deploy to Production
 
 Build Docker images and deploy:
-```
-$ just deploy              # Full pipeline: test + build + deploy
-$ just kamal-deploy        # Deploy only (skips tests/builds)
+```kyan-jukebox-v2/README.md#L206-208
+$ just kamal-deploy-frontend   # Deploy frontend application
+$ just kamal-deploy-backend    # Deploy backend application
 ```
 
 ### Manage Deployment
 
-```
-$ just kamal-status        # Check deployment status
-$ just kamal-logs          # Stream application logs
-$ just kamal-rollback      # Rollback to previous version
-$ just kamal-shell         # Access remote shell
+```kyan-jukebox-v2/README.md#L212-214
+$ just kamal-status-frontend   # Check frontend deployment status
+$ just kamal-status-backend    # Check backend deployment status
 ```
 
 ### Building Docker Images
 
 You can build Docker images locally:
-```
+```kyan-jukebox-v2/README.md#L219-222
 $ just docker-build-all              # Build both frontend and backend
 $ just docker-build-frontend         # Build frontend only
 $ just docker-build-backend          # Build backend only

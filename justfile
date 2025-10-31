@@ -38,7 +38,7 @@ version-info:
 [group('dev')]
 dev:
   #!/usr/bin/env sh
-  bun --filter {{BACKEND_WS}} start & bun --filter {{FRONTEND_WS}} start
+  bun --elide-lines 0 --filter {{BACKEND_WS}} start & bun --elide-lines 0 --filter {{FRONTEND_WS}} start
 
 # Start only frontend in development mode with hot reload
 [group('dev')]
@@ -83,8 +83,9 @@ build-backend:
 # Run all tests in CI mode
 [group('test')]
 test:
-  CI=true bun --filter {{FRONTEND_WS}} test:ci
-  CI=true bun --filter {{BACKEND_WS}} test:ci
+  #!/usr/bin/env sh
+  bun --filter {{FRONTEND_WS}} test:ci
+  bun --filter {{BACKEND_WS}} test:ci
 
 # Run only frontend tests with verbose output
 [group('test')]

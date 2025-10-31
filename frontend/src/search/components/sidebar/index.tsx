@@ -1,13 +1,12 @@
 import React from 'react'
-import { Sidebar, Button, Form, List, Header, Divider, Pagination } from 'semantic-ui-react'
+import { Sheet, SheetContent, SheetPortal, SheetOverlay } from '@/components/ui/sheet'
 import SearchItem from '../search-item'
 import DraggableSearchItem from '../draggable-search-item'
-import './index.css'
 
 type SearchItemsProps = {
   tracks: ReadonlyArray<any>
   onClick: (uri: string) => void
-  onAdd: (track: any) => void
+  onAdd?: (track: any) => void
 }
 
 type MixItemsProps = {
@@ -48,7 +47,7 @@ const SearchItems: React.FC<SearchItemsProps> = props => (
         key={track.uri}
         track={track}
         onClick={() => props.onClick(track.uri)}
-        onAdd={() => props.onAdd(track)}
+        onAdd={props.onAdd ? () => props.onAdd!(track) : undefined}
       />
     ))}
   </>
@@ -73,28 +72,24 @@ const YourMix: React.FC<YourMixProps> = props => {
   const uris = props.tracks.map(track => track.uri)
 
   return (
-    <>
-      <Divider horizontal>
-        <Header as='h4' inverted>
-          Your Mix
-        </Header>
-      </Divider>
-      <List divided inverted size='tiny'>
+    <div className='your-mix-container'>
+      <div className='search-section-header'>
+        <div className='search-section-separator' />
+        <h4>Your Mix</h4>
+        <div className='search-section-separator' />
+      </div>
+      <div className='your-mix-items'>
         <MixItems
           tracks={props.tracks}
           onRemove={props.onRemoveFromMix}
           onSwap={props.onSwapTracks}
         />
-      </List>
-      <Button
-        fluid
-        onClick={() => props.onAddTracks(uris)}
-        className='search-list-item__add_to_mix'
-      >
+      </div>
+      <button onClick={() => props.onAddTracks(uris)} className='search-list-item__add_to_mix'>
         Add mix to playlist
-      </Button>
-      <Divider horizontal />
-    </>
+      </button>
+      <div className='search-section-separator' style={{ marginTop: '24px' }} />
+    </div>
   )
 }
 
@@ -116,66 +111,126 @@ const Search: React.FC<SearchProps> = props => {
     onPageChange
   } = props
   const inputEl = React.useRef<HTMLInputElement>(null)
+  const [activePage, setActivePage] = React.useState(1)
+
+  const handlePageChange = (page: number) => {
+    setActivePage(page)
+    onPageChange(null, { activePage: page })
+  }
+
+  React.useEffect(() => {
+    if (visible && inputEl.current) {
+      setTimeout(() => {
+        inputEl.current?.focus()
+      }, 100)
+    }
+  }, [visible])
 
   return (
-    <Sidebar.Pushable>
-      <Sidebar
-        animation='overlay'
-        icon='labeled'
-        inverted='true'
-        vertical='true'
-        visible={visible}
-        width='very wide'
-        direction='right'
-        className='sidebar-search'
-        onShow={/* istanbul ignore next */ () => inputEl.current && inputEl.current.focus()}
-      >
-        <YourMix
-          tracks={curatedList}
-          onSwapTracks={onSwapTracks}
-          onAddTracks={onAddTracks}
-          onRemoveFromMix={onRemoveFromMix}
-        />
-        <Form inverted onSubmit={onSubmit}>
-          <Form.Field>
-            <label>SEARCH</label>
-            <input
-              ref={inputEl}
-              aria-label='search-input'
-              placeholder='track, artist or album'
-              onChange={onQueryChange}
-              value={query}
+    <>
+      <Sheet open={visible} onOpenChange={open => !open && onClose()}>
+        <SheetPortal>
+          <SheetOverlay onClick={onClose} />
+          <SheetContent
+            side='right'
+            className='sidebar-search'
+            onOpenAutoFocus={e => {
+              e.preventDefault()
+              inputEl.current?.focus()
+            }}
+          >
+            <YourMix
+              tracks={curatedList}
+              onSwapTracks={onSwapTracks}
+              onAddTracks={onAddTracks}
+              onRemoveFromMix={onRemoveFromMix}
             />
-          </Form.Field>
-          <Button type='submit' fluid>
-            Find
-          </Button>
-        </Form>
-        <Divider horizontal>
-          <Header as='h4' inverted>
-            Results
-          </Header>
-        </Divider>
-        {totalPages > 0 && (
-          <Pagination
-            className='search-list-pagination'
-            defaultActivePage={1}
-            firstItem={null}
-            lastItem={null}
-            pointing
-            secondary
-            totalPages={totalPages}
-            onPageChange={onPageChange}
-          />
-        )}
-        <List divided relaxed inverted size='tiny'>
-          <SearchItems tracks={results} onClick={onAddTrack} onAdd={onAddTrackToMix} />
-        </List>
-      </Sidebar>
-      <Sidebar.Pusher dimmed={visible} onClick={visible ? onClose : null}>
-        {props.children}
-      </Sidebar.Pusher>
-    </Sidebar.Pushable>
+
+            <form
+              onSubmit={e => {
+                e.preventDefault()
+                onSubmit()
+              }}
+              className='search-form'
+            >
+              <div className='search-form-group'>
+                <label htmlFor='search-input' className='search-form-label'>
+                  Search
+                </label>
+                <input
+                  ref={inputEl}
+                  id='search-input'
+                  aria-label='search-input'
+                  placeholder='track, artist or album'
+                  onChange={onQueryChange}
+                  value={query}
+                  className='search-form-input'
+                />
+              </div>
+              <button type='submit' className='search-form-button'>
+                Find
+              </button>
+            </form>
+
+            <div className='search-section-header'>
+              <div className='search-section-separator' />
+              <h4>Results</h4>
+              <div className='search-section-separator' />
+            </div>
+
+            {totalPages > 1 && (
+              <div className='search-list-pagination'>
+                <button
+                  onClick={() => handlePageChange(Math.max(1, activePage - 1))}
+                  className={`search-list-pagination__item${activePage === 1 ? ' disabled' : ''}`}
+                  disabled={activePage === 1}
+                >
+                  ‹
+                </button>
+                {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                  let pageNumber: number
+                  if (totalPages <= 5) {
+                    pageNumber = i + 1
+                  } else if (activePage <= 3) {
+                    pageNumber = i + 1
+                  } else if (activePage >= totalPages - 2) {
+                    pageNumber = totalPages - 4 + i
+                  } else {
+                    pageNumber = activePage - 2 + i
+                  }
+
+                  return (
+                    <button
+                      key={pageNumber}
+                      onClick={() => handlePageChange(pageNumber)}
+                      className={`search-list-pagination__item${activePage === pageNumber ? ' active' : ''}`}
+                    >
+                      {pageNumber}
+                    </button>
+                  )
+                })}
+                <button
+                  onClick={() => handlePageChange(Math.min(totalPages, activePage + 1))}
+                  className={`search-list-pagination__item${activePage === totalPages ? ' disabled' : ''}`}
+                  disabled={activePage === totalPages}
+                >
+                  ›
+                </button>
+              </div>
+            )}
+
+            <div className='search-results-container'>
+              <SearchItems
+                tracks={results}
+                onClick={onAddTrack}
+                onAdd={curatedList.length < 5 ? onAddTrackToMix : undefined}
+              />
+            </div>
+          </SheetContent>
+        </SheetPortal>
+      </Sheet>
+      {props.children}
+    </>
   )
 }
 

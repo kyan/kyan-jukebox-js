@@ -1,12 +1,12 @@
 import React from 'react'
-import classnames from 'classnames'
-import { Comment, Label, Item } from 'semantic-ui-react'
+import { cn } from '@/lib/utils'
 import { millisToMinutesAndSeconds } from 'utils/time'
 import defaultImage from 'components/current-track/default-artwork.png'
 import AddedBy from 'components/added-by'
 import VotedBy from 'components/voted-by'
 import RemoveTrack from 'components/remove-track'
-import './index.css'
+import { Badge } from '@/components/ui/badge'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 
 interface User {
   _id: string
@@ -92,7 +92,12 @@ interface ListItemsProps {
 }
 
 const TrackImage: React.FC<TrackImageProps> = ({ src, isCurrent }) => (
-  <Comment.Avatar className={isCurrent ? 'current-image' : undefined} src={src} />
+  <Avatar className={cn('track-artwork-avatar', isCurrent && 'track-artwork--current')}>
+    <AvatarImage src={src} alt='Track artwork' className='track-artwork-image' />
+    <AvatarFallback className='rounded-xl'>
+      <img src={defaultImage} alt='Default artwork' />
+    </AvatarFallback>
+  </Avatar>
 )
 
 const ImageChooser: React.FC<ImageChooserProps> = ({ image, isCurrent }) => {
@@ -101,7 +106,7 @@ const ImageChooser: React.FC<ImageChooserProps> = ({ image, isCurrent }) => {
 }
 
 const TrackHeading: React.FC<TrackHeadingProps> = ({ name }) => (
-  <Comment.Author>{name}</Comment.Author>
+  <h3 className='track-title'>{name}</h3>
 )
 
 const TrackDescription: React.FC<TrackDescriptionProps> = ({
@@ -109,12 +114,13 @@ const TrackDescription: React.FC<TrackDescriptionProps> = ({
   trackLength,
   onClick
 }) => (
-  <Comment.Text>
-    <Item as='a' className='track-search-link' onClick={onClick}>
+  <div className='track-metadata'>
+    <button type='button' onClick={onClick} className='track-artist'>
       {artistName}
-    </Item>{' '}
-    <small>({millisToMinutesAndSeconds(trackLength)})</small>
-  </Comment.Text>
+    </button>
+    <span className='track-metadata-separator'>•</span>
+    <span className='track-duration'>{millisToMinutesAndSeconds(trackLength)}</span>
+  </div>
 )
 
 const CurrentVote: React.FC<CurrentVoteProps> = ({ metrics }) => {
@@ -122,11 +128,7 @@ const CurrentVote: React.FC<CurrentVoteProps> = ({ metrics }) => {
   const show = metrics.votes > 0
   if (!show) return null
 
-  return (
-    <Comment.Action as='span'>
-      <VotedBy total={metrics.votesAverage} show={show} />
-    </Comment.Action>
-  )
+  return <VotedBy total={metrics.votesAverage} show={show} />
 }
 
 const ActionRemove: React.FC<ActionRemoveProps> = ({ uri, name, disabled, isCurrent, onClick }) => {
@@ -137,20 +139,17 @@ const ActionRemove: React.FC<ActionRemoveProps> = ({ uri, name, disabled, isCurr
 }
 
 const CurrentPlays: React.FC<CurrentPlaysProps> = ({ metrics }) => {
-  let basic = true
-  let color: 'grey' | undefined = 'grey'
   if (!metrics) return null
-  if (metrics.plays > 0) {
-    basic = false
-    color = undefined
-  }
+
+  const hasPlays = metrics.plays > 0
 
   return (
-    <Comment.Action as='span'>
-      <Label className='track-label' size='tiny' color={color} basic={basic}>
-        Played <Label.Detail>{metrics.plays}</Label.Detail>
-      </Label>
-    </Comment.Action>
+    <Badge
+      variant={hasPlays ? 'default' : 'outline'}
+      className={cn('text-xs shadow-sm', !hasPlays && 'text-muted-foreground')}
+    >
+      Played <span className='ml-1 font-bold'>{metrics.plays}</span>
+    </Badge>
   )
 }
 
@@ -166,28 +165,36 @@ const ListItems: React.FC<ListItemsProps> = ({
     currentTrack && currentTrack.uri === uri
 
   return (
-    <>
+    <div className='tracklist-container'>
       {tracks.map((track, i) => {
         const { addedBy } = track
         const isCurrent = !!isCurrentTrack(current, track.uri)
         if (isCurrent) beenPlayed = beenPlayed || true
 
         return (
-          <Comment className={classnames({ 'current-track': isCurrent })} key={`${i}${track.uri}`}>
-            <ImageChooser image={track.image} isCurrent={isCurrent} />
-            <Comment.Content className={classnames({ 'track-info': !beenPlayed })}>
+          <div
+            key={`${i}${track.uri}`}
+            className={cn(
+              'track-item',
+              isCurrent && 'track-item--current',
+              !beenPlayed && 'track-item--unplayed',
+              beenPlayed && !isCurrent && 'track-item--played'
+            )}
+          >
+            <div className='track-artwork'>
+              <ImageChooser image={track.image} isCurrent={isCurrent} />
+            </div>
+            <div className='track-content'>
               <TrackHeading name={track.name} />
               <TrackDescription
                 artistName={track.artist.name}
                 trackLength={track.length}
                 onClick={onArtistSearch(track.artist.name)}
               />
-              <Comment.Actions>
+              <div className='track-actions'>
                 <CurrentVote metrics={track.metrics} />
                 <CurrentPlays metrics={track.metrics} />
-                <Comment.Action>
-                  <AddedBy users={addedBy} />
-                </Comment.Action>
+                <AddedBy users={addedBy} />
                 <ActionRemove
                   uri={track.uri}
                   name={track.name}
@@ -195,12 +202,12 @@ const ListItems: React.FC<ListItemsProps> = ({
                   isCurrent={!!isCurrent}
                   onClick={onRemove}
                 />
-              </Comment.Actions>
-            </Comment.Content>
-          </Comment>
+              </div>
+            </div>
+          </div>
         )
       })}
-    </>
+    </div>
   )
 }
 
@@ -211,12 +218,27 @@ const Tracklist: React.FC<TracklistProps> = ({
   onRemoveTrack,
   onArtistSearch
 }) => {
-  if (!tracks) {
-    return null
+  if (!tracks || tracks.length === 0) {
+    return (
+      <div className='tracklist-empty'>
+        <div className='tracklist-empty-icon'>
+          <svg fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth={2}
+              d='M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3'
+            />
+          </svg>
+        </div>
+        <h3 className='tracklist-empty-title'>No tracks in playlist</h3>
+        <p className='tracklist-empty-description'>Search and add tracks to build your queue</p>
+      </div>
+    )
   }
 
   return (
-    <Comment.Group size='small'>
+    <div>
       <ListItems
         disabled={disabled}
         tracks={tracks}
@@ -224,7 +246,7 @@ const Tracklist: React.FC<TracklistProps> = ({
         onRemove={onRemoveTrack}
         onArtistSearch={onArtistSearch}
       />
-    </Comment.Group>
+    </div>
   )
 }
 

@@ -22,17 +22,27 @@ const VoteHandler = ({ socketio, payload }: VoteHandler) => {
   }
 
   const db = getDatabase()
-  db.tracks.updateVote(data.uri, user as JBUser, data.vote).then((track) => {
-    Broadcaster.toAll({
-      socketio,
-      headers: {
-        key: VoteConstant.VOTE_CASTED,
-        user
-      },
-      message: track,
-      type: MessageType.VOTE
+  db.tracks
+    .updateVote(data.uri, user as JBUser, data.vote)
+    .then((track) => {
+      Broadcaster.toAll({
+        socketio,
+        headers: {
+          key: VoteConstant.VOTE_CASTED,
+          user
+        },
+        message: track,
+        type: MessageType.VOTE
+      })
     })
-  })
+    .catch((error) => {
+      console.error('VOTE_UPDATE_FAILED', {
+        error: error.message,
+        uri: data.uri,
+        vote: data.vote,
+        user: user.email
+      })
+    })
 }
 
 export default VoteHandler

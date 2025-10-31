@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es2020",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["bun-types", "@testing-library/jest-dom"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -14,7 +15,12 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"],
+      "lib/*": ["lib/*"],
+      "components/*": ["components/*"]
+    }
   },
   "include": ["src/**/*"]
 }

@@ -189,7 +189,7 @@ describe('SearchContainer', () => {
           <SearchContainer />
         </Provider>
       )
-      fireEvent.click(getAllByText('Remove')[0])
+      fireEvent.click(getAllByText('✕')[0])
 
       const actions = store.getActions()
       expect(actions).toEqual([
@@ -441,16 +441,18 @@ describe('SearchContainer', () => {
           ]
         }
       })
-      const { getByText, getAllByText } = render(
+      const { queryByText } = render(
         <Provider store={store}>
-          <SearchContainer>
-            <span>Close</span>
-          </SearchContainer>
+          <SearchContainer />
         </Provider>
       )
       store.dispatch(toggleSearchSidebar(true))
-      fireEvent.click(getAllByText('Add to mix')[0])
-      fireEvent.click(getByText('Close'))
+
+      // Verify "Add to mix" button doesn't exist when 5 tracks are already in curated list
+      expect(queryByText('Add to mix')).toBeNull()
+
+      // Close the sidebar
+      store.dispatch(toggleSearchSidebar(false))
 
       const actions = store.getActions()
       expect(actions).toEqual([

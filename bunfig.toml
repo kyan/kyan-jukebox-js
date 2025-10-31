@@ -1,6 +1,4 @@
 # Bun configuration for Kyan Jukebox monorepo
 
 [install]
-# Link workspace packages for monorepo setup
-linkWorkspacePackages = true
-linker = "hoisted"
+linker = "isolated"

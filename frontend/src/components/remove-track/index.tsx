@@ -1,5 +1,15 @@
 import React from 'react'
-import { Comment, Confirm } from 'semantic-ui-react'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from '@/components/ui/alert-dialog'
 
 interface RemoveTrackProps {
   uri?: string
@@ -8,29 +18,28 @@ interface RemoveTrackProps {
 }
 
 const RemoveTrack: React.FC<RemoveTrackProps> = ({ uri: _uri, name, onClick }) => {
-  const [open, setOpen] = React.useState(false)
-
-  const confirm = (ev: React.MouseEvent) => {
+  const handleConfirm = (ev: React.MouseEvent) => {
     onClick(ev)
-    setOpen(false)
   }
-  const cancel = () => setOpen(false)
-  const show = () => setOpen(true)
 
   return (
-    <>
-      <Comment.Action className='remove-track' onClick={show}>
-        Remove
-      </Comment.Action>
-      <Confirm
-        content={`Are you sure you want to remove: ${name}`}
-        cancelButton='No thanks'
-        confirmButton='Do it!'
-        open={open}
-        onCancel={cancel}
-        onConfirm={confirm}
-      />
-    </>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <button className='track-remove-button'>Remove</button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Remove Track?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to remove <strong>{name}</strong> from the playlist?
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleConfirm}>Remove</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }
 
