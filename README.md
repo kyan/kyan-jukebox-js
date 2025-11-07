@@ -4,7 +4,7 @@
 
 An WebSocket/[Mopidy](https://github.com/mopidy) event powered JukeBox client and API
 
-![](docs/jb1.png)
+![](docs/jb1.jpg)
 
 ## Background
 
