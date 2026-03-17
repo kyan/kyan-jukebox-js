@@ -18,12 +18,6 @@
   outline: none;
 }
 
-.added-by-trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-ring);
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-
 /* Popover Sizing */
 .added-by-popover {
   min-width: 300px;
